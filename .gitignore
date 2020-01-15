@@ -1,0 +1,17 @@
+/node_modules
+/dist
+/docs
+/tests
+/src/**/*.d.ts
+/src/**/*.json
+/designer/**/*.d.ts
+/designer/**/*.json
+/*/dist
+/*.d.ts
+/*.metadata.json
+
+package-lock.json
+*.log
+*.bak
+*.orig
+*~

@@ -1,0 +1,8 @@
+{
+    "name": "@anglr/dynamic/designer",
+    "module": "./dist/es5/designer/index.js",
+    "esm2015": "./dist/es2015/designer/index.js",
+    "esm5": "./dist/es5/designer/index.js",
+    "typings": "./index.d.ts",
+    "sideEffects": false
+}

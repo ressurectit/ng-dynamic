@@ -1,14 +1,10 @@
 import {Component, ChangeDetectionStrategy, Injector, ValueProvider, StaticProvider, OnInit, OnDestroy, ChangeDetectorRef, Inject} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {DynamicComponentMetadata, DYNAMIC_RELATIONS_METADATA, ComponentRelationManager, ComponentManager, DynamicContentMetadata, RemoteDynamicContentMetadata} from "@anglr/dynamic";
 import {Subscription, empty, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 
-import {DynamicComponentMetadata} from "../interfaces";
-import {DYNAMIC_RELATIONS_METADATA} from "../tokens/relationsMetadata.token";
-import {ComponentRelationManager} from "../componentRelationManager/componentRelationManager";
-import {ComponentManager} from "../componentManager/componentManager";
-import {DynamicContentMetadata, RemoteDynamicContentMetadata} from "./dynamicComponentPage.interface";
 import {DYNAMIC_COMPONENT_PAGE_METADATA_URL, NOT_FOUND_ROUTER_PATH} from "./dynamicComponentPage.token";
 
 /**
@@ -147,11 +143,8 @@ export class DynamicComponentPageComponent implements OnInit, OnDestroy
     {
         this._destroyRelations();
 
-        if(this._urlChangeSubscription)
-        {
-            this._urlChangeSubscription.unsubscribe();
-            this._urlChangeSubscription = null;
-        }
+        this._urlChangeSubscription?.unsubscribe();
+        this._urlChangeSubscription = null;
     }
 
     //######################### private methods #########################
@@ -163,8 +156,8 @@ export class DynamicComponentPageComponent implements OnInit, OnDestroy
     {
         if(this.customInjector)
         {
-            this.customInjector.get(ComponentManager).destroy();
-            this.customInjector.get(ComponentRelationManager).destroy();
+            this.customInjector.get(ComponentManager)?.destroy();
+            this.customInjector.get(ComponentRelationManager)?.destroy();
         }
     }
 }

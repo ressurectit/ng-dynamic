@@ -10,6 +10,8 @@
 /components/**/*.json
 /nodes/**/*.d.ts
 /nodes/**/*.json
+/page/**/*.d.ts
+/page/**/*.json
 /*/dist
 /*.d.ts
 /*.metadata.json

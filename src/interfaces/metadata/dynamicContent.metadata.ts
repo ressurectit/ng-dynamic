@@ -1,4 +1,5 @@
-import {DynamicComponentMetadata, DynamicComponentRelationMetadata} from "../interfaces";
+import {DynamicComponentMetadata} from "./dynamicComponent.metadata";
+import {DynamicComponentRelationMetadata} from "./dynamicComponentRelations.metadata";
 
 /**
  * Represents dynamic content netadata

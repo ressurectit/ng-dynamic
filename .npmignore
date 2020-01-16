@@ -16,6 +16,7 @@ ngv.config.json
 !/src/**/*.d.ts
 !/designer/**/*.d.ts
 !/components/**/*.d.ts
+!/nodes/**/*.d.ts
 
 *.log
 *.spec.js

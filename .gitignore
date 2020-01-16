@@ -8,6 +8,8 @@
 /designer/**/*.json
 /components/**/*.d.ts
 /components/**/*.json
+/nodes/**/*.d.ts
+/nodes/**/*.json
 /*/dist
 /*.d.ts
 /*.metadata.json

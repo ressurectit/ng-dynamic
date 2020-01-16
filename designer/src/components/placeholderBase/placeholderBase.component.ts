@@ -1,8 +1,8 @@
 import {ChangeDetectorRef, ViewChildren, QueryList, HostBinding, HostListener, Injectable} from "@angular/core";
+import {DynamicComponentMetadataGeneric, DynamicComponentMetadata} from "@anglr/dynamic";
 import {generateId} from "@jscrpt/common";
 
 import {DesignerLayoutComponentRendererData, DesignerLayoutPlaceholderComponentGeneric, DesignerLayoutPlaceholderComponent, LayoutMetadata, ɵDynamicComponentMetadataGeneric} from "../../interfaces";
-import {DynamicComponentMetadataGeneric, DynamicComponentMetadata} from "../../../ngDynamic-core";
 import {DesignerComponentRendererDirective} from "../../directives";
 import {PropertiesService} from "../../services";
 import {PackageLoader} from "../../packageLoader";

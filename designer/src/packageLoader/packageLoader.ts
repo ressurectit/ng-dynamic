@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
+import {DynamicModule} from "@anglr/dynamic";
 
 import {PackageComponents} from "./packageLoader.interface";
-import {DynamicModule} from "../../ngDynamic-core";
 import {DesignerLayoutMetadata, DesignerMetadataClass, LayoutMetadata, PropertiesPropertyMetadata} from "../interfaces";
 
 declare var localPackage: string;

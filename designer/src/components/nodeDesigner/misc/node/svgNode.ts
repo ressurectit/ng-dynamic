@@ -1,11 +1,11 @@
 import {Injector} from '@angular/core';
+import {DynamicComponentRelationMetadata, DynamicComponentRelationOutputMetadata, DynamicComponentRelationInputMetadata} from '@anglr/dynamic';
 import {isPresent} from '@jscrpt/common';
 import {Selection, BaseType, drag, event, select} from 'd3';
 import {Subject, Observable} from 'rxjs';
 
 import {Coordinates, SvgRelationDynamicNode, SvgNodeDynamicNode, SvgPeerDropArea, PropertiesMetadata, DesignerLayoutPlaceholderComponent, INVALIDATE_PROPERTIES} from '../../../../interfaces';
 import {transformOptionsToProperties, transformPropertiesToOptions} from '../../../../misc';
-import {DynamicComponentRelationMetadata, DynamicComponentRelationOutputMetadata, DynamicComponentRelationInputMetadata} from '../../../../../ngDynamic-core';
 import {INVALIDATE_DROP, NODE_PROPERTIES_SERVICE, ɵDynamicRelationsInputMetadata, ɵRelationsMetadata} from '../../nodeDesigner.interface';
 
 /**

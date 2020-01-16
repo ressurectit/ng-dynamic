@@ -1,7 +1,7 @@
 import {ComponentRef, Directive, Input, NgModuleRef, OnChanges, OnDestroy, SimpleChanges, ViewContainerRef, Injector, SkipSelf, ChangeDetectorRef} from '@angular/core';
+import {ComponentLoader} from '@anglr/dynamic';
 import {nameof, generateId} from '@jscrpt/common';
 
-import {ComponentLoader} from '../../../ngDynamic-core';
 import {DesignerLayoutPlaceholderComponent, DesignerLayoutComponentRendererData} from '../../interfaces';
 import {ComponentsService} from '../../services';
 

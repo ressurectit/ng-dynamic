@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy, ViewChild, OnDestroy, AfterViewInit, ElementRef, Input, IterableDiffer, IterableDiffers} from "@angular/core";
+import {DynamicComponentRelationMetadata, DynamicComponentRelationOutputMetadata} from "@anglr/dynamic";
 import {Subscription} from "rxjs";
 
 import {NodeDesignerComponent} from "../nodeDesigner/nodeDesigner.component";
 import {NodeComponentPaletteComponent, COMPONENT_DRAG, NODE_DRAG} from "../nodeComponentPalette/nodeComponentPalette.component";
-import {DynamicComponentRelationMetadata, DynamicComponentRelationOutputMetadata} from "../../../ngDynamic-core";
 import {NodeDesignerNodeState} from "../nodeDesigner/nodeDesigner.interface";
 import {DesignerLayoutPlaceholderComponent, RelationsMetadata, SvgNodeDynamicNode, INVALIDATE_PROPERTIES} from "../../interfaces";
 import {PackageLoader} from "../../packageLoader";

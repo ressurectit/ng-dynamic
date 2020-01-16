@@ -1,8 +1,8 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
 import {FormGroup, FormBuilder} from "@angular/forms";
+import {DynamicComponent} from "@anglr/dynamic";
 import {Observable, Subject} from "rxjs";
 
-import {DynamicComponent} from "../../../../../../ngDynamic-core";
 import {CustomPropertyComponentGeneric} from "../../../../../interfaces";
 
 /**

@@ -1,4 +1,4 @@
-import {DynamicModule} from "../../ngDynamic-core";
+import {DynamicModule} from "@anglr/dynamic";
 
 /**
  * Description of package components

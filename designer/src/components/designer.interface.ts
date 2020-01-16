@@ -1,4 +1,5 @@
-import {DynamicContentMetadata, RemoteDynamicContentMetadata} from "../../ngDynamic-core";
+import {DynamicContentMetadata, RemoteDynamicContentMetadata} from "@anglr/dynamic";
+
 import {NodeDesignerNodeState} from "./nodeDesigner/nodeDesigner.interface";
 
 /**

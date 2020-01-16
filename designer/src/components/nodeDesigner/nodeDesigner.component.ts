@@ -1,11 +1,11 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, OnInit, Injector, OnDestroy} from "@angular/core";
+import {DynamicComponentRelationMetadata} from "@anglr/dynamic";
 import {generateId} from "@jscrpt/common";
 import {select, Selection, event, zoom, zoomTransform} from 'd3';
 import {Subscription, Subject, Observable} from "rxjs";
 
 import {SvgNode, SvgRelation} from "./misc";
 import {SvgPeerDropArea, Coordinates, DesignerLayoutPlaceholderComponent, RelationsMetadata, SvgNodeDynamicNode} from "../../interfaces";
-import {DynamicComponentRelationMetadata} from "../../../ngDynamic-core";
 import {NodeDesignerNodeState, ɵRelationsMetadata} from "./nodeDesigner.interface";
 
 /**

@@ -1,9 +1,9 @@
 import {Injector} from '@angular/core';
+import {DynamicNode, DynamicComponentRelationMetadata} from "@anglr/dynamic";
 import {Selection, BaseType} from 'd3';
 import {Observable, Subscription} from "rxjs";
 
 import {DesignerCommonMetadata, DesignerLayoutPlaceholderComponent} from "../metadata.interface";
-import {DynamicNode, DynamicComponentRelationMetadata} from "../../../ngDynamic-core";
 import {PropertiesPropertyMetadata} from "../properties/properties.interface";
 
 /**

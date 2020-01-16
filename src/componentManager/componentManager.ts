@@ -1,4 +1,4 @@
-import {ComponentRelationManager} from "../componentRelationManager";
+import {ComponentRelationManager} from "../componentRelationManager/componentRelationManager";
 import {DynamicComponent} from "../interfaces";
 
 /**

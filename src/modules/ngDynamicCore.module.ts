@@ -1,8 +1,8 @@
 import {NgModule, ModuleWithProviders} from "@angular/core";
 
-import {ComponentRendererDirective} from "../directives";
-import {DynamicComponentPageComponent} from "../dynamicComponentPage";
-import {NG_DYNAMIC_MODULE_LOADERS_PROVIDER} from "../dynamicModuleLoader";
+import {ComponentRendererDirective} from "../directives/componentRenderer/componentRenderer.directive";
+import {DynamicComponentPageComponent} from "../dynamicComponentPage/components";
+import {NG_DYNAMIC_MODULE_LOADERS_PROVIDER} from "../dynamicModuleLoader/ngDynamicModuleLoader";
 
 /**
  * Module for ng dynamic core 

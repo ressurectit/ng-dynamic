@@ -2,7 +2,7 @@ import {Injector} from "@angular/core";
 import {isBlank} from "@jscrpt/common";
 
 import {DynamicComponentRelationMetadata, DynamicNode, NodeDefinitionConstructor, NodeDefinition} from "../interfaces";
-import {ComponentManager} from "../componentManager";
+import {ComponentManager} from "../componentManager/componentManager";
 import {DynamicComponentRelationManagerMetadata, DynamicComponentRelationManagerInputOutputMetadata} from "./componentRelationManager.interface";
 
 /**
@@ -204,6 +204,7 @@ export class ComponentRelationManager
 
             if(meta.nodeType)
             {
+                //TODO - change for dynamic loader
                 let nodeDefinitions: {[name: string]: NodeDefinitionConstructor} = (await import(`../../nodeDefinitions`)
                     .catch(error =>
                     {

@@ -25,9 +25,9 @@ export class ScriptLoader
     /**
      * Loads type from script
      * @param script Script used for obtaining type
-     * @param references Array of reference names
+     * @param _references Array of reference names
      */
-    public loadType(script: string, references: string[]): Type<any>
+    public loadType(script: string, _references: string[]): Type<any>
     {
         if(this._loadedTypes[script])
         {

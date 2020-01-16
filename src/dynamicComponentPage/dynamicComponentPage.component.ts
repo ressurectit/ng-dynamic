@@ -5,9 +5,9 @@ import {Subscription, empty, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 
 import {DynamicComponentMetadata} from "../interfaces";
-import {DYNAMIC_RELATIONS_METADATA} from "../tokens";
-import {ComponentRelationManager} from "../componentRelationManager";
-import {ComponentManager} from "../componentManager";
+import {DYNAMIC_RELATIONS_METADATA} from "../tokens/relationsMetadata.token";
+import {ComponentRelationManager} from "../componentRelationManager/componentRelationManager";
+import {ComponentManager} from "../componentManager/componentManager";
 import {DynamicContentMetadata, RemoteDynamicContentMetadata} from "./dynamicComponentPage.interface";
 import {DYNAMIC_COMPONENT_PAGE_METADATA_URL, NOT_FOUND_ROUTER_PATH} from "./dynamicComponentPage.token";
 

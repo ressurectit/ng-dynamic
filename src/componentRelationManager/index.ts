@@ -1,1 +1,1 @@
-export * from './componentRelationManager';
+export * from './componentRelationManager.interface';

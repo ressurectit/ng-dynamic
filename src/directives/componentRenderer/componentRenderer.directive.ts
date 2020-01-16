@@ -1,10 +1,10 @@
 import {ComponentRef, Directive, Input, NgModuleRef, OnChanges, OnDestroy, SimpleChanges, ViewContainerRef, Injector} from '@angular/core';
 import {nameof} from '@jscrpt/common';
 
-import {ComponentLoader} from '../../componentLoader';
+import {ComponentLoader} from '../../componentLoader/componentLoader';
 import {DynamicComponent, DynamicComponentMetadata} from '../../interfaces';
-import {ComponentManager} from '../../componentManager';
-import {ComponentRelationManager} from '../../componentRelationManager';
+import {ComponentManager} from '../../componentManager/componentManager';
+import {ComponentRelationManager} from '../../componentRelationManager/componentRelationManager';
 
 /**
 * Creates dynamically instance of component by its metadata

@@ -15,7 +15,7 @@ export class NgDynamicModuleLoader implements DynamicModuleLoader
      */
     public async tryLoadModule(module: DynamicModuleDescription): Promise<DynamicModule>
     {
-        let dynamicModule: DynamicModule = await import(`@ngDynamic/${module.componentPackage}/${module.componentName}/importIndex`)
+        let dynamicModule: DynamicModule = await import(`@anglr/dynamic/components/${module.componentPackage}/${module.componentName}/importIndex`)
             .catch(noop);
 
         return dynamicModule;

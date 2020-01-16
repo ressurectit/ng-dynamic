@@ -6,6 +6,8 @@
 /src/**/*.json
 /designer/**/*.d.ts
 /designer/**/*.json
+/components/**/*.d.ts
+/components/**/*.json
 /*/dist
 /*.d.ts
 /*.metadata.json

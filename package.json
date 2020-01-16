@@ -7,10 +7,11 @@
     "typings": "./dynamic.d.ts",
     "sideEffects": false,
     "scripts": {
-        "build": "npm run build:dynamic && npm run build:designer",
+        "build": "npm run build:dynamic && npm run build:designer && npm run build:components",
         "build:dynamic": "ngc -p tsconfig.es5.json && ngc -p tsconfig.es2015.json",
         "build:designer": "ngc -p designer/tsconfig.es5.json && ngc -p designer/tsconfig.es2015.json",
-        "clean": "rimraf dist tests docs src/**/*.d.ts designer/**/*.d.ts */*.d.ts */*.metadata.json ./*.metadata.json ./*.d.ts */dist",
+        "build:components": "ngc -p components/tsconfig.es5.json && ngc -p components/tsconfig.es2015.json",
+        "clean": "rimraf dist tests docs src/**/*.d.ts designer/**/*.d.ts components/**/*.d.ts */*.d.ts */*.metadata.json ./*.metadata.json ./*.d.ts */dist",
         "clean:duplicates": "rimraf */dist/*/src",
         "clean:deps": "rimraf package-lock.json node_modules",
         "clean:all": "npm run clean && npm run clean:deps",

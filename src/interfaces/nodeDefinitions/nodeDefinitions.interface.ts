@@ -11,6 +11,14 @@ export interface NodeDefinitionConstructor
 }
 
 /**
+ * Collection of node definitions
+ */
+export interface NodeDefinitions
+{
+    [name: string]: NodeDefinitionConstructor;
+}
+
+/**
  * Definition of node instance
  */
 export interface NodeDefinition extends DynamicNode

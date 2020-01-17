@@ -9,3 +9,5 @@ export * from './directives/componentRenderer/componentRenderer.directive';
 export * from './interfaces';
 export * from './tokens/relationsMetadata.token';
 export * from './modules/ngDynamicCore.module';
+export * from './dynamicModuleLoader';
+export * from './dynamicNodeLoader';

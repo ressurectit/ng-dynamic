@@ -1,9 +1,10 @@
 import {Injector} from "@angular/core";
 import {isBlank} from "@jscrpt/common";
 
-import {DynamicComponentRelationMetadata, DynamicNode, NodeDefinitionConstructor, NodeDefinition} from "../interfaces";
+import {DynamicComponentRelationMetadata, DynamicNode, NodeDefinition, NodeDefinitions} from "../interfaces";
 import {ComponentManager} from "../componentManager/componentManager";
 import {DynamicComponentRelationManagerMetadata, DynamicComponentRelationManagerInputOutputMetadata} from "./componentRelationManager.interface";
+import {DynamicNodeLoader} from "../dynamicNodeLoader";
 
 /**
  * Manager used for handling relations between components
@@ -48,8 +49,14 @@ export class ComponentRelationManager
     }
 
     //######################### constructor #########################
-    constructor(private _metadata: DynamicComponentRelationMetadata[], private _injector: Injector)
+    constructor(private _metadata: DynamicComponentRelationMetadata[],
+                private _nodeLoaders: DynamicNodeLoader[],
+                private _injector: Injector)
     {
+        if(!this._nodeLoaders?.length)
+        {
+            throw new Error('There is no "dynamic node loader" provided!');
+        }
     }
     
     //######################### public methods #########################
@@ -204,12 +211,18 @@ export class ComponentRelationManager
 
             if(meta.nodeType)
             {
-                //TODO - change for dynamic loader
-                let nodeDefinitions: {[name: string]: NodeDefinitionConstructor} = (await import(`../../nodeDefinitions`)
-                    .catch(error =>
+                let nodeDefinitions: NodeDefinitions = {};
+
+                for(let loader of this._nodeLoaders)
+                {
+                    let def = await loader.tryLoadNodeDefinitions();
+
+                    nodeDefinitions = 
                     {
-                        throw new Error(`Unable to load dynamic nodes package, missing @ngDynamic/nodeDefinitions, error '${error}'.`);
-                    })).nodeDefinitions;
+                        ...nodeDefinitions,
+                        ...def
+                    };
+                };
 
                 if(!nodeDefinitions[`${meta.nodeType}Node`])
                 {

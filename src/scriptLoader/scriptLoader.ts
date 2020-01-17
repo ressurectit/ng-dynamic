@@ -36,7 +36,7 @@ export class ScriptLoader
 
         let resolvedReferences: Dictionary = {};
 
-        resolvedReferences['moment'] = require('moment');
+        // resolvedReferences['moment'] = require('moment');
 
         let scriptElement = this._document.createElement("script");
         let loadTypeObjName = `loadType${generateId(12)}`;

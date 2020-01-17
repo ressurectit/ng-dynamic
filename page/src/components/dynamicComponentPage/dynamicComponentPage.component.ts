@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Injector, ValueProvider, StaticProvider, OnInit, OnDestroy, ChangeDetectorRef, Inject} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {DynamicComponentMetadata, DYNAMIC_RELATIONS_METADATA, ComponentRelationManager, ComponentManager, DynamicContentMetadata, RemoteDynamicContentMetadata} from "@anglr/dynamic";
+import {DynamicComponentMetadata, DYNAMIC_RELATIONS_METADATA, ComponentRelationManager, ComponentManager, DynamicContentMetadata, RemoteDynamicContentMetadata, DYNAMIC_NODE_LOADERS} from "@anglr/dynamic";
 import {Subscription, empty, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 
@@ -114,7 +114,7 @@ export class DynamicComponentPageComponent implements OnInit, OnDestroy
                     {
                         useClass: ComponentRelationManager,
                         provide: ComponentRelationManager,
-                        deps: [DYNAMIC_RELATIONS_METADATA, Injector]
+                        deps: [DYNAMIC_RELATIONS_METADATA, DYNAMIC_NODE_LOADERS, Injector]
                     },
                     <StaticProvider>
                     {

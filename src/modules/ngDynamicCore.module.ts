@@ -1,8 +1,8 @@
 import {NgModule, ModuleWithProviders} from "@angular/core";
 
 import {ComponentRendererDirective} from "../directives/componentRenderer/componentRenderer.directive";
-import {DynamicComponentPageComponent} from "../dynamicComponentPage/components";
 import {NG_DYNAMIC_MODULE_LOADERS_PROVIDER} from "../dynamicModuleLoader/ngDynamicModuleLoader";
+import {DYNAMIC_NODE_LOADERS_PROVIDER} from "../dynamicNodeLoader/ngDynamicNodeLoader";
 
 /**
  * Module for ng dynamic core 
@@ -14,8 +14,7 @@ import {NG_DYNAMIC_MODULE_LOADERS_PROVIDER} from "../dynamicModuleLoader/ngDynam
     ],
     declarations: 
     [
-        ComponentRendererDirective,
-        DynamicComponentPageComponent
+        ComponentRendererDirective
     ],
     exports:
     [
@@ -35,7 +34,8 @@ export class NgDynamicCoreModule
             ngModule: NgDynamicCoreModule,
             providers: 
             [
-                NG_DYNAMIC_MODULE_LOADERS_PROVIDER
+                NG_DYNAMIC_MODULE_LOADERS_PROVIDER,
+                DYNAMIC_NODE_LOADERS_PROVIDER
             ]
         };
     }

@@ -1,4 +1,5 @@
-import {Component, ChangeDetectionStrategy, EventEmitter, Output, OnDestroy, ChangeDetectorRef, OnInit} from "@angular/core";
+import {Component, ChangeDetectionStrategy, EventEmitter, Output, OnDestroy, ChangeDetectorRef, OnInit, Optional, Inject} from "@angular/core";
+import {DynamicNodeLoader, DYNAMIC_NODE_LOADERS} from "@anglr/dynamic";
 
 import {DesignerLayoutPlaceholderComponent, RelationsMetadata, DesignerMetadataClass} from "../../interfaces";
 import {ɵRelationsMetadata} from "../nodeDesigner/nodeDesigner.interface";
@@ -68,8 +69,13 @@ export class NodeComponentPaletteComponent implements OnInit, OnDestroy
     public dragging: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     //######################### constructor #########################
-    constructor(private _changeDetector: ChangeDetectorRef)
+    constructor(private _changeDetector: ChangeDetectorRef,
+                @Inject(DYNAMIC_NODE_LOADERS) @Optional() private _nodeLoaders: DynamicNodeLoader[])
     {
+        if(!this._nodeLoaders?.length)
+        {
+            throw new Error('There is no "dynamic node loader" provided!');
+        }
     }
 
     //######################### public methods - implementation of OnInit #########################
@@ -79,14 +85,19 @@ export class NodeComponentPaletteComponent implements OnInit, OnDestroy
      */
     public async ngOnInit()
     {
-        //TODO - use node loader
         let nodeDefinitions: {[name: string]: DesignerMetadataClass};
-        // let nodeDefinitions: {[name: string]: DesignerMetadataClass} = (await import(`../../../nodeDefinitions`)
-        //     .catch(error =>
-        //     {
-        //         throw new Error(`Unable to load dynamic nodes package, missing @ngDynamic/nodeDefinitions, error '${error}'.`);
-        //     })).nodeDefinitions as any;
 
+        for(let loader of this._nodeLoaders)
+        {
+            let def: any = await loader.tryLoadNodeDefinitions();
+
+            nodeDefinitions = 
+            {
+                ...nodeDefinitions,
+                ...def
+            };
+        };
+        
         Object.keys(nodeDefinitions).forEach(key =>
         {
             let relationsMetadataClass = nodeDefinitions[key];

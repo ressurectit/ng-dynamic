@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy} from "
 import {Subscription} from "rxjs";
 
 import {TreeFlattener, TreeFlatDataSource} from "./dataSource/flatDataSource";
-import {ComponentsService, PropertiesService} from "../../services";
+import {ComponentsService, PropertiesService} from "../../services/services";
 import {DesignerLayoutPlaceholderComponent} from "../../interfaces";
 import {AdvancedFlatTreeControl} from "./treeControl/flatTreeControl";
 import {LayoutComponentTreeNode} from "./layoutDesignerTree.interface";

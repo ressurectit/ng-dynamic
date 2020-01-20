@@ -66,10 +66,10 @@ export class LeftTopRightBottomNumberComponent implements DynamicComponent, Cust
     
     /**
      * Explicitly runs invalidation of content (change detection)
-     * @param propertyName Name of property that has changed
-     * @param initial Indication whether is invalidation initial, or on event
+     * @param _propertyName Name of property that has changed
+     * @param _initial Indication whether is invalidation initial, or on event
      */
-    public invalidateVisuals(propertyName?: string, initial?: boolean): void
+    public invalidateVisuals(_propertyName?: string, _initial?: boolean): void
     {
     }
 

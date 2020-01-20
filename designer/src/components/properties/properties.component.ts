@@ -3,7 +3,7 @@ import {FormControl, FormGroup, Validators, FormArray} from "@angular/forms";
 import {isFunction} from "@jscrpt/common";
 import {Subscription} from "rxjs";
 
-import {PropertiesService} from "../../services";
+import {PropertiesService} from "../../services/services";
 import {PropertiesMetadata, PropertyType, PropertiesPropertyMetadata, INVALIDATE_PROPERTIES, INVALIDATE_ID} from "../../interfaces";
 
 /**

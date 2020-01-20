@@ -1,16 +1,16 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, ExistingProvider, Inject, ViewChild} from "@angular/core";
+import {ActivatedRoute} from "@angular/router";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Subscription, throwError, empty} from "rxjs";
+import {catchError} from "rxjs/operators";
 
 import {DesignerMode, RemoteDesignerState, DesignerState} from "./designer.interface";
-import {ComponentsService, PropertiesService, DragService, CodeService} from "../services";
+import {ComponentsService, PropertiesService, DragService, CodeService} from "../services/services";
 import {NODE_PROPERTIES_SERVICE} from "./nodeDesigner/nodeDesigner.interface";
 import {LayoutDesignerComponent} from "./layoutDesigner/layoutDesigner.component";
 import {CodeEditorComponent} from "./codeEditor/codeEditor.component";
 import {NodeDesignerModeComponent} from "./nodeDesignerMode/nodeDesignerMode.component";
 import {DESIGNER_PACKAGE_NAMES} from "./designer.tokens";
-import {ActivatedRoute} from "@angular/router";
-import {catchError} from "rxjs/operators";
 
 /**
  * Component used for displaying designer

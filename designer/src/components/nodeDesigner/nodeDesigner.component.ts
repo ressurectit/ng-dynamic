@@ -4,7 +4,8 @@ import {generateId} from "@jscrpt/common";
 import {select, Selection, event, zoom, zoomTransform} from 'd3';
 import {Subscription, Subject, Observable} from "rxjs";
 
-import {SvgNode, SvgRelation} from "./misc";
+import {SvgNode} from "./misc/node/svgNode";
+import {SvgRelation} from "./misc/relation/svgRelation";
 import {SvgPeerDropArea, Coordinates, DesignerLayoutPlaceholderComponent, RelationsMetadata, SvgNodeDynamicNode} from "../../interfaces";
 import {NodeDesignerNodeState, ɵRelationsMetadata} from "./nodeDesigner.interface";
 

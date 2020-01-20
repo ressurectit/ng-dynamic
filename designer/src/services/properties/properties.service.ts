@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {Subject, Observable} from "rxjs";
 
 import {PropertiesMetadata} from "../../interfaces";
-import {NodePropertiesService} from "../../components";
+import {NodePropertiesService} from "../../components/nodeDesigner/nodeDesigner.interface";
 
 /**
  * Properties service used for communication with properties window

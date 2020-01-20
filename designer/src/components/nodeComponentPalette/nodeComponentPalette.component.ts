@@ -79,11 +79,13 @@ export class NodeComponentPaletteComponent implements OnInit, OnDestroy
      */
     public async ngOnInit()
     {
-        let nodeDefinitions: {[name: string]: DesignerMetadataClass} = (await import(`../../../nodeDefinitions`)
-            .catch(error =>
-            {
-                throw new Error(`Unable to load dynamic nodes package, missing @ngDynamic/nodeDefinitions, error '${error}'.`);
-            })).nodeDefinitions as any;
+        //TODO - use node loader
+        let nodeDefinitions: {[name: string]: DesignerMetadataClass};
+        // let nodeDefinitions: {[name: string]: DesignerMetadataClass} = (await import(`../../../nodeDefinitions`)
+        //     .catch(error =>
+        //     {
+        //         throw new Error(`Unable to load dynamic nodes package, missing @ngDynamic/nodeDefinitions, error '${error}'.`);
+        //     })).nodeDefinitions as any;
 
         Object.keys(nodeDefinitions).forEach(key =>
         {

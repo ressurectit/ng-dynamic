@@ -3,7 +3,7 @@ import {Subject, Observable} from "rxjs";
 import {IDisposable, languages} from "monaco-editor";
 
 import {CodeMetadata, TypescriptAdditionalData} from "../../interfaces";
-import {TypingsLoader} from "../../typingsLoader";
+import {TypingsLoader} from "../../typingsLoader/typingsLoader";
 
 /**
  * Service used for communication with "Monaco" code editor

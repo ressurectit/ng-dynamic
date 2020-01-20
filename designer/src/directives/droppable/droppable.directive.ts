@@ -81,7 +81,7 @@ export class DroppableDirective
      * Handles `dragleave` event on this element
      */
     @HostListener('dragleave', ['$event'])
-    public dragLeave(event: DragEvent)
+    public dragLeave(_event: DragEvent)
     {
         this._setCssClass(null);
         this._dropArea = null;

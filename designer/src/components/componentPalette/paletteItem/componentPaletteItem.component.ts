@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
 
 import {DesignerLayoutMetadata} from "../../../interfaces";
 import {DesignerItemId} from "../../../interfaces";
-import {DragService} from "../../../services";
+import {DragService} from "../../../services/services";
 
 export const COMPONENT_PALETTE_ITEM = "component_palette";
 

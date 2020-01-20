@@ -16,9 +16,9 @@
     
                     <div>{{property.description}}</div>
     
-                    <div *ngFor="let collectionGroup of propertiesForm?.controls[property.id]?.controls; let index=index"
+                    <div *ngFor="let collectionGroup of $any(propertiesForm?.controls[property.id])?.controls; let index=index"
                          style="border-top: 1px solid #333;">
-                        <div style="float: right; font-size: 1.2em; cursor: pointer;" (click)="propertiesForm?.controls[property.id].removeAt(index)">-</div>
+                        <div style="float: right; font-size: 1.2em; cursor: pointer;" (click)="$any(propertiesForm?.controls[property.id]).removeAt(index)">-</div>
                         <div *ngFor="let itemProperty of property.arrayItemProperty | onlyVisible"
                              style="margin-bottom: 10px;"
                              [property]="itemProperty"
@@ -36,8 +36,8 @@
     
                     <div>{{property.description}}</div>
 
-                    <div *ngFor="let arrayControl of propertiesForm?.controls[property.id]?.controls; let index=index">
-                        <div style="float: right; font-size: 1.2em; cursor: pointer;" (click)="propertiesForm?.controls[property.id].removeAt(index)">-</div>
+                    <div *ngFor="let arrayControl of $any(propertiesForm?.controls[property.id])?.controls; let index=index">
+                        <div style="float: right; font-size: 1.2em; cursor: pointer;" (click)="$any(propertiesForm?.controls[property.id]).removeAt(index)">-</div>
                         <div style="margin-bottom: 10px;"
                              [property]="property"
                              [control]="arrayControl"

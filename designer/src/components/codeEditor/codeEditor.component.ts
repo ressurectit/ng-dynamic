@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ElementRef, OnInit, OnDestroy, After
 import {editor, Uri, languages} from 'monaco-editor';
 import {Subscription} from "rxjs";
 
-import {CodeService} from "../../services";
+import {CodeService} from "../../services/services";
 import {CodeMetadata, INVALIDATE_CODE} from "../../interfaces";
 
 import './monaco.init';

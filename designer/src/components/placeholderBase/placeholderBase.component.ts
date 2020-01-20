@@ -3,9 +3,9 @@ import {DynamicComponentMetadataGeneric, DynamicComponentMetadata} from "@anglr/
 import {generateId} from "@jscrpt/common";
 
 import {DesignerLayoutComponentRendererData, DesignerLayoutPlaceholderComponentGeneric, DesignerLayoutPlaceholderComponent, LayoutMetadata, ɵDynamicComponentMetadataGeneric} from "../../interfaces";
-import {DesignerComponentRendererDirective} from "../../directives";
-import {PropertiesService} from "../../services";
-import {PackageLoader} from "../../packageLoader";
+import {DesignerComponentRendererDirective} from "../../directives/designerComponentRenderer/designerComponentRenderer.directive";
+import {PropertiesService} from "../../services/services";
+import {PackageLoader} from "../../packageLoader/packageLoader";
 import {transformOptionsToProperties, transformPropertiesToOptions} from "../../misc";
 import {COPY_ID} from "../designer.interface";
 
@@ -126,9 +126,9 @@ export abstract class PlaceholderBaseComponent<TOptions> implements DesignerLayo
 
     /**
      * Explicitly runs invalidation of content (change detection)
-     * @param propertyName Name of property that has changed
+     * @param _propertyName Name of property that has changed
      */
-    public invalidateVisuals(propertyName?: string): void
+    public invalidateVisuals(_propertyName?: string): void
     {
         this._changeDetector.detectChanges();
     }

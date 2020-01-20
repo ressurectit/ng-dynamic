@@ -1,12 +1,12 @@
 import {Component, ChangeDetectionStrategy, ViewChildren, QueryList, Input, OnChanges, ChangeDetectorRef, SimpleChanges} from "@angular/core";
 import {nameof} from "@jscrpt/common";
 
-import {PackageLoader} from "../../packageLoader";
-import {DesignerComponentRendererDirective} from "../../directives";
+import {PackageLoader} from "../../packageLoader/packageLoader";
+import {DesignerComponentRendererDirective} from "../../directives/designerComponentRenderer/designerComponentRenderer.directive";
 import {DesignerLayoutPlaceholderComponent, DesignerLayoutComponentRendererData, ɵDynamicComponentMetadata, DropEvent} from "../../interfaces";
 import {COPY_ID} from "../designer.interface";
-import {COMPONENT_PALETTE_ITEM} from "../componentPalette";
-import {DragService} from "../../services";
+import {COMPONENT_PALETTE_ITEM} from "../componentPalette/paletteItem/componentPaletteItem.component";
+import {DragService} from "../../services/services";
 
 /**
  * Component used for displaying layout designer

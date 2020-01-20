@@ -6,8 +6,8 @@ import {NodeDesignerComponent} from "../nodeDesigner/nodeDesigner.component";
 import {NodeComponentPaletteComponent, COMPONENT_DRAG, NODE_DRAG} from "../nodeComponentPalette/nodeComponentPalette.component";
 import {NodeDesignerNodeState} from "../nodeDesigner/nodeDesigner.interface";
 import {DesignerLayoutPlaceholderComponent, RelationsMetadata, SvgNodeDynamicNode, INVALIDATE_PROPERTIES} from "../../interfaces";
-import {PackageLoader} from "../../packageLoader";
-import {ComponentsService} from "../../services";
+import {PackageLoader} from "../../packageLoader/packageLoader";
+import {ComponentsService} from "../../services/services";
 
 /**
  * Component used for displaying node designer mode

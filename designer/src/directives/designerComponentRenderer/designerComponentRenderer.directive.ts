@@ -3,7 +3,7 @@ import {ComponentLoader} from '@anglr/dynamic';
 import {nameof, generateId} from '@jscrpt/common';
 
 import {DesignerLayoutPlaceholderComponent, DesignerLayoutComponentRendererData} from '../../interfaces';
-import {ComponentsService} from '../../services';
+import {ComponentsService} from '../../services/services';
 
 /**
 * Creates dynamically instance of component by its dynamicModule used for layout designer

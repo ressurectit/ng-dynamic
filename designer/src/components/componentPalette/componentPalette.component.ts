@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, ChangeDetectorRef, OnDestroy} from "@angular/core";
 import {Subscription} from "rxjs";
 
-import {PackageLoader} from "../../packageLoader";
+import {PackageLoader} from "../../packageLoader/packageLoader";
 import {ComponentPalettePackage} from "./componentPalette.interface";
 
 /**

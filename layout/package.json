@@ -1,0 +1,9 @@
+{
+    "name": "@anglr/dynamic-layout",
+    "sideEffects": false,
+    "module": "../es2015/layout/src/index.js",
+    "es2015": "../es2015/layout/src/index.js",
+    "es2020": "../es2020/layout/src/index.js",
+    "esm2020": "../es2020/layout/src/index.js",
+    "typings": "./src/index.d.ts"
+  }

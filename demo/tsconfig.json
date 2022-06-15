@@ -20,6 +20,15 @@
         "importHelpers": true,
         "moduleResolution": "node",
         "outDir": "wwwroot/app",
+        "baseUrl": ".",
+        "paths": 
+        {
+            "@anglr/dynamic/layout": ["../layout/src/index.ts"],
+            "@anglr/dynamic/layout-editor": ["../layout-editor/src/index.ts"],
+            "@anglr/dynamic/relations": ["../relations/src/index.ts"],
+            "@anglr/dynamic/relations-editor": ["../relations-editor/src/index.ts"],
+            "@anglr/dynamic": ["../src/index.ts"],
+        },
         "lib":
         [
             "es2020",

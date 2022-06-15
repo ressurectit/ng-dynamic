@@ -1,0 +1,41 @@
+{
+    "configuration":
+    {
+        "debug": true,
+        "debugTranslations": false,
+        "defaultApiHeaders": 
+        {
+            "Accept": "application/json"
+        },
+        "themes":
+        [
+            "light",
+            "dark"
+        ],
+        "languages":
+        [
+            {
+                "lang": "en",
+                "name": "English"
+            },
+            {
+                "lang": "sk",
+                "name": "Slovenčina"
+            }
+        ]
+    },
+    "general":
+    {
+        "theme": "dark",
+        "language": "en"
+    },
+    "debug":
+    {
+        "consoleEnabled": true,
+        "debugData": false
+    },
+    "logging":
+    {
+        "consoleLogLevel": "verbose"
+    }
+}

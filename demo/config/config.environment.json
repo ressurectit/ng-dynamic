@@ -1,0 +1,11 @@
+{
+    "configuration":
+    {
+        "debug": "GUI_DEBUG"
+    },
+    "general":
+    {
+        "theme": "GUI_THEME",
+        "language": "GUI_LANGUAGE"
+    }
+}

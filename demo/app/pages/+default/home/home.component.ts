@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
+import {DynamicItemLoader} from '@anglr/dynamic/layout';
 
 /**
  * Home component
@@ -14,4 +15,9 @@ import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 @ComponentRoute({path: 'home'})
 export class HomeComponent
 {
+    //######################### constructor #########################
+    constructor(dynamicItemLoader: DynamicItemLoader)
+    {
+        console.log(dynamicItemLoader);
+    }
 }

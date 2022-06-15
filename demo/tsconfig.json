@@ -27,6 +27,7 @@
             "@anglr/dynamic/layout-editor": ["../layout-editor/src/index.ts"],
             "@anglr/dynamic/relations": ["../relations/src/index.ts"],
             "@anglr/dynamic/relations-editor": ["../relations-editor/src/index.ts"],
+            "@anglr/dynamic/basic-components": ["../basic-components/src/index.ts"],
             "@anglr/dynamic": ["../src/index.ts"],
         },
         "lib":
@@ -52,6 +53,7 @@
     "include":
     [
         "app/**/*.ts",
+        "../basic-components/**/*.ts"
     ],
     "exclude":
     [

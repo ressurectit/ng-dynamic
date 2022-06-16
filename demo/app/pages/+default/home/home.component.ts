@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
-import {DynamicItemLoader} from '@anglr/dynamic/layout';
+import {DynamicItemLoader} from '@anglr/dynamic';
 
 /**
  * Home component
@@ -18,7 +18,7 @@ export class HomeComponent
     //######################### constructor #########################
     constructor(dynamicItemLoader: DynamicItemLoader)
     {
-        dynamicItemLoader.loadItem({package: 'basic-components', name: 'stacka'})
+        dynamicItemLoader.loadItem({package: 'basic-components', name: 'stack'})
             .then(data => console.log(data));
     }
 }

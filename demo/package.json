@@ -19,7 +19,7 @@
         "version:build": "ngv -e \"node write.version.cjs\"",
         "ngc": "ngc",
         "ngcc": "ngcc",
-        "postinstall": "npm run ngcc && rimraf node_modules/@angular node_modules/date-fns",
+        "postinstall": "npm run ngcc && rimraf node_modules/date-fns",
         "server": "node server.cjs",
         "lint": "eslint app/**/*.ts",
         "prestart": "npm run check:dev:start",

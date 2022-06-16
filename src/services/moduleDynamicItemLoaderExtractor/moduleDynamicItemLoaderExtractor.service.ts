@@ -2,7 +2,7 @@ import {Inject, Injectable, Optional, Type} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {isType} from '@jscrpt/common';
 
-import {DynamicItem, DynamicItemModule, DynamicItemType} from '../../metadata';
+import {DynamicItem, DynamicItemModule, DynamicItemType} from '../../interfaces';
 import {DynamicItemLoaderExtractor} from '../dynamicItemLoader/dynamicItemLoader.interface';
 
 /**

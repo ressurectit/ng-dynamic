@@ -4,7 +4,7 @@ import {resolvePromiseOr} from '@jscrpt/common';
 
 import {DYNAMIC_ITEM_LOADER_EXTRACTORS, DYNAMIC_ITEM_LOADER_PROVIDERS} from '../../misc/tokens';
 import {DynamicItemLoaderExtractor, DynamicItemLoaderProvider} from './dynamicItemLoader.interface';
-import {DynamicItem, DynamicItemModule, DynamicItemSource, DynamicItemType} from '../../metadata';
+import {DynamicItem, DynamicItemModule, DynamicItemSource, DynamicItemType} from '../../interfaces';
 
 /**
  * Service used for loading dynamic items

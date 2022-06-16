@@ -1,6 +1,6 @@
 import {PromiseOr} from '@jscrpt/common';
 
-import {DynamicItemSource, DynamicItemModule, DynamicItemType} from '../../metadata';
+import {DynamicItemSource, DynamicItemModule, DynamicItemType} from '../../interfaces';
 
 /**
  * Dynamic item loader provider, used for locating dynamic item and obtaining it from it

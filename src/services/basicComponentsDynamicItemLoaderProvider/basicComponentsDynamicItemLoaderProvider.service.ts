@@ -1,7 +1,7 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 
-import {DynamicItemModule, DynamicItemSource} from '../../metadata';
+import {DynamicItemModule, DynamicItemSource} from '../../interfaces';
 import {DynamicItemLoaderProvider} from '../dynamicItemLoader/dynamicItemLoader.interface';
 
 /**

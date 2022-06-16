@@ -10,5 +10,5 @@ export interface LayoutComponent<TOptions = any> extends DynamicItem
     /**
      * Options used for rendering this component
      */
-    options: TOptions;
+    options: TOptions|undefined|null;
 }

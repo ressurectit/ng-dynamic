@@ -1,5 +1,5 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {LayoutComponent} from '@anglr/dynamic';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {StyledLayoutComponent, StyledLayoutComponentBase} from '@anglr/dynamic/layout';
 import {CommonLocalizeModule, HostDisplayBlockStyle} from '@anglr/common';
 
 import {TextBlockComponentOptions} from './textBlock.options';
@@ -19,27 +19,6 @@ import {TextBlockComponentOptions} from './textBlock.options';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TextBlockComponent implements LayoutComponent<TextBlockComponentOptions>
+export class TextBlockComponent extends StyledLayoutComponentBase<TextBlockComponentOptions> implements StyledLayoutComponent<TextBlockComponentOptions>
 {
-    //######################### properties #########################
-
-    /**
-     * Options used for rendering this component
-     */
-    public options!: TextBlockComponentOptions;
-
-    //######################### constructor #########################
-    constructor(protected _changeDetector: ChangeDetectorRef,)
-    {
-    }
-
-    //######################### public methods - implementation of LayoutComponent #########################
-
-    /**
-     * Explicitly runs invalidation of content (change detection)
-     */
-    public invalidateVisuals(): void
-    {
-        this._changeDetector.detectChanges();
-    }
 }

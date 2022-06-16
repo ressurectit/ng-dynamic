@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic';
-import {LayoutComponentRendererOptions, MissingTypeBehavior} from '@anglr/dynamic/layout';
+import {ComponentStylingOptions, LayoutComponentRendererDirectiveOptions, MissingTypeBehavior, TextFontWeight} from '@anglr/dynamic/layout';
 import {TextBlockComponentOptions, StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 
 /**
@@ -15,8 +15,8 @@ import {TextBlockComponentOptions, StackPanelComponentOptions} from '@anglr/dyna
     [
         <ValueProvider>
         {
-            provide: LayoutComponentRendererOptions,
-            useValue: new LayoutComponentRendererOptions(MissingTypeBehavior.ShowNotFound)
+            provide: LayoutComponentRendererDirectiveOptions,
+            useValue: new LayoutComponentRendererDirectiveOptions(MissingTypeBehavior.ShowNotFound)
         }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -40,18 +40,30 @@ export class HomeComponent
                     package: 'basic-components',
                     id: 'textTest',
                     name: 'textBlock',
-                    options: <TextBlockComponentOptions>
+                    options: <TextBlockComponentOptions&ComponentStylingOptions>
                     {
-                        text: 'toto je text'
+                        text: 'toto je text',
+                        margin:
+                        {
+                            top: '10px'
+                        },
+                        textStyling:
+                        {
+                            fontSize: '20px'
+                        }
                     }
                 },
                 {
                     package: 'basic-components',
                     id: 'text2Test',
                     name: 'textBlock',
-                    options: <TextBlockComponentOptions>
+                    options: <TextBlockComponentOptions&ComponentStylingOptions>
                     {
-                        text: 'druhý riadok je toto'
+                        text: 'druhý riadok je toto',
+                        textStyling:
+                        {
+                            fontWeight: TextFontWeight.Bold
+                        }
                     }
                 }
             ]

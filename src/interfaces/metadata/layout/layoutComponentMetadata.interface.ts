@@ -15,5 +15,5 @@ export interface LayoutComponentMetadata<TOptions = any> extends DynamicItemSour
     /**
      * Options passed to component
      */
-    options: TOptions;
+    options: TOptions|undefined|null;
 }

@@ -1,11 +1,8 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent} from '@anglr/dynamic';
-import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponentRendererSADirective, StyledLayoutComponent, StyledLayoutComponentBase} from '@anglr/dynamic/layout';
 
 import {StackPanelComponentOptions} from './stackPanel.options';
-
-//TODO: optimize computation
 
 /**
  * Component used for displaying stack panel layout
@@ -15,11 +12,6 @@ import {StackPanelComponentOptions} from './stackPanel.options';
     selector: 'stack-panel',
     templateUrl: 'stackPanel.component.html',
     styleUrls: ['stackPanel.component.css'],
-    host:
-    {
-        '[style.flex-direction]': 'options?.horizontal ? "row" : "column"',
-        '[style.flex-wrap]': 'options?.wrap ? "wrap" : "nowrap"',
-    },
     standalone: true,
     imports:
     [
@@ -28,27 +20,28 @@ import {StackPanelComponentOptions} from './stackPanel.options';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StackPanelComponent implements LayoutComponent<StackPanelComponentOptions>
+export class StackPanelComponent extends StyledLayoutComponentBase<StackPanelComponentOptions> implements StyledLayoutComponent<StackPanelComponentOptions>
 {
-    //######################### properties #########################
+    //######################### protected methods - overrides #########################
 
     /**
-     * Options used for rendering this component
+     * Method that is called when options are set, allows to hook to changing of options
      */
-    public options!: StackPanelComponentOptions;
-
-    //######################### constructor #########################
-    constructor(protected _changeDetector: ChangeDetectorRef,)
+    protected override _optionsSet(): void
     {
+        this._setStyles();
     }
 
-    //######################### public methods - implementation of LayoutComponent #########################
+    //######################### protected methods #########################
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * Sets styles for stack panel
      */
-    public invalidateVisuals(): void
+    protected _setStyles(): void
     {
-        this._changeDetector.markForCheck();
+        const style = this._element.nativeElement.style;
+
+        style.flexDirection = this._options?.horizontal ? 'row' : 'column';
+        style.flexWrap = this._options?.wrap ? 'wrap' : 'nowrap';
     }
 }

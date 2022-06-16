@@ -3,7 +3,7 @@ import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata, DynamicItemLoader} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 
-import {LayoutComponentRendererOptions} from './layoutComponentRenderer.options';
+import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer.options';
 import {MissingTypeBehavior} from './layoutComponentRenderer.types';
 import {NotFoundLayoutTypeSAComponent} from '../../components';
 
@@ -57,12 +57,12 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
     //######################### constructor #########################
     constructor(protected _viewContainerRef: ViewContainerRef,
                 protected _loader: DynamicItemLoader,
-                @Optional() protected _options?: LayoutComponentRendererOptions,
+                @Optional() protected _options?: LayoutComponentRendererDirectiveOptions,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
-        if(!this._options || !(this._options instanceof LayoutComponentRendererOptions))
+        if(!this._options || !(this._options instanceof LayoutComponentRendererDirectiveOptions))
         {
-            this._options = new LayoutComponentRendererOptions();
+            this._options = new LayoutComponentRendererDirectiveOptions();
         }
     }
 

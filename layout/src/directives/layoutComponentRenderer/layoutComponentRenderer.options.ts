@@ -3,9 +3,9 @@ import {isPresent} from '@jscrpt/common';
 import {MissingTypeBehavior} from './layoutComponentRenderer.types';
 
 /**
- * Options for LayoutComponentRenderer
+ * Options for LayoutComponentRendererDirective
  */
-export class LayoutComponentRendererOptions
+export class LayoutComponentRendererDirectiveOptions
 {
     //######################### public properties #########################
 

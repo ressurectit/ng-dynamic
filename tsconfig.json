@@ -25,6 +25,7 @@
         "baseUrl": "src",
         "paths":
         {
+            "@anglr/dynamic/layout": ["../layout/src/index.ts"],
             "@anglr/dynamic": ["index.ts"],
         },
         "lib":

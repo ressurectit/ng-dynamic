@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata, LayoutComponentRendererOptions, MissingTypeBehavior} from '@anglr/dynamic';
+import {TextBlockComponentOptions} from '@anglr/dynamic/basic-components';
 
 /**
  * Home component
@@ -9,7 +10,7 @@ import {LayoutComponentMetadata, LayoutComponentRendererOptions, MissingTypeBeha
 {
     selector: 'home-view',
     templateUrl: 'home.component.html',
-    providers: 
+    providers:
     [
         <ValueProvider>
         {
@@ -28,9 +29,12 @@ export class HomeComponent
     protected metadata: LayoutComponentMetadata =
     {
         package: 'basic-components',
-        id: 'test',
-        name: 'stacka',
-        options: {}
+        id: 'textTest',
+        name: 'textBlock',
+        options: <TextBlockComponentOptions>
+        {
+            text: 'toto je text'
+        }
     };
 
     //######################### constructor #########################

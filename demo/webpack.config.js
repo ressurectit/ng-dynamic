@@ -159,7 +159,7 @@ export default [function(options, args)
             alias:
             {
                 "modernizr": path.join(dirName, "content/external/scripts/modernizr-custom.js"),
-                "numeral-languages": path.join(dirName, "node_modules/numeral/locales.js"),
+                "numeral-languages": path.join(dirName, "../node_modules/numeral/locales.js"),
                 "@anglr/dynamic/layout": path.join(dirName, "../layout/src/index.ts"),
                 "@anglr/dynamic/layout-editor": path.join(dirName, "../layout-editor/src/index.ts"),
                 "@anglr/dynamic/relations": path.join(dirName, "../relations/src/index.ts"),

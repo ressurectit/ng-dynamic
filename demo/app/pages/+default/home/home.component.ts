@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic';
 import {LayoutComponentRendererOptions, MissingTypeBehavior} from '@anglr/dynamic/layout';
-import {TextBlockComponentOptions} from '@anglr/dynamic/basic-components';
+import {TextBlockComponentOptions, StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 
 /**
  * Home component
@@ -30,11 +30,31 @@ export class HomeComponent
     protected metadata: LayoutComponentMetadata =
     {
         package: 'basic-components',
-        id: 'textTest',
-        name: 'textBlock',
-        options: <TextBlockComponentOptions>
+        id: 'stackPanelTest',
+        name: 'stackPanel',
+        options: <StackPanelComponentOptions>
         {
-            text: 'toto je text'
+            children:
+            [
+                {
+                    package: 'basic-components',
+                    id: 'textTest',
+                    name: 'textBlock',
+                    options: <TextBlockComponentOptions>
+                    {
+                        text: 'toto je text'
+                    }
+                },
+                {
+                    package: 'basic-components',
+                    id: 'text2Test',
+                    name: 'textBlock',
+                    options: <TextBlockComponentOptions>
+                    {
+                        text: 'druhý riadok je toto'
+                    }
+                }
+            ]
         }
     };
 

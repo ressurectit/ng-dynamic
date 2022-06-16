@@ -67,7 +67,7 @@ export class DynamicItemLoader
         //no module found
         if(!dynamicItemModule)
         {
-            this._logger?.debug('DynamicItemLoader: Failed to get dynamic item module {@source}', source);
+            this._logger?.debug('DynamicItemLoader: Failed to get dynamic item module {@source}', {name: source.name, package: source.package});
 
             return null;
         }
@@ -83,7 +83,7 @@ export class DynamicItemLoader
             }
         }
 
-        this._logger?.debug('DynamicItemLoader: Failed to extract dynamic item type {@source}', source);
+        this._logger?.debug('DynamicItemLoader: Failed to extract dynamic item type {@source}', {name: source.name, package: source.package});
 
         return null;
     }

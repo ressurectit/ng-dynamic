@@ -1,4 +1,6 @@
 
-const test = 10;
+class TestClass
+{
+}
 
-export default test;
+export default TestClass;

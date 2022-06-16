@@ -18,6 +18,7 @@ export class HomeComponent
     //######################### constructor #########################
     constructor(dynamicItemLoader: DynamicItemLoader)
     {
-        console.log(dynamicItemLoader);
+        dynamicItemLoader.loadItem({package: 'basic-components', name: 'stacka'})
+            .then(data => console.log(data));
     }
 }

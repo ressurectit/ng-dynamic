@@ -1,7 +1,20 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, Optional, Type} from '@angular/core';
+import {LOGGER, Logger} from '@anglr/common';
+import {isType} from '@jscrpt/common';
 
-import {DynamicItemModule, DynamicItemType} from '../../metadata';
+import {DynamicItem, DynamicItemModule, DynamicItemType} from '../../metadata';
 import {DynamicItemLoaderExtractor} from '../dynamicItemLoader/dynamicItemLoader.interface';
+
+/**
+ * Module with default export
+ */
+interface ɵDynamicItemModuleWithDefault extends DynamicItemModule
+{
+    /**
+     * Default export value
+     */
+    default?: Type<DynamicItem>;
+}
 
 /**
  * Extracts dynamic item type which is module export
@@ -9,6 +22,11 @@ import {DynamicItemLoaderExtractor} from '../dynamicItemLoader/dynamicItemLoader
 @Injectable()
 export class ModuleDynamicItemLoaderExtractor implements DynamicItemLoaderExtractor
 {
+    //######################### constructor #########################
+    constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    {
+    }
+
     //######################### public methods - implementation of DynamicItemLoaderExtractor #########################
 
     /**
@@ -16,7 +34,16 @@ export class ModuleDynamicItemLoaderExtractor implements DynamicItemLoaderExtrac
      */
     public tryToExtract(module: DynamicItemModule): DynamicItemType|null
     {
-        console.log(module);
+        const localModule = module as ɵDynamicItemModuleWithDefault;
+
+        this._logger?.debug('ModuleDynamicItemLoaderExtractor: trying to extract DynamicItemType');
+
+        if(localModule.default && isType(localModule.default))
+        {
+            return {
+                type: localModule.default
+            };
+        }
 
         return null;
     }

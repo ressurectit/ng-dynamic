@@ -1,9 +1,12 @@
-import {ComponentRef, Directive, Injector, Input, OnChanges, OnDestroy, Optional, SimpleChanges, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, Inject, Injector, Input, OnChanges, OnDestroy, Optional, SimpleChanges, ViewContainerRef} from '@angular/core';
+import {Logger, LOGGER} from '@anglr/common';
 import {nameof} from '@jscrpt/common';
 
 import {LayoutComponent, LayoutComponentMetadata} from '../../interfaces';
 import {DynamicItemLoader} from '../../services';
 import {LayoutComponentRendererOptions} from './layoutComponentRenderer.options';
+import {MissingTypeBehavior} from './layoutComponentRenderer.types';
+import {NotFoundLayoutTypeSAComponent} from '../../components';
 
 /**
  * Renders layout component from metadata
@@ -55,7 +58,8 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
     //######################### constructor #########################
     constructor(protected _viewContainerRef: ViewContainerRef,
                 protected _loader: DynamicItemLoader,
-                @Optional() protected _options?: LayoutComponentRendererOptions,)
+                @Optional() protected _options?: LayoutComponentRendererOptions,
+                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
         if(!this._options || !(this._options instanceof LayoutComponentRendererOptions))
         {
@@ -87,7 +91,28 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
 
             if(!layoutComponentType)
             {
-                this._componentRef = null;
+                this._logger?.warn('LayoutComponentRendererSADirective: Unable to find layout component type {@type}', {name: this.componentMetadata.name, package: this.componentMetadata.package});
+
+                switch(this._options?.missingTypeBehavior)
+                {
+                    default:
+                    //case MissingTypeBehavior.ShowNotFound:
+                    {
+                        this._viewContainerRef.createComponent(NotFoundLayoutTypeSAComponent);
+
+                        break;
+                    }
+                    case MissingTypeBehavior.Ignore:
+                    {
+                        //do nothing
+
+                        break;
+                    }
+                    case MissingTypeBehavior.ThrowError:
+                    {
+                        throw new Error(`LayoutComponentRendererSADirective: Unable to find layout component type Name: ${this.componentMetadata.name} Package: ${this.componentMetadata.package}`);
+                    }
+                }
 
                 return;
             }

@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {ModuleRoutes} from '@anglr/common/router';
+import {LayoutComponentRendererSADirective} from '@anglr/dynamic';
 
 import {components} from './default.routes';
 import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} from '../../modules';
@@ -13,7 +14,8 @@ import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} fro
     [
         DisplayingFeatureModule,
         FormsFeatureModule,
-        DebuggingFeatureModule
+        DebuggingFeatureModule,
+        LayoutComponentRendererSADirective,
     ],
     declarations:
     [

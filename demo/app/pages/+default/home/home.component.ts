@@ -1,6 +1,6 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
-import {DynamicItemLoader} from '@anglr/dynamic';
+import {LayoutComponentMetadata, LayoutComponentRendererOptions, MissingTypeBehavior} from '@anglr/dynamic';
 
 /**
  * Home component
@@ -9,16 +9,32 @@ import {DynamicItemLoader} from '@anglr/dynamic';
 {
     selector: 'home-view',
     templateUrl: 'home.component.html',
+    providers: 
+    [
+        <ValueProvider>
+        {
+            provide: LayoutComponentRendererOptions,
+            useValue: new LayoutComponentRendererOptions(MissingTypeBehavior.ShowNotFound)
+        }
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRedirectRoute('', 'home')
 @ComponentRoute({path: 'home'})
 export class HomeComponent
 {
-    //######################### constructor #########################
-    constructor(dynamicItemLoader: DynamicItemLoader)
+    //######################### protected properties - template bindings #########################
+
+    protected metadata: LayoutComponentMetadata =
     {
-        dynamicItemLoader.loadItem({package: 'basic-components', name: 'stack'})
-            .then(data => console.log(data));
+        package: 'basic-components',
+        id: 'test',
+        name: 'stacka',
+        options: {}
+    };
+
+    //######################### constructor #########################
+    constructor()
+    {
     }
 }

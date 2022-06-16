@@ -259,7 +259,13 @@ export default [function(options, args)
                     use: ['raw-loader'],
                     include:
                     [
-                        path.join(dirName, 'packages')
+                        path.join(dirName, 'packages'),
+                        path.join(dirName, '../src'),
+                        path.join(dirName, '../basic-components'),
+                        path.join(dirName, '../layout'),
+                        path.join(dirName, '../layout-editor'),
+                        path.join(dirName, '../relations'),
+                        path.join(dirName, '../relations-editor'),
                     ]
                 },
                 {
@@ -268,7 +274,13 @@ export default [function(options, args)
                     exclude:
                     [
                         path.join(dirName, 'app'),
-                        path.join(dirName, 'packages')
+                        path.join(dirName, 'packages'),
+                        path.join(dirName, '../src'),
+                        path.join(dirName, '../basic-components'),
+                        path.join(dirName, '../layout'),
+                        path.join(dirName, '../layout-editor'),
+                        path.join(dirName, '../relations'),
+                        path.join(dirName, '../relations-editor'),
                     ]
                 },
                 {

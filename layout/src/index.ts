@@ -1,1 +1,2 @@
-export const x = 10;
+export * from './components';
+export * from './directives';

@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
-import {LayoutComponentMetadata, LayoutComponentRendererOptions, MissingTypeBehavior} from '@anglr/dynamic';
+import {LayoutComponentMetadata} from '@anglr/dynamic';
+import {LayoutComponentRendererOptions, MissingTypeBehavior} from '@anglr/dynamic/layout';
 import {TextBlockComponentOptions} from '@anglr/dynamic/basic-components';
 
 /**

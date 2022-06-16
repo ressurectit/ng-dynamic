@@ -25,7 +25,7 @@ export class StackPanelComponent extends StyledLayoutComponentBase<StackPanelCom
     //######################### protected methods - overrides #########################
 
     /**
-     * Method that is called when options are set, allows to hook to changing of options
+     * @inheritdoc
      */
     protected override _optionsSet(): void
     {

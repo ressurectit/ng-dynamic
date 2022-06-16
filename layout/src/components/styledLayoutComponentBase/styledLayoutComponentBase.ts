@@ -2,36 +2,14 @@ import {ChangeDetectorRef, Directive, ElementRef, HostBinding} from '@angular/co
 
 import {ComponentStylingOptions, ComponentStylingSADirective} from '../../directives';
 import {StyledLayoutComponent} from '../../interfaces';
+import {LayoutComponentBase} from '../layoutComponentBase/layoutComponentBase';
 
 /**
  * Base component for layout component which allows to be styled
  */
 @Directive()
-export abstract class StyledLayoutComponentBase<TOptions> implements StyledLayoutComponent<TOptions>
+export abstract class StyledLayoutComponentBase<TOptions> extends LayoutComponentBase<TOptions&ComponentStylingOptions> implements StyledLayoutComponent<TOptions&ComponentStylingOptions>
 {
-    //######################### protected fields #########################
-
-    /**
-     * Options used for rendering this component
-     */
-    protected _options: (TOptions&ComponentStylingOptions)|undefined|null;
-
-    //######################### public properties - implementation of LayoutComponent #########################
-
-    /**
-     * Options used for rendering this component
-     */
-    public get options(): (TOptions&ComponentStylingOptions)|undefined|null
-    {
-        return this._options;
-    }
-    public set options(value: (TOptions&ComponentStylingOptions)|undefined|null)
-    {
-        this._options = value;
-
-        this._optionsSet();
-    }
-
     //######################### public properties - host #########################
 
     /**
@@ -41,29 +19,21 @@ export abstract class StyledLayoutComponentBase<TOptions> implements StyledLayou
     public _componentStyling: ComponentStylingSADirective = new ComponentStylingSADirective(this._element);
 
     //######################### constructor #########################
-    constructor(protected _changeDetector: ChangeDetectorRef,
+    constructor(changeDetector: ChangeDetectorRef,
                 protected _element: ElementRef<HTMLElement>,)
     {
+        super(changeDetector);
     }
 
     //######################### public methods - implementation of LayoutComponent #########################
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
      */
-    public invalidateVisuals(): void
+    public override invalidateVisuals(): void
     {
         this._componentStyling.options = this.options;
 
         this._changeDetector.detectChanges();
-    }
-
-    //######################### protected methods #########################
-
-    /**
-     * Method that is called when options are set, allows to hook to changing of options
-     */
-    protected _optionsSet(): void
-    {
     }
 }

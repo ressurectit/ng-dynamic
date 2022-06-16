@@ -1,3 +1,4 @@
+export * from './layoutComponentTransform.interface';
 export * from './margin.interface';
 export * from './padding.interface';
 export * from './styledLayoutComponent.interface';

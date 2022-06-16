@@ -31,13 +31,19 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      * Type that should be dynamically created into current container
      */
     @Input('layoutComponentRenderer')
-    public componentMetadata: LayoutComponentMetadata<TComponentOptions>|null = null;
+    public componentMetadata: LayoutComponentMetadata<TComponentOptions>|undefined|null = null;
 
     /**
      * Custom injector used as parent for layout components tree
      */
     @Input('layoutComponentRendererInjector')
-    public customInjector?: Injector;
+    public customInjector: Injector|undefined|null;
+
+    /**
+     * Disables component metadata transformer
+     */
+    @Input('layoutComponentRendererDisableTransformer')
+    public disableTransformer: boolean = false;
 
     //######################### protected properties #########################
 

@@ -32,8 +32,12 @@ export class HomeComponent
         package: 'basic-components',
         id: 'stackPanelTest',
         name: 'stackPanel',
-        options: <StackPanelComponentOptions>
+        options: <StackPanelComponentOptions&ComponentStylingOptions>
         {
+            padding:
+            {
+                top: '6px'
+            },
             children:
             [
                 {

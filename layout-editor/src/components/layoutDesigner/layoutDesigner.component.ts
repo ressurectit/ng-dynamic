@@ -2,11 +2,13 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipS
 import {CommonModule} from '@angular/common';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
+import {DynamicItemLoader} from '@anglr/dynamic';
 import {LayoutComponent} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {DesignerMinHeightSADirective} from '../../directives';
+import {LayoutEditorMetadataType} from '../../decorators';
 
 /**
  * Component used as designer component wrapper for layout component
@@ -39,6 +41,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
                 protected _element: ElementRef<HTMLElement>,
+                protected _getter: DynamicItemLoader,
                 @Inject(LOGGER) @Optional() logger?: Logger,
                 @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
     {
@@ -74,5 +77,24 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         event.stopPropagation();
 
         this.overlayVisible = false;
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override async _optionsSet(): Promise<void>
+    {
+        const x = await this._getter.loadItem(this._options!.typeMetadata);
+
+        const metadataType = x?.type as unknown as LayoutEditorMetadataType;
+
+        if(metadataType.layoutEditorMetadata)
+        {
+            const getter = await metadataType.layoutEditorMetadata.descendantsGetter;
+
+            console.log(getter!(this._options!.typeMetadata));
+        }
     }
 }

@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ModuleRoutes} from '@anglr/common/router';
 import {LayoutComponentRendererSADirective, ComponentStylingSADirective} from '@anglr/dynamic/layout';
 
@@ -17,6 +18,7 @@ import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} fro
         DebuggingFeatureModule,
         LayoutComponentRendererSADirective,
         ComponentStylingSADirective,
+        DragDropModule,
     ],
     declarations:
     [

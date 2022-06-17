@@ -1,6 +1,7 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {PositionModule} from '@anglr/common';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {LayoutComponent} from '@anglr/dynamic';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 
@@ -19,6 +20,7 @@ import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
     [
         CommonModule,
         PositionModule,
+        DragDropModule,
         LayoutComponentRendererSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -35,9 +37,10 @@ export class LayoutDesignerComponent extends LayoutComponentBase<LayoutDesignerC
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
                 protected _element: ElementRef<HTMLElement>,
+                @Inject(LOGGER) @Optional() logger?: Logger,
                 @SkipSelf() @Optional() protected _parent?: LayoutDesignerComponent,)
     {
-        super(changeDetector);
+        super(changeDetector, logger);
     }
 
     //######################### protected methods - host #########################
@@ -46,8 +49,10 @@ export class LayoutDesignerComponent extends LayoutComponentBase<LayoutDesignerC
      * Shows designer overlay
      * @param event - Mouse event that occured
      */
-    protected showOverlay(event: MouseEvent): void
+    protected showOverlay(event: Event): void
     {
+        this._logger?.verbose('LayoutDesignerComponent: Showing overlay for {@type}', {name: this._options?.typeMetadata.name, id: this._options?.typeMetadata.id});
+
         event.preventDefault();
         event.stopPropagation();
 
@@ -59,8 +64,10 @@ export class LayoutDesignerComponent extends LayoutComponentBase<LayoutDesignerC
      * Hides designer overlay
      * @param event - Mouse event that occured
      */
-    protected hideOverlay(event: MouseEvent): void
+    protected hideOverlay(event: Event): void
     {
+        this._logger?.verbose('LayoutDesignerComponent: Hiding overlay for {@type}', {name: this._options?.typeMetadata.name, id: this._options?.typeMetadata.id});
+
         event.preventDefault();
         event.stopPropagation();
 

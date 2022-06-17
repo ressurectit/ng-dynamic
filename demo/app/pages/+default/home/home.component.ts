@@ -76,6 +76,42 @@ export class HomeComponent
         }
     };
 
+    protected metadata2: LayoutComponentMetadata =
+    {
+        package: 'basic-components',
+        id: 'stackPanel',
+        name: 'stackPanel',
+        options: <StackPanelComponentOptions&ComponentStylingOptions>
+        {
+            padding:
+            {
+                top: '5px',
+                bottom: '10px'
+            },
+            children:
+            [
+                {
+                    package: 'basic-components',
+                    id: 'text1',
+                    name: 'textBlock',
+                    options: <TextBlockComponentOptions&ComponentStylingOptions>
+                    {
+                        text: 'Ďalší text'
+                    }
+                },
+                {
+                    package: 'basic-components',
+                    id: 'text2',
+                    name: 'textBlock',
+                    options: <TextBlockComponentOptions&ComponentStylingOptions>
+                    {
+                        text: 'ajajajaaaj'
+                    }
+                }
+            ]
+        }
+    };
+
     //######################### constructor #########################
     constructor()
     {

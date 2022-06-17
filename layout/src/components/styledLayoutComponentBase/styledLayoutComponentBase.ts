@@ -1,4 +1,5 @@
-import {ChangeDetectorRef, Directive, ElementRef, HostBinding} from '@angular/core';
+import {ChangeDetectorRef, Directive, ElementRef, HostBinding, Inject, Optional} from '@angular/core';
+import {Logger, LOGGER} from '@anglr/common';
 
 import {ComponentStylingOptions, ComponentStylingSADirective} from '../../directives';
 import {StyledLayoutComponent} from '../../interfaces';
@@ -20,9 +21,10 @@ export abstract class StyledLayoutComponentBase<TOptions> extends LayoutComponen
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
-                protected _element: ElementRef<HTMLElement>,)
+                protected _element: ElementRef<HTMLElement>,
+                @Inject(LOGGER) @Optional() logger?: Logger,)
     {
-        super(changeDetector);
+        super(changeDetector, logger);
     }
 
     //######################### public methods - implementation of LayoutComponent #########################

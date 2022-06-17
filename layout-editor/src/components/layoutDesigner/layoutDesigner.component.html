@@ -1,4 +1,8 @@
-<div class="designer-overlay" (mouseleave)="hideOverlay($event)" (mouseover)="showOverlay($event)">
+<div class="designer-overlay" 
+     cdkDrag
+     cdkDropList
+     (mouseleave)="hideOverlay($event)"
+     (mouseover)="showOverlay($event)">
     <ng-template [layoutComponentRenderer]="options?.typeMetadata" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
     <ng-container *ngIf="overlayVisible">

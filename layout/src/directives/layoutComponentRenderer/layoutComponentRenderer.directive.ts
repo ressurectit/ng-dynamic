@@ -6,6 +6,8 @@ import {nameof} from '@jscrpt/common';
 import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer.options';
 import {MissingTypeBehavior} from './layoutComponentRenderer.types';
 import {NotFoundLayoutTypeSAComponent} from '../../components';
+import {LayoutComponentTransform} from '../../interfaces';
+import {LAYOUT_COMPONENT_TRANSFORM} from '../../misc/tokens';
 
 /**
  * Renders layout component from metadata
@@ -24,6 +26,11 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      * Created component reference
      */
     protected _componentRef: ComponentRef<TComponent>|null = null;
+
+    /**
+     * Metadata of already rendered component
+     */
+    protected _renderedComponentMetadata: LayoutComponentMetadata<TComponentOptions>|undefined|null = null;
 
     //######################### public properties - inputs #########################
 
@@ -64,6 +71,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
     constructor(protected _viewContainerRef: ViewContainerRef,
                 protected _loader: DynamicItemLoader,
                 @Optional() protected _options?: LayoutComponentRendererDirectiveOptions,
+                @Inject(LAYOUT_COMPONENT_TRANSFORM) @Optional() protected _metadataTransformer?: LayoutComponentTransform,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
         if(!this._options || !(this._options instanceof LayoutComponentRendererDirectiveOptions))
@@ -79,62 +87,70 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
-        this._viewContainerRef.clear();
-        this.ngOnDestroy();
-
-        // component metadata is present
-        if(nameof<LayoutComponentRendererSADirective<TComponent, TComponentOptions>>('componentMetadata') in changes &&
-           this.componentMetadata)
+        // remove rendered component if component metadata has changed
+        if(this._renderedComponentMetadata?.id !== this.componentMetadata?.id ||
+           this._renderedComponentMetadata?.package !== this.componentMetadata?.package ||
+           this._renderedComponentMetadata?.name !== this.componentMetadata?.name)
         {
-            const injector = this.customInjector || this._viewContainerRef.injector;
-            // const componentManager = injector.get(ComponentManager);
-            // const componentRelationsManager = injector.get(ComponentRelationManager);
+            this.ngOnDestroy();
+            this._viewContainerRef.clear();
 
-            // await componentRelationsManager.initialize();
-
-            const layoutComponentType = await this._loader.loadItem(this.componentMetadata);
-
-            if(!layoutComponentType)
+            // component metadata is present
+            if(nameof<LayoutComponentRendererSADirective<TComponent, TComponentOptions>>('componentMetadata') in changes && this.componentMetadata)
             {
-                this._logger?.warn('LayoutComponentRendererSADirective: Unable to find layout component type {@type}', {name: this.componentMetadata.name, package: this.componentMetadata.package});
+                const injector = this.customInjector || this._viewContainerRef.injector;
+                let componentMetadata = this.componentMetadata;
 
-                switch(this._options?.missingTypeBehavior)
+                if(this._metadataTransformer && !this.disableTransformer)
                 {
-                    default:
-                    //case MissingTypeBehavior.ShowNotFound:
-                    {
-                        this._viewContainerRef.createComponent(NotFoundLayoutTypeSAComponent);
+                    componentMetadata = this._metadataTransformer(this.componentMetadata, injector);
+                }
+                // const componentManager = injector.get(ComponentManager);
+                // const componentRelationsManager = injector.get(ComponentRelationManager);
 
-                        break;
-                    }
-                    case MissingTypeBehavior.Ignore:
-                    {
-                        //do nothing
+                // await componentRelationsManager.initialize();
+                const layoutComponentType = await this._loader.loadItem(componentMetadata);
 
-                        break;
-                    }
-                    case MissingTypeBehavior.ThrowError:
+                if(!layoutComponentType)
+                {
+                    this._logger?.warn('LayoutComponentRendererSADirective: Unable to find layout component type {@type}', {name: componentMetadata.name, package: componentMetadata.package});
+
+                    switch(this._options?.missingTypeBehavior)
                     {
-                        throw new Error(`LayoutComponentRendererSADirective: Unable to find layout component type Name: ${this.componentMetadata.name} Package: ${this.componentMetadata.package}`);
+                        default:
+                        //case MissingTypeBehavior.ShowNotFound:
+                        {
+                            this._viewContainerRef.createComponent(NotFoundLayoutTypeSAComponent);
+
+                            break;
+                        }
+                        case MissingTypeBehavior.Ignore:
+                        {
+                            //do nothing
+
+                            break;
+                        }
+                        case MissingTypeBehavior.ThrowError:
+                        {
+                            throw new Error(`LayoutComponentRendererSADirective: Unable to find layout component type Name: ${componentMetadata.name} Package: ${componentMetadata.package}`);
+                        }
                     }
+
+                    return;
                 }
 
-                return;
+                this._componentRef = this._viewContainerRef.createComponent(layoutComponentType.type,
+                                                                            {
+                                                                                injector,
+                                                                            });
+
+                this._renderedComponentMetadata = this.componentMetadata;
+                this._updatedOptions(componentMetadata);
             }
-
-            this._componentRef = this._viewContainerRef.createComponent(layoutComponentType.type,
-                                                                        {
-                                                                            injector,
-                                                                        });
-            
-            const component = this.component;
-
-            if(component)
+            //only update options
+            else
             {
-                component.options = this.componentMetadata.options;
-                component.invalidateVisuals();
-                
-                // componentManager.registerComponent(this.componentMetadata.id, this.component);
+                this._updatedOptions(this.componentMetadata);
             }
         }
     }
@@ -158,6 +174,26 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
             
             this._componentRef?.destroy();
             this._componentRef = null;
+            this._renderedComponentMetadata = null;
+        }
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Updates options of rendered component
+     * @param componentMetadata - Component metadata containing options
+     */
+    protected _updatedOptions(componentMetadata: LayoutComponentMetadata<TComponentOptions>|undefined|null): void
+    {
+        const component = this.component;
+
+        if(component && componentMetadata)
+        {
+            component.options = componentMetadata.options;
+            component.invalidateVisuals();
+            
+            // componentManager.registerComponent(this.componentMetadata.id, this.component);
         }
     }
 }

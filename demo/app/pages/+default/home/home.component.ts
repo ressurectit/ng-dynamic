@@ -3,6 +3,7 @@ import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic';
 import {ComponentStylingOptions, LayoutComponentRendererDirectiveOptions, MissingTypeBehavior, TextFontWeight} from '@anglr/dynamic/layout';
 import {TextBlockComponentOptions, StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
+import {LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
 
 /**
  * Home component
@@ -17,7 +18,8 @@ import {TextBlockComponentOptions, StackPanelComponentOptions} from '@anglr/dyna
         {
             provide: LayoutComponentRendererDirectiveOptions,
             useValue: new LayoutComponentRendererDirectiveOptions(MissingTypeBehavior.ShowNotFound)
-        }
+        },
+        LAYOUT_DESIGNER_COMPONENT_TRANSFORM
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -36,7 +38,7 @@ export class HomeComponent
         {
             padding:
             {
-                top: '6px'
+                top: '20px'
             },
             children:
             [

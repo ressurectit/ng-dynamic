@@ -1,1 +1,6 @@
 <ng-template [layoutComponentRenderer]="options?.typeMetadata" [layoutComponentRendererDisableTransformer]="true"></ng-template>
+
+<ng-container *ngIf="overlayVisible">
+    <div class="designer-overlay-title" [positionTo]="overlay" placement="TopStart">{{options?.typeMetadata?.name}}#{{options?.typeMetadata?.id}}</div>
+    <div #overlay class="designer-overlay"></div>
+</ng-container>

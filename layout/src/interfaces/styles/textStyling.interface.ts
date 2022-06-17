@@ -1,4 +1,4 @@
-import {TextFontWeight} from '../types';
+import {TextFontWeight} from '../../types';
 
 /**
  * Description of text styling styles

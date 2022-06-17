@@ -1,8 +1,10 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {DynamicClassMetadata} from '@anglr/dynamic';
 import {LayoutComponentRendererSADirective, StyledLayoutComponent, StyledLayoutComponentBase} from '@anglr/dynamic/layout';
 
 import {StackPanelComponentOptions} from './stackPanel.options';
+import {StackPanelMetadata} from './stackPanel.metadata';
 
 /**
  * Component used for displaying stack panel layout
@@ -20,6 +22,7 @@ import {StackPanelComponentOptions} from './stackPanel.options';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@DynamicClassMetadata<any, any>(StackPanelMetadata, 'test')
 export class StackPanelComponent extends StyledLayoutComponentBase<StackPanelComponentOptions> implements StyledLayoutComponent<StackPanelComponentOptions>
 {
     //######################### protected methods - overrides #########################

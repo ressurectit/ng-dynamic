@@ -1,12 +1,12 @@
 import {ComponentRef, Directive, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, ViewContainerRef} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {LayoutComponent, LayoutComponentMetadata, DynamicItemLoader} from '@anglr/dynamic';
+import {DynamicItemLoader} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 
 import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer.options';
 import {MissingTypeBehavior} from './layoutComponentRenderer.types';
 import {NotFoundLayoutTypeSAComponent} from '../../components';
-import {LayoutComponentTransform} from '../../interfaces';
+import {LayoutComponent, LayoutComponentMetadata, LayoutComponentTransform} from '../../interfaces';
 import {LAYOUT_COMPONENT_TRANSFORM} from '../../misc/tokens';
 
 /**

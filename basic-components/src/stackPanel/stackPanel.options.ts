@@ -1,4 +1,4 @@
-import {LayoutComponentMetadata} from '@anglr/dynamic';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
 /**
  * Options for stack panel component

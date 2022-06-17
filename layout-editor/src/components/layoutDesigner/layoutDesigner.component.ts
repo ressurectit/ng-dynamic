@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipS
 import {CommonModule} from '@angular/common';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
-import {LayoutComponent} from '@anglr/dynamic';
+import {LayoutComponent} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';

@@ -1,5 +1,6 @@
 import {Injector} from '@angular/core';
-import {LayoutComponentMetadata} from '@anglr/dynamic';
+
+import {LayoutComponentMetadata} from '../metadata/layoutComponentMetadata.interface';
 
 /**
  * Transformation function that transforms layout component metadata

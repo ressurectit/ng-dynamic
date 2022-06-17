@@ -1,6 +1,5 @@
-import {LayoutComponent} from '@anglr/dynamic';
-
-import {ComponentStylingOptions} from '../directives';
+import {ComponentStylingOptions} from '../../directives';
+import {LayoutComponent} from '../layoutComponent/layoutComponent.interface';
 
 /**
  * Description of layout component with styling support

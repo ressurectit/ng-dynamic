@@ -1,4 +1,4 @@
-import {DynamicItemSource} from '../../dynamicItem';
+import {DynamicItemSource} from '@anglr/dynamic';
 
 /**
  * Metadata used for rendering layout component

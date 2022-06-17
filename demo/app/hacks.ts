@@ -9,6 +9,11 @@ globalDefine(global =>
     {
         global.Document = function(){};
     }
+
+    if(!global.ngDesignerMetadata)
+    {
+        global.ngDesignerMetadata = true;
+    }
 });
 
 //HACK - prevents application crash if no error handler provided

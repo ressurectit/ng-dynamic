@@ -1,6 +1,7 @@
 import {ChangeDetectorRef, Directive, Inject, Optional} from '@angular/core';
-import {LayoutComponent} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
+
+import {LayoutComponent} from '../../interfaces';
 
 /**
  * Base component for layout component

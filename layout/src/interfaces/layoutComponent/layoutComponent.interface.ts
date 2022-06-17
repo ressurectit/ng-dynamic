@@ -1,4 +1,4 @@
-import {DynamicItem} from '../dynamicItem';
+import {DynamicItem} from '@anglr/dynamic';
 
 /**
  * Description of layout component

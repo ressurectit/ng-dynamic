@@ -1,6 +1,5 @@
 import {Injector} from '@angular/core';
-import {LayoutComponentMetadata} from '@anglr/dynamic';
-import {LayoutComponentTransform} from '@anglr/dynamic/layout';
+import {LayoutComponentTransform, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
 import {LayoutDesignerComponentOptions} from '../components';
 

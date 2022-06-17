@@ -38,7 +38,7 @@ export class BasicComponentsDynamicItemLoaderProvider implements DynamicItemLoad
         }
         catch(e)
         {
-            this._logger?.debug('BasicComponentsDynamicItemLoaderProvider: item {@item} was not found', {name: source.name, package: source.package});
+            this._logger?.debug('BasicComponentsDynamicItemLoaderProvider: item {@item} was not found, reason: ' + e, {name: source.name, package: source.package});
         }
 
         return null;

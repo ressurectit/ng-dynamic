@@ -310,7 +310,8 @@ export default [function(options, args)
                 isProduction: prod,
                 jsDevMode: !prod,
                 ...prod ? {ngDevMode: false} : {},
-                ngI18nClosureMode: false
+                ngI18nClosureMode: false,
+                designerMetadata: true,
             }),
             new MiniCssExtractPlugin(
             {

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, HostListener} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {PositionModule} from '@anglr/common';
 import {LayoutComponent} from '@anglr/dynamic';
@@ -32,18 +32,26 @@ export class LayoutDesignerComponent extends LayoutComponentBase<LayoutDesignerC
      */
     protected overlayVisible: boolean = false;
 
+    //######################### constructor #########################
+    constructor(changeDetector: ChangeDetectorRef,
+                protected _element: ElementRef<HTMLElement>,
+                @SkipSelf() @Optional() protected _parent?: LayoutDesignerComponent,)
+    {
+        super(changeDetector);
+    }
+
     //######################### protected methods - host #########################
 
     /**
      * Shows designer overlay
      * @param event - Mouse event that occured
      */
-    @HostListener('mouseover', ['$event'])
-    protected _showOverlay(event: MouseEvent): void
+    protected showOverlay(event: MouseEvent): void
     {
         event.preventDefault();
         event.stopPropagation();
 
+        this._parent?.hideOverlay(event);
         this.overlayVisible = true;
     }
 
@@ -51,8 +59,7 @@ export class LayoutDesignerComponent extends LayoutComponentBase<LayoutDesignerC
      * Hides designer overlay
      * @param event - Mouse event that occured
      */
-    @HostListener('mouseout', ['$event'])
-    protected _hideOverlay(event: MouseEvent): void
+    protected hideOverlay(event: MouseEvent): void
     {
         event.preventDefault();
         event.stopPropagation();

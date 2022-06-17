@@ -1,6 +1,12 @@
-<ng-template [layoutComponentRenderer]="options?.typeMetadata" [layoutComponentRendererDisableTransformer]="true"></ng-template>
+<div class="designer-overlay" (mouseleave)="hideOverlay($event)" (mouseover)="showOverlay($event)">
+    <ng-template [layoutComponentRenderer]="options?.typeMetadata" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
-<ng-container *ngIf="overlayVisible">
-    <div class="designer-overlay-title" [positionTo]="overlay" placement="TopStart">{{options?.typeMetadata?.name}}#{{options?.typeMetadata?.id}}</div>
-    <div #overlay class="designer-overlay"></div>
-</ng-container>
+    <ng-container *ngIf="overlayVisible">
+        <div class="designer-overlay-border"></div>
+
+        <div *ngIf="overlayVisible"
+             class="designer-overlay-title"
+             [positionTo]="_element.nativeElement"
+             placement="TopStart">{{options?.typeMetadata?.name}}#{{options?.typeMetadata?.id}}</div>
+    </ng-container>
+</div>

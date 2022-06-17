@@ -8,7 +8,7 @@ import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dy
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {DesignerMinHeightSADirective} from '../../directives';
-import {LayoutEditorMetadataType} from '../../decorators';
+import {LayoutEditorMetadataExtractor} from '../../services';
 
 /**
  * Component used as designer component wrapper for layout component
@@ -42,11 +42,22 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     constructor(changeDetector: ChangeDetectorRef,
                 protected _element: ElementRef<HTMLElement>,
                 protected _getter: DynamicItemLoader,
+                protected _metadataExtractor: LayoutEditorMetadataExtractor,
                 @Inject(LOGGER) @Optional() logger?: Logger,
                 @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
     {
         super(changeDetector, logger);
     }
+
+    //######################### public methods #########################
+
+    // /**
+    //  * Gets layout metadata for this component tree
+    //  */
+    // public async getLayoutMetadata(): Promise<LayoutComponentMetadata>
+    // {
+
+    // }
 
     //######################### protected methods - host #########################
 
@@ -86,15 +97,15 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override async _optionsSet(): Promise<void>
     {
-        const x = await this._getter.loadItem(this._options!.typeMetadata);
+        // const x = await this._getter.loadItem(this._options!.typeMetadata);
 
-        const metadataType = x?.type as unknown as LayoutEditorMetadataType;
+        // const metadataType = x?.type as unknown as LayoutEditorMetadataType;
 
-        if(metadataType.layoutEditorMetadata)
-        {
-            const getter = await metadataType.layoutEditorMetadata.descendantsGetter;
+        // if(metadataType.layoutEditorMetadata)
+        // {
+        //     const getter = await metadataType.layoutEditorMetadata.descendantsGetter;
 
-            console.log(getter!(this._options!.typeMetadata));
-        }
+        //     console.log(getter!(this._options!.typeMetadata));
+        // }
     }
 }

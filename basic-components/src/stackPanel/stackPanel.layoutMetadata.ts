@@ -4,6 +4,9 @@ import {Func} from '@jscrpt/common';
 
 import {StackPanelComponentOptions} from './stackPanel.options';
 
+/**
+ * Stack panel layout metadata
+ */
 export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<LayoutComponentMetadata<StackPanelComponentOptions>>
 {
     //######################### protected fields #########################

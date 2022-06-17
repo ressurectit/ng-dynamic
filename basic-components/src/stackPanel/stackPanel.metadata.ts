@@ -3,6 +3,9 @@ import {GenericLayoutMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dyna
 
 import {StackPanelComponentOptions} from './stackPanel.options';
 
+/**
+ * Stack panel layout metadata descriptor
+ */
 export class StackPanelLayoutMetadata extends GenericLayoutMetadata<StackPanelComponentOptions>
 {
     //######################### protected methods - overrides #########################

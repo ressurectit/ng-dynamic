@@ -21,5 +21,5 @@ export interface LayoutEditorMetadataType
     /**
      * Metadata for layout editor
      */
-    layoutEditorMetadata: AsyncProperties<LayoutEditorMetadataDescriptor>;
+    layoutEditorMetadata?: AsyncProperties<LayoutEditorMetadataDescriptor>;
 }

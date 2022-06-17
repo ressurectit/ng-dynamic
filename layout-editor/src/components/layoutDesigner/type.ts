@@ -1,3 +1,3 @@
-import {LayoutDesignerComponent} from './layoutDesigner.component';
+import {LayoutDesignerSAComponent} from './layoutDesigner.component';
 
-export default LayoutDesignerComponent;
+export default LayoutDesignerSAComponent;

@@ -6,6 +6,7 @@ import {LayoutComponent} from '@anglr/dynamic';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
+import {DesignerMinHeightSADirective} from '../../directives';
 
 /**
  * Component used as designer component wrapper for layout component
@@ -21,11 +22,12 @@ import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
         CommonModule,
         PositionModule,
         DragDropModule,
+        DesignerMinHeightSADirective,
         LayoutComponentRendererSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LayoutDesignerComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>
+export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>
 {
     //######################### protected properties - template bindings #########################
 
@@ -38,7 +40,7 @@ export class LayoutDesignerComponent extends LayoutComponentBase<LayoutDesignerC
     constructor(changeDetector: ChangeDetectorRef,
                 protected _element: ElementRef<HTMLElement>,
                 @Inject(LOGGER) @Optional() logger?: Logger,
-                @SkipSelf() @Optional() protected _parent?: LayoutDesignerComponent,)
+                @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
     {
         super(changeDetector, logger);
     }

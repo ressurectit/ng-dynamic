@@ -1,4 +1,4 @@
-import {ComponentRef, Directive, Inject, Injector, Input, OnChanges, OnDestroy, Optional, SimpleChanges, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, ViewContainerRef} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata, DynamicItemLoader} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
@@ -51,6 +51,14 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     @Input('layoutComponentRendererDisableTransformer')
     public disableTransformer: boolean = false;
+
+    //######################### public properties - outputs #########################
+
+    /**
+     * Occurs when rendered component changes
+     */
+    @Output('layoutComponentRendererComponentChange')
+    public componentChange: EventEmitter<ComponentRef<TComponent>|null> = new EventEmitter<ComponentRef<TComponent>|null>();
 
     //######################### protected properties #########################
 
@@ -144,6 +152,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                                                                                 injector,
                                                                             });
 
+                this.componentChange.next(this._componentRef);
                 this._renderedComponentMetadata = this.componentMetadata;
                 this._updatedOptions(componentMetadata);
             }
@@ -175,6 +184,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
             this._componentRef?.destroy();
             this._componentRef = null;
             this._renderedComponentMetadata = null;
+            this.componentChange.next(null);
         }
     }
 

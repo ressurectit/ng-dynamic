@@ -1,6 +1,7 @@
 <div class="designer-overlay" 
      cdkDrag
      cdkDropList
+     designerMinHeight
      (mouseleave)="hideOverlay($event)"
      (mouseover)="showOverlay($event)">
     <ng-template [layoutComponentRenderer]="options?.typeMetadata" [layoutComponentRendererDisableTransformer]="true"></ng-template>

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
@@ -8,7 +8,8 @@ import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dy
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {DesignerMinHeightSADirective} from '../../directives';
-import {LayoutEditorMetadataExtractor} from '../../services';
+import {LayoutEditorMetadataExtractor, LayoutMetadataManager} from '../../services';
+import {LayoutComponentDragData} from '../../interfaces';
 
 /**
  * Component used as designer component wrapper for layout component
@@ -29,7 +30,7 @@ import {LayoutEditorMetadataExtractor} from '../../services';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>
+export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>, OnDestroy
 {
     //######################### protected properties - template bindings #########################
 
@@ -38,28 +39,50 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected overlayVisible: boolean = false;
 
+    /**
+     * Indication whether is component selected
+     */
+    protected get selected(): boolean
+    {
+        return this._layoutMetadataManager.selectedComponent === this._options?.typeMetadata.id;
+    }
+
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
                 protected _element: ElementRef<HTMLElement>,
                 protected _getter: DynamicItemLoader,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
+                protected _layoutMetadataManager: LayoutMetadataManager,
                 @Inject(LOGGER) @Optional() logger?: Logger,
                 @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
     {
         super(changeDetector, logger);
     }
 
-    //######################### public methods #########################
-
-    // /**
-    //  * Gets layout metadata for this component tree
-    //  */
-    // public async getLayoutMetadata(): Promise<LayoutComponentMetadata>
-    // {
-
-    // }
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        if(this._options)
+        {
+            this._layoutMetadataManager.unregisterLayoutDesignerComponent(this._options.typeMetadata.id);
+        }
+    }
 
     //######################### protected methods - host #########################
+
+    /**
+     * Adds component to this component
+     * @param metadata - Metadata of component that is added here
+     * @param parentId - Id of previous component parent, where was item before, null if moved from palette
+     */
+    protected addComponent(dragData: LayoutComponentDragData): void
+    {
+        console.log(dragData);
+    }
 
     /**
      * Shows designer overlay
@@ -90,6 +113,17 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.overlayVisible = false;
     }
 
+    protected selectComponent(event: MouseEvent): void
+    {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if(this._options)
+        {
+            this._layoutMetadataManager.selectComponent(this._options.typeMetadata.id);
+        }
+    }
+
     //######################### protected methods #########################
 
     /**
@@ -97,6 +131,11 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override async _optionsSet(): Promise<void>
     {
+        if(this._options)
+        {
+            this._layoutMetadataManager.registerLayoutDesignerComponent(this, this._options.typeMetadata.id);
+        }
+
         // const x = await this._getter.loadItem(this._options!.typeMetadata);
 
         // const metadataType = x?.type as unknown as LayoutEditorMetadataType;

@@ -1,5 +1,5 @@
 import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
-import {Action} from '@jscrpt/common';
+import {Action, Func} from '@jscrpt/common';
 
 import {GridPanelCellComponentOptions} from './gridPanelCell.options';
 import {applyGridCoordinates} from './gridPanelCell.utils';
@@ -12,9 +12,14 @@ export class GridPanelCellLayoutEditorMetadata implements LayoutEditorMetadataDe
     //######################### protected fields #########################
 
     /**
-     * Applies designer styles that are required to be applied to drag n drop div
+     * @inheritdoc
      */
     protected _applyDesignerStyles: Action<[GridPanelCellComponentOptions|null|undefined, CSSStyleDeclaration]> = applyGridCoordinates;
+
+    /**
+     * @inheritdoc
+     */
+    protected _canDropMetadata: Func<boolean, [GridPanelCellComponentOptions|undefined|null]> = options => !options?.component;
 
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
@@ -24,5 +29,13 @@ export class GridPanelCellLayoutEditorMetadata implements LayoutEditorMetadataDe
     public get applyDesignerStyles(): Action<[GridPanelCellComponentOptions|null|undefined, CSSStyleDeclaration]>
     {
         return this._applyDesignerStyles;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get canDropMetadata(): Func<boolean, [GridPanelCellComponentOptions|undefined|null]>
+    {
+        return this._canDropMetadata;
     }
 }

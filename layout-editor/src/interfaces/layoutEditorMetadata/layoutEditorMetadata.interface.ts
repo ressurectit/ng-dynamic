@@ -8,14 +8,32 @@ import {Action, Func} from '@jscrpt/common';
 export interface LayoutEditorMetadataDescriptor<TLayoutComponentOptions = any>
 {
     /**
-     * Applies designer styles that are required to be applied to drag n drop div
+     * Adds descendant metadata to component options, returns changed options
+     * @param metadata - Metadata containing definition of new descendant to be added
+     * @param options - Options that should be extended with new descendant metadata
+     * @param index - Index where should be new item added
      */
-    readonly applyDesignerStyles?: Action<[TLayoutComponentOptions|null|undefined, CSSStyleDeclaration]>;
+    readonly addDescendant?: Func<TLayoutComponentOptions, [LayoutComponentMetadata, TLayoutComponentOptions, number]>;
 
     /**
-     * Getter for obtaining components children metadata
+     * Applies designer styles that are required to be applied to drag n drop div
+     * @param options - Options containing styles to be applied
+     * @param styles - Css object storing html element styles
      */
-    readonly descendantsGetter?: Func<LayoutComponentMetadata[]|LayoutComponentMetadata|undefined|null, [LayoutComponentMetadata<TLayoutComponentOptions>]>;
+    readonly applyDesignerStyles?: Action<[TLayoutComponentOptions|null|undefined, CSSStyleDeclaration]>;
+    
+    /**
+     * Tests whether component can accept new metadata to be dropped in, or not (whether child, children can be added)
+     * @param options - Options that holds information whether another metadata can be dropped into options metadata
+     */
+    readonly canDropMetadata?: Func<boolean, [TLayoutComponentOptions|undefined|null]>;
+
+    /**
+     * Removes descendant metadata from component options, returns changed options
+     * @param id - Id of component metadata to be removed
+     * @param options - Options that should be updated by removing descendant metadata
+     */
+    readonly removeDescendant?: Func<TLayoutComponentOptions, [string, TLayoutComponentOptions]>;
 }
 
 /**

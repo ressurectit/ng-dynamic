@@ -1,9 +1,9 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Dictionary, isBlank, isEmptyObject, isPresent} from '@jscrpt/common';
 
 import type {LayoutDesignerSAComponent} from '../../components';
-import {LayoutComponentMetadata} from '../../../../layout/src';
 
 /**
  * Class used for handling layout metadata
@@ -97,6 +97,15 @@ export class LayoutMetadataManager
         this._components[id] = component;
 
         return true;
+    }
+
+    /**
+     * Gets component from designer component tree
+     * @param id - Id of component to be get
+     */
+    public getComponent(id: string): LayoutDesignerSAComponent|null
+    {
+        return this._components[id];
     }
 
     /**

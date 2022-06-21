@@ -12,17 +12,47 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
     //######################### protected fields #########################
 
     /**
-     * Getter for obtaining components children metadata
+     * @inheritdoc
      */
-    protected _descendantsGetter: Func<LayoutComponentMetadata[]|undefined|null, [LayoutComponentMetadata<StackPanelComponentOptions>]> = metadata => metadata.options?.children;
+    protected _addDescendant: Func<StackPanelComponentOptions, [LayoutComponentMetadata, StackPanelComponentOptions, number]> = (metadata, options, index) =>
+    {
+        options = {...options};
+
+        options.children ??= [];
+        options.children.splice(index, 0, metadata);
+
+        return options;
+    };
+
+    /**
+     * @inheritdoc
+     */
+    protected _removeDescendant: Func<StackPanelComponentOptions, [string, StackPanelComponentOptions]> = (id, options) =>
+    {
+        options = {...options};
+
+        options.children ??= [];
+        const index = options.children.findIndex(itm => itm.id === id);
+        options.children.splice(index, 1);
+
+        return options;
+    }
 
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
     /**
      * @inheritdoc
      */
-    public get descendantsGetter(): Func<LayoutComponentMetadata[]|null|undefined, [LayoutComponentMetadata<StackPanelComponentOptions>]>
+    public get addDescendant(): Func<StackPanelComponentOptions, [LayoutComponentMetadata, StackPanelComponentOptions, number]>
     {
-        return this._descendantsGetter;
+        return this._addDescendant;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get removeDescendant(): Func<StackPanelComponentOptions, [string, StackPanelComponentOptions]>
+    {
+        return this._removeDescendant;
     }
 }

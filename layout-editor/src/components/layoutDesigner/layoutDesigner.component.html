@@ -6,9 +6,10 @@
      [copyDesignerStyles]="_options?.typeMetadata"
      [cdkDragData]="{metadata: _options?.typeMetadata, parentId: _parent?._options?.typeMetadata?.id}"
      [cdkDragDisabled]="!_parent"
+     [cdkDropListEnterPredicate]="canDrop"
      (mouseleave)="hideOverlay($event)"
      (mouseover)="showOverlay($event)"
-     (cdkDropListDropped)="addComponent($event.item.data)"
+     (cdkDropListDropped)="addDescendant($event)"
      (click)="selectComponent($event)">
     <div class="drag-placeholder" *cdkDragPlaceholder></div>
     <div class="drag-preview mat-elevation-z8" *cdkDragPreview>{{options?.typeMetadata?.name}}#{{options?.typeMetadata?.id}}</div>

@@ -1,10 +1,11 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, DragDropModule} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
-import {LayoutComponent} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {Func} from '@jscrpt/common';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {CopyDesignerStylesSADirective, DesignerMinHeightSADirective} from '../../directives';
@@ -33,6 +34,33 @@ import {LayoutComponentDragData} from '../../interfaces';
 })
 export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>, OnDestroy
 {
+    //######################### protected fields #########################
+
+    /**
+     * Indication whether were metadata read or not
+     */
+    protected _metadataRead: boolean = false;
+
+    /**
+     * Indication whether item can be dropped here
+     */
+    protected _canDrop: boolean = true;
+
+    /**
+     * Removes metadata of descendant
+     */
+    protected _removeDescendantMetadata: Func<LayoutDesignerComponentOptions, [string, LayoutDesignerComponentOptions]>|undefined;
+
+    /**
+     * Adds metadata of descendant
+     */
+    protected _addDescendantMetadata: Func<LayoutDesignerComponentOptions, [LayoutComponentMetadata, LayoutDesignerComponentOptions, number]>|undefined;
+
+    /**
+     * Tests whether metadata can be dropped into this component metadata
+     */
+    protected _canDropMetadata: Func<boolean, [LayoutDesignerComponentOptions]>|undefined;
+
     //######################### protected properties - template bindings #########################
 
     /**
@@ -47,6 +75,11 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     {
         return this._layoutMetadataManager.selectedComponent === this._options?.typeMetadata.id;
     }
+
+    /**
+     * Gets predicate that returns indication whether item can be dropped into this list
+     */
+    protected canDrop: Func<boolean> = () => !this._canDrop;
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
@@ -73,16 +106,54 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
     }
 
+    //######################### public methods #########################
+
+    /**
+     * Removes descendant metadata from this component metadata
+     * @param id - Id of descendant to be removed
+     */
+    protected removeDescendant(id: string): void
+    {
+        if(!this._options)
+        {
+            return;
+        }
+
+        const options = this._removeDescendantMetadata?.(id, this._options.typeMetadata.options);
+
+        if(options)
+        {
+            this._options.typeMetadata.options = options;
+            this._options.typeMetadata = {...this._options.typeMetadata};
+        }
+    }
+
     //######################### protected methods - host #########################
 
     /**
-     * Adds component to this component
-     * @param metadata - Metadata of component that is added here
-     * @param parentId - Id of previous component parent, where was item before, null if moved from palette
+     * Adds descentant component metadata to this component metadata
+     * @param dragData - Data from drag n drop event
      */
-    protected addComponent(dragData: LayoutComponentDragData): void
+    protected addDescendant(dragData: CdkDragDrop<LayoutComponentDragData, LayoutComponentDragData, LayoutComponentDragData>): void
     {
-        console.log(dragData);
+        if(!this._options)
+        {
+            return;
+        }
+
+        //already added to tree, removing old reference
+        if(dragData.item.data.parentId)
+        {
+            this._layoutMetadataManager.getComponent(dragData.item.data.parentId)?.removeDescendant(dragData.item.data.metadata.id);
+        }
+
+        const options = this._addDescendantMetadata?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
+
+        if(options)
+        {
+            this._options.typeMetadata.options = options;
+            this._options.typeMetadata = {...this._options.typeMetadata};
+        }
     }
 
     /**
@@ -132,20 +203,40 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override async _optionsSet(): Promise<void>
     {
-        if(this._options)
+        if(!this._options)
         {
-            this._layoutMetadataManager.registerLayoutDesignerComponent(this, this._options.typeMetadata.id);
+            return;
+        }
+        
+        this._layoutMetadataManager.registerLayoutDesignerComponent(this, this._options.typeMetadata.id);
+        await this._readMetadata();
+        this._canDrop = this._canDropMetadata?.(this._options.typeMetadata.options) ?? false;
+
+        this._changeDetector.detectChanges();
+    }
+
+    /**
+     * Reads metadata stored in object
+     */
+    protected async _readMetadata(): Promise<void>
+    {
+        if(!this._options)
+        {
+            this._metadataRead = false;
+
+            return;
         }
 
-        // const x = await this._getter.loadItem(this._options!.typeMetadata);
+        if(this._metadataRead)
+        {
+            return;
+        }
 
-        // const metadataType = x?.type as unknown as LayoutEditorMetadataType;
+        const metadata = await this._metadataExtractor.extractMetadata(this._options.typeMetadata);
+        this._canDropMetadata = await metadata?.canDropMetadata;
+        this._removeDescendantMetadata = await metadata?.removeDescendant;
+        this._addDescendantMetadata = await metadata?.addDescendant;
 
-        // if(metadataType.layoutEditorMetadata)
-        // {
-        //     const getter = await metadataType.layoutEditorMetadata.descendantsGetter;
-
-        //     console.log(getter!(this._options!.typeMetadata));
-        // }
+        this._metadataRead = true;
     }
 }

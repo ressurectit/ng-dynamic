@@ -21,10 +21,10 @@ export abstract class StyledLayoutComponentBase<TOptions> extends LayoutComponen
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
-                protected _element: ElementRef<HTMLElement>,
+                element: ElementRef<HTMLElement>,
                 @Inject(LOGGER) @Optional() logger?: Logger,)
     {
-        super(changeDetector, logger);
+        super(changeDetector, element, logger);
     }
 
     //######################### public methods - implementation of LayoutComponent #########################

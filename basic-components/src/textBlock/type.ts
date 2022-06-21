@@ -1,3 +1,3 @@
-import {TextBlockComponent} from './textBlock.component';
+import {TextBlockSAComponent} from './textBlock.component';
 
-export default TextBlockComponent;
+export default TextBlockSAComponent;

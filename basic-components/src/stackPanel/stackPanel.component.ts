@@ -23,7 +23,7 @@ import {StackPanelLayoutMetadata} from './stackPanel.metadata';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorMetadata(StackPanelLayoutMetadata)
-export class StackPanelComponent extends StyledLayoutComponentBase<StackPanelComponentOptions> implements StyledLayoutComponent<StackPanelComponentOptions>
+export class StackPanelSAComponent extends StyledLayoutComponentBase<StackPanelComponentOptions> implements StyledLayoutComponent<StackPanelComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

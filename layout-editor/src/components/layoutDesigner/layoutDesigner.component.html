@@ -8,6 +8,8 @@
      (mouseover)="showOverlay($event)"
      (cdkDropListDropped)="addComponent($event.item.data)"
      (click)="selectComponent($event)">
+    <div class="drag-placeholder" *cdkDragPlaceholder></div>
+    <div class="drag-preview mat-elevation-z8" *cdkDragPreview>{{options?.typeMetadata?.name}}#{{options?.typeMetadata?.id}}</div>
     <ng-template [layoutComponentRenderer]="options?.typeMetadata" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
     <ng-container *ngIf="overlayVisible || selected">

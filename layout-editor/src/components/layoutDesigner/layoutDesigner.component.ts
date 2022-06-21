@@ -49,14 +49,14 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
-                protected _element: ElementRef<HTMLElement>,
+                element: ElementRef<HTMLElement>,
                 protected _getter: DynamicItemLoader,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
                 protected _layoutMetadataManager: LayoutMetadataManager,
                 @Inject(LOGGER) @Optional() logger?: Logger,
                 @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
     {
-        super(changeDetector, logger);
+        super(changeDetector, element, logger);
     }
 
     //######################### public methods - implementation of OnDestroy #########################

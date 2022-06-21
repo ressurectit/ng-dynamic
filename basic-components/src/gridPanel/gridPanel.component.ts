@@ -1,9 +1,11 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {StyledLayoutComponent, StyledLayoutComponentBase} from '@anglr/dynamic/layout';
+import {CommonModule} from '@angular/common';
+import {LayoutComponentRendererSADirective, StyledLayoutComponent, StyledLayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
 import {GridPanelComponentOptions} from './gridPanel.options';
 import {GridPanelLayoutMetadata} from './gridPanel.metadata';
+import {generateId} from '@jscrpt/common';
 
 /**
  * Component used for displaying grid panel layout
@@ -14,9 +16,107 @@ import {GridPanelLayoutMetadata} from './gridPanel.metadata';
     templateUrl: 'gridPanel.component.html',
     styleUrls: ['gridPanel.component.css'],
     standalone: true,
+    imports:
+    [
+        CommonModule,
+        LayoutComponentRendererSADirective,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorMetadata(GridPanelLayoutMetadata)
-export class GridPanelComponent extends StyledLayoutComponentBase<GridPanelComponentOptions> implements StyledLayoutComponent<GridPanelComponentOptions>
+export class GridPanelSAComponent extends StyledLayoutComponentBase<GridPanelComponentOptions> implements StyledLayoutComponent<GridPanelComponentOptions>
 {
+    //######################### protected methods - overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override _optionsSet(): void
+    {
+        this._fixCells();
+
+        const style = this._element.nativeElement.style;
+        let gridTemplateRows: string = '';
+        let gridTemplateColumns: string = '';
+
+        if(this._options?.rows && Array.isArray(this._options?.rows))
+        {
+            for(const row of this._options.rows)
+            {
+                gridTemplateRows += `${row.height} `;
+            }
+        }
+
+        if(this._options?.columns && Array.isArray(this._options?.columns))
+        {
+            for(const column of this._options.columns)
+            {
+                gridTemplateColumns += `${column.width} `;
+            }
+        }
+
+        style.gridTemplateRows = gridTemplateRows.trim();
+        style.gridTemplateColumns = gridTemplateColumns.trim();
+    }
+
+    /**
+     * Fixes cell metadata
+     */
+    protected _fixCells(): void
+    {
+        if(!this._options)
+        {
+            return;
+        }
+
+        this._options.cells ??= [];
+
+        const grid: string[][] = [];
+
+        for(let y = 0; y < (this._options.rows ?? []).length; y++)
+        for(let x = 0; x < (this._options.columns ?? []).length; x++)
+        {
+            grid[y] ??= [];
+            grid[y][x] = '';
+        }
+
+        for(const cell of this._options.cells)
+        {
+            cell.package = 'basic-components';
+            cell.name = 'gridPanelCell';
+
+            for(let y = (cell.options?.gridRowStart ?? 1); y < (cell.options?.gridRowEnd ?? 2); y++)
+            for(let x = (cell.options?.gridColumnStart ?? 1); x < (cell.options?.gridColumnEnd ?? 2); x++)
+            {
+                const yCoordinate = y - 1;
+                const xCoordinate = x - 1;
+
+                if(grid[yCoordinate][xCoordinate] === '')
+                {
+                    grid[yCoordinate][xCoordinate] = cell.id;
+                }
+            }
+        }
+
+        for(let y = 1; y <= (this._options.rows ?? []).length; y++)
+        for(let x = 1; x <= (this._options.columns ?? []).length; x++)
+        {
+            if(grid[y - 1][x - 1] === '')
+            {
+                this._options.cells.push(
+                {
+                    id: `${generateId(6)}-r${y}-${y+1}-c${x}-${x+1}`,
+                    package: 'basic-components',
+                    name: 'gridPanelCell',
+                    options:
+                    {
+                        gridRowStart: y,
+                        gridRowEnd: y + 1,
+                        gridColumnStart: x,
+                        gridColumnEnd: x + 1
+                    }
+                });
+            }
+        }
+    }
 }

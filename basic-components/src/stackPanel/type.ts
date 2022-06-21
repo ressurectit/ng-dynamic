@@ -1,3 +1,3 @@
-import {StackPanelComponent} from './stackPanel.component';
+import {StackPanelSAComponent} from './stackPanel.component';
 
-export default StackPanelComponent;
+export default StackPanelSAComponent;

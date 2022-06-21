@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Directive, Inject, Optional} from '@angular/core';
+import {ChangeDetectorRef, Directive, ElementRef, Inject, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 
 import {LayoutComponent} from '../../interfaces';
@@ -34,6 +34,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
 
     //######################### constructor #########################
     constructor(protected _changeDetector: ChangeDetectorRef,
+                protected _element: ElementRef<HTMLElement>,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
     }

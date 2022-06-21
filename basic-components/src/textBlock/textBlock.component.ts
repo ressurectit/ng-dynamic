@@ -22,6 +22,6 @@ import {TextBlockLayoutMetadata} from './textBlock.metadata';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorMetadata(TextBlockLayoutMetadata)
-export class TextBlockComponent extends StyledLayoutComponentBase<TextBlockComponentOptions> implements StyledLayoutComponent<TextBlockComponentOptions>
+export class TextBlockSAComponent extends StyledLayoutComponentBase<TextBlockComponentOptions> implements StyledLayoutComponent<TextBlockComponentOptions>
 {
 }

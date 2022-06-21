@@ -1,3 +1,3 @@
-import {GridPanelComponent} from './gridPanel.component';
+import {GridPanelSAComponent} from './gridPanel.component';
 
-export default GridPanelComponent;
+export default GridPanelSAComponent;

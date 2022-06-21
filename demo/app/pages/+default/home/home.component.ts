@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {ComponentStylingOptions, LayoutComponentRendererDirectiveOptions, MissingTypeBehavior, TextFontWeight, LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {TextBlockComponentOptions, StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
+import {TextBlockComponentOptions, StackPanelComponentOptions, GridPanelComponentOptions, GridPanelCellComponentOptions} from '@anglr/dynamic/basic-components';
 import {LayoutMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
 
 /**
@@ -31,136 +31,92 @@ export class HomeComponent
 
     protected metadata: LayoutComponentMetadata =
     {
+        id: 'gridPanelTest',
         package: 'basic-components',
-        id: 'stackPanelTest',
-        name: 'stackPanel',
-        options: <StackPanelComponentOptions&ComponentStylingOptions>
+        name: 'gridPanel',
+        options: <GridPanelComponentOptions&ComponentStylingOptions>
         {
-            padding:
-            {
-                top: '20px'
-            },
-            children:
+            columns:
             [
                 {
+                    width: '1fr'
+                },
+                {
+                    width: '2fr'
+                },
+                {
+                    width: '1fr'
+                },
+            ],
+            rows:
+            [
+                {
+                    height: '300px'
+                },
+            ],
+            cells:
+            [
+                {
+                    id: 'celltest',
                     package: 'basic-components',
-                    id: 'textTest',
-                    name: 'textBlock',
-                    options: <TextBlockComponentOptions&ComponentStylingOptions>
+                    name: 'gridPanelCell',
+                    options: <GridPanelCellComponentOptions>
                     {
-                        text: 'toto je text',
-                        margin:
+                        gridColumnStart: 2,
+                        gridColumnEnd: 3,
+                        gridRowStart: 1,
+                        gridRowEnd: 2,
+                        component:
                         {
-                            top: '10px'
-                        },
-                        textStyling:
-                        {
-                            fontSize: '20px'
+                            id: 'stackPanelTest',
+                            package: 'basic-components',
+                            name: 'stackPanel',
+                            options: <StackPanelComponentOptions&ComponentStylingOptions>
+                            {
+                                padding:
+                                {
+                                    top: '20px'
+                                },
+                                children:
+                                [
+                                    {
+                                        package: 'basic-components',
+                                        id: 'textTest',
+                                        name: 'textBlock',
+                                        options: <TextBlockComponentOptions&ComponentStylingOptions>
+                                        {
+                                            text: 'toto je text',
+                                            margin:
+                                            {
+                                                top: '10px'
+                                            },
+                                            textStyling:
+                                            {
+                                                fontSize: '20px'
+                                            }
+                                        }
+                                    },
+                                    {
+                                        package: 'basic-components',
+                                        id: 'text2Test',
+                                        name: 'textBlock',
+                                        options: <TextBlockComponentOptions&ComponentStylingOptions>
+                                        {
+                                            text: 'druhý riadok je toto',
+                                            textStyling:
+                                            {
+                                                fontWeight: TextFontWeight.Bold
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
                         }
                     }
                 },
-                {
-                    package: 'basic-components',
-                    id: 'text2Test',
-                    name: 'textBlock',
-                    options: <TextBlockComponentOptions&ComponentStylingOptions>
-                    {
-                        text: 'druhý riadok je toto',
-                        textStyling:
-                        {
-                            fontWeight: TextFontWeight.Bold
-                        }
-                    }
-                }
             ]
         }
     };
-    // protected metadata: LayoutComponentMetadata =
-    // {
-    //     package: 'basic-components',
-    //     id: 'gridPanelTest',
-    //     name: 'gridPanel',
-    //     options: <GridPanelComponentOptions&ComponentStylingOptions>
-    //     {
-    //         padding:
-    //         {
-    //             top: '20px'
-    //         },
-    //         columns:
-    //         [
-    //             {
-    //                 width: '1fr'
-    //             },
-    //             {
-    //                 width: '2fr'
-    //             },
-    //             {
-    //                 width: '60px'
-    //             },
-    //         ],
-    //         rows:
-    //         [
-    //             {
-    //                 height: '300px'
-    //             },
-    //         ],
-    //         cells:
-    //         [
-    //             // {
-    //             //     package: 'basic-components',
-    //             //     id: 'gridPanelTest-r1-2-c2-3',
-    //             //     name: 'gridPanelCell',
-    //             //     options: <GridPanelCellComponentOptions>
-    //             //     {
-    //             //         gridColumnStart: 2,
-    //             //         gridColumnEnd: 4,
-    //             //         gridRowStart: 1,
-    //             //         gridRowEnd: 2,
-    //             //         component:
-    //             //         {
-    //             //             package: 'basic-components',
-    //             //             id: 'text2Test',
-    //             //             name: 'textBlock',
-    //             //             options: <TextBlockComponentOptions&ComponentStylingOptions>
-    //             //             {
-    //             //                 text: 'druhý riadok je toto',
-    //             //                 textStyling:
-    //             //                 {
-    //             //                     fontWeight: TextFontWeight.Bold
-    //             //                 }
-    //             //             }
-    //             //         }
-    //             //     }
-    //             // },
-    //             {
-    //                 package: 'basic-components',
-    //                 id: 'xxxxx',
-    //                 name: 'gridPanelCell',
-    //                 options: <GridPanelCellComponentOptions>
-    //                 {
-    //                     gridColumnStart: 1,
-    //                     gridColumnEnd: 3,
-    //                     gridRowStart: 1,
-    //                     gridRowEnd: 2,
-    //                     component:
-    //                     {
-    //                         package: 'basic-components',
-    //                         id: 'textTest',
-    //                         name: 'textBlock',
-    //                         options: <TextBlockComponentOptions&ComponentStylingOptions>
-    //                         {
-    //                             text: 'aaaa',
-    //                             textStyling:
-    //                             {
-    //                                 fontWeight: TextFontWeight.Bold
-    //                             }
-    //                         }
-    //                     }
-    //                 }
-    //             },
-    //         ]
-    //     }
-    // };
 
     //######################### constructor #########################
     constructor(private _manager: LayoutMetadataManager,)

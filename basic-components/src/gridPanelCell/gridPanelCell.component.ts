@@ -4,6 +4,7 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
 import {GridPanelCellComponentOptions} from './gridPanelCell.options';
 import {GridPanelCellLayoutMetadata} from './gridPanelCell.metadata';
+import {applyGridCoordinates} from './gridPanelCell.utils';
 
 /**
  * Component used for displaying grid panel cell
@@ -32,9 +33,6 @@ export class GridPanelCellSAComponent extends LayoutComponentBase<GridPanelCellC
     {
         const style = this._element.nativeElement.style;
         
-        style.gridRowStart = this._options?.gridRowStart?.toString() ?? '';
-        style.gridRowEnd = this._options?.gridRowEnd?.toString() ?? '';
-        style.gridColumnStart = this._options?.gridColumnStart?.toString() ?? '';
-        style.gridColumnEnd = this._options?.gridColumnEnd?.toString() ?? '';
+        applyGridCoordinates(this._options, style);
     }
 }

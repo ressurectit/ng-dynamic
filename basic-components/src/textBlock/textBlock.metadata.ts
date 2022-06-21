@@ -1,4 +1,3 @@
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {GenericLayoutMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 
 import {TextBlockComponentOptions} from './textBlock.options';
@@ -13,7 +12,7 @@ export class TextBlockLayoutMetadata extends GenericLayoutMetadata<TextBlockComp
     /**
      * @inheritdoc
      */
-    protected async _getInstance(): Promise<LayoutEditorMetadataDescriptor<LayoutComponentMetadata<TextBlockComponentOptions>>>
+    protected async _getInstance(): Promise<LayoutEditorMetadataDescriptor<TextBlockComponentOptions>>
     {
         return new (await import('./textBlock.layoutMetadata')).TextBlockLayoutEditorMetadata();
     }

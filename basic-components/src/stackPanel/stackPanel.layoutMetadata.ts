@@ -7,7 +7,7 @@ import {StackPanelComponentOptions} from './stackPanel.options';
 /**
  * Stack panel layout metadata
  */
-export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<LayoutComponentMetadata<StackPanelComponentOptions>>
+export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<StackPanelComponentOptions>
 {
     //######################### protected fields #########################
 

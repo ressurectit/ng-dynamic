@@ -7,7 +7,7 @@ import {LayoutComponent} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
-import {DesignerMinHeightSADirective} from '../../directives';
+import {CopyDesignerStylesSADirective, DesignerMinHeightSADirective} from '../../directives';
 import {LayoutEditorMetadataExtractor, LayoutMetadataManager} from '../../services';
 import {LayoutComponentDragData} from '../../interfaces';
 
@@ -26,6 +26,7 @@ import {LayoutComponentDragData} from '../../interfaces';
         PositionModule,
         DragDropModule,
         DesignerMinHeightSADirective,
+        CopyDesignerStylesSADirective,
         LayoutComponentRendererSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,17 +1,20 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {AsyncProperties} from '@anglr/dynamic';
-import {Func} from '@jscrpt/common';
+import {Action, Func} from '@jscrpt/common';
 
-import {LayoutEditorMetadataDescriptor} from '../decorators';
+import {LayoutEditorMetadataDescriptor} from '../interfaces';
 
-export abstract class GenericLayoutMetadata<TOptions> implements AsyncProperties<LayoutEditorMetadataDescriptor<LayoutComponentMetadata<TOptions>>>
+/**
+ * Generic implementation of layout editor metadata descriptor
+ */
+export abstract class GenericLayoutMetadata<TOptions> implements AsyncProperties<LayoutEditorMetadataDescriptor<TOptions>>
 {
     //######################### protected fields #########################
 
     /**
      * Instance of obtained layout editor metadata descriptor
      */
-    protected _instance?: LayoutEditorMetadataDescriptor<LayoutComponentMetadata<TOptions>>;
+    protected _instance?: LayoutEditorMetadataDescriptor<TOptions>;
 
     //######################### public properties - implementation of async LayoutEditorMetadataDescriptor #########################
 
@@ -21,6 +24,14 @@ export abstract class GenericLayoutMetadata<TOptions> implements AsyncProperties
     public get descendantsGetter(): Promise<Func<LayoutComponentMetadata|LayoutComponentMetadata[]|null|undefined, [LayoutComponentMetadata<TOptions>]>>
     {
         return this._getValue<Func<LayoutComponentMetadata|LayoutComponentMetadata[]|null|undefined, [LayoutComponentMetadata<TOptions>]>>('descendantsGetter');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get applyDesignerStyles(): Promise<Action<[TOptions|null|undefined, CSSStyleDeclaration]>>
+    {
+        return this._getValue<Action<[TOptions|null|undefined, CSSStyleDeclaration]>>('applyDesignerStyles');
     }
 
     //######################### protected methods #########################
@@ -39,5 +50,5 @@ export abstract class GenericLayoutMetadata<TOptions> implements AsyncProperties
     /**
      * Gets instance of layout editor metadata descriptor
      */
-    protected abstract _getInstance(): Promise<LayoutEditorMetadataDescriptor<LayoutComponentMetadata<TOptions>>>;
+    protected abstract _getInstance(): Promise<LayoutEditorMetadataDescriptor<TOptions>>;
 }

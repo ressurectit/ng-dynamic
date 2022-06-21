@@ -3,7 +3,7 @@ import {AsyncProperties, DynamicItemLoader} from '@anglr/dynamic';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LOGGER, Logger} from '@anglr/common';
 
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from '../../decorators';
+import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from '../../interfaces';
 
 /**
  * Class used for extracting layout editor metadata
@@ -32,7 +32,7 @@ export class LayoutEditorMetadataExtractor
             return null;
         }
 
-        const metadataType = type as unknown as LayoutEditorMetadataType;
+        const metadataType = type.type as unknown as LayoutEditorMetadataType;
 
         if(!metadataType.layoutEditorMetadata)
         {

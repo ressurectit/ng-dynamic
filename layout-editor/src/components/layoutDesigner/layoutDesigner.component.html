@@ -1,7 +1,9 @@
 <div class="designer-overlay" 
+     #layoutDesigner
      cdkDrag
      cdkDropList
      designerMinHeight
+     [copyDesignerStyles]="_options?.typeMetadata"
      [cdkDragData]="{metadata: _options?.typeMetadata, parentId: _parent?._options?.typeMetadata?.id}"
      [cdkDragDisabled]="!_parent"
      (mouseleave)="hideOverlay($event)"
@@ -17,7 +19,7 @@
 
         <div *ngIf="overlayVisible || selected"
              class="designer-overlay-title"
-             [positionTo]="_element.nativeElement"
+             [positionTo]="layoutDesigner"
              placement="TopStart">{{options?.typeMetadata?.name}}#{{options?.typeMetadata?.id}}</div>
     </ng-container>
 </div>

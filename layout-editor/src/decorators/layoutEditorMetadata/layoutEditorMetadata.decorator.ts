@@ -1,6 +1,6 @@
 import {DynamicClassMetadata, DynamicMetadataCtor} from '@anglr/dynamic';
 
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from './layoutEditorMetadata.interface';
+import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from '../../interfaces';
 
 /**
  * Sets layout editor metadata to class on which is this decorator applied

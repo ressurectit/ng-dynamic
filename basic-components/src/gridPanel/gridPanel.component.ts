@@ -2,10 +2,10 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponentRendererSADirective, StyledLayoutComponent, StyledLayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {generateId} from '@jscrpt/common';
 
 import {GridPanelComponentOptions} from './gridPanel.options';
 import {GridPanelLayoutMetadata} from './gridPanel.metadata';
-import {generateId} from '@jscrpt/common';
 
 /**
  * Component used for displaying grid panel layout

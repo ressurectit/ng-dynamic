@@ -1,4 +1,3 @@
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {GenericLayoutMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 
 import {GridPanelComponentOptions} from './gridPanel.options';
@@ -13,7 +12,7 @@ export class GridPanelLayoutMetadata extends GenericLayoutMetadata<GridPanelComp
     /**
      * @inheritdoc
      */
-    protected async _getInstance(): Promise<LayoutEditorMetadataDescriptor<LayoutComponentMetadata<GridPanelComponentOptions>>>
+    protected async _getInstance(): Promise<LayoutEditorMetadataDescriptor<GridPanelComponentOptions>>
     {
         return new (await import('./gridPanel.layoutMetadata')).GridPanelLayoutEditorMetadata();
     }

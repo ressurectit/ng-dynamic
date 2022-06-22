@@ -19,7 +19,7 @@ export class CopyDesignerStylesSADirective<TOptions = any>
     /**
      * Designed component metadata
      */
-    public _metadata?: LayoutComponentMetadata<TOptions>;
+    public _metadata: LayoutComponentMetadata<TOptions>|undefined|null;
 
     //######################### public properties - inputs #########################
 
@@ -27,11 +27,11 @@ export class CopyDesignerStylesSADirective<TOptions = any>
      * Designed component metadata
      */
     @Input('copyDesignerStyles')
-    public get metadata(): LayoutComponentMetadata<TOptions>|undefined
+    public get metadata(): LayoutComponentMetadata<TOptions>|undefined|null
     {
         return this._metadata;
     }
-    public set metadata(value: LayoutComponentMetadata<TOptions>|undefined)
+    public set metadata(value: LayoutComponentMetadata<TOptions>|undefined|null)
     {
         this._metadata = value;
 

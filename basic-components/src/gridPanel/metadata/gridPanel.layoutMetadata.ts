@@ -1,6 +1,6 @@
 import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 
-import {GridPanelComponentOptions} from './gridPanel.options';
+import {GridPanelComponentOptions} from '../gridPanel.options';
 
 /**
  * Grid panel layout metadata

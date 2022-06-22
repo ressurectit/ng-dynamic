@@ -14,6 +14,6 @@ export class GridPanelCellLayoutMetadata extends GenericLayoutMetadata<GridPanel
      */
     protected async _getInstance(): Promise<LayoutEditorMetadataDescriptor<GridPanelCellComponentOptions>>
     {
-        return new (await import('./gridPanelCell.layoutMetadata')).GridPanelCellLayoutEditorMetadata();
+        return new (await import('./metadata/gridPanelCell.layoutMetadata')).GridPanelCellLayoutEditorMetadata();
     }
 }

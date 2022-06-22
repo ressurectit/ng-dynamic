@@ -21,9 +21,9 @@ export abstract class GenericLayoutMetadata<TOptions> implements AsyncProperties
     /**
      * @inheritdoc
      */
-    public get addDescendant(): Promise<Func<TOptions, [LayoutComponentMetadata, TOptions, number]>>
+    public get addDescendant(): Promise<Action<[LayoutComponentMetadata, TOptions, number]>>
     {
-        return this._getValue<Func<TOptions, [LayoutComponentMetadata, TOptions, number]>>('addDescendant');
+        return this._getValue<Action<[LayoutComponentMetadata, TOptions, number]>>('addDescendant');
     }
 
     /**
@@ -45,9 +45,9 @@ export abstract class GenericLayoutMetadata<TOptions> implements AsyncProperties
     /**
      * @inheritdoc
      */
-    public get removeDescendant(): Promise<Func<TOptions, [string, TOptions]>>
+    public get removeDescendant(): Promise<Action<[string, TOptions]>>
     {
-        return this._getValue<Func<TOptions, [string, TOptions]>>('removeDescendant');
+        return this._getValue<Action<[string, TOptions]>>('removeDescendant');
     }
 
     //######################### protected methods #########################

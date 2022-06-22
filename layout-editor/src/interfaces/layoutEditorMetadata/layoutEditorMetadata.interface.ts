@@ -8,12 +8,12 @@ import {Action, Func} from '@jscrpt/common';
 export interface LayoutEditorMetadataDescriptor<TLayoutComponentOptions = any>
 {
     /**
-     * Adds descendant metadata to component options, returns changed options
+     * Adds descendant metadata to component options
      * @param metadata - Metadata containing definition of new descendant to be added
      * @param options - Options that should be extended with new descendant metadata
      * @param index - Index where should be new item added
      */
-    readonly addDescendant?: Func<TLayoutComponentOptions, [LayoutComponentMetadata, TLayoutComponentOptions, number]>;
+    readonly addDescendant?: Action<[LayoutComponentMetadata, TLayoutComponentOptions, number]>;
 
     /**
      * Applies designer styles that are required to be applied to drag n drop div
@@ -29,11 +29,11 @@ export interface LayoutEditorMetadataDescriptor<TLayoutComponentOptions = any>
     readonly canDropMetadata?: Func<boolean, [TLayoutComponentOptions|undefined|null]>;
 
     /**
-     * Removes descendant metadata from component options, returns changed options
+     * Removes descendant metadata from component options
      * @param id - Id of component metadata to be removed
      * @param options - Options that should be updated by removing descendant metadata
      */
-    readonly removeDescendant?: Func<TLayoutComponentOptions, [string, TLayoutComponentOptions]>;
+    readonly removeDescendant?: Action<[string, TLayoutComponentOptions]>;
 }
 
 /**

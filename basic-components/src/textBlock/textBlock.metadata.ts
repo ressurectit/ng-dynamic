@@ -14,6 +14,6 @@ export class TextBlockLayoutMetadata extends GenericLayoutMetadata<TextBlockComp
      */
     protected async _getInstance(): Promise<LayoutEditorMetadataDescriptor<TextBlockComponentOptions>>
     {
-        return new (await import('./textBlock.layoutMetadata')).TextBlockLayoutEditorMetadata();
+        return new (await import('./metadata/textBlock.layoutMetadata')).TextBlockLayoutEditorMetadata();
     }
 }

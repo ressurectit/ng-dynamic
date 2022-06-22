@@ -5,7 +5,7 @@ import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {Func} from '@jscrpt/common';
+import {Action, Func} from '@jscrpt/common';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {CopyDesignerStylesSADirective, DesignerMinHeightSADirective} from '../../directives';
@@ -44,17 +44,17 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * Indication whether item can be dropped here
      */
-    protected _canDrop: boolean = true;
+    protected _canDrop: boolean = false;
 
     /**
      * Removes metadata of descendant
      */
-    protected _removeDescendantMetadata: Func<LayoutDesignerComponentOptions, [string, LayoutDesignerComponentOptions]>|undefined;
+    protected _removeDescendantMetadata: Action<[string, LayoutDesignerComponentOptions]>|undefined;
 
     /**
      * Adds metadata of descendant
      */
-    protected _addDescendantMetadata: Func<LayoutDesignerComponentOptions, [LayoutComponentMetadata, LayoutDesignerComponentOptions, number]>|undefined;
+    protected _addDescendantMetadata: Action<[LayoutComponentMetadata, LayoutDesignerComponentOptions, number]>|undefined;
 
     /**
      * Tests whether metadata can be dropped into this component metadata
@@ -79,7 +79,15 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * Gets predicate that returns indication whether item can be dropped into this list
      */
-    protected canDrop: Func<boolean> = () => !this._canDrop;
+    protected canDrop: Func<boolean> = () => 
+    {
+        return this._canDrop;
+    };
+
+    /**
+     * Metadata for rendered type
+     */
+    protected renderedType: LayoutComponentMetadata|undefined|null;
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
@@ -119,13 +127,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        const options = this._removeDescendantMetadata?.(id, this._options.typeMetadata.options);
-
-        if(options)
-        {
-            this._options.typeMetadata.options = options;
-            this._options.typeMetadata = {...this._options.typeMetadata};
-        }
+        this._removeDescendantMetadata?.(id, this._options.typeMetadata.options);
+        this.renderedType = {...this._options.typeMetadata};
     }
 
     //######################### protected methods - host #########################
@@ -147,13 +150,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             this._layoutMetadataManager.getComponent(dragData.item.data.parentId)?.removeDescendant(dragData.item.data.metadata.id);
         }
 
-        const options = this._addDescendantMetadata?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
-
-        if(options)
-        {
-            this._options.typeMetadata.options = options;
-            this._options.typeMetadata = {...this._options.typeMetadata};
-        }
+        this._addDescendantMetadata?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
+        this.renderedType = {...this._options.typeMetadata};
     }
 
     /**
@@ -203,6 +201,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override async _optionsSet(): Promise<void>
     {
+        this.renderedType = this._options?.typeMetadata;
+
         if(!this._options)
         {
             return;

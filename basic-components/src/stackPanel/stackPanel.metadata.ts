@@ -14,6 +14,6 @@ export class StackPanelLayoutMetadata extends GenericLayoutMetadata<StackPanelCo
      */
     protected async _getInstance(): Promise<LayoutEditorMetadataDescriptor<StackPanelComponentOptions>>
     {
-        return new (await import('./stackPanel.layoutMetadata')).StackPanelLayoutEditorMetadata();
+        return new (await import('./metadata/stackPanel.layoutMetadata')).StackPanelLayoutEditorMetadata();
     }
 }

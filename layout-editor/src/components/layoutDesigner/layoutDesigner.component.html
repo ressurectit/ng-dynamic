@@ -3,8 +3,8 @@
      cdkDrag
      cdkDropList
      designerMinHeight
-     [copyDesignerStyles]="_options?.typeMetadata"
-     [cdkDragData]="{metadata: _options?.typeMetadata, parentId: _parent?._options?.typeMetadata?.id}"
+     [copyDesignerStyles]="renderedType"
+     [cdkDragData]="{metadata: renderedType, parentId: _parent?.renderedType?.id}"
      [cdkDragDisabled]="!_parent"
      [cdkDropListEnterPredicate]="canDrop"
      (mouseleave)="hideOverlay($event)"
@@ -12,8 +12,8 @@
      (cdkDropListDropped)="addDescendant($event)"
      (click)="selectComponent($event)">
     <div class="drag-placeholder" *cdkDragPlaceholder></div>
-    <div class="drag-preview mat-elevation-z8" *cdkDragPreview>{{options?.typeMetadata?.name}}#{{options?.typeMetadata?.id}}</div>
-    <ng-template [layoutComponentRenderer]="options?.typeMetadata" [layoutComponentRendererDisableTransformer]="true"></ng-template>
+    <div class="drag-preview mat-elevation-z8" *cdkDragPreview>{{renderedType?.name}}#{{renderedType?.id}}</div>
+    <ng-template [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
     <ng-container *ngIf="overlayVisible || selected">
         <div class="designer-overlay-border"></div>
@@ -21,6 +21,6 @@
         <div *ngIf="overlayVisible || selected"
              class="designer-overlay-title"
              [positionTo]="layoutDesigner"
-             placement="TopStart">{{options?.typeMetadata?.name}}#{{options?.typeMetadata?.id}}</div>
+             placement="TopStart">{{renderedType?.name}}#{{renderedType?.id}}</div>
     </ng-container>
 </div>

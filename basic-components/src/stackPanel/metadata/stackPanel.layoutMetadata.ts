@@ -1,8 +1,8 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
-import {Func} from '@jscrpt/common';
+import {Action} from '@jscrpt/common';
 
-import {StackPanelComponentOptions} from './stackPanel.options';
+import {StackPanelComponentOptions} from '../stackPanel.options';
 
 /**
  * Stack panel layout metadata
@@ -14,28 +14,20 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
     /**
      * @inheritdoc
      */
-    protected _addDescendant: Func<StackPanelComponentOptions, [LayoutComponentMetadata, StackPanelComponentOptions, number]> = (metadata, options, index) =>
+    protected _addDescendant: Action<[LayoutComponentMetadata, StackPanelComponentOptions, number]> = (metadata, options, index) =>
     {
-        options = {...options};
-
         options.children ??= [];
         options.children.splice(index, 0, metadata);
-
-        return options;
     };
 
     /**
      * @inheritdoc
      */
-    protected _removeDescendant: Func<StackPanelComponentOptions, [string, StackPanelComponentOptions]> = (id, options) =>
+    protected _removeDescendant: Action<[string, StackPanelComponentOptions]> = (id, options) =>
     {
-        options = {...options};
-
         options.children ??= [];
         const index = options.children.findIndex(itm => itm.id === id);
         options.children.splice(index, 1);
-
-        return options;
     }
 
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
@@ -43,7 +35,7 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
     /**
      * @inheritdoc
      */
-    public get addDescendant(): Func<StackPanelComponentOptions, [LayoutComponentMetadata, StackPanelComponentOptions, number]>
+    public get addDescendant(): Action<[LayoutComponentMetadata, StackPanelComponentOptions, number]>
     {
         return this._addDescendant;
     }
@@ -51,7 +43,7 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
     /**
      * @inheritdoc
      */
-    public get removeDescendant(): Func<StackPanelComponentOptions, [string, StackPanelComponentOptions]>
+    public get removeDescendant(): Action<[string, StackPanelComponentOptions]>
     {
         return this._removeDescendant;
     }

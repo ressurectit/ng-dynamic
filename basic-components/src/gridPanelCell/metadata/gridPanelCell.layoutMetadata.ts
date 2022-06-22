@@ -1,8 +1,8 @@
 import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 import {Action, Func} from '@jscrpt/common';
 
-import {GridPanelCellComponentOptions} from './gridPanelCell.options';
-import {applyGridCoordinates} from './gridPanelCell.utils';
+import {GridPanelCellComponentOptions} from '../gridPanelCell.options';
+import {applyGridCoordinates} from '../gridPanelCell.utils';
 
 /**
  * Grid panel layout metadata

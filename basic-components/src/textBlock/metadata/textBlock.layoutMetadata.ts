@@ -1,6 +1,6 @@
 import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 
-import {TextBlockComponentOptions} from './textBlock.options';
+import {TextBlockComponentOptions} from '../textBlock.options';
 
 /**
  * Text block layout metadata

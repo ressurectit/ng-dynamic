@@ -2,6 +2,7 @@ import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Dictionary, isBlank, isPresent} from '@jscrpt/common';
+import {Observable, Subject} from 'rxjs';
 
 import type {LayoutDesignerSAComponent} from '../../components';
 import {LayoutEditorMetadataManagerComponent} from '../../interfaces';
@@ -29,6 +30,16 @@ export class LayoutEditorMetadataManager
      */
     protected _selectedComponent: string|null = null;
 
+    /**
+     * Used for emitting layout changes
+     */
+    protected _layoutChange: Subject<void> = new Subject<void>();
+
+    /**
+     * Flattened tree of components tree
+     */
+    protected _flatTree: LayoutEditorMetadataManagerComponent[]|null = null;
+
     //######################### public properties #########################
 
     /**
@@ -50,6 +61,22 @@ export class LayoutEditorMetadataManager
         }
 
         return this._components[this._rootComponentId];
+    }
+
+    /**
+     * Occurs when layout changes
+     */
+    public get layoutChange(): Observable<void>
+    {
+        return this._layoutChange.asObservable();
+    }
+
+    /**
+     * Gets flattened tree of components tree
+     */
+    public get flatTree(): LayoutEditorMetadataManagerComponent[]
+    {
+        return (this._flatTree ??= this._buildFlatTree());
     }
 
     //######################### constructor #########################
@@ -125,6 +152,11 @@ export class LayoutEditorMetadataManager
             parent.children.splice(parent.children.length, 0, componentItem);
         }
 
+        this._flatTree = null;
+        this._layoutChange.next();
+
+        this._logger?.debug('LayoutEditorMetadataManager: Registering component {@id}', id);
+
         return true;
     }
 
@@ -155,7 +187,8 @@ export class LayoutEditorMetadataManager
 
         //move into new parent
         parentItem.children.splice(index, 0, componentItem);
-
+        this._flatTree = null;
+        this._layoutChange.next();
     }
 
     /**
@@ -187,6 +220,11 @@ export class LayoutEditorMetadataManager
         {
             this._rootComponentId = null;
         }
+
+        this._flatTree = null;
+        this._layoutChange.next();
+
+        this._logger?.debug('LayoutEditorMetadataManager: Unregistering component {@id}', id);
     }
 
     /**
@@ -221,5 +259,43 @@ export class LayoutEditorMetadataManager
         }
 
         return this._components[this._rootComponentId].component.options?.typeMetadata ?? null;
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Builds flattened tree of components tree
+     */
+    protected _buildFlatTree(): LayoutEditorMetadataManagerComponent[]
+    {
+        if(isBlank(this._rootComponentId))
+        {
+            return [];
+        }
+
+        const component = this._components[this._rootComponentId];
+
+        if(!component)
+        {
+            return [];
+        }
+
+        return this._buildFlatTreeForComponent(component);
+    }
+
+    /**
+     * Builds flattened tree of components tree
+     * @param component - Component which tree should be flattened
+     */
+    protected _buildFlatTreeForComponent(component: LayoutEditorMetadataManagerComponent): LayoutEditorMetadataManagerComponent[]
+    {
+        let result: LayoutEditorMetadataManagerComponent[] = [component];
+
+        for(const child of component.children)
+        {
+            result = result.concat(this._buildFlatTreeForComponent(child));
+        }
+
+        return result;
     }
 }

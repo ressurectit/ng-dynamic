@@ -131,5 +131,9 @@ export class HomeComponent
     protected getMetadata(): void
     {
         console.log(this._manager.getMetadata());
+        console.log(this._manager.root);
+        console.log(this._manager.flatTree);
+        console.log(this._manager.flatTree.map(itm => itm.component.options.typeMetadata.id));
+        console.log(this._manager.flatTree.map(itm => itm.component.designerDropList).reverse());
     }
 }

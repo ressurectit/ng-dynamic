@@ -1,6 +1,6 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CdkDragDrop, DragDropModule} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
@@ -8,7 +8,7 @@ import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dy
 import {Action, Func} from '@jscrpt/common';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
-import {CopyDesignerStylesSADirective, DesignerMinHeightSADirective} from '../../directives';
+import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerMinHeightSADirective} from '../../directives';
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutComponentDragData} from '../../interfaces';
 
@@ -28,6 +28,7 @@ import {LayoutComponentDragData} from '../../interfaces';
         DragDropModule,
         DesignerMinHeightSADirective,
         CopyDesignerStylesSADirective,
+        ConnectDropListsSADirective,
         LayoutComponentRendererSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -88,6 +89,14 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Metadata for rendered type
      */
     protected renderedType: LayoutComponentMetadata|undefined|null;
+
+    //######################### public properties - children #########################
+
+    /**
+     * Instance of CdkDrop list that is present in componet
+     */
+    @ViewChild(CdkDropList, {static: true})
+    public designerDropList!: CdkDropList;
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,

@@ -1,3 +1,4 @@
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 import {Action, Func} from '@jscrpt/common';
 
@@ -14,6 +15,14 @@ export class GridPanelCellLayoutEditorMetadata implements LayoutEditorMetadataDe
     /**
      * @inheritdoc
      */
+    protected _addDescendant: Action<[LayoutComponentMetadata, GridPanelCellComponentOptions, number]> = (metadata, options, _index) =>
+    {
+        options.component = metadata;
+    };
+
+    /**
+     * @inheritdoc
+     */
     protected _applyDesignerStyles: Action<[GridPanelCellComponentOptions|null|undefined, CSSStyleDeclaration]> = applyGridCoordinates;
 
     /**
@@ -21,7 +30,26 @@ export class GridPanelCellLayoutEditorMetadata implements LayoutEditorMetadataDe
      */
     protected _canDropMetadata: Func<boolean, [GridPanelCellComponentOptions|undefined|null]> = options => !options?.component;
 
+    /**
+     * @inheritdoc
+     */
+    protected _removeDescendant: Action<[string, GridPanelCellComponentOptions]> = (id, options) =>
+    {
+        if(options.component?.id === id)
+        {
+            options.component = undefined;
+        }
+    }
+
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
+
+    /**
+     * @inheritdoc
+     */
+    public get addDescendant(): Action<[LayoutComponentMetadata, GridPanelCellComponentOptions, number]>
+    {
+        return this._addDescendant;
+    }
 
     /**
      * @inheritdoc
@@ -37,5 +65,13 @@ export class GridPanelCellLayoutEditorMetadata implements LayoutEditorMetadataDe
     public get canDropMetadata(): Func<boolean, [GridPanelCellComponentOptions|undefined|null]>
     {
         return this._canDropMetadata;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get removeDescendant(): Action<[string, GridPanelCellComponentOptions]>
+    {
+        return this._removeDescendant;
     }
 }

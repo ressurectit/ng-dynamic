@@ -1,6 +1,6 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {DynamicItemLoaderProvider, DynamicItemModule, DynamicItemSource} from '@anglr/dynamic';
+import {DynamicItemLoaderProvider, DynamicModule, DynamicItemSource} from '@anglr/dynamic';
 
 /**
  * Dynamic item loader provider for built-in layout designer components
@@ -18,7 +18,7 @@ export class LayoutDesignerDynamicItemLoaderProvider implements DynamicItemLoade
     /**
      * @inheritdoc
      */
-    public async tryToGet(source: DynamicItemSource): Promise<DynamicItemModule|null>
+    public async tryToGet(source: DynamicItemSource): Promise<DynamicModule|null>
     {
         //only works with layout-editor
         if(source.package != '@anglr/dynamic/layout-editor')

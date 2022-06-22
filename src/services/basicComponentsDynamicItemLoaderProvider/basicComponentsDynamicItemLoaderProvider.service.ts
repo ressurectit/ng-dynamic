@@ -1,7 +1,7 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 
-import {DynamicItemModule, DynamicItemSource} from '../../interfaces';
+import {DynamicModule, DynamicItemSource} from '../../interfaces';
 import {DynamicItemLoaderProvider} from '../dynamicItemLoader/dynamicItemLoader.interface';
 
 /**
@@ -20,7 +20,7 @@ export class BasicComponentsDynamicItemLoaderProvider implements DynamicItemLoad
     /**
      * @inheritdoc
      */
-    public async tryToGet(source: DynamicItemSource): Promise<DynamicItemModule|null>
+    public async tryToGet(source: DynamicItemSource): Promise<DynamicModule|null>
     {
         //only works with basic-components
         if(source.package != 'basic-components' && source.package != '@anglr/dynamic/basic-components')

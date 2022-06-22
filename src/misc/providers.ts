@@ -1,7 +1,7 @@
 import {ClassProvider} from '@angular/core';
 
-import {BasicComponentsDynamicItemLoaderProvider, ModuleDynamicItemLoaderExtractor} from '../services';
-import {DYNAMIC_ITEM_LOADER_EXTRACTORS, DYNAMIC_ITEM_LOADER_PROVIDERS} from './tokens';
+import {BasicComponentsDynamicItemLoaderProvider, DefaultDynamicModuleDataExtractor} from '../services';
+import {DYNAMIC_MODULE_DATA_EXTRACTORS, DYNAMIC_ITEM_LOADER_PROVIDERS} from './tokens';
 
 /**
  * Provider for BasicComponentsDynamicItemLoaderProvider implementation of DynamicItemLoaderProvider
@@ -14,11 +14,11 @@ export const BASIC_COMPONENTS_DYNAMIC_ITEM_LOADER_PROVIDER: ClassProvider =
 };
 
 /**
- * Provider for ModuleDynamicItemLoaderExtractor implementation of DynamicItemLoaderExtractor
+ * Provider for DefaultDynamicModuleDataExtractor implementation of DynamicModuleDataExtractor
  */
-export const MODULE_DYNAMIC_ITEM_LOADER_EXTRACTOR: ClassProvider =
+export const DEFAULT_DYNAMIC_MODULE_DATA_EXTRACTORS: ClassProvider =
 {
-    provide: DYNAMIC_ITEM_LOADER_EXTRACTORS,
-    useClass: ModuleDynamicItemLoaderExtractor,
+    provide: DYNAMIC_MODULE_DATA_EXTRACTORS,
+    useClass: DefaultDynamicModuleDataExtractor,
     multi: true
 };

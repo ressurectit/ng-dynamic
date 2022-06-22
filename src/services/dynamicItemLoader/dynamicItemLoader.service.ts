@@ -1,10 +1,10 @@
-import {Inject, Injectable, Optional} from '@angular/core';
+import {Inject, Injectable, Optional, Type} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {resolvePromiseOr} from '@jscrpt/common';
+import {isType, resolvePromiseOr} from '@jscrpt/common';
 
-import {DYNAMIC_ITEM_LOADER_EXTRACTORS, DYNAMIC_ITEM_LOADER_PROVIDERS} from '../../misc/tokens';
-import {DynamicItemLoaderExtractor, DynamicItemLoaderProvider} from './dynamicItemLoader.interface';
-import {DynamicItem, DynamicItemModule, DynamicItemSource, DynamicItemType} from '../../interfaces';
+import {DYNAMIC_MODULE_DATA_EXTRACTORS, DYNAMIC_ITEM_LOADER_PROVIDERS} from '../../misc/tokens';
+import {DynamicItemLoaderProvider} from './dynamicItemLoader.interface';
+import {DynamicItem, DynamicModule, DynamicItemSource, DynamicItemType, DynamicModuleDataExtractor} from '../../interfaces';
 
 /**
  * Service used for loading dynamic items
@@ -14,7 +14,7 @@ export class DynamicItemLoader
 {
     //######################### constructors #########################
     constructor(@Inject(DYNAMIC_ITEM_LOADER_PROVIDERS) protected _providers: DynamicItemLoaderProvider[],
-                @Inject(DYNAMIC_ITEM_LOADER_EXTRACTORS) protected _extractors: DynamicItemLoaderExtractor[],
+                @Inject(DYNAMIC_MODULE_DATA_EXTRACTORS) protected _extractors: DynamicModuleDataExtractor<Type<DynamicItem>>[],
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
         //providers is not an array
@@ -42,32 +42,32 @@ export class DynamicItemLoader
      */
     public async loadItem<TType extends DynamicItem = any>(source: DynamicItemSource): Promise<DynamicItemType<TType>|null>
     {
-        let dynamicItemModule: DynamicItemModule|null = null;
+        let dynamicModule: DynamicModule|null = null;
 
         //loops all providers, return result from first that returns non null value
         for(const provider of this._providers)
         {
-            const asyncDynamicItemModule = provider.tryToGet(source);
+            const asyncDynamicModule = provider.tryToGet(source);
 
-            if(asyncDynamicItemModule)
+            if(asyncDynamicModule)
             {
-                dynamicItemModule = await resolvePromiseOr(asyncDynamicItemModule);
+                dynamicModule = await resolvePromiseOr(asyncDynamicModule);
             }
             else
             {
-                dynamicItemModule = null;
+                dynamicModule = null;
             }
 
-            if(dynamicItemModule)
+            if(dynamicModule)
             {
                 break;
             }
         }
 
         //no module found
-        if(!dynamicItemModule)
+        if(!dynamicModule)
         {
-            this._logger?.debug('DynamicItemLoader: Failed to get dynamic item module {@source}', {name: source.name, package: source.package});
+            this._logger?.debug('DynamicItemLoader: Failed to get dynamic module {@source}', {name: source.name, package: source.package});
 
             return null;
         }
@@ -75,15 +75,17 @@ export class DynamicItemLoader
         //loops all extractors, return result from first that returns non null value
         for(const extractor of this._extractors)
         {
-            const dynamicItemType = extractor.tryToExtract(dynamicItemModule);
+            const dynamicItemType = extractor.tryToExtract(dynamicModule);
 
-            if(dynamicItemType)
+            if(dynamicItemType && isType(dynamicItemType))
             {
-                return dynamicItemType;
+                return {
+                    type: dynamicItemType as Type<TType>
+                };
             }
         }
 
-        this._logger?.debug('DynamicItemLoader: Failed to extract dynamic item type {@source}', {name: source.name, package: source.package});
+        this._logger?.debug('DynamicItemLoader: Failed to extract dynamic type {@source}', {name: source.name, package: source.package});
 
         return null;
     }

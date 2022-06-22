@@ -5,7 +5,7 @@ import {Dictionary, isBlank, isPresent} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
 import type {LayoutDesignerSAComponent} from '../../components';
-import {LayoutEditorMetadataManagerComponent} from '../../interfaces';
+import {LayoutEditorMetadataManagerComponent} from './layoutEditorMetadataManager.interface';
 
 /**
  * Class used for handling layout metadata

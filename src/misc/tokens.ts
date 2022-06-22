@@ -1,13 +1,19 @@
 import {InjectionToken} from '@angular/core';
 
-import {DynamicItemLoaderExtractor, DynamicItemLoaderProvider} from '../services';
+import {DynamicModuleDataExtractor} from '../interfaces';
+import {DynamicItemLoaderProvider, DynamicModuleTypesProvider} from '../services';
 
 /**
  * Injection token used for obtaining dynamic item loader providers
  */
-export const DYNAMIC_ITEM_LOADER_PROVIDERS: InjectionToken<DynamicItemLoaderProvider> = new InjectionToken<DynamicItemLoaderProvider>('DYNAMIC_ITEM_LOADER_PROVIDERS');
+export const DYNAMIC_ITEM_LOADER_PROVIDERS: InjectionToken<DynamicItemLoaderProvider[]> = new InjectionToken<DynamicItemLoaderProvider[]>('DYNAMIC_ITEM_LOADER_PROVIDERS');
 
 /**
- * Injection token used for obtaining dynamic item loader extractors
+ * Injection token used for obtaining dynamic module types providers
  */
-export const DYNAMIC_ITEM_LOADER_EXTRACTORS: InjectionToken<DynamicItemLoaderExtractor> = new InjectionToken<DynamicItemLoaderExtractor>('DYNAMIC_ITEM_LOADER_EXTRACTOR');
+export const DYNAMIC_MODULE_TYPES_PROVIDER: InjectionToken<DynamicModuleTypesProvider[]> = new InjectionToken<DynamicModuleTypesProvider[]>('DYNAMIC_MODULE_TYPES_PROVIDER');
+
+/**
+ * Injection token used for obtaining dynamic module data extractors
+ */
+export const DYNAMIC_MODULE_DATA_EXTRACTORS: InjectionToken<DynamicModuleDataExtractor[]> = new InjectionToken<DynamicModuleDataExtractor[]>('DYNAMIC_MODULE_DATA_EXTRACTORS');

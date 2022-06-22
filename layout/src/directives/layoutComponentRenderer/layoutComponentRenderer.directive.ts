@@ -27,11 +27,6 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     protected _componentRef: ComponentRef<TComponent>|null = null;
 
-    /**
-     * Metadata of already rendered component
-     */
-    protected _renderedComponentMetadata: LayoutComponentMetadata<TComponentOptions>|undefined|null = null;
-
     //######################### public properties - inputs #########################
 
     /**
@@ -95,6 +90,8 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
+        this._logger?.debug('LayoutComponentRendererSADirective: rendering component {@id}', {id: this.componentMetadata?.id});
+
         this.ngOnDestroy();
         this._viewContainerRef.clear();
 
@@ -147,14 +144,17 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                                                                             injector,
                                                                         });
 
+            this._logger?.debug('LayoutComponentRendererSADirective: component rendered {@id}', {id: componentMetadata?.id});
+
             this.componentChange.next(this._componentRef);
-            this._renderedComponentMetadata = this.componentMetadata;
             
             if(this.component)
             {
+                this._logger?.debug('LayoutComponentRendererSADirective: setting component options {@id}', {id: componentMetadata?.id});
                 this.component.options = componentMetadata.options;
             }
             
+            this._logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {@id}', {id: componentMetadata?.id});
             this.component?.invalidateVisuals();
             // componentManager.registerComponent(this.componentMetadata.id, this.component);
         }
@@ -167,11 +167,13 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     public ngOnDestroy(): void
     {
-        if(this.componentMetadata && this.component)
+        if(this._componentRef)
         {
+            this._logger?.debug('LayoutComponentRendererSADirective: destroying component {@id}', {id: this.componentMetadata?.id});
+    
             // const injector = this.customInjector || this._viewContainerRef.injector;
             // const componentManager = injector.get(ComponentManager);
-
+    
             // if(componentManager.get(this.componentMetadata.id))
             // {
             //     componentManager.unregisterComponent(this.componentMetadata.id);
@@ -179,7 +181,6 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
             
             this._componentRef?.destroy();
             this._componentRef = null;
-            this._renderedComponentMetadata = null;
             this.componentChange.next(null);
         }
     }

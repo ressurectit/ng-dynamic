@@ -138,6 +138,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
+        this._logger?.debug('LayoutDesignerSAComponent: Removing descendant {@data}', {id: this._options.typeMetadata.id, child: id});
+
         this._removeDescendantMetadata?.(id, this._options.typeMetadata.options);
         this._canDrop = this._canDropMetadata?.(this._options.typeMetadata.options) ?? false;
         this.renderedType = {...this._options.typeMetadata};
@@ -158,6 +160,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         const parentId = dragData.item.data.parentId;
+        this._logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.item.data.metadata.id, parent: parentId});
 
         //already added to tree, removing old reference
         if(parentId)
@@ -168,10 +171,10 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this._addDescendantMetadata?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
         
         //moving existing component in tree
-        if(parentId)
-        {
-            this._layoutEditorMetadataManager.moveLayoutDesignerComponent(dragData.item.data.metadata.id, parentId, dragData.currentIndex);
-        }
+        // if(parentId)
+        // {
+        //     this._layoutEditorMetadataManager.moveLayoutDesignerComponent(dragData.item.data.metadata.id, parentId, dragData.currentIndex);
+        // }
 
         this._canDrop = this._canDropMetadata?.(this._options.typeMetadata.options) ?? false;
 

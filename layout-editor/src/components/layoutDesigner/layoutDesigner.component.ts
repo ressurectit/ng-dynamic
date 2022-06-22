@@ -9,7 +9,7 @@ import {Action, Func} from '@jscrpt/common';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {CopyDesignerStylesSADirective, DesignerMinHeightSADirective} from '../../directives';
-import {LayoutEditorMetadataExtractor, LayoutMetadataManager} from '../../services';
+import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutComponentDragData} from '../../interfaces';
 
 /**
@@ -73,7 +73,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected get selected(): boolean
     {
-        return this._layoutMetadataManager.selectedComponent === this._options?.typeMetadata.id;
+        return this._layoutEditorMetadataManager.selectedComponent === this._options?.typeMetadata.id;
     }
 
     /**
@@ -94,7 +94,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
                 element: ElementRef<HTMLElement>,
                 protected _getter: DynamicItemLoader,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
-                protected _layoutMetadataManager: LayoutMetadataManager,
+                protected _layoutEditorMetadataManager: LayoutEditorMetadataManager,
                 @Inject(LOGGER) @Optional() logger?: Logger,
                 @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
     {
@@ -110,7 +110,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     {
         if(this._options)
         {
-            this._layoutMetadataManager.unregisterLayoutDesignerComponent(this._options.typeMetadata.id);
+            this._layoutEditorMetadataManager.unregisterLayoutDesignerComponent(this._options.typeMetadata.id);
         }
     }
 
@@ -144,13 +144,22 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
+        const parentId = dragData.item.data.parentId;
+
         //already added to tree, removing old reference
-        if(dragData.item.data.parentId)
+        if(parentId)
         {
-            this._layoutMetadataManager.getComponent(dragData.item.data.parentId)?.removeDescendant(dragData.item.data.metadata.id);
+            this._layoutEditorMetadataManager.getComponent(parentId)?.removeDescendant(dragData.item.data.metadata.id);
         }
 
         this._addDescendantMetadata?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
+        
+        //moving existing component in tree
+        if(parentId)
+        {
+            this._layoutEditorMetadataManager.moveLayoutDesignerComponent(dragData.item.data.metadata.id, parentId, dragData.currentIndex);
+        }
+
         this.renderedType = {...this._options.typeMetadata};
     }
 
@@ -190,7 +199,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         if(this._options)
         {
-            this._layoutMetadataManager.selectComponent(this._options.typeMetadata.id);
+            this._layoutEditorMetadataManager.selectComponent(this._options.typeMetadata.id);
         }
     }
 
@@ -208,7 +217,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
         
-        this._layoutMetadataManager.registerLayoutDesignerComponent(this, this._options.typeMetadata.id);
+        this._layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this._options.typeMetadata.id, this._parent?._options?.typeMetadata.id);
         await this._readMetadata();
         this._canDrop = this._canDropMetadata?.(this._options.typeMetadata.options) ?? false;
 

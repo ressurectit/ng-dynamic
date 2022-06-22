@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {ComponentStylingOptions, LayoutComponentRendererDirectiveOptions, MissingTypeBehavior, TextFontWeight, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {TextBlockComponentOptions, StackPanelComponentOptions, GridPanelComponentOptions, GridPanelCellComponentOptions} from '@anglr/dynamic/basic-components';
-import {LayoutMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
+import {LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
 
 /**
  * Home component
@@ -19,7 +19,7 @@ import {LayoutMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr
             useValue: new LayoutComponentRendererDirectiveOptions(MissingTypeBehavior.ShowNotFound)
         },
         LAYOUT_DESIGNER_COMPONENT_TRANSFORM,
-        LayoutMetadataManager,
+        LayoutEditorMetadataManager,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -119,7 +119,7 @@ export class HomeComponent
     };
 
     //######################### constructor #########################
-    constructor(private _manager: LayoutMetadataManager,)
+    constructor(private _manager: LayoutEditorMetadataManager,)
     {
     }
 

@@ -1,22 +1,23 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {Dictionary, isBlank, isEmptyObject, isPresent} from '@jscrpt/common';
+import {Dictionary, isBlank, isPresent} from '@jscrpt/common';
 
 import type {LayoutDesignerSAComponent} from '../../components';
+import {LayoutEditorMetadataManagerComponent} from '../../interfaces';
 
 /**
  * Class used for handling layout metadata
  */
 @Injectable()
-export class LayoutMetadataManager
+export class LayoutEditorMetadataManager
 {
     //######################### protected fields #########################
 
     /**
      * Array of all registered layout designer components
      */
-    protected _components: Dictionary<LayoutDesignerSAComponent> = {};
+    protected _components: Dictionary<LayoutEditorMetadataManagerComponent> = {};
 
     /**
      * Id of root component
@@ -38,6 +39,19 @@ export class LayoutMetadataManager
         return this._selectedComponent;
     }
 
+    /**
+     * Gets tree root for component tree
+     */
+    public get root(): LayoutEditorMetadataManagerComponent|undefined|null
+    {
+        if(isBlank(this._rootComponentId))
+        {
+            return null;
+        }
+
+        return this._components[this._rootComponentId];
+    }
+
     //######################### constructor #########################
     constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
@@ -57,11 +71,11 @@ export class LayoutMetadataManager
 
         if(isPresent(oldId))
         {
-            const component = this._components[oldId];
+            const item = this._components[oldId];
 
-            if(component)
+            if(item)
             {
-                component.invalidateVisuals();
+                item.component.invalidateVisuals();
             }
         }
     }
@@ -78,10 +92,11 @@ export class LayoutMetadataManager
      * Registers layout designer component and returns true if component was registered successfuly, otherwise false
      * @param component - Component instance that is being registered
      * @param id - Id of registered component
+     * @param parentId - Id of parent that holds this component
      */
-    public registerLayoutDesignerComponent(component: LayoutDesignerSAComponent, id: string): boolean
+    public registerLayoutDesignerComponent(component: LayoutDesignerSAComponent, id: string, parentId: string|undefined): boolean
     {
-        if(isEmptyObject(this._components))
+        if(isBlank(parentId))
         {
             this._rootComponentId = id;
         }
@@ -89,14 +104,58 @@ export class LayoutMetadataManager
         //already exists
         if(this._components[id])
         {
-            this._logger?.error(`LayoutMetadataManager: Component with id ${id} is already registered!`);
+            this._logger?.error(`LayoutEditorMetadataManager: Component with id ${id} is already registered!`);
 
             return false;
         }
 
-        this._components[id] = component;
+        const parent = parentId ? this._components[parentId] : null;
+        const componentItem: LayoutEditorMetadataManagerComponent = 
+        {
+            component,
+            parent,
+            children: []
+        };
+
+        this._components[id] = componentItem;
+        
+        //insert into parent at the end
+        if(parent)
+        {
+            parent.children.splice(parent.children.length, 0, componentItem);
+        }
 
         return true;
+    }
+
+    /**
+     * Move comopnent to new parent
+     * @param id - Id of component to be moved
+     * @param parentId - Id of component to be used as new parent
+     * @param index - Index at which should component placed at new parent
+     */
+    public moveLayoutDesignerComponent(id: string, parentId: string, index: number): void
+    {
+        const componentItem = this._components[id];
+        const parentItem = this._components[parentId];
+
+        if(!componentItem || !parentItem)
+        {
+            this._logger?.error(`LayoutEditorMetadataManager: Unable to move item '${id}' into '${parentId}', missing components`);
+
+            return;
+        }
+
+        //unregister from parent
+        if(componentItem.parent)
+        {
+            const index = componentItem.parent.children.indexOf(componentItem);
+            componentItem.parent.children.splice(index, 1);
+        }
+
+        //move into new parent
+        parentItem.children.splice(index, 0, componentItem);
+
     }
 
     /**
@@ -105,7 +164,7 @@ export class LayoutMetadataManager
      */
     public getComponent(id: string): LayoutDesignerSAComponent|null
     {
-        return this._components[id];
+        return this._components[id].component;
     }
 
     /**
@@ -114,7 +173,15 @@ export class LayoutMetadataManager
      */
     public unregisterLayoutDesignerComponent(id: string): void
     {
+        const componentItem = this._components[id];
         delete this._components[id];
+        
+        //unregister from parent
+        if(componentItem?.parent)
+        {
+            const index = componentItem.parent.children.indexOf(componentItem);
+            componentItem.parent.children.splice(index, 1);
+        }
 
         if(id === this._rootComponentId)
         {
@@ -153,6 +220,6 @@ export class LayoutMetadataManager
             return null;
         }
 
-        return this._components[this._rootComponentId].options?.typeMetadata ?? null;
+        return this._components[this._rootComponentId].component.options?.typeMetadata ?? null;
     }
 }

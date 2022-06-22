@@ -14,7 +14,7 @@ export class TextBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
      */
     public metaInfo?: LayoutEditorMetadataInfo =
     {
-        name: 'TextBlock',
+        name: 'Text block',
         description: 'Displays text',
     };
 

@@ -153,10 +153,10 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
             if(this.component)
             {
                 this.component.options = componentMetadata.options;
-                this.component.invalidateVisuals();
-                
-                // componentManager.registerComponent(this.componentMetadata.id, this.component);
             }
+            
+            this.component?.invalidateVisuals();
+            // componentManager.registerComponent(this.componentMetadata.id, this.component);
         }
     }
 

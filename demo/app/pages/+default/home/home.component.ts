@@ -1,8 +1,9 @@
-import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ValueProvider, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {ComponentStylingOptions, LayoutComponentRendererDirectiveOptions, MissingTypeBehavior, TextFontWeight, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {TextBlockComponentOptions, StackPanelComponentOptions, GridPanelComponentOptions, GridPanelCellComponentOptions} from '@anglr/dynamic/basic-components';
-import {LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
+import {LayoutEditorMetadataManager, LayoutEditorMetadataManagerComponent, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
+import {Subscription} from 'rxjs';
 
 /**
  * Home component
@@ -25,9 +26,16 @@ import {LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '
 })
 @ComponentRedirectRoute('', 'home')
 @ComponentRoute({path: 'home'})
-export class HomeComponent
+export class HomeComponent implements OnInit, OnDestroy
 {
+    /**
+     * Subscriptions created during initialization
+     */
+    private _initSubscriptions: Subscription = new Subscription();
+
     //######################### protected properties - template bindings #########################
+
+    protected root: LayoutEditorMetadataManagerComponent|undefined|null;
 
     protected metadata: LayoutComponentMetadata =
     {
@@ -166,8 +174,36 @@ export class HomeComponent
     };
 
     //######################### constructor #########################
-    constructor(private _manager: LayoutEditorMetadataManager,)
+    constructor(private _manager: LayoutEditorMetadataManager,
+                private _changeDetector: ChangeDetectorRef,)
     {
+    }
+
+    //######################### public methods - implementation of OnInit #########################
+    
+    /**
+     * Initialize component
+     */
+    public ngOnInit(): void
+    {
+        this._initSubscriptions.add(this._manager.layoutChange.subscribe(() =>
+        {
+            this.root = this._manager.root;
+
+            this._changeDetector.detectChanges();
+        }));
+        
+        this.root = this._manager.root;
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        this._initSubscriptions.unsubscribe();
     }
 
     //######################### protected methods - template bindings #########################

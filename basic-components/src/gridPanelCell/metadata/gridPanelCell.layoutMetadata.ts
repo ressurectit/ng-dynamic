@@ -17,6 +17,7 @@ export class GridPanelCellLayoutEditorMetadata implements LayoutEditorMetadataDe
      */
     public metaInfo?: LayoutEditorMetadataInfo =
     {
+        name: 'Grid cell',
         dragDisabled: true,
     };
 

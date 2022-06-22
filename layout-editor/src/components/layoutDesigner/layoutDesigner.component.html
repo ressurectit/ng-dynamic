@@ -22,6 +22,6 @@
         <div *ngIf="overlayVisible || selected"
              class="designer-overlay-title"
              [positionTo]="layoutDesigner"
-             placement="TopStart">{{renderedType?.name}}#{{renderedType?.id}}</div>
+             placement="TopStart">{{_metaInfo?.name ?? renderedType?.name}}</div>
     </ng-container>
 </div>

@@ -3,10 +3,41 @@ import {AsyncProperties} from '@anglr/dynamic';
 import {Action, Func} from '@jscrpt/common';
 
 /**
+ * Holds meta information about layout component
+ */
+export interface LayoutEditorMetadataInfo
+{
+    /**
+     * Display name of component in palette
+     */
+    readonly name?: string;
+
+    /**
+     * Description of component in palette
+     */
+    readonly description?: string;
+
+    /**
+     * Name of group in palette
+     */
+    readonly group?: string;
+
+    /**
+     * Gets indication whether is component drag enabled or disabled
+     */
+    readonly dragDisabled?: boolean;
+}
+
+/**
  * Class that represents layout editor metadata
  */
 export interface LayoutEditorMetadataDescriptor<TLayoutComponentOptions = any>
 {
+    /**
+     * Meta information about layout component
+     */
+    readonly metaInfo?: LayoutEditorMetadataInfo;
+    
     /**
      * Adds descendant metadata to component options
      * @param metadata - Metadata containing definition of new descendant to be added

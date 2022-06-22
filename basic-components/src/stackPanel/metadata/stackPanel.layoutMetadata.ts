@@ -1,6 +1,6 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
-import {Action} from '@jscrpt/common';
+import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {Action, Func} from '@jscrpt/common';
 
 import {StackPanelComponentOptions} from '../stackPanel.options';
 
@@ -9,12 +9,22 @@ import {StackPanelComponentOptions} from '../stackPanel.options';
  */
 export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<StackPanelComponentOptions>
 {
-    //######################### protected fields #########################
+    //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
     /**
      * @inheritdoc
      */
-    protected _addDescendant: Action<[LayoutComponentMetadata, StackPanelComponentOptions, number]> = (metadata, options, index) =>
+    public metaInfo?: LayoutEditorMetadataInfo =
+    {
+        name: 'Stack',
+        description: 'Layout component that stacks items horizontally or vertically',
+        group: 'Layout',
+    };
+
+    /**
+     * @inheritdoc
+     */
+    public addDescendant: Action<[LayoutComponentMetadata, StackPanelComponentOptions, number]> = (metadata, options, index) =>
     {
         options.children ??= [];
         options.children.splice(index, 0, metadata);
@@ -23,28 +33,21 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
     /**
      * @inheritdoc
      */
-    protected _removeDescendant: Action<[string, StackPanelComponentOptions]> = (id, options) =>
+    public canDropMetadata: Func<boolean, [StackPanelComponentOptions|undefined|null]> = () => true;
+
+    /**
+     * @inheritdoc
+     */
+    public removeDescendant: Action<[string, StackPanelComponentOptions]> = (id, options) =>
     {
         options.children ??= [];
         const index = options.children.findIndex(itm => itm.id === id);
         options.children.splice(index, 1);
     }
 
-    //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
-
-    /**
-     * @inheritdoc
-     */
-    public get addDescendant(): Action<[LayoutComponentMetadata, StackPanelComponentOptions, number]>
+    //######################### constructor #########################
+    constructor()
     {
-        return this._addDescendant;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public get removeDescendant(): Action<[string, StackPanelComponentOptions]>
-    {
-        return this._removeDescendant;
+        Object.freeze(this);
     }
 }

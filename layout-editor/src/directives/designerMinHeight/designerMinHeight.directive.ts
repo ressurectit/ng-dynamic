@@ -49,7 +49,7 @@ export class DesignerMinHeightSADirective implements OnInit, OnDestroy
                 //no height, apply min height
                 if(change.contentRect.height <= 0)
                 {
-                    this._element.nativeElement.style.minHeight = '14px';
+                    this._element.nativeElement.style.minHeight = '30px';
                 }
                 else
                 {

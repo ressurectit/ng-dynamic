@@ -47,6 +47,9 @@ export class HomeComponent
                 {
                     width: '1fr'
                 },
+                {
+                    width: '100px'
+                },
             ],
             rows:
             [
@@ -110,6 +113,50 @@ export class HomeComponent
                                         }
                                     }
                                 ]
+                            }
+                        }
+                    }
+                },
+                {
+                    id: 'anotherCell',
+                    package: 'basic-components',
+                    name: 'gridPanelCell',
+                    options: <GridPanelCellComponentOptions>
+                    {
+                        gridColumnStart: 3,
+                        gridColumnEnd: 4,
+                        gridRowStart: 1,
+                        gridRowEnd: 2,
+                        component:
+                        {
+                            package: 'basic-components',
+                            id: 'textJeTo',
+                            name: 'textBlock',
+                            options: <TextBlockComponentOptions>
+                            {
+                                text: 'nový text',
+                            }
+                        }
+                    }
+                },
+                {
+                    id: 'stackxxx',
+                    package: 'basic-components',
+                    name: 'gridPanelCell',
+                    options: <GridPanelCellComponentOptions>
+                    {
+                        gridColumnStart: 4,
+                        gridColumnEnd: 5,
+                        gridRowStart: 1,
+                        gridRowEnd: 2,
+                        component:
+                        {
+                            id: 'stackPanelxxx',
+                            package: 'basic-components',
+                            name: 'stackPanel',
+                            options: <StackPanelComponentOptions>
+                            {
+                                children: []
                             }
                         }
                     }

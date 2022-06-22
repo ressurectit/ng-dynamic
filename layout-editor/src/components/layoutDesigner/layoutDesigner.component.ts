@@ -10,7 +10,7 @@ import {Action, Func} from '@jscrpt/common';
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerMinHeightSADirective} from '../../directives';
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
-import {LayoutComponentDragData} from '../../interfaces';
+import {LayoutComponentDragData, LayoutEditorMetadataInfo} from '../../interfaces';
 
 /**
  * Component used as designer component wrapper for layout component
@@ -62,6 +62,11 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected _canDropMetadata: Func<boolean, [LayoutDesignerComponentOptions]>|undefined;
 
+    /**
+     * Metainfo about component
+     */
+    protected _metaInfo: LayoutEditorMetadataInfo|undefined;
+
     //######################### protected properties - template bindings #########################
 
     /**
@@ -80,10 +85,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * Gets predicate that returns indication whether item can be dropped into this list
      */
-    protected canDrop: Func<boolean> = () => 
-    {
-        return this._canDrop;
-    };
+    protected canDrop: Func<boolean> = () => this._canDrop;
 
     /**
      * Metadata for rendered type
@@ -137,7 +139,9 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         this._removeDescendantMetadata?.(id, this._options.typeMetadata.options);
+        this._canDrop = this._canDropMetadata?.(this._options.typeMetadata.options) ?? false;
         this.renderedType = {...this._options.typeMetadata};
+        this._changeDetector.detectChanges();
     }
 
     //######################### protected methods - host #########################
@@ -169,6 +173,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             this._layoutEditorMetadataManager.moveLayoutDesignerComponent(dragData.item.data.metadata.id, parentId, dragData.currentIndex);
         }
 
+        this._canDrop = this._canDropMetadata?.(this._options.typeMetadata.options) ?? false;
+
         this.renderedType = {...this._options.typeMetadata};
     }
 
@@ -198,6 +204,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         event.preventDefault();
         event.stopPropagation();
 
+        this._parent?.hideOverlay(event);
         this.overlayVisible = false;
     }
 
@@ -254,6 +261,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this._canDropMetadata = await metadata?.canDropMetadata;
         this._removeDescendantMetadata = await metadata?.removeDescendant;
         this._addDescendantMetadata = await metadata?.addDescendant;
+        this._metaInfo = await metadata?.metaInfo;
 
         this._metadataRead = true;
     }

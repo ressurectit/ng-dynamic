@@ -2,7 +2,7 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {AsyncProperties} from '@anglr/dynamic';
 import {Action, Func} from '@jscrpt/common';
 
-import {LayoutEditorMetadataDescriptor} from '../interfaces';
+import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '../interfaces';
 
 /**
  * Generic implementation of layout editor metadata descriptor
@@ -19,35 +19,43 @@ export abstract class GenericLayoutMetadata<TOptions> implements AsyncProperties
     //######################### public properties - implementation of async LayoutEditorMetadataDescriptor #########################
 
     /**
-     * @inheritdoc
+     * Meta information about layout component
      */
-    public get addDescendant(): Promise<Action<[LayoutComponentMetadata, TOptions, number]>>
+    public get metaInfo(): Promise<LayoutEditorMetadataInfo|undefined>
     {
-        return this._getValue<Action<[LayoutComponentMetadata, TOptions, number]>>('addDescendant');
+        return this._getValue<LayoutEditorMetadataInfo|undefined>('metaInfo');
     }
 
     /**
      * @inheritdoc
      */
-    public get applyDesignerStyles(): Promise<Action<[TOptions|null|undefined, CSSStyleDeclaration]>>
+    public get addDescendant(): Promise<Action<[LayoutComponentMetadata, TOptions, number]>|undefined>
     {
-        return this._getValue<Action<[TOptions|null|undefined, CSSStyleDeclaration]>>('applyDesignerStyles');
+        return this._getValue<Action<[LayoutComponentMetadata, TOptions, number]>|undefined>('addDescendant');
     }
 
     /**
      * @inheritdoc
      */
-    public get canDropMetadata(): Promise<Func<boolean, [TOptions|undefined|null]>>
+    public get applyDesignerStyles(): Promise<Action<[TOptions|null|undefined, CSSStyleDeclaration]>|undefined>
     {
-        return this._getValue<Func<boolean, [TOptions|undefined|null]>>('canDropMetadata');
+        return this._getValue<Action<[TOptions|null|undefined, CSSStyleDeclaration]>|undefined>('applyDesignerStyles');
     }
 
     /**
      * @inheritdoc
      */
-    public get removeDescendant(): Promise<Action<[string, TOptions]>>
+    public get canDropMetadata(): Promise<Func<boolean, [TOptions|undefined|null]>|undefined>
     {
-        return this._getValue<Action<[string, TOptions]>>('removeDescendant');
+        return this._getValue<Func<boolean, [TOptions|undefined|null]>|undefined>('canDropMetadata');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get removeDescendant(): Promise<Action<[string, TOptions]>|undefined>
+    {
+        return this._getValue<Action<[string, TOptions]>|undefined>('removeDescendant');
     }
 
     //######################### protected methods #########################

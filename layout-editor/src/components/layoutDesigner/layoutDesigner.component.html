@@ -6,13 +6,13 @@
      connectDropLists
      [copyDesignerStyles]="renderedType"
      [cdkDragData]="{metadata: renderedType, parentId: _parent?.renderedType?.id}"
-     [cdkDragDisabled]="!_parent"
+     [cdkDragDisabled]="!_parent || _metaInfo?.dragDisabled"
      [cdkDropListEnterPredicate]="canDrop"
      (mouseleave)="hideOverlay($event)"
      (mouseover)="showOverlay($event)"
      (cdkDropListDropped)="addDescendant($event)"
      (click)="selectComponent($event)">
-    <div class="drag-placeholder" *cdkDragPlaceholder></div>
+    <div class="drag-placeholder mat-elevation-z6" *cdkDragPlaceholder></div>
     <div class="drag-preview mat-elevation-z8" *cdkDragPreview>{{renderedType?.name}}#{{renderedType?.id}}</div>
     <ng-template [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 

@@ -21,7 +21,7 @@ export class ToLayoutDragDataSAPipe implements PipeTransform
         return {
             metadata:
             {
-                id,
+                id: `${value.itemSource.name}-${id}`,
                 package: value.itemSource.package,
                 name: value.itemSource.name,
                 options: {},

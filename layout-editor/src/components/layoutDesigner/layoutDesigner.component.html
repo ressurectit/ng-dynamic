@@ -4,25 +4,26 @@
      cdkDropList
      designerMinHeight
      connectDropLists
-     [copyDesignerStyles]="renderedType"
-     [cdkDragData]="{metadata: renderedType, parentId: _parent?.renderedType?.id}"
+     [copyDesignerStyles]="_renderedType"
+     [cdkDragData]="{metadata: _renderedType, parentId: _parent?._renderedType?.id}"
      [cdkDragDisabled]="!_parent || _editorMetadata?.metaInfo?.dragDisabled"
      [cdkDropListEnterPredicate]="canDrop"
-     (mouseleave)="hideOverlay($event)"
-     (mouseover)="showOverlay($event)"
-     (cdkDropListDropped)="addDescendant($event)"
-     (click)="selectComponent($event)"
-     (dblclick)="unselectComponent($event)">
+     (mouseleave)="_hideOverlay($event)"
+     (mouseover)="_showOverlay($event)"
+     (cdkDropListDropped)="_addDescendant($event)"
+     (click)="_selectComponent($event)"
+     (dblclick)="_unselectComponent($event)">
     <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>
-    <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="_editorMetadata" [layoutMetadata]="renderedType"></layout-editor-drag-preview>
-    <ng-template [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
+    <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="_editorMetadata" [layoutMetadata]="_renderedType"></layout-editor-drag-preview>
+    <ng-template [layoutComponentRenderer]="_renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
     <ng-container *ngIf="highlighted || selected">
         <div class="designer-overlay-border"></div>
 
-        <div *ngIf="highlighted || selected"
-             class="designer-overlay-title"
+        <div class="designer-overlay-title"
              [positionTo]="layoutDesigner"
-             placement="TopStart">{{_editorMetadata?.metaInfo?.name ?? renderedType?.name}}</div>
+             placement="TopStart">{{_editorMetadata?.metaInfo?.name ?? _renderedType?.name}}</div>
+
+        <div *ngIf="!!_parent && _parent._editorMetadata?.removeDescendant" class="designer-overlay-remove" (click)="_remove()">x</div>
     </ng-container>
 </div>

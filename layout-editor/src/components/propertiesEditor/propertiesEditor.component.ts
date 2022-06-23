@@ -57,6 +57,9 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     protected _id: FormControl<string|null> = new FormControl<string|null>(null);
 
+    //TODO: remove this only for testing
+    protected _text: FormControl<string|null> = new FormControl<string|null>(null);
+
     //######################### constructor #########################
     constructor(protected _manager: LayoutEditorMetadataManager,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
@@ -85,6 +88,21 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                     this._component.options.typeMetadata.id = id;
 
                     this._manager.updatedLayoutDesignerComponentId(oldId, id);
+                }
+            });
+
+        this._text
+            .valueChanges
+            .pipe(debounceTime(160))
+            .subscribe(text =>
+            {
+                if(this._component?.options?.typeMetadata && isPresent(text))
+                {
+                    const options = this._component.options.typeMetadata.options as any;
+                    options.text = text;
+
+                    // eslint-disable-next-line no-self-assign
+                    this._component.options = this._component.options;
                 }
             });
 
@@ -139,6 +157,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         if(this._component?.options?.typeMetadata)
         {
             this._id.setValue(this._component.options.typeMetadata.id, {emitEvent: false});
+            this._text.setValue((this._component.options.typeMetadata.options as any).text, {emitEvent: false});
 
             this._metadata = await this._metadataExtractor.extractMetadata(this._component.options?.typeMetadata);
 

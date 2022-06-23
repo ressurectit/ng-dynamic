@@ -5,4 +5,9 @@
         <label class="control-label">Id</label>
         <input class="form-control" type="text" [formControl]="_id">
     </div>
+
+    <div class="form-group" *ngIf="_component?.options?.typeMetadata?.name == 'textBlock'">
+        <label class="control-label">Text</label>
+        <input class="form-control" type="text" [formControl]="_text">
+    </div>
 </div>

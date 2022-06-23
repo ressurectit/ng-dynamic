@@ -88,7 +88,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * Metadata for rendered type
      */
-    protected renderedType: LayoutComponentMetadata|undefined|null;
+    protected _renderedType: LayoutComponentMetadata|undefined|null;
 
     //######################### public properties - children #########################
 
@@ -131,13 +131,13 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
     }
 
-    //######################### public methods #########################
+    //######################### protected methods #########################
 
     /**
      * Removes descendant metadata from this component metadata
      * @param id - Id of descendant to be removed
      */
-    protected removeDescendant(id: string): void
+    protected _removeDescendant(id: string): void
     {
         if(!this._options)
         {
@@ -148,16 +148,16 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         this._editorMetadata?.removeDescendant?.(id, this._options.typeMetadata.options);
         this._canDrop = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
-        this.renderedType = {...this._options.typeMetadata};
+        this._renderedType = {...this._options.typeMetadata};
     }
 
-    //######################### protected methods - host #########################
+    //######################### protected methods - template bindings #########################
 
     /**
      * Adds descentant component metadata to this component metadata
      * @param dragData - Data from drag n drop event
      */
-    protected addDescendant(dragData: CdkDragDrop<LayoutComponentDragData, LayoutComponentDragData, LayoutComponentDragData>): void
+    protected _addDescendant(dragData: CdkDragDrop<LayoutComponentDragData, LayoutComponentDragData, LayoutComponentDragData>): void
     {
         if(!this._options)
         {
@@ -170,20 +170,20 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         //already added to tree, removing old reference
         if(parentId)
         {
-            this._layoutEditorMetadataManager.getComponent(parentId)?.removeDescendant(dragData.item.data.metadata.id);
+            this._layoutEditorMetadataManager.getComponent(parentId)?._removeDescendant(dragData.item.data.metadata.id);
         }
 
         this._editorMetadata?.addDescendant?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
         this._canDrop = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
 
-        this.renderedType = {...this._options.typeMetadata};
+        this._renderedType = {...this._options.typeMetadata};
     }
 
     /**
      * Shows designer overlay
      * @param event - Mouse event that occured
      */
-    protected showOverlay(event: Event): void
+    protected _showOverlay(event: Event): void
     {
         this._logger?.verbose('LayoutDesignerComponent: Showing overlay for {@type}', {name: this._options?.typeMetadata.name, id: this._options?.typeMetadata.id});
 
@@ -197,7 +197,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Hides designer overlay
      * @param event - Mouse event that occured
      */
-    protected hideOverlay(event: Event): void
+    protected _hideOverlay(event: Event): void
     {
         if(isPresent(this._parent))
         {
@@ -216,7 +216,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Marks component as selected
      * @param event - Event that occured
      */
-    protected selectComponent(event: MouseEvent): void
+    protected _selectComponent(event: MouseEvent): void
     {
         event.preventDefault();
         event.stopPropagation();
@@ -231,12 +231,25 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Unselects selected component
      * @param event - Event that occured
      */
-    protected unselectComponent(event: MouseEvent): void
+    protected _unselectComponent(event: MouseEvent): void
     {
         event.preventDefault();
         event.stopPropagation();
 
         this._layoutEditorMetadataManager.unselectComponent();
+    }
+
+    /**
+     * Removes itself from tree
+     */
+    protected _remove(): void
+    {
+        if(!this._parent || !this._options)
+        {
+            return;
+        }
+
+        this._parent._removeDescendant(this._options.typeMetadata.id);
     }
 
     //######################### protected methods #########################
@@ -246,13 +259,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override async _optionsSet(): Promise<void>
     {
-        this.renderedType = this._options?.typeMetadata;
-
         if(!this._options)
         {
             return;
         }
-        
+
+        this._renderedType = {...this._options.typeMetadata};
         this._layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this._options.typeMetadata.id, this._parent?._options?.typeMetadata.id);
         await this._readMetadata();
         this._canDrop = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;

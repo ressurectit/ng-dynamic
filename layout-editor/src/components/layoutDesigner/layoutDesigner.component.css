@@ -29,3 +29,16 @@
     padding: 2px 6px;
     pointer-events: none;
 }
+
+.designer-overlay-remove
+{
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    border-radius: 50%;
+    background-color: #009dd8;
+    padding: 2px 7px;
+    opacity: .75;
+    color: #fff;
+    cursor: pointer;
+}

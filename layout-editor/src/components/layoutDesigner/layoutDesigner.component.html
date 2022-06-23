@@ -13,8 +13,8 @@
      (cdkDropListDropped)="addDescendant($event)"
      (click)="selectComponent($event)"
      (dblclick)="unselectComponent($event)">
-    <div class="drag-placeholder mat-elevation-z6" *cdkDragPlaceholder></div>
-    <div class="drag-preview mat-elevation-z8" *cdkDragPreview>{{renderedType?.name}}#{{renderedType?.id}}</div>
+    <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>
+    <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="_editorMetadata" [layoutMetadata]="renderedType"></layout-editor-drag-preview>
     <ng-template [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
     <ng-container *ngIf="highlighted || selected">

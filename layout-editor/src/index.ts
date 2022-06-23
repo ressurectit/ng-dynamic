@@ -6,4 +6,5 @@ export * from './misc/constants';
 export * from './misc/providers';
 export * from './misc/types';
 export * from './misc/utils';
+export * from './pipes';
 export * from './services';

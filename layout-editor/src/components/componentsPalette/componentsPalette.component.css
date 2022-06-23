@@ -1,0 +1,21 @@
+.editor-component
+{
+    margin: 2px 10px;
+    padding: 4px 8px;
+
+    border-radius: 6px;
+    border: 1px solid #F0F0F0;
+    background-color: #FAFAFA;
+}
+
+.editor-component-name
+{
+    font-weight: 500;
+}
+
+.editor-component-description
+{
+    margin-left: 4px;
+    margin-top: 2px;
+    font-size: .8em;
+}

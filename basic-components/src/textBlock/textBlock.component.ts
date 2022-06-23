@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {StyledLayoutComponent, StyledLayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {CommonLocalizeModule, HostDisplayBlockStyle} from '@anglr/common';
+import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {TextBlockComponentOptions} from './textBlock.options';
 import {TextBlockLayoutMetadata} from './textBlock.metadata';
@@ -15,10 +15,6 @@ import {TextBlockLayoutMetadata} from './textBlock.metadata';
     templateUrl: 'textBlock.component.html',
     styles: [HostDisplayBlockStyle],
     standalone: true,
-    imports:
-    [
-        CommonLocalizeModule,
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorMetadata(TextBlockLayoutMetadata)

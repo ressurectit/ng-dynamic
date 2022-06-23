@@ -59,6 +59,7 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
         
         this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => this._changeDetector.detectChanges()));
         this._initSubscriptions.add(this._manager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
+        this._initSubscriptions.add(this._manager.idChange.subscribe(() => this._changeDetector.detectChanges()));
 
         this.root = this._manager.root;
     }

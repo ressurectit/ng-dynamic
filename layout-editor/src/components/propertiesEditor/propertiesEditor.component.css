@@ -1,0 +1,26 @@
+:host
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.properties-main
+{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    border: 1px solid #bbb;
+    background-color: #F5F5F5;
+}
+
+.header
+{
+    padding: 2px 8px;
+    background-color: #bbb;
+}
+
+.form-group
+{
+    margin: 4px 6px 0;
+}

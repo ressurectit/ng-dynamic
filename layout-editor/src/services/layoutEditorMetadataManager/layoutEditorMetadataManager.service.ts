@@ -51,6 +51,11 @@ export class LayoutEditorMetadataManager
     protected _highlightedChange: Subject<void> = new Subject<void>();
 
     /**
+     * Used for emitting changes in components id
+     */
+    protected _idChanges: Subject<string> = new Subject<string>();
+
+    /**
      * Flattened tree of components tree
      */
     protected _flatTree: LayoutEditorMetadataManagerComponent[]|null = null;
@@ -108,6 +113,14 @@ export class LayoutEditorMetadataManager
     public get highlightedChange(): Observable<void>
     {
         return this._highlightedChange.asObservable();
+    }
+
+    /**
+     * Occurs when id of component changes
+     */
+    public get idChange(): Observable<string>
+    {
+        return this._idChanges.asObservable();
     }
 
     /**
@@ -262,6 +275,8 @@ export class LayoutEditorMetadataManager
             {
                 this._rootComponentId = newId;
             }
+
+            this._idChanges.next(oldId);
         }
     }
 

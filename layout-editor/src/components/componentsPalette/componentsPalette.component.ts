@@ -45,7 +45,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      */
     protected _allItems: ComponentsPaletteItem[] = [];
 
-    //######################### protected fields - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Available items grouped by group name

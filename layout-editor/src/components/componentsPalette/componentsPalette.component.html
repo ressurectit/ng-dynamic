@@ -4,6 +4,7 @@
 
         <div *ngFor="let item of groupKeyValue.value"
              cdkDropList
+             cdkDropListSortingDisabled
              [cdkDropListConnectedTo]="_designerDropLists">
             <div class="editor-component mat-elevation-z2"
                  cdkDrag

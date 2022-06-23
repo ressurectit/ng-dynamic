@@ -1,0 +1,18 @@
+<ng-template #components="treeNodeTemplate"
+             treeNodeTemplate
+             let-item
+             let-margin="margin">
+    <div [style.marginLeft.px]="margin"
+         [class.selected]="item.component.options?.typeMetadata?.id === _manager.selectedComponent"
+         [class.highlighted]="item.component.options?.typeMetadata?.id === _manager.highlightedComponent"
+         (mouseover)="highlight($event, item.component.options?.typeMetadata?.id)"
+         (click)="_manager.selectComponent(item.component.options?.typeMetadata?.id)">{{item.component.options?.typeMetadata?.id}}</div>
+
+    <ng-container *ngFor="let child of item.children">
+        <ng-container *ngTemplateOutlet="components.template; context: {$implicit: child, margin: margin + 10}"></ng-container>
+    </ng-container>
+</ng-template>
+
+<ng-container *ngIf="root">
+    <ng-container *ngTemplateOutlet="components.template; context: {$implicit: root, margin: 0}"></ng-container>
+</ng-container>

@@ -1,7 +1,7 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {Dictionary, isBlank, isPresent} from '@jscrpt/common';
+import {Dictionary, isBlank} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
 import type {LayoutDesignerSAComponent} from '../../components';
@@ -31,9 +31,24 @@ export class LayoutEditorMetadataManager
     protected _selectedComponent: string|null = null;
 
     /**
+     * Id of highlighted component
+     */
+    protected _highlightedComponent: string|null = null;
+
+    /**
      * Used for emitting layout changes
      */
     protected _layoutChange: Subject<void> = new Subject<void>();
+
+    /**
+     * Used for emitting selected component changes
+     */
+    protected _selectedChange: Subject<void> = new Subject<void>();
+
+    /**
+     * Used for emitting highlighted component changes
+     */
+    protected _highlightedChange: Subject<void> = new Subject<void>();
 
     /**
      * Flattened tree of components tree
@@ -48,6 +63,14 @@ export class LayoutEditorMetadataManager
     public get selectedComponent(): string|null
     {
         return this._selectedComponent;
+    }
+
+    /**
+     * Gets id of highlighted component
+     */
+    public get highlightedComponent(): string|null
+    {
+        return this._highlightedComponent;
     }
 
     /**
@@ -72,6 +95,22 @@ export class LayoutEditorMetadataManager
     }
 
     /**
+     * Occurs when selected component changes
+     */
+    public get selectedChange(): Observable<void>
+    {
+        return this._selectedChange.asObservable();
+    }
+
+    /**
+     * Occurs when highlighted component changes
+     */
+    public get highlightedChange(): Observable<void>
+    {
+        return this._highlightedChange.asObservable();
+    }
+
+    /**
      * Gets flattened tree of components tree
      */
     public get flatTree(): LayoutEditorMetadataManagerComponent[]
@@ -90,21 +129,10 @@ export class LayoutEditorMetadataManager
      * Marks component as selected
      * @param id - Id of component that will be marked as selected
      */
-    public selectComponent(id: string): void
+    public selectComponent(id?: string): void
     {
-        const oldId = this._selectedComponent;
-        
-        this._selectedComponent = id;
-
-        if(isPresent(oldId))
-        {
-            const item = this._components[oldId];
-
-            if(item)
-            {
-                item.component.invalidateVisuals();
-            }
-        }
+        this._selectedComponent = id ?? null;
+        this._selectedChange.next();
     }
 
     /**
@@ -113,6 +141,26 @@ export class LayoutEditorMetadataManager
     public unselectComponent(): void
     {
         this._selectedComponent = null;
+        this._selectedChange.next();
+    }
+
+    /**
+     * Marks component as highlighted
+     * @param id - Id of component that will be marked as selected
+     */
+    public highlightComponent(id?: string): void
+    {
+        this._highlightedComponent = id ?? null;
+        this._highlightedChange.next();
+    }
+
+    /**
+     * Removes highlight of component
+     */
+    public cancelHighlightedComponent(): void
+    {
+        this._highlightedComponent = null;
+        this._highlightedChange.next();
     }
 
     /**

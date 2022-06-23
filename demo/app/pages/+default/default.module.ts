@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ModuleRoutes} from '@anglr/common/router';
 import {LayoutComponentRendererSADirective, ComponentStylingSADirective} from '@anglr/dynamic/layout';
+import {ComponentsTreeSAComponent} from '@anglr/dynamic/layout-editor';
 
 import {components} from './default.routes';
 import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} from '../../modules';
@@ -17,6 +18,7 @@ import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} fro
         FormsFeatureModule,
         DebuggingFeatureModule,
         LayoutComponentRendererSADirective,
+        ComponentsTreeSAComponent,
         ComponentStylingSADirective,
         DragDropModule,
     ],

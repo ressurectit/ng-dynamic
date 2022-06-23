@@ -5,7 +5,8 @@ import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {Action, Func} from '@jscrpt/common';
+import {Action, Func, isPresent} from '@jscrpt/common';
+import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerMinHeightSADirective} from '../../directives';
@@ -36,6 +37,11 @@ import {LayoutComponentDragData, LayoutEditorMetadataInfo} from '../../interface
 export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>, OnDestroy
 {
     //######################### protected fields #########################
+
+    /**
+     * Subscriptions created during initialization
+     */
+    protected _initSubscriptions: Subscription = new Subscription();
 
     /**
      * Indication whether were metadata read or not
@@ -70,16 +76,19 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     //######################### protected properties - template bindings #########################
 
     /**
-     * Indication whether is overlay visible
-     */
-    protected overlayVisible: boolean = false;
-
-    /**
      * Indication whether is component selected
      */
     protected get selected(): boolean
     {
         return this._layoutEditorMetadataManager.selectedComponent === this._options?.typeMetadata.id;
+    }
+
+    /**
+     * Indication whether is component highlighted
+     */
+    protected get highlighted(): boolean
+    {
+        return this._layoutEditorMetadataManager.highlightedComponent === this._options?.typeMetadata.id;
     }
 
     /**
@@ -110,6 +119,10 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
                 @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
     {
         super(changeDetector, element, logger);
+
+        //TODO: optimize
+        this._initSubscriptions.add(this._layoutEditorMetadataManager.selectedChange.subscribe(() => this._changeDetector.detectChanges()));
+        this._initSubscriptions.add(this._layoutEditorMetadataManager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -120,6 +133,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     public ngOnDestroy(): void
     {
         this._logger?.debug('LayoutDesignerSAComponent: Destroying component {@data}', {id: this._options?.typeMetadata.id});
+
+        this._initSubscriptions.unsubscribe();
 
         if(this._options)
         {
@@ -193,8 +208,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         event.preventDefault();
         event.stopPropagation();
 
-        this._parent?.hideOverlay(event);
-        this.overlayVisible = true;
+        this._layoutEditorMetadataManager.highlightComponent(this._options?.typeMetadata.id);
     }
 
     /**
@@ -203,13 +217,17 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected hideOverlay(event: Event): void
     {
+        if(isPresent(this._parent))
+        {
+            return;
+        }
+
         this._logger?.verbose('LayoutDesignerComponent: Hiding overlay for {@type}', {name: this._options?.typeMetadata.name, id: this._options?.typeMetadata.id});
 
         event.preventDefault();
         event.stopPropagation();
 
-        this._parent?.hideOverlay(event);
-        this.overlayVisible = false;
+        this._layoutEditorMetadataManager.cancelHighlightedComponent();
     }
 
     /**

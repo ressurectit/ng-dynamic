@@ -1,0 +1,17 @@
+:host
+{
+    display: block;
+    background-color: #fafafa;
+    border-right: 1px solid #ccc;
+    padding: 10px 8px;
+}
+
+.selected
+{
+    text-shadow: 0 0 2px #009cd7;
+}
+
+.highlighted
+{
+    text-shadow: 0 0 2px #666;
+}

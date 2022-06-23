@@ -60,6 +60,12 @@ export interface LayoutEditorMetadataDescriptor<TLayoutComponentOptions = any>
     readonly canDropMetadata?: Func<boolean, [TLayoutComponentOptions|undefined|null]>;
 
     /**
+     * Tests whether component has horizontal drop
+     * @param options - Options that holds information whether horizontal drop is enabled for this component
+     */
+    readonly isHorizontalDrop?: Func<boolean, [TLayoutComponentOptions|undefined|null]>;
+
+    /**
      * Removes descendant metadata from component options
      * @param id - Id of component metadata to be removed
      * @param options - Options that should be updated by removing descendant metadata

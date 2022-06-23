@@ -17,10 +17,10 @@
     <div class="drag-preview mat-elevation-z8" *cdkDragPreview>{{renderedType?.name}}#{{renderedType?.id}}</div>
     <ng-template [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
-    <ng-container *ngIf="overlayVisible || selected">
+    <ng-container *ngIf="highlighted || selected">
         <div class="designer-overlay-border"></div>
 
-        <div *ngIf="overlayVisible || selected"
+        <div *ngIf="highlighted || selected"
              class="designer-overlay-title"
              [positionTo]="layoutDesigner"
              placement="TopStart">{{_metaInfo?.name ?? renderedType?.name}}</div>

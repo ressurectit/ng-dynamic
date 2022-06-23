@@ -1,6 +1,6 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {resolvePromiseOr} from '@jscrpt/common';
+import {Dictionary, resolvePromiseOr} from '@jscrpt/common';
 
 import {DYNAMIC_MODULE_DATA_EXTRACTORS, DYNAMIC_MODULE_TYPES_PROVIDER} from '../../misc/tokens';
 import {DynamicModule, DynamicModuleDataExtractor} from '../../interfaces';
@@ -12,6 +12,13 @@ import {DynamicModuleTypesProvider} from './dynamicModuleTypesLoader.interface';
 @Injectable({providedIn: 'root'})
 export class DynamicModuleTypesLoader
 {
+    //######################### protected cache #########################
+
+    /**
+     * Cached dynamic module types
+     */
+    protected _cachedDynamicModuleTypes: Dictionary<string[]> = {};
+
     //######################### constructors #########################
     constructor(@Inject(DYNAMIC_MODULE_TYPES_PROVIDER) protected _providers: DynamicModuleTypesProvider[],
                 @Inject(DYNAMIC_MODULE_DATA_EXTRACTORS) protected _extractors: DynamicModuleDataExtractor<string[]>[],
@@ -44,6 +51,14 @@ export class DynamicModuleTypesLoader
     {
         let dynamicModule: DynamicModule|null = null;
 
+        //try to get from cache
+        if(this._cachedDynamicModuleTypes[moduleName])
+        {
+            this._logger?.verbose('DynamicModuleTypesLoader: Loading from cache {@source}', {moduleName});
+
+            return this._cachedDynamicModuleTypes[moduleName];
+        }
+
         //loops all providers, return result from first that returns non null value
         for(const provider of this._providers)
         {
@@ -75,11 +90,13 @@ export class DynamicModuleTypesLoader
         //loops all extractors, return result from first that returns non null value
         for(const extractor of this._extractors)
         {
-            const dynamicItemType = extractor.tryToExtract(dynamicModule);
+            const dynamicModuleTypes = extractor.tryToExtract(dynamicModule);
 
-            if(dynamicItemType)
+            if(dynamicModuleTypes)
             {
-                return dynamicItemType;
+                this._cachedDynamicModuleTypes[moduleName] = dynamicModuleTypes;
+
+                return dynamicModuleTypes;
             }
         }
 

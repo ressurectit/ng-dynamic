@@ -212,15 +212,31 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.overlayVisible = false;
     }
 
+    /**
+     * Marks component as selected
+     * @param event - Event that occured
+     */
     protected selectComponent(event: MouseEvent): void
     {
-        event.preventDefault();~
+        event.preventDefault();
         event.stopPropagation();
 
         if(this._options)
         {
             this._layoutEditorMetadataManager.selectComponent(this._options.typeMetadata.id);
         }
+    }
+
+    /**
+     * Unselects selected component
+     * @param event - Event that occured
+     */
+    protected unselectComponent(event: MouseEvent): void
+    {
+        event.preventDefault();
+        event.stopPropagation();
+
+        this._layoutEditorMetadataManager.unselectComponent();
     }
 
     //######################### protected methods #########################

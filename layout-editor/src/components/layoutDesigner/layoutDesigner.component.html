@@ -11,7 +11,8 @@
      (mouseleave)="hideOverlay($event)"
      (mouseover)="showOverlay($event)"
      (cdkDropListDropped)="addDescendant($event)"
-     (click)="selectComponent($event)">
+     (click)="selectComponent($event)"
+     (dblclick)="unselectComponent($event)">
     <div class="drag-placeholder mat-elevation-z6" *cdkDragPlaceholder></div>
     <div class="drag-preview mat-elevation-z8" *cdkDragPreview>{{renderedType?.name}}#{{renderedType?.id}}</div>
     <ng-template [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>

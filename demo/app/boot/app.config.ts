@@ -180,6 +180,16 @@ export const providers: Provider[] =
         provide: SETTINGS_STORAGE,
         useClass: LocalSettingsStorage
     },
+    ...isProduction ? 
+        [] :
+        [
+            // <FactoryProvider>
+            // {
+            //     provide: LOGGER_SINKS,
+            //     useFactory: () => new ConsoleSink(),
+            //     multi: true
+            // }
+        ],
 
     //######################### DEBUG DATA #########################
     <FactoryProvider>

@@ -1,6 +1,6 @@
 import {Inject, Injectable, Optional, Type} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {isType, resolvePromiseOr} from '@jscrpt/common';
+import {Dictionary, isType, resolvePromiseOr} from '@jscrpt/common';
 
 import {DYNAMIC_MODULE_DATA_EXTRACTORS, DYNAMIC_ITEM_LOADER_PROVIDERS} from '../../misc/tokens';
 import {DynamicItemLoaderProvider} from './dynamicItemLoader.interface';
@@ -12,6 +12,13 @@ import {DynamicItem, DynamicModule, DynamicItemSource, DynamicItemType, DynamicM
 @Injectable({providedIn: 'root'})
 export class DynamicItemLoader
 {
+    //######################### protected cache #########################
+
+    /**
+     * Cached dynamic items
+     */
+    protected _cachedDynamicItems: Dictionary<DynamicItemType<DynamicItem>> = {};
+
     //######################### constructors #########################
     constructor(@Inject(DYNAMIC_ITEM_LOADER_PROVIDERS) protected _providers: DynamicItemLoaderProvider[],
                 @Inject(DYNAMIC_MODULE_DATA_EXTRACTORS) protected _extractors: DynamicModuleDataExtractor<Type<DynamicItem>>[],
@@ -43,6 +50,15 @@ export class DynamicItemLoader
     public async loadItem<TType extends DynamicItem = any>(source: DynamicItemSource): Promise<DynamicItemType<TType>|null>
     {
         let dynamicModule: DynamicModule|null = null;
+        const cacheId = `${source.package}-${source.name}`;
+
+        //try to get from cache
+        if(this._cachedDynamicItems[cacheId])
+        {
+            this._logger?.verbose('DynamicItemLoader: Loading from cache {@source}', {name: source.name, package: source.package});
+
+            return this._cachedDynamicItems[cacheId] as DynamicItemType<TType>;
+        }
 
         //loops all providers, return result from first that returns non null value
         for(const provider of this._providers)
@@ -79,9 +95,12 @@ export class DynamicItemLoader
 
             if(dynamicItemType && isType(dynamicItemType))
             {
-                return {
+                const result = 
+                {
                     type: dynamicItemType as Type<TType>
                 };
+
+                return this._cachedDynamicItems[cacheId] = result;
             }
         }
 

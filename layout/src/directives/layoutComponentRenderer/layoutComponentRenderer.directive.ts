@@ -152,11 +152,12 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
             {
                 this._logger?.debug('LayoutComponentRendererSADirective: setting component options {@id}', {id: componentMetadata?.id});
                 this.component.options = componentMetadata.options;
+
+                this._logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {@id}', {id: componentMetadata?.id});
+                this.component?.invalidateVisuals();
+
+                // componentManager.registerComponent(this.componentMetadata.id, this.component);
             }
-            
-            this._logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {@id}', {id: componentMetadata?.id});
-            this.component?.invalidateVisuals();
-            // componentManager.registerComponent(this.componentMetadata.id, this.component);
         }
     }
 
@@ -169,7 +170,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
     {
         if(this._componentRef)
         {
-            this._logger?.debug('LayoutComponentRendererSADirective: destroying component {@id}', {id: this.componentMetadata?.id});
+            this._logger?.debug('LayoutComponentRendererSADirective: destroying component {@id}', {id: this.componentMetadata?.id, designer: this.disableTransformer});
     
             // const injector = this.customInjector || this._viewContainerRef.injector;
             // const componentManager = injector.get(ComponentManager);

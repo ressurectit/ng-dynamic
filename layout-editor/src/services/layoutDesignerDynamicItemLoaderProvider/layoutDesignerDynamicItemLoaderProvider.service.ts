@@ -35,10 +35,12 @@ export class LayoutDesignerDynamicItemLoaderProvider implements DynamicItemLoade
                 return await import('../../components/layoutDesigner/type');
             }
         }
-        finally
+        catch(e)
         {
-            this._logger?.debug('LayoutDesignerDynamicItemLoaderProvider: item {@item} was not found', {name: source.name, package: source.package});
+            this._logger?.warn('LayoutDesignerDynamicItemLoaderProvider: item {@item} was not found, reason:' + e, {name: source.name, package: source.package});
         }
+
+        this._logger?.debug('LayoutDesignerDynamicItemLoaderProvider: item {@item} was not found', {name: source.name, package: source.package});
 
         return null;
     }

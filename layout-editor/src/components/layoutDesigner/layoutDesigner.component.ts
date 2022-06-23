@@ -119,6 +119,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public ngOnDestroy(): void
     {
+        this._logger?.debug('LayoutDesignerSAComponent: Destroying component {@data}', {id: this._options?.typeMetadata.id});
+
         if(this._options)
         {
             this._layoutEditorMetadataManager.unregisterLayoutDesignerComponent(this._options.typeMetadata.id);
@@ -143,7 +145,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this._removeDescendantMetadata?.(id, this._options.typeMetadata.options);
         this._canDrop = this._canDropMetadata?.(this._options.typeMetadata.options) ?? false;
         this.renderedType = {...this._options.typeMetadata};
-        this._changeDetector.detectChanges();
     }
 
     //######################### protected methods - host #########################
@@ -160,7 +161,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         const parentId = dragData.item.data.parentId;
-        this._logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.item.data.metadata.id, parent: parentId});
+        this._logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.item.data.metadata.id, parent: this._options.typeMetadata.id});
 
         //already added to tree, removing old reference
         if(parentId)
@@ -213,7 +214,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
     protected selectComponent(event: MouseEvent): void
     {
-        event.preventDefault();
+        event.preventDefault();~
         event.stopPropagation();
 
         if(this._options)

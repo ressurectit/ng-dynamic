@@ -1,6 +1,14 @@
 <div class="flex-row margin-top-big">
-    <components-tree></components-tree>
+    <mat-tab-group>
+        <mat-tab label="Hierarchy">
+            <components-tree></components-tree>
+        </mat-tab>
 
+        <mat-tab label="Palette">
+            <components-palette></components-palette>
+        </mat-tab>
+    </mat-tab-group>
+      
     <div class="flex-1">
         <ng-container [layoutComponentRenderer]="metadata"></ng-container>
     </div>

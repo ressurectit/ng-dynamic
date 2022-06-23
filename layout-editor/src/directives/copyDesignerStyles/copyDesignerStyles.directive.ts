@@ -1,6 +1,6 @@
 import {Directive, ElementRef, Input} from '@angular/core';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
-import {LayoutComponentMetadata} from '../../../../layout/src';
 import {LayoutEditorMetadataExtractor} from '../../services';
 
 /**
@@ -57,7 +57,7 @@ export class CopyDesignerStylesSADirective<TOptions = any>
         }
 
         const metadata = await this._metadataExtractor.extractMetadata(this._metadata);
-        const applyDesignerStyles = await metadata?.applyDesignerStyles;
+        const applyDesignerStyles = metadata?.applyDesignerStyles;
 
         if(applyDesignerStyles)
         {

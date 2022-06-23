@@ -5,13 +5,13 @@ import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {Action, Func, isPresent} from '@jscrpt/common';
+import {Func, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerMinHeightSADirective} from '../../directives';
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
-import {LayoutComponentDragData, LayoutEditorMetadataInfo} from '../../interfaces';
+import {LayoutComponentDragData, LayoutEditorMetadataDescriptor} from '../../interfaces';
 
 /**
  * Component used as designer component wrapper for layout component
@@ -54,24 +54,9 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     protected _canDrop: boolean = false;
 
     /**
-     * Removes metadata of descendant
+     * Layout editor metadata
      */
-    protected _removeDescendantMetadata: Action<[string, LayoutDesignerComponentOptions]>|undefined;
-
-    /**
-     * Adds metadata of descendant
-     */
-    protected _addDescendantMetadata: Action<[LayoutComponentMetadata, LayoutDesignerComponentOptions, number]>|undefined;
-
-    /**
-     * Tests whether metadata can be dropped into this component metadata
-     */
-    protected _canDropMetadata: Func<boolean, [LayoutDesignerComponentOptions]>|undefined;
-
-    /**
-     * Metainfo about component
-     */
-    protected _metaInfo: LayoutEditorMetadataInfo|undefined;
+    protected _editorMetadata: LayoutEditorMetadataDescriptor<LayoutDesignerComponentOptions>|null = null;
 
     //######################### protected properties - template bindings #########################
 
@@ -157,8 +142,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         this._logger?.debug('LayoutDesignerSAComponent: Removing descendant {@data}', {id: this._options.typeMetadata.id, child: id});
 
-        this._removeDescendantMetadata?.(id, this._options.typeMetadata.options);
-        this._canDrop = this._canDropMetadata?.(this._options.typeMetadata.options) ?? false;
+        this._editorMetadata?.removeDescendant?.(id, this._options.typeMetadata.options);
+        this._canDrop = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
         this.renderedType = {...this._options.typeMetadata};
     }
 
@@ -184,15 +169,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             this._layoutEditorMetadataManager.getComponent(parentId)?.removeDescendant(dragData.item.data.metadata.id);
         }
 
-        this._addDescendantMetadata?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
-        
-        //moving existing component in tree
-        // if(parentId)
-        // {
-        //     this._layoutEditorMetadataManager.moveLayoutDesignerComponent(dragData.item.data.metadata.id, parentId, dragData.currentIndex);
-        // }
-
-        this._canDrop = this._canDropMetadata?.(this._options.typeMetadata.options) ?? false;
+        this._editorMetadata?.addDescendant?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
+        this._canDrop = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
 
         this.renderedType = {...this._options.typeMetadata};
     }
@@ -273,7 +251,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         
         this._layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this._options.typeMetadata.id, this._parent?._options?.typeMetadata.id);
         await this._readMetadata();
-        this._canDrop = this._canDropMetadata?.(this._options.typeMetadata.options) ?? false;
+        this._canDrop = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
 
         this._changeDetector.detectChanges();
     }
@@ -295,12 +273,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        const metadata = await this._metadataExtractor.extractMetadata(this._options.typeMetadata);
-        this._canDropMetadata = await metadata?.canDropMetadata;
-        this._removeDescendantMetadata = await metadata?.removeDescendant;
-        this._addDescendantMetadata = await metadata?.addDescendant;
-        this._metaInfo = await metadata?.metaInfo;
-
+        this._editorMetadata = await this._metadataExtractor.extractMetadata(this._options.typeMetadata);
         this._metadataRead = true;
     }
 }

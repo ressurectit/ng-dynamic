@@ -1,11 +1,11 @@
-import {GenericLayoutMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
+import {GenericLayoutAsyncMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 
 import {GridPanelCellComponentOptions} from './gridPanelCell.options';
 
 /**
  * Text block layout metadata descriptor
  */
-export class GridPanelCellLayoutMetadata extends GenericLayoutMetadata<GridPanelCellComponentOptions>
+export class GridPanelCellLayoutMetadata extends GenericLayoutAsyncMetadata<GridPanelCellComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

@@ -1,9 +1,10 @@
 import {Inject, Injectable, Optional} from '@angular/core';
-import {AsyncProperties, DynamicItemLoader} from '@anglr/dynamic';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {DynamicItemLoader, DynamicItemSource} from '@anglr/dynamic';
 import {LOGGER, Logger} from '@anglr/common';
+import {Dictionary} from '@jscrpt/common';
 
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from '../../interfaces';
+import {LayoutEditorMetadataData} from '../../misc/types';
 
 /**
  * Class used for extracting layout editor metadata
@@ -11,6 +12,13 @@ import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from '../../in
 @Injectable({providedIn: 'root'})
 export class LayoutEditorMetadataExtractor
 {
+    //######################### protected fields #########################
+
+    /**
+     * Cache for layout editor metadata
+     */
+    protected _cache: Dictionary<LayoutEditorMetadataDescriptor> = {};
+
     //######################### constructor #########################
     constructor(protected _loader: DynamicItemLoader,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -23,8 +31,15 @@ export class LayoutEditorMetadataExtractor
      * Extracts layout editor metadata from layout metadata
      * @param metadata - Metadata describing type that contains metadata
      */
-    public async extractMetadata(metadata: LayoutComponentMetadata): Promise<AsyncProperties<LayoutEditorMetadataDescriptor>|null>
+    public async extractMetadata(metadata: DynamicItemSource): Promise<LayoutEditorMetadataDescriptor|null>
     {
+        const cacheId = `${metadata.package}-${metadata.name}`;
+
+        if(this._cache[cacheId])
+        {
+            return this._cache[cacheId];
+        }
+
         const type = await this._loader.loadItem(metadata);
 
         if(!type)
@@ -41,6 +56,13 @@ export class LayoutEditorMetadataExtractor
             return null;
         }
 
-        return metadataType.layoutEditorMetadata;
+        this._logger?.debug('LayoutEditorMetadataExtractor: Reading metadata! ', {package: metadata.package, name: metadata.name});
+
+        const metadataData = new LayoutEditorMetadataData(metadataType.layoutEditorMetadata);
+        await metadataData.initialize();
+
+        this._cache[cacheId] = metadataData;
+
+        return metadataData;
     }
 }

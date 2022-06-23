@@ -5,9 +5,9 @@ import {Action, Func} from '@jscrpt/common';
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '../interfaces';
 
 /**
- * Generic implementation of layout editor metadata descriptor
+ * Generic implementation of layout editor metadata descriptor, async version
  */
-export abstract class GenericLayoutMetadata<TOptions> implements AsyncProperties<LayoutEditorMetadataDescriptor<TOptions>>
+export abstract class GenericLayoutAsyncMetadata<TOptions> implements AsyncProperties<LayoutEditorMetadataDescriptor<TOptions>>
 {
     //######################### protected fields #########################
 
@@ -75,4 +75,78 @@ export abstract class GenericLayoutMetadata<TOptions> implements AsyncProperties
      * Gets instance of layout editor metadata descriptor
      */
     protected abstract _getInstance(): Promise<LayoutEditorMetadataDescriptor<TOptions>>;
+}
+
+/**
+ * Implementation of layout editor metadata descriptor
+ */
+export class LayoutEditorMetadataData<TOptions = any> implements LayoutEditorMetadataDescriptor<TOptions>
+{
+    //######################### protected fields #########################
+
+    /**
+     * Indication whether component was initialized
+     */
+    protected _initialized: boolean = false;
+
+    //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
+
+    /**
+     * @inheritdoc
+     */
+    public metaInfo?: LayoutEditorMetadataInfo;
+    
+    /**
+     * @inheritdoc
+     */
+    public addDescendant?: Action<[LayoutComponentMetadata, TOptions, number]>;
+
+    /**
+     * @inheritdoc
+     */
+    public applyDesignerStyles?: Action<[TOptions|null|undefined, CSSStyleDeclaration]>;
+    
+    /**
+     * @inheritdoc
+     */
+    public canDropMetadata?: Func<boolean, [TOptions|undefined|null]>;
+
+    /**
+     * @inheritdoc
+     */
+    public isHorizontalDrop?: Func<boolean, [TOptions|undefined|null]>;
+
+    /**
+     * @inheritdoc
+     */
+    public removeDescendant?: Action<[string, TOptions]>;
+
+    //######################### constructor #########################
+    constructor(protected _asyncMetadata: AsyncProperties<LayoutEditorMetadataDescriptor<TOptions>>)
+    {
+    }
+
+    //######################### public methods #########################
+
+    /**
+     * Initialize object loads async data and freezes object
+     */
+    public async initialize(): Promise<void>
+    {
+        if(this._initialized)
+        {
+            return;
+        }
+
+        this.metaInfo = await this._asyncMetadata.metaInfo;
+        this.addDescendant = await this._asyncMetadata.addDescendant;
+        this.applyDesignerStyles = await this._asyncMetadata.applyDesignerStyles;
+        this.canDropMetadata = await this._asyncMetadata.canDropMetadata;
+        this.isHorizontalDrop = await this._asyncMetadata.isHorizontalDrop;
+        this.removeDescendant = await this._asyncMetadata.removeDescendant;
+
+        this._initialized = true;
+
+        Object.freeze(this);
+    }
 }

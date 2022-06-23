@@ -6,7 +6,7 @@
      connectDropLists
      [copyDesignerStyles]="renderedType"
      [cdkDragData]="{metadata: renderedType, parentId: _parent?.renderedType?.id}"
-     [cdkDragDisabled]="!_parent || _metaInfo?.dragDisabled"
+     [cdkDragDisabled]="!_parent || _editorMetadata?.metaInfo?.dragDisabled"
      [cdkDropListEnterPredicate]="canDrop"
      (mouseleave)="hideOverlay($event)"
      (mouseover)="showOverlay($event)"
@@ -23,6 +23,6 @@
         <div *ngIf="highlighted || selected"
              class="designer-overlay-title"
              [positionTo]="layoutDesigner"
-             placement="TopStart">{{_metaInfo?.name ?? renderedType?.name}}</div>
+             placement="TopStart">{{_editorMetadata?.metaInfo?.name ?? renderedType?.name}}</div>
     </ng-container>
 </div>

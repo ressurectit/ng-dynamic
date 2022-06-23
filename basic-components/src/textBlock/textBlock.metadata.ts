@@ -1,11 +1,11 @@
-import {GenericLayoutMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
+import {GenericLayoutAsyncMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 
 import {TextBlockComponentOptions} from './textBlock.options';
 
 /**
  * Text block layout metadata descriptor
  */
-export class TextBlockLayoutMetadata extends GenericLayoutMetadata<TextBlockComponentOptions>
+export class TextBlockLayoutMetadata extends GenericLayoutAsyncMetadata<TextBlockComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

@@ -6,12 +6,12 @@
     padding: 10px 8px;
 }
 
-.selected
-{
-    text-shadow: 0 0 2px #009cd7;
-}
-
 .highlighted
 {
     text-shadow: 0 0 2px #666;
+}
+
+.selected
+{
+    text-shadow: 0 0 2px #009cd7;
 }

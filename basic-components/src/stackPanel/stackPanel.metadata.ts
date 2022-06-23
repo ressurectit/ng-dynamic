@@ -1,11 +1,11 @@
-import {GenericLayoutMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
+import {GenericLayoutAsyncMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 
 import {StackPanelComponentOptions} from './stackPanel.options';
 
 /**
  * Stack panel layout metadata descriptor
  */
-export class StackPanelLayoutMetadata extends GenericLayoutMetadata<StackPanelComponentOptions>
+export class StackPanelLayoutMetadata extends GenericLayoutAsyncMetadata<StackPanelComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

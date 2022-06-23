@@ -209,37 +209,6 @@ export class LayoutEditorMetadataManager
     }
 
     /**
-     * Move comopnent to new parent
-     * @param id - Id of component to be moved
-     * @param parentId - Id of component to be used as new parent
-     * @param index - Index at which should component placed at new parent
-     */
-    public moveLayoutDesignerComponent(id: string, parentId: string, index: number): void
-    {
-        const componentItem = this._components[id];
-        const parentItem = this._components[parentId];
-
-        if(!componentItem || !parentItem)
-        {
-            this._logger?.error(`LayoutEditorMetadataManager: Unable to move item '${id}' into '${parentId}', missing components`);
-
-            return;
-        }
-
-        //unregister from parent
-        if(componentItem.parent)
-        {
-            const index = componentItem.parent.children.indexOf(componentItem);
-            componentItem.parent.children.splice(index, 1);
-        }
-
-        //move into new parent
-        parentItem.children.splice(index, 0, componentItem);
-        this._flatTree = null;
-        this._layoutChange.next();
-    }
-
-    /**
      * Gets component from designer component tree
      * @param id - Id of component to be get
      */

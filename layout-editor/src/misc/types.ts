@@ -2,7 +2,7 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {AsyncProperties} from '@anglr/dynamic';
 import {Action, Func} from '@jscrpt/common';
 
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '../decorators';
+import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo, LayoutPropertyDescriptionData, LayoutPropertyNameData, LayoutPropertyValuesData} from '../decorators';
 
 /**
  * Data type for FormModel
@@ -13,6 +13,11 @@ export type ForFormModel<TModel, TKey extends keyof TModel = keyof TModel> = {[T
  * Default built-in property types
  */
 export type DefaultKnownPropertyTypes = 'textarea'|'inputString'|'inputNumber'|'inputSize'|'inputBoolean'|'selectValue'|'selectValues';
+
+/**
+ * Minimal layout editor property metadata
+ */
+export type LayoutEditorPropertyMetadata<TValues = unknown> = LayoutPropertyDescriptionData&LayoutPropertyNameData&LayoutPropertyValuesData<TValues>;
 
 /**
  * Symbol defining property storing layout properties metadata

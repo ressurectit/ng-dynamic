@@ -1,10 +1,10 @@
 /**
  * Layout property values data
  */
-export interface LayoutPropertyValuesData
+export interface LayoutPropertyValuesData<TValue = unknown>
 {
     /**
      * Available values for property displayed in properties editor
      */
-    values?: Array<unknown>;
+    values?: Array<TValue>;
 }

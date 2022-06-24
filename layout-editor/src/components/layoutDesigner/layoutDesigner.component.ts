@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CdkDragDrop, CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, CdkDropList, DragDropModule, DropListOrientation} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
@@ -9,7 +9,7 @@ import {Func, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
-import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerMinHeightSADirective} from '../../directives';
+import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerMinDimensionSADirective} from '../../directives';
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutComponentDragData, LayoutEditorMetadataDescriptor} from '../../interfaces';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
@@ -33,7 +33,7 @@ import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/l
         LayoutEditorDragPreviewSAComponent,
         LayoutEditorDragPlaceholderSAComponent,
         LayoutDesignerOverlayForSAComponent,
-        DesignerMinHeightSADirective,
+        DesignerMinDimensionSADirective,
         CopyDesignerStylesSADirective,
         ConnectDropListsSADirective,
         LayoutComponentRendererSADirective,
@@ -57,7 +57,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * Indication whether item can be dropped here
      */
-    protected _canDrop: boolean = false;
+    protected _canDropValue: boolean = false;
 
     /**
      * Layout editor metadata
@@ -85,12 +85,17 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * Gets predicate that returns indication whether item can be dropped into this list
      */
-    protected canDrop: Func<boolean> = () => this._canDrop;
+    protected _canDrop: Func<boolean> = () => this._canDropValue;
 
     /**
      * Metadata for rendered type
      */
     protected _renderedType: LayoutComponentMetadata|undefined|null;
+
+    /**
+     * Orientation of drop list
+     */
+    protected _orientation: DropListOrientation = 'vertical';
 
     //######################### public properties - children #########################
 
@@ -149,7 +154,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this._logger?.debug('LayoutDesignerSAComponent: Removing descendant {@data}', {id: this._options.typeMetadata.id, child: id});
 
         this._editorMetadata?.removeDescendant?.(id, this._options.typeMetadata.options);
-        this._canDrop = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
+        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
         this._renderedType = {...this._options.typeMetadata};
     }
 
@@ -176,7 +181,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         this._editorMetadata?.addDescendant?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
-        this._canDrop = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
+        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
 
         this._renderedType = {...this._options.typeMetadata};
     }
@@ -269,7 +274,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this._renderedType = {...this._options.typeMetadata};
         this._layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this._options.typeMetadata.id, this._parent?._options?.typeMetadata.id);
         await this._readMetadata();
-        this._canDrop = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
+        this._orientation = this._editorMetadata?.isHorizontalDrop?.(this._options.typeMetadata.options) ? 'horizontal' : 'vertical';
+        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
 
         this._changeDetector.detectChanges();
     }

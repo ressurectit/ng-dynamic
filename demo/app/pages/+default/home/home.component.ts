@@ -166,6 +166,7 @@ export class HomeComponent implements OnInit, OnDestroy
                             name: 'stackPanel',
                             options: <StackPanelComponentOptions>
                             {
+                                horizontal: true,
                                 children: []
                             }
                         }

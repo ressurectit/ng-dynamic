@@ -2,12 +2,13 @@
      #layoutDesigner
      cdkDrag
      cdkDropList
-     designerMinHeight
+     designerMinWidth
      connectDropLists
      [copyDesignerStyles]="_renderedType"
      [cdkDragData]="{metadata: _renderedType, parentId: _parent?._renderedType?.id}"
      [cdkDragDisabled]="!_parent || _editorMetadata?.metaInfo?.dragDisabled"
-     [cdkDropListEnterPredicate]="canDrop"
+     [cdkDropListEnterPredicate]="_canDrop"
+     [cdkDropListOrientation]="_orientation"
      (mouseleave)="_hideOverlay($event)"
      (mouseover)="_showOverlay($event)"
      (cdkDropListDropped)="_addDescendant($event)"

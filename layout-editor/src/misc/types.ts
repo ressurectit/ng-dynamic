@@ -53,6 +53,14 @@ export abstract class GenericLayoutAsyncMetadata<TOptions> implements AsyncPrope
     /**
      * @inheritdoc
      */
+    public get isHorizontalDrop(): Promise<Func<boolean, [TOptions|undefined|null]>|undefined>
+    {
+        return this._getValue<Func<boolean, [TOptions|undefined|null]>|undefined>('isHorizontalDrop');
+    }
+
+    /**
+     * @inheritdoc
+     */
     public get removeDescendant(): Promise<Action<[string, TOptions]>|undefined>
     {
         return this._getValue<Action<[string, TOptions]>|undefined>('removeDescendant');

@@ -3,14 +3,14 @@ import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {Subscription} from 'rxjs';
 
 /**
- * Applies min height to designed element, so it can be visible event when it is empty
+ * Applies min dimensions to designed element, so it can be visible event when it is empty
  */
 @Directive(
 {
-    selector: '[designerMinHeight]',
+    selector: '[designerMinWidth]',
     standalone: true
 })
-export class DesignerMinHeightSADirective implements OnInit, OnDestroy
+export class DesignerMinDimensionSADirective implements OnInit, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -46,15 +46,7 @@ export class DesignerMinHeightSADirective implements OnInit, OnDestroy
         {
             for(const change of changes)
             {
-                //no height, apply min height
-                if(change.contentRect.height <= 0)
-                {
-                    this._element.nativeElement.style.minHeight = '30px';
-                }
-                else
-                {
-                    this._element.nativeElement.style.minHeight = '';
-                }
+                this._updatedDimensions(change.contentRect);
             }
         });
 
@@ -67,7 +59,11 @@ export class DesignerMinHeightSADirective implements OnInit, OnDestroy
                 return;
             }
 
-            this._observer?.observe((componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0]);
+            const element = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+
+            this._updatedDimensions(element.getBoundingClientRect());
+
+            this._observer?.observe(element);
         }));
     }
 
@@ -80,5 +76,37 @@ export class DesignerMinHeightSADirective implements OnInit, OnDestroy
     {
         this._observer?.disconnect();
         this._initSubscriptions.unsubscribe();
+    }
+
+    //######################### protected methods #########################
+
+    protected _updatedDimensions(rect: DOMRect): void
+    {
+        //no height, apply min height
+
+        if(rect.height != 30)
+        {
+            if(rect.height <= 0)
+            {
+                this._element.nativeElement.style.minHeight = '30px';
+            }
+            else
+            {
+                this._element.nativeElement.style.minHeight = '';
+            }
+        }
+
+        if(rect.width != 30)
+        {
+            //no width, apply min width
+            if(rect.width <= 0)
+            {
+                this._element.nativeElement.style.minWidth = '30px';
+            }
+            else
+            {
+                this._element.nativeElement.style.minWidth = '';
+            }
+        }
     }
 }

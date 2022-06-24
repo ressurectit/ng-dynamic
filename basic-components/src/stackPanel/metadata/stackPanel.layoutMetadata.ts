@@ -24,7 +24,7 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
     /**
      * @inheritdoc
      */
-    public addDescendant: Action<[LayoutComponentMetadata, StackPanelComponentOptions, number]> = (metadata, options, index) =>
+    public addDescendant?: Action<[LayoutComponentMetadata, StackPanelComponentOptions, number]> = (metadata, options, index) =>
     {
         options.children ??= [];
         options.children.splice(index, 0, metadata);
@@ -33,12 +33,17 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
     /**
      * @inheritdoc
      */
-    public canDropMetadata: Func<boolean, [StackPanelComponentOptions|undefined|null]> = () => true;
+    public canDropMetadata?: Func<boolean, [StackPanelComponentOptions|undefined|null]> = () => true;
 
     /**
      * @inheritdoc
      */
-    public removeDescendant: Action<[string, StackPanelComponentOptions]> = (id, options) =>
+    public isHorizontalDrop?: Func<boolean, [StackPanelComponentOptions|undefined|null]> = options => !!options?.horizontal;
+
+    /**
+     * @inheritdoc
+     */
+    public removeDescendant?: Action<[string, StackPanelComponentOptions]> = (id, options) =>
     {
         options.children ??= [];
         const index = options.children.findIndex(itm => itm.id === id);

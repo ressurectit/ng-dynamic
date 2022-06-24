@@ -3,7 +3,6 @@
     display: block;
     background-color: #fafafa;
     border-right: 1px solid #ccc;
-    padding: 10px 8px;
 }
 
 .highlighted
@@ -14,4 +13,22 @@
 .selected
 {
     text-shadow: 0 0 2px #009cd7;
+}
+
+.component-tree ul,
+.component-tree li 
+{
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.component-tree .mat-nested-tree-node div[role=group] 
+{
+  padding-left: 1rem;
+}
+
+.component-tree div[role=group] > .mat-tree-node 
+{
+  padding-left: 1rem;
 }

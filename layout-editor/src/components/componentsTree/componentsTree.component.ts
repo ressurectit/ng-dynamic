@@ -1,5 +1,8 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {MatTreeModule, MatTreeNestedDataSource} from '@angular/material/tree';
+import {MatButtonModule} from '@angular/material/button';
+import {NestedTreeControl} from '@angular/cdk/tree';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataManager, LayoutEditorMetadataManagerComponent} from '../../services';
@@ -17,6 +20,8 @@ import {ComponentTreeNodeTemplateSADirective} from '../../directives';
     imports:
     [
         CommonModule,
+        MatTreeModule,
+        MatButtonModule,
         ComponentTreeNodeTemplateSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -33,9 +38,14 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     //######################### protected properties - template bindings #########################
 
     /**
-     * Instance of root component in tree
+     * Component tree data source
      */
-    protected root: LayoutEditorMetadataManagerComponent|undefined|null;
+    protected treeDataSource: MatTreeNestedDataSource<LayoutEditorMetadataManagerComponent> = new MatTreeNestedDataSource();
+
+    /**
+     * Component tree control
+     */
+    protected treeControl: NestedTreeControl<LayoutEditorMetadataManagerComponent> = new NestedTreeControl(component => component.children);
 
     //######################### constructor #########################
     constructor(protected _manager: LayoutEditorMetadataManager,
@@ -52,8 +62,7 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     {
         this._initSubscriptions.add(this._manager.layoutChange.subscribe(() =>
         {
-            this.root = this._manager.root;
-
+            this._setTreeDataSource(this._manager.root);
             this._changeDetector.detectChanges();
         }));
         
@@ -61,7 +70,7 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
         this._initSubscriptions.add(this._manager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
         this._initSubscriptions.add(this._manager.idChange.subscribe(() => this._changeDetector.detectChanges()));
 
-        this.root = this._manager.root;
+        this._setTreeDataSource(this._manager.root);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -89,6 +98,17 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
         this._manager.highlightComponent(id);
     }
 
+    /**
+     * Indicates whether layout component has children
+     * @param _ index
+     * @param node layout component to check
+     * @returns 
+     */
+    protected hasChild(_: number, node: LayoutEditorMetadataManagerComponent): boolean
+    {
+        return !!node.children && node.children.length > 0;
+    }
+
     //######################### protected methods - host #########################
 
     /**
@@ -102,5 +122,18 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
         event.stopPropagation();
 
         this._manager.cancelHighlightedComponent();
+    }
+
+    //######################### private methods #########################
+
+    /**
+     * Set component tree data source
+     * @param root 
+     */
+    private _setTreeDataSource(root: LayoutEditorMetadataManagerComponent | null | undefined)
+    {
+        //TODO better solution to update data source
+        this.treeDataSource.data = [];
+        this.treeDataSource.data = root ? [root] : [];
     }
 }

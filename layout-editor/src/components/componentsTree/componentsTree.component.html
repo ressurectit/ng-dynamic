@@ -1,18 +1,31 @@
 <ng-template #components="treeNodeTemplate"
              treeNodeTemplate
-             let-item
-             let-margin="margin">
-    <div [style.marginLeft.px]="margin"
-         [class.selected]="item.component.options?.typeMetadata?.id === _manager.selectedComponent"
+             let-item>
+    <div [class.selected]="item.component.options?.typeMetadata?.id === _manager.selectedComponent"
          [class.highlighted]="item.component.options?.typeMetadata?.id === _manager.highlightedComponent"
          (mouseover)="highlight($event, item.component.options?.typeMetadata?.id)"
          (click)="_manager.selectComponent(item.component.options?.typeMetadata?.id)">{{item.component.options?.typeMetadata?.id}}</div>
-
-    <ng-container *ngFor="let child of item.children">
-        <ng-container *ngTemplateOutlet="components.template; context: {$implicit: child, margin: margin + 10}"></ng-container>
-    </ng-container>
 </ng-template>
 
-<ng-container *ngIf="root">
-    <ng-container *ngTemplateOutlet="components.template; context: {$implicit: root, margin: 0}"></ng-container>
-</ng-container>
+<mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl" class="component-tree">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+        <ng-container *ngTemplateOutlet="components.template; context: {$implicit: node}"></ng-container>
+    </mat-tree-node>
+
+    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+        <div class="mat-tree-node">
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + node.name">
+                <span class="fa" [ngClass]="treeControl.isExpanded(node) ? 'fa-chevron-right' : 'fa-chevron-down'"></span>
+            </button>
+            <ng-container *ngTemplateOutlet="components.template; context: {$implicit: node}"></ng-container>
+        </div>
+
+        <!-- Nested tree nodes -->
+        <div *ngIf="!treeControl.isExpanded(node)"
+            role="group">
+            <ng-container matTreeNodeOutlet></ng-container>
+        </div>
+    </mat-nested-tree-node>
+</mat-tree>
+

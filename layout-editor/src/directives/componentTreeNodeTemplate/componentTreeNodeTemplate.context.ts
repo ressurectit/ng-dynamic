@@ -9,9 +9,4 @@ export interface ComponentTreeNodeTemplateContext
      * Layout editor metadata manager component
      */
     $implicit: LayoutEditorMetadataManagerComponent;
-
-    /**
-     * Margin that is rendered from left indicating depth of node in tree
-     */
-    margin: number;
 }

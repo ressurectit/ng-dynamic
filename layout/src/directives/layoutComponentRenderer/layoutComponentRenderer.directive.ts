@@ -70,6 +70,16 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
         return this._componentRef.instance;
     }
 
+    //######################### public properties #########################
+
+    /**
+     * Gets component ref of created component or null
+     */
+    public get componentRef(): ComponentRef<TComponent>|null
+    {
+        return this._componentRef;
+    }
+
     //######################### constructor #########################
     constructor(protected _viewContainerRef: ViewContainerRef,
                 protected _loader: DynamicItemLoader,

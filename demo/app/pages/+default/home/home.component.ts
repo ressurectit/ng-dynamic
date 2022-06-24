@@ -91,7 +91,17 @@ export class HomeComponent implements OnInit, OnDestroy
                                             text: 'toto je text',
                                             margin:
                                             {
-                                                top: '10px'
+                                                top: '10px',
+                                                bottom: '6px',
+                                                left: '12px',
+                                                right: '14pt'
+                                            },
+                                            padding:
+                                            {
+                                                top: '8px',
+                                                bottom: '8px',
+                                                left: '12px',
+                                                right: '12px'
                                             },
                                             textStyling:
                                             {

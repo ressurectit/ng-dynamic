@@ -14,6 +14,7 @@ import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../
 import {LayoutComponentDragData, LayoutEditorMetadataDescriptor} from '../../interfaces';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
+import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 
 /**
  * Component used as designer component wrapper for layout component
@@ -31,6 +32,7 @@ import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceho
         DragDropModule,
         LayoutEditorDragPreviewSAComponent,
         LayoutEditorDragPlaceholderSAComponent,
+        LayoutDesignerOverlayForSAComponent,
         DesignerMinHeightSADirective,
         CopyDesignerStylesSADirective,
         ConnectDropListsSADirective,

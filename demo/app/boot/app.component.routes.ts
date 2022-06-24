@@ -14,6 +14,7 @@ export const routesOptions: ModuleRoutesOptions =
     rootModuleConfig:
     {
         enableTracing: false,
+        useHash: true
         // preloadingStrategy: PreloadAllModules
     },
     staticRoutesBefore:

@@ -7,6 +7,13 @@
          (click)="_manager.selectComponent(item.component.options?.typeMetadata?.id)">{{item.component.options?.typeMetadata?.id}}</div>
 </ng-template>
 
+<button mat-icon-button aria-label="Collapse all" (click)="treeControl.collapseAll()">
+    <span class="fa fa-minus-square"></span>
+</button>
+<button mat-icon-button aria-label="Expand all" (click)="treeControl.expandAll()">
+    <span class="fa fa-plus-square"></span>
+</button>
+
 <mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl" class="component-tree">
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
         <ng-container *ngTemplateOutlet="components.template; context: {$implicit: node}"></ng-container>

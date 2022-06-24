@@ -16,13 +16,13 @@
         <div class="mat-tree-node">
             <button mat-icon-button matTreeNodeToggle
                     [attr.aria-label]="'Toggle ' + node.name">
-                <span class="fa" [ngClass]="treeControl.isExpanded(node) ? 'fa-chevron-right' : 'fa-chevron-down'"></span>
+                <span class="fa" [ngClass]="treeControl.isExpanded(node) ? 'fa-chevron-down' : 'fa-chevron-right'"></span>
             </button>
             <ng-container *ngTemplateOutlet="components.template; context: {$implicit: node}"></ng-container>
         </div>
 
         <!-- Nested tree nodes -->
-        <div *ngIf="!treeControl.isExpanded(node)"
+        <div [class.component-tree-invisible]="!treeControl.isExpanded(node)"
             role="group">
             <ng-container matTreeNodeOutlet></ng-container>
         </div>

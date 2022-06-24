@@ -66,7 +66,11 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
             this._changeDetector.detectChanges();
         }));
         
-        this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => this._changeDetector.detectChanges()));
+        this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => 
+        {
+            this._expandTreeNode(this.treeDataSource?.data, this._manager.selectedComponent);
+            this._changeDetector.detectChanges();
+        }));
         this._initSubscriptions.add(this._manager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
         this._initSubscriptions.add(this._manager.idChange.subscribe(() => this._changeDetector.detectChanges()));
 
@@ -135,5 +139,40 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
         //TODO better solution to update data source
         this.treeDataSource.data = [];
         this.treeDataSource.data = root ? [root] : [];
+        this.treeControl.dataNodes = this.treeDataSource.data;
+        this.treeControl.expandAll();
+    }
+
+    /**
+     * Expands specific node and all its ancestors
+     * @param data list of layout components
+     * @param id component identifier to expand
+     * @returns indication whether node was expanded
+     */
+    private _expandTreeNode(data: LayoutEditorMetadataManagerComponent[], id: string | null): boolean
+    {
+        if (!id)
+        {
+            return false;
+        }
+
+        for (const node of data)
+        {
+            if (node.children?.find(c => c.component?.options?.typeMetadata?.id === id)) 
+            {
+                this.treeControl.expand(node);
+                return true;
+            }
+            else if (node.children?.find(c => c.children)) 
+            {
+                if (this._expandTreeNode(node.children, id))
+                {
+                    this.treeControl.expand(node);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

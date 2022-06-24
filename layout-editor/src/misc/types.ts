@@ -5,6 +5,21 @@ import {Action, Func} from '@jscrpt/common';
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '../decorators';
 
 /**
+ * Data type for FormModel
+ */
+export type ForFormModel<TModel, TKey extends keyof TModel = keyof TModel> = {[TProperty in TKey]: NonNullable<TModel[TProperty]>|undefined|null};
+
+/**
+ * Default built-in property types
+ */
+export type DefaultKnownPropertyTypes = 'textarea'|'inputString'|'inputNumber'|'inputSize'|'inputBoolean'|'selectValue'|'selectValues';
+
+/**
+ * Symbol defining property storing layout properties metadata
+ */
+export const LayoutPropertyMetadata = Symbol('LayoutPropertyMetadata');
+
+/**
  * Generic implementation of layout editor metadata descriptor, async version
  */
 export abstract class GenericLayoutAsyncMetadata<TOptions> implements AsyncProperties<LayoutEditorMetadataDescriptor<TOptions>>

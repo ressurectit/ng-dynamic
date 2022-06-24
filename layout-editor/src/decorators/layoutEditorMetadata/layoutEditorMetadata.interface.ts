@@ -2,6 +2,35 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {AsyncProperties} from '@anglr/dynamic';
 import {Action, Func} from '@jscrpt/common';
 
+import {ForFormModel} from '../../misc/types';
+import {PropertiesControl} from '../../interfaces';
+
+/**
+ * Defines type for layout properties model
+ */
+export interface LayoutPropertiesModelType<TType = any>
+{
+    new(value: TType): ForFormModel<TType>;
+}
+
+/**
+ * Metadata for options/properties editation
+ */
+export interface LayoutEditorOptionsMetadata
+{
+    /**
+     * Type of model used within properties editor
+     */
+    modelType: LayoutPropertiesModelType;
+
+    /**
+     * Array of properties controls used for editation of properties/options
+     */
+    propertiesControls: PropertiesControl[];
+
+    //TODO: customize control types
+}
+
 /**
  * Holds meta information about layout component
  */
@@ -26,6 +55,11 @@ export interface LayoutEditorMetadataInfo
      * Gets indication whether is component drag enabled or disabled
      */
     readonly dragDisabled?: boolean;
+
+    /**
+     * Metadata for options if there are any
+     */
+    readonly optionsMetadata?: LayoutEditorOptionsMetadata;
 }
 
 /**

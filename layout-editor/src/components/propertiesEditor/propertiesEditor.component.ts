@@ -8,7 +8,7 @@ import {debounceTime} from 'rxjs/operators';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutDesignerSAComponent} from '../layoutDesigner/layoutDesigner.component';
-import {LayoutEditorMetadataDescriptor} from '../../interfaces';
+import {LayoutEditorMetadataDescriptor} from '../../decorators';
 
 /**
  * Component that represents editor for components options/properties

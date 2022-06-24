@@ -2,7 +2,7 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {AsyncProperties} from '@anglr/dynamic';
 import {Action, Func} from '@jscrpt/common';
 
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '../interfaces';
+import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '../decorators';
 
 /**
  * Generic implementation of layout editor metadata descriptor, async version

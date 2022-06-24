@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
-import {LayoutEditorMetadataDescriptor} from '../../interfaces';
+import {LayoutEditorMetadataDescriptor} from '../../decorators';
 
 /**
  * Component used for displaying layout editor drag preview

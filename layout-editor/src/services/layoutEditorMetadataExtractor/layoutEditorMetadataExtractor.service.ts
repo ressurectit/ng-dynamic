@@ -3,7 +3,7 @@ import {DynamicItemLoader, DynamicItemSource} from '@anglr/dynamic';
 import {LOGGER, Logger} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from '../../interfaces';
+import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from '../../decorators';
 import {LayoutEditorMetadataData} from '../../misc/types';
 
 /**

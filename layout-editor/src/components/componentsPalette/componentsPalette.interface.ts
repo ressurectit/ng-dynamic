@@ -1,6 +1,6 @@
 import {DynamicItemSource} from '@anglr/dynamic';
 
-import {LayoutEditorMetadataDescriptor} from '../../interfaces';
+import {LayoutEditorMetadataDescriptor} from '../../decorators';
 
 /**
  * Represents item in component palette

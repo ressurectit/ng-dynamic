@@ -11,10 +11,11 @@ import {Subscription} from 'rxjs';
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerMinDimensionSADirective} from '../../directives';
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
-import {LayoutComponentDragData, LayoutEditorMetadataDescriptor} from '../../interfaces';
+import {LayoutComponentDragData} from '../../interfaces';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
+import {LayoutEditorMetadataDescriptor} from '../../decorators';
 
 /**
  * Component used as designer component wrapper for layout component

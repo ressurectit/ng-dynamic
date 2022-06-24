@@ -87,6 +87,8 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                     const oldId = this._component.options.typeMetadata.id;
                     this._component.options.typeMetadata.id = id;
 
+                    // eslint-disable-next-line no-self-assign
+                    this._component.options = this._component.options;
                     this._manager.updatedLayoutDesignerComponentId(oldId, id);
                 }
             });

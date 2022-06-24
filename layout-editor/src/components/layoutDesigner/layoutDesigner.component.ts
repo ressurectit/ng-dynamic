@@ -50,11 +50,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     protected _initSubscriptions: Subscription = new Subscription();
 
     /**
-     * Indication whether were metadata read or not
-     */
-    protected _metadataRead: boolean = false;
-
-    /**
      * Indication whether item can be dropped here
      */
     protected _canDropValue: boolean = false;
@@ -115,10 +110,31 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
                 @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
     {
         super(changeDetector, element, logger);
+    }
+
+    //######################### public methods - overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    public override async initialize(options: LayoutDesignerComponentOptions|undefined|null): Promise<void>
+    {
+        if(!options)
+        {
+            return;
+        }
+
+        this._options = options;
 
         //TODO: optimize
         this._initSubscriptions.add(this._layoutEditorMetadataManager.selectedChange.subscribe(() => this._changeDetector.detectChanges()));
         this._initSubscriptions.add(this._layoutEditorMetadataManager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
+
+        this._editorMetadata = await this._metadataExtractor.extractMetadata(options.typeMetadata);
+        this._canDropValue = this._editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
+        this._layoutEditorMetadataManager.registerLayoutDesignerComponent(this, options.typeMetadata.id, this._parent?._options?.typeMetadata.id);
+        
+        super.initialize(options);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -259,12 +275,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this._parent._removeDescendant(this._options.typeMetadata.id);
     }
 
-    //######################### protected methods #########################
+    //######################### protected methods - overrides #########################
 
     /**
      * @inheritdoc
      */
-    protected override async _optionsSet(): Promise<void>
+    protected override _optionsSet(): void
     {
         if(!this._options)
         {
@@ -272,32 +288,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         this._renderedType = {...this._options.typeMetadata};
-        this._layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this._options.typeMetadata.id, this._parent?._options?.typeMetadata.id);
-        await this._readMetadata();
+        
         this._orientation = this._editorMetadata?.isHorizontalDrop?.(this._options.typeMetadata.options) ? 'horizontal' : 'vertical';
-        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
-
-        this._changeDetector.detectChanges();
-    }
-
-    /**
-     * Reads metadata stored in object
-     */
-    protected async _readMetadata(): Promise<void>
-    {
-        if(!this._options)
-        {
-            this._metadataRead = false;
-
-            return;
-        }
-
-        if(this._metadataRead)
-        {
-            return;
-        }
-
-        this._editorMetadata = await this._metadataExtractor.extractMetadata(this._options.typeMetadata);
-        this._metadataRead = true;
     }
 }

@@ -19,7 +19,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     //######################### public properties - implementation of LayoutComponent #########################
 
     /**
-     * Options used for rendering this component
+     * @inheritdoc
      */
     public get options(): TOptions|undefined|null
     {
@@ -42,7 +42,20 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     //######################### public methods - implementation of LayoutComponent #########################
 
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
+     */
+    public async initialize(options: TOptions|undefined|null): Promise<void>
+    {
+        if(!options)
+        {
+            return;
+        }
+
+        this.options = options;
+    }
+
+    /**
+     * @inheritdoc
      */
     public invalidateVisuals(): void
     {

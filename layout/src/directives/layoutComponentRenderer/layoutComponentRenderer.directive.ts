@@ -1,7 +1,7 @@
 import {ComponentRef, Directive, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, ViewContainerRef} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
-import {nameof} from '@jscrpt/common';
+import {nameof, resolvePromiseOr} from '@jscrpt/common';
 
 import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer.options';
 import {MissingTypeBehavior} from './layoutComponentRenderer.types';
@@ -160,8 +160,8 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
             
             if(this.component)
             {
-                this._logger?.debug('LayoutComponentRendererSADirective: setting component options {@id}', {id: componentMetadata?.id});
-                this.component.options = componentMetadata.options;
+                this._logger?.debug('LayoutComponentRendererSADirective: initializing component with options {@id}', {id: componentMetadata?.id});
+                await resolvePromiseOr(this.component.initialize?.(componentMetadata.options));
 
                 this._logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {@id}', {id: componentMetadata?.id});
                 this.component?.invalidateVisuals();

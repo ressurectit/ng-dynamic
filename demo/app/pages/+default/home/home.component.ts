@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ValueProvider, OnInit, OnDestroy} fr
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {ComponentStylingOptions, LayoutComponentRendererDirectiveOptions, MissingTypeBehavior, TextFontWeight, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {TextBlockComponentOptions, StackPanelComponentOptions, GridPanelComponentOptions, GridPanelCellComponentOptions} from '@anglr/dynamic/basic-components';
-import {LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
+import {getType, LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
 
 /**
  * Home component
@@ -27,6 +27,8 @@ import {LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '
 @ComponentRoute({path: 'home'})
 export class HomeComponent implements OnInit, OnDestroy
 {
+    public test = getType(['ahjaja', 'funguje to pecka']);
+
     //######################### protected properties - template bindings #########################
 
     protected metadata: LayoutComponentMetadata =

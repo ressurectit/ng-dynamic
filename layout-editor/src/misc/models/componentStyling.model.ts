@@ -14,19 +14,19 @@ export class ComponentStylingModel implements ForFormModel<ComponentStylingOptio
      */
     @LayoutPropertyName('Margin')
     @LayoutPropertyDescription('Margin of component')
-    margin?: Margin;
+    margin?: Margin|undefined|null = null;
 
     /**
      * @inheritdoc
      */
     @LayoutPropertyName('Padding')
     @LayoutPropertyDescription('Padding of component')
-    padding?: Padding;
+    padding?: Padding|undefined|null = null;
 
     /**
      * @inheritdoc
      */
-    textStyling?: TextStyling;
+    textStyling?: TextStyling|undefined|null = null;
 
     //######################### constructor #########################
     constructor(value: ComponentStylingOptions)

@@ -1,5 +1,6 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {DefaultKnownPropertyTypes, ForFormModel, LayoutPropertyDescription, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, DefaultKnownPropertyTypes, ForFormModel, LayoutPropertyDescription, LayoutPropertyMetadata, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
+import {MetadataClassMixin} from '@anglr/dynamic';
 import {mapValuesToThis} from '@jscrpt/common';
 
 import {StackPanelComponentOptions} from '../stackPanel.options';
@@ -7,6 +8,7 @@ import {StackPanelComponentOptions} from '../stackPanel.options';
 /**
  * Stack panel model for properties editor
  */
+@MetadataClassMixin(ComponentStylingModel, [LayoutPropertyMetadata])
 export class StackPanelModel implements ForFormModel<StackPanelComponentOptions>
 {
     //######################### public properties #########################

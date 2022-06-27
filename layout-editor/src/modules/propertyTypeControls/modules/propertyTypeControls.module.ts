@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TooltipModule, CastPipesModule} from '@anglr/common';
 
-import {InputBooleanComponent, InputStringComponent} from '../components';
+import {InputBooleanComponent, InputSizeComponent, InputStringComponent} from '../components';
 import {PropertyTypeControlRendererDirective} from '../directives';
 
 /**
@@ -22,12 +22,14 @@ import {PropertyTypeControlRendererDirective} from '../directives';
     [
         InputStringComponent,
         InputBooleanComponent,
+        InputSizeComponent,
         PropertyTypeControlRendererDirective,
     ],
     exports:
     [
         InputStringComponent,
         InputBooleanComponent,
+        InputSizeComponent,
         PropertyTypeControlRendererDirective,
     ],
 })

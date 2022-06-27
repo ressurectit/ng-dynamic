@@ -87,6 +87,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
+        this._initSubscriptions.add(this._manager.layoutChange.subscribe(() => this._hide()));
         this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => this._initProperties()));
 
         this._id

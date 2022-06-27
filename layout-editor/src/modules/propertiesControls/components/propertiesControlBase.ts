@@ -2,10 +2,12 @@ import {ChangeDetectorRef, Directive, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormModelGroup} from '@anglr/common/forms';
 import {DynamicItemSource} from '@anglr/dynamic';
-import {PromiseOr, resolvePromiseOr} from '@jscrpt/common';
+import {Dictionary, PromiseOr, resolvePromiseOr} from '@jscrpt/common';
 
 import {PropertiesControl} from '../../../interfaces';
 import {LayoutEditorMetadataExtractor, LayoutEditorPropertyMetadataExtractor} from '../../../services';
+import {LayoutEditorPropertyMetadata} from '../../../misc/types';
+import {LayoutPropertyTypeData} from '../../../decorators';
 
 /**
  * Base class for properties control
@@ -19,6 +21,13 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
      * Indication whether was component initialized or not
      */
     protected _initialized: boolean = false;
+
+    //######################### protected properties - template bindings #########################
+
+    /**
+     * Obtained properties metadata
+     */
+    protected _propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata&LayoutPropertyTypeData>|undefined;
 
     //######################### public properties - implementation of PropertiesControl #########################
 
@@ -54,6 +63,27 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
         }
 
         this._initialized = true;
+
+        if(!this.itemSource)
+        {
+            return;
+        }
+
+        const type = await this._extractor.extractMetadata(this.itemSource);
+
+        if(!type)
+        {
+            return;
+        }
+
+        const properties = await this._propertyExtractor.extract(type.metaInfo?.optionsMetadata?.modelType);
+
+        if(!properties)
+        {
+            return;
+        }
+
+        this._propertiesMetadata = properties;
 
         await resolvePromiseOr(this._initialize());
     }

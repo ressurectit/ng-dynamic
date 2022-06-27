@@ -1,12 +1,11 @@
 import {ChangeDetectionStrategy, Component, Input, Type} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {TooltipModule} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
-import {Dictionary} from '@jscrpt/common';
 
 import {PropertiesControl} from '../../../../interfaces';
 import {PropertiesControlBase} from '../propertiesControlBase';
 import {PropertyTypeControlsModule} from '../../../propertyTypeControls';
-import {LayoutEditorPropertyMetadata} from '../../../../misc/types';
 
 /**
  * Component used for displaying default generic properties control, displaying specified properties
@@ -19,13 +18,6 @@ import {LayoutEditorPropertyMetadata} from '../../../../misc/types';
 })
 export class DefaultGenericPropertiesControlComponent<TOptions = any> extends PropertiesControlBase<TOptions> implements PropertiesControl<TOptions>
 {
-    //######################### protected properties - template bindings #########################
-
-    /**
-     * Obtained properties metadata
-     */
-    protected _propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata>|undefined;
-
     //######################### public properties - inputs #########################
 
     /**
@@ -33,37 +25,6 @@ export class DefaultGenericPropertiesControlComponent<TOptions = any> extends Pr
      */
     @Input()
     public properties: string[] = [];
-
-    //######################### protected methods - overrides #########################
-
-    /**
-     * @inheritdoc
-     */
-    protected override async _initialize(): Promise<void>
-    {
-        if(!this.itemSource)
-        {
-            return;
-        }
-
-        const type = await this._extractor.extractMetadata(this.itemSource);
-
-        if(!type)
-        {
-            return;
-        }
-
-        const properties = await this._propertyExtractor.extract(type.metaInfo?.optionsMetadata?.modelType);
-
-        if(!properties)
-        {
-            return;
-        }
-
-        this._propertiesMetadata = properties;
-
-        this._changeDetector.detectChanges();
-    }
 }
 
 /**
@@ -80,6 +41,7 @@ export function genericPropertiesControlFor(properties: string[]): Type<Properti
         imports:
         [
             CommonModule,
+            TooltipModule,
             PropertyTypeControlsModule,
             FormPipesModule,
             

@@ -3,30 +3,19 @@ import {FormControl} from '@angular/forms';
 import {PromiseOr, resolvePromiseOr} from '@jscrpt/common';
 
 import {PropertyTypeControl} from '../../../interfaces';
-import {LayoutEditorPropertyMetadata} from '../../../misc/types';
 
 /**
  * Base class for property type control
  */
 @Directive()
-export abstract class PropertyTypeControlBase<TValue = any, TValues = unknown> implements PropertyTypeControl<TValue, TValues>, OnInit
+export abstract class PropertyTypeControlBase<TValue = any> implements PropertyTypeControl<TValue>, OnInit
 {
     //######################### protected fields #########################
 
     /**
      * Backing field for control
      */
-    protected _control: FormControl<TValue>|undefined;
-
-    /**
-     * Backing field for metadata
-     */
-    protected _metadata: LayoutEditorPropertyMetadata<TValues>|undefined;
-
-    /**
-     * Backing field for name
-     */
-    protected _name: string|undefined;
+    protected _control: FormControl<TValue|null>|undefined;
 
     /**
      * Indication whether was component already initialized
@@ -39,42 +28,22 @@ export abstract class PropertyTypeControlBase<TValue = any, TValues = unknown> i
      * @inheritdoc
      */
     @Input()
-    public get control(): FormControl<TValue>|undefined
+    public get control(): FormControl<TValue|null>|undefined
     {
         return this._control;
     }
-    public set control(value: FormControl<TValue>|undefined)
+    public set control(value: FormControl<TValue|null>|undefined)
     {
         this._control = value;
 
-        this._controlsSet();
+        this._controlSet();
     }
 
     /**
      * @inheritdoc
      */
     @Input()
-    public get metadata(): LayoutEditorPropertyMetadata<TValues>|undefined
-    {
-        return this._metadata;
-    }
-    public set metadata(value: LayoutEditorPropertyMetadata<TValues>|undefined)
-    {
-        this._metadata = value;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    @Input()
-    public get name(): string|undefined
-    {
-        return this._name;
-    }
-    public set name(value: string|undefined)
-    {
-        this._name = value;
-    }
+    public values: TValue[] = [];
 
     //######################### constructor #########################
     constructor(protected _changeDetector: ChangeDetectorRef,)
@@ -86,7 +55,7 @@ export abstract class PropertyTypeControlBase<TValue = any, TValues = unknown> i
     /**
      * Initialize component
      */
-    public ngOnInit(): PromiseOr<void>
+    public async ngOnInit(): Promise<void>
     {
         if(this._initialized)
         {
@@ -94,6 +63,8 @@ export abstract class PropertyTypeControlBase<TValue = any, TValues = unknown> i
         }
 
         this._initialized = true;
+
+        await resolvePromiseOr(this._initialize());
     }
 
     //######################### public methods - implementation of PropertyTypeControl #########################
@@ -117,9 +88,16 @@ export abstract class PropertyTypeControlBase<TValue = any, TValues = unknown> i
     //######################### protected methods #########################
 
     /**
-     * Allows specific code to be called when controls are set
+     * Use this method for initialization of component
      */
-    protected _controlsSet(): void
+    protected _initialize(): PromiseOr<void>
+    {
+    }
+
+    /**
+     * When overriden allows to react to change of control
+     */
+    protected _controlSet(): void
     {
     }
 }

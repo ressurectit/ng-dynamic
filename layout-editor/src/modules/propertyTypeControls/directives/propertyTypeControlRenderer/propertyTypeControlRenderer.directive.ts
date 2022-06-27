@@ -3,9 +3,7 @@ import {FormControl} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
 import {Dictionary, resolvePromiseOr} from '@jscrpt/common';
 
-import {LayoutPropertyTypeData} from '../../../../decorators';
 import {PropertyTypeControl} from '../../../../interfaces';
-import {LayoutEditorPropertyMetadata} from '../../../../misc/types';
 import {LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS} from '../../../../misc/tokens';
 
 /**
@@ -15,7 +13,7 @@ import {LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS} from '../../../../misc/tokens';
 {
     selector: '[propertyTypeControl]'
 })
-export class PropertyTypeControlRendererDirective<TComponent extends PropertyTypeControl<TValue, TValues> = any, TValue = any, TValues = unknown>
+export class PropertyTypeControlRendererDirective<TComponent extends PropertyTypeControl<TValue> = any, TValue = any>
 {
     //######################### protected fields #########################
 
@@ -36,13 +34,13 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
      * Metadata for displaying property control
      */
     @Input('propertyTypeControl')
-    public metadata: (LayoutEditorPropertyMetadata<TValues>&LayoutPropertyTypeData)|undefined;
+    public typeName: string|undefined;
 
     /**
-     * Name of options/property, fallback if missing metadata
+     * Array of available values
      */
     @Input()
-    public name: string|undefined;
+    public values: TValue[] = [];
 
     //######################### constructor #########################
     constructor(protected _viewContainerRef: ViewContainerRef,
@@ -58,14 +56,14 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
      */
     public async ngOnChanges(): Promise<void>
     {
-        const typeName = this.metadata?.type ?? 'inputString';
+        const typeName = this.typeName ?? 'inputString';
         this._logger?.debug('PropertyTypeControlRendererDirective: rendering property type control {@type}', {type: typeName});
 
         this.ngOnDestroy();
         this._viewContainerRef.clear();
 
         // metadata are present
-        if(this.metadata)
+        if(this.typeName)
         {
             const injector = this._viewContainerRef.injector;
             const type = this._typeControls[typeName];
@@ -74,7 +72,7 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
             {
                 this._logger?.error('PropertyTypeControlRendererDirective: unable to find property type control {@type}', {type: typeName});
 
-                throw new Error(`unable to find property type control ${this.metadata.type}`);
+                throw new Error(`unable to find property type control ${typeName}`);
             }
 
             this._componentRef = this._viewContainerRef.createComponent(type,
@@ -85,9 +83,8 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
             if(this._componentRef)
             {
                 const component = this._componentRef.instance;
-                component.name = this.name;
-                component.metadata = this.metadata;
                 component.control = this.control;
+                component.values = this.values;
 
                 await resolvePromiseOr(component.initialize());
                 component.invalidateVisuals();
@@ -104,7 +101,7 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
     {
         if(this._componentRef)
         {
-            this._logger?.debug('PropertyTypeControlRendererDirective: destroying property type control {@type}', {type: this.metadata?.type});
+            this._logger?.debug('PropertyTypeControlRendererDirective: destroying property type control {@type}', {type: this.typeName ?? 'inputString'});
     
             this._componentRef?.destroy();
             this._componentRef = null;

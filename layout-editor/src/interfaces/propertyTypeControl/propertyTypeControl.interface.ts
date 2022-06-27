@@ -1,29 +1,22 @@
 import {FormControl} from '@angular/forms';
 import {PromiseOr} from '@jscrpt/common';
 
-import {LayoutEditorPropertyMetadata} from '../../misc/types';
-
 /**
  * Defines control for specific property type
  */
-export interface PropertyTypeControl<TValue = any, TValues = unknown>
+export interface PropertyTypeControl<TValue = any>
 {
     //######################### properties #########################
 
     /**
      * Form control that will handle value of property
      */
-    control: FormControl<TValue>|undefined;
+    control: FormControl<TValue|null>|undefined;
 
     /**
-     * Metadata for displaying property control
+     * Array of available values/options for selection
      */
-    metadata: LayoutEditorPropertyMetadata<TValues>|undefined;
-
-    /**
-     * Name of options/property, fallback if missing metadata
-     */
-    name: string|undefined;
+    values: TValue[];
 
     /**
      * Initialize component

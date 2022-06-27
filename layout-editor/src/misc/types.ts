@@ -17,7 +17,7 @@ export type DefaultKnownPropertyTypes = 'textarea'|'inputString'|'inputNumber'|'
 /**
  * Minimal layout editor property metadata
  */
-export type LayoutEditorPropertyMetadata<TValues = unknown> = LayoutPropertyDescriptionData&LayoutPropertyNameData&LayoutPropertyValuesData<TValues>;
+export type LayoutEditorPropertyMetadata<TValues = any> = LayoutPropertyDescriptionData&LayoutPropertyNameData&LayoutPropertyValuesData<TValues>;
 
 /**
  * Symbol defining property storing layout properties metadata

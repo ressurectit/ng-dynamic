@@ -1,0 +1,3 @@
+<select [formControl]="_control | asRequired">
+    <option *ngFor="let val of values" [value]="val" [text]="val"></option>
+</select>

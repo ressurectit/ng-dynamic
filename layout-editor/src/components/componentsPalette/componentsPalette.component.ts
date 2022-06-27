@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragStart, CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemSource, DynamicModuleTypesLoader} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
-import {Dictionary, generateId} from '@jscrpt/common';
+import {Dictionary, generateId, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
@@ -11,6 +11,7 @@ import {ComponentsPaletteItem} from './componentsPalette.interface';
 import {ToLayoutDragDataSAPipe} from '../../pipes';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
+import {LayoutComponentDragData} from '../../interfaces';
 
 /**
  * Component displaying available components palette
@@ -50,7 +51,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
     /**
      * Available items grouped by group name
      */
-    protected _groupedItems: Dictionary<ComponentsPaletteItem[]> = {};
+    protected _groupedItems: Dictionary<(ComponentsPaletteItem & {temp?: boolean})[]> = {};
 
     /**
      * Array of available cdk drop lists
@@ -134,6 +135,29 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
     protected _generateNewId(): void
     {
         this._newCompnentId = generateId(16);
+    }
+
+    protected _onDropEnded(key: string): void
+    {
+        if (!isPresent(key))
+        {
+            return;
+        }
+
+        this._groupedItems[key] = [...this._groupedItems[key].filter(datum => !datum.temp)];
+    }
+
+    protected _onDragStarted(event: CdkDragStart<LayoutComponentDragData>, key: string, item: ComponentsPaletteItem): void
+    {
+        const currentIdx = event.source.dropContainer.getSortedItems().findIndex((datum: CdkDrag<LayoutComponentDragData>) => datum.data?.metadata?.id === event.source.data?.metadata?.id);
+
+        if (isPresent(currentIdx))
+        {
+            this._groupedItems[key]?.splice(currentIdx + 1, 0, {
+                ...item,
+                temp: true
+            });
+        }
     }
 
     //######################### protected methods #########################

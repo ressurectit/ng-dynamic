@@ -19,3 +19,8 @@
     margin-top: 2px;
     font-size: .8em;
 }
+
+layout-editor-drag-placeholder
+{
+    display: none;
+}

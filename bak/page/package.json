@@ -1,8 +1,0 @@
-{
-    "name": "@anglr/dynamic/page",
-    "module": "./dist/es5/page/index.js",
-    "esm2015": "./dist/es2015/page/index.js",
-    "esm5": "./dist/es5/page/index.js",
-    "typings": "./index.d.ts",
-    "sideEffects": false
-}

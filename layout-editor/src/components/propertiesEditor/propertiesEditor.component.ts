@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
 import {FormModelBuilder} from '@anglr/common/forms';
-import {isPresent} from '@jscrpt/common';
+import {extend, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
@@ -188,7 +188,18 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
             {
                 this._optionsForm = this._formModelBuilder.build(new this._metadata.metaInfo.optionsMetadata.modelType(this._component?.options?.typeMetadata.options));
 
-                //TODO: subscribe/unsubscribe
+                this._optionsFormSubscription?.unsubscribe();
+                this._optionsFormSubscription = this._optionsForm.valueChanges.subscribe(data =>
+                {
+                    if(this._component?.options?.typeMetadata)
+                    {
+                        extend(true, this._component.options.typeMetadata.options, data);
+
+                        // eslint-disable-next-line no-self-assign
+                        this._component.options = this._component.options;
+                        this._component.invalidateVisuals();
+                    }
+                });
             }
         }
         else

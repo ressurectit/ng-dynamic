@@ -16,7 +16,7 @@ export class TextBlockModel implements ForFormModel<TextBlockComponentOptions>
     @LayoutPropertyName('Text')
     @LayoutPropertyDescription('Text to be displayed in text block')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
-    text: string|undefined|null;
+    text: string|undefined|null = null;
 
     
     //######################### constructor #########################

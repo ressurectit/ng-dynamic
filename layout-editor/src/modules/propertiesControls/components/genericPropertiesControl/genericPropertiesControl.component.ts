@@ -34,15 +34,13 @@ export class DefaultGenericPropertiesControlComponent<TOptions = any> extends Pr
     @Input()
     public properties: string[] = [];
 
-    //######################### public methods - overrides #########################
+    //######################### protected methods - overrides #########################
 
     /**
-     * Initialize component
+     * @inheritdoc
      */
-    public override async ngOnInit(): Promise<void>
+    protected override async _initialize(): Promise<void>
     {
-        super.ngOnInit();
-
         if(!this.itemSource)
         {
             return;

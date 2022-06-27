@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {TooltipModule} from '@anglr/common';
+import {ReactiveFormsModule} from '@angular/forms';
+import {TooltipModule, CastPipesModule} from '@anglr/common';
 
 import {InputBooleanComponent, InputStringComponent} from '../components';
 import {PropertyTypeControlRendererDirective} from '../directives';
@@ -14,6 +15,8 @@ import {PropertyTypeControlRendererDirective} from '../directives';
     [
         CommonModule,
         TooltipModule,
+        ReactiveFormsModule,
+        CastPipesModule,
     ],
     declarations:
     [

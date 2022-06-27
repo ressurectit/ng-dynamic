@@ -46,7 +46,7 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
     /**
      * Initialize component
      */
-    public ngOnInit(): PromiseOr<void>
+    public async ngOnInit(): Promise<void>
     {
         if(this._initialized)
         {
@@ -54,6 +54,8 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
         }
 
         this._initialized = true;
+
+        await resolvePromiseOr(this._initialize());
     }
 
     //######################### public methods - implementation of PropertiesControl #########################
@@ -72,5 +74,14 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
     public invalidateVisuals(): void
     {
         this._changeDetector.detectChanges();
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Use this method for initialization of component
+     */
+    protected _initialize(): PromiseOr<void>
+    {
     }
 }

@@ -6,9 +6,10 @@ import {isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
-import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
+import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor} from '../../services';
 import {LayoutDesignerSAComponent} from '../layoutDesigner/layoutDesigner.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
+import {PropertyTypeControlsModule} from '../../modules';
 
 /**
  * Component that represents editor for components options/properties
@@ -23,6 +24,7 @@ import {LayoutEditorMetadataDescriptor} from '../../decorators';
     [
         CommonModule,
         ReactiveFormsModule,
+        PropertyTypeControlsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -60,9 +62,12 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     //TODO: remove this only for testing
     protected _text: FormControl<string|null> = new FormControl<string|null>(null);
 
+    protected _test: any;
+
     //######################### constructor #########################
     constructor(protected _manager: LayoutEditorMetadataManager,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
+                protected _propertiesMetadataExtractor: LayoutEditorPropertyMetadataExtractor,
                 protected _changeDetector: ChangeDetectorRef,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
@@ -169,6 +174,8 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
                 this._hide();
             }
+
+            this._test = this._propertiesMetadataExtractor.extract(this._metadata?.metaInfo?.optionsMetadata?.modelType);
         }
         else
         {

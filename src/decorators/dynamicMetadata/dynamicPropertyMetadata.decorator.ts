@@ -4,8 +4,8 @@ declare let ngDesignerMetadata: boolean;
 
 /**
  * Sets dynamic metadata to for property
- * @param metadata - Object with metadata to be stored
- * @param propertyName - Property definition symbol
+ * @param value - Object with metadata to be stored
+ * @param property - Property definition symbol
  */
 export function DynamicPropertyMetadata<TValue = Dictionary>(value: TValue, property: symbol): PropertyDecorator
 {
@@ -18,7 +18,14 @@ export function DynamicPropertyMetadata<TValue = Dictionary>(value: TValue, prop
             
             extend(true, propertyMetadata, value);
 
-            Reflect.set(target, property, metadata);
+            if(!Reflect.has(target, property))
+            {
+                Reflect.defineProperty(target,
+                                       property,
+                                       {
+                                           value: metadata
+                                       });
+            }
         };
     }
 

@@ -4,6 +4,7 @@ export * from './directives';
 export * from './interfaces';
 export * from './misc/constants';
 export * from './misc/providers';
+export * from './misc/tokens';
 export * from './misc/types';
 export * from './misc/utils';
 export * from './modules';

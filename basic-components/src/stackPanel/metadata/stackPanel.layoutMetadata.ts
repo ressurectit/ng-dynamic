@@ -3,6 +3,7 @@ import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/d
 import {Action, Func} from '@jscrpt/common';
 
 import {StackPanelComponentOptions} from '../stackPanel.options';
+import {StackPanelModel} from './stackPanel.model';
 
 /**
  * Stack panel layout metadata
@@ -19,6 +20,11 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
         name: 'Stack',
         description: 'Layout component that stacks items horizontally or vertically',
         group: 'Layout',
+        optionsMetadata:
+        {
+            modelType: StackPanelModel,
+            propertiesControls: [],
+        }
     };
 
     /**

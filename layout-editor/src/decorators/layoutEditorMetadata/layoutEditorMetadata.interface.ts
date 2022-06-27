@@ -1,9 +1,10 @@
+import {Type} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {AsyncProperties} from '@anglr/dynamic';
-import {Action, Func} from '@jscrpt/common';
+import {Action, Dictionary, Func} from '@jscrpt/common';
 
 import {ForFormModel} from '../../misc/types';
-import {PropertiesControl} from '../../interfaces';
+import {PropertiesControl, PropertyTypeControl} from '../../interfaces';
 
 /**
  * Defines type for layout properties model
@@ -28,7 +29,10 @@ export interface LayoutEditorOptionsMetadata
      */
     propertiesControls: PropertiesControl[];
 
-    //TODO: customize control types
+    /**
+     * Overrides of controls used in properties controls
+     */
+    propertyTypeControlOverride?: Dictionary<Type<PropertyTypeControl>>;
 }
 
 /**

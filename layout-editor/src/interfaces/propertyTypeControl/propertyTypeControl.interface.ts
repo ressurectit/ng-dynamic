@@ -1,3 +1,4 @@
+import {OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 import {LayoutEditorPropertyMetadata} from '../../misc/types';
@@ -5,7 +6,7 @@ import {LayoutEditorPropertyMetadata} from '../../misc/types';
 /**
  * Defines control for specific property type
  */
-export interface PropertyTypeControl<TValue = any, TValues = unknown>
+export interface PropertyTypeControl<TValue = any, TValues = unknown> extends OnInit
 {
     //######################### properties #########################
 
@@ -18,4 +19,14 @@ export interface PropertyTypeControl<TValue = any, TValues = unknown>
      * Metadata for displaying property control
      */
     metadata: LayoutEditorPropertyMetadata<TValues>|undefined;
+
+    /**
+     * Name of options/property, fallback if missing metadata
+     */
+    name: string|undefined;
+
+    /**
+     * Explicitly runs invalidation of content (change detection)
+     */
+    invalidateVisuals(): void;
 }

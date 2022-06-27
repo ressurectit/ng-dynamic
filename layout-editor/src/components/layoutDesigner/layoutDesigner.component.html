@@ -4,6 +4,7 @@
      cdkDropList
      designerMinWidth
      connectDropLists
+     [id]="id"
      [copyDesignerStyles]="_renderedType"
      [cdkDragData]="{metadata: _renderedType, parentId: _parent?._renderedType?.id}"
      [cdkDragDisabled]="!_parent || _editorMetadata?.metaInfo?.dragDisabled"

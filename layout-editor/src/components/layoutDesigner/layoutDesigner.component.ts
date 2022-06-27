@@ -1,6 +1,6 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy, ViewChild} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CdkDragDrop, CdkDropList, DragDropModule, DropListOrientation} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, DragDropModule, DropListOrientation} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
@@ -43,6 +43,16 @@ import {LayoutEditorMetadataDescriptor} from '../../decorators';
 })
 export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>, OnDestroy
 {
+    //######################### public fields #########################
+
+    /**
+     * Component identifier
+     */
+    public get id(): string
+    {
+        return this._options?.typeMetadata?.id ?? '';
+    }
+
     //######################### protected fields #########################
 
     /**
@@ -92,14 +102,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Orientation of drop list
      */
     protected _orientation: DropListOrientation = 'vertical';
-
-    //######################### public properties - children #########################
-
-    /**
-     * Instance of CdkDrop list that is present in componet
-     */
-    @ViewChild(CdkDropList, {static: true})
-    public designerDropList!: CdkDropList;
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,

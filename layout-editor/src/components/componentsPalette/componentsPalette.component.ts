@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CdkDrag, CdkDragStart, CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragStart, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemSource, DynamicModuleTypesLoader} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
 import {Dictionary, generateId, isPresent} from '@jscrpt/common';
@@ -56,7 +56,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
     /**
      * Array of available cdk drop lists
      */
-    protected _designerDropLists: CdkDropList<any>[] = [];
+    protected _designerDropLists: string[] = [];
 
     /**
      * Generated component id, that is used for new component
@@ -177,6 +177,6 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      */
     protected _getDesignerDropLists(): void
     {
-        this._designerDropLists = this._metadataManager.flatTree.map(itm => itm.component.designerDropList).reverse();
+        this._designerDropLists = this._metadataManager.flatTree.map(itm => itm.component.id).reverse();
     }
 }

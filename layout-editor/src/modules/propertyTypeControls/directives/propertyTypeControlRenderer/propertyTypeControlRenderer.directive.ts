@@ -33,13 +33,13 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
     public control: FormControl<TValue>|undefined;
 
     /**
-     * @inheritdoc
+     * Metadata for displaying property control
      */
     @Input('propertyTypeControl')
     public metadata: (LayoutEditorPropertyMetadata<TValues>&LayoutPropertyTypeData)|undefined;
 
     /**
-     * @inheritdoc
+     * Name of options/property, fallback if missing metadata
      */
     @Input()
     public name: string|undefined;

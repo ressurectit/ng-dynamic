@@ -4,6 +4,7 @@ import {FormPipesModule} from '@anglr/common/forms';
 
 import {DefaultGenericPropertiesControlComponent} from '../components';
 import {PropertyTypeControlsModule} from '../../propertyTypeControls';
+import {PropertiesControlRendererDirective} from '../directives';
 
 /**
  * Module for properties controls components
@@ -19,10 +20,12 @@ import {PropertyTypeControlsModule} from '../../propertyTypeControls';
     declarations:
     [
         DefaultGenericPropertiesControlComponent,
+        PropertiesControlRendererDirective,
     ],
     exports:
     [
         DefaultGenericPropertiesControlComponent,
+        PropertiesControlRendererDirective,
     ]
 })
 export class PropertiesControlsModule

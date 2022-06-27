@@ -6,5 +6,7 @@
         <input class="form-control" type="text" [formControl]="_id">
     </div>
 
-    <default-generic-properties-control [itemSource]="_component?.options?.typeMetadata" [form]="_optionsForm" [properties]="['wrap', 'horizontal']"></default-generic-properties-control>
+    <ng-container *ngFor="let propertiesCtrl of _metadata?.metaInfo?.optionsMetadata?.propertiesControls">
+        <ng-container [propertiesControl]="propertiesCtrl" [form]="_optionsForm" [itemSource]="_component?.options?.typeMetadata"></ng-container>
+    </ng-container>
 </div>

@@ -27,7 +27,7 @@ export interface LayoutEditorOptionsMetadata
     /**
      * Array of properties controls used for editation of properties/options
      */
-    propertiesControls: PropertiesControl[];
+    propertiesControls: Type<PropertiesControl>[];
 
     /**
      * Overrides of controls used in properties controls

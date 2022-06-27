@@ -1,4 +1,4 @@
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {TextBlockComponentOptions} from '../textBlock.options';
 import {TextBlockModel} from './textBlock.model';
@@ -20,7 +20,10 @@ export class TextBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
         optionsMetadata:
         {
             modelType: TextBlockModel,
-            propertiesControls: [],
+            propertiesControls: 
+            [
+                genericPropertiesControlFor(['text'])
+            ],
         }
     };
 

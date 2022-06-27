@@ -1,5 +1,5 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {Action, Func} from '@jscrpt/common';
 
 import {StackPanelComponentOptions} from '../stackPanel.options';
@@ -23,7 +23,10 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
         optionsMetadata:
         {
             modelType: StackPanelModel,
-            propertiesControls: [],
+            propertiesControls: 
+            [
+                genericPropertiesControlFor(['horizontal', 'wrap'])
+            ],
         }
     };
 

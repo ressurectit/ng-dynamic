@@ -23,17 +23,7 @@
   list-style-type: none;
 }
 
-.component-tree .mat-nested-tree-node div[role=group] 
+.component-tree .node-children 
 {
   padding-left: 1rem;
-}
-
-.component-tree div[role=group] > .mat-tree-node 
-{
-  padding-left: 1rem;
-}
-
-.component-tree-invisible
-{
-    display: none;
 }

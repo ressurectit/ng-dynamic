@@ -1,8 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatTreeModule, MatTreeNestedDataSource} from '@angular/material/tree';
 import {MatButtonModule} from '@angular/material/button';
-import {NestedTreeControl} from '@angular/cdk/tree';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataManager, LayoutEditorMetadataManagerComponent} from '../../services';
@@ -20,9 +19,9 @@ import {ComponentTreeNodeTemplateSADirective} from '../../directives';
     imports:
     [
         CommonModule,
-        MatTreeModule,
         MatButtonModule,
         ComponentTreeNodeTemplateSADirective,
+        DragDropModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -35,17 +34,12 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
      */
     protected _initSubscriptions: Subscription = new Subscription();
 
-    //######################### protected properties - template bindings #########################
+    //######################### protected fields - template bindings #########################
 
     /**
-     * Component tree data source
+     * Instance of root component in tree
      */
-    protected treeDataSource: MatTreeNestedDataSource<LayoutEditorMetadataManagerComponent> = new MatTreeNestedDataSource();
-
-    /**
-     * Component tree control
-     */
-    protected treeControl: NestedTreeControl<LayoutEditorMetadataManagerComponent> = new NestedTreeControl(component => component.children);
+    protected root: LayoutEditorMetadataManagerComponent|undefined|null;
 
     //######################### constructor #########################
     constructor(protected _manager: LayoutEditorMetadataManager,
@@ -62,19 +56,18 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     {
         this._initSubscriptions.add(this._manager.layoutChange.subscribe(() =>
         {
-            this._setTreeDataSource(this._manager.root);
+            this.root = this._manager.root;
             this._changeDetector.detectChanges();
         }));
         
         this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => 
         {
-            this._expandTreeNode(this.treeDataSource?.data, this._manager.selectedComponent);
             this._changeDetector.detectChanges();
         }));
         this._initSubscriptions.add(this._manager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
         this._initSubscriptions.add(this._manager.idChange.subscribe(() => this._changeDetector.detectChanges()));
 
-        this._setTreeDataSource(this._manager.root);
+        this.root = this._manager.root;
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -108,7 +101,7 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
      * @param node layout component to check
      * @returns 
      */
-    protected hasChild(_: number, node: LayoutEditorMetadataManagerComponent): boolean
+    protected hasChild(node: LayoutEditorMetadataManagerComponent): boolean
     {
         return !!node.children && node.children.length > 0;
     }
@@ -126,53 +119,5 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
         event.stopPropagation();
 
         this._manager.cancelHighlightedComponent();
-    }
-
-    //######################### private methods #########################
-
-    /**
-     * Set component tree data source
-     * @param root 
-     */
-    private _setTreeDataSource(root: LayoutEditorMetadataManagerComponent | null | undefined)
-    {
-        //TODO better solution to update data source
-        this.treeDataSource.data = [];
-        this.treeDataSource.data = root ? [root] : [];
-        this.treeControl.dataNodes = this.treeDataSource.data;
-        this.treeControl.expandAll();
-    }
-
-    /**
-     * Expands specific node and all its ancestors
-     * @param data list of layout components
-     * @param id component identifier to expand
-     * @returns indication whether node was expanded
-     */
-    private _expandTreeNode(data: LayoutEditorMetadataManagerComponent[], id: string | null): boolean
-    {
-        if (!id)
-        {
-            return false;
-        }
-
-        for (const node of data)
-        {
-            if (node.children?.find(c => c.component?.options?.typeMetadata?.id === id)) 
-            {
-                this.treeControl.expand(node);
-                return true;
-            }
-            else if (node.children?.find(c => c.children)) 
-            {
-                if (this._expandTreeNode(node.children, id))
-                {
-                    this.treeControl.expand(node);
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 }

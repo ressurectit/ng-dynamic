@@ -1,38 +1,29 @@
-<ng-template #components="treeNodeTemplate"
-             treeNodeTemplate
-             let-item>
-    <div [class.selected]="item.component.options?.typeMetadata?.id === _manager.selectedComponent"
-         [class.highlighted]="item.component.options?.typeMetadata?.id === _manager.highlightedComponent"
-         (mouseover)="highlight($event, item.component.options?.typeMetadata?.id)"
-         (click)="_manager.selectComponent(item.component.options?.typeMetadata?.id)">{{item.component.options?.typeMetadata?.id}}</div>
-</ng-template>
-
-<button mat-icon-button aria-label="Collapse all" (click)="treeControl.collapseAll()">
+<button mat-icon-button aria-label="Collapse all">
     <span class="fa fa-minus-square"></span>
 </button>
-<button mat-icon-button aria-label="Expand all" (click)="treeControl.expandAll()">
+<button mat-icon-button aria-label="Expand all">
     <span class="fa fa-plus-square"></span>
 </button>
 
-<mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl" class="component-tree">
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-        <ng-container *ngTemplateOutlet="components.template; context: {$implicit: node}"></ng-container>
-    </mat-tree-node>
+<div class="component-tree" cdkDropList *ngIf="root">
+    <ng-container *ngTemplateOutlet="components.template; context: { $implicit: root }"></ng-container>
+</div>
 
-    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-        <div class="mat-tree-node">
-            <button mat-icon-button matTreeNodeToggle
-                    [attr.aria-label]="'Toggle ' + node.name">
-                <span class="fa" [ngClass]="treeControl.isExpanded(node) ? 'fa-chevron-down' : 'fa-chevron-right'"></span>
-            </button>
-            <ng-container *ngTemplateOutlet="components.template; context: {$implicit: node}"></ng-container>
-        </div>
+<!-- Tree node template -->
+<ng-template #components="treeNodeTemplate"
+             treeNodeTemplate
+             let-item>
+    <div 
+        [ngClass]="hasChild(item) ? 'nested-node-tree' : 'node-tree'"
+        [class.selected]="item.component.options?.typeMetadata?.id === _manager.selectedComponent"
+        [class.highlighted]="item.component.options?.typeMetadata?.id === _manager.highlightedComponent"
+        (mouseover)="highlight($event, item.component.options?.typeMetadata?.id)"
+        (click)="_manager.selectComponent(item.component.options?.typeMetadata?.id)">{{item.component.options?.typeMetadata?.id}}</div>
 
-        <!-- Nested tree nodes -->
-        <div [class.component-tree-invisible]="!treeControl.isExpanded(node)"
-            role="group">
-            <ng-container matTreeNodeOutlet></ng-container>
+    <div class="node-children" cdkDropList>
+        <div cdkDrag *ngFor="let child of item.children">
+            <ng-container *ngTemplateOutlet="components.template; context: {$implicit: child}"></ng-container>
         </div>
-    </mat-nested-tree-node>
-</mat-tree>
+    </div>
+</ng-template>
 

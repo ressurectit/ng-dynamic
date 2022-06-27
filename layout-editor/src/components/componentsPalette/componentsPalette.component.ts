@@ -137,6 +137,10 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
         this._newCompnentId = generateId(16);
     }
 
+    /**
+     * Removes temporary palette item when drag ends
+     * @param key Items group key
+     */
     protected _onDropEnded(key: string): void
     {
         if (!isPresent(key))
@@ -147,6 +151,12 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
         this._groupedItems[key] = [...this._groupedItems[key].filter(datum => !datum.temp)];
     }
 
+    /**
+     * Generates temporary palette item when drag starts
+     * @param event Drag start event
+     * @param key Items group key
+     * @param item Palette item
+     */
     protected _onDragStarted(event: CdkDragStart<LayoutComponentDragData>, key: string, item: ComponentsPaletteItem): void
     {
         const currentIdx = event.source.dropContainer.getSortedItems().findIndex((datum: CdkDrag<LayoutComponentDragData>) => datum.data?.metadata?.id === event.source.data?.metadata?.id);

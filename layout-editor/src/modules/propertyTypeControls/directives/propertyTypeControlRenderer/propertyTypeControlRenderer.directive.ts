@@ -1,7 +1,7 @@
-import {ComponentRef, Directive, Inject, Input, Optional, SimpleChanges, Type, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, Inject, Input, Optional, Type, ViewContainerRef} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
-import {nameof, Dictionary, resolvePromiseOr} from '@jscrpt/common';
+import {Dictionary, resolvePromiseOr} from '@jscrpt/common';
 
 import {LayoutPropertyTypeData} from '../../../../decorators';
 import {PropertyTypeControl} from '../../../../interfaces';
@@ -56,7 +56,7 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
     /**
      * Called when input value changes
      */
-    public async ngOnChanges(changes: SimpleChanges): Promise<void>
+    public async ngOnChanges(): Promise<void>
     {
         const typeName = this.metadata?.type ?? 'inputString';
         this._logger?.debug('PropertyTypeControlRendererDirective: rendering property type control {@type}', {type: typeName});
@@ -65,7 +65,7 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
         this._viewContainerRef.clear();
 
         // metadata are present
-        if(nameof<PropertyTypeControlRendererDirective<TComponent, TValue, TValues>>('metadata') in changes && this.metadata)
+        if(this.metadata)
         {
             const injector = this._viewContainerRef.injector;
             const type = this._typeControls[typeName];

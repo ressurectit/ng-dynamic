@@ -105,21 +105,6 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                 }
             });
 
-        // this._text
-        //     .valueChanges
-        //     .pipe(debounceTime(160))
-        //     .subscribe(text =>
-        //     {
-        //         if(this._component?.options?.typeMetadata && isPresent(text))
-        //         {
-        //             const options = this._component.options.typeMetadata.options as any;
-        //             options.text = text;
-
-        //             // eslint-disable-next-line no-self-assign
-        //             this._component.options = this._component.options;
-        //         }
-        //     });
-
         this._initProperties();
     }
 
@@ -221,5 +206,6 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         this._optionsForm = undefined;
         this._optionsFormSubscription?.unsubscribe();
         this._optionsFormSubscription = null;
+        this._changeDetector.detectChanges();
     }
 }

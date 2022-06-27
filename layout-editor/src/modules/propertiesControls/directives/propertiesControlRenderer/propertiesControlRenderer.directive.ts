@@ -1,9 +1,9 @@
-import {ComponentRef, Directive, Inject, Input, Optional, SimpleChanges, Type, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, Inject, Input, Optional, Type, ViewContainerRef} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
 import {FormModelGroup} from '@anglr/common/forms';
 import {DynamicItemSource} from '@anglr/dynamic';
-import {nameof, resolvePromiseOr} from '@jscrpt/common';
+import {resolvePromiseOr} from '@jscrpt/common';
 
 import {PropertiesControl} from '../../../../interfaces';
 
@@ -54,7 +54,7 @@ export class PropertiesControlRendererDirective<TComponent extends PropertiesCon
     /**
      * Called when input value changes
      */
-    public async ngOnChanges(changes: SimpleChanges): Promise<void>
+    public async ngOnChanges(): Promise<void>
     {
         this._logger?.debug('PropertiesControlRendererDirective: rendering properties control {@type}', {type: this.type?.name});
 
@@ -62,7 +62,7 @@ export class PropertiesControlRendererDirective<TComponent extends PropertiesCon
         this._viewContainerRef.clear();
 
         // metadata are present
-        if(nameof<PropertiesControlRendererDirective<TComponent, TOptions>>('type') in changes && this.type)
+        if(this.type)
         {
             const injector = this._viewContainerRef.injector;
 

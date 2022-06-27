@@ -5,7 +5,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataManager, LayoutEditorMetadataManagerComponent} from '../../services';
-import {ComponentTreeNodeTemplateSADirective} from '../../directives';
+import {ComponentTreeNodeTemplateSADirective, ConnectDropListsSADirective} from '../../directives';
 
 /**
  * Component displaying components tree
@@ -22,6 +22,7 @@ import {ComponentTreeNodeTemplateSADirective} from '../../directives';
         MatButtonModule,
         ComponentTreeNodeTemplateSADirective,
         DragDropModule,
+        ConnectDropListsSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -5,7 +5,7 @@
     <span class="fa fa-plus-square"></span>
 </button>
 
-<div class="component-tree" cdkDropList *ngIf="root">
+<div class="component-tree" *ngIf="root">
     <ng-container *ngTemplateOutlet="components.template; context: { $implicit: root }"></ng-container>
 </div>
 
@@ -20,7 +20,11 @@
         (mouseover)="highlight($event, item.component.options?.typeMetadata?.id)"
         (click)="_manager.selectComponent(item.component.options?.typeMetadata?.id)">{{item.component.options?.typeMetadata?.id}}</div>
 
-    <div class="node-children" cdkDropList>
+    <div class="node-children" 
+         cdkDropList
+         [id]="'component-tree-' + item.component.options?.typeMetadata?.id" 
+         connectDropLists
+         connectDropListsPrefix="component-tree-">
         <div cdkDrag *ngFor="let child of item.children">
             <ng-container *ngTemplateOutlet="components.template; context: {$implicit: child}"></ng-container>
         </div>

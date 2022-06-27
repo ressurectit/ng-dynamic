@@ -1,36 +1,78 @@
-import {ChangeDetectionStrategy, Component, Type} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, Type} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormGroup} from '@angular/forms';
-import {FormModelGroup} from '@anglr/common/forms';
-import {DynamicItemSource} from '@anglr/dynamic';
+import {FormPipesModule} from '@anglr/common/forms';
+import {Dictionary} from '@jscrpt/common';
 
 import {PropertiesControl} from '../../../../interfaces';
+import {PropertiesControlBase} from '../propertiesControlBase';
+import {PropertyTypeControlsModule} from '../../../propertyTypeControls';
+import {LayoutEditorPropertyMetadata} from '../../../../misc/types';
 
+/**
+ * Component used for displaying default generic properties control, displaying specified properties
+ */
 @Component(
 {
     selector: 'default-generic-properties-control',
     templateUrl: 'genericPropertiesControl.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DefaultGenericPropertiesControlComponent<TOptions = any> implements PropertiesControl<TOptions>
+export class DefaultGenericPropertiesControlComponent<TOptions = any> extends PropertiesControlBase<TOptions> implements PropertiesControl<TOptions>
 {
+    //######################### protected properties - template bindings #########################
 
     /**
-     * Form group representing whole options
+     * Obtained properties metadata
      */
-    form!: FormGroup<FormModelGroup<TOptions>>;
+    protected _propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata>|undefined;
+
+    //######################### public properties - inputs #########################
 
     /**
-     * Defines dynamic item source which properties are edited
+     * Array of properties that should be displayed by this component
      */
-    itemSource!: DynamicItemSource;
+    @Input()
+    public properties: string[] = [];
 
-    test = true;
+    //######################### public methods - overrides #########################
 
-    public availableTypes: string[] = [];
+    /**
+     * Initialize component
+     */
+    public override async ngOnInit(): Promise<void>
+    {
+        super.ngOnInit();
+
+        if(!this.itemSource)
+        {
+            return;
+        }
+
+        const type = await this._extractor.extractMetadata(this.itemSource);
+
+        if(!type)
+        {
+            return;
+        }
+
+        const properties = await this._propertyExtractor.extract(type.metaInfo?.optionsMetadata?.modelType);
+
+        if(!properties)
+        {
+            return;
+        }
+
+        this._propertiesMetadata = properties;
+
+        this._changeDetector.detectChanges();
+    }
 }
 
-export function getType(types: string[]): Type<PropertiesControl>
+/**
+ * Gets generic properties control component for specific properties
+ * @param properties - Array of properties which will be displayed in generic properties control
+ */
+export function genericPropertiesControlFor(properties: string[]): Type<PropertiesControl>
 {
     @Component(
     {
@@ -40,12 +82,19 @@ export function getType(types: string[]): Type<PropertiesControl>
         imports:
         [
             CommonModule,
+            PropertyTypeControlsModule,
+            FormPipesModule,
+            
         ],
         changeDetection: ChangeDetectionStrategy.OnPush
     })
     class GenericPropertiesControl<TOptions = any> extends DefaultGenericPropertiesControlComponent implements PropertiesControl<TOptions>
     {
-        public override availableTypes: string[] = types;
+        /**
+         * @inheritdoc
+         */
+        @Input()
+        public override properties: string[] = properties;
     }
 
     return GenericPropertiesControl;

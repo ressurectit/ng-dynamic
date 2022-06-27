@@ -1,2 +1,4 @@
-<div *ngIf="test">toto je test</div>
-<div *ngFor="let typ of availableTypes">{{typ}}</div>
+<ng-container *ngFor="let property of properties">
+    <!-- TODO pipe for control.control -->
+    <ng-container [propertyTypeControl]="_propertiesMetadata?.[property]" [name]="property" [control]="$any(form?.get(property) | asFormControl)"></ng-container>
+</ng-container>

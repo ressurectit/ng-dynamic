@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Directive, Input} from '@angular/core';
+import {ChangeDetectorRef, Directive, Input, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {PromiseOr, resolvePromiseOr} from '@jscrpt/common';
 
@@ -9,7 +9,7 @@ import {LayoutEditorPropertyMetadata} from '../../../misc/types';
  * Base class for property type control
  */
 @Directive()
-export abstract class PropertyTypeControlBase<TValue = any, TValues = unknown> implements PropertyTypeControl<TValue, TValues>
+export abstract class PropertyTypeControlBase<TValue = any, TValues = unknown> implements PropertyTypeControl<TValue, TValues>, OnInit
 {
     //######################### protected fields #########################
 
@@ -86,20 +86,28 @@ export abstract class PropertyTypeControlBase<TValue = any, TValues = unknown> i
     /**
      * Initialize component
      */
-    public async ngOnInit(): Promise<void>
+    public ngOnInit(): PromiseOr<void>
     {
         if(this._initialized)
         {
             return;
         }
 
-        await resolvePromiseOr(this._initialize());
-
         this._initialized = true;
     }
 
+    //######################### public methods - implementation of PropertyTypeControl #########################
+
     /**
-     * Explicitly runs invalidation of content (change detection)
+     * @inheritdoc
+     */
+    public async initialize(): Promise<void>
+    {
+        await resolvePromiseOr(this.ngOnInit());
+    }
+
+    /**
+     * @inheritdoc
      */
     public invalidateVisuals(): void
     {
@@ -107,13 +115,6 @@ export abstract class PropertyTypeControlBase<TValue = any, TValues = unknown> i
     }
 
     //######################### protected methods #########################
-
-    /**
-     * Allows specific code to be called in child initialization
-     */
-    protected _initialize(): PromiseOr<void>
-    {
-    }
 
     /**
      * Allows specific code to be called when controls are set

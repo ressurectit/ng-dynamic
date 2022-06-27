@@ -2,6 +2,7 @@ import {InjectionToken, Type} from '@angular/core';
 import {Dictionary} from '@jscrpt/common';
 
 import {PropertyTypeControl} from '../interfaces';
+import {InputBooleanComponent, InputStringComponent} from '../modules/propertyTypeControls';
 import {LayoutPropertyMetadata} from './types';
 
 /**
@@ -18,6 +19,7 @@ export const LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS: InjectionToken<Dictionary<Typ
                                                                                                                                                                          factory: () =>
                                                                                                                                                                          {
                                                                                                                                                                              return {
-                                                                                                                                                                                //  'inputString': 
+                                                                                                                                                                                 'inputString': InputStringComponent,
+                                                                                                                                                                                 'inputBoolean': InputBooleanComponent,
                                                                                                                                                                              };
                                                                                                                                                                          }});

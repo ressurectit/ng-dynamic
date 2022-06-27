@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TooltipModule} from '@anglr/common';
 
-import {InputStringComponent} from '../components';
+import {InputBooleanComponent, InputStringComponent} from '../components';
 import {PropertyTypeControlRendererDirective} from '../directives';
 
 /**
@@ -18,11 +18,13 @@ import {PropertyTypeControlRendererDirective} from '../directives';
     declarations:
     [
         InputStringComponent,
+        InputBooleanComponent,
         PropertyTypeControlRendererDirective,
     ],
     exports:
     [
         InputStringComponent,
+        InputBooleanComponent,
         PropertyTypeControlRendererDirective,
     ],
 })

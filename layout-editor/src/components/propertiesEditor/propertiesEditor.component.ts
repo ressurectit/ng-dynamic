@@ -1,15 +1,16 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Optional} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
+import {FormModelBuilder} from '@anglr/common/forms';
 import {isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
-import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor} from '../../services';
+import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutDesignerSAComponent} from '../layoutDesigner/layoutDesigner.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
-import {PropertyTypeControlsModule} from '../../modules';
+import {PropertiesControlsModule} from '../../modules';
 
 /**
  * Component that represents editor for components options/properties
@@ -19,12 +20,13 @@ import {PropertyTypeControlsModule} from '../../modules';
     selector: 'properties-editor',
     templateUrl: 'propertiesEditor.component.html',
     styleUrls: ['propertiesEditor.component.css'],
+    providers: [FormModelBuilder],
     standalone: true,
     imports:
     [
         CommonModule,
         ReactiveFormsModule,
-        PropertyTypeControlsModule,
+        PropertiesControlsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -36,6 +38,11 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      * Subscriptions created during initialization
      */
     protected _initSubscriptions: Subscription = new Subscription();
+
+    /**
+     * Subscription for options form
+     */
+    protected _optionsFormSubscription: Subscription|null = null;
 
     //######################### protected properties - template bindings #########################
 
@@ -59,15 +66,15 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     protected _id: FormControl<string|null> = new FormControl<string|null>(null);
 
-    //TODO: remove this only for testing
-    protected _text: FormControl<string|null> = new FormControl<string|null>(null);
-
-    protected _test: any;
+    /**
+     * Form group for options modifications
+     */
+    protected _optionsForm: FormGroup|undefined = undefined;
 
     //######################### constructor #########################
     constructor(protected _manager: LayoutEditorMetadataManager,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
-                protected _propertiesMetadataExtractor: LayoutEditorPropertyMetadataExtractor,
+                protected _formModelBuilder: FormModelBuilder,
                 protected _changeDetector: ChangeDetectorRef,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
@@ -98,20 +105,20 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                 }
             });
 
-        this._text
-            .valueChanges
-            .pipe(debounceTime(160))
-            .subscribe(text =>
-            {
-                if(this._component?.options?.typeMetadata && isPresent(text))
-                {
-                    const options = this._component.options.typeMetadata.options as any;
-                    options.text = text;
+        // this._text
+        //     .valueChanges
+        //     .pipe(debounceTime(160))
+        //     .subscribe(text =>
+        //     {
+        //         if(this._component?.options?.typeMetadata && isPresent(text))
+        //         {
+        //             const options = this._component.options.typeMetadata.options as any;
+        //             options.text = text;
 
-                    // eslint-disable-next-line no-self-assign
-                    this._component.options = this._component.options;
-                }
-            });
+        //             // eslint-disable-next-line no-self-assign
+        //             this._component.options = this._component.options;
+        //         }
+        //     });
 
         this._initProperties();
     }
@@ -124,6 +131,8 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     public ngOnDestroy(): void
     {
         this._initSubscriptions.unsubscribe();
+        this._optionsFormSubscription?.unsubscribe();
+        this._optionsFormSubscription = null;
     }
 
     //######################### protected methods #########################
@@ -164,7 +173,6 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         if(this._component?.options?.typeMetadata)
         {
             this._id.setValue(this._component.options.typeMetadata.id, {emitEvent: false});
-            this._text.setValue((this._component.options.typeMetadata.options as any).text, {emitEvent: false});
 
             this._metadata = await this._metadataExtractor.extractMetadata(this._component.options?.typeMetadata);
 
@@ -175,7 +183,13 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                 this._hide();
             }
 
-            this._test = this._propertiesMetadataExtractor.extract(this._metadata?.metaInfo?.optionsMetadata?.modelType);
+            //model type is present
+            if(this._metadata?.metaInfo?.optionsMetadata?.modelType)
+            {
+                this._optionsForm = this._formModelBuilder.build(new this._metadata.metaInfo.optionsMetadata.modelType(this._component?.options?.typeMetadata.options));
+
+                //TODO: subscribe/unsubscribe
+            }
         }
         else
         {
@@ -193,5 +207,8 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         this._visible = false;
         this._component = null;
         this._metadata = null;
+        this._optionsForm = undefined;
+        this._optionsFormSubscription?.unsubscribe();
+        this._optionsFormSubscription = null;
     }
 }

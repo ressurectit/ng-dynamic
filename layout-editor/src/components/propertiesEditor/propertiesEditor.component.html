@@ -6,10 +6,5 @@
         <input class="form-control" type="text" [formControl]="_id">
     </div>
 
-    <div class="form-group" *ngIf="_component?.options?.typeMetadata?.name == 'textBlock'">
-        <label class="control-label">Text</label>
-        <input class="form-control" type="text" [formControl]="_text">
-    </div>
-
-    <ng-container [propertyTypeControl]="_test" name="test"></ng-container>
+    <default-generic-properties-control [itemSource]="_component?.options?.typeMetadata" [form]="_optionsForm" [properties]="['wrap', 'horizontal']"></default-generic-properties-control>
 </div>

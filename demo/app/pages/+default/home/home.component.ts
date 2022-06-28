@@ -150,7 +150,7 @@ export class HomeComponent implements OnInit, OnDestroy
                     }
                 },
                 {
-                    id: 'stackxxx',
+                    id: 'gridCellxxx',
                     package: 'basic-components',
                     name: 'gridPanelCell',
                     options: <GridPanelCellComponentOptions>

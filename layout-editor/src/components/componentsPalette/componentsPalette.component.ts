@@ -63,6 +63,11 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      */
     protected _newCompnentId: string = generateId(16);
 
+    /**
+     * Indication whether drag element is over palette
+     */
+    protected _isDragOverPalette: boolean = false;
+
     //######################### constructor #########################
     constructor(protected _moduleTypesLoader: DynamicModuleTypesLoader,
                 protected _changeDetector: ChangeDetectorRef,
@@ -141,7 +146,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      * Removes temporary palette item when drag ends
      * @param key Items group key
      */
-    protected _onDropEnded(key: string): void
+    protected _onDragEnded(key: string): void
     {
         if (!isPresent(key))
         {
@@ -159,6 +164,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      */
     protected _onDragStarted(event: CdkDragStart<LayoutComponentDragData>, key: string, item: ComponentsPaletteItem): void
     {
+        this._isDragOverPalette = true;
         const currentIdx = event.source.dropContainer.getSortedItems().findIndex((datum: CdkDrag<LayoutComponentDragData>) => datum.data?.metadata?.id === event.source.data?.metadata?.id);
 
         if (isPresent(currentIdx))
@@ -168,6 +174,22 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
                 temp: true
             });
         }
+    }
+
+    /**
+     * Handles action when dragged element enters palette droplist
+     */
+    protected _onDropListEntered(): void
+    {
+        this._isDragOverPalette = true;
+    }
+
+    /**
+     * Handles action when dragged element exits palette droplist
+     */
+    protected _onDropListExited(): void
+    {
+        this._isDragOverPalette = false;
     }
 
     //######################### protected methods #########################

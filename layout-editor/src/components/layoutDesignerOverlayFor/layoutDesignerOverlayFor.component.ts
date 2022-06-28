@@ -1,6 +1,5 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EmbeddedViewRef, OnInit, OnDestroy, Input} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ElementRef, EmbeddedViewRef, OnInit, OnDestroy, Input, ChangeDetectorRef} from '@angular/core';
 import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {Subscription} from 'rxjs';
 
 /**
  * Component displaying layout designer layout overlay
@@ -18,14 +17,9 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
     //######################### protected fields #########################
 
     /**
-     * Instance of resize observer
+     * Instance of mutation observer
      */
-    protected _observer?: ResizeObserver;
-
-    /**
-     * Subscriptions created during initialization
-     */
-    protected _initSubscriptions: Subscription = new Subscription();
+    protected _observer?: MutationObserver;
 
     //######################### protected properties - template bindings #########################
 
@@ -43,7 +37,8 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
     public layoutComponentRendererDirective?: LayoutComponentRendererSADirective;
 
     //######################### constructor #########################
-    constructor(protected _element: ElementRef<HTMLElement>,)
+    constructor(protected _element: ElementRef<HTMLElement>,
+                protected _changeDetector: ChangeDetectorRef,)
     {
     }
 
@@ -54,33 +49,15 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        //TODO: handle changes of styles
+        this._observer = new MutationObserver(() => this._changeDetector.detectChanges());
 
-        // this._observer = new ResizeObserver(changes =>
-        // {
-        //     for(const change of changes)
-        //     {
-        //         //no height, apply min height
-        //         if(change.contentRect.height <= 0)
-        //         {
-        //             this._element.nativeElement.style.minHeight = '30px';
-        //         }
-        //         else
-        //         {
-        //             this._element.nativeElement.style.minHeight = '';
-        //         }
-        //     }
-        // });
-
-        // this._initSubscriptions.add(this.layoutComponentRendererDirective?.componentChange.subscribe(componentRef =>
-        // {
-        //     if(!componentRef)
-        //     {
-        //         return;
-        //     }
-        // }));
-
+        //TODO: make this working
         this._htmlElement = (this.layoutComponentRendererDirective?.componentRef?.hostView as EmbeddedViewRef<any>)?.rootNodes?.[0];
+
+        if(this._htmlElement)
+        {
+            this._observer?.observe(this._htmlElement, {attributeFilter: ['style']});
+        }
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -91,6 +68,5 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
     public ngOnDestroy(): void
     {
         this._observer?.disconnect();
-        this._initSubscriptions.unsubscribe();
     }
 }

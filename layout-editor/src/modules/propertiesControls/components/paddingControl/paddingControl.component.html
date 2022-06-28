@@ -1,0 +1,19 @@
+<div>Padding</div>
+
+<div class="flex-column">
+    <input-size class="align-self-center" [control]="_padding?.controls?.top | asFormControl"></input-size>
+
+    <div class="flex-row">
+        <div class="flex-1">
+            <input-size [control]="_padding?.controls?.left | asFormControl"></input-size>
+        </div>
+
+        <div style="width: 20px; height: 20px; border: 1px solid #aaa;"></div>
+
+        <div class="flex-1">
+            <input-size [control]="_padding?.controls?.right | asFormControl"></input-size>
+        </div>
+    </div>
+
+    <input-size class="align-self-center" [control]="_padding?.controls?.bottom | asFormControl"></input-size>
+</div>

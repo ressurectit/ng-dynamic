@@ -1,15 +1,19 @@
 <div>Margin</div>
 
 <div class="flex-column">
-    <div>
-        <input-size [control]="_margin?.controls?.top | asFormControl"></input-size>
-    </div>
+    <input-size class="align-self-center" [control]="_margin?.controls?.top | asFormControl"></input-size>
 
     <div class="flex-row">
-        <div class="flex-1"></div>
+        <div class="flex-1">
+            <input-size [control]="_margin?.controls?.left | asFormControl"></input-size>
+        </div>
+
         <div style="width: 20px; height: 20px; border: 1px solid #aaa;"></div>
-        <div class="flex-1"></div>
+
+        <div class="flex-1">
+            <input-size [control]="_margin?.controls?.right | asFormControl"></input-size>
+        </div>
     </div>
 
-    <div></div>
+    <input-size class="align-self-center" [control]="_margin?.controls?.bottom | asFormControl"></input-size>
 </div>

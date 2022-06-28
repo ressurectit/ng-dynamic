@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {AsFormGroup, FormModelGroup} from '@anglr/common/forms';
 import {ComponentStylingOptions, Margin} from '@anglr/dynamic/layout';
@@ -26,12 +26,4 @@ export class MarginControlComponent extends PropertiesControlBase<ComponentStyli
     {
         return this.form?.controls.margin as AsFormGroup<Margin>;
     }
-
-    //######################### public properties - inputs #########################
-
-    /**
-     * Array of properties that should be displayed by this component
-     */
-    @Input()
-    public properties: string[] = [];
 }

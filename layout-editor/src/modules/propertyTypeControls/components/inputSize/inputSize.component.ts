@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {HostDisplayBlockStyle} from '@anglr/common';
+import {HostDisplayFlexStyle} from '@anglr/common';
 
 import {PropertyTypeControl} from '../../../../interfaces';
 import {PropertyTypeControlBase} from '../propertyTypeControlBase';
@@ -12,7 +12,7 @@ import {PropertyTypeControlBase} from '../propertyTypeControlBase';
 {
     selector: 'input-size',
     templateUrl: 'inputSize.component.html',
-    styles: [HostDisplayBlockStyle],
+    styles: [HostDisplayFlexStyle],
     // styleUrls: ['inputSize.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -47,6 +47,8 @@ export class InputSizeComponent extends PropertyTypeControlBase<string> implemen
             {
                 this._value.setValue(+matches[1]);
                 this._unit.setValue(matches[2]);
+
+                return;
             }
         }
 

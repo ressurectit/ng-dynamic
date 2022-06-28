@@ -1,11 +1,16 @@
+import {FormGroupProperty} from '@anglr/common/forms';
 import {ComponentStylingOptions, Margin, Padding, TextStyling} from '@anglr/dynamic/layout';
-import {ForFormModel, LayoutPropertyDescription, LayoutPropertyName} from '@anglr/dynamic/layout-editor';
 import {mapValuesToThis} from '@jscrpt/common';
+
+import {LayoutPropertyDescription, LayoutPropertyName, LayoutPropertyObject} from '../../decorators';
+import {LayoutPropertyMetadata} from '../types';
+import {MarginModel} from './margin.model';
+import {PaddingModel} from './padding.model';
 
 /**
  * Component styling model for properties editor
  */
-export class ComponentStylingModel implements ForFormModel<ComponentStylingOptions>
+export class ComponentStylingModel implements ComponentStylingOptions
 {
     //######################### public properties #########################
 
@@ -14,23 +19,31 @@ export class ComponentStylingModel implements ForFormModel<ComponentStylingOptio
      */
     @LayoutPropertyName('Margin')
     @LayoutPropertyDescription('Margin of component')
-    margin?: Margin|undefined|null = null;
+    @LayoutPropertyObject(MarginModel, [LayoutPropertyMetadata])
+    @FormGroupProperty()
+    margin: Margin|undefined|null = null;
 
     /**
      * @inheritdoc
      */
     @LayoutPropertyName('Padding')
     @LayoutPropertyDescription('Padding of component')
-    padding?: Padding|undefined|null = null;
+    @LayoutPropertyObject(PaddingModel, [LayoutPropertyMetadata])
+    @FormGroupProperty()
+    padding: Padding|undefined|null = null;
 
     /**
      * @inheritdoc
      */
-    textStyling?: TextStyling|undefined|null = null;
+    textStyling: TextStyling|undefined|null = null;
 
     //######################### constructor #########################
-    constructor(value: ComponentStylingOptions)
+    constructor(value: ComponentStylingOptions|undefined|null)
     {
-        mapValuesToThis.bind(this)(value);
+        //TODO: remove ! when fixed in common
+        mapValuesToThis.bind(this)(value!);
+
+        this.margin = new MarginModel(value?.margin);
+        this.padding = new PaddingModel(value?.padding);
     }
 }

@@ -8,20 +8,20 @@ export interface Margin
     /**
      * Definition of top margin size
      */
-    top?: string;
+    top: string|undefined|null;
 
     /**
      * Definition of right margin size
      */
-    right?: string;
+    right: string|undefined|null;
 
     /**
      * Definition of bottom margin size
      */
-    bottom?: string;
+    bottom: string|undefined|null;
 
     /**
      * Definition of left margin size
      */
-    left?: string;
+    left: string|undefined|null;
 }

@@ -6,7 +6,7 @@ import {extend} from '@jscrpt/common';
  * @param classDefinition - Class containing definition of metadata
  * @param metadataSymbols - Symbols that are storing metadata and are copied
  */
-export function MetadataClassMixin(classDefinition: Type<any>, metadataSymbols: symbol[]): ClassDecorator
+export function MetadataClassMixin(classDefinition: Type<any>, metadataSymbols: Array<symbol|string>): ClassDecorator
 {
     return function <TFunction extends Function> (target: TFunction): TFunction
     {
@@ -17,7 +17,7 @@ export function MetadataClassMixin(classDefinition: Type<any>, metadataSymbols: 
         const classMixin = function(...args: any[])
         {
             const instance = new original(...args);
-            extend(true, instance, Reflect.construct(classDefinition, []));
+            extend(true, instance, Reflect.construct(classDefinition, args));
 
             return instance;
         };
@@ -27,7 +27,14 @@ export function MetadataClassMixin(classDefinition: Type<any>, metadataSymbols: 
             const targetMetadata = Reflect.get(target.prototype, metaSymbol);
             const sourceMetadata = Reflect.get(classDefinition.prototype, metaSymbol);
 
-            extend(true, targetMetadata, sourceMetadata);
+            if(!targetMetadata)
+            {
+                Reflect.set(target.prototype, metaSymbol, sourceMetadata);
+            }
+            else
+            {
+                extend(true, targetMetadata, sourceMetadata);
+            }
         }
 
         // copy prototype so intanceof operator still works

@@ -15,7 +15,7 @@ export abstract class PropertyTypeControlBase<TValue = any> implements PropertyT
     /**
      * Backing field for control
      */
-    protected _control: FormControl<TValue|null>|undefined;
+    protected _control: FormControl<TValue|undefined|null>|undefined|null;
 
     /**
      * Indication whether was component already initialized
@@ -28,11 +28,11 @@ export abstract class PropertyTypeControlBase<TValue = any> implements PropertyT
      * @inheritdoc
      */
     @Input()
-    public get control(): FormControl<TValue|null>|undefined
+    public get control(): FormControl<TValue|undefined|null>|undefined|null
     {
         return this._control;
     }
-    public set control(value: FormControl<TValue|null>|undefined)
+    public set control(value: FormControl<TValue|undefined|null>|undefined|null)
     {
         this._control = value;
 

@@ -4,6 +4,8 @@ export * from './layoutPropertyDescription/propertyDescription.decorator';
 export * from './layoutPropertyDescription/propertyDescription.interface';
 export * from './layoutPropertyName/propertyName.decorator';
 export * from './layoutPropertyName/propertyName.interface';
+export * from './layoutPropertyObject/propertyObject.decorator';
+export * from './layoutPropertyObject/propertyObject.interface';
 export * from './layoutPropertyType/propertyType.decorator';
 export * from './layoutPropertyType/propertyType.interface';
 export * from './layoutPropertyValues/propertyValues.decorator';

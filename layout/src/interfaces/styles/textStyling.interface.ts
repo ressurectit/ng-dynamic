@@ -10,10 +10,10 @@ export interface TextStyling
     /**
      * Font size of displayed text
      */
-    fontSize?: string;
+    fontSize: string|undefined|null;
 
     /**
      * Font weight of displayed text
      */
-    fontWeight?: TextFontWeight;
+    fontWeight: TextFontWeight|undefined|null;
 }

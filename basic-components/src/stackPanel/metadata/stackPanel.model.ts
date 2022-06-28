@@ -1,5 +1,5 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {ComponentStylingModel, DefaultKnownPropertyTypes, ForFormModel, LayoutPropertyDescription, LayoutPropertyMetadata, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, DefaultKnownPropertyTypes, FORM_MODEL_CONTROLS_METADATA_PROPERTY, LayoutPropertyDescription, LayoutPropertyMetadata, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
 import {MetadataClassMixin} from '@anglr/dynamic';
 import {mapValuesToThis} from '@jscrpt/common';
 
@@ -8,8 +8,8 @@ import {StackPanelComponentOptions} from '../stackPanel.options';
 /**
  * Stack panel model for properties editor
  */
-@MetadataClassMixin(ComponentStylingModel, [LayoutPropertyMetadata])
-export class StackPanelModel implements ForFormModel<StackPanelComponentOptions>
+@MetadataClassMixin(ComponentStylingModel, [LayoutPropertyMetadata, FORM_MODEL_CONTROLS_METADATA_PROPERTY])
+export class StackPanelModel implements StackPanelComponentOptions
 {
     //######################### public properties #########################
 
@@ -35,8 +35,9 @@ export class StackPanelModel implements ForFormModel<StackPanelComponentOptions>
     children: LayoutComponentMetadata[]|undefined|null;
 
     //######################### constructor #########################
-    constructor(value: StackPanelComponentOptions)
+    constructor(value: StackPanelComponentOptions|undefined|null)
     {
-        mapValuesToThis.bind(this)(value);
+        //TODO: remove ! when fixed in common
+        mapValuesToThis.bind(this)(value!);
     }
 }

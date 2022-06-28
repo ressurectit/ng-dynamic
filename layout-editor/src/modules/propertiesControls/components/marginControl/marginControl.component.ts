@@ -1,4 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {AsFormGroup, FormModelGroup} from '@anglr/common/forms';
+import {ComponentStylingOptions, Margin} from '@anglr/dynamic/layout';
 
 import {PropertiesControl} from '../../../../interfaces';
 import {PropertiesControlBase} from '../propertiesControlBase';
@@ -12,8 +15,18 @@ import {PropertiesControlBase} from '../propertiesControlBase';
     templateUrl: 'marginControl.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MarginControlComponent<TOptions = any> extends PropertiesControlBase<TOptions> implements PropertiesControl<TOptions>
+export class MarginControlComponent extends PropertiesControlBase<ComponentStylingOptions> implements PropertiesControl<ComponentStylingOptions>
 {
+    //######################### protected properties - template bindings #########################
+
+    /**
+     * Margin form group
+     */
+    protected get _margin(): FormGroup<FormModelGroup<Margin>>|undefined|null
+    {
+        return this.form?.controls.margin as AsFormGroup<Margin>;
+    }
+
     //######################### public properties - inputs #########################
 
     /**

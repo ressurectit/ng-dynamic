@@ -1,4 +1,4 @@
-import {ComponentStylingModel, DefaultKnownPropertyTypes, ForFormModel, LayoutPropertyDescription, LayoutPropertyMetadata, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, DefaultKnownPropertyTypes, FORM_MODEL_CONTROLS_METADATA_PROPERTY, LayoutPropertyDescription, LayoutPropertyMetadata, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
 import {MetadataClassMixin} from '@anglr/dynamic';
 import {mapValuesToThis} from '@jscrpt/common';
 
@@ -7,8 +7,8 @@ import {TextBlockComponentOptions} from '../textBlock.options';
 /**
  * Text block model for properties editor
  */
-@MetadataClassMixin(ComponentStylingModel, [LayoutPropertyMetadata])
-export class TextBlockModel implements ForFormModel<TextBlockComponentOptions>
+@MetadataClassMixin(ComponentStylingModel, [LayoutPropertyMetadata, FORM_MODEL_CONTROLS_METADATA_PROPERTY])
+export class TextBlockModel implements TextBlockComponentOptions
 {
     //######################### public properties #########################
 
@@ -21,8 +21,9 @@ export class TextBlockModel implements ForFormModel<TextBlockComponentOptions>
     text: string|undefined|null = null;
     
     //######################### constructor #########################
-    constructor(value: TextBlockComponentOptions)
+    constructor(value: TextBlockComponentOptions|undefined|null)
     {
-        mapValuesToThis.bind(this)(value);
+        //TODO: remove ! when fixed in common
+        mapValuesToThis.bind(this)(value!);
     }
 }

@@ -10,15 +10,15 @@ export interface StackPanelComponentOptions
     /**
      * Indication whether display stacked elements horizontally
      */
-    horizontal?: boolean;
+    horizontal: boolean|undefined|null;
 
     /**
      * Indication whether wrap children if there is not enough space
      */
-    wrap?: boolean;
+    wrap: boolean|undefined|null;
 
     /**
      * Array of children that are going to be rendered
      */
-    children: LayoutComponentMetadata[];
+    children: LayoutComponentMetadata[]|undefined|null;
 }

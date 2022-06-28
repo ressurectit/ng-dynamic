@@ -11,7 +11,7 @@ export interface PropertyTypeControl<TValue = any>
     /**
      * Form control that will handle value of property
      */
-    control: FormControl<TValue|null>|undefined;
+    control: FormControl<TValue|undefined|null>|undefined|null;
 
     /**
      * Array of available values/options for selection

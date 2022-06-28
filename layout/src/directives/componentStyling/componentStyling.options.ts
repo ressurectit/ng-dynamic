@@ -10,15 +10,15 @@ export interface ComponentStylingOptions
     /**
      * Allows to set margin of component
      */
-    margin?: Margin;
+    margin: Margin|undefined|null;
 
     /**
      * Allows to set padding of component
      */
-    padding?: Padding;
+    padding: Padding|undefined|null;
 
     /**
      * Allows to set text styling of component
      */
-    textStyling?: TextStyling;
+    textStyling: TextStyling|undefined|null;
 }

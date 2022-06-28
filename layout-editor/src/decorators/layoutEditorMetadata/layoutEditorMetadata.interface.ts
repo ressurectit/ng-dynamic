@@ -3,7 +3,6 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {AsyncProperties} from '@anglr/dynamic';
 import {Action, Dictionary, Func} from '@jscrpt/common';
 
-import {ForFormModel} from '../../misc/types';
 import {PropertiesControl, PropertyTypeControl} from '../../interfaces';
 
 /**
@@ -11,7 +10,7 @@ import {PropertiesControl, PropertyTypeControl} from '../../interfaces';
  */
 export interface LayoutPropertiesModelType<TType = any>
 {
-    new(value: TType): ForFormModel<TType>;
+    new(value: TType|undefined|null): TType;
 }
 
 /**

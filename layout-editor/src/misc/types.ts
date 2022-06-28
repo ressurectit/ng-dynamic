@@ -5,11 +5,6 @@ import {Action, Func} from '@jscrpt/common';
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo, LayoutPropertyDescriptionData, LayoutPropertyNameData, LayoutPropertyValuesData} from '../decorators';
 
 /**
- * Data type for FormModel
- */
-export type ForFormModel<TModel, TKey extends keyof TModel = keyof TModel> = {[TProperty in TKey]: NonNullable<TModel[TProperty]>|undefined|null};
-
-/**
  * Default built-in property types
  */
 export type DefaultKnownPropertyTypes = 'textarea'|'inputString'|'inputNumber'|'inputSize'|'inputBoolean'|'selectValue'|'selectValues';

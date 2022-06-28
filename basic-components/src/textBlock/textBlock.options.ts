@@ -8,5 +8,5 @@ export interface TextBlockComponentOptions
     /**
      * Text to be displayed in text block
      */
-    text: string;
+    text: string|undefined|null;
 }

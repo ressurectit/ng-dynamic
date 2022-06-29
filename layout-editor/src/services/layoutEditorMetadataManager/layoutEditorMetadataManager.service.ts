@@ -227,7 +227,7 @@ export class LayoutEditorMetadataManager
      */
     public getComponent(id: string): LayoutDesignerSAComponent|null
     {
-        return this._components[id].component;
+        return this._components[id]?.component ?? null;
     }
 
     /**

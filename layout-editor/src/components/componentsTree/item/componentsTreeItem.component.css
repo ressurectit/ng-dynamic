@@ -1,0 +1,31 @@
+:host
+{
+    display: block;
+}
+
+.highlighted
+{
+    text-shadow: 0 0 2px #666;
+}
+
+.selected
+{
+    text-shadow: 0 0 2px #009cd7;
+}
+
+.node-tree,
+.nested-node-tree
+{
+    min-height: 48px;
+}
+
+.node-children 
+{
+  padding-left: 20px;
+  min-height: 10px;
+}
+
+.node-child
+{
+    padding-left: 20px;
+}

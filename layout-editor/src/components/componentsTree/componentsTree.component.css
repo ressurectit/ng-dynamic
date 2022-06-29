@@ -4,27 +4,3 @@
     background-color: #fafafa;
     border-right: 1px solid #ccc;
 }
-
-.highlighted
-{
-    text-shadow: 0 0 2px #666;
-}
-
-.selected
-{
-    text-shadow: 0 0 2px #009cd7;
-}
-
-.component-tree ul,
-.component-tree li 
-{
-  margin-top: 0;
-  margin-bottom: 0;
-  list-style-type: none;
-}
-
-.component-tree .node-children 
-{
-  padding-left: 1rem;
-  min-height: 10px;
-}

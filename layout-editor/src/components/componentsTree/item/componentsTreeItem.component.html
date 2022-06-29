@@ -1,0 +1,30 @@
+<div class="flex align-items-center" [ngClass]="hasChildren ? 'nested-node-tree' : 'node-tree'">
+    <button mat-icon-button *ngIf="hasChildren" (click)="toggle()"
+        [attr.aria-label]="'Toggle'">
+        <span class="fa" [ngClass]="open ? 'fa-chevron-down' : 'fa-chevron-right'"></span>
+    </button>
+    <div 
+        [class.selected]="data?.component?.options?.typeMetadata?.id === _manager.selectedComponent"
+        [class.highlighted]="data?.component?.options?.typeMetadata?.id === _manager.highlightedComponent"
+        (mouseover)="highlight($event, data?.component?.options?.typeMetadata?.id)"
+        (click)="_manager.selectComponent(data?.component?.options?.typeMetadata?.id)">{{data?.component?.options?.typeMetadata?.displayName || data?.component?.options?.typeMetadata?.id}}</div>
+</div>
+
+<div class="node-children" 
+        cdkDropList
+        (cdkDropListDropped)="data?.component?.addDescendant($event)"
+        [cdkDropListEnterPredicate]="_canDrop"
+        [id]="'component-tree-' + data?.component?.options?.typeMetadata?.id"
+        *ngIf="hasChildren || _canDrop()"
+        [class.hidden]="!open"
+        connectDropLists
+        connectDropListsPrefix="component-tree-">
+    <div 
+        *ngFor="let child of data?.children"
+        cdkDrag 
+        [cdkDragData]="{metadata: child.component.options?.typeMetadata, parentId: child.parent?.component?.id}"
+        [cdkDragDisabled]="child.component.dragDisabled"
+        class="node-child">
+        <components-tree-item [data]="child"></components-tree-item>
+    </div>
+</div>

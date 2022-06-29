@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, HostListener} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {DragDropModule} from '@angular/cdk/drag-drop';
@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataManager, LayoutEditorMetadataManagerComponent} from '../../services';
 import {ComponentTreeNodeTemplateSADirective, ConnectDropListsSADirective} from '../../directives';
+import {ComponentsTreeItemSAComponent} from './item';
 
 /**
  * Component displaying components tree
@@ -23,6 +24,7 @@ import {ComponentTreeNodeTemplateSADirective, ConnectDropListsSADirective} from 
         ComponentTreeNodeTemplateSADirective,
         DragDropModule,
         ConnectDropListsSADirective,
+        ComponentsTreeItemSAComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -41,6 +43,12 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
      * Instance of root component in tree
      */
     protected root: LayoutEditorMetadataManagerComponent|undefined|null;
+
+    /**
+     * Root component tree item
+     */
+    @ViewChild(ComponentsTreeItemSAComponent)
+    protected rootTreeItem: ComponentsTreeItemSAComponent|undefined|null;
 
     //######################### constructor #########################
     constructor(protected _manager: LayoutEditorMetadataManager,
@@ -63,6 +71,7 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
         
         this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => 
         {
+            this.rootTreeItem?.expand(this._manager.selectedComponent);
             this._changeDetector.detectChanges();
         }));
         
@@ -85,19 +94,6 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     //######################### protected methods - template bindings #########################
 
     /**
-     * Highlights component
-     * @param event - Mouse event that occured
-     * @param id - Id of component that is highlighted
-     */
-    protected highlight(event: MouseEvent, id?: string): void
-    {
-        event.preventDefault();
-        event.stopPropagation();
-
-        this._manager.highlightComponent(id);
-    }
-
-    /**
      * Indicates whether layout component has children
      * @param node layout component to check
      * @returns 
@@ -105,20 +101,5 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     protected hasChild(node: LayoutEditorMetadataManagerComponent): boolean
     {
         return !!node.children && node.children.length > 0;
-    }
-
-    //######################### protected methods - host #########################
-
-    /**
-     * Cancels highlight of component
-     * @param event - Mouse event that occured
-     */
-    @HostListener('mouseleave', ['$event'])
-    protected _cancelHighlight(event: MouseEvent): void
-    {
-        event.preventDefault();
-        event.stopPropagation();
-
-        this._manager.cancelHighlightedComponent();
     }
 }

@@ -13,7 +13,7 @@ export class TextBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
     /**
      * @inheritdoc
      */
-    public metaInfo?: LayoutEditorMetadataInfo =
+    public metaInfo?: LayoutEditorMetadataInfo<TextBlockComponentOptions> =
     {
         name: 'Text block',
         description: 'Displays text',
@@ -25,6 +25,10 @@ export class TextBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
                 ComponentStylingPropertiesControlComponent,
                 genericPropertiesControlFor(['text'])
             ],
+        },
+        defaultOptions:
+        {
+            text: 'This is your text'
         }
     };
 

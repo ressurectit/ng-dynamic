@@ -37,7 +37,7 @@ export interface LayoutEditorOptionsMetadata
 /**
  * Holds meta information about layout component
  */
-export interface LayoutEditorMetadataInfo
+export interface LayoutEditorMetadataInfo<TOptions = any>
 {
     /**
      * Display name of component in palette
@@ -63,17 +63,22 @@ export interface LayoutEditorMetadataInfo
      * Metadata for options if there are any
      */
     readonly optionsMetadata?: LayoutEditorOptionsMetadata;
+
+    /**
+     * Instance of default options used when new empty object is created
+     */
+    readonly defaultOptions?: TOptions;
 }
 
 /**
  * Class that represents layout editor metadata
  */
-export interface LayoutEditorMetadataDescriptor<TLayoutComponentOptions = any>
+export interface LayoutEditorMetadataDescriptor<TOptions = any>
 {
     /**
      * Meta information about layout component
      */
-    readonly metaInfo?: LayoutEditorMetadataInfo;
+    readonly metaInfo?: LayoutEditorMetadataInfo<TOptions>;
     
     /**
      * Adds descendant metadata to component options
@@ -81,33 +86,33 @@ export interface LayoutEditorMetadataDescriptor<TLayoutComponentOptions = any>
      * @param options - Options that should be extended with new descendant metadata
      * @param index - Index where should be new item added
      */
-    readonly addDescendant?: Action<[LayoutComponentMetadata, TLayoutComponentOptions, number]>;
+    readonly addDescendant?: Action<[LayoutComponentMetadata, TOptions, number]>;
 
     /**
      * Applies designer styles that are required to be applied to drag n drop div
      * @param options - Options containing styles to be applied
      * @param styles - Css object storing html element styles
      */
-    readonly applyDesignerStyles?: Action<[TLayoutComponentOptions|null|undefined, CSSStyleDeclaration]>;
+    readonly applyDesignerStyles?: Action<[TOptions|null|undefined, CSSStyleDeclaration]>;
     
     /**
      * Tests whether component can accept new metadata to be dropped in, or not (whether child, children can be added)
      * @param options - Options that holds information whether another metadata can be dropped into options metadata
      */
-    readonly canDropMetadata?: Func<boolean, [TLayoutComponentOptions|undefined|null]>;
+    readonly canDropMetadata?: Func<boolean, [TOptions|undefined|null]>;
 
     /**
      * Tests whether component has horizontal drop
      * @param options - Options that holds information whether horizontal drop is enabled for this component
      */
-    readonly isHorizontalDrop?: Func<boolean, [TLayoutComponentOptions|undefined|null]>;
+    readonly isHorizontalDrop?: Func<boolean, [TOptions|undefined|null]>;
 
     /**
      * Removes descendant metadata from component options
      * @param id - Id of component metadata to be removed
      * @param options - Options that should be updated by removing descendant metadata
      */
-    readonly removeDescendant?: Action<[string, TLayoutComponentOptions]>;
+    readonly removeDescendant?: Action<[string, TOptions]>;
 }
 
 /**

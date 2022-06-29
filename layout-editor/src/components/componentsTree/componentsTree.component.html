@@ -18,7 +18,7 @@
         [class.selected]="item.component.options?.typeMetadata?.id === _manager.selectedComponent"
         [class.highlighted]="item.component.options?.typeMetadata?.id === _manager.highlightedComponent"
         (mouseover)="highlight($event, item.component.options?.typeMetadata?.id)"
-        (click)="_manager.selectComponent(item.component.options?.typeMetadata?.id)">{{item.component.options?.typeMetadata?.id}}</div>
+        (click)="_manager.selectComponent(item.component.options?.typeMetadata?.id)">{{item.component.options?.typeMetadata?.displayName || item.component.options?.typeMetadata?.id}}</div>
 
     <div class="node-children" 
          cdkDropList

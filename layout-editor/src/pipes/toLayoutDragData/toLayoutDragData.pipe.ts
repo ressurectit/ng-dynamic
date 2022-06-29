@@ -1,4 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
+import {extend} from '@jscrpt/common';
 
 import {ComponentsPaletteItem} from '../../components';
 import {LayoutComponentDragData} from '../../interfaces';
@@ -18,13 +19,16 @@ export class ToLayoutDragDataSAPipe implements PipeTransform
      */
     public transform(value: ComponentsPaletteItem, id: string): LayoutComponentDragData
     {
+        const newId = `${value.itemSource.name}-${id}`;
+
         return {
             metadata:
             {
-                id: `${value.itemSource.name}-${id}`,
+                id: newId,
+                displayName: newId,
                 package: value.itemSource.package,
                 name: value.itemSource.name,
-                options: {},
+                options: extend(true, {}, value.metadata.metaInfo?.defaultOptions),
             },
             parentId: null
         };

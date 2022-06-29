@@ -51,9 +51,9 @@ export class LayoutEditorMetadataManager
     protected _highlightedChange: Subject<void> = new Subject<void>();
 
     /**
-     * Used for emitting changes in components id
+     * Used for emitting changes in components display name
      */
-    protected _idChanges: Subject<string> = new Subject<string>();
+    protected _displayNameChanges: Subject<void> = new Subject<void>();
 
     /**
      * Flattened tree of components tree
@@ -116,11 +116,11 @@ export class LayoutEditorMetadataManager
     }
 
     /**
-     * Occurs when id of component changes
+     * Occurs when display name of component changes
      */
-    public get idChange(): Observable<string>
+    public get displayNameChange(): Observable<void>
     {
-        return this._idChanges.asObservable();
+        return this._displayNameChanges.asObservable();
     }
 
     /**
@@ -258,26 +258,11 @@ export class LayoutEditorMetadataManager
     }
 
     /**
-     * Updated id of registered component
-     * @param oldId - Old id that was already registered
-     * @param newId - New id that is going to be set
+     * Fires event indicating that display name of any component has changed
      */
-    public updatedLayoutDesignerComponentId(oldId: string, newId: string): void
+    public displayNameUpdated(): void
     {
-        const component = this._components[oldId];
-
-        if(component)
-        {
-            this._components[newId] = component;
-            delete this._components[oldId];
-
-            if(oldId === this._rootComponentId)
-            {
-                this._rootComponentId = newId;
-            }
-
-            this._idChanges.next(oldId);
-        }
+        this._displayNameChanges.next();
     }
 
     /**

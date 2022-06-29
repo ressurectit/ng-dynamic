@@ -16,17 +16,23 @@ import {LayoutEditorMetadataManager} from '../../services';
 })
 export class ConnectDropListsSADirective implements OnInit, OnDestroy
 {
-    //######################### private properties #########################
+    //######################### protected properties #########################
     
     /**
      * Subscriptions created during initialization
      */
-    private _initSubscriptions: Subscription = new Subscription();
+    protected _initSubscriptions: Subscription = new Subscription();
 
-    private _connectDropListsPrefix: string = '';
+    /**
+     * Prefix used for connected droplists group
+     */
+    protected _connectDropListsPrefix: string = '';
 
     //######################### public properties - inputs and outputs #########################
 
+    /**
+     * Prefix used for connected droplists group
+     */
     @Input()
     public set connectDropListsPrefix(prefix: string)
     {

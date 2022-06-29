@@ -5,7 +5,6 @@ import {Logger, LOGGER} from '@anglr/common';
 import {FormModelBuilder} from '@anglr/common/forms';
 import {extend, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
-import {debounceTime} from 'rxjs/operators';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutDesignerSAComponent} from '../layoutDesigner/layoutDesigner.component';
@@ -62,9 +61,9 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     protected _metadata: LayoutEditorMetadataDescriptor|null = null;
 
     /**
-     * Control for id of component
+     * Control for display name of component
      */
-    protected _id: FormControl<string|null> = new FormControl<string|null>(null);
+    protected _displayName: FormControl<string|null> = new FormControl<string|null>(null);
 
     /**
      * Form group for options modifications
@@ -90,19 +89,17 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         this._initSubscriptions.add(this._manager.layoutChange.subscribe(() => this._hide()));
         this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => this._initProperties()));
 
-        this._id
+        this._displayName
             .valueChanges
-            .pipe(debounceTime(160))
-            .subscribe(id =>
+            .subscribe(displayName =>
             {
-                if(this._component?.options?.typeMetadata && isPresent(id))
+                if(this._component?.options?.typeMetadata && isPresent(displayName))
                 {
-                    const oldId = this._component.options.typeMetadata.id;
-                    this._component.options.typeMetadata.id = id;
+                    this._component.options.typeMetadata.displayName = displayName;
 
                     // eslint-disable-next-line no-self-assign
                     this._component.options = this._component.options;
-                    this._manager.updatedLayoutDesignerComponentId(oldId, id);
+                    this._manager.displayNameUpdated();
                 }
             });
 
@@ -158,7 +155,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     {
         if(this._component?.options?.typeMetadata)
         {
-            this._id.setValue(this._component.options.typeMetadata.id, {emitEvent: false});
+            this._displayName.setValue(this._component.options.typeMetadata.displayName || this._component.options.typeMetadata.id, {emitEvent: false});
 
             this._metadata = await this._metadataExtractor.extractMetadata(this._component.options?.typeMetadata);
 

@@ -13,6 +13,11 @@ export interface LayoutComponentMetadata<TOptions = any> extends DynamicItemSour
     id: string;
 
     /**
+     * Display name of component, this is how is component displayed
+     */
+    displayName?: string;
+
+    /**
      * Options passed to component
      */
     options: TOptions|undefined|null;

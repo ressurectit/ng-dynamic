@@ -99,7 +99,6 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
 
     /**
      * Indicates whether layout component has children
-     * @param _ index
      * @param node layout component to check
      * @returns 
      */

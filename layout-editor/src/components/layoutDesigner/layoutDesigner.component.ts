@@ -89,11 +89,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     }
 
     /**
-     * Gets predicate that returns indication whether item can be dropped into this list
-     */
-    protected _canDrop: Func<boolean> = () => this._canDropValue;
-
-    /**
      * Metadata for rendered type
      */
     protected _renderedType: LayoutComponentMetadata|undefined|null;
@@ -102,6 +97,21 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Orientation of drop list
      */
     protected _orientation: DropListOrientation = 'vertical';
+
+    //######################### public properties #########################
+
+    /**
+     * Indication whether drag is disabled for component
+     */
+    public get dragDisabled(): boolean
+    {
+        return !this._parent || !!this._editorMetadata?.metaInfo?.dragDisabled;
+    }
+
+    /**
+     * Gets predicate that returns indication whether item can be dropped into this list
+     */
+    public canDrop: Func<boolean> = () => this._canDropValue;
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
@@ -157,6 +167,34 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
     }
 
+    //######################### public methods #########################
+
+    /**
+     * Adds descentant component metadata to this component metadata
+     * @param dragData - Data from drag n drop event
+     */
+    public addDescendant(dragData: CdkDragDrop<LayoutComponentDragData, LayoutComponentDragData, LayoutComponentDragData>): void
+    {
+        if(!this._options)
+        {
+            return;
+        }
+
+        const parentId = dragData.item.data.parentId;
+        this._logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.item.data.metadata.id, parent: this._options.typeMetadata.id});
+
+        //already added to tree, removing old reference
+        if(parentId)
+        {
+            this._layoutEditorMetadataManager.getComponent(parentId)?._removeDescendant(dragData.item.data.metadata.id);
+        }
+
+        this._editorMetadata?.addDescendant?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
+        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
+
+        this._renderedType = {...this._options.typeMetadata};
+    }
+
     //######################### protected methods #########################
 
     /**
@@ -178,32 +216,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     }
 
     //######################### protected methods - template bindings #########################
-
-    /**
-     * Adds descentant component metadata to this component metadata
-     * @param dragData - Data from drag n drop event
-     */
-    protected _addDescendant(dragData: CdkDragDrop<LayoutComponentDragData, LayoutComponentDragData, LayoutComponentDragData>): void
-    {
-        if(!this._options)
-        {
-            return;
-        }
-
-        const parentId = dragData.item.data.parentId;
-        this._logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.item.data.metadata.id, parent: this._options.typeMetadata.id});
-
-        //already added to tree, removing old reference
-        if(parentId)
-        {
-            this._layoutEditorMetadataManager.getComponent(parentId)?._removeDescendant(dragData.item.data.metadata.id);
-        }
-
-        this._editorMetadata?.addDescendant?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
-        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
-
-        this._renderedType = {...this._options.typeMetadata};
-    }
 
     /**
      * Shows designer overlay

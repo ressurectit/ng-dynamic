@@ -7,12 +7,12 @@
      [id]="id"
      [copyDesignerStyles]="_renderedType"
      [cdkDragData]="{metadata: _renderedType, parentId: _parent?._renderedType?.id}"
-     [cdkDragDisabled]="!_parent || _editorMetadata?.metaInfo?.dragDisabled"
-     [cdkDropListEnterPredicate]="_canDrop"
+     [cdkDragDisabled]="dragDisabled"
+     [cdkDropListEnterPredicate]="canDrop"
      [cdkDropListOrientation]="_orientation"
      (mouseleave)="_hideOverlay($event)"
      (mouseover)="_showOverlay($event)"
-     (cdkDropListDropped)="_addDescendant($event)"
+     (cdkDropListDropped)="addDescendant($event)"
      (click)="_selectComponent($event)"
      (dblclick)="_unselectComponent($event)">
     <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>

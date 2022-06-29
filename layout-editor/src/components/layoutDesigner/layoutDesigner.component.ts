@@ -193,6 +193,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this._canDropValue = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
 
         this._renderedType = {...this._options.typeMetadata};
+        this._changeDetector.markForCheck();
     }
 
     //######################### protected methods #########################
@@ -213,6 +214,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this._editorMetadata?.removeDescendant?.(id, this._options.typeMetadata.options);
         this._canDropValue = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
         this._renderedType = {...this._options.typeMetadata};
+        this._changeDetector.markForCheck();
     }
 
     //######################### protected methods - template bindings #########################

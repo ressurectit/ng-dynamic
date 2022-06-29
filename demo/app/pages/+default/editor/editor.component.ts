@@ -2,9 +2,9 @@ import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/co
 import {FormControl} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ComponentRoute} from '@anglr/common/router';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {ComponentStylingOptions, LayoutComponentMetadata, TextFontWeight} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
-import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
+import {GridPanelCellComponentOptions, GridPanelComponentOptions, StackPanelComponentOptions, TextBlockComponentOptions} from '@anglr/dynamic/basic-components';
 import {generateId} from '@jscrpt/common';
 
 import {LayoutDataService} from '../../../services/layoutData';
@@ -133,6 +133,155 @@ export class EditorComponent implements OnInit, OnDestroy
         this._available.setValue('');
         
         this._router.navigate(['/editor'], {skipLocationChange: false, replaceUrl: true});
+    }
+
+    protected _loadDemo(): void
+    {
+        this._metadata = {
+            id: 'gridPanelTest',
+            package: 'basic-components',
+            name: 'gridPanel',
+            options: <GridPanelComponentOptions&ComponentStylingOptions>
+            {
+                columns:
+                [
+                    {
+                        width: '1fr'
+                    },
+                    {
+                        width: '2fr'
+                    },
+                    {
+                        width: '1fr'
+                    },
+                    {
+                        width: '100px'
+                    },
+                ],
+                rows:
+                [
+                    {
+                        height: '300px'
+                    },
+                ],
+                cells:
+                [
+                    {
+                        id: 'celltest',
+                        package: 'basic-components',
+                        name: 'gridPanelCell',
+                        options: <GridPanelCellComponentOptions>
+                        {
+                            gridColumnStart: 2,
+                            gridColumnEnd: 3,
+                            gridRowStart: 1,
+                            gridRowEnd: 2,
+                            component:
+                            {
+                                id: 'stackPanelTest',
+                                package: 'basic-components',
+                                name: 'stackPanel',
+                                options: <StackPanelComponentOptions&ComponentStylingOptions>
+                                {
+                                    padding:
+                                    {
+                                        top: '20px'
+                                    },
+                                    children:
+                                    [
+                                        {
+                                            package: 'basic-components',
+                                            id: 'textTest',
+                                            name: 'textBlock',
+                                            options: <TextBlockComponentOptions&ComponentStylingOptions>
+                                            {
+                                                text: 'toto je text',
+                                                margin:
+                                                {
+                                                    top: '10px',
+                                                    bottom: '6px',
+                                                    left: '12px',
+                                                    right: '14pt'
+                                                },
+                                                padding:
+                                                {
+                                                    top: '8px',
+                                                    bottom: '8px',
+                                                    left: '12px',
+                                                    right: '12px'
+                                                },
+                                                textStyling:
+                                                {
+                                                    fontSize: '20px'
+                                                }
+                                            }
+                                        },
+                                        {
+                                            package: 'basic-components',
+                                            id: 'text2Test',
+                                            name: 'textBlock',
+                                            options: <TextBlockComponentOptions&ComponentStylingOptions>
+                                            {
+                                                text: 'druhý riadok je toto',
+                                                textStyling:
+                                                {
+                                                    fontWeight: TextFontWeight.Bold
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        id: 'anotherCell',
+                        package: 'basic-components',
+                        name: 'gridPanelCell',
+                        options: <GridPanelCellComponentOptions>
+                        {
+                            gridColumnStart: 3,
+                            gridColumnEnd: 4,
+                            gridRowStart: 1,
+                            gridRowEnd: 2,
+                            component:
+                            {
+                                package: 'basic-components',
+                                id: 'textJeTo',
+                                name: 'textBlock',
+                                options: <TextBlockComponentOptions>
+                                {
+                                    text: 'nový text',
+                                }
+                            }
+                        }
+                    },
+                    {
+                        id: 'gridCellxxx',
+                        package: 'basic-components',
+                        name: 'gridPanelCell',
+                        options: <GridPanelCellComponentOptions>
+                        {
+                            gridColumnStart: 4,
+                            gridColumnEnd: 5,
+                            gridRowStart: 1,
+                            gridRowEnd: 2,
+                            component:
+                            {
+                                id: 'stackPanelxxx',
+                                package: 'basic-components',
+                                name: 'stackPanel',
+                                options: <StackPanelComponentOptions>
+                                {
+                                    horizontal: true,
+                                    children: []
+                                }
+                            }
+                        }
+                    },
+                ]
+            }
+        };
     }
 
     // /**

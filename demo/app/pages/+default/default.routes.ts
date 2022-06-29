@@ -1,6 +1,8 @@
-import {HomeComponent} from './home/home.component';
+import {EditorComponent} from './editor/editor.component';
+import {PreviewComponent} from './preview/preview.component';
 
 export const components =
 [
-    HomeComponent,
+    EditorComponent,
+    PreviewComponent,
 ];

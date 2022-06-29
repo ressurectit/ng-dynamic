@@ -1,0 +1,42 @@
+<div class="flex-row">
+    <ng-select [formControl]="_available" style="width: 180px">
+        <ng-option [value]="''" text="*unsaved*"></ng-option>
+        <ng-option *ngFor="let val of _availableNames" [value]="val" [text]="val"></ng-option>
+    </ng-select>
+
+    <button class="btn btn-danger" type="button" (click)="_delete()" [disabled]="!_available.value">
+        <span>remove</span>
+    </button>
+
+    <button class="btn btn-primary" type="button" (click)="_load()" [disabled]="!_available.value">
+        <span>load</span>
+    </button>
+
+    <input type="text" [formControl]="_name">
+
+    <button class="btn btn-primary" type="button" (click)="_save()" [disabled]="!_name.value">
+        <span>save</span>
+    </button>
+
+    <button class="btn btn-primary" type="button" (click)="_new()">
+        <span>new</span>
+    </button>
+</div>
+
+<div class="flex-row margin-top-big flex-1">
+    <mat-tab-group>
+        <mat-tab label="Hierarchy">
+            <components-tree></components-tree>
+        </mat-tab>
+
+        <mat-tab label="Palette">
+            <components-palette></components-palette>
+        </mat-tab>
+    </mat-tab-group>
+      
+    <div class="flex-1">
+        <ng-container [layoutComponentRenderer]="_metadata"></ng-container>
+    </div>
+
+    <properties-editor></properties-editor>
+</div>

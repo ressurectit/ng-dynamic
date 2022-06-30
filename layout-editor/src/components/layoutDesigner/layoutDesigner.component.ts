@@ -17,6 +17,8 @@ import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceho
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 
+//TODO: when new is clicked only after event new item can be dropped into 
+
 /**
  * Component used as designer component wrapper for layout component
  */

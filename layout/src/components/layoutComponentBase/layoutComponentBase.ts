@@ -1,5 +1,6 @@
-import {ChangeDetectorRef, Directive, ElementRef, Inject, Optional} from '@angular/core';
+import {ChangeDetectorRef, Directive, ElementRef, Inject, Injector, OnDestroy, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
+import {DynamicItemExtension} from '@anglr/dynamic';
 
 import {LayoutComponent} from '../../interfaces';
 
@@ -7,7 +8,7 @@ import {LayoutComponent} from '../../interfaces';
  * Base component for layout component
  */
 @Directive()
-export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<TOptions>
+export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<TOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -15,6 +16,21 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      * Options used for rendering this component
      */
     protected _options: TOptions|undefined|null;
+
+    /**
+     * Array of extensions that are registered for component
+     */
+    protected _extensions: DynamicItemExtension<TOptions>[] = [];
+
+    //######################### protected properties #########################
+
+    /**
+     * Gets element that is used within extension
+     */
+    protected get element(): ElementRef<HTMLElement>
+    {
+        return this._element;
+    }
 
     //######################### public properties - implementation of LayoutComponent #########################
 
@@ -30,13 +46,35 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         this._options = value;
 
         this._optionsSet();
+
+        if(this._options)
+        {
+            for(const ext of this._extensions)
+            {
+                ext.optionsChange(this._options);
+            }
+        }
     }
 
     //######################### constructor #########################
     constructor(protected _changeDetector: ChangeDetectorRef,
                 protected _element: ElementRef<HTMLElement>,
+                protected _injector: Injector,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        for(const ext of this._extensions)
+        {
+            ext.destroy();
+        }
     }
 
     //######################### public methods - implementation of LayoutComponent #########################
@@ -52,6 +90,23 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         }
 
         this.options = options;
+
+        if(this._options)
+        {
+            for(const ext of this._extensions)
+            {
+                ext.initialize(this._injector, this.element, this._options);
+            }
+        }
+    }
+
+    /**
+     * Registers extensions for component
+     * @param extensions - Array of extensions that should be added to component
+     */
+    public registerExtensions(extensions: DynamicItemExtension[]): void
+    {
+        this._extensions = extensions;
     }
 
     /**

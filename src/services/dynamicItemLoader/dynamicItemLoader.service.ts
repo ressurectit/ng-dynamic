@@ -2,8 +2,8 @@ import {Inject, Injectable, Optional, Type} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {Dictionary, isType, resolvePromiseOr} from '@jscrpt/common';
 
-import {DYNAMIC_MODULE_DATA_EXTRACTORS, DYNAMIC_ITEM_LOADER_PROVIDERS} from '../../misc/tokens';
-import {DynamicItemLoaderProvider} from './dynamicItemLoader.interface';
+import {DYNAMIC_MODULE_DATA_EXTRACTORS, DYNAMIC_ITEM_LOADER_PROVIDERS, DYNAMIC_ITEM_EXTENSIONS_EXTRACTORS} from '../../misc/tokens';
+import {DynamicItemExtensionsExtractor, DynamicItemLoaderProvider} from './dynamicItemLoader.interface';
 import {DynamicItem, DynamicModule, DynamicItemSource, DynamicItemType, DynamicModuleDataExtractor} from '../../interfaces';
 
 /**
@@ -22,6 +22,7 @@ export class DynamicItemLoader
     //######################### constructors #########################
     constructor(@Inject(DYNAMIC_ITEM_LOADER_PROVIDERS) protected _providers: DynamicItemLoaderProvider[],
                 @Inject(DYNAMIC_MODULE_DATA_EXTRACTORS) protected _extractors: DynamicModuleDataExtractor<Type<DynamicItem>>[],
+                @Inject(DYNAMIC_ITEM_EXTENSIONS_EXTRACTORS) protected _extensionsExtractors: DynamicItemExtensionsExtractor[],
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
         //providers is not an array
@@ -38,6 +39,14 @@ export class DynamicItemLoader
             this._logger?.error('DynamicItemLoader: missing extractors!');
 
             this._extractors = [];
+        }
+
+        //extensions extractors is not an array
+        if(!Array.isArray(this._extensionsExtractors))
+        {
+            this._logger?.error('DynamicItemLoader: missing extensions extractors!');
+
+            this._extensionsExtractors = [];
         }
     }
 
@@ -88,6 +97,8 @@ export class DynamicItemLoader
             return null;
         }
 
+        let result: DynamicItemType<TType>|null = null;
+
         //loops all extractors, return result from first that returns non null value
         for(const extractor of this._extractors)
         {
@@ -95,17 +106,36 @@ export class DynamicItemLoader
 
             if(dynamicItemType && isType(dynamicItemType))
             {
-                const result = 
+                this._cachedDynamicItems[cacheId] = result = 
                 {
                     type: dynamicItemType as Type<TType>
                 };
 
-                return this._cachedDynamicItems[cacheId] = result;
+                break;
             }
         }
 
-        this._logger?.debug('DynamicItemLoader: Failed to extract dynamic type {@source}', {name: source.name, package: source.package});
+        if(!result)
+        {
+            this._logger?.debug('DynamicItemLoader: Failed to extract dynamic type {@source}', {name: source.name, package: source.package});
 
-        return null;
+            return null;
+        }
+
+        //loops all extensions extractors, return result from first that returns non null value
+        for(const extractor of this._extensionsExtractors)
+        {
+            const extensions = extractor.tryToExtract(dynamicModule);
+
+            if(extensions)
+            {
+                result.extensions = extensions.extensions;
+                result.childExtensions = extensions.childExtensions;
+
+                break;
+            }
+        }
+
+        return result;
     }
 }

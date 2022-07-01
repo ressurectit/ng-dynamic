@@ -1,11 +1,9 @@
 import {ElementRef, Injector} from '@angular/core';
 
-import {DynamicItem} from '../dynamicItem/dynamicItem.interface';
-
 /**
  * Definition of dynamic item extension
  */
-export interface DynamicItemExtension<TMetadata = any> extends DynamicItem
+export interface DynamicItemExtension<TOptions = any>
 {
     //######################### public methods #########################
 
@@ -13,15 +11,15 @@ export interface DynamicItemExtension<TMetadata = any> extends DynamicItem
      * Initialize dynamic item extension
      * @param injector - Injector from extended component
      * @param element - Element that is being extended
-     * @param metadata - Metadata of extended component
+     * @param options - Options of extended component
      */
-    initialize(injector: Injector, element: ElementRef<HTMLElement>, metadata: TMetadata): void;
+    initialize(injector: Injector, element: ElementRef<HTMLElement>, options: TOptions): void;
 
     /**
-     * Notifies dynamic item extension that metadata has changed
-     * @param metadata - Metadata that has changed
+     * Notifies dynamic item extension that options has changed
+     * @param options - Options that has changed
      */
-    metadataChange(metadata: TMetadata): void;
+    optionsChange(options: TOptions): void;
 
     /**
      * Destroys dynamic item extensions

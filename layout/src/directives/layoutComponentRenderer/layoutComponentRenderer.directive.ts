@@ -1,13 +1,15 @@
-import {ComponentRef, Directive, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, SkipSelf, Type, ValueProvider, ViewContainerRef} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {DynamicItemLoader} from '@anglr/dynamic';
+import {DynamicItemExtension, DynamicItemLoader} from '@anglr/dynamic';
 import {nameof, resolvePromiseOr} from '@jscrpt/common';
 
 import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer.options';
 import {MissingTypeBehavior} from './layoutComponentRenderer.types';
 import {NotFoundLayoutTypeSAComponent} from '../../components';
 import {LayoutComponent, LayoutComponentMetadata, LayoutComponentTransform} from '../../interfaces';
-import {LAYOUT_COMPONENT_TRANSFORM} from '../../misc/tokens';
+import {LAYOUT_COMPONENT_CHILD_EXTENSIONS, LAYOUT_COMPONENT_TRANSFORM} from '../../misc/tokens';
+
+
 
 /**
  * Renders layout component from metadata
@@ -16,6 +18,14 @@ import {LAYOUT_COMPONENT_TRANSFORM} from '../../misc/tokens';
 {
     selector: '[layoutComponentRenderer]',
     exportAs: 'layoutComponentRenderer',
+    providers: 
+    [
+        <ValueProvider>
+        {
+            provide: LAYOUT_COMPONENT_CHILD_EXTENSIONS,
+            useValue: null,
+        }
+    ],
     standalone: true
 })
 export class LayoutComponentRendererSADirective<TComponent extends LayoutComponent<TComponentOptions> = any, TComponentOptions = any> implements OnChanges, OnDestroy
@@ -83,6 +93,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
     //######################### constructor #########################
     constructor(protected _viewContainerRef: ViewContainerRef,
                 protected _loader: DynamicItemLoader,
+                @Inject(LAYOUT_COMPONENT_CHILD_EXTENSIONS) @Optional() @SkipSelf() protected _childExtensions?: Type<DynamicItemExtension>[]|null,
                 @Optional() protected _options?: LayoutComponentRendererDirectiveOptions,
                 @Inject(LAYOUT_COMPONENT_TRANSFORM) @Optional() protected _metadataTransformer?: LayoutComponentTransform,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -149,9 +160,22 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                 return;
             }
 
+            const usedInjector = Injector.create(
+            {
+                parent: injector,
+                providers:
+                [
+                    <ValueProvider>
+                    {
+                        provide: LAYOUT_COMPONENT_CHILD_EXTENSIONS,
+                        useValue: layoutComponentType.childExtensions,
+                    }
+                ]
+            });
+
             this._componentRef = this._viewContainerRef.createComponent(layoutComponentType.type,
                                                                         {
-                                                                            injector,
+                                                                            injector: usedInjector,
                                                                         });
 
             this._logger?.debug('LayoutComponentRendererSADirective: component rendered {@id}', {id: componentMetadata?.id});
@@ -160,6 +184,12 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
             
             if(this.component)
             {
+                this.component.registerExtensions(
+                [
+                    ...this._childExtensions?.map(itm => new itm()) ?? [],
+                    ...layoutComponentType?.extensions?.map(itm => new itm()) ?? [],
+                ]);
+
                 this._logger?.debug('LayoutComponentRendererSADirective: initializing component with options {@id}', {id: componentMetadata?.id});
                 await resolvePromiseOr(this.component.initialize?.(componentMetadata.options));
 

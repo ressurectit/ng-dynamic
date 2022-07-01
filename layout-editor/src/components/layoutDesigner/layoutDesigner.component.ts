@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy, Injector, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CdkDragDrop, DragDropModule, DropListOrientation} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
@@ -100,6 +100,24 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected _orientation: DropListOrientation = 'vertical';
 
+    //######################### protected properties - overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override get element(): ElementRef<HTMLElement>
+    {
+        return this._designerElement;
+    }
+
+    //######################### protected properties - children #########################
+
+    /**
+     * Instance of designer div element
+     */
+    @ViewChild('layoutDesigner', {static: true})
+    protected _designerElement!: ElementRef<HTMLElement>;
+
     //######################### public properties #########################
 
     /**
@@ -118,13 +136,14 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
                 element: ElementRef<HTMLElement>,
+                injector: Injector,
                 protected _getter: DynamicItemLoader,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
                 protected _layoutEditorMetadataManager: LayoutEditorMetadataManager,
                 @Inject(LOGGER) @Optional() logger?: Logger,
                 @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
     {
-        super(changeDetector, element, logger);
+        super(changeDetector, element, injector, logger);
     }
 
     //######################### public methods - overrides #########################
@@ -157,11 +176,13 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy(): void
+    public override ngOnDestroy(): void
     {
         this._logger?.debug('LayoutDesignerSAComponent: Destroying component {@data}', {id: this._options?.typeMetadata.id});
 
         this._initSubscriptions.unsubscribe();
+
+        super.ngOnDestroy();
 
         if(this._options)
         {

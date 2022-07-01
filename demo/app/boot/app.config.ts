@@ -17,7 +17,7 @@ import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES} from '@anglr/rest';
 import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
-import {BASIC_COMPONENTS_DYNAMIC_ITEM_LOADER_PROVIDER, DEFAULT_DYNAMIC_MODULE_DATA_EXTRACTORS, DEFAULT_DYNAMIC_MODULE_TYPES_PROVIDER} from '@anglr/dynamic';
+import {BASIC_COMPONENTS_DYNAMIC_ITEM_LOADER_PROVIDER, DEFAULT_DYNAMIC_MODULE_DATA_EXTRACTORS, DEFAULT_DYNAMIC_MODULE_TYPES_PROVIDER, MODULE_EXTENSIONS_DYNAMIC_ITEM_EXTENSIONS_EXTRACTOR} from '@anglr/dynamic';
 import {LAYOUT_DESIGNER_DYNAMIC_ITEM_LOADER_PROVIDER} from '@anglr/dynamic/layout-editor';
 import {isString, isJsObject} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
@@ -374,4 +374,6 @@ export const providers: Provider[] =
     DEFAULT_DYNAMIC_MODULE_TYPES_PROVIDER,
     
     DEFAULT_DYNAMIC_MODULE_DATA_EXTRACTORS,
+
+    MODULE_EXTENSIONS_DYNAMIC_ITEM_EXTENSIONS_EXTRACTOR,
 ];

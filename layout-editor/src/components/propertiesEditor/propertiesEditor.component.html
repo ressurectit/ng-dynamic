@@ -6,7 +6,9 @@
         <input class="form-control" type="text" [formControl]="_displayName">
     </div>
 
-    <ng-container *ngFor="let propertiesCtrl of _metadata?.metaInfo?.optionsMetadata?.propertiesControls">
-        <ng-container [propertiesControl]="propertiesCtrl" [form]="_optionsForm" [itemSource]="_component?.options?.typeMetadata"></ng-container>
+    <ng-container *ngFor="let props of _propertiesData">
+        <ng-container *ngFor="let propertiesCtrl of props.controls">
+            <ng-container [propertiesControl]="propertiesCtrl" [form]="props.form" [propertiesMetadata]="props.metadata"></ng-container>
+        </ng-container>
     </ng-container>
 </div>

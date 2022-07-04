@@ -45,7 +45,7 @@ import {LayoutEditorMetadataDescriptor} from '../../decorators';
 })
 export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>, OnDestroy
 {
-    //######################### public fields #########################
+    //######################### public properties #########################
 
     /**
      * Component identifier

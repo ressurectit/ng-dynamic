@@ -4,6 +4,7 @@ import {MetadataClassMixin} from '@anglr/dynamic';
 import {mapValuesToThis} from '@jscrpt/common';
 
 import {StackPanelComponentOptions} from '../stackPanel.options';
+import {StackPanelFlexExtensionOptions} from '../stackPanelExtensions.options';
 
 /**
  * Stack panel model for properties editor
@@ -19,7 +20,7 @@ export class StackPanelModel implements StackPanelComponentOptions
     @LayoutPropertyName('Horizontal')
     @LayoutPropertyDescription('Indication whether display stacked elements horizontally')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('inputBoolean')
-    horizontal: boolean|undefined|null = false;
+    public horizontal: boolean|undefined|null = false;
 
     /**
      * @inheritdoc
@@ -27,15 +28,38 @@ export class StackPanelModel implements StackPanelComponentOptions
     @LayoutPropertyName('Wrap')
     @LayoutPropertyDescription('Indication whether wrap children if there is not enough space')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('inputBoolean')
-    wrap: boolean|undefined|null = false;
+    public wrap: boolean|undefined|null = false;
 
     /**
      * @inheritdoc
      */
-    children: LayoutComponentMetadata[]|undefined|null;
+    public children: LayoutComponentMetadata[]|undefined|null;
 
     //######################### constructor #########################
     constructor(value: StackPanelComponentOptions|undefined|null)
+    {
+        //TODO: remove ! when fixed in common
+        mapValuesToThis.bind(this)(value!);
+    }
+}
+
+/**
+ * Stack panel flex extension model for properties editor
+ */
+export class StackPanelFlexExtensionModel implements StackPanelFlexExtensionOptions
+{
+    //######################### public properties #########################
+
+    /**
+     * @inheritdoc
+     */
+    @LayoutPropertyName('Flex')
+    @LayoutPropertyDescription('Definition of flex behavior')
+    @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
+    public flex: string|undefined|null = null;
+
+    //######################### constructor #########################
+    constructor(value: StackPanelFlexExtensionOptions|undefined|null)
     {
         //TODO: remove ! when fixed in common
         mapValuesToThis.bind(this)(value!);

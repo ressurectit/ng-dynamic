@@ -2,10 +2,11 @@ import {ComponentRef, Directive, Inject, Input, Optional, Type, ViewContainerRef
 import {FormGroup} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
 import {FormModelGroup} from '@anglr/common/forms';
-import {DynamicItemSource} from '@anglr/dynamic';
-import {resolvePromiseOr} from '@jscrpt/common';
+import {Dictionary, resolvePromiseOr} from '@jscrpt/common';
 
 import {PropertiesControl} from '../../../../interfaces';
+import {LayoutEditorPropertyMetadata} from '../../../../misc/types';
+import {LayoutPropertyTypeData} from '../../../../decorators';
 
 /**
  * Directive used for rendering properties control
@@ -32,10 +33,10 @@ export class PropertiesControlRendererDirective<TComponent extends PropertiesCon
     public form: FormGroup<FormModelGroup<TOptions>>|undefined;
 
     /**
-     * Defines dynamic item source which properties are edited
+     * Properties metadata that are being rendered
      */
     @Input()
-    public itemSource: DynamicItemSource|undefined;
+    public propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata&LayoutPropertyTypeData>|null = null;
 
     /**
      * Type that will be rendered
@@ -74,7 +75,7 @@ export class PropertiesControlRendererDirective<TComponent extends PropertiesCon
             if(this._componentRef)
             {
                 const component = this._componentRef.instance;
-                component.itemSource = this.itemSource;
+                component.propertiesMetadata = this.propertiesMetadata;
                 component.form = this.form;
 
                 await resolvePromiseOr(component.initialize());

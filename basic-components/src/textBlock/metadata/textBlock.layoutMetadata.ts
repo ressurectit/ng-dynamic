@@ -19,11 +19,16 @@ export class TextBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
         description: 'Displays text',
         optionsMetadata:
         {
-            modelType: TextBlockModel,
-            propertiesControls: 
+            propertiesMetadata:
             [
-                ComponentStylingPropertiesControlComponent,
-                genericPropertiesControlFor(['text'])
+                {
+                    modelType: TextBlockModel,
+                    propertiesControls: 
+                    [
+                        ComponentStylingPropertiesControlComponent,
+                        genericPropertiesControlFor(['text'])
+                    ],
+                },
             ],
         },
         defaultOptions:

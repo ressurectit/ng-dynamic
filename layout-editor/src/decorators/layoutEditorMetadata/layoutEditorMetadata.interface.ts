@@ -14,9 +14,9 @@ export interface LayoutPropertiesModelType<TType = any>
 }
 
 /**
- * Metadata for options/properties editation
+ * Metadata for layout editor properties definition
  */
-export interface LayoutEditorOptionsMetadata
+export interface LayoutEditorPropertiesDefinitionMetadata
 {
     /**
      * Type of model used within properties editor
@@ -27,6 +27,22 @@ export interface LayoutEditorOptionsMetadata
      * Array of properties controls used for editation of properties/options
      */
     propertiesControls: Type<PropertiesControl>[];
+}
+
+/**
+ * Metadata for options/properties editation
+ */
+export interface LayoutEditorOptionsMetadata
+{
+    /**
+     * Array of properties metadata
+     */
+    propertiesMetadata: LayoutEditorPropertiesDefinitionMetadata[];
+
+    /**
+     * Array of child properties metadata, used for child extensions
+     */
+    childPropertiesMetadata?: LayoutEditorPropertiesDefinitionMetadata[];
 
     /**
      * Overrides of controls used in properties controls

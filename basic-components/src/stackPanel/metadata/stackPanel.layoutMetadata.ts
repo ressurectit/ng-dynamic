@@ -3,7 +3,7 @@ import {ComponentStylingPropertiesControlComponent, genericPropertiesControlFor,
 import {Action, Func} from '@jscrpt/common';
 
 import {StackPanelComponentOptions} from '../stackPanel.options';
-import {StackPanelModel} from './stackPanel.model';
+import {StackPanelFlexExtensionModel, StackPanelModel} from './stackPanel.model';
 
 /**
  * Stack panel layout metadata
@@ -22,12 +22,27 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
         group: 'Layout',
         optionsMetadata:
         {
-            modelType: StackPanelModel,
-            propertiesControls: 
+            propertiesMetadata:
             [
-                ComponentStylingPropertiesControlComponent,
-                genericPropertiesControlFor(['horizontal', 'wrap'])
+                {
+                    modelType: StackPanelModel,
+                    propertiesControls: 
+                    [
+                        ComponentStylingPropertiesControlComponent,
+                        genericPropertiesControlFor(['horizontal', 'wrap'])
+                    ],
+                },
             ],
+            childPropertiesMetadata:
+            [
+                {
+                    modelType: StackPanelFlexExtensionModel,
+                    propertiesControls: 
+                    [
+                        genericPropertiesControlFor(['flex'])
+                    ],
+                },
+            ]
         }
     };
 

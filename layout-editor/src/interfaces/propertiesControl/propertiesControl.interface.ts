@@ -1,8 +1,10 @@
 import {OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormModelGroup} from '@anglr/common/forms';
-import {DynamicItemSource} from '@anglr/dynamic';
-import {PromiseOr} from '@jscrpt/common';
+import {Dictionary, PromiseOr} from '@jscrpt/common';
+
+import {LayoutEditorPropertyMetadata} from '../../misc/types';
+import {LayoutPropertyTypeData} from '../../decorators';
 
 /**
  * Defines control that will handle displaying of properties/options of component
@@ -15,9 +17,9 @@ export interface PropertiesControl<TOptions = any> extends OnInit
     form: FormGroup<FormModelGroup<TOptions>>|undefined;
 
     /**
-     * Defines dynamic item source which properties are edited
+     * Properties metadata that are being rendered
      */
-    itemSource: DynamicItemSource|undefined;
+    propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata&LayoutPropertyTypeData>|null;
 
     /**
      * Initialize component

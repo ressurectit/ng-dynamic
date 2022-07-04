@@ -231,6 +231,15 @@ export class LayoutEditorMetadataManager
     }
 
     /**
+     * Gets parent of component by id
+     * @param id - Id of component which parent will be get
+     */
+    public getParent(id: string): LayoutDesignerSAComponent|null
+    {
+        return this._components[id]?.parent?.component ?? null;
+    }
+
+    /**
      * Unregisters layout designer component
      * @param id - Id of component that will be unregistered
      */

@@ -32,6 +32,14 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         return this._element;
     }
 
+    /**
+     * Gets options that are used within extension
+     */
+    protected get extensionsOptions(): any|undefined|null
+    {
+        return this._options;
+    }
+
     //######################### public properties - implementation of LayoutComponent #########################
 
     /**
@@ -47,11 +55,13 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
 
         this._optionsSet();
 
-        if(this._options)
+        const extensionsOptions = this.extensionsOptions;
+
+        if(extensionsOptions)
         {
             for(const ext of this._extensions)
             {
-                ext.optionsChange(this._options);
+                ext.optionsChange(extensionsOptions);
             }
         }
     }
@@ -91,11 +101,13 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
 
         this.options = options;
 
-        if(this._options)
+        const extensionsOptions = this.extensionsOptions;
+
+        if(extensionsOptions)
         {
             for(const ext of this._extensions)
             {
-                ext.initialize(this._injector, this.element, this._options);
+                ext.initialize(this._injector, this.element, extensionsOptions);
             }
         }
     }

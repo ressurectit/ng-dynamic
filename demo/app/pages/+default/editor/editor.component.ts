@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ComponentRoute} from '@anglr/common/router';
 import {ComponentStylingOptions, LayoutComponentMetadata, TextFontWeight} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
-import {GridPanelCellComponentOptions, GridPanelComponentOptions, StackPanelComponentOptions, TextBlockComponentOptions} from '@anglr/dynamic/basic-components';
+import {GridPanelCellComponentOptions, GridPanelComponentOptions, StackPanelComponentOptions, StackPanelFlexExtensionOptions, TextBlockComponentOptions} from '@anglr/dynamic/basic-components';
 import {generateId} from '@jscrpt/common';
 
 import {LayoutDataService} from '../../../services/layoutData';
@@ -193,7 +193,7 @@ export class EditorComponent implements OnInit, OnDestroy
                                             package: 'basic-components',
                                             id: 'textTest',
                                             name: 'textBlock',
-                                            options: <TextBlockComponentOptions&ComponentStylingOptions>
+                                            options: <TextBlockComponentOptions&ComponentStylingOptions&StackPanelFlexExtensionOptions>
                                             {
                                                 text: 'toto je text',
                                                 margin:
@@ -213,7 +213,8 @@ export class EditorComponent implements OnInit, OnDestroy
                                                 textStyling:
                                                 {
                                                     fontSize: '20px'
-                                                }
+                                                },
+                                                flex: '1'
                                             }
                                         },
                                         {

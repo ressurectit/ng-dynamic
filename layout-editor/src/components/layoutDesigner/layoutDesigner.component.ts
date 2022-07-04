@@ -110,6 +110,14 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         return this._designerElement;
     }
 
+    /**
+     * @inheritdoc
+     */
+    protected override get extensionsOptions(): any|undefined|null
+    {
+        return this._options?.typeMetadata.options;
+    }
+
     //######################### protected properties - children #########################
 
     /**

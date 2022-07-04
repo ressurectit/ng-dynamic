@@ -1,4 +1,4 @@
-import {ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {TextBlockComponentOptions} from '../textBlock.options';
 import {TextBlockModel} from './textBlock.model';
@@ -22,11 +22,17 @@ export class TextBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
             propertiesMetadata:
             [
                 {
-                    modelType: TextBlockModel,
+                    modelType: ComponentStylingModel,
                     propertiesControls: 
                     [
                         ComponentStylingPropertiesControlComponent,
-                        genericPropertiesControlFor(['text'])
+                    ],
+                },
+                {
+                    modelType: TextBlockModel,
+                    propertiesControls: 
+                    [
+                        genericPropertiesControlFor(['text']),
                     ],
                 },
             ],

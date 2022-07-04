@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponentRendererSADirective, StyledLayoutComponent, StyledLayoutComponentBase} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {generateId} from '@jscrpt/common';
 
@@ -24,7 +24,7 @@ import {GridPanelLayoutMetadataLoader} from './gridPanel.metadata';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorMetadata(GridPanelLayoutMetadataLoader)
-export class GridPanelSAComponent extends StyledLayoutComponentBase<GridPanelComponentOptions> implements StyledLayoutComponent<GridPanelComponentOptions>
+export class GridPanelSAComponent extends LayoutComponentBase<GridPanelComponentOptions> implements LayoutComponent<GridPanelComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

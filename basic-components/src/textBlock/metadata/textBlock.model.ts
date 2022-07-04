@@ -1,5 +1,4 @@
-import {ComponentStylingModel, DefaultKnownPropertyTypes, FORM_MODEL_CONTROLS_METADATA_PROPERTY, LayoutPropertyDescription, LayoutPropertyMetadata, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
-import {MetadataClassMixin} from '@anglr/dynamic';
+import {DefaultKnownPropertyTypes, LayoutPropertyDescription, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
 import {mapValuesToThis} from '@jscrpt/common';
 
 import {TextBlockComponentOptions} from '../textBlock.options';
@@ -7,7 +6,6 @@ import {TextBlockComponentOptions} from '../textBlock.options';
 /**
  * Text block model for properties editor
  */
-@MetadataClassMixin(ComponentStylingModel, [LayoutPropertyMetadata, FORM_MODEL_CONTROLS_METADATA_PROPERTY])
 export class TextBlockModel implements TextBlockComponentOptions
 {
     //######################### public properties #########################

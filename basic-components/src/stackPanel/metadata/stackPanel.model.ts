@@ -1,6 +1,5 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {ComponentStylingModel, DefaultKnownPropertyTypes, FORM_MODEL_CONTROLS_METADATA_PROPERTY, LayoutPropertyDescription, LayoutPropertyMetadata, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
-import {MetadataClassMixin} from '@anglr/dynamic';
+import {DefaultKnownPropertyTypes, LayoutPropertyDescription, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
 import {mapValuesToThis} from '@jscrpt/common';
 
 import {StackPanelComponentOptions} from '../stackPanel.options';
@@ -9,7 +8,6 @@ import {StackPanelFlexExtensionOptions} from '../stackPanelExtensions.options';
 /**
  * Stack panel model for properties editor
  */
-@MetadataClassMixin(ComponentStylingModel, [LayoutPropertyMetadata, FORM_MODEL_CONTROLS_METADATA_PROPERTY])
 export class StackPanelModel implements StackPanelComponentOptions
 {
     //######################### public properties #########################

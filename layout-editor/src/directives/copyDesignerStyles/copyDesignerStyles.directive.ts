@@ -3,6 +3,8 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
 import {LayoutEditorMetadataExtractor} from '../../services';
 
+//TODO: remove, do it more generic
+
 /**
  * Copies designer styles that should be applied to element
  */

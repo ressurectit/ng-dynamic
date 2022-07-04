@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponentRendererSADirective, StyledLayoutComponent, StyledLayoutComponentBase} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
 import {StackPanelComponentOptions} from './stackPanel.options';
@@ -23,7 +23,7 @@ import {StackPanelLayoutMetadataLoader} from './stackPanel.metadata';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorMetadata(StackPanelLayoutMetadataLoader)
-export class StackPanelSAComponent extends StyledLayoutComponentBase<StackPanelComponentOptions> implements StyledLayoutComponent<StackPanelComponentOptions>
+export class StackPanelSAComponent extends LayoutComponentBase<StackPanelComponentOptions> implements LayoutComponent<StackPanelComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

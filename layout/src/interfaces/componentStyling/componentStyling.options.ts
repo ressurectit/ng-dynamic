@@ -1,4 +1,6 @@
-import {Margin, Padding, TextStyling} from '../../interfaces';
+import {Margin} from '../styles/margin.interface';
+import {Padding} from '../styles/padding.interface';
+import {TextStyling} from '../styles/textStyling.interface';
 
 /**
  * Options that are used for styling component

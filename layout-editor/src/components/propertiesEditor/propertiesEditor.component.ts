@@ -223,41 +223,42 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                 }
             }
 
-            const parent = this._manager.getParent(this._component.id);
-
-            //gets parent metadata
-            if(parent?.options?.typeMetadata)
+            if(this._component)
             {
-                const parentMetadata = await this._metadataExtractor.extractMetadata(parent.options?.typeMetadata);
-                
-                //parent extensions properties metadata
-                if(parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata?.length)
-                {
-                    for(const props of parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata)
-                    {
-                        console.log(props);
+                const parent = this._manager.getParent(this._component.id);
 
-                        const form = this._formModelBuilder.build(new props.modelType(this._component?.options?.typeMetadata.options));
-                        const metadata = this._propertyExtractor.extract(props.modelType);
-        
-                        this._optionsFormSubscription.add(form.valueChanges.subscribe(data =>
+                //gets parent metadata
+                if(parent?.options?.typeMetadata)
+                {
+                    const parentMetadata = await this._metadataExtractor.extractMetadata(parent.options?.typeMetadata);
+                    
+                    //parent extensions properties metadata
+                    if(parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata?.length)
+                    {
+                        for(const props of parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata)
                         {
-                            if(this._component?.options?.typeMetadata)
+                            const form = this._formModelBuilder.build(new props.modelType(this._component?.options?.typeMetadata.options));
+                            const metadata = this._propertyExtractor.extract(props.modelType);
+            
+                            this._optionsFormSubscription.add(form.valueChanges.subscribe(data =>
                             {
-                                extend(true, this._component.options.typeMetadata.options, data);
+                                if(this._component?.options?.typeMetadata)
+                                {
+                                    extend(true, this._component.options.typeMetadata.options, data);
+            
+                                    // eslint-disable-next-line no-self-assign
+                                    this._component.options = this._component.options;
+                                    this._component.invalidateVisuals();
+                                }
+                            }));
         
-                                // eslint-disable-next-line no-self-assign
-                                this._component.options = this._component.options;
-                                this._component.invalidateVisuals();
-                            }
-                        }));
-    
-                        this._propertiesData.push(
-                        {
-                            form,
-                            metadata,
-                            controls: props.propertiesControls,
-                        });
+                            this._propertiesData.push(
+                            {
+                                form,
+                                metadata,
+                                controls: props.propertiesControls,
+                            });
+                        }
                     }
                 }
             }

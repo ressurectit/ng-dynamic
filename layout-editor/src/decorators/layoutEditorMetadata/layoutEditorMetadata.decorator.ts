@@ -1,12 +1,12 @@
-import {DynamicClassMetadata, DynamicMetadataCtor} from '@anglr/dynamic';
+import {DynamicClassMetadata, DynamicMetadataLoader} from '@anglr/dynamic';
 
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from '../../decorators';
 
 /**
  * Sets layout editor metadata to class on which is this decorator applied
- * @param metadata - Layout editor metadata type to be created by decorator
+ * @param metadataLoader - Layout editor metadata loader function used for obtaining metadata
  */
-export function LayoutEditorMetadata(metadata: DynamicMetadataCtor<LayoutEditorMetadataDescriptor>): ClassDecorator
+export function LayoutEditorMetadata(metadataLoader: DynamicMetadataLoader<LayoutEditorMetadataDescriptor>): ClassDecorator
 {
-    return DynamicClassMetadata<LayoutEditorMetadataDescriptor, LayoutEditorMetadataType>(metadata, 'layoutEditorMetadata');
+    return DynamicClassMetadata<LayoutEditorMetadataDescriptor, LayoutEditorMetadataType>(metadataLoader, 'layoutEditorMetadata');
 }

@@ -5,7 +5,7 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {generateId} from '@jscrpt/common';
 
 import {GridPanelComponentOptions} from './gridPanel.options';
-import {GridPanelLayoutMetadata} from './gridPanel.metadata';
+import {GridPanelLayoutMetadataLoader} from './gridPanel.metadata';
 
 /**
  * Component used for displaying grid panel layout
@@ -23,7 +23,7 @@ import {GridPanelLayoutMetadata} from './gridPanel.metadata';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@LayoutEditorMetadata(GridPanelLayoutMetadata)
+@LayoutEditorMetadata(GridPanelLayoutMetadataLoader)
 export class GridPanelSAComponent extends StyledLayoutComponentBase<GridPanelComponentOptions> implements StyledLayoutComponent<GridPanelComponentOptions>
 {
     //######################### protected methods - overrides #########################

@@ -1,6 +1,5 @@
 import {Type} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {AsyncProperties} from '@anglr/dynamic';
 import {Action, Dictionary, Func} from '@jscrpt/common';
 
 import {PropertiesControl, PropertyTypeControl} from '../../interfaces';
@@ -139,5 +138,5 @@ export interface LayoutEditorMetadataType
     /**
      * Metadata for layout editor
      */
-    layoutEditorMetadata?: AsyncProperties<LayoutEditorMetadataDescriptor>;
+    layoutEditorMetadata?: Promise<LayoutEditorMetadataDescriptor>;
 }

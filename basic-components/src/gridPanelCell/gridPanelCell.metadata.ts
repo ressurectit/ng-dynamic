@@ -1,19 +1,9 @@
-import {GenericLayoutAsyncMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
+import {DynamicMetadataLoader} from '@anglr/dynamic';
+import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 
 import {GridPanelCellComponentOptions} from './gridPanelCell.options';
 
 /**
- * Text block layout metadata descriptor
+ * Grid panel cell layout metadata loader
  */
-export class GridPanelCellLayoutMetadata extends GenericLayoutAsyncMetadata<GridPanelCellComponentOptions>
-{
-    //######################### protected methods - overrides #########################
-
-    /**
-     * @inheritdoc
-     */
-    protected async _getInstance(): Promise<LayoutEditorMetadataDescriptor<GridPanelCellComponentOptions>>
-    {
-        return new (await import('./metadata/gridPanelCell.layoutMetadata')).GridPanelCellLayoutEditorMetadata();
-    }
-}
+export const GridPanelCellLayoutMetadataLoader: DynamicMetadataLoader<LayoutEditorMetadataDescriptor<GridPanelCellComponentOptions>> = async () => new (await import('./metadata/gridPanelCell.layoutMetadata')).GridPanelCellLayoutEditorMetadata();

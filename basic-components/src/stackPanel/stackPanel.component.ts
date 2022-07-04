@@ -4,7 +4,7 @@ import {LayoutComponentRendererSADirective, StyledLayoutComponent, StyledLayoutC
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
 import {StackPanelComponentOptions} from './stackPanel.options';
-import {StackPanelLayoutMetadata} from './stackPanel.metadata';
+import {StackPanelLayoutMetadataLoader} from './stackPanel.metadata';
 
 /**
  * Component used for displaying stack panel layout
@@ -22,7 +22,7 @@ import {StackPanelLayoutMetadata} from './stackPanel.metadata';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@LayoutEditorMetadata(StackPanelLayoutMetadata)
+@LayoutEditorMetadata(StackPanelLayoutMetadataLoader)
 export class StackPanelSAComponent extends StyledLayoutComponentBase<StackPanelComponentOptions> implements StyledLayoutComponent<StackPanelComponentOptions>
 {
     //######################### protected methods - overrides #########################

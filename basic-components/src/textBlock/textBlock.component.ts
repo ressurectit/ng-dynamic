@@ -4,7 +4,7 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {TextBlockComponentOptions} from './textBlock.options';
-import {TextBlockLayoutMetadata} from './textBlock.metadata';
+import {TextBlockLayoutMetadataLoader} from './textBlock.metadata';
 
 /**
  * Component used for displaying text block
@@ -17,7 +17,7 @@ import {TextBlockLayoutMetadata} from './textBlock.metadata';
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@LayoutEditorMetadata(TextBlockLayoutMetadata)
+@LayoutEditorMetadata(TextBlockLayoutMetadataLoader)
 export class TextBlockSAComponent extends StyledLayoutComponentBase<TextBlockComponentOptions> implements StyledLayoutComponent<TextBlockComponentOptions>
 {
 }

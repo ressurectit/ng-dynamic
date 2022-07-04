@@ -1,12 +1,7 @@
-import {AsyncProperties} from '../../misc/types';
-
 /**
- * Describes constructor of dynamic metadata type
+ * Describes function that loads asynchronous metadata definition
  */
-export interface DynamicMetadataCtor<TMetadata>
+export interface DynamicMetadataLoader<TMetadata>
 {
-    /**
-     * Creates instance of async dynamic metadata
-     */
-    new(): AsyncProperties<TMetadata>;
+    (): Promise<TMetadata>;
 }

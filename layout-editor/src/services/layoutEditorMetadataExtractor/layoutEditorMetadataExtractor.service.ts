@@ -4,7 +4,6 @@ import {LOGGER, Logger} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from '../../decorators';
-import {LayoutEditorMetadataData} from '../../misc/types';
 
 /**
  * Class used for extracting layout editor metadata
@@ -58,8 +57,8 @@ export class LayoutEditorMetadataExtractor
 
         this._logger?.debug('LayoutEditorMetadataExtractor: Reading metadata! ', {package: metadata.package, name: metadata.name});
 
-        const metadataData = new LayoutEditorMetadataData(metadataType.layoutEditorMetadata);
-        await metadataData.initialize();
+        const metadataData = await metadataType.layoutEditorMetadata;
+        Object.freeze(metadataData);
 
         this._cache[cacheId] = metadataData;
 

@@ -1,19 +1,9 @@
-import {GenericLayoutAsyncMetadata, LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
+import {DynamicMetadataLoader} from '@anglr/dynamic';
+import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 
 import {TextBlockComponentOptions} from './textBlock.options';
 
 /**
- * Text block layout metadata descriptor
+ * Text block layout metadata loader
  */
-export class TextBlockLayoutMetadata extends GenericLayoutAsyncMetadata<TextBlockComponentOptions>
-{
-    //######################### protected methods - overrides #########################
-
-    /**
-     * @inheritdoc
-     */
-    protected async _getInstance(): Promise<LayoutEditorMetadataDescriptor<TextBlockComponentOptions>>
-    {
-        return new (await import('./metadata/textBlock.layoutMetadata')).TextBlockLayoutEditorMetadata();
-    }
-}
+export const TextBlockLayoutMetadataLoader: DynamicMetadataLoader<LayoutEditorMetadataDescriptor<TextBlockComponentOptions>> = async () => new (await import('./metadata/textBlock.layoutMetadata')).TextBlockLayoutEditorMetadata();

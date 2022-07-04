@@ -3,7 +3,7 @@ import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
 import {GridPanelCellComponentOptions} from './gridPanelCell.options';
-import {GridPanelCellLayoutMetadata} from './gridPanelCell.metadata';
+import {GridPanelCellLayoutMetadataLoader} from './gridPanelCell.metadata';
 import {applyGridCoordinates} from './gridPanelCell.utils';
 
 /**
@@ -21,7 +21,7 @@ import {applyGridCoordinates} from './gridPanelCell.utils';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@LayoutEditorMetadata(GridPanelCellLayoutMetadata)
+@LayoutEditorMetadata(GridPanelCellLayoutMetadataLoader)
 export class GridPanelCellSAComponent extends LayoutComponentBase<GridPanelCellComponentOptions> implements LayoutComponent<GridPanelCellComponentOptions>
 {
     //######################### protected methods - overrides #########################

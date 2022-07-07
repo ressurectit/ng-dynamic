@@ -2,6 +2,8 @@ import {Component, ChangeDetectionStrategy, HostBinding, HostListener, Input} fr
 import {CommonModule} from '@angular/common';
 
 import {Coordinates} from '../../interfaces';
+import {RelationNodeInputSAComponent} from './input/input.component';
+import {RelationNodeOutputSAComponent} from './output/output.component';
 
 /**
  * Component used to display relation node
@@ -15,6 +17,8 @@ import {Coordinates} from '../../interfaces';
     imports:
     [
         CommonModule,
+        RelationNodeInputSAComponent,
+        RelationNodeOutputSAComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

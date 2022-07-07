@@ -21,6 +21,10 @@ const SCALE_FACTOR_MIN = 0.2;
 const SCALE_FACTOR_MAX = 2;
 
 /**
+ * TODO
+ * - Zoom to point
+ */
+/**
  * Component used as designer component wrapper for layout component
  */
 @Component(

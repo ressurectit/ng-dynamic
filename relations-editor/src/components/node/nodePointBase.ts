@@ -1,11 +1,18 @@
-import {Directive, ElementRef, Input} from '@angular/core';
+import {Directive, ElementRef, Input, Optional} from '@angular/core';
 
 import {Coordinates} from '../../interfaces';
+import {NodeRelationPath} from '../../misc';
+import {RelationsCanvasSAComponent} from '../relationsCanvas/relationsCanvas.component';
 
 @Directive()
 export class RelationNodePointBase
 {
     //######################### protected properties #########################
+
+    /**
+     * Node relation
+     */
+    protected _relation: NodeRelationPath|null|undefined;
 
     /**
      * Indication whether component is dragging
@@ -39,7 +46,8 @@ export class RelationNodePointBase
 
     //######################### constructor #########################
 
-    constructor(protected _element: ElementRef<HTMLElement>)
+    constructor(protected _element: ElementRef<HTMLElement>,
+                @Optional() protected _canvas: RelationsCanvasSAComponent)
     {}
 
     //######################### public methods #########################

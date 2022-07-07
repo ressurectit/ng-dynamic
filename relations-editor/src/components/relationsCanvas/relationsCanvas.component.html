@@ -1,3 +1,6 @@
 <div class="flow-area" [style.transform]="'translate(' + _canvasPosition.x + 'px, ' + _canvasPosition.y + 'px) scale(' + _zoomLevel + ')'">
+    <svg class="relations-wrapper">
+        <g #relationsGroup></g>
+    </svg>
     <relation-node *ngFor="let nodeDefinition of nodeDefinitions" [zoomLevel]="_zoomLevel"></relation-node>
 </div>

@@ -1,9 +1,10 @@
-import {Component, ChangeDetectionStrategy, HostBinding, HostListener} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {select} from 'd3';
 
 import {RelationNodeSAComponent} from '../node/node.component';
 import {Coordinates} from '../../interfaces';
-import {clamp, MouseButton} from '../../misc';
+import {clamp, MouseButton, NodeRelationPath} from '../../misc';
 
 /**
  * Default background size in pixels
@@ -102,9 +103,13 @@ export class RelationsCanvasSAComponent
      */
     protected _isDragging: boolean = false;
 
-    //######################### protected properties - overrides #########################
-
     //######################### protected properties - children #########################
+
+    /**
+     * Node relations svg group
+     */
+    @ViewChild('relationsGroup', {read: ElementRef})
+    protected _relationsGroup: ElementRef|null|undefined;
 
     //######################### public properties #########################
 
@@ -117,6 +122,14 @@ export class RelationsCanvasSAComponent
 
     constructor()
     {}
+
+    //######################### public methods #########################
+
+
+    public createRelation(): NodeRelationPath
+    {
+        return new NodeRelationPath(select(this._relationsGroup?.nativeElement), null, null);
+    }
 
     //######################### protected methods - host listeners #########################
 

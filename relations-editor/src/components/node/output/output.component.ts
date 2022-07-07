@@ -2,6 +2,7 @@ import {Component, ChangeDetectionStrategy, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {RelationNodePointBase} from '../nodePointBase';
+import {NodeRelationPath} from '../../../misc';
 
 /**
  * Component used to display relation node output
@@ -39,6 +40,7 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
         };
 
         //TODO add relations logic
+        this._relation = this._addOutputRelation();
     }
 
     /**
@@ -53,7 +55,16 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
             event.stopImmediatePropagation();
             event.preventDefault();
 
-            //TODO add relations logic
+            if (this._relation)
+            {
+                this._relation.end =
+                {
+                    x: this.getCoordinates().x + (event.clientX - this._lastMouseDownPosition.x) * 1/this.zoomLevel,
+                    y: this.getCoordinates().y + (event.clientY - this._lastMouseDownPosition.y) * 1/this.zoomLevel
+                };
+    
+                this._relation.invalidateVisuals();
+            }
         }
     }
 
@@ -72,5 +83,18 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
 
             //TODO add relations logic
         }
+    }
+
+    /**
+     * Adds relation to specified output
+     * @returns Returns relation that will start from this output
+     */
+    protected _addOutputRelation(): NodeRelationPath
+    {
+        const relation = this._canvas?.createRelation();
+
+        relation.start = this.getCoordinates();
+
+        return relation;
     }
 }

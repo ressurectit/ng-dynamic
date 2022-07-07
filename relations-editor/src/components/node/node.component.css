@@ -1,0 +1,24 @@
+:host
+{
+    display: block;
+    position: absolute;
+}
+
+.node-header,
+.node-content
+{
+    padding: .5rem;
+}
+
+.node-header
+{
+    background-color: rgb(77, 77, 77);
+    color: white;
+    border-radius: 1rem 1rem 0 0;
+}
+
+.node-content
+{
+    background-color: white;
+    border-radius: 0 0 1rem 1rem;
+}

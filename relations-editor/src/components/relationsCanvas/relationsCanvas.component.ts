@@ -1,26 +1,24 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy, HostBinding, HostListener} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostBinding, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
+import {RelationNodeSAComponent} from '../node/node.component';
+import {Coordinates} from '../../interfaces';
+import {clamp, MouseButton} from '../../misc';
+
+/**
+ * Default background size in pixels
+ */
 const DEFAULT_BACKGROUND_SIZE = 16;
+
+/**
+ * Minimum scale factor
+ */
 const SCALE_FACTOR_MIN = 0.2;
+
+/**
+ * Maximum sclae factor
+ */
 const SCALE_FACTOR_MAX = 2;
-
-interface Point
-{
-    x: number;
-    y: number;
-}
-
-enum MouseButton
-{
-    LEFT = 1
-}
-
-//TODO move to utils class
-function clamp(num: number, min: number, max: number)
-{
-    return Math.min(Math.max(num, min), max);
-}
 
 /**
  * Component used as designer component wrapper for layout component
@@ -34,10 +32,11 @@ function clamp(num: number, min: number, max: number)
     imports:
     [
         CommonModule,
+        RelationNodeSAComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationsCanvasSAComponent implements OnDestroy
+export class RelationsCanvasSAComponent
 {
     //######################### private properties #########################
 
@@ -49,21 +48,33 @@ export class RelationsCanvasSAComponent implements OnDestroy
     /**
      * Last mouse down position
      */
-    private _mouseDownPosition: Point = {x: 0, y: 0};
+    private _lastMouseDownPosition: Coordinates = {
+        x: 0, 
+        y: 0
+    };
 
     /**
      * Last mouse up position
      */
-    private _mouseUpPosition: Point = {x: 0, y: 0};
+    private _lastMouseUpPosition: Coordinates = {
+        x: 0, 
+        y: 0
+    };
 
     //######################### protected properties - host bindings #########################
 
+    /**
+     * Background size css styles
+     */
     @HostBinding('style.backgroundSize')
     protected get _backgroundSizeStyle(): string
     {
         return `${this._backgroundSize}px ${this._backgroundSize}px`;
     }
 
+    /**
+     * Background position css styles
+     */
     @HostBinding('style.backgroundPosition')
     protected get _backgroundPositionStyle(): string
     {
@@ -72,11 +83,10 @@ export class RelationsCanvasSAComponent implements OnDestroy
 
     //######################### protected properties - template bindings #########################
 
-    
     /**
      * Canvas position
      */
-    protected _canvasPosition: Point = {x: 0, y: 0};
+    protected _canvasPosition: Coordinates = {x: 0, y: 0};
 
     /**
      * Zoom level
@@ -94,29 +104,15 @@ export class RelationsCanvasSAComponent implements OnDestroy
 
     //######################### public properties #########################
 
-    public nodeDefinitions: any[] = [];
+    /**
+     * Sample data to render
+     */
+    public nodeDefinitions: number[] = [ 1, 2, 3];
 
     //######################### constructor #########################
-    constructor(changeDetector: ChangeDetectorRef)
-    {
-        console.log(changeDetector);
-    }
 
-    //######################### public methods - overrides #########################
-
-    //######################### public methods - implementation of OnDestroy #########################
-    
-    /**
-     * Called when component is destroyed
-     */
-    public ngOnDestroy(): void
+    constructor()
     {}
-
-    //######################### public methods #########################
-
-    //######################### protected methods #########################
-
-    //######################### protected methods - template bindings #########################
 
     //######################### protected methods - host listeners #########################
 
@@ -129,7 +125,7 @@ export class RelationsCanvasSAComponent implements OnDestroy
     {
         if (event.buttons == MouseButton.LEFT)
         {
-            this._mouseDownPosition = {
+            this._lastMouseDownPosition = {
                 x: event.clientX,
                 y: event.clientY
             };
@@ -147,8 +143,8 @@ export class RelationsCanvasSAComponent implements OnDestroy
         if (this._isDragging)
         {
             this._canvasPosition = {
-                x: this._mouseUpPosition.x + event.clientX - this._mouseDownPosition.x,
-                y: this._mouseUpPosition.y + event.clientY - this._mouseDownPosition.y,
+                x: this._lastMouseUpPosition.x + event.clientX - this._lastMouseDownPosition.x,
+                y: this._lastMouseUpPosition.y + event.clientY - this._lastMouseDownPosition.y,
             };
 
         }
@@ -164,9 +160,9 @@ export class RelationsCanvasSAComponent implements OnDestroy
         if (this._isDragging)
         {
             this._isDragging = false;
-            this._mouseUpPosition = {
-                x: this._mouseUpPosition.x + event.clientX - this._mouseDownPosition.x,
-                y: this._mouseUpPosition.y + event.clientY - this._mouseDownPosition.y,
+            this._lastMouseUpPosition = {
+                x: this._lastMouseUpPosition.x + event.clientX - this._lastMouseDownPosition.x,
+                y: this._lastMouseUpPosition.y + event.clientY - this._lastMouseDownPosition.y,
             };
         }
     }
@@ -187,7 +183,7 @@ export class RelationsCanvasSAComponent implements OnDestroy
             };
             this._zoomLevel = newZoomLevel;
 
-            this._mouseUpPosition = {
+            this._lastMouseUpPosition = {
                 x: this._canvasPosition.x,
                 y: this._canvasPosition.y
             };

@@ -1,0 +1,6 @@
+<div class="flow-area" [style.transform]="'translate(' + _canvasPosition.x + 'px, ' + _canvasPosition.y + 'px) scale(' + _zoomLevel + ')'">
+    <div style="width: 100px; height: 100px; position: relative; top: 0; left: 0; background-color: red;">BOX</div>
+    <div *ngFor="let nodeDefinition of nodeDefinitions">
+        {{nodeDefinition}}
+    </div>
+</div>

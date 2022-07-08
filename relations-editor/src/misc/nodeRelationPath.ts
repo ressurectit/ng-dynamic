@@ -1,6 +1,9 @@
 import {Selection, BaseType, Line, line, curveBundle} from 'd3';
+import {Observable, Subject} from 'rxjs';
 
 import {Coordinates} from '../interfaces';
+import {INVALIDATE_DROP} from '../interfaces/node/nodePoint.interface';
+import {RelationManager} from '../services';
 
 /**
  * Class that represents node relation path
@@ -8,6 +11,11 @@ import {Coordinates} from '../interfaces';
 export class NodeRelationPath
 {
     //######################### private fields #########################
+
+    /**
+     * Subject used for emitting destroying event
+     */
+    private _destroyingSubject: Subject<void> = new Subject<void>();
 
     /**
      * Object that represents rendered path
@@ -21,9 +29,18 @@ export class NodeRelationPath
 
     //######################### public properties #########################
 
+    /**
+     * Occurs when this relation is being destroyed
+     */
+    public get destroying(): Observable<void>
+    {
+        return this._destroyingSubject.asObservable();
+    }
+
     //######################### constructor #########################
 
     constructor(private _parentGroup: Selection<BaseType, {}, null, undefined>,
+                private _relationManager: RelationManager,
                 public start: Coordinates|null,
                 public end: Coordinates|null)
     {
@@ -44,6 +61,7 @@ export class NodeRelationPath
     public destroy(): void
     {
         this._path?.remove();
+        this._destroyingSubject.next();
     }
 
     /**
@@ -52,38 +70,33 @@ export class NodeRelationPath
      */
     public invalidateVisuals(propertyName?: string): void
     {
-        //TODO create drop logic
-        // if(propertyName == INVALIDATE_DROP)
-        // {
-        //     const dropArea = this._getDropArea();
+        if(propertyName == INVALIDATE_DROP)
+        {
+            const activeInput = this._relationManager.getActiveInput();
+            this._relationManager.setActiveInput(null);
 
-        //     //drop not on input peer
-        //     if(!dropArea)
-        //     {
-        //         this.destroy();
-        //         this.start = null;
-        //         this.end = null;
-        //     }
-        //     //drop on input peer
-        //     else
-        //     {
-        //         //can add input relation
-        //         if(dropArea.svgNode?.addInputRelation(this, dropArea.inputId, dropArea.dynamic))
-        //         {
-        //             this.end = dropArea.svgNode.getInputCoordinates(dropArea.inputId, dropArea.dynamic);
-        //         }
-        //         else if ((dropArea.node)?.addInputRelation(this, dropArea.inputId, dropArea.dynamic))
-        //         {
-        //             this.end = (dropArea.node).getCoordinates();
-        //         }
-        //         else
-        //         {
-        //             this.destroy();
-        //             this.start = null;
-        //             this.end = null;
-        //         }
-        //     }
-        // }
+            //drop not on input
+            if(!activeInput)
+            {
+                this.destroy();
+                this.start = null;
+                this.end = null;
+            }
+            //drop on input peer
+            else
+            {
+                if (activeInput.addRelation(this))
+                {
+                    this.end = activeInput.getCoordinates();
+                }
+                else
+                {
+                    this.destroy();
+                    this.start = null;
+                    this.end = null;
+                }
+            }
+        }
 
         if(!this.start || !this.end)
         {

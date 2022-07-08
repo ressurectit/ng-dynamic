@@ -2,10 +2,11 @@ import {Directive, ElementRef, Input, Optional} from '@angular/core';
 
 import {Coordinates} from '../../interfaces';
 import {NodeRelationPath} from '../../misc';
+import {RelationManager} from '../../services';
 import {RelationsCanvasSAComponent} from '../relationsCanvas/relationsCanvas.component';
 
 @Directive()
-export class RelationNodePointBase
+export abstract class RelationNodePointBase
 {
     //######################### protected properties #########################
 
@@ -47,11 +48,16 @@ export class RelationNodePointBase
     //######################### constructor #########################
 
     constructor(protected _element: ElementRef<HTMLElement>,
+                protected _relationManager: RelationManager,
                 @Optional() protected _canvas: RelationsCanvasSAComponent)
     {}
 
     //######################### public methods #########################
 
+    /**
+     * Gets node coordinates
+     * @returns 
+     */
     public getCoordinates(): Coordinates
     {
         return {
@@ -59,4 +65,9 @@ export class RelationNodePointBase
             y: this.parentCoordiantes.y + this._element.nativeElement.offsetTop + this._element.nativeElement.offsetHeight/2
         };
     }
+
+    /**
+     * Updates relation coordinates
+     */
+    public abstract updateRelation(): void;
 }

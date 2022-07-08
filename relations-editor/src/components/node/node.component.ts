@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, HostBinding, HostListener, Input} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostBinding, HostListener, Input, ViewChildren, QueryList} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {Coordinates} from '../../interfaces';
@@ -47,7 +47,15 @@ export class RelationNodeSAComponent
         y: 0
     }
 
-    //######################### public properties - host bindings #########################
+    /**
+     * Node position
+     */
+    protected _nodePosition: Coordinates = {
+        x: 0,
+        y: 0,
+    };
+
+    //######################### protected properties - host bindings #########################
 
     /**
      * Component position left
@@ -67,16 +75,19 @@ export class RelationNodeSAComponent
         return `${this._nodePosition?.y}px`;
     }
 
-
-    //######################### protected properties - template bindings #########################
+    //######################### protected properties - view children #########################
 
     /**
-     * Node position
+     * Node inputs
      */
-    protected _nodePosition: Coordinates = {
-        x: 0,
-        y: 0,
-    };
+    @ViewChildren(RelationNodeInputSAComponent)
+    protected _inputs!: QueryList<RelationNodeInputSAComponent>;
+
+    /**
+     * Node outputs
+     */
+    @ViewChildren(RelationNodeOutputSAComponent)
+    protected _outputs!: QueryList<RelationNodeOutputSAComponent>;
 
     //######################### public properties - inputs and outputs #########################
  
@@ -128,6 +139,7 @@ export class RelationNodeSAComponent
             };
             event.stopImmediatePropagation();
             event.preventDefault();
+            this._updateRelations();
         }
     }
 
@@ -144,5 +156,23 @@ export class RelationNodeSAComponent
             event.stopImmediatePropagation();
             event.preventDefault();
         }
+    }
+
+    //######################### private methods #########################
+
+    /**
+     * Updates node relations
+     */
+    private _updateRelations()
+    {
+        this._inputs.forEach(input => 
+        {
+            input.updateRelation();
+        });
+
+        this._outputs.forEach(output => 
+        {
+            output.updateRelation();
+        });
     }
 }

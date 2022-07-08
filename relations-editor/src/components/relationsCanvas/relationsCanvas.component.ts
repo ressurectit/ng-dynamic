@@ -5,6 +5,7 @@ import {select} from 'd3';
 import {RelationNodeSAComponent} from '../node/node.component';
 import {Coordinates} from '../../interfaces';
 import {clamp, MouseButton, NodeRelationPath} from '../../misc';
+import {RelationManager} from '../../services';
 
 /**
  * Default background size in pixels
@@ -38,6 +39,10 @@ const SCALE_FACTOR_MAX = 2;
     [
         CommonModule,
         RelationNodeSAComponent,
+    ],
+    providers:
+    [
+        RelationManager,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -120,7 +125,7 @@ export class RelationsCanvasSAComponent
 
     //######################### constructor #########################
 
-    constructor()
+    constructor(private _relationManager: RelationManager,)
     {}
 
     //######################### public methods #########################
@@ -128,7 +133,7 @@ export class RelationsCanvasSAComponent
 
     public createRelation(): NodeRelationPath
     {
-        return new NodeRelationPath(select(this._relationsGroup?.nativeElement), null, null);
+        return new NodeRelationPath(select(this._relationsGroup?.nativeElement), this._relationManager, null, null);
     }
 
     //######################### protected methods - host listeners #########################

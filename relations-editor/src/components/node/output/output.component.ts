@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 
 import {RelationNodePointBase} from '../nodePointBase';
 import {NodeRelationPath} from '../../../misc';
+import {INVALIDATE_DROP} from '../../../interfaces/node/nodePoint.interface';
 
 /**
  * Component used to display relation node output
@@ -21,6 +22,13 @@ import {NodeRelationPath} from '../../../misc';
 })
 export class RelationNodeOutputSAComponent extends RelationNodePointBase
 {
+    //######################### protected properties #########################
+
+    /**
+     * Relations
+     */
+    protected _relations: NodeRelationPath[] = [];
+
     //######################### protected methods - host listeners #########################
 
     /**
@@ -39,8 +47,8 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
             y: event.clientY
         };
 
-        //TODO add relations logic
         this._relation = this._addOutputRelation();
+        this._relations.push(this._relation);
     }
 
     /**
@@ -81,9 +89,11 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
             event.stopImmediatePropagation();
             event.preventDefault();
 
-            //TODO add relations logic
+            this._relation?.invalidateVisuals(INVALIDATE_DROP);
         }
     }
+
+    //######################### protected methods #########################
 
     /**
      * Adds relation to specified output
@@ -94,7 +104,36 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
         const relation = this._canvas?.createRelation();
 
         relation.start = this.getCoordinates();
+        relation.destroying.subscribe(() => 
+        {
+            const index = this._relations.indexOf(relation);
+
+            if(index >= 0)
+            {
+                this._relations.splice(index, 1);
+            }
+        });
 
         return relation;
+    }
+
+    //######################### public methods #########################
+
+    /**
+     * Updates node output relations
+     * @returns 
+     */
+    public updateRelation(): void 
+    {
+        if (!this._relations)
+        {
+            return;
+        }
+
+        for (const relation of this._relations)
+        {
+            relation.start = this.getCoordinates();
+            relation.invalidateVisuals();
+        }
     }
 }

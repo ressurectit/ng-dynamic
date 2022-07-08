@@ -2,6 +2,7 @@ import {Component, ChangeDetectionStrategy, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {RelationNodePointBase} from '../nodePointBase';
+import {MouseButton, NodeRelationPath} from '../../../misc';
 
 /**
  * Component used to display relation node input
@@ -20,7 +21,55 @@ import {RelationNodePointBase} from '../nodePointBase';
 })
 export class RelationNodeInputSAComponent extends RelationNodePointBase
 {
+    //######################### public methods #########################
+
+    public addRelation(relation: NodeRelationPath): boolean
+    {
+        if (this._relation)
+        {
+            //Same relation
+            if (this._relation.start?.x === relation.start?.x &&
+                this._relation.start?.y === relation.start?.y)
+            {
+                return false;
+            }
+
+            this._relation.destroy();
+        }
+
+        this._relation = relation;
+        return true;
+    }
+
     //######################### protected methods - host listeners #########################
+
+    /**
+     * Mouse enter event
+     * @param event 
+     */
+    @HostListener('mouseenter', ['$event'])
+    //@ts-ignore
+    private _onMouseEnter(event: MouseEvent)
+    {
+        if (event.buttons === MouseButton.LEFT)
+        {
+            this._relationManager.setActiveInput(this);
+        }
+    }
+
+    /**
+     * Mouse leave event
+     * @param event 
+     */
+    @HostListener('mouseleave', ['$event'])
+    //@ts-ignore
+    private _onMouseLeave(event: MouseEvent)
+    {
+        if (event.buttons === MouseButton.LEFT)
+        {
+            this._relationManager.setActiveInput(null);
+        }
+    }
 
     /**
      * Mouse down event
@@ -70,5 +119,22 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
 
             //TODO relations logic
         }
+    }
+
+    //######################### public methods #########################
+
+    /**
+     * Updates node output relation
+     * @returns 
+     */
+    public updateRelation(): void 
+    {
+        if (!this._relation)
+        {
+            return;
+        }
+
+        this._relation.end = this.getCoordinates();
+        this._relation.invalidateVisuals();
     }
 }

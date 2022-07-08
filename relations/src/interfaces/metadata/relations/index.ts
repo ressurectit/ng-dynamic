@@ -1,1 +1,1 @@
-export const q = 10;
+export * from './relationsComponentMetadata.interface';

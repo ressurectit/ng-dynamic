@@ -2,7 +2,6 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipS
 import {CommonModule} from '@angular/common';
 import {CdkDragDrop, DragDropModule, DropListOrientation} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
-import {DynamicItemLoader} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {Func, isPresent} from '@jscrpt/common';
@@ -145,7 +144,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     constructor(changeDetector: ChangeDetectorRef,
                 element: ElementRef<HTMLElement>,
                 injector: Injector,
-                protected _getter: DynamicItemLoader,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
                 protected _layoutEditorMetadataManager: LayoutEditorMetadataManager,
                 @Inject(LOGGER) @Optional() logger?: Logger,

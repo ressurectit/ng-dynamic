@@ -3,9 +3,9 @@ import {Type} from '@angular/core';
 import {DynamicItemExtension} from '../dynamicItemExtension';
 
 /**
- * Definition of dynamic item type
+ * Definition of dynamic item definition
  */
-export interface DynamicItemType<TType extends DynamicItem = any, TExtension extends DynamicItemExtension = any>
+export interface DynamicItemDef<TType extends DynamicItem = any, TExtension extends DynamicItemExtension = any>
 {
     //######################### properties #########################
 

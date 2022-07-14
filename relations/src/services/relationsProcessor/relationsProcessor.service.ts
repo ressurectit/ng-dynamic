@@ -1,7 +1,7 @@
 import {Inject, Injectable, OnDestroy, Optional, SimpleChanges} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
-import {Dictionary} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {Dictionary, isBlank} from '@jscrpt/common';
+import {Observable, Subscription} from 'rxjs';
 
 import {RelationsComponent, RelationsComponentMetadata} from '../../interfaces';
 import {RelationsComponentManager} from '../relationsComponentManager/relationsComponentManager.service';
@@ -53,55 +53,90 @@ export class RelationsProcessor implements OnDestroy
     {
         this._initSubscriptions.unsubscribe();
 
-        // Object.keys(this._relations).forEach(id => this.destroyComponent(id));
+        Object.keys(this._relations).forEach(id => this.destroyComponent(id));
 
-        // this._relations = {};
-        // this._backwardRelations = {};
+        this._relations = {};
+        this._backwardRelations = {};
     }
     
     //######################### public methods #########################
 
     /**
      * Updates relations
-     * @param id Id of component to be registered
-     * @param component Component instance
+     * @param id - Id of component to be registered
      */
     public updateRelations(id: string): void
     {
-        // const metadata: DynamicComponentRelationManagerMetadata = this._relations[id];
-        // const backwardMetadata = this._backwardRelations[id];
+        const relations: RelationsProcessorComponentData = this._relations[id];
+        const backwardRelations = this._backwardRelations[id];
+        let components = this._componentManager.get(id);
 
-        // //this component has no relations
-        // if(!metadata && (!backwardMetadata || !backwardMetadata.length))
-        // {
-        //     return;
-        // }
+        //this component has no relations
+        if(!relations && !backwardRelations?.length || !components)
+        {
+            this._logger?.debug('RelationsProcessor: No relations for {@id}', {id});
 
-        // //initialize default value from connection to this
-        // if(backwardMetadata && backwardMetadata.length)
-        // {
-        //     backwardMetadata.forEach(inputOutput =>
-        //     {
-        //         inputOutput.inputInstance = component;
+            return;
+        }
 
-        //         this._initBackwardRelation(inputOutput.outputNodeId, inputOutput);
-        //     });
-        // }
+        //initialize default value from connection to this
+        if(backwardRelations?.length)
+        {
+            backwardRelations.forEach(inputOutput =>
+            {
+                this._initBackwardRelation(inputOutput);
+            });
+        }
 
-        // if(metadata)
-        // {
-        //     metadata.inputOutputs.forEach(inputOutput =>
-        //     {
-        //         //initialize default value from this to its connections
-        //         this._transferData(component, inputOutput.outputName, inputOutput.inputInstance, inputOutput.inputName, true);
+        if(relations?.inputOutputs)
+        {
+            if(!Array.isArray(components))
+            {
+                components = [components];
+            }
 
-        //         //set listening for output changes
-        //         metadata.outputsChangeSubscriptions.push(component[`${inputOutput.outputName}Change`].subscribe(() =>
-        //         {
-        //             this._transferData(component, inputOutput.outputName, inputOutput.inputInstance, inputOutput.inputName, false);
-        //         }));
-        //     });
-        // }
+            for(const inputOutput of relations.inputOutputs)
+            {
+                let inputComponents = this._componentManager.get(inputOutput.inputComponentId);
+
+                if(!inputComponents)
+                {
+                    this._logger?.warn('RelationsProcessor: Missing input components {@data}', inputOutput);
+
+                    continue;
+                }
+
+                if(!Array.isArray(inputComponents))
+                {
+                    inputComponents = [inputComponents];
+                }
+
+                for(const outputComponent of components)
+                {
+                    for(const inputComponent of inputComponents)
+                    {
+                        //initialize default value from this to its connections
+                        this._transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
+        
+                        const outputObservable = outputComponent[`${inputOutput.outputName}Change`] as Observable<any>;
+
+                        //check whether is observable output
+                        if(!(outputObservable instanceof Observable))
+                        {
+                            this._logger?.warn('RelationsProcessor: Output on component {@data}', inputOutput);
+
+                            continue;
+                        }
+
+                        //set listening for output changes
+                        relations.outputsChangeSubscriptions.push(outputObservable.subscribe(() =>
+                        {
+                            this._transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, false);
+                        }));
+                    }
+                }
+            }
+        }
     }
     
     /**
@@ -109,7 +144,7 @@ export class RelationsProcessor implements OnDestroy
      */
     public destroyComponent(id: string): void
     {
-        // const metadata: DynamicComponentRelationManagerMetadata = this._relations[id];
+        const metadata: RelationsProcessorComponentData = this._relations[id];
         // const backwardMetadata = this._backwardRelations[id];
 
         // //destroy backward relations
@@ -121,17 +156,18 @@ export class RelationsProcessor implements OnDestroy
         //     });
         // }
 
-        // //destroy relations
-        // if(metadata)
-        // {
-        //     metadata.outputsChangeSubscriptions.forEach(subscription => subscription.unsubscribe());
-        //     metadata.outputsChangeSubscriptions = [];
+        //destroy relations
+        if(metadata)
+        {
+            metadata.outputsChangeSubscriptions.forEach(subscription => subscription.unsubscribe());
+            metadata.outputsChangeSubscriptions = [];
 
-        //     if(metadata.nodeInstance)
-        //     {
-        //         metadata.nodeInstance.destroy();
-        //     }
-        // }
+            //TODO: unregister if needed
+            // if(metadata.nodeInstance)
+            // {
+            //     metadata.nodeInstance.destroy();
+            // }
+        }
     }
 
     //######################### protected methods #########################
@@ -192,16 +228,39 @@ export class RelationsProcessor implements OnDestroy
     }
 
     /**
-     * Initialize backward relation
-     * @param id Id of component that is source of relation
-     * @param inputOutputMetadata Metadata for input and output
+     * Initialize backward relations
+     * @param inputOutput - Data for input and output
      */
-    protected _initBackwardRelation(id: string, inputOutputMetadata: RelationsProcessorInputOutputData): void
+    protected _initBackwardRelation(inputOutput: RelationsProcessorInputOutputData): void
     {
-        // const relation = this._relations[id];
-        // const nodeInstance = relation && relation.nodeInstance;
+        let inputComponents = this._componentManager.get(inputOutput.outputComponentId);
+        let outputComponents = this._componentManager.get(inputOutput.inputComponentId);
 
-        // this._transferData(nodeInstance || this.componentManager.get(id), inputOutputMetadata.outputName, inputOutputMetadata.inputInstance, inputOutputMetadata.inputName, true);
+        if((isBlank(outputComponents) || Array.isArray(outputComponents) && !outputComponents.length) ||
+           (isBlank(inputComponents) || Array.isArray(inputComponents) && !inputComponents.length))
+        {
+            this._logger?.warn('RelationsProcessor: missing metadata for backward relations {@data}', inputOutput);
+
+            return;
+        }
+
+        if(!Array.isArray(inputComponents))
+        {
+            inputComponents = [inputComponents];
+        }
+
+        if(!Array.isArray(outputComponents))
+        {
+            outputComponents = [outputComponents];
+        }
+
+        for(const inputCmp of inputComponents)
+        {
+            for(const outputCmp of inputComponents)
+            {
+                this._transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
+            }
+        }
     }
 
     /**

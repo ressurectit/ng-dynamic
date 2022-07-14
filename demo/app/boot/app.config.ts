@@ -19,6 +19,7 @@ import {LoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST
 import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
 import {BASIC_COMPONENTS_DYNAMIC_ITEM_LOADER_PROVIDER, DEFAULT_DYNAMIC_MODULE_DATA_EXTRACTORS, DEFAULT_DYNAMIC_MODULE_TYPES_PROVIDER, MODULE_EXTENSIONS_DYNAMIC_ITEM_EXTENSIONS_EXTRACTOR} from '@anglr/dynamic';
 import {LAYOUT_DESIGNER_DYNAMIC_ITEM_LOADER_PROVIDER} from '@anglr/dynamic/layout-editor';
+import {DEFAULT_DYNAMIC_MODULE_RELATIONS_EXTRACTOR} from '@anglr/dynamic/relations';
 import {isString, isJsObject} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
 import {sk} from 'date-fns/locale';
@@ -376,4 +377,6 @@ export const providers: Provider[] =
     DEFAULT_DYNAMIC_MODULE_DATA_EXTRACTORS,
 
     MODULE_EXTENSIONS_DYNAMIC_ITEM_EXTENSIONS_EXTRACTOR,
+
+    DEFAULT_DYNAMIC_MODULE_RELATIONS_EXTRACTOR,
 ];

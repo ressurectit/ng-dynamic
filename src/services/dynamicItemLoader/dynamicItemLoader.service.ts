@@ -4,7 +4,9 @@ import {Dictionary, isType, resolvePromiseOr} from '@jscrpt/common';
 
 import {DYNAMIC_MODULE_DATA_EXTRACTORS, DYNAMIC_ITEM_LOADER_PROVIDERS, DYNAMIC_ITEM_EXTENSIONS_EXTRACTORS} from '../../misc/tokens';
 import {DynamicItemExtensionsExtractor, DynamicItemLoaderProvider} from './dynamicItemLoader.interface';
-import {DynamicItem, DynamicModule, DynamicItemSource, DynamicItemType, DynamicModuleDataExtractor} from '../../interfaces';
+import {DynamicItem, DynamicModule, DynamicItemSource, DynamicItemDef, DynamicModuleDataExtractor} from '../../interfaces';
+
+//TODO: remove extensions extractor, move logic into extractors
 
 /**
  * Service used for loading dynamic items
@@ -17,7 +19,7 @@ export class DynamicItemLoader
     /**
      * Cached dynamic items
      */
-    protected _cachedDynamicItems: Dictionary<DynamicItemType<DynamicItem>> = {};
+    protected _cachedDynamicItems: Dictionary<DynamicItemDef<DynamicItem>> = {};
 
     //######################### constructors #########################
     constructor(@Inject(DYNAMIC_ITEM_LOADER_PROVIDERS) protected _providers: DynamicItemLoaderProvider[],
@@ -56,7 +58,7 @@ export class DynamicItemLoader
      * Loads dynamic item type, or null if not found
      * @param source - Definition of source for dynamic item
      */
-    public async loadItem<TType extends DynamicItem = any>(source: DynamicItemSource): Promise<DynamicItemType<TType>|null>
+    public async loadItem<TType extends DynamicItem = any>(source: DynamicItemSource): Promise<DynamicItemDef<TType>|null>
     {
         let dynamicModule: DynamicModule|null = null;
         const cacheId = `${source.package}-${source.name}`;
@@ -66,7 +68,7 @@ export class DynamicItemLoader
         {
             this._logger?.verbose('DynamicItemLoader: Loading from cache {@source}', {name: source.name, package: source.package});
 
-            return this._cachedDynamicItems[cacheId] as DynamicItemType<TType>;
+            return this._cachedDynamicItems[cacheId] as DynamicItemDef<TType>;
         }
 
         //loops all providers, return result from first that returns non null value
@@ -97,7 +99,7 @@ export class DynamicItemLoader
             return null;
         }
 
-        let result: DynamicItemType<TType>|null = null;
+        let result: DynamicItemDef<TType>|null = null;
 
         //loops all extractors, return result from first that returns non null value
         for(const extractor of this._extractors)

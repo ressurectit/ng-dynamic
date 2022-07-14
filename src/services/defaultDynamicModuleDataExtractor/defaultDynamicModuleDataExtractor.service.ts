@@ -37,7 +37,7 @@ export class DefaultDynamicModuleDataExtractor<TData = any> implements DynamicMo
 
         this._logger?.debug('DefaultDynamicModuleDataExtractor: trying to extract dynamic data');
 
-        if(localModule.default && isPresent(localModule.default))
+        if(isPresent(localModule.default))
         {
             return localModule.default;
         }

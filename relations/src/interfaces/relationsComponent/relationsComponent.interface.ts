@@ -12,9 +12,4 @@ export interface RelationsComponent<TOptions = any> extends DynamicItem, Partial
      * Options used in this relations component
      */
     relationsOptions: TOptions|undefined|null;
-
-    /**
-     * Allows dynamic obtaining and assigning of properties
-     */
-    [property: string]: unknown;
 }

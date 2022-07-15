@@ -1,7 +1,7 @@
 import {Inject, Injectable, OnDestroy, Optional, SimpleChanges} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
-import {Dictionary, isBlank} from '@jscrpt/common';
+import {Dictionary, isBlank, noop, NoopAction} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
 import {RelationsComponent, RelationsComponentMetadata} from '../../interfaces';
@@ -20,6 +20,16 @@ export class RelationsProcessor implements OnDestroy
     //######################### protected fields #########################
 
     /**
+     * Promise used for indication that processor was initialized
+     */
+    protected _initialized: Promise<void> = new Promise<void>(noop);
+
+    /**
+     * Resolves initialized
+     */
+    protected _resolveInitialized: NoopAction = noop;
+
+    /**
      * Subscriptions created during initialization
      */
     protected _initSubscriptions: Subscription = new Subscription();
@@ -33,6 +43,16 @@ export class RelationsProcessor implements OnDestroy
      * Array of backward relations, relations that are used for obtaining data for inputs
      */
     protected _backwardRelations: Dictionary<RelationsProcessorInputOutputData[]> = {};
+
+    //######################### public properties #########################
+
+    /**
+     * Gets promise that completes when processor was initialized
+     */
+    public get initialized(): Promise<void>
+    {
+        return this._initialized;
+    }
 
     //######################### constructor #########################
     constructor(protected _relationsManager: RelationsManager,
@@ -119,7 +139,7 @@ export class RelationsProcessor implements OnDestroy
                         //initialize default value from this to its connections
                         this._transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
         
-                        const outputObservable = outputComponent[`${inputOutput.outputName}Change`] as Observable<any>;
+                        const outputObservable = (outputComponent as any)[`${inputOutput.outputName}Change`] as Observable<any>;
 
                         //check whether is observable output
                         if(!(outputObservable instanceof Observable))
@@ -178,6 +198,12 @@ export class RelationsProcessor implements OnDestroy
      */
     protected async _initializeRelations(): Promise<void>
     {
+        this._setInitializePromise();
+
+        //TODO: handle changes, destroy first and recreate new
+
+        this._logger?.debug('RelationsProcessor: initializing relations');
+
         //empty relations
         if(!this._relationsManager.relations.length)
         {
@@ -224,8 +250,10 @@ export class RelationsProcessor implements OnDestroy
             }
 
             //sets options for relations component
-            this._initComponent(meta, outputs);
+            await this._initComponent(meta, outputs);
         }
+
+        this._resolveInitialized();
     }
 
     /**
@@ -234,8 +262,8 @@ export class RelationsProcessor implements OnDestroy
      */
     protected _initBackwardRelation(inputOutput: RelationsProcessorInputOutputData): void
     {
-        let inputComponents = this._componentManager.get(inputOutput.outputComponentId);
-        let outputComponents = this._componentManager.get(inputOutput.inputComponentId);
+        let outputComponents = this._componentManager.get(inputOutput.outputComponentId);
+        let inputComponents = this._componentManager.get(inputOutput.inputComponentId);
 
         if((isBlank(outputComponents) || Array.isArray(outputComponents) && !outputComponents.length) ||
            (isBlank(inputComponents) || Array.isArray(inputComponents) && !inputComponents.length))
@@ -257,7 +285,7 @@ export class RelationsProcessor implements OnDestroy
 
         for(const inputCmp of inputComponents)
         {
-            for(const outputCmp of inputComponents)
+            for(const outputCmp of outputComponents)
             {
                 this._transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
             }
@@ -279,9 +307,9 @@ export class RelationsProcessor implements OnDestroy
             return;
         }
 
-        const previousValue = target[targetProperty];
-        const currentValue = source[sourceProperty];
-        target[targetProperty] = source[sourceProperty];
+        const previousValue = (target as any)[targetProperty];
+        const currentValue = (source as any)[sourceProperty];
+        (target as any)[targetProperty] = (source as any)[sourceProperty];
         const changes: SimpleChanges = {};
 
         changes[targetProperty] = 
@@ -355,5 +383,13 @@ export class RelationsProcessor implements OnDestroy
         {
             component.relationsOptions = meta.relationsOptions;
         }
+    }
+
+    /**
+     * Sets initialized promise
+     */
+    protected _setInitializePromise(): void
+    {
+        this._initialized = new Promise(resolve => this._resolveInitialized = resolve);
     }
 }

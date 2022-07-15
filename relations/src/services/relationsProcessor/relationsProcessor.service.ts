@@ -22,7 +22,7 @@ export class RelationsProcessor implements OnDestroy
     /**
      * Promise used for indication that processor was initialized
      */
-    protected _initialized: Promise<void> = new Promise<void>(noop);
+    protected _initialized: Promise<void> = Promise.resolve();
 
     /**
      * Resolves initialized
@@ -74,10 +74,7 @@ export class RelationsProcessor implements OnDestroy
     {
         this._initSubscriptions.unsubscribe();
 
-        Object.keys(this._relations).forEach(id => this.destroyComponent(id));
-
-        this._relations = {};
-        this._backwardRelations = {};
+        this._destroyRelations();
     }
     
     //######################### public methods #########################
@@ -120,40 +117,64 @@ export class RelationsProcessor implements OnDestroy
             {
                 let inputComponents = this._componentManager.get(inputOutput.inputComponentId);
 
-                if(!inputComponents)
-                {
-                    this._logger?.warn('RelationsProcessor: Missing input components {@data}', inputOutput);
-
-                    continue;
-                }
-
-                if(!Array.isArray(inputComponents))
+                if(inputComponents && !Array.isArray(inputComponents))
                 {
                     inputComponents = [inputComponents];
                 }
 
                 for(const outputComponent of components)
                 {
+                    const outputObservable = (outputComponent as any)[`${inputOutput.outputName}Change`] as Observable<any>;
+
+                    //check whether is observable output
+                    if(!(outputObservable instanceof Observable))
+                    {
+                        this._logger?.warn('RelationsProcessor: Output on component {@data} is not observable', inputOutput);
+
+                        continue;
+                    }
+
+                    //destroy existing subscriptions if there are any
+                    relations.outputsChangeSubscriptions?.forEach(subscription => subscription.unsubscribe());
+                    relations.outputsChangeSubscriptions = [];
+
+                    //set listening for output changes
+                    relations.outputsChangeSubscriptions.push(outputObservable.subscribe(() =>
+                    {
+                        let inputs = this._componentManager.get(inputOutput.inputComponentId);
+
+                        if(!inputs)
+                        {
+                            this._logger?.warn('RelationsProcessor: Missing input components {@data} on output change', inputOutput);
+
+                            return;
+                        }
+
+                        if(!Array.isArray(inputs))
+                        {
+                            inputs = [inputs];
+                        }
+
+                        for(const input of inputs)
+                        {
+                            this._transferData(outputComponent, inputOutput.outputName, input, inputOutput.inputName, false);
+                        }
+                    }));
+
+                    if(!inputComponents || !Array.isArray(inputComponents))
+                    {
+                        this._logger?.warn('RelationsProcessor: Missing input components {@data}', inputOutput);
+
+                        continue;
+                    }
+
                     for(const inputComponent of inputComponents)
                     {
                         //initialize default value from this to its connections
-                        this._transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
-        
-                        const outputObservable = (outputComponent as any)[`${inputOutput.outputName}Change`] as Observable<any>;
-
-                        //check whether is observable output
-                        if(!(outputObservable instanceof Observable))
+                        if(!inputOutput.initialized)
                         {
-                            this._logger?.warn('RelationsProcessor: Output on component {@data}', inputOutput);
-
-                            continue;
+                            inputOutput.initialized = this._transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
                         }
-
-                        //set listening for output changes
-                        relations.outputsChangeSubscriptions.push(outputObservable.subscribe(() =>
-                        {
-                            this._transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, false);
-                        }));
                     }
                 }
             }
@@ -166,16 +187,6 @@ export class RelationsProcessor implements OnDestroy
     public destroyComponent(id: string): void
     {
         const metadata: RelationsProcessorComponentData = this._relations[id];
-        // const backwardMetadata = this._backwardRelations[id];
-
-        // //destroy backward relations
-        // if(backwardMetadata && backwardMetadata.length)
-        // {
-        //     backwardMetadata.forEach(inputoutput =>
-        //     {
-        //         inputoutput.inputInstance = null;
-        //     });
-        // }
 
         //destroy relations
         if(metadata)
@@ -183,11 +194,28 @@ export class RelationsProcessor implements OnDestroy
             metadata.outputsChangeSubscriptions.forEach(subscription => subscription.unsubscribe());
             metadata.outputsChangeSubscriptions = [];
 
-            //TODO: unregister if needed
-            // if(metadata.nodeInstance)
-            // {
-            //     metadata.nodeInstance.destroy();
-            // }
+            //destroy auto created components and unregister them
+            if(metadata.autoCreated)
+            {
+                let components = this._componentManager.get(id);
+
+                if(!components)
+                {
+                    return;
+                }
+
+                if(!Array.isArray(components))
+                {
+                    components = [components];
+                }
+
+                this._componentManager.unregisterComponent(id);
+
+                for(const cmp of components)
+                {
+                    cmp.ngOnDestroy?.();
+                }
+            }
         }
     }
 
@@ -198,15 +226,16 @@ export class RelationsProcessor implements OnDestroy
      */
     protected async _initializeRelations(): Promise<void>
     {
+        await this._destroyRelations();
         this._setInitializePromise();
-
-        //TODO: handle changes, destroy first and recreate new
 
         this._logger?.debug('RelationsProcessor: initializing relations');
 
         //empty relations
         if(!this._relationsManager.relations.length)
         {
+            this._resolveInitialized();
+
             return;
         }
 
@@ -236,6 +265,7 @@ export class RelationsProcessor implements OnDestroy
                         outputComponentId: meta.id,
                         inputName: input.inputName,
                         outputName: output.outputName,
+                        initialized: false,
                     };
 
                     outputs.push(inputOutput);
@@ -287,7 +317,10 @@ export class RelationsProcessor implements OnDestroy
         {
             for(const outputCmp of outputComponents)
             {
-                this._transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
+                if(!inputOutput.initialized)
+                {
+                    inputOutput.initialized = this._transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
+                }
             }
         }
     }
@@ -300,11 +333,11 @@ export class RelationsProcessor implements OnDestroy
      * @param targetProperty Name of target property which will be filled with data
      * @param initial Indication whether is transfer of data initial, or on event
      */
-    protected _transferData(source: RelationsComponent, sourceProperty: string, target: RelationsComponent, targetProperty: string, initial: boolean): void
+    protected _transferData(source: RelationsComponent, sourceProperty: string, target: RelationsComponent, targetProperty: string, initial: boolean): boolean
     {
         if(!source || !target)
         {
-            return;
+            return false;
         }
 
         const previousValue = (target as any)[targetProperty];
@@ -322,6 +355,8 @@ export class RelationsProcessor implements OnDestroy
 
         target.ngOnChanges(changes);
         target.invalidateVisuals();
+
+        return true;
     }
 
     /**
@@ -336,6 +371,7 @@ export class RelationsProcessor implements OnDestroy
         if(component)
         {
             this._initRelation(component, false, meta, outputs);
+            this.updateRelations(meta.id);
 
             return;
         }
@@ -391,5 +427,18 @@ export class RelationsProcessor implements OnDestroy
     protected _setInitializePromise(): void
     {
         this._initialized = new Promise(resolve => this._resolveInitialized = resolve);
+    }
+
+    /**
+     * Destroys initialized relations
+     */
+    protected async _destroyRelations(): Promise<void>
+    {
+        await this._initialized;
+
+        Object.keys(this._relations).forEach(id => this.destroyComponent(id));
+
+        this._relations = {};
+        this._backwardRelations = {};
     }
 }

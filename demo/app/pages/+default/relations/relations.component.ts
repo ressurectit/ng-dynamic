@@ -33,65 +33,68 @@ export class RelationsComponent
      */
     public ngOnInit(): void
     {
-        this._relationsManager.setRelations(
-        [
-            {
-                id: 'sample-source',
-                package: 'basic-components',
-                name: 'sampleSource',
-                relationsOptions: null,
-                outputs:
-                [
-                    {
-                        outputName: 'vystup',
-                        inputs:
-                        [
-                            {
-                                id: 'relations-sample-click',
-                                inputName: 'vstup'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'relations-sample-click',
-                package: '---',
-                name: '---',
-                relationsOptions: null,
-                outputs:
-                [
-                    {
-                        outputName: 'vystup',
-                        inputs:
-                        [
-                            {
-                                id: 'sample-changes',
-                                inputName: 'vstup'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                id: 'sample-changes',
-                package: 'basic-components',
-                name: 'sampleChange',
-                relationsOptions: null,
-                outputs:
-                [
-                    {
-                        outputName: 'vystup',
-                        inputs:
-                        [
-                            {
-                                id: 'relations-result',
-                                inputName: 'vstup'
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]);
+        setTimeout(() =>
+        {
+            this._relationsManager.setRelations(
+            [
+                {
+                    id: 'sample-source',
+                    package: 'basic-components',
+                    name: 'sampleSource',
+                    relationsOptions: null,
+                    outputs:
+                    [
+                        {
+                            outputName: 'vystup',
+                            inputs:
+                            [
+                                {
+                                    id: 'relations-sample-click',
+                                    inputName: 'vstup'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: 'relations-sample-click',
+                    package: '---',
+                    name: '---',
+                    relationsOptions: null,
+                    outputs:
+                    [
+                        {
+                            outputName: 'vystup',
+                            inputs:
+                            [
+                                {
+                                    id: 'sample-changes',
+                                    inputName: 'vstup'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: 'sample-changes',
+                    package: 'basic-components',
+                    name: 'sampleChange',
+                    relationsOptions: null,
+                    outputs:
+                    [
+                        {
+                            outputName: 'vystup',
+                            inputs:
+                            [
+                                {
+                                    id: 'relations-result',
+                                    inputName: 'vstup'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]);
+        }, 5000);
     }
 }

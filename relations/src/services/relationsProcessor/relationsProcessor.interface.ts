@@ -24,6 +24,11 @@ export interface RelationsProcessorInputOutputData
      * Id of output component which is attached to this input
      */
     outputComponentId: string;
+
+    /**
+     * Indication whether there was already initial data transfer, for this relation
+     */
+    initialized: boolean;
 }
 
 /**

@@ -42,7 +42,7 @@ export class RelationsComponentManager implements OnDestroy
     {
         if(this._components[id])
         {
-            this._logger?.error(`RelationsComponentManager: Component with id '${id}' is already registered, provide unique id.`);
+            this._logger?.warn(`RelationsComponentManager: Component with id '${id}' is already registered, provide unique id.`);
 
             return;
         }

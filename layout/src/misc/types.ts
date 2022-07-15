@@ -1,7 +1,9 @@
 import {Type} from '@angular/core';
-import {DynamicItem, DynamicItemExtension, DynamicItemExtensions, DynamicItemDefData} from '@anglr/dynamic';
+import {DynamicItemExtension, DynamicItemExtensions, DynamicItemDefData} from '@anglr/dynamic';
+
+import {LayoutComponent} from '../interfaces';
 
 /**
  * Layout component definition
  */
-export type LayoutComponentDef = DynamicItemDefData<Type<DynamicItem>> & DynamicItemExtensions<DynamicItemExtension>;
+export type LayoutComponentDef = DynamicItemDefData<Type<LayoutComponent>> & DynamicItemExtensions<DynamicItemExtension>;

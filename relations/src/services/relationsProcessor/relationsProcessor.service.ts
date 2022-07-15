@@ -8,6 +8,8 @@ import {RelationsComponent, RelationsComponentMetadata} from '../../interfaces';
 import {RelationsComponentManager} from '../relationsComponentManager/relationsComponentManager.service';
 import {RelationsManager} from '../relationsManager/relationsManager.service';
 import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from './relationsProcessor.interface';
+import {RELATIONS_COMPONENTS_LOADER} from '../../misc/tokens';
+import {RelationsComponentDef} from '../../misc/types';
 
 /**
  * Processor that applies relations to registered components
@@ -35,7 +37,7 @@ export class RelationsProcessor implements OnDestroy
     //######################### constructor #########################
     constructor(protected _relationsManager: RelationsManager,
                 protected _componentManager: RelationsComponentManager,
-                protected _loader: DynamicItemLoader,
+                @Inject(RELATIONS_COMPONENTS_LOADER) protected _loader: DynamicItemLoader<RelationsComponentDef>,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
         this._initSubscriptions.add(this._relationsManager.relationsChange.subscribe(() => this._initializeRelations()));
@@ -319,7 +321,7 @@ export class RelationsProcessor implements OnDestroy
             return;
         }
 
-        const instance = new componentMeta.type();
+        const instance = new componentMeta.data();
         this._componentManager.registerComponent(meta.id, instance);
 
         this._initRelation(instance, true, meta, outputs);

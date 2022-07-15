@@ -1,4 +1,4 @@
-export * from './layoutDesignerDynamicItemLoaderProvider/layoutDesignerDynamicItemLoaderProvider.service';
+export * from './layoutDesignerDynamicModuleItemsProvider/layoutDesignerDynamicModuleItemsProvider.service';
 export * from './layoutEditorMetadataExtractor/layoutEditorMetadataExtractor.service';
 export * from './layoutEditorMetadataManager/layoutEditorMetadataManager.service';
 export * from './layoutEditorMetadataManager/layoutEditorMetadataManager.interface';

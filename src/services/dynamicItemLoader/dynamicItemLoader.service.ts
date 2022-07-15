@@ -1,31 +1,27 @@
-import {Inject, Injectable, Optional, Type} from '@angular/core';
-import {Logger, LOGGER} from '@anglr/common';
-import {Dictionary, isType, resolvePromiseOr} from '@jscrpt/common';
+import {Logger} from '@anglr/common';
+import {Dictionary, resolvePromiseOr} from '@jscrpt/common';
 
-import {DYNAMIC_MODULE_DATA_EXTRACTORS, DYNAMIC_ITEM_LOADER_PROVIDERS, DYNAMIC_ITEM_EXTENSIONS_EXTRACTORS} from '../../misc/tokens';
-import {DynamicItemExtensionsExtractor, DynamicItemLoaderProvider} from './dynamicItemLoader.interface';
-import {DynamicItem, DynamicModule, DynamicItemSource, DynamicItemDef, DynamicModuleDataExtractor} from '../../interfaces';
-
-//TODO: remove extensions extractor, move logic into extractors
+import {DynamicModuleProvider, DynamicItemLoaderValidatorFn} from './dynamicItemLoader.interface';
+import {DynamicModule, DynamicItemSource} from '../../interfaces';
+import {DynamicModuleDataExtractor} from '../dynamicModuleDataExtractor/dynamicModuleDataExtractor.service';
 
 /**
  * Service used for loading dynamic items
  */
-@Injectable({providedIn: 'root'})
-export class DynamicItemLoader
+export class DynamicItemLoader<TDynamicItemDef = any>
 {
     //######################### protected cache #########################
 
     /**
-     * Cached dynamic items
+     * Cached dynamic items definition
      */
-    protected _cachedDynamicItems: Dictionary<DynamicItemDef<DynamicItem>> = {};
+    protected _cachedDynamicItems: Dictionary<TDynamicItemDef> = {};
 
     //######################### constructors #########################
-    constructor(@Inject(DYNAMIC_ITEM_LOADER_PROVIDERS) protected _providers: DynamicItemLoaderProvider[],
-                @Inject(DYNAMIC_MODULE_DATA_EXTRACTORS) protected _extractors: DynamicModuleDataExtractor<Type<DynamicItem>>[],
-                @Inject(DYNAMIC_ITEM_EXTENSIONS_EXTRACTORS) protected _extensionsExtractors: DynamicItemExtensionsExtractor[],
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(protected _providers: DynamicModuleProvider[],
+                protected _extractors: DynamicModuleDataExtractor<TDynamicItemDef>[],
+                protected _validatorFn: DynamicItemLoaderValidatorFn<TDynamicItemDef>,
+                protected _logger?: Logger,)
     {
         //providers is not an array
         if(!Array.isArray(this._providers))
@@ -42,23 +38,15 @@ export class DynamicItemLoader
 
             this._extractors = [];
         }
-
-        //extensions extractors is not an array
-        if(!Array.isArray(this._extensionsExtractors))
-        {
-            this._logger?.error('DynamicItemLoader: missing extensions extractors!');
-
-            this._extensionsExtractors = [];
-        }
     }
 
     //######################### public methods #########################
 
     /**
-     * Loads dynamic item type, or null if not found
+     * Loads dynamic item, or null if not found
      * @param source - Definition of source for dynamic item
      */
-    public async loadItem<TType extends DynamicItem = any>(source: DynamicItemSource): Promise<DynamicItemDef<TType>|null>
+    public async loadItem(source: DynamicItemSource): Promise<TDynamicItemDef|null>
     {
         let dynamicModule: DynamicModule|null = null;
         const cacheId = `${source.package}-${source.name}`;
@@ -68,7 +56,7 @@ export class DynamicItemLoader
         {
             this._logger?.verbose('DynamicItemLoader: Loading from cache {@source}', {name: source.name, package: source.package});
 
-            return this._cachedDynamicItems[cacheId] as DynamicItemDef<TType>;
+            return this._cachedDynamicItems[cacheId];
         }
 
         //loops all providers, return result from first that returns non null value
@@ -99,45 +87,26 @@ export class DynamicItemLoader
             return null;
         }
 
-        let result: DynamicItemDef<TType>|null = null;
-
         //loops all extractors, return result from first that returns non null value
         for(const extractor of this._extractors)
         {
-            const dynamicItemType = extractor.tryToExtract(dynamicModule);
+            const dynamicItem = extractor.tryToExtract(dynamicModule);
 
-            if(dynamicItemType && isType(dynamicItemType))
+            if(dynamicItem)
             {
-                this._cachedDynamicItems[cacheId] = result = 
+                if(this._validatorFn(dynamicItem))
                 {
-                    type: dynamicItemType as Type<TType>
-                };
+                    this._cachedDynamicItems[cacheId] = dynamicItem;
+    
+                    return dynamicItem;
+                }
 
-                break;
+                this._logger?.warn('DynamicItemLoader: Found dynamic item {@source} is not of requested type', {name: source.name, package: source.package});        
             }
         }
 
-        if(!result)
-        {
-            this._logger?.debug('DynamicItemLoader: Failed to extract dynamic type {@source}', {name: source.name, package: source.package});
+        this._logger?.debug('DynamicItemLoader: Failed to extract dynamic item {@source}', {name: source.name, package: source.package});
 
-            return null;
-        }
-
-        //loops all extensions extractors, return result from first that returns non null value
-        for(const extractor of this._extensionsExtractors)
-        {
-            const extensions = extractor.tryToExtract(dynamicModule);
-
-            if(extensions)
-            {
-                result.extensions = extensions.extensions;
-                result.childExtensions = extensions.childExtensions;
-
-                break;
-            }
-        }
-
-        return result;
+        return null;
     }
 }

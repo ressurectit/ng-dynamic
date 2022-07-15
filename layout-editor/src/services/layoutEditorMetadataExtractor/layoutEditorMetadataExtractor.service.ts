@@ -1,5 +1,6 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {DynamicItemLoader, DynamicItemSource} from '@anglr/dynamic';
+import {LayoutComponentDef, LAYOUT_COMPONENTS_LOADER} from '@anglr/dynamic/layout';
 import {LOGGER, Logger} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 
@@ -19,7 +20,7 @@ export class LayoutEditorMetadataExtractor
     protected _cache: Dictionary<LayoutEditorMetadataDescriptor> = {};
 
     //######################### constructor #########################
-    constructor(protected _loader: DynamicItemLoader,
+    constructor(@Inject(LAYOUT_COMPONENTS_LOADER) protected _loader: DynamicItemLoader<LayoutComponentDef>,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
     }
@@ -46,7 +47,7 @@ export class LayoutEditorMetadataExtractor
             return null;
         }
 
-        const metadataType = type.type as unknown as LayoutEditorMetadataType;
+        const metadataType = type.data as unknown as LayoutEditorMetadataType;
 
         if(!metadataType.layoutEditorMetadata)
         {

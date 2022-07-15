@@ -1,6 +1,6 @@
 import {Inject, Injectable, Optional, Type} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {DynamicItemDef, DynamicModule, DynamicModuleDataExtractor} from '@anglr/dynamic';
+import {DynamicItemDefData, DynamicModule, DynamicModuleDataExtractor} from '@anglr/dynamic';
 import {isPresent, isType} from '@jscrpt/common';
 
 import {RelationsComponent} from '../../interfaces';
@@ -29,7 +29,7 @@ interface ɵDynamicModuleWithRelations extends DynamicModule
  * - default export
  */
 @Injectable()
-export class DefaultDynamicModuleRelationsExtractor implements DynamicModuleDataExtractor<DynamicItemDef<RelationsComponent>>
+export class DefaultDynamicModuleRelationsExtractor implements DynamicModuleDataExtractor<DynamicItemDefData<RelationsComponent>>
 {
     //######################### constructor #########################
     constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -41,7 +41,7 @@ export class DefaultDynamicModuleRelationsExtractor implements DynamicModuleData
     /**
      * @inheritdoc
      */
-    public tryToExtract(module: DynamicModule): DynamicItemDef<RelationsComponent>|null
+    public tryToExtract(module: DynamicModule): DynamicItemDefData<RelationsComponent>|null
     {
         const localModule = module as ɵDynamicModuleWithRelations;
 
@@ -52,14 +52,14 @@ export class DefaultDynamicModuleRelationsExtractor implements DynamicModuleData
         if(isPresent(localModule.relations) && isType(localModule.relations) && isRelationsComponentType(localModule.relations))
         {
             return {
-                type: localModule.relations
+                data: localModule.relations
             };
         }
 
         if(isPresent(localModule.default) && isType(localModule.default) && isRelationsComponentType(localModule.default))
         {
             return {
-                type: localModule.default
+                data: localModule.default
             };
         }
 

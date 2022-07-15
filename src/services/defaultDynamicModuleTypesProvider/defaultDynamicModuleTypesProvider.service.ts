@@ -1,14 +1,14 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 
-import {DynamicModule} from '../../interfaces';
-import {DynamicModuleTypesProvider} from '../dynamicModuleTypesLoader/dynamicModuleTypesLoader.interface';
+import {DynamicItemSource, DynamicModule} from '../../interfaces';
+import {DynamicModuleProvider} from '../dynamicItemLoader/dynamicItemLoader.interface';
 
 /**
  * Default dynamic module types provider, for built-in types
  */
 @Injectable()
-export class DefaultDynamicModuleTypesProvider implements DynamicModuleTypesProvider
+export class DefaultDynamicModuleTypesProvider implements DynamicModuleProvider
 {
     //######################### constructor #########################
     constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -20,19 +20,20 @@ export class DefaultDynamicModuleTypesProvider implements DynamicModuleTypesProv
     /**
      * @inheritdoc
      */
-    public async tryToGet(moduleName: string): Promise<DynamicModule|null>
+    public async tryToGet(source: DynamicItemSource): Promise<DynamicModule|null>
     {
         try
         {
-            this._logger?.debug('DefaultDynamicModuleTypesProvider: trying to get types for module {@module}', {moduleName});
+            this._logger?.debug('DefaultDynamicModuleTypesProvider: trying to get types for module {@module}', {moduleName: source.package});
 
+            //TODO: make it dynamic or enumerate all possible values
             const dynamicItemModule = await import('@anglr/dynamic/basic-components/types');
 
             return dynamicItemModule;
         }
         catch(e)
         {
-            this._logger?.debug('DefaultDynamicModuleTypesProvider: module {@module} was not found, reason: ' + e, {moduleName});
+            this._logger?.debug('DefaultDynamicModuleTypesProvider: module {@module} was not found, reason: ' + e, {moduleName: source.package});
         }
 
         return null;

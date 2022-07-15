@@ -1,12 +1,12 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {DynamicItemLoaderProvider, DynamicModule, DynamicItemSource} from '@anglr/dynamic';
+import {DynamicModuleProvider, DynamicModule, DynamicItemSource} from '@anglr/dynamic';
 
 /**
- * Dynamic item loader provider for built-in layout designer components
+ * Dynamic module items provider for built-in layout designer components
  */
 @Injectable()
-export class LayoutDesignerDynamicItemLoaderProvider implements DynamicItemLoaderProvider
+export class LayoutDesignerDynamicModuleItemsProvider implements DynamicModuleProvider
 {
     //######################### constructor #########################
     constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -28,7 +28,7 @@ export class LayoutDesignerDynamicItemLoaderProvider implements DynamicItemLoade
 
         try
         {
-            this._logger?.debug('LayoutDesignerDynamicItemLoaderProvider: trying to get item {@item}', {name: source.name, package: source.package});
+            this._logger?.debug('LayoutDesignerDynamicModuleItemsProvider: trying to get item {@item}', {name: source.name, package: source.package});
 
             if(source.name == 'layout-designer')
             {
@@ -37,10 +37,10 @@ export class LayoutDesignerDynamicItemLoaderProvider implements DynamicItemLoade
         }
         catch(e)
         {
-            this._logger?.warn('LayoutDesignerDynamicItemLoaderProvider: item {@item} was not found, reason:' + e, {name: source.name, package: source.package});
+            this._logger?.warn('LayoutDesignerDynamicModuleItemsProvider: item {@item} was not found, reason:' + e, {name: source.name, package: source.package});
         }
 
-        this._logger?.debug('LayoutDesignerDynamicItemLoaderProvider: item {@item} was not found', {name: source.name, package: source.package});
+        this._logger?.debug('LayoutDesignerDynamicModuleItemsProvider: item {@item} was not found', {name: source.name, package: source.package});
 
         return null;
     }

@@ -2,13 +2,13 @@ import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 
 import {DynamicModule, DynamicItemSource} from '../../interfaces';
-import {DynamicItemLoaderProvider} from '../dynamicItemLoader/dynamicItemLoader.interface';
+import {DynamicModuleProvider} from '../dynamicItemLoader/dynamicItemLoader.interface';
 
 /**
- * Dynamic item loader provider for built-in basic-components
+ * Dynamic module items provider for built-in basic-components
  */
 @Injectable()
-export class BasicComponentsDynamicItemLoaderProvider implements DynamicItemLoaderProvider
+export class BasicComponentsDynamicModuleItemsProvider implements DynamicModuleProvider
 {
     //######################### constructor #########################
     constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -30,7 +30,7 @@ export class BasicComponentsDynamicItemLoaderProvider implements DynamicItemLoad
 
         try
         {
-            this._logger?.debug('BasicComponentsDynamicItemLoaderProvider: trying to get item {@item}', {name: source.name, package: source.package});
+            this._logger?.debug('BasicComponentsDynamicModuleItemsProvider: trying to get item {@item}', {name: source.name, package: source.package});
 
             const dynamicItemModule = await import(`@anglr/dynamic/basic-components/${source.name}/type`);
 
@@ -38,7 +38,7 @@ export class BasicComponentsDynamicItemLoaderProvider implements DynamicItemLoad
         }
         catch(e)
         {
-            this._logger?.debug('BasicComponentsDynamicItemLoaderProvider: item {@item} was not found, reason: ' + e, {name: source.name, package: source.package});
+            this._logger?.debug('BasicComponentsDynamicModuleItemsProvider: item {@item} was not found, reason: ' + e, {name: source.name, package: source.package});
         }
 
         return null;

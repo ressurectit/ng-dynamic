@@ -1,4 +1,4 @@
-import {DynamicItemSource} from '@anglr/dynamic';
+import {DynamicItemDefData, DynamicItemSource} from '@anglr/dynamic';
 
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 
@@ -17,3 +17,8 @@ export interface ComponentsPaletteItem
      */
     metadata: LayoutEditorMetadataDescriptor;
 }
+
+/**
+ * Represents available types for layout dynamic module
+ */
+export type LayoutModuleTypes = DynamicItemDefData<string[]>;

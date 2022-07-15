@@ -3,6 +3,7 @@ export * from './decorators';
 export * from './directives';
 export * from './interfaces';
 export * from './misc/models';
+export * from './misc/transforms';
 export * from './misc/constants';
 export * from './misc/providers';
 export * from './misc/tokens';

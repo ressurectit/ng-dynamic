@@ -1,5 +1,6 @@
 import {Inject, Injectable, OnDestroy, Optional, SimpleChanges} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
+import {DynamicItemLoader} from '@anglr/dynamic';
 import {Dictionary, isBlank} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
@@ -7,8 +8,6 @@ import {RelationsComponent, RelationsComponentMetadata} from '../../interfaces';
 import {RelationsComponentManager} from '../relationsComponentManager/relationsComponentManager.service';
 import {RelationsManager} from '../relationsManager/relationsManager.service';
 import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from './relationsProcessor.interface';
-import {DynamicItemLoader} from '../../../../src';
-import {RELATIONS_COMPONENT_LOADER} from '../../misc/tokens';
 
 /**
  * Processor that applies relations to registered components
@@ -36,7 +35,7 @@ export class RelationsProcessor implements OnDestroy
     //######################### constructor #########################
     constructor(protected _relationsManager: RelationsManager,
                 protected _componentManager: RelationsComponentManager,
-                @Inject(RELATIONS_COMPONENT_LOADER) protected _loader: DynamicItemLoader,
+                protected _loader: DynamicItemLoader,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
         this._initSubscriptions.add(this._relationsManager.relationsChange.subscribe(() => this._initializeRelations()));

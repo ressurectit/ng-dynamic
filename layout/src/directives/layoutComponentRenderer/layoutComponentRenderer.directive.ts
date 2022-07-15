@@ -7,7 +7,8 @@ import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer
 import {MissingTypeBehavior} from './layoutComponentRenderer.types';
 import {NotFoundLayoutTypeSAComponent} from '../../components';
 import {LayoutComponent, LayoutComponentMetadata, LayoutComponentTransform} from '../../interfaces';
-import {LAYOUT_COMPONENT_CHILD_EXTENSIONS, LAYOUT_COMPONENT_TRANSFORM} from '../../misc/tokens';
+import {LAYOUT_COMPONENTS_LOADER, LAYOUT_COMPONENT_CHILD_EXTENSIONS, LAYOUT_COMPONENT_TRANSFORM} from '../../misc/tokens';
+import {LayoutComponentDef} from '../../misc/types';
 
 
 
@@ -92,7 +93,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
 
     //######################### constructor #########################
     constructor(protected _viewContainerRef: ViewContainerRef,
-                protected _loader: DynamicItemLoader,
+                @Inject(LAYOUT_COMPONENTS_LOADER) protected _loader: DynamicItemLoader<LayoutComponentDef>,
                 @Inject(LAYOUT_COMPONENT_CHILD_EXTENSIONS) @Optional() @SkipSelf() protected _childExtensions?: Type<DynamicItemExtension>[]|null,
                 @Optional() protected _options?: LayoutComponentRendererDirectiveOptions,
                 @Inject(LAYOUT_COMPONENT_TRANSFORM) @Optional() protected _metadataTransformer?: LayoutComponentTransform,
@@ -173,10 +174,10 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                 ]
             });
 
-            this._componentRef = this._viewContainerRef.createComponent(layoutComponentType.type,
+            this._componentRef = this._viewContainerRef.createComponent(layoutComponentType.data,
                                                                         {
                                                                             injector: usedInjector,
-                                                                        });
+                                                                        }) as ComponentRef<TComponent>;
 
             this._logger?.debug('LayoutComponentRendererSADirective: component rendered {@id}', {id: componentMetadata?.id});
 

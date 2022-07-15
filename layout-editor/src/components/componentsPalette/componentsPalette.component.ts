@@ -1,17 +1,18 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CdkDrag, CdkDragStart, DragDropModule} from '@angular/cdk/drag-drop';
-import {DynamicItemSource, DynamicModuleTypesLoader} from '@anglr/dynamic';
+import {DynamicItemLoader, DynamicItemSource} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
 import {Dictionary, generateId, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
-import {ComponentsPaletteItem} from './componentsPalette.interface';
+import {ComponentsPaletteItem, LayoutModuleTypes} from './componentsPalette.interface';
 import {ToLayoutDragDataSAPipe} from '../../pipes';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 import {LayoutComponentDragData} from '../../interfaces';
+import {LAYOUT_MODULE_TYPES_LOADER} from '../../misc/tokens';
 
 /**
  * Component displaying available components palette
@@ -69,7 +70,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
     protected _isDragOverPalette: boolean = false;
 
     //######################### constructor #########################
-    constructor(protected _moduleTypesLoader: DynamicModuleTypesLoader,
+    constructor(@Inject(LAYOUT_MODULE_TYPES_LOADER) protected _moduleTypesLoader: DynamicItemLoader<LayoutModuleTypes>,
                 protected _changeDetector: ChangeDetectorRef,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
                 protected _metadataManager: LayoutEditorMetadataManager,
@@ -88,7 +89,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
 
         this._getDesignerDropLists();
 
-        const types = (await this._moduleTypesLoader.loadTypes('basic-components')) ?? [];
+        const types = (await this._moduleTypesLoader.loadItem({package: 'basic-components', name: 'types'}))?.data ?? [];
 
         for(const type of types)
         {

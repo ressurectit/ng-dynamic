@@ -1,23 +1,34 @@
-import {Injector} from '@angular/core';
-import {LayoutComponentTransform, LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {Provider} from '@angular/core';
+import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
+import {provideLayout} from '@anglr/dynamic/layout';
+import {isBlank} from '@jscrpt/common';
 
-import {LayoutDesignerComponentOptions} from '../components';
-import {LAYOUT_DESIGNER_COMPONENT_ID_SUFFIX} from './constants';
+import {LayoutModuleTypes} from '../components';
+import {DEFAULT_LAYOUT_MODULE_TYPES_EXTRACTOR, DYNAMIC_LAYOUT_MODULE_TYPES_PROVIDER, LAYOUT_DESIGNER_COMPONENTS_PROVIDER} from './providers';
 
 /**
- * Transformation function for layout designer component metadata
- * @param metadata - Metadata to be transformed
- * @param injector - Injector used for obtaining dependencies
+ * Default providers for layout editor subpackage, including providers for layout subpackage
  */
-export const layoutDesignerComponentTransform: LayoutComponentTransform = function(metadata: LayoutComponentMetadata, injector: Injector): LayoutComponentMetadata
+export function provideLayoutEditor(): Provider[]
 {
-    return {
-        id: `${metadata.id}${LAYOUT_DESIGNER_COMPONENT_ID_SUFFIX}`,
-        package: '@anglr/dynamic/layout-editor',
-        name: 'layout-designer',
-        options: <LayoutDesignerComponentOptions>
-        {
-            typeMetadata: metadata
-        }
-    };
+    return [
+        ...provideLayout(),
+        LAYOUT_DESIGNER_COMPONENTS_PROVIDER,
+        DYNAMIC_LAYOUT_MODULE_TYPES_PROVIDER,
+        DEFAULT_LAYOUT_MODULE_TYPES_EXTRACTOR,
+    ];
+}
+
+/**
+ * Checks whether data is layout module types
+ * @param data - Data to be checked
+ */
+export const isLayoutModuleTypes: DynamicItemLoaderValidatorFn<LayoutModuleTypes> = function(data): data is LayoutModuleTypes
+{
+    if(isBlank(data?.data) || !Array.isArray(data.data))
+    {
+        return false;
+    }
+
+    return true;
 };

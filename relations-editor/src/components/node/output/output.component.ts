@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 
 import {RelationNodePointBase} from '../nodePointBase';
 import {NodeRelationPath} from '../../../misc';
-import {INVALIDATE_DROP} from '../../../interfaces/node/nodePoint.interface';
+import {INVALIDATE_DROP} from '../../../interfaces/component/nodePoint.interface';
 
 /**
  * Component used to display relation node output

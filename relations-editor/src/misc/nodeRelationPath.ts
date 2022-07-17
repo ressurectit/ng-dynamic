@@ -2,7 +2,7 @@ import {Selection, BaseType, Line, line, curveBundle} from 'd3';
 import {Observable, Subject} from 'rxjs';
 
 import {Coordinates} from '../interfaces';
-import {INVALIDATE_DROP} from '../interfaces/node/nodePoint.interface';
+import {INVALIDATE_DROP} from '../interfaces/component/nodePoint.interface';
 import {RelationManager} from '../services';
 
 /**

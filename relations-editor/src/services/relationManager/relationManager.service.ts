@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {RelationNodeInputSAComponent} from '../../components/node/input/input.component';
+import {RelationNodeInputSAComponent} from '../../components';
 
 /**
  * Class used for handling layout metadata

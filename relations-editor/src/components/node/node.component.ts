@@ -5,6 +5,8 @@ import {Coordinates} from '../../interfaces';
 import {RelationNodeInputSAComponent} from './input/input.component';
 import {RelationNodeOutputSAComponent} from './output/output.component';
 
+//TODO: think of using element instead of binding
+
 /**
  * Component used to display relation node
  */
@@ -34,7 +36,8 @@ export class RelationNodeSAComponent
     /**
      * Last mouse down position
      */
-    protected _lastMouseDownPosition: Coordinates = {
+    protected _lastMouseDownPosition: Coordinates = 
+    {
         x: 0,
         y: 0
     };
@@ -42,15 +45,17 @@ export class RelationNodeSAComponent
     /**
      * Node position on last mouse down event
      */
-    protected _lastMouseDownNodePosition: Coordinates = {
+    protected _lastMouseDownNodePosition: Coordinates = 
+    {
         x: 0,
         y: 0
-    }
+    };
 
     /**
      * Node position
      */
-    protected _nodePosition: Coordinates = {
+    protected _nodePosition: Coordinates = 
+    {
         x: 0,
         y: 0,
     };
@@ -98,9 +103,9 @@ export class RelationNodeSAComponent
     public zoomLevel: number = 1;
 
     //######################### constructor #########################
-
     constructor()
-    {}
+    {
+    }
 
     //######################### protected methods methods - host listeners #########################
 
@@ -112,15 +117,18 @@ export class RelationNodeSAComponent
     protected _onMouseDown(event: MouseEvent): void
     {
         this._isDragging = true;
-        this._lastMouseDownPosition = {
+        this._lastMouseDownPosition = 
+        {
             x: event.clientX,
             y: event.clientY
         };
 
-        this._lastMouseDownNodePosition = {
+        this._lastMouseDownNodePosition = 
+        {
             x: this._nodePosition.x,
             y: this._nodePosition.y
         };
+
         event.stopImmediatePropagation();
     }
 
@@ -133,10 +141,12 @@ export class RelationNodeSAComponent
     {
         if (this._isDragging)
         {
-            this._nodePosition = {
+            this._nodePosition = 
+            {
                 x: this._lastMouseDownNodePosition.x + (event.clientX - this._lastMouseDownPosition.x) * 1/this.zoomLevel,
                 y: this._lastMouseDownNodePosition.y + (event.clientY - this._lastMouseDownPosition.y) * 1/this.zoomLevel,
             };
+            
             event.stopImmediatePropagation();
             event.preventDefault();
             this._updateRelations();

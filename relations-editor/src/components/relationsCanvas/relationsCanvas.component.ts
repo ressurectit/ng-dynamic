@@ -58,7 +58,8 @@ export class RelationsCanvasSAComponent
     /**
      * Last mouse down position
      */
-    private _lastMouseDownPosition: Coordinates = {
+    private _lastMouseDownPosition: Coordinates = 
+    {
         x: 0, 
         y: 0
     };
@@ -66,7 +67,8 @@ export class RelationsCanvasSAComponent
     /**
      * Last mouse up position
      */
-    private _lastMouseUpPosition: Coordinates = {
+    private _lastMouseUpPosition: Coordinates = 
+    {
         x: 0, 
         y: 0
     };
@@ -124,13 +126,15 @@ export class RelationsCanvasSAComponent
     public nodeDefinitions: number[] = [ 1, 2, 3];
 
     //######################### constructor #########################
-
     constructor(private _relationManager: RelationManager,)
-    {}
+    {
+    }
 
     //######################### public methods #########################
 
-
+    /**
+     * Creates node relation path
+     */
     public createRelation(): NodeRelationPath
     {
         return new NodeRelationPath(select(this._relationsGroup?.nativeElement), this._relationManager, null, null);
@@ -139,32 +143,35 @@ export class RelationsCanvasSAComponent
     //######################### protected methods - host listeners #########################
 
     /**
-     * Mouse down event
-     * @param event 
+     * Mouse down event, handles moving of canvas
+     * @param event - Mouse event that occured
      */
     @HostListener('mousedown', ['$event'])
     protected _onMouseDown(event: MouseEvent): void
     {
         if (event.buttons == MouseButton.LEFT)
         {
-            this._lastMouseDownPosition = {
+            this._lastMouseDownPosition = 
+            {
                 x: event.clientX,
                 y: event.clientY
             };
+            
             this._isDragging = true;
         }
     }
 
     /**
-     * Mouse move event
-     * @param event 
+     * Mouse move event, handles moving of canvas
+     * @param event - Mouse event that occured
      */
     @HostListener('mousemove', ['$event'])
     protected _onMouseMove(event: MouseEvent): void
     {
         if (this._isDragging)
         {
-            this._canvasPosition = {
+            this._canvasPosition = 
+            {
                 x: this._lastMouseUpPosition.x + event.clientX - this._lastMouseDownPosition.x,
                 y: this._lastMouseUpPosition.y + event.clientY - this._lastMouseDownPosition.y,
             };
@@ -173,8 +180,8 @@ export class RelationsCanvasSAComponent
     }
 
     /**
-     * Mouse up event
-     * @param event 
+     * Mouse up event, handles moving of canvas
+     * @param event - Mouse event that occured
      */
     @HostListener('window:mouseup', ['$event'])
     protected _onMouseUp(event: MouseEvent): void
@@ -182,7 +189,9 @@ export class RelationsCanvasSAComponent
         if (this._isDragging)
         {
             this._isDragging = false;
-            this._lastMouseUpPosition = {
+
+            this._lastMouseUpPosition = 
+            {
                 x: this._lastMouseUpPosition.x + event.clientX - this._lastMouseDownPosition.x,
                 y: this._lastMouseUpPosition.y + event.clientY - this._lastMouseDownPosition.y,
             };
@@ -190,8 +199,8 @@ export class RelationsCanvasSAComponent
     }
 
     /**
-     * Wheel event
-     * @param event 
+     * Wheel event, used for zooming
+     * @param event - Wheel event that occured
      */
     @HostListener('wheel', ['$event'])
     protected _onWheel(event: WheelEvent): void
@@ -199,18 +208,24 @@ export class RelationsCanvasSAComponent
         if (event.deltaY)
         {
             const newZoomLevel = clamp(this._zoomLevel + (event.deltaY > 1 ? -1 : 1) * 0.05, SCALE_FACTOR_MIN, SCALE_FACTOR_MAX);            
-            this._canvasPosition = {
+            
+            this._canvasPosition = 
+            {
                 x: (this._canvasPosition.x/this._zoomLevel) * newZoomLevel,
                 y: (this._canvasPosition.y/this._zoomLevel) * newZoomLevel,
             };
+
             this._zoomLevel = newZoomLevel;
 
-            this._lastMouseUpPosition = {
+            this._lastMouseUpPosition = 
+            {
                 x: this._canvasPosition.x,
                 y: this._canvasPosition.y
             };
+
             this._backgroundSize = DEFAULT_BACKGROUND_SIZE * this._zoomLevel;
         }
+        
         event.preventDefault();
         event.stopImmediatePropagation();
     }

@@ -81,10 +81,12 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
         event.stopImmediatePropagation();
         event.preventDefault();
 
-        this._lastMouseDownPosition = {
+        this._lastMouseDownPosition = 
+        {
             x: event.clientX,
             y: event.clientY
         };
+
         this._isDragging = true;
     }
 

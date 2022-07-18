@@ -2,30 +2,30 @@ import {Selection, BaseType, Line, line, curveBundle} from 'd3';
 import {Observable, Subject} from 'rxjs';
 
 import {Coordinates} from '../interfaces';
-import {INVALIDATE_DROP} from '../interfaces/component/nodePoint.interface';
 import {RelationManager} from '../services';
+import {INVALIDATE_DROP} from './constants';
 
 /**
  * Class that represents node relation path
  */
 export class NodeRelationPath
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Subject used for emitting destroying event
      */
-    private _destroyingSubject: Subject<void> = new Subject<void>();
+    protected _destroyingSubject: Subject<void> = new Subject<void>();
 
     /**
      * Object that represents rendered path
      */
-    private _path: Selection<SVGPathElement, {}, null, undefined>;
+    protected _path: Selection<SVGPathElement, {}, null, undefined>;
 
     /**
      * Line generator for generating lines
      */
-    private _lineGenerator: Line<[number, number]>;
+    protected _lineGenerator: Line<[number, number]>;
 
     //######################### public properties #########################
 
@@ -39,8 +39,8 @@ export class NodeRelationPath
 
     //######################### constructor #########################
 
-    constructor(private _parentGroup: Selection<BaseType, {}, null, undefined>,
-                private _relationManager: RelationManager,
+    constructor(protected _parentGroup: Selection<BaseType, {}, null, undefined>,
+                protected _relationManager: RelationManager,
                 public start: Coordinates|null,
                 public end: Coordinates|null)
     {
@@ -66,7 +66,7 @@ export class NodeRelationPath
 
     /**
      * Explicitly runs invalidation of content (change detection)
-     * @param propertyName Name of property that has changed
+     * @param propertyName - Name of property that has changed
      */
     public invalidateVisuals(propertyName?: string): void
     {

@@ -2,8 +2,7 @@ import {Component, ChangeDetectionStrategy, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {RelationNodePointBase} from '../nodePointBase';
-import {NodeRelationPath} from '../../../misc';
-import {INVALIDATE_DROP} from '../../../interfaces/component/nodePoint.interface';
+import {NodeRelationPath, INVALIDATE_DROP} from '../../../misc';
 
 /**
  * Component used to display relation node output
@@ -42,7 +41,8 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
         event.preventDefault();
 
         this._isDragging = true;
-        this._lastMouseDownPosition = {
+        this._lastMouseDownPosition = 
+        {
             x: event.clientX,
             y: event.clientY
         };

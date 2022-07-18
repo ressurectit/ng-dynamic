@@ -1,5 +1,3 @@
-//TODO: refactor
-
 /**
  * Constant represents name of invalidation for svg drop relation
  */

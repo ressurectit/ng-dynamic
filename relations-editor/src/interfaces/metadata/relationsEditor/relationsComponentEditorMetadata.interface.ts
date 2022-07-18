@@ -1,6 +1,6 @@
 import type {RelationsComponentMetadata} from '@anglr/dynamic/relations';
 
-import {Coordinates} from '../../component/coordinates.interface';
+import {Coordinates} from '../../coordinates/coordinates.interface';
 
 /**
  * Metadata for relations editor

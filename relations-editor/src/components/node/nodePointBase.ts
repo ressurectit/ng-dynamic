@@ -5,6 +5,9 @@ import {NodeRelationPath} from '../../misc';
 import {RelationManager} from '../../services';
 import {RelationsCanvasSAComponent} from '../relationsCanvas/relationsCanvas.component';
 
+/**
+ * Base class for relations node point
+ */
 @Directive()
 export abstract class RelationNodePointBase
 {
@@ -23,7 +26,8 @@ export abstract class RelationNodePointBase
     /**
      * Last mouse down position
      */
-    protected _lastMouseDownPosition: Coordinates = {
+    protected _lastMouseDownPosition: Coordinates = 
+    {
         x: 0,
         y: 0
     };
@@ -40,17 +44,18 @@ export abstract class RelationNodePointBase
      * Parent node coordinates
      */
     @Input()
-    public parentCoordiantes: Coordinates = {
+    public parentCoordiantes: Coordinates = 
+    {
         x: 0,
         y: 0
     };
 
     //######################### constructor #########################
-
     constructor(protected _element: ElementRef<HTMLElement>,
                 protected _relationManager: RelationManager,
                 @Optional() protected _canvas: RelationsCanvasSAComponent)
-    {}
+    {
+    }
 
     //######################### public methods #########################
 

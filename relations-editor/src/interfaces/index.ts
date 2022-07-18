@@ -1,3 +1,2 @@
-export * from './component/coordinates.interface';
-export * from './component/nodePoint.interface';
+export * from './coordinates/coordinates.interface';
 export * from './metadata';

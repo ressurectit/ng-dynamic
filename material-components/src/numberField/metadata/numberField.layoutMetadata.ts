@@ -1,23 +1,23 @@
 import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
-import {MaterialTextFieldComponentOptions} from '../textField.options';
-import {MaterialTextFieldModel} from './textField.model';
+import {MaterialNumberFieldComponentOptions} from '../numberField.options';
+import {MaterialNumberFieldModel} from './numberField.model';
 
 
 /**
- * Material text field layout metadata
+ * Material number field layout metadata
  */
-export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<MaterialTextFieldComponentOptions>
+export class MaterialNumberFieldLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<MaterialNumberFieldComponentOptions>
 {
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
     /**
      * @inheritdoc
      */
-    public metaInfo?: LayoutEditorMetadataInfo<MaterialTextFieldComponentOptions> =
+    public metaInfo?: LayoutEditorMetadataInfo<MaterialNumberFieldComponentOptions> =
     {
-        name: 'Text field',
-        description: 'Material text field',
+        name: 'Number field',
+        description: 'Material number field',
         optionsMetadata:
         {
             propertiesMetadata:
@@ -30,7 +30,7 @@ export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetada
                     ],
                 },
                 {
-                    modelType: MaterialTextFieldModel,
+                    modelType: MaterialNumberFieldModel,
                     propertiesControls: 
                     [
                         genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance']),

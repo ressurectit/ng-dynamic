@@ -1,0 +1,8 @@
+<mat-form-field [appearance]="appearance">
+    <mat-label>{{options?.label}}</mat-label>
+    <textarea 
+        matInput 
+        cdkTextareaAutosize
+        [attr.placeholder]="options?.placeholder"></textarea>
+    <mat-hint>{{options?.hint}}</mat-hint>
+</mat-form-field>

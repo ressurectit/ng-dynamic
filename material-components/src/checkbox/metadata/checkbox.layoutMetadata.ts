@@ -1,23 +1,23 @@
 import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
-import {MaterialTextFieldComponentOptions} from '../textField.options';
-import {MaterialTextFieldModel} from './textField.model';
+import {MaterialCheckboxComponentOptions} from '../checkbox.options';
+import {MaterialCheckboxModel} from './checkbox.model';
 
 
 /**
- * Material text field layout metadata
+ * Material checkbox layout metadata
  */
-export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<MaterialTextFieldComponentOptions>
+export class MaterialCheckboxLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<MaterialCheckboxComponentOptions>
 {
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
     /**
      * @inheritdoc
      */
-    public metaInfo?: LayoutEditorMetadataInfo<MaterialTextFieldComponentOptions> =
+    public metaInfo?: LayoutEditorMetadataInfo<MaterialCheckboxComponentOptions> =
     {
-        name: 'Text field',
-        description: 'Material text field',
+        name: 'Checkbox',
+        description: 'Material checkbox',
         optionsMetadata:
         {
             propertiesMetadata:
@@ -30,10 +30,10 @@ export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetada
                     ],
                 },
                 {
-                    modelType: MaterialTextFieldModel,
+                    modelType: MaterialCheckboxModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance']),
+                        genericPropertiesControlFor(['label']),
                     ],
                 },
             ],
@@ -41,9 +41,6 @@ export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetada
         defaultOptions:
         {
             label: 'Input label',
-            placeholder: 'Placeholder',
-            hint: 'Hint',
-            appearance: 'standard',
         },
         group: 'Material form fields'
     };

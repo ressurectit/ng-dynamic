@@ -1,9 +1,9 @@
 import {MaterialFormFieldComponentOptions} from '../misc';
 
 /**
- * Options for material text field component
+ * Options for material textarea component
  */
-export interface MaterialTextFieldComponentOptions extends MaterialFormFieldComponentOptions
+export interface MaterialTextareaComponentOptions extends MaterialFormFieldComponentOptions
 {
     //######################### properties #########################
 }

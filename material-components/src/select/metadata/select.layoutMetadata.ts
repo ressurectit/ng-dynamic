@@ -1,23 +1,23 @@
 import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
-import {MaterialTextFieldComponentOptions} from '../textField.options';
-import {MaterialTextFieldModel} from './textField.model';
+import {MaterialSelectComponentOptions} from '../select.options';
+import {MaterialSelectModel} from './select.model';
 
 
 /**
- * Material text field layout metadata
+ * Material select layout metadata
  */
-export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<MaterialTextFieldComponentOptions>
+export class MaterialSelectLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<MaterialSelectComponentOptions>
 {
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
     /**
      * @inheritdoc
      */
-    public metaInfo?: LayoutEditorMetadataInfo<MaterialTextFieldComponentOptions> =
+    public metaInfo?: LayoutEditorMetadataInfo<MaterialSelectComponentOptions> =
     {
-        name: 'Text field',
-        description: 'Material text field',
+        name: 'Select',
+        description: 'Material select',
         optionsMetadata:
         {
             propertiesMetadata:
@@ -30,10 +30,10 @@ export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetada
                     ],
                 },
                 {
-                    modelType: MaterialTextFieldModel,
+                    modelType: MaterialSelectModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance']),
+                        genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance', 'multiple']),
                     ],
                 },
             ],
@@ -44,6 +44,7 @@ export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetada
             placeholder: 'Placeholder',
             hint: 'Hint',
             appearance: 'standard',
+            multiple: false,
         },
         group: 'Material form fields'
     };

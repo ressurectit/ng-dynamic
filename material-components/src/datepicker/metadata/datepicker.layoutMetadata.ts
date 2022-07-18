@@ -1,23 +1,23 @@
 import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
-import {MaterialTextFieldComponentOptions} from '../textField.options';
-import {MaterialTextFieldModel} from './textField.model';
+import {MaterialDatepickerComponentOptions} from '../datepicker.options';
+import {MaterialDatepickerModel} from './datepicker.model';
 
 
 /**
- * Material text field layout metadata
+ * Material datepicker layout metadata
  */
-export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<MaterialTextFieldComponentOptions>
+export class MaterialDatepickerLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<MaterialDatepickerComponentOptions>
 {
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
     /**
      * @inheritdoc
      */
-    public metaInfo?: LayoutEditorMetadataInfo<MaterialTextFieldComponentOptions> =
+    public metaInfo?: LayoutEditorMetadataInfo<MaterialDatepickerComponentOptions> =
     {
-        name: 'Text field',
-        description: 'Material text field',
+        name: 'Datepicker',
+        description: 'Material datepicker',
         optionsMetadata:
         {
             propertiesMetadata:
@@ -30,7 +30,7 @@ export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetada
                     ],
                 },
                 {
-                    modelType: MaterialTextFieldModel,
+                    modelType: MaterialDatepickerModel,
                     propertiesControls: 
                     [
                         genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance']),

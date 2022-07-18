@@ -1,23 +1,23 @@
 import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
-import {MaterialTextFieldComponentOptions} from '../textField.options';
-import {MaterialTextFieldModel} from './textField.model';
+import {MaterialRadioComponentOptions} from '../radio.options';
+import {MaterialRadioModel} from './radio.model';
 
 
 /**
  * Material text field layout metadata
  */
-export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<MaterialTextFieldComponentOptions>
+export class MaterialRadioLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<MaterialRadioComponentOptions>
 {
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
     /**
      * @inheritdoc
      */
-    public metaInfo?: LayoutEditorMetadataInfo<MaterialTextFieldComponentOptions> =
+    public metaInfo?: LayoutEditorMetadataInfo<MaterialRadioComponentOptions> =
     {
-        name: 'Text field',
-        description: 'Material text field',
+        name: 'Radio',
+        description: 'Material radio',
         optionsMetadata:
         {
             propertiesMetadata:
@@ -30,20 +30,17 @@ export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetada
                     ],
                 },
                 {
-                    modelType: MaterialTextFieldModel,
+                    modelType: MaterialRadioModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance']),
+                        genericPropertiesControlFor(['options']),
                     ],
                 },
             ],
         },
         defaultOptions:
         {
-            label: 'Input label',
-            placeholder: 'Placeholder',
-            hint: 'Hint',
-            appearance: 'standard',
+            options: 'test'
         },
         group: 'Material form fields'
     };

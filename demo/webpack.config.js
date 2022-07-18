@@ -166,6 +166,8 @@ export default [function(options, args)
                 "@anglr/dynamic/relations-editor": path.join(dirName, "../relations-editor/src/index.ts"),
                 "@anglr/dynamic/basic-components/types": path.join(dirName, "../basic-components/src/types.ts"),
                 "@anglr/dynamic/basic-components": path.join(dirName, "../basic-components/src"),
+                "@anglr/dynamic/material-components/types": path.join(dirName, "../material-components/src/types.ts"),
+                "@anglr/dynamic/material-components": path.join(dirName, "../material-components/src"),
                 "@anglr/dynamic": path.join(dirName, "../src/index.ts"),
                 "app": path.join(dirName, "app")
             },

@@ -31,6 +31,8 @@
             "@anglr/dynamic/relations-editor": ["../relations-editor/src/index.ts"],
             "@anglr/dynamic/basic-components/types": ["../basic-components/src/types.ts"],
             "@anglr/dynamic/basic-components": ["../basic-components/src/index.ts"],
+            "@anglr/dynamic/material-components/types": ["../material-components/src/types.ts"],
+            "@anglr/dynamic/material-components": ["../material-components/src/index.ts"],
             "@anglr/dynamic": ["index.ts"],
         },
         "lib":

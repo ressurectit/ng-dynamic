@@ -26,10 +26,15 @@ export class DefaultDynamicModuleTypesProvider implements DynamicModuleProvider
         {
             this._logger?.debug('DefaultDynamicModuleTypesProvider: trying to get types for module {@module}', {moduleName: source.package});
 
-            //TODO: make it dynamic or enumerate all possible values
-            const dynamicItemModule = await import('@anglr/dynamic/basic-components/types');
-
-            return dynamicItemModule;
+            switch(source.package)
+            {
+                case 'basic-components':
+                    return await import('@anglr/dynamic/basic-components/types');
+                case 'material-components':
+                    return await import('@anglr/dynamic/material-components/types');
+                default:
+                    return null;
+            }
         }
         catch(e)
         {

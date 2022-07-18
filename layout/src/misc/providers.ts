@@ -1,6 +1,6 @@
 import {ClassProvider, FactoryProvider, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {BasicComponentsDynamicModuleItemsProvider, defaultExportExtractor, DynamicModuleDataExtractor, extensionsExportsExtractor} from '@anglr/dynamic';
+import {BasicComponentsDynamicModuleItemsProvider, defaultExportExtractor, DynamicModuleDataExtractor, extensionsExportsExtractor, MaterialComponentsDynamicModuleItemsProvider} from '@anglr/dynamic';
 
 import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS} from './tokens';
 
@@ -13,6 +13,16 @@ export const BASIC_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER: ClassProvider =
     useClass: BasicComponentsDynamicModuleItemsProvider,
     multi: true
 };
+
+/**
+ * Provider for material components package layout components provider
+ */
+ export const MATERIAL_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER: ClassProvider =
+ {
+     provide: LAYOUT_COMPONENTS_MODULE_PROVIDERS,
+     useClass: MaterialComponentsDynamicModuleItemsProvider,
+     multi: true
+ };
 
 /**
  * Provider for default layout components extractor

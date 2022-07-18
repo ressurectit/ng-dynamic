@@ -89,26 +89,30 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
 
         this._getDesignerDropLists();
 
-        const types = (await this._moduleTypesLoader.loadItem({package: 'basic-components', name: 'types'}))?.data ?? [];
-
-        for(const type of types)
+        //TODO make it dynamic
+        for (const packageName of ['basic-components', 'material-components'])
         {
-            const itemSource: DynamicItemSource = {package: 'basic-components', name: type};
-            const metadata = await this._metadataExtractor.extractMetadata(itemSource);
+            const types = (await this._moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
 
-            if(!metadata)
+            for(const type of types)
             {
-                this._logger?.warn('ComponentsPaletteSAComponent: Failed to obtain layout editor metadata {@source}', itemSource);
-            }
-            else
-            {
-                this._allItems.push(
+                const itemSource: DynamicItemSource = {package: packageName, name: type};
+                const metadata = await this._metadataExtractor.extractMetadata(itemSource);
+    
+                if(!metadata)
                 {
-                    itemSource,
-                    metadata
-                });
+                    this._logger?.warn('ComponentsPaletteSAComponent: Failed to obtain layout editor metadata {@source}', itemSource);
+                }
+                else
+                {
+                    this._allItems.push(
+                    {
+                        itemSource,
+                        metadata
+                    });
+                }
             }
-        }
+        }        
 
         this._groupedItems[''] = [];
 

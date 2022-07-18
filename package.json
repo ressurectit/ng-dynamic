@@ -225,6 +225,30 @@
             "es2015": "./es2015/basic-components/src/types.js",
             "node": "./es2015/basic-components/src/types.js",
             "default": "./es2020/basic-components/src/types.js"
+        },
+        "./material-components": {
+            "types": "./material-components/src/index.d.ts",
+            "esm2020": "./es2020/material-components/src/index.js",
+            "es2020": "./es2020/material-components/src/index.js",
+            "es2015": "./es2015/material-components/src/index.js",
+            "node": "./es2015/material-components/src/index.js",
+            "default": "./es2020/material-components/src/index.js"
+        },
+        "./material-components/*/type": {
+            "types": "./material-components/src/*/type.d.ts",
+            "esm2020": "./es2020/material-components/src/*/type.js",
+            "es2020": "./es2020/material-components/src/*/type.js",
+            "es2015": "./es2015/material-components/src/*/type.js",
+            "node": "./es2015/material-components/src/*/type.js",
+            "default": "./es2020/material-components/src/*/type.js"
+        },
+        "./material-components/types": {
+            "types": "./material-components/src/types.d.ts",
+            "esm2020": "./es2020/material-components/src/types.js",
+            "es2020": "./es2020/material-components/src/types.js",
+            "es2015": "./es2015/material-components/src/types.js",
+            "node": "./es2015/material-components/src/types.js",
+            "default": "./es2020/material-components/src/types.js"
         }
     }
 }

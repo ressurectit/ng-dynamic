@@ -19,4 +19,9 @@ export interface MaterialTextFieldComponentOptions
      * Hint text
      */
     hint: string|undefined|null;
+
+    /**
+     * Input appearance
+     */
+    appearance: string|undefined|null;
 }

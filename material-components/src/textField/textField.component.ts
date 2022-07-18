@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatFormFieldAppearance, MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -27,4 +27,13 @@ import {MaterialTextFieldComponentOptions} from './textField.options';
 @LayoutEditorMetadata(MaterialTextFieldLayoutMetadataLoader)
 export class MaterialTextFieldSAComponent extends LayoutComponentBase<MaterialTextFieldComponentOptions> implements LayoutComponent<MaterialTextFieldComponentOptions>
 {
+    //######################### public properties #########################
+
+    /**
+     * Gets form field appearence
+     */
+    public get appearance(): MatFormFieldAppearance
+    {
+        return <MatFormFieldAppearance>this.options?.appearance;
+    }
 }

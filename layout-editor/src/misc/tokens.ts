@@ -4,7 +4,7 @@ import {LOGGER} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 
 import {PropertyTypeControl} from '../interfaces';
-import {InputBooleanComponent, InputStringComponent} from '../modules/propertyTypeControls';
+import {InputBooleanComponent, InputStringComponent, SelectValueComponent} from '../modules/propertyTypeControls';
 import {LayoutPropertyMetadata} from './types';
 import {LayoutModuleTypes} from '../components/componentsPalette/componentsPalette.interface';
 import {isLayoutModuleTypes} from './utils';
@@ -25,6 +25,7 @@ export const LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS: InjectionToken<Dictionary<Typ
                                                                                                                                                                              return {
                                                                                                                                                                                  'inputString': InputStringComponent,
                                                                                                                                                                                  'inputBoolean': InputBooleanComponent,
+                                                                                                                                                                                 'selectValue': SelectValueComponent,
                                                                                                                                                                              };
                                                                                                                                                                          }});
 

@@ -2,19 +2,19 @@ import {Component, ChangeDetectionStrategy, HostBinding, HostListener, Input, Vi
 import {CommonModule} from '@angular/common';
 
 import {Coordinates} from '../../interfaces';
-import {RelationNodeInputSAComponent} from './input/input.component';
-import {RelationNodeOutputSAComponent} from './output/output.component';
+import {RelationNodeOutputSAComponent} from '../relationsNodeOutput/relationsNodeOutput.component';
+import {RelationNodeInputSAComponent} from '../relationsNodeInput/relationsNodeInput.component';
 
 //TODO: think of using element instead of binding
 
 /**
- * Component used to display relation node
+ * Component used to display relations node
  */
 @Component(
 {
-    selector: 'relation-node',
-    templateUrl: 'node.component.html',
-    styleUrls: ['node.component.css'],
+    selector: 'relations-node',
+    templateUrl: 'relationsNode.component.html',
+    styleUrls: ['relationsNode.component.css'],
     standalone: true,
     imports:
     [

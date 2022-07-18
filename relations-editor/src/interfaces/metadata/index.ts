@@ -1,1 +1,1 @@
-export * from './relationsEditor/relationsComponentEditorMetadata.interface';
+export * from './relationsNode/relationsNodeMetadata.interface';

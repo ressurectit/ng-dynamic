@@ -1,15 +1,15 @@
 import {Directive, ElementRef, Input, Optional} from '@angular/core';
 
-import {Coordinates} from '../../interfaces';
-import {NodeRelationPath} from '../../misc';
-import {RelationManager} from '../../services';
-import {RelationsCanvasSAComponent} from '../relationsCanvas/relationsCanvas.component';
+import {Coordinates} from '../interfaces';
+import {NodeRelationPath} from '../misc';
+import {RelationManager} from '../services';
+import {RelationsCanvasSAComponent} from './relationsCanvas/relationsCanvas.component';
 
 /**
- * Base class for relations node point
+ * Base class for relations node endpoints (inputs/outputs)
  */
 @Directive()
-export abstract class RelationNodePointBase
+export abstract class RelationNodeEndpointBase
 {
     //######################### protected properties #########################
 

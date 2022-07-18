@@ -1,8 +1,8 @@
 import {Component, ChangeDetectionStrategy, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {RelationNodePointBase} from '../nodePointBase';
-import {INVALIDATE_DROP, MouseButton, NodeRelationPath} from '../../../misc';
+import {RelationNodeEndpointBase} from '../relationsNodeEndpointBase';
+import {INVALIDATE_DROP, MouseButton, NodeRelationPath} from '../../misc';
 
 /**
  * Component used to display relation node input
@@ -11,7 +11,7 @@ import {INVALIDATE_DROP, MouseButton, NodeRelationPath} from '../../../misc';
 {
     selector: 'relation-node-input',
     template: '',
-    styleUrls: ['input.component.css'],
+    styleUrls: ['relationsNodeInput.component.css'],
     standalone: true,
     imports:
     [
@@ -19,7 +19,7 @@ import {INVALIDATE_DROP, MouseButton, NodeRelationPath} from '../../../misc';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationNodeInputSAComponent extends RelationNodePointBase
+export class RelationNodeInputSAComponent extends RelationNodeEndpointBase
 {
     //######################### private properties #########################
 
@@ -30,6 +30,10 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
 
     //######################### public methods #########################
 
+    /**
+     * Adds new relation, and returns true if relation was added, otherwise false
+     * @param relation - Relations to be added
+     */
     public addRelation(relation: NodeRelationPath): boolean
     {
         if (this._relation)
@@ -45,18 +49,18 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
         }
 
         this._relation = relation;
+        
         return true;
     }
 
     //######################### protected methods - host listeners #########################
 
     /**
-     * Mouse enter event
-     * @param event 
+     * Mouse enter event, marks input as active
+     * @param event - Mouse event that occured
      */
     @HostListener('mouseenter', ['$event'])
-    //@ts-ignore
-    private _onMouseEnter(event: MouseEvent)
+    protected _onMouseEnter(event: MouseEvent): void
     {
         if (event.buttons === MouseButton.LEFT)
         {
@@ -65,12 +69,11 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
     }
 
     /**
-     * Mouse leave event
-     * @param event 
+     * Mouse leave event, clears marked active input
+     * @param event - Mouse event that occured
      */
     @HostListener('mouseleave', ['$event'])
-    //@ts-ignore
-    private _onMouseLeave(event: MouseEvent)
+    protected _onMouseLeave(event: MouseEvent): void
     {
         if (event.buttons === MouseButton.LEFT)
         {
@@ -79,8 +82,8 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
     }
 
     /**
-     * Mouse down event
-     * @param event 
+     * Mouse down event, starts dragging
+     * @param event - Mouse event that occured
      */
     @HostListener('mousedown', ['$event'])
     protected _onMouseDown(event: MouseEvent): void
@@ -88,7 +91,7 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
         event.stopImmediatePropagation();
         event.preventDefault();
 
-        this._lastMouseDownPosition = 
+        this._lastMouseDownPosition =
         {
             x: event.clientX,
             y: event.clientY
@@ -101,7 +104,7 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
 
     /**
      * Mouse move event on whole window
-     * @param event 
+     * @param event - Mouse event that occured
      */
     @HostListener('window:mousemove', ['$event'])
     protected _onMouseMove(event: MouseEvent): void
@@ -126,7 +129,7 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
 
     /**
      * Mouse up event on whole window
-     * @param event 
+     * @param event - Mouse event that occured
      */
     @HostListener('window:mouseup', ['$event'])
     protected _onMouseUp(event: MouseEvent): void
@@ -144,9 +147,8 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
 
     /**
      * Updates node output relation
-     * @returns 
      */
-    public updateRelation(): void 
+    public updateRelation(): void
     {
         if (!this._relation)
         {

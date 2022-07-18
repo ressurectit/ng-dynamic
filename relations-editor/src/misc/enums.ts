@@ -1,4 +1,10 @@
+/**
+ * Available mouse buttons enum
+ */
 export enum MouseButton
 {
-    LEFT = 1
+    /**
+     * Left mouse button
+     */
+    LEFT = 1,
 }

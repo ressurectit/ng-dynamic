@@ -2,10 +2,10 @@ import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild
 import {CommonModule} from '@angular/common';
 import {select} from 'd3';
 
-import {RelationNodeSAComponent} from '../node/node.component';
 import {Coordinates} from '../../interfaces';
 import {clamp, MouseButton, NodeRelationPath} from '../../misc';
 import {RelationManager} from '../../services';
+import {RelationNodeSAComponent} from '../relationsNode/relationsNode.component';
 
 /**
  * Default background size in pixels

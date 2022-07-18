@@ -1,8 +1,8 @@
 import {Component, ChangeDetectionStrategy, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {RelationNodePointBase} from '../nodePointBase';
-import {NodeRelationPath, INVALIDATE_DROP} from '../../../misc';
+import {RelationNodeEndpointBase} from '../relationsNodeEndpointBase';
+import {NodeRelationPath, INVALIDATE_DROP} from '../../misc';
 
 /**
  * Component used to display relation node output
@@ -11,7 +11,7 @@ import {NodeRelationPath, INVALIDATE_DROP} from '../../../misc';
 {
     selector: 'relation-node-output',
     template: '',
-    styleUrls: ['output.component.css'],
+    styleUrls: ['relationsNodeOutput.component.css'],
     standalone: true,
     imports:
     [
@@ -19,7 +19,7 @@ import {NodeRelationPath, INVALIDATE_DROP} from '../../../misc';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationNodeOutputSAComponent extends RelationNodePointBase
+export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase
 {
     //######################### protected properties #########################
 
@@ -31,8 +31,8 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
     //######################### protected methods - host listeners #########################
 
     /**
-     * Mouse down event
-     * @param event 
+     * Mouse down event, creates new relation
+     * @param event - Mouse event that occured
      */
     @HostListener('mousedown', ['$event'])
     protected _onMouseDown(event: DragEvent): void
@@ -53,7 +53,7 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
 
     /**
      * Mouse move event - whole window
-     * @param event 
+     * @param event - Mouse event that occured
      */
     @HostListener('window:mousemove', ['$event'])
     protected _onMouseMove(event: DragEvent): void
@@ -78,7 +78,7 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
 
     /**
      * Mouse up event - whole window
-     * @param event 
+     * @param event - Mouse event that occured
      */
     @HostListener('window:mouseup', ['$event'])
     protected _onMouseUp(event: DragEvent): void
@@ -96,14 +96,13 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
     //######################### protected methods #########################
 
     /**
-     * Adds relation to specified output
-     * @returns Returns relation that will start from this output
+     * Adds relation to specified output and returns relation that will start from this output
      */
     protected _addOutputRelation(): NodeRelationPath
     {
         const relation = this._canvas?.createRelation();
-
         relation.start = this.getCoordinates();
+
         relation.destroying.subscribe(() => 
         {
             const index = this._relations.indexOf(relation);
@@ -121,7 +120,6 @@ export class RelationNodeOutputSAComponent extends RelationNodePointBase
 
     /**
      * Updates node output relations
-     * @returns 
      */
     public updateRelation(): void 
     {

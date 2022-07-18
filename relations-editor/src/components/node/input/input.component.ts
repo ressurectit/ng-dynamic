@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {RelationNodePointBase} from '../nodePointBase';
-import {MouseButton, NodeRelationPath} from '../../../misc';
+import {INVALIDATE_DROP, MouseButton, NodeRelationPath} from '../../../misc';
 
 /**
  * Component used to display relation node input
@@ -21,6 +21,13 @@ import {MouseButton, NodeRelationPath} from '../../../misc';
 })
 export class RelationNodeInputSAComponent extends RelationNodePointBase
 {
+    //######################### private properties #########################
+
+    /**
+     * Temporary relation path when updating existing relation
+     */
+    private _tempRelation: NodeRelationPath|null|undefined;
+
     //######################### public methods #########################
 
     public addRelation(relation: NodeRelationPath): boolean
@@ -87,6 +94,8 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
             y: event.clientY
         };
 
+        this._tempRelation = this._relation;
+        this._relation = null;
         this._isDragging = true;
     }
 
@@ -102,7 +111,16 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
             event.stopImmediatePropagation();
             event.preventDefault();
 
-            //TODO relations logic
+            if (this._tempRelation)
+            {
+                this._tempRelation.end =
+                {
+                    x: this.getCoordinates().x + (event.clientX - this._lastMouseDownPosition?.x) * 1/this.zoomLevel,
+                    y: this.getCoordinates().y + (event.clientY - this._lastMouseDownPosition?.y) * 1/this.zoomLevel
+                };
+    
+                this._tempRelation.invalidateVisuals();
+            }
         }
     }
 
@@ -118,8 +136,7 @@ export class RelationNodeInputSAComponent extends RelationNodePointBase
             this._isDragging = false;
             event.stopImmediatePropagation();
             event.preventDefault();
-
-            //TODO relations logic
+            this._tempRelation?.invalidateVisuals(INVALIDATE_DROP);
         }
     }
 

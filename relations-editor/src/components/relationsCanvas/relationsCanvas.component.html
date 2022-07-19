@@ -3,6 +3,7 @@
         <g #relationsGroup></g>
     </svg>
     
-    <ng-container [relationsNodeRenderer]="nodeDefinitions[0]" [zoomLevel]="_zoomLevel"></ng-container>
-    <!-- <relations-node *ngFor="let nodeDefinition of nodeDefinitions" [zoomLevel]="_zoomLevel"></relations-node> -->
+    <ng-container *ngFor="let nodeDefinition of nodeDefinitions">
+        <ng-container [relationsNodeRenderer]="nodeDefinition" [zoomLevel]="_zoomLevel"></ng-container>
+    </ng-container>
 </div>

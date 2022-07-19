@@ -128,6 +128,34 @@ export class RelationsCanvasSAComponent
     public nodeDefinitions: RelationsNodeMetadata[] = 
     [
         {
+            id: 'sample-source',
+            package: 'basic-components',
+            name: 'sampleSource',
+            relationsOptions: null,
+            outputs:
+            [
+                {
+                    outputName: 'vystup',
+                    inputs:
+                    [
+                        {
+                            id: 'sample-changes',
+                            inputName: 'vstup'
+                        }
+                    ]
+                }
+            ],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 30,
+                    y: 60
+                },
+                options: null
+            }
+        },
+        {
             id: 'sample-changes',
             package: 'basic-components',
             name: 'sampleChange',
@@ -137,7 +165,7 @@ export class RelationsCanvasSAComponent
             {
                 coordinates: 
                 {
-                    x: 30,
+                    x: 230,
                     y: 60
                 },
                 options: null

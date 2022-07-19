@@ -1,15 +1,16 @@
-import {Directive, ElementRef, Input, Optional} from '@angular/core';
+import {Directive, ElementRef, Inject, Input} from '@angular/core';
 
-import {Coordinates} from '../interfaces';
-import {NodeRelationPath} from '../misc';
-import {RelationManager} from '../services';
+import {Coordinates, RelationsEndpoint, RelationsNode} from '../interfaces';
+import {NodeRelationPath} from '../misc/nodeRelationPath';
+import {RELATIONS_NODE} from '../misc/tokens';
+import {RelationsNodeManager} from '../services';
 import {RelationsCanvasSAComponent} from './relationsCanvas/relationsCanvas.component';
 
 /**
  * Base class for relations node endpoints (inputs/outputs)
  */
 @Directive()
-export abstract class RelationNodeEndpointBase
+export abstract class RelationNodeEndpointBase implements RelationsEndpoint
 {
     //######################### protected properties #########################
 
@@ -32,7 +33,23 @@ export abstract class RelationNodeEndpointBase
         y: 0
     };
 
-    //######################### public properties - inputs and outputs #########################
+    //######################### public properties - implementation of RelationsEndpoint #########################
+
+    /**
+     * @inheritdoc
+     */
+    @Input()
+    public name: string|undefined|null;
+
+    /**
+     * @inheritdoc
+     */
+    public get parentId(): string
+    {
+        return this._parent.id;
+    }
+
+    //######################### public properties - inputs #########################
 
     /**
      * Parent zoom level
@@ -52,8 +69,9 @@ export abstract class RelationNodeEndpointBase
 
     //######################### constructor #########################
     constructor(protected _element: ElementRef<HTMLElement>,
-                protected _relationManager: RelationManager,
-                @Optional() protected _canvas: RelationsCanvasSAComponent)
+                protected _relationManager: RelationsNodeManager,
+                @Inject(RELATIONS_NODE) protected _parent: RelationsNode,
+                protected _canvas: RelationsCanvasSAComponent,)
     {
     }
 

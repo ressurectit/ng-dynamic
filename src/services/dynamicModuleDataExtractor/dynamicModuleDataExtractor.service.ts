@@ -1,5 +1,5 @@
 import {Logger} from '@anglr/common';
-import {Dictionary, extend} from '@jscrpt/common';
+import {Dictionary, extend, resolvePromiseOr} from '@jscrpt/common';
 
 import {DynamicModule} from '../../interfaces';
 import {DynamicModuleDataExtractorFn} from './dynamicModuleDataExtractor.interface';
@@ -34,13 +34,13 @@ export class DynamicModuleDataExtractor<TData extends Dictionary<any> = any>
      * Tries to extract dynamic data from dynamic module
      * @param module - Module containing dynamic data
      */
-    public tryToExtract(module: DynamicModule): TData|null
+    public async tryToExtract(module: DynamicModule): Promise<TData|null>
     {
         const result: TData = {} as any;
 
         for(const fn of this._extractorFunctions)
         {
-            extend(true, result, fn(module, this._logger));
+            extend(true, result, await resolvePromiseOr(fn(module, this._logger)));
         }
 
         return result;

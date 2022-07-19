@@ -1,8 +1,8 @@
 import {Selection, BaseType, Line, line, curveBundle} from 'd3';
 import {Observable, Subject} from 'rxjs';
 
-import {Coordinates} from '../interfaces';
-import {RelationManager} from '../services';
+import {Coordinates, RelationsInput, RelationsOutput} from '../interfaces';
+import {RelationsNodeManager} from '../services';
 import {INVALIDATE_DROP} from './constants';
 
 /**
@@ -30,6 +30,16 @@ export class NodeRelationPath
     //######################### public properties #########################
 
     /**
+     * Output from which relation start
+     */
+    public output: RelationsOutput|undefined|null = null;
+
+    /**
+     * Input where relation ends
+     */
+    public input: RelationsInput|undefined|null = null;
+
+    /**
      * Occurs when this relation is being destroyed
      */
     public get destroying(): Observable<void>
@@ -40,7 +50,7 @@ export class NodeRelationPath
     //######################### constructor #########################
 
     constructor(protected _parentGroup: Selection<BaseType, {}, null, undefined>,
-                protected _relationManager: RelationManager,
+                protected _relationManager: RelationsNodeManager,
                 public start: Coordinates|null,
                 public end: Coordinates|null)
     {
@@ -81,6 +91,8 @@ export class NodeRelationPath
                 this.destroy();
                 this.start = null;
                 this.end = null;
+                this.input = null;
+                this.output = null;
             }
             //drop on input peer
             else
@@ -88,12 +100,15 @@ export class NodeRelationPath
                 if (activeInput.addRelation(this))
                 {
                     this.end = activeInput.getCoordinates();
+                    this.input = activeInput;
                 }
                 else
                 {
                     this.destroy();
                     this.start = null;
                     this.end = null;
+                    this.input = null;
+                    this.output = null;
                 }
             }
         }

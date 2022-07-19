@@ -1,1 +1,1 @@
-export * from './relationManager/relationManager.service';
+export * from './relationsNodeManager/relationsNodeManager.service';

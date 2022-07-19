@@ -1,7 +1,9 @@
+import {Provider} from '@angular/core';
 import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
-import {isBlank, isType} from '@jscrpt/common';
+import {isBlank, isBoolean, isJsObject, isPresent, isType} from '@jscrpt/common';
 
-import {RelationsModuleTypes, RelationsNodeDef} from './types';
+import {BASIC_COMPONENTS_RELATIONS_NODES_PROVIDER, DEFAULT_RELATIONS_NODES_EXTRACTOR} from './providers';
+import type {RelationsModuleTypes, RelationsNodeDef} from './types';
 
 /**
  * Clamps number between two values
@@ -40,5 +42,28 @@ export const isRelationsNodeDef: DynamicItemLoaderValidatorFn<RelationsNodeDef> 
         return false;
     }
 
+    //singleton should be boolean if used
+    if(isPresent(data.singleton) && !isBoolean(data.singleton))
+    {
+        return false;
+    }
+
+    //meta info should be object if used
+    if(isPresent(data?.metaInfo) && !isJsObject(data.metaInfo))
+    {
+        return false;
+    }
+
     return true;
 };
+
+/**
+ * Default providers for relations editor subpackage
+ */
+export function provideRelationsEditor(): Provider[]
+{
+    return [
+        BASIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
+        DEFAULT_RELATIONS_NODES_EXTRACTOR,
+    ];
+}

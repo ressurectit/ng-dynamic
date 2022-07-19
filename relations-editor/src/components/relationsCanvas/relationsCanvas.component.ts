@@ -2,10 +2,12 @@ import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild
 import {CommonModule} from '@angular/common';
 import {select} from 'd3';
 
-import {Coordinates} from '../../interfaces';
-import {clamp, MouseButton, NodeRelationPath} from '../../misc';
-import {RelationManager} from '../../services';
-import {RelationNodeSAComponent} from '../relationsNode/relationsNode.component';
+import {Coordinates, RelationsNodeMetadata} from '../../interfaces';
+import {RelationsNodeManager} from '../../services';
+import {NodeRelationPath} from '../../misc/nodeRelationPath';
+import {MouseButton} from '../../misc/enums';
+import {clamp} from '../../misc/utils';
+import {RelationsNodeRendererSADirective} from '../../directives';
 
 /**
  * Default background size in pixels
@@ -38,11 +40,11 @@ const SCALE_FACTOR_MAX = 2;
     imports:
     [
         CommonModule,
-        RelationNodeSAComponent,
+        RelationsNodeRendererSADirective,
     ],
     providers:
     [
-        RelationManager,
+        RelationsNodeManager,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -123,10 +125,28 @@ export class RelationsCanvasSAComponent
     /**
      * Sample data to render
      */
-    public nodeDefinitions: number[] = [ 1, 2, 3];
+    public nodeDefinitions: RelationsNodeMetadata[] = 
+    [
+        {
+            id: 'sample-changes',
+            package: 'basic-components',
+            name: 'sampleChange',
+            relationsOptions: null,
+            outputs: [],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 30,
+                    y: 60
+                },
+                options: null
+            }
+        }
+    ];
 
     //######################### constructor #########################
-    constructor(private _relationManager: RelationManager,)
+    constructor(private _relationManager: RelationsNodeManager,)
     {
     }
 

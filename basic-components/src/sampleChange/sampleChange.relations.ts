@@ -1,11 +1,15 @@
 import {SimpleChanges} from '@angular/core';
 import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {nameof} from '@jscrpt/common';
+
+import {SampleChangeRelationsMetadataLoader} from './sampleChange.metadata';
 
 /**
  * SAMPLE change relations component
  */
 @PureRelationsComponent()
+@RelationsEditorMetadata(SampleChangeRelationsMetadataLoader)
 export class SampleChangeRelations implements RelationsComponent
 {
     //######################### public properties - implementation of RelationsComponent #########################

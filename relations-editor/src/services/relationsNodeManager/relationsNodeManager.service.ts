@@ -6,7 +6,7 @@ import {RelationNodeInputSAComponent} from '../../components';
  * Class used for handling layout metadata
  */
 @Injectable()
-export class RelationManager
+export class RelationsNodeManager
 {
     //######################### private properties #########################
 
@@ -19,7 +19,7 @@ export class RelationManager
 
     /**
      * Sets active relation input
-     * @param input 
+     * @param input - Component that represents input
      */
     public setActiveInput(input: RelationNodeInputSAComponent|null|undefined): void
     {
@@ -28,7 +28,6 @@ export class RelationManager
 
     /**
      * Gets active relation input
-     * @returns 
      */
     public getActiveInput(): RelationNodeInputSAComponent|null|undefined
     {

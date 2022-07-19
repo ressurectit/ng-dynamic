@@ -2,7 +2,10 @@ import {Component, ChangeDetectionStrategy, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {RelationNodeEndpointBase} from '../relationsNodeEndpointBase';
-import {INVALIDATE_DROP, MouseButton, NodeRelationPath} from '../../misc';
+import {RelationsInput} from '../../interfaces';
+import {NodeRelationPath} from '../../misc/nodeRelationPath';
+import {MouseButton} from '../../misc/enums';
+import {INVALIDATE_DROP} from '../../misc/constants';
 
 /**
  * Component used to display relation node input
@@ -19,7 +22,7 @@ import {INVALIDATE_DROP, MouseButton, NodeRelationPath} from '../../misc';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationNodeInputSAComponent extends RelationNodeEndpointBase
+export class RelationNodeInputSAComponent extends RelationNodeEndpointBase implements RelationsInput
 {
     //######################### private properties #########################
 
@@ -51,6 +54,36 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase
         this._relation = relation;
         
         return true;
+    }
+
+    //######################### public methods - implementation of RelationsInput #########################
+
+    /**
+     * @inheritdoc
+     */
+    public endRelation(relation: NodeRelationPath): void
+    {
+        if(this.addRelation(relation))
+        {
+            this.updateRelation();
+        }
+    }
+
+    //######################### public methods - overrides #########################
+
+    /**
+     * Updates node output relation
+     */
+    public updateRelation(): void
+    {
+        if (!this._relation)
+        {
+            return;
+        }
+
+        this._relation.end = this.getCoordinates();
+        this._relation.input = this;
+        this._relation.invalidateVisuals();
     }
 
     //######################### protected methods - host listeners #########################
@@ -141,21 +174,5 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase
             event.preventDefault();
             this._tempRelation?.invalidateVisuals(INVALIDATE_DROP);
         }
-    }
-
-    //######################### public methods #########################
-
-    /**
-     * Updates node output relation
-     */
-    public updateRelation(): void
-    {
-        if (!this._relation)
-        {
-            return;
-        }
-
-        this._relation.end = this.getCoordinates();
-        this._relation.invalidateVisuals();
     }
 }

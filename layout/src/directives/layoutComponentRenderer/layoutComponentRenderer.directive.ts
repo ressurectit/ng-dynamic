@@ -10,8 +10,6 @@ import {LayoutComponent, LayoutComponentMetadata, LayoutComponentTransform} from
 import {LAYOUT_COMPONENTS_LOADER, LAYOUT_COMPONENT_CHILD_EXTENSIONS, LAYOUT_COMPONENT_TRANSFORM} from '../../misc/tokens';
 import {LayoutComponentDef} from '../../misc/types';
 
-
-
 /**
  * Renders layout component from metadata
  */

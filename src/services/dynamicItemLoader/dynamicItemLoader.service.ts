@@ -90,7 +90,7 @@ export class DynamicItemLoader<TDynamicItemDef = any>
         //loops all extractors, return result from first that returns non null value
         for(const extractor of this._extractors)
         {
-            const dynamicItem = extractor.tryToExtract(dynamicModule);
+            const dynamicItem = await extractor.tryToExtract(dynamicModule);
 
             if(dynamicItem)
             {

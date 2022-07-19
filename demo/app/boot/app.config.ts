@@ -19,6 +19,7 @@ import {LoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST
 import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
 import {provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {provideRelations} from '@anglr/dynamic/relations';
+import {provideRelationsEditor} from '@anglr/dynamic/relations-editor';
 import {isString, isJsObject} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
 import {sk} from 'date-fns/locale';
@@ -370,4 +371,5 @@ export const providers: Provider[] =
     //######################### DYNAMIC CONFIG #########################
     ...provideLayoutEditor(),
     ...provideRelations(),
+    ...provideRelationsEditor(),
 ];

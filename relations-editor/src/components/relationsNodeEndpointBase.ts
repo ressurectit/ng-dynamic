@@ -1,18 +1,15 @@
-import {Directive, ElementRef, Inject, Input} from '@angular/core';
+import {Directive, ElementRef, Input, OnInit} from '@angular/core';
 
 import {Coordinates, RelationsEndpoint, RelationsNode} from '../interfaces';
 import {NodeRelationPath} from '../misc/nodeRelationPath';
-import {RELATIONS_NODE} from '../misc/tokens';
 import {RelationsNodeManager} from '../services';
 import {RelationsCanvasSAComponent} from './relationsCanvas/relationsCanvas.component';
-
-//TODO: change parent to input from DI
 
 /**
  * Base class for relations node endpoints (inputs/outputs)
  */
 @Directive()
-export abstract class RelationNodeEndpointBase implements RelationsEndpoint
+export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnInit
 {
     //######################### protected properties #########################
 
@@ -48,7 +45,7 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint
      */
     public get parentId(): string
     {
-        return this._parent.id;
+        return this.parent?.id ?? '';
     }
 
     //######################### public properties - inputs #########################
@@ -69,12 +66,30 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint
         y: 0
     };
 
+    /**
+     * Instance of parent node
+     */
+    @Input()
+    public parent: RelationsNode|undefined|null;
+
     //######################### constructor #########################
     constructor(protected _element: ElementRef<HTMLElement>,
                 protected _relationManager: RelationsNodeManager,
-                @Inject(RELATIONS_NODE) protected _parent: RelationsNode,
                 protected _canvas: RelationsCanvasSAComponent,)
     {
+    }
+
+    //######################### public methods - implementation of OnInit #########################
+    
+    /**
+     * Initialize component
+     */
+    public ngOnInit(): void
+    {
+        if(!this.parent)
+        {
+            throw new Error('Every input or output endpoint must have parent specified');
+        }
     }
 
     //######################### public methods #########################

@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 
 /**
  * Page for displaying relations
@@ -12,7 +12,6 @@ import {RelationsComponentManager, RelationsManager, RelationsProcessor} from '@
     // styleUrls: ['relations.component.scss'],
     providers:
     [
-        RelationsComponentManager,
         RelationsManager,
         RelationsProcessor,
     ],

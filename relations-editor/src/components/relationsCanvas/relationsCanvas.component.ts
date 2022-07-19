@@ -139,7 +139,7 @@ export class RelationsCanvasSAComponent
                     inputs:
                     [
                         {
-                            id: 'sample-changes',
+                            id: 'relations-sample-click',
                             inputName: 'vstup'
                         }
                     ]
@@ -156,21 +156,61 @@ export class RelationsCanvasSAComponent
             }
         },
         {
-            id: 'sample-changes',
-            package: 'basic-components',
-            name: 'sampleChange',
+            id: 'relations-sample-click',
+            package: 'ɵRegisteredComponent',
+            name: 'relations-sample-click',
             relationsOptions: null,
-            outputs: [],
+            outputs:
+            [
+                {
+                    outputName: 'vystup',
+                    inputs:
+                    [
+                        {
+                            id: 'sample-changes',
+                            inputName: 'vstup'
+                        }
+                    ]
+                }
+            ],
             nodeMetadata:
             {
                 coordinates: 
                 {
                     x: 230,
-                    y: 60
+                    y: 80
                 },
                 options: null
             }
-        }
+        },
+        {
+            id: 'sample-changes',
+            package: 'basic-components',
+            name: 'sampleChange',
+            relationsOptions: null,
+            outputs: [],
+            // [
+            //     {
+            //         outputName: 'vystup',
+            //         inputs:
+            //         [
+            //             {
+            //                 id: 'relations-result',
+            //                 inputName: 'vstup'
+            //             }
+            //         ]
+            //     }
+            // ],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 430,
+                    y: 100
+                },
+                options: null
+            }
+        },
     ];
 
     //######################### constructor #########################

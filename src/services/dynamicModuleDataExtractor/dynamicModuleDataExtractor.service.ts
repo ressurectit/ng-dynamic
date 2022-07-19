@@ -1,5 +1,5 @@
 import {Logger} from '@anglr/common';
-import {Dictionary, extend, resolvePromiseOr} from '@jscrpt/common';
+import {Dictionary, extend, resolvePromiseOr, isEmptyObject} from '@jscrpt/common';
 
 import {DynamicModule} from '../../interfaces';
 import {DynamicModuleDataExtractorFn} from './dynamicModuleDataExtractor.interface';
@@ -41,6 +41,11 @@ export class DynamicModuleDataExtractor<TData extends Dictionary<any> = any>
         for(const fn of this._extractorFunctions)
         {
             extend(true, result, await resolvePromiseOr(fn(module, this._logger)));
+        }
+
+        if(isEmptyObject(result))
+        {
+            return null;
         }
 
         return result;

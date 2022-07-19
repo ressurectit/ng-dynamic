@@ -2,7 +2,7 @@ import {Provider} from '@angular/core';
 import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
 import {isBlank, isBoolean, isJsObject, isPresent, isType} from '@jscrpt/common';
 
-import {BASIC_COMPONENTS_RELATIONS_NODES_PROVIDER, DEFAULT_RELATIONS_NODES_EXTRACTOR} from './providers';
+import {BASIC_COMPONENTS_RELATIONS_NODES_PROVIDER, DEFAULT_RELATIONS_NODES_EXTRACTOR, REGISTERED_COMPONENTS_RELATIONS_NODES_EXTRACTOR, REGISTERED_COMPONENTS_RELATIONS_NODES_PROVIDER} from './providers';
 import type {RelationsModuleTypes, RelationsNodeDef} from './types';
 
 /**
@@ -64,6 +64,8 @@ export function provideRelationsEditor(): Provider[]
 {
     return [
         BASIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
+        REGISTERED_COMPONENTS_RELATIONS_NODES_PROVIDER,
         DEFAULT_RELATIONS_NODES_EXTRACTOR,
+        REGISTERED_COMPONENTS_RELATIONS_NODES_EXTRACTOR,
     ];
 }

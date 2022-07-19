@@ -1,5 +1,5 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider, forwardRef} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RELATIONS_NODE} from '@anglr/dynamic/relations-editor';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for sample source
@@ -13,14 +13,6 @@ import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RELATIO
     imports:
     [
         RelationNodeOutputSAComponent,
-    ],
-    providers:
-    [
-        <ExistingProvider>
-        {
-            provide: RELATIONS_NODE,
-            useExisting: forwardRef(() => SampleSourceNodeSAComponent),
-        }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -5,22 +5,6 @@ import {resolvePromiseOr} from '@jscrpt/common';
 import {RelationsEditorMetadataType} from '../../decorators';
 import {RelationsNodeDef} from '../types';
 
-// /**
-//  * Module with relations exports
-//  */
-// interface ɵDynamicModuleWithRelations extends DynamicModule
-// {
-//     /**
-//      * Default export value
-//      */
-//     default?: Type<RelationsComponent>;
-
-//     /**
-//      * Relations named export value
-//      */
-//     relations?: Type<RelationsComponent>;
-// }
-
 /**
  * Extracts dynamic relations node from default locations
  */

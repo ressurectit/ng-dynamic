@@ -31,7 +31,7 @@ import {RelationsResultComponent, RelationsSampleClickComponent} from './misc/co
         ...components,
         RelationsSampleClickComponent,
         RelationsResultComponent,
-    ]
+    ],
 })
 @ModuleRoutes(components)
 export class DefaultModule

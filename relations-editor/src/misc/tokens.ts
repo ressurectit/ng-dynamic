@@ -4,7 +4,6 @@ import {LOGGER} from '@anglr/common';
 
 import {RelationsModuleTypes, RelationsNodeDef} from './types';
 import {isRelationsModuleTypes, isRelationsNodeDef} from './utils';
-import {RelationsNode} from '../interfaces';
 
 /**
  * Injection token for relations module types data extractors
@@ -55,8 +54,3 @@ export const RELATIONS_NODES_LOADER: InjectionToken<DynamicItemLoader<RelationsN
                                                                                                                                                                                         inject(LOGGER, InjectFlags.Optional) ?? undefined);
                                                                                                                                                        }
                                                                                                                                                    });
-
-/**
- * Injection token used for injecting relations node parent of relations node endpoint
- */
-export const RELATIONS_NODE: InjectionToken<RelationsNode> = new InjectionToken<RelationsNode>('RELATIONS_NODE');

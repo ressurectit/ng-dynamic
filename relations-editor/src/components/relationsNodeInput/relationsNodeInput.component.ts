@@ -31,11 +31,10 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
      */
     private _tempRelation: NodeRelationPath|null|undefined;
 
-    //######################### public methods #########################
+    //######################### public methods - implementation of RelationsInput #########################
 
     /**
-     * Adds new relation, and returns true if relation was added, otherwise false
-     * @param relation - Relations to be added
+     * @inheritdoc
      */
     public addRelation(relation: NodeRelationPath): boolean
     {
@@ -55,8 +54,6 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
         
         return true;
     }
-
-    //######################### public methods - implementation of RelationsInput #########################
 
     /**
      * @inheritdoc

@@ -14,6 +14,11 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     //######################### protected fields #########################
 
     /**
+     * Indication whether is node initialized
+     */
+    protected _initialized: boolean = false;
+
+    /**
      * Indication whether user is dragging
      */
     protected _isDragging: boolean = false;
@@ -125,51 +130,6 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
         this._updatePosition();
     }
 
-    //######################### public methods - implementation of AfterViewInit #########################
-    
-    /**
-     * Called when view was initialized
-     */
-    public ngAfterViewInit(): void
-    {
-        const updateInputs = () =>
-        {
-            this._inputs = {};
-
-            this._inputsChildren.forEach(input =>
-            {
-                if(input.name)
-                {
-                    this._inputs[input.name] = input;
-                }
-            });
-
-            Object.freeze(this._inputs);
-        };
-
-        const updateOutputs = () =>
-        {
-            this._allOutputs = this._outputsChildren.toArray();
-            this._outputs = {};
-
-            this._outputsChildren.forEach(output =>
-            {
-                if(output.name)
-                {
-                    this._outputs[output.name] = output;
-                }
-            });
-
-            Object.freeze(this._outputs);
-        };
-
-        this._inputsChildren.changes.subscribe(() => updateInputs());
-        this._outputsChildren.changes.subscribe(() => updateOutputs());
-
-        updateInputs();
-        updateOutputs();
-    }
-
     //######################### public methods - implementation of OnChanges #########################
     
     /**
@@ -198,6 +158,13 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     public invalidateVisuals(): void
     {
         this._changeDetector.detectChanges();
+
+        if(!this._initialized)
+        {
+            this._initialized = true;
+
+            this._initEndpoints();
+        }
     }
 
     //######################### protected methods methods - host listeners #########################
@@ -264,6 +231,49 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     }
 
     //######################### protected methods #########################
+
+    /**
+     * Initialize endpoints
+     */
+    protected _initEndpoints(): void
+    {
+        const updateInputs = () =>
+        {
+            this._inputs = {};
+
+            this._inputsChildren?.forEach(input =>
+            {
+                if(input.name)
+                {
+                    this._inputs[input.name] = input;
+                }
+            });
+
+            Object.freeze(this._inputs);
+        };
+
+        const updateOutputs = () =>
+        {
+            this._allOutputs = this._outputsChildren.toArray();
+            this._outputs = {};
+
+            this._outputsChildren?.forEach(output =>
+            {
+                if(output.name)
+                {
+                    this._outputs[output.name] = output;
+                }
+            });
+
+            Object.freeze(this._outputs);
+        };
+
+        this._inputsChildren?.changes.subscribe(() => updateInputs());
+        this._outputsChildren?.changes.subscribe(() => updateOutputs());
+
+        updateInputs();
+        updateOutputs();
+    }
 
     /**
      * Updates node relations

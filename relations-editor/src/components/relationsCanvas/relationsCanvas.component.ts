@@ -50,17 +50,17 @@ const SCALE_FACTOR_MAX = 2;
 })
 export class RelationsCanvasSAComponent
 {
-    //######################### private properties #########################
+    //######################### protected properties #########################
 
     /**
      * Background pattern size
      */
-    private _backgroundSize: number = DEFAULT_BACKGROUND_SIZE;
+    protected _backgroundSize: number = DEFAULT_BACKGROUND_SIZE;
 
     /**
      * Last mouse down position
      */
-    private _lastMouseDownPosition: Coordinates = 
+    protected _lastMouseDownPosition: Coordinates = 
     {
         x: 0, 
         y: 0
@@ -69,7 +69,7 @@ export class RelationsCanvasSAComponent
     /**
      * Last mouse up position
      */
-    private _lastMouseUpPosition: Coordinates = 
+    protected _lastMouseUpPosition: Coordinates = 
     {
         x: 0, 
         y: 0
@@ -174,7 +174,7 @@ export class RelationsCanvasSAComponent
     ];
 
     //######################### constructor #########################
-    constructor(private _relationManager: RelationsNodeManager,)
+    constructor(protected _relationManager: RelationsNodeManager,)
     {
     }
 

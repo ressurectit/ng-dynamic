@@ -6,6 +6,8 @@ import {RELATIONS_NODE} from '../misc/tokens';
 import {RelationsNodeManager} from '../services';
 import {RelationsCanvasSAComponent} from './relationsCanvas/relationsCanvas.component';
 
+//TODO: change parent to input from DI
+
 /**
  * Base class for relations node endpoints (inputs/outputs)
  */
@@ -78,8 +80,7 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint
     //######################### public methods #########################
 
     /**
-     * Gets node coordinates
-     * @returns 
+     * @inheritdoc
      */
     public getCoordinates(): Coordinates
     {

@@ -6,6 +6,7 @@ import {isPresent, nameof} from '@jscrpt/common';
 import {RelationsNode, RelationsNodeMetadata} from '../../interfaces';
 import {RELATIONS_NODES_LOADER} from '../../misc/tokens';
 import {RelationsNodeDef} from '../../misc/types';
+import {RelationsNodeManager} from '../../services';
 
 /**
  * Renderer for dynamic relations node
@@ -70,6 +71,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
 
     //######################### constructor #########################
     constructor(protected _viewContainerRef: ViewContainerRef,
+                protected _relationsNodeManager: RelationsNodeManager,
                 @Inject(RELATIONS_NODES_LOADER) protected _loader: DynamicItemLoader<RelationsNodeDef>,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
@@ -191,6 +193,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
                 this._logger?.debug('RelationsNodeRendererSADirective: invalidating node visuals {@id}', {id: this.componentMetadata?.id});
                 node.invalidateVisuals();
 
+                this._relationsNodeManager.registerNode(this.component);
                 this.create.next(node);
             }
         }
@@ -210,6 +213,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
             if(this.component)
             {
                 this.destroy.next(this.component);
+                this._relationsNodeManager.unregisterNode(this.component);
             }
 
             this._componentRef?.destroy();

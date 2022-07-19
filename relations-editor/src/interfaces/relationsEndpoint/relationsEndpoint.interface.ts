@@ -1,4 +1,5 @@
 import type {NodeRelationPath} from '../../misc/nodeRelationPath';
+import {Coordinates} from '../coordinates/coordinates.interface';
 
 /**
  * Describes relations endpoint (input/output)
@@ -19,6 +20,11 @@ export interface RelationsEndpoint
      * Updates relation coordinates
      */
     updateRelation(): void;
+
+    /**
+     * Gets node coordinates
+     */
+    getCoordinates(): Coordinates;
 }
 
 /**
@@ -31,6 +37,12 @@ export interface RelationsInput extends RelationsEndpoint
      * @param relation - Relation that will end up in this input
      */
     endRelation(relation: NodeRelationPath): void;
+
+    /**
+     * Adds new relation, and returns true if relation was added, otherwise false
+     * @param relation - Relations to be added
+     */
+    addRelation(relation: NodeRelationPath): boolean;
 }
 
 /**

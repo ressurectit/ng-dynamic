@@ -117,6 +117,12 @@ export interface LayoutEditorMetadataDescriptor<TOptions = any>
     readonly canDropMetadata?: Func<boolean, [TOptions|undefined|null]>;
 
     /**
+     * Gets all descendants layout metadata for this layout component metadata
+     * @param options - Options that contains descendants of layout component metadata
+     */
+    readonly getDescendants?: Func<LayoutComponentMetadata[], [TOptions|undefined|null]>;
+
+    /**
      * Tests whether component has horizontal drop
      * @param options - Options that holds information whether horizontal drop is enabled for this component
      */

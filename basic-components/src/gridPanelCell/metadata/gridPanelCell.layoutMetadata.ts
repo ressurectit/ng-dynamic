@@ -42,6 +42,11 @@ export class GridPanelCellLayoutEditorMetadata implements LayoutEditorMetadataDe
     /**
      * @inheritdoc
      */
+    public getDescendants?: Func<LayoutComponentMetadata[], [GridPanelCellComponentOptions|undefined|null]> = options => options?.component ? [options.component] : [];
+
+    /**
+     * @inheritdoc
+     */
     public removeDescendant: Action<[string, GridPanelCellComponentOptions]> = (id, options) =>
     {
         if(options.component?.id === id)

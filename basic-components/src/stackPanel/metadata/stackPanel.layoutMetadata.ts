@@ -69,6 +69,11 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
     /**
      * @inheritdoc
      */
+    public getDescendants?: Func<LayoutComponentMetadata[], [StackPanelComponentOptions|undefined|null]> = options => options?.children ?? [];
+
+    /**
+     * @inheritdoc
+     */
     public isHorizontalDrop?: Func<boolean, [StackPanelComponentOptions|undefined|null]> = options => !!options?.horizontal;
 
     /**

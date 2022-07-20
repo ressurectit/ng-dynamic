@@ -226,6 +226,14 @@
             "node": "./es2015/basic-components/src/types.js",
             "default": "./es2020/basic-components/src/types.js"
         },
+        "./basic-components/relations": {
+            "types": "./basic-components/src/relations.d.ts",
+            "esm2020": "./es2020/basic-components/src/relations.js",
+            "es2020": "./es2020/basic-components/src/relations.js",
+            "es2015": "./es2015/basic-components/src/relations.js",
+            "node": "./es2015/basic-components/src/relations.js",
+            "default": "./es2020/basic-components/src/relations.js"
+        },
         "./material-components": {
             "types": "./material-components/src/index.d.ts",
             "esm2020": "./es2020/material-components/src/index.js",
@@ -249,6 +257,14 @@
             "es2015": "./es2015/material-components/src/types.js",
             "node": "./es2015/material-components/src/types.js",
             "default": "./es2020/material-components/src/types.js"
+        },
+        "./material-components/relations": {
+            "types": "./material-components/src/relations.d.ts",
+            "esm2020": "./es2020/material-components/src/relations.js",
+            "es2020": "./es2020/material-components/src/relations.js",
+            "es2015": "./es2015/material-components/src/relations.js",
+            "node": "./es2015/material-components/src/relations.js",
+            "default": "./es2020/material-components/src/relations.js"
         }
     }
 }

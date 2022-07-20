@@ -1,12 +1,12 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {SampleSourceNodeSAComponent} from '../node/sampleSourceNode.component';
+import {RelationsSampleClickNodeSAComponent} from '../node/relationsSampleClick.component';
 
 /**
- * Sample source relations metadata
+ * Relations sample click relations metadata
  */
-export class SampleSourceRelationsEditorMetadata implements RelationsEditorMetadataDescriptor
+export class RelationsSampleClickRelationsEditorMetadata implements RelationsEditorMetadataDescriptor
 {
     //######################### public properties - implementation of RelationsEditorMetadataDescriptor #########################
 
@@ -15,15 +15,15 @@ export class SampleSourceRelationsEditorMetadata implements RelationsEditorMetad
      */
     public metaInfo?: RelationsEditorMetadataInfo =
     {
-        name: 'Sample source',
-        description: 'Sample source node',
-        group: 'Sample',
+        name: 'Relations sample click',
+        description: 'Relations sample click node',
+        group: 'Sample component',
     };
 
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = SampleSourceNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = RelationsSampleClickNodeSAComponent;
 
     //######################### constructor #########################
     constructor()

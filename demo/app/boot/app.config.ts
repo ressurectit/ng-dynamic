@@ -19,7 +19,7 @@ import {LoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST
 import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
 import {provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {provideRelations} from '@anglr/dynamic/relations';
-import {provideRelationsEditor} from '@anglr/dynamic/relations-editor';
+import {provideRelationsEditor, StaticComponentsRegister} from '@anglr/dynamic/relations-editor';
 import {RelationsComponentManager} from '@anglr/dynamic/relations';
 import {isString, isJsObject} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
@@ -29,6 +29,7 @@ import {GlobalizationService as GlobalizationServiceImpl} from '../services/glob
 import {NOTHING_SELECTED} from '../misc/constants';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
+import {StaticComponentsRegister as DemoRegister} from '../services/staticComponentsRegister';
 
 /**
  * Array of providers that are used in app module
@@ -374,4 +375,9 @@ export const providers: Provider[] =
     ...provideRelations(),
     ...provideRelationsEditor(),
     RelationsComponentManager,
+    <ClassProvider>
+    {
+        provide: StaticComponentsRegister,
+        useClass: DemoRegister,
+    },
 ];

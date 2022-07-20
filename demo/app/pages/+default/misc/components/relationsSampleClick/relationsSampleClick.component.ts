@@ -1,7 +1,10 @@
 import {Component, ChangeDetectionStrategy, SimpleChanges, ChangeDetectorRef, Input, OnInit, OnDestroy} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {DynamicOutput, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {nameof} from '@jscrpt/common';
+
+import {RelationsSampleClickRelationsMetadataLoader} from './relationsSampleClick.metadata';
 
 /**
  * Sample relations click component
@@ -13,8 +16,19 @@ import {nameof} from '@jscrpt/common';
     // styleUrls: ['relationsSampleClick.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@RelationsEditorMetadata(RelationsSampleClickRelationsMetadataLoader)
 export class RelationsSampleClickComponent implements RelationsComponent, OnInit, OnDestroy
 {
+    //######################### public static properties #########################
+
+    /**
+     * Gets relations id
+     */
+    public static get relationsId(): string
+    {
+        return 'relations-sample-click';
+    }
+
     //######################### public properties - implementation of RelationsComponent #########################
 
     /**
@@ -60,9 +74,9 @@ export class RelationsSampleClickComponent implements RelationsComponent, OnInit
      */
     public async ngOnInit(): Promise<void>
     {
-        this._componentManager.registerComponent('relations-sample-click', this);
+        this._componentManager.registerComponent(RelationsSampleClickComponent.relationsId, this);
         await this._relationsProcessor.initialized;
-        this._relationsProcessor.updateRelations('relations-sample-click');
+        this._relationsProcessor.updateRelations(RelationsSampleClickComponent.relationsId);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -72,6 +86,8 @@ export class RelationsSampleClickComponent implements RelationsComponent, OnInit
      */
     public ngOnDestroy(): void
     {
+        this._relationsProcessor.destroyComponent(RelationsSampleClickComponent.relationsId);
+        this._componentManager.unregisterComponent(RelationsSampleClickComponent.relationsId);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################

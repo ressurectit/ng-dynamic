@@ -157,7 +157,7 @@ export class RelationsCanvasSAComponent
         },
         {
             id: 'relations-sample-click',
-            package: 'ɵRegisteredComponent',
+            package: 'static-components',
             name: 'relations-sample-click',
             relationsOptions: null,
             outputs:

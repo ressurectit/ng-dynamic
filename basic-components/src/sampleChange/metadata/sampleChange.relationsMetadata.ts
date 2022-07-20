@@ -8,7 +8,7 @@ import {SampleChangeNodeSAComponent} from '../node/sampleChangeNode.component';
  */
 export class SampleChangeRelationsEditorMetadata implements RelationsEditorMetadataDescriptor
 {
-    //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
+    //######################### public properties - implementation of RelationsEditorMetadataDescriptor #########################
 
     /**
      * @inheritdoc

@@ -57,8 +57,8 @@ export class RelationsComponent
                 },
                 {
                     id: 'relations-sample-click',
-                    package: '---',
-                    name: '---',
+                    package: 'static-components',
+                    name: 'relations-sample-click',
                     relationsOptions: null,
                     outputs:
                     [

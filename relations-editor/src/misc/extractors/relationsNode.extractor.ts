@@ -20,6 +20,12 @@ export const relationsNodeExtractor: DynamicModuleDataExtractorFn<RelationsNodeD
     }
 
     const nodeMeta = relations.data as RelationsEditorMetadataType;
+
+    if(!nodeMeta)
+    {
+        return null;
+    }
+
     const metadata = await nodeMeta.relationsEditorMetadata;
     
     if(!metadata)

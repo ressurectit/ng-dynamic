@@ -14,6 +14,16 @@ import {nameof} from '@jscrpt/common';
 })
 export class RelationsResultComponent implements RelationsComponent, OnInit, OnDestroy
 {
+    //######################### public static properties #########################
+
+    /**
+     * Gets relations id
+     */
+    public static get relationsId(): string
+    {
+        return 'relations-result';
+    }
+
     //######################### public properties - implementation of RelationsComponent #########################
 
     /**
@@ -43,9 +53,9 @@ export class RelationsResultComponent implements RelationsComponent, OnInit, OnD
      */
     public async ngOnInit(): Promise<void>
     {
-        this._componentManager.registerComponent('relations-result', this);
+        this._componentManager.registerComponent(RelationsResultComponent.relationsId, this);
         await this._relationsProcessor.initialized;
-        this._relationsProcessor.updateRelations('relations-result');
+        this._relationsProcessor.updateRelations(RelationsResultComponent.relationsId);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -55,6 +65,8 @@ export class RelationsResultComponent implements RelationsComponent, OnInit, OnD
      */
     public ngOnDestroy(): void
     {
+        this._relationsProcessor.destroyComponent(RelationsResultComponent.relationsId);
+        this._componentManager.unregisterComponent(RelationsResultComponent.relationsId);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################

@@ -1,2 +1,2 @@
-export * from './registeredComponentRelationsNode.extractor';
+export * from './componentRelationsNode.extractor';
 export * from './relationsNode.extractor';

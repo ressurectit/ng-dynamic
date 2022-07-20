@@ -3,8 +3,8 @@ import {BasicComponentsDynamicModuleItemsProvider, DynamicModuleDataExtractor} f
 import {LOGGER, Logger} from '@anglr/common';
 
 import {RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_PROVIDERS} from './tokens';
-import {registeredComponentRelationsNodeExtractor, relationsNodeExtractor} from './extractors';
-import {RegisteredComponentsRelationsNodesProvider} from '../services';
+import {componentRelationsNodeExtractor, relationsNodeExtractor} from './extractors';
+import {StaticComponentsRelationsNodesProvider} from '../services';
 
 /**
  * Provider for basic components package relations nodes provider
@@ -17,12 +17,12 @@ export const BASIC_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
 };
 
 /**
- * Provider for registered components relations nodes provider
+ * Provider for static components relations nodes provider
  */
-export const REGISTERED_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
+export const STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
 {
     provide: RELATIONS_NODES_PROVIDERS,
-    useClass: RegisteredComponentsRelationsNodesProvider,
+    useClass: StaticComponentsRelationsNodesProvider,
     multi: true
 };
 
@@ -52,7 +52,7 @@ export const REGISTERED_COMPONENTS_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
     useFactory: (logger?: Logger) =>
     {
         return new DynamicModuleDataExtractor([
-                                                  registeredComponentRelationsNodeExtractor,
+                                                  componentRelationsNodeExtractor,
                                               ],
                                               logger);
     },

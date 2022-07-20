@@ -18,6 +18,15 @@ export class RelationsEditorComponent
 {
     constructor(private _iteratorsSvc: LayoutComponentsIteratorService)
     {
+    }
+
+    //######################### public methods - implementation of OnInit #########################
+    
+    /**
+     * Initialize component
+     */
+    public async ngOnInit(): Promise<void>
+    {
         const iterator = this._iteratorsSvc.getIteratorFor(
         {
             id: 'gridPanelTest',
@@ -166,9 +175,14 @@ export class RelationsEditorComponent
             }
         });
 
-        iterator.forEach((itm, parent, index, level) =>
+        // await iterator.forEach((itm, parent, index, level) =>
+        // {
+        //     console.log('iterate', itm, parent, index, level);
+        // });
+
+        for await (const metadata of iterator)
         {
-            console.log('iterate', itm, parent, index, level);
-        });
+            console.log('for...of', metadata);
+        }
     }
 }

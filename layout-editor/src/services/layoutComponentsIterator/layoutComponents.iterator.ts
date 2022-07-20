@@ -9,7 +9,7 @@ import {LayoutComponentsIteratorItem} from './layoutComponentsIterator.interface
 //TODO: make action commented type
 
 /**
- * Iterator for layout components
+ * Iterator for layout components metadata
  */
 export class LayoutComponentsIterator<TOptions = any>
 {
@@ -24,6 +24,43 @@ export class LayoutComponentsIterator<TOptions = any>
      * Indication whether was iterator initialized
      */
     protected _initialized: boolean = false;
+
+    /**
+     * Initialization promise
+     */
+    protected _initPromise: Promise<void>|null = null;
+
+    //######################### public properties #########################
+
+    /**
+     * Async iterator for layout components metadata
+     */
+    public [Symbol.asyncIterator](): AsyncIterator<LayoutComponentMetadata>
+    {
+        let x = 0;
+        const initPromise = this._initPromise ??= this._getInitPromise();
+        const items = this._items;
+
+        return {
+            async next() 
+            {
+                await initPromise;
+                
+                if (x < items.length) 
+                {
+                    return {
+                        value: items[x++].metadata,
+                        done: false
+                    };
+                }
+        
+                return {
+                    value: items[x - 1].metadata,
+                    done: true 
+                };
+            }
+        };
+    }
 
     //######################### constructor #########################
     constructor(protected _layoutMetadata: LayoutComponentMetadata<TOptions>,
@@ -40,12 +77,7 @@ export class LayoutComponentsIterator<TOptions = any>
      */
     public async forEach(callback: Action<[LayoutComponentMetadata, LayoutComponentMetadata|undefined|null, number, number]>): Promise<void>
     {
-        if(!this._initialized)
-        {
-            this._initialized = true;
-
-            await this._getComponents();
-        }
+        await (this._initPromise ??= this._getInitPromise());
 
         for(const item of this._items)
         {
@@ -55,11 +87,21 @@ export class LayoutComponentsIterator<TOptions = any>
 
     //######################### protected methods #########################
 
+    /**
+     * Gets components in layout components metadata hierarchy
+     */
     protected async _getComponents(): Promise<void>
     {
         await this._getComponent(this._layoutMetadata, null, 0, 0);
     }
 
+    /**
+     * Gets metadata for single layout component metadata and its children
+     * @param metadata - Metadata for layout component
+     * @param parentMetadata - Metadata for parent layout component
+     * @param levelIndex - Index of layout component in current level
+     * @param level - Current level of nexted components, 0 is root component
+     */
     protected async _getComponent(metadata: LayoutComponentMetadata<TOptions>, parentMetadata: LayoutComponentMetadata<TOptions>|undefined|null, levelIndex: number, level: number): Promise<void>
     {
         this._items.push(
@@ -90,6 +132,19 @@ export class LayoutComponentsIterator<TOptions = any>
         for(let x = 0; x < childrenMeta.length; x++)
         {
             await this._getComponent(childrenMeta[x], metadata, x, level + 1);
+        }
+    }
+
+    /**
+     * Gets initialization promise
+     */
+    protected async _getInitPromise(): Promise<void>
+    {
+        if(!this._initialized)
+        {
+            this._initialized = true;
+
+            await this._getComponents();
         }
     }
 }

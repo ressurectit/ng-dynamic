@@ -1,4 +1,10 @@
 <div>
+    <button class="btn btn-primary" type="button" (click)="visible = !visible">
+        <span>click</span>
+    </button>
+</div>
+
+<div *ngIf="visible">
     <div class="bold">relations sample click</div>
     <relations-sample-click></relations-sample-click>
 </div>

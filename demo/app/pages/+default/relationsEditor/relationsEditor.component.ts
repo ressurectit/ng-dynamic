@@ -1,7 +1,9 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
+import {DynamicItemLoader} from '@anglr/dynamic';
 import {ComponentStylingOptions, TextFontWeight} from '@anglr/dynamic/layout';
 import {LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
+import {RelationsModuleTypes, RELATIONS_MODULE_TYPES_LOADER} from '@anglr/dynamic/relations-editor';
 import {GridPanelCellComponentOptions, GridPanelComponentOptions, StackPanelComponentOptions, StackPanelFlexExtensionOptions, TextBlockComponentOptions} from '@anglr/dynamic/basic-components';
 
 /**
@@ -16,8 +18,11 @@ import {GridPanelCellComponentOptions, GridPanelComponentOptions, StackPanelComp
 @ComponentRoute({path: 'relations-editor'})
 export class RelationsEditorComponent
 {
-    constructor(private _iteratorsSvc: LayoutComponentsIteratorService)
+    constructor(private _iteratorsSvc: LayoutComponentsIteratorService,
+                @Inject(RELATIONS_MODULE_TYPES_LOADER) relationsTypesLoader: DynamicItemLoader<RelationsModuleTypes>,)
     {
+        relationsTypesLoader.loadItem({package: 'basic-components', name: '---'}).then(res => console.log('res basic', res));
+        relationsTypesLoader.loadItem({package: 'static-components', name: '---'}).then(res => console.log('res static', res));
     }
 
     //######################### public methods - implementation of OnInit #########################

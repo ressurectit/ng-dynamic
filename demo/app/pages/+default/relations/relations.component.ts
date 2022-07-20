@@ -20,6 +20,13 @@ import {RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 @ComponentRoute({path: 'relations'})
 export class RelationsComponent
 {
+    //######################### protected properties - template bindings #########################
+
+    /**
+     * Indication whether is relations sample click component visible
+     */
+    protected visible: boolean = true;
+
     //######################### constructor #########################
     constructor(private _relationsManager: RelationsManager,)
     {

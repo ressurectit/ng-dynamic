@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {RelationsSampleClickNodeSAComponent} from '../node/relationsSampleClick.component';
+import {RelationsSampleClickNodeSAComponent} from '../node/relationsSampleClickNode.component';
 
 /**
  * Relations sample click relations metadata

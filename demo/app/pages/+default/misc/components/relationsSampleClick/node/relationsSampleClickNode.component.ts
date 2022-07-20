@@ -7,8 +7,8 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
 @Component(
 {
     selector: 'relations-sample-clic-node',
-    templateUrl: 'relationsSampleClick.component.html',
-    styleUrls: ['relationsSampleClick.component.scss'],
+    templateUrl: 'relationsSampleClickNode.component.html',
+    styleUrls: ['relationsSampleClickNode.component.scss'],
     standalone: true,
     imports:
     [

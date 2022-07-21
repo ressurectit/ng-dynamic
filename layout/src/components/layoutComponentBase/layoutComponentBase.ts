@@ -108,7 +108,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         {
             for(const ext of this._extensions)
             {
-                await resolvePromiseOr(ext.initialize(this._injector, this.element, extensionsOptions));
+                await resolvePromiseOr(ext.initialize(this._injector, this.element, this));
             }
         }
     }

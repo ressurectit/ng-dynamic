@@ -1,4 +1,4 @@
-import {DynamicItemSource} from '@anglr/dynamic';
+import {DynamicItemMetadata} from '@anglr/dynamic';
 
 /**
  * Metadata for input relation
@@ -35,18 +35,8 @@ export interface RelationOutputMetadata
 /**
  * Metadata for component relations
  */
-export interface RelationsComponentMetadata<TOptions = any> extends DynamicItemSource
+export interface RelationsComponentMetadata<TOptions = any> extends DynamicItemMetadata
 {
-    /**
-     * Unique id of component which outputs will be in relation
-     */
-    id: string;
-
-    /**
-     * Display name of component, this is how is component displayed
-     */
-    displayName?: string;
-
     /**
      * Options passed to relations component
      */

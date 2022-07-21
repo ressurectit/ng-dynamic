@@ -1,23 +1,22 @@
-import {Type} from '@angular/core';
 import {isJsObject} from '@jscrpt/common';
 
-import {DynamicItemExtension, DynamicItemExtensions, DynamicModule} from '../../interfaces';
+import {DynamicItemExtensions, DynamicItemExtensionType, DynamicModule} from '../../interfaces';
 import {DynamicModuleDataExtractorFn} from '../../services';
 
 /**
  * Module with extensions named exports
  */
-interface ɵDynamicModuleNamedExtensions<TExtension extends DynamicItemExtension = any> extends DynamicModule
+interface ɵDynamicModuleNamedExtensions extends DynamicModule
 {
     /**
      * Extensions applied directly to self or object storing extensions and child extensions
      */
-    extensions?: Type<TExtension>[]|DynamicItemExtensions<TExtension>;
+    extensions?: DynamicItemExtensionType[]|DynamicItemExtensions;
 
     /**
      * Extensions applied to children
      */
-    childExtensions?: Type<TExtension>[];
+    childExtensions?: DynamicItemExtensionType[];
 }
 
 /**
@@ -42,7 +41,7 @@ export const extensionsExportsExtractor: DynamicModuleDataExtractorFn<DynamicIte
     if(localModule.childExtensions || localModule.extensions)
     {
         return {
-            extensions: localModule.extensions as Type<DynamicItemExtension>[],
+            extensions: localModule.extensions as DynamicItemExtensionType[],
             childExtensions: localModule.childExtensions,
         };
     }

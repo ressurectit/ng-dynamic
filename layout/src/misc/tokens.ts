@@ -1,6 +1,6 @@
-import {inject, InjectFlags, InjectionToken, Type} from '@angular/core';
+import {inject, InjectFlags, InjectionToken} from '@angular/core';
 import {LOGGER} from '@anglr/common';
-import {DynamicItemExtension, DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
+import {DynamicItemExtensionType, DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
 
 import {LayoutComponentTransform} from '../interfaces';
 import {LayoutComponentDef} from './types';
@@ -14,7 +14,7 @@ export const LAYOUT_COMPONENT_TRANSFORM: InjectionToken<LayoutComponentTransform
 /**
  * Injection token for layout component child extension types
  */
-export const LAYOUT_COMPONENT_CHILD_EXTENSIONS: InjectionToken<Type<DynamicItemExtension>[]> = new InjectionToken<Type<DynamicItemExtension>[]>('LAYOUT_COMPONENT_CHILD_EXTENSIONS');
+export const LAYOUT_COMPONENT_CHILD_EXTENSIONS: InjectionToken<DynamicItemExtensionType[]> = new InjectionToken<DynamicItemExtensionType[]>('LAYOUT_COMPONENT_CHILD_EXTENSIONS');
 
 /**
  * Injection token for layout components module data extractors

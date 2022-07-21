@@ -1,65 +1,59 @@
-import {Injector} from '@angular/core';
-import {DynamicItemExtension} from '@anglr/dynamic';
+import {DynamicItemExtension, DynamicItemExtensionBase} from '@anglr/dynamic';
 
-// import {RelationsComponentManager, RelationsProcessor} from '../../services';
+import {RelationsComponent} from '../../interfaces';
+import {RelationsComponentManager, RelationsProcessor} from '../../services';
 
-//TODO: base class for extensions
-//TODO: refactore layout component
+//TODO: refactor layout component
 
 /**
  * Extension that allows registration of component for relations
  */
-export class RelationsRegistrationExtension implements DynamicItemExtension
+export class RelationsRegistrationExtension extends DynamicItemExtensionBase<unknown, RelationsComponent> implements DynamicItemExtension<unknown, RelationsComponent>
 {
-    //######################### protected fields #########################
-
-    /**
-     * Injector from extended component
-     */
-    protected _injector?: Injector;
-
-    /**
-     * Indication whether was extension initialized
-     */
-    protected _initialized: boolean = false;
-
-    //######################### public methods - implementation of DynamicItemExtension #########################
+    //######################### public methods - overrides #########################
 
     /**
      * @inheritdoc
      */
-    public async initialize(injector: Injector): Promise<void>
+    protected override async onInit(): Promise<void>
     {
-        this._initialized = true;
-
-        this._injector = injector;
-        // const relationsProcessor: RelationsProcessor = this._injector.get(RelationsProcessor);
-        // const componentManager: RelationsComponentManager = this._injector.get(RelationsComponentManager);
-
-        // componentManager.registerComponent(RelationsSampleClickComponent.relationsId, this);
-        // await relationsProcessor.initialized;
-        // relationsProcessor.updateRelations(RelationsSampleClickComponent.relationsId);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public optionsChange(): void
-    {
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public destroy(): void
-    {
-        if(this._injector)
+        if(!this._injector || !this._metadata || !this._instance)
         {
-            // const relationsProcessor: RelationsProcessor = this._injector.get(RelationsProcessor);
-            // const componentManager: RelationsComponentManager = this._injector.get(RelationsComponentManager);
-
-            // relationsProcessor.destroyComponent(RelationsSampleClickComponent.relationsId);
-            // componentManager.unregisterComponent(RelationsSampleClickComponent.relationsId);
+            return;
         }
+
+        const relationsProcessor: RelationsProcessor|null = this._injector.get(RelationsProcessor, null);
+        const componentManager: RelationsComponentManager|null = this._injector.get(RelationsComponentManager, null);
+
+        if(!relationsProcessor || !componentManager)
+        {
+            return;
+        }
+
+        componentManager.registerComponent(this._metadata.id, this._instance);
+        await relationsProcessor.initialized;
+        relationsProcessor.updateRelations(this._metadata.id);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected override onDestroy(): void
+    {
+        if(!this._injector || !this._metadata)
+        {
+            return;
+        }
+
+        const relationsProcessor: RelationsProcessor|null = this._injector.get(RelationsProcessor, null);
+        const componentManager: RelationsComponentManager|null = this._injector.get(RelationsComponentManager, null);
+
+        if(!relationsProcessor || !componentManager)
+        {
+            return;
+        }
+
+        relationsProcessor.destroyComponent(this._metadata.id);
+        componentManager.unregisterComponent(this._metadata.id);
     }
 }

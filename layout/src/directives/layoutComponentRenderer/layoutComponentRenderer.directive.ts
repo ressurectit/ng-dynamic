@@ -1,6 +1,6 @@
-import {ComponentRef, Directive, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, SkipSelf, Type, ValueProvider, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, SkipSelf, ValueProvider, ViewContainerRef} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {DynamicItemExtension, DynamicItemLoader} from '@anglr/dynamic';
+import {DynamicItemExtensionType, DynamicItemLoader} from '@anglr/dynamic';
 import {nameof, resolvePromiseOr} from '@jscrpt/common';
 
 import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer.options';
@@ -92,7 +92,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
     //######################### constructor #########################
     constructor(protected _viewContainerRef: ViewContainerRef,
                 @Inject(LAYOUT_COMPONENTS_LOADER) protected _loader: DynamicItemLoader<LayoutComponentDef>,
-                @Inject(LAYOUT_COMPONENT_CHILD_EXTENSIONS) @Optional() @SkipSelf() protected _childExtensions?: Type<DynamicItemExtension>[]|null,
+                @Inject(LAYOUT_COMPONENT_CHILD_EXTENSIONS) @Optional() @SkipSelf() protected _childExtensions?: DynamicItemExtensionType[]|null,
                 @Optional() protected _options?: LayoutComponentRendererDirectiveOptions,
                 @Inject(LAYOUT_COMPONENT_TRANSFORM) @Optional() protected _metadataTransformer?: LayoutComponentTransform,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -182,8 +182,8 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
             {
                 this.component.registerExtensions(
                 [
-                    ...this._childExtensions?.map(itm => new itm()) ?? [],
-                    ...layoutComponentType?.extensions?.map(itm => new itm()) ?? [],
+                    ...this._childExtensions?.map(itm => new itm(componentMetadata)) ?? [],
+                    ...layoutComponentType?.extensions?.map(itm => new itm(componentMetadata)) ?? [],
                 ]);
 
                 this._logger?.debug('LayoutComponentRendererSADirective: initializing component with options {@id}', {id: componentMetadata?.id});

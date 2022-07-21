@@ -1,62 +1,39 @@
-import {ElementRef, Injector} from '@angular/core';
-import {DynamicItemExtension} from '@anglr/dynamic';
+import {DynamicItemExtension, DynamicItemExtensionBase} from '@anglr/dynamic';
 import {isPresent} from '@jscrpt/common';
 
 import {ComponentStylingOptions} from '../../interfaces';
 
 /**
- * Child extension that applies common component styling to child
+ * Extension that applies common component styling to component
  */
-export class ComponentStylingExtension implements DynamicItemExtension
+export class ComponentStylingExtension extends DynamicItemExtensionBase<ComponentStylingOptions> implements DynamicItemExtension<ComponentStylingOptions>
 {
-    //######################### protected fields #########################
-
-    /**
-     * Injector from extended component
-     */
-    protected _injector?: Injector;
-
-    /**
-     * Element that could be extended
-     */
-    protected _element?: ElementRef<HTMLElement>;
-
-    /**
-     * Options that stores extension data
-     */
-    protected _options?: ComponentStylingOptions;
-
-    /**
-     * Indication whether was extension initialized
-     */
-    protected _initialized: boolean = false;
-
-    //######################### public methods - implementation of DynamicItemExtension #########################
+    //######################### public methods - overrides #########################
 
     /**
      * @inheritdoc
      */
-    public initialize(injector: Injector, element: ElementRef<HTMLElement>, options: ComponentStylingOptions): void
+    protected override onInit(): void
     {
-        this._initialized = true;
-
-        this._injector = injector;
-        this._element = element;
-        this._options = options;
-
-        this.optionsChange(this._options);
+        this._applyStyling();
     }
 
     /**
      * @inheritdoc
      */
-    public optionsChange(options: ComponentStylingOptions): void
+    protected override onOptionsChange(): void
     {
-        if(!this._initialized)
-        {
-            return;
-        }
+        this._applyStyling();
+    }
 
+    //######################### protected methods #########################
+
+    /**
+     * Applies component styling to element
+     */
+    protected _applyStyling(): void
+    {
+        const options = this._options;
         const style = this._element?.nativeElement.style;
 
         if(isPresent(style))
@@ -120,12 +97,5 @@ export class ComponentStylingExtension implements DynamicItemExtension
                 }
             }
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public destroy(): void
-    {
     }
 }

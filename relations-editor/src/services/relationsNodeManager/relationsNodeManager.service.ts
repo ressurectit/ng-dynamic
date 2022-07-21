@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {RelationOutputMetadata} from '@anglr/dynamic/relations';
 import {Dictionary} from '@jscrpt/common';
 
 import {RelationsInput, RelationsNode, RelationsNodeMetadata} from '../../interfaces';
@@ -144,8 +145,75 @@ export class RelationsNodeManager
      */
     public getMetadata(): RelationsNodeMetadata[]
     {
+        const result: RelationsNodeMetadata[] = [];
+        const nodeIds = Object.keys(this._nodes);
         
+        for(const id of nodeIds)
+        {
+            const node = this._nodes[id];
 
-        return [];
+            if(!node.metadata)
+            {
+                continue;
+            }
+
+            //TODO: coordinates and nodeMetadata.options
+
+            const nodeMeta: RelationsNodeMetadata =
+            {
+                id,
+                name: node.metadata.name,
+                package: node.metadata.package,
+                displayName: node.metadata.displayName,
+                relationsOptions: node.metadata.relationsOptions,
+                nodeMetadata: node.metadata.nodeMetadata,
+                outputs: []
+            };
+
+
+            if(!node.allOutputs)
+            {
+                continue;
+            }
+
+            for(const output of node.allOutputs)
+            {
+                if(!output.relations)
+                {
+                    continue;
+                }
+
+                if(!output.name)
+                {
+                    continue;
+                }
+
+                const outputMeta: RelationOutputMetadata =
+                {
+                    outputName: output.name,
+                    inputs: []
+                };
+
+                for(const relation of output.relations)
+                {
+                    if(!relation.input?.name)
+                    {
+                        continue;
+                    }
+
+                    outputMeta.inputs.push(
+                    {
+                        id: relation.input.parentId,
+                        inputName: relation.input.name
+                    });
+                }
+
+                nodeMeta.outputs?.push(outputMeta);
+            }
+
+            result.push(nodeMeta);
+        }
+
+        return result;
     }
 }

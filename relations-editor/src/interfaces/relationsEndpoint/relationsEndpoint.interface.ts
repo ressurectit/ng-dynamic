@@ -51,6 +51,11 @@ export interface RelationsInput extends RelationsEndpoint
 export interface RelationsOutput extends RelationsEndpoint
 {
     /**
+     * Array of relations for this output
+     */
+    readonly relations: NodeRelationPath[];
+
+    /**
      * Starts new relation from this output
      */
     startRelation(): NodeRelationPath;

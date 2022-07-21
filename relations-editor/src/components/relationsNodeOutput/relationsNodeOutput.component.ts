@@ -30,6 +30,16 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
      */
     protected _relations: NodeRelationPath[] = [];
 
+    //######################### public properties - implementation of RelationsOutput #########################
+
+    /**
+     * @inheritdoc
+     */
+    public get relations(): NodeRelationPath[]
+    {
+        return this._relations;
+    }
+
     //######################### public methods - implementation of RelationsOutput #########################
 
     /**

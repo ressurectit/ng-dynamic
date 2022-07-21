@@ -296,8 +296,14 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
      */
     protected _updatePosition(): void
     {
-        this._element.nativeElement.style.left = `${this._nodePosition?.x}px`;
-        this._element.nativeElement.style.top = `${this._nodePosition?.y}px`;
+        this._element.nativeElement.style.left = `${this._nodePosition.x}px`;
+        this._element.nativeElement.style.top = `${this._nodePosition.y}px`;
+
+        if(this.metadata?.nodeMetadata?.coordinates)
+        {
+            this.metadata.nodeMetadata.coordinates.x = this._nodePosition.x;
+            this.metadata.nodeMetadata.coordinates.y = this._nodePosition.y;
+        }
     }
 
     /**

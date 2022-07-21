@@ -46,5 +46,6 @@ export const componentRelationsNodeExtractor: DynamicModuleDataExtractorFn<Relat
     return {
         data: metadata.nodeDefinition,
         metaInfo: metadata.metaInfo,
+        singleton: true,
     };
 };

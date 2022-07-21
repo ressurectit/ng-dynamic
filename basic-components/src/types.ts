@@ -1,5 +1,6 @@
 const components = 
 [
+    'button',
     'gridPanel',
     'stackPanel',
     'textBlock',

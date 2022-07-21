@@ -1,8 +1,10 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
+import {DynamicItemLoader, DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
 
-import {StaticComponentsRegister} from '../staticComponentsRegister/staticComponentsRegister.service';
+import {LayoutComponentsRegister} from '../layoutComponentsRegister/layoutComponentsRegister.service';
+import {RelationsNodeDef} from '../../misc/types';
+import {RELATIONS_NODES_LOADER} from '../../misc/tokens';
 
 /**
  * Dynamic relations types provider for layout components
@@ -11,7 +13,8 @@ import {StaticComponentsRegister} from '../staticComponentsRegister/staticCompon
 export class LayoutComponentsRelationsTypesProvider implements DynamicModuleProvider
 {
     //######################### constructor #########################
-    constructor(protected _componentsRegister: StaticComponentsRegister,
+    constructor(protected _componentsRegister: LayoutComponentsRegister,
+                @Inject(RELATIONS_NODES_LOADER) protected _loader: DynamicItemLoader<RelationsNodeDef>,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
     }
@@ -23,23 +26,35 @@ export class LayoutComponentsRelationsTypesProvider implements DynamicModuleProv
      */
     public async tryToGet(source: DynamicItemSource): Promise<DynamicModule|null>
     {
-        //only works with static components
-        if(source.package != 'static-components')
+        //only works with layout components
+        if(source.package != 'layout-components')
         {
             return null;
         }
 
-        this._logger?.debug('StaticComponentsRelationsTypesProvider: trying to get relations types {@item}', {name: source.name, package: source.package});
+        this._logger?.debug('LayoutComponentsRelationsTypesProvider: trying to get relations types {@item}', {name: source.name, package: source.package});
 
-        const types = this._componentsRegister.types;
+        const types = await this._componentsRegister.types;
 
         if(!types)
         {
             return null;
         }
 
+        const resultTypes = [];
+
+        for(const type of types)
+        {
+            const node = await this._loader.loadItem({package: 'layout-components', name: type});
+
+            if(node?.data)
+            {
+                resultTypes.push(type);
+            }
+        }
+
         return {
-            default: types
+            default: resultTypes,
         };
     }
 }

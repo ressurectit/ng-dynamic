@@ -1,18 +1,15 @@
 import {Inject, Injectable, OnDestroy, Type} from '@angular/core';
 import {DynamicItemLoader} from '@anglr/dynamic';
-import {LayoutManager} from '@anglr/dynamic/layout';
+import {LayoutComponentDef, LayoutManager, LAYOUT_COMPONENTS_LOADER} from '@anglr/dynamic/layout';
 import {LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
 import {Dictionary} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
-
-import {RelationsNodeDef} from '../../misc/types';
-import {RELATIONS_NODES_LOADER} from '../../misc/tokens';
 
 /**
  * Register for layout components that are part of relations
  */
 @Injectable()
-export abstract class LayoutComponentsRegister implements OnDestroy
+export class LayoutComponentsRegister implements OnDestroy
 {
     //######################### protected fields #########################
 
@@ -48,8 +45,8 @@ export abstract class LayoutComponentsRegister implements OnDestroy
 
     //######################### constructor #########################
     constructor(protected _layoutManager: LayoutManager,
-                protected _iteratorSvc: LayoutComponentsIteratorService,
-                @Inject(RELATIONS_NODES_LOADER) protected _loader: DynamicItemLoader<RelationsNodeDef>,)
+                @Inject(LAYOUT_COMPONENTS_LOADER) protected _loader: DynamicItemLoader<LayoutComponentDef>,
+                protected _iteratorSvc: LayoutComponentsIteratorService)
     {
         this._initSubscriptions.add(this._layoutManager.layoutChange.subscribe(() => this._initPromise = null));
     }
@@ -84,6 +81,8 @@ export abstract class LayoutComponentsRegister implements OnDestroy
      */
     protected async _initializeTypes(): Promise<void>
     {
+        this._definedTypes = {};
+
         if(!this._layoutManager.layout)
         {
             return;
@@ -93,9 +92,14 @@ export abstract class LayoutComponentsRegister implements OnDestroy
 
         for await(const component of layoutComponents)
         {
+            const type = await this._loader.loadItem(component.metadata);
 
+            if(!type)
+            {
+                continue;
+            }
 
-            // this._definedTypes[component.metadata.id] = 
+            this._definedTypes[component.metadata.id] = type.data;
         }
     }
 }

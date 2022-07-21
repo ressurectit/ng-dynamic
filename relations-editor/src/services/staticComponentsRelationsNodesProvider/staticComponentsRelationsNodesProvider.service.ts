@@ -21,7 +21,7 @@ export class StaticComponentsRelationsNodesProvider implements DynamicModuleProv
     /**
      * @inheritdoc
      */
-    public async tryToGet(source: DynamicItemSource): Promise<DynamicModule|null>
+    public tryToGet(source: DynamicItemSource): DynamicModule|null
     {
         //only works with static components
         if(source.package != 'static-components')

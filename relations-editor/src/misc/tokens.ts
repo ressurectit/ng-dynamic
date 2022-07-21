@@ -1,9 +1,8 @@
-import {inject, InjectFlags, InjectionToken} from '@angular/core';
+import {InjectionToken} from '@angular/core';
 import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
-import {LOGGER} from '@anglr/common';
 
 import {RelationsModuleTypes, RelationsNodeDef} from './types';
-import {isRelationsModuleTypes, isRelationsNodeDef} from './utils';
+import {relationsModuleTypesLoaderFactory, relationsNodeLoaderFactory} from './factoryFns';
 
 /**
  * Injection token for relations module types data extractors
@@ -21,13 +20,7 @@ export const RELATIONS_MODULE_TYPES_PROVIDERS: InjectionToken<DynamicModuleProvi
 export const RELATIONS_MODULE_TYPES_LOADER: InjectionToken<DynamicItemLoader<RelationsModuleTypes>> = new InjectionToken<DynamicItemLoader<RelationsModuleTypes>>('RELATIONS_MODULE_TYPES_LOADER',
                                                                                                                                                                   {
                                                                                                                                                                       providedIn: 'root',
-                                                                                                                                                                      factory: () =>
-                                                                                                                                                                      {
-                                                                                                                                                                          return new DynamicItemLoader(inject(RELATIONS_MODULE_TYPES_PROVIDERS),
-                                                                                                                                                                                                       inject(RELATIONS_MODULE_TYPES_DATA_EXTRACTORS),
-                                                                                                                                                                                                       isRelationsModuleTypes,
-                                                                                                                                                                                                       inject(LOGGER, InjectFlags.Optional) ?? undefined);
-                                                                                                                                                                      }
+                                                                                                                                                                      factory: relationsModuleTypesLoaderFactory,
                                                                                                                                                                   });
 
 /**
@@ -46,11 +39,5 @@ export const RELATIONS_NODES_PROVIDERS: InjectionToken<DynamicModuleProvider[]> 
 export const RELATIONS_NODES_LOADER: InjectionToken<DynamicItemLoader<RelationsNodeDef>> = new InjectionToken<DynamicItemLoader<RelationsNodeDef>>('RELATIONS_NODES_LOADER',
                                                                                                                                                    {
                                                                                                                                                        providedIn: 'root',
-                                                                                                                                                       factory: () =>
-                                                                                                                                                       {
-                                                                                                                                                           return new DynamicItemLoader(inject(RELATIONS_NODES_PROVIDERS),
-                                                                                                                                                                                        inject(RELATIONS_NODES_DATA_EXTRACTORS),
-                                                                                                                                                                                        isRelationsNodeDef,
-                                                                                                                                                                                        inject(LOGGER, InjectFlags.Optional) ?? undefined);
-                                                                                                                                                       }
+                                                                                                                                                       factory: relationsNodeLoaderFactory,
                                                                                                                                                    });

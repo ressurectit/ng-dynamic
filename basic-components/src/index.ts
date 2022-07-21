@@ -1,3 +1,4 @@
+export * from './button';
 export * from './gridPanel';
 export * from './gridPanelCell';
 export * from './textBlock';

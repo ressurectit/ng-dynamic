@@ -4,7 +4,7 @@ import {LOGGER, Logger} from '@anglr/common';
 
 import {RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_PROVIDERS} from './tokens';
 import {componentRelationsNodeExtractor, relationsNodeExtractor} from './extractors';
-import {StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider} from '../services';
+import {LayoutComponentsRelationsNodesProvider, LayoutComponentsRelationsTypesProvider, StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider} from '../services';
 
 /**
  * Provider for basic components package relations nodes provider
@@ -27,6 +27,16 @@ export const STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
 };
 
 /**
+ * Provider for layout components relations nodes provider
+ */
+export const LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
+{
+    provide: RELATIONS_NODES_PROVIDERS,
+    useClass: LayoutComponentsRelationsNodesProvider,
+    multi: true
+};
+
+/**
  * Provider for default dynamic relations types provider for all built-in types in dynamic
  */
 export const DYNAMIC_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
@@ -43,6 +53,16 @@ export const STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
 {
     provide: RELATIONS_MODULE_TYPES_PROVIDERS,
     useClass: StaticComponentsRelationsTypesProvider,
+    multi: true
+};
+
+/**
+ * Provider for layout components relations types provider
+ */
+export const LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
+{
+    provide: RELATIONS_MODULE_TYPES_PROVIDERS,
+    useClass: LayoutComponentsRelationsTypesProvider,
     multi: true
 };
 

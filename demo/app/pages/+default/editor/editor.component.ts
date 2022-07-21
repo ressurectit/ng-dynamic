@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ComponentRoute} from '@anglr/common/router';
 import {ComponentStylingOptions, LayoutComponentMetadata, TextFontWeight} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
-import {GridPanelCellComponentOptions, GridPanelComponentOptions, StackPanelComponentOptions, StackPanelFlexExtensionOptions, TextBlockComponentOptions} from '@anglr/dynamic/basic-components';
+import {ButtonComponentOptions, GridPanelCellComponentOptions, GridPanelComponentOptions, StackPanelComponentOptions, StackPanelFlexExtensionOptions, TextBlockComponentOptions} from '@anglr/dynamic/basic-components';
 import {generateId} from '@jscrpt/common';
 
 import {LayoutDataService} from '../../../services/layoutData';
@@ -190,8 +190,8 @@ export class EditorComponent implements OnInit, OnDestroy
                                     children:
                                     [
                                         {
-                                            package: 'basic-components',
                                             id: 'textTest',
+                                            package: 'basic-components',
                                             name: 'textBlock',
                                             options: <TextBlockComponentOptions&ComponentStylingOptions&StackPanelFlexExtensionOptions>
                                             {
@@ -218,8 +218,8 @@ export class EditorComponent implements OnInit, OnDestroy
                                             }
                                         },
                                         {
-                                            package: 'basic-components',
                                             id: 'text2Test',
+                                            package: 'basic-components',
                                             name: 'textBlock',
                                             options: <TextBlockComponentOptions&ComponentStylingOptions>
                                             {
@@ -228,6 +228,15 @@ export class EditorComponent implements OnInit, OnDestroy
                                                 {
                                                     fontWeight: TextFontWeight.Bold
                                                 }
+                                            }
+                                        },
+                                        {
+                                            id: 'button-test',
+                                            package: 'basic-components',
+                                            name: 'button',
+                                            options: <ButtonComponentOptions>
+                                            {
+                                                text: 'test btn',
                                             }
                                         }
                                     ]

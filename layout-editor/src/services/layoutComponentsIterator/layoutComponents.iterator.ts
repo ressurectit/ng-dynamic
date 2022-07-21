@@ -35,7 +35,7 @@ export class LayoutComponentsIterator<TOptions = any>
     /**
      * Async iterator for layout components metadata
      */
-    public [Symbol.asyncIterator](): AsyncIterator<LayoutComponentMetadata>
+    public [Symbol.asyncIterator](): AsyncIterator<LayoutComponentsIteratorItem>
     {
         let x = 0;
         const initPromise = this._initPromise ??= this._getInitPromise();
@@ -49,13 +49,13 @@ export class LayoutComponentsIterator<TOptions = any>
                 if (x < items.length) 
                 {
                     return {
-                        value: items[x++].metadata,
+                        value: items[x++],
                         done: false
                     };
                 }
         
                 return {
-                    value: items[x - 1].metadata,
+                    value: items[x - 1],
                     done: true 
                 };
             }

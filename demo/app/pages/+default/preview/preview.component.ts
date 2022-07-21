@@ -47,14 +47,14 @@ export class PreviewComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._availableNames = this._store.getStoredLayouts();
+        this._availableNames = this._store.getStored();
 
         this._route.params.subscribe(({id}) =>
         {
             if(id)
             {
                 this._available.setValue(id);
-                this._metadata = this._store.getLayoutData(id);
+                this._metadata = this._store.getData(id);
             }
 
             this._available.valueChanges.subscribe(val =>

@@ -144,7 +144,7 @@ export class RelationsNodeManager
      */
     public getMetadata(): RelationsNodeMetadata[]
     {
-        //TODO: finish
+        
 
         return [];
     }

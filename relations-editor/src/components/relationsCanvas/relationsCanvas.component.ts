@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild, ElementRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild, ElementRef, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {select} from 'd3';
 
@@ -41,10 +41,6 @@ const SCALE_FACTOR_MAX = 2;
     [
         CommonModule,
         RelationsNodeRendererSADirective,
-    ],
-    providers:
-    [
-        RelationsNodeManager,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -120,114 +116,13 @@ export class RelationsCanvasSAComponent
     @ViewChild('relationsGroup', {read: ElementRef})
     protected _relationsGroup: ElementRef|null|undefined;
 
-    //######################### public properties #########################
+    //######################### public properties - inputs #########################
 
     /**
      * Sample data to render
      */
-    public nodeDefinitions: RelationsNodeMetadata[] = 
-    [
-        {
-            id: 'sample-source',
-            package: 'basic-components',
-            name: 'sampleSource',
-            relationsOptions: null,
-            outputs:
-            [
-                {
-                    outputName: 'vystup',
-                    inputs:
-                    [
-                        {
-                            id: 'relations-sample-click',
-                            inputName: 'vstup'
-                        }
-                    ]
-                }
-            ],
-            nodeMetadata:
-            {
-                coordinates: 
-                {
-                    x: 30,
-                    y: 60
-                },
-                options: null
-            }
-        },
-        {
-            id: 'relations-sample-click',
-            package: 'static-components',
-            name: 'relations-sample-click',
-            relationsOptions: null,
-            outputs:
-            [
-                {
-                    outputName: 'vystup',
-                    inputs:
-                    [
-                        {
-                            id: 'sample-changes',
-                            inputName: 'vstup'
-                        }
-                    ]
-                }
-            ],
-            nodeMetadata:
-            {
-                coordinates: 
-                {
-                    x: 230,
-                    y: 80
-                },
-                options: null
-            }
-        },
-        {
-            id: 'sample-changes',
-            package: 'basic-components',
-            name: 'sampleChange',
-            relationsOptions: null,
-            outputs:
-            [
-                {
-                    outputName: 'vystup',
-                    inputs:
-                    [
-                        {
-                            id: 'relations-result',
-                            inputName: 'vstup'
-                        }
-                    ]
-                }
-            ],
-            nodeMetadata:
-            {
-                coordinates: 
-                {
-                    x: 430,
-                    y: 100
-                },
-                options: null
-            }
-        },
-        {
-            id: 'relations-result',
-            package: 'static-components',
-            name: 'relations-result',
-            relationsOptions: null,
-            outputs: [],
-            nodeMetadata:
-            {
-                coordinates: 
-                {
-                    x: 630,
-                    y: 60
-                },
-                options: null
-            }
-        }
-    ];
+    @Input()
+    public nodeDefinitions: RelationsNodeMetadata[] = [];
 
     //######################### constructor #########################
     constructor(protected _relationManager: RelationsNodeManager,)

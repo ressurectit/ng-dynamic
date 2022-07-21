@@ -7,7 +7,7 @@ import {RelationsCanvasSAComponent} from '@anglr/dynamic/relations-editor';
 
 import {components} from './default.routes';
 import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} from '../../modules';
-import {RelationsResultComponent, RelationsSampleClickComponent} from './misc/components';
+import {LoadSaveNewSAComponent, RelationsResultComponent, RelationsSampleClickComponent} from './misc/components';
 
 /**
  * Module for Default application pages
@@ -25,6 +25,7 @@ import {RelationsResultComponent, RelationsSampleClickComponent} from './misc/co
         PropertiesEditorSAComponent,
         RelationsCanvasSAComponent,
         MatTabsModule,
+        LoadSaveNewSAComponent,
     ],
     declarations:
     [

@@ -41,7 +41,7 @@ export class SampleChangeRelations implements RelationsComponent
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<SampleChangeRelations>('vstup') in changes && this.vstup)
+        if(nameof<SampleChangeRelations>('vstup') in changes)
         {
             console.log('value changes', this.vstup);
 

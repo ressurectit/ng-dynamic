@@ -54,14 +54,14 @@ export class FormPreviewComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._availableNames = this._store.getStoredLayouts();
+        this._availableNames = this._store.getStored();
 
         this._route.params.subscribe(({id}) =>
         {
             if(id)
             {
                 this._available.setValue(id);
-                this._metadata = this._store.getLayoutData(id);
+                this._metadata = this._store.getData(id);
 
                 //TODO build formGroup from metadata
                 this._formGroup = this._fb.group({

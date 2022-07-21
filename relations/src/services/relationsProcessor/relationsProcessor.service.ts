@@ -204,6 +204,14 @@ export class RelationsProcessor implements OnDestroy
             metadata.outputsChangeSubscriptions.forEach(subscription => subscription.unsubscribe());
             metadata.outputsChangeSubscriptions = [];
 
+            if(metadata.inputOutputs && Array.isArray(metadata.inputOutputs))
+            {
+                for(const inputOutput of metadata.inputOutputs)
+                {
+                    inputOutput.initialized = false;
+                }
+            }
+
             //destroy auto created components and unregister them
             if(metadata.autoCreated)
             {

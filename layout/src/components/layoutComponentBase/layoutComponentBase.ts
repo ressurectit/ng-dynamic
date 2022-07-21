@@ -1,6 +1,7 @@
 import {ChangeDetectorRef, Directive, ElementRef, Inject, Injector, OnDestroy, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemExtension} from '@anglr/dynamic';
+import {resolvePromiseOr} from '@jscrpt/common';
 
 import {LayoutComponent} from '../../interfaces';
 
@@ -107,7 +108,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         {
             for(const ext of this._extensions)
             {
-                ext.initialize(this._injector, this.element, extensionsOptions);
+                await resolvePromiseOr(ext.initialize(this._injector, this.element, extensionsOptions));
             }
         }
     }

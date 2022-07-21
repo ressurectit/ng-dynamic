@@ -125,10 +125,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
             {
                 componentMetadata = this._metadataTransformer(this.componentMetadata, injector);
             }
-            // const componentManager = injector.get(ComponentManager);
-            // const componentRelationsManager = injector.get(ComponentRelationManager);
-
-            // await componentRelationsManager.initialize();
+            
             const layoutComponentType = await this._loader.loadItem(componentMetadata);
 
             if(!layoutComponentType)
@@ -195,8 +192,6 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                 this._logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {@id}', {id: componentMetadata?.id});
                 this.component?.invalidateVisuals();
                 this._componentRef.changeDetectorRef.markForCheck();
-
-                // componentManager.registerComponent(this.componentMetadata.id, this.component);
             }
         }
     }
@@ -212,14 +207,6 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
         {
             this._logger?.debug('LayoutComponentRendererSADirective: destroying component {@id}', {id: this.componentMetadata?.id, designer: this.disableTransformer});
     
-            // const injector = this.customInjector || this._viewContainerRef.injector;
-            // const componentManager = injector.get(ComponentManager);
-    
-            // if(componentManager.get(this.componentMetadata.id))
-            // {
-            //     componentManager.unregisterComponent(this.componentMetadata.id);
-            // }
-            
             this._componentRef?.destroy();
             this._componentRef = null;
             this.componentChange.next(null);

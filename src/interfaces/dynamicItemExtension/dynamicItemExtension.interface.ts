@@ -1,4 +1,5 @@
 import {ElementRef, Injector} from '@angular/core';
+import {PromiseOr} from '@jscrpt/common';
 
 /**
  * Definition of dynamic item extension
@@ -13,13 +14,13 @@ export interface DynamicItemExtension<TOptions = any>
      * @param element - Element that is being extended
      * @param options - Options of extended component
      */
-    initialize(injector: Injector, element: ElementRef<HTMLElement>, options: TOptions): void;
+    initialize(injector: Injector, element: ElementRef<HTMLElement>, options: TOptions): PromiseOr<void>;
 
     /**
      * Notifies dynamic item extension that options has changed
      * @param options - Options that has changed
      */
-    optionsChange(options: TOptions): void;
+    optionsChange(options: TOptions): PromiseOr<void>;
 
     /**
      * Destroys dynamic item extensions

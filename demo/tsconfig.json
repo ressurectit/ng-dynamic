@@ -25,6 +25,7 @@
         {
             "@anglr/dynamic/layout": ["../layout/src/index.ts"],
             "@anglr/dynamic/layout-editor": ["../layout-editor/src/index.ts"],
+            "@anglr/dynamic/form": ["../form/src/index.ts"],
             "@anglr/dynamic/relations": ["../relations/src/index.ts"],
             "@anglr/dynamic/relations-editor": ["../relations-editor/src/index.ts"],
             "@anglr/dynamic/basic-components/relations": ["../basic-components/src/relations.ts"],

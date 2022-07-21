@@ -1,9 +1,11 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {MatFormFieldAppearance, MatFormFieldModule} from '@angular/material/form-field';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
+import {ReactiveFormsModule} from '@angular/forms';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {HostDisplayBlockStyle} from '@anglr/common';
+import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
+import {FormPipesModule} from '@anglr/common/forms';
+import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
 
 import {MaterialNumberFieldLayoutMetadataLoader} from './numberField.metadata';
 import {MaterialNumberFieldComponentOptions} from './numberField.options';
@@ -20,20 +22,14 @@ import {MaterialNumberFieldComponentOptions} from './numberField.options';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
+        FormPipesModule,
+        CastPipesModule,
+        FormComponentControlSAPipe,
+        ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
     ]
 })
 @LayoutEditorMetadata(MaterialNumberFieldLayoutMetadataLoader)
-export class MaterialNumberFieldSAComponent extends LayoutComponentBase<MaterialNumberFieldComponentOptions> implements LayoutComponent<MaterialNumberFieldComponentOptions>
-{
-    //######################### public properties #########################
-
-    /**
-     * Gets form field appearence
-     */
-    public get appearance(): MatFormFieldAppearance
-    {
-        return <MatFormFieldAppearance>this.options?.appearance;
-    }
-}
+export class MaterialNumberFieldSAComponent extends FormComponentBase<MaterialNumberFieldComponentOptions> implements FormComponent<MaterialNumberFieldComponentOptions>
+{}

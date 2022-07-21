@@ -1,10 +1,12 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {MatFormFieldAppearance, MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {HostDisplayBlockStyle} from '@anglr/common';
+import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
+import {FormPipesModule} from '@anglr/common/forms';
+import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
 
 import {MaterialSelectLayoutMetadataLoader} from './select.metadata';
 import {MaterialSelectComponentOptions} from './select.options';
@@ -21,23 +23,19 @@ import {MaterialSelectComponentOptions} from './select.options';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
+        FormPipesModule,
+        CastPipesModule,
+        FormComponentControlSAPipe,
+        ReactiveFormsModule,
         CommonModule,
         MatFormFieldModule,
         MatSelectModule,
     ]
 })
 @LayoutEditorMetadata(MaterialSelectLayoutMetadataLoader)
-export class MaterialSelectSAComponent extends LayoutComponentBase<MaterialSelectComponentOptions> implements LayoutComponent<MaterialSelectComponentOptions>
+export class MaterialSelectSAComponent extends FormComponentBase<MaterialSelectComponentOptions> implements FormComponent<MaterialSelectComponentOptions>
 {
     //######################### public properties #########################
 
     public values: any[] = ['foo', 'bar'];
-
-    /**
-     * Gets form field appearence
-     */
-    public get appearance(): MatFormFieldAppearance
-    {
-        return <MatFormFieldAppearance>this.options?.appearance;
-    }
 }

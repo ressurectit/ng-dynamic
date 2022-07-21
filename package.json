@@ -178,6 +178,14 @@
             "node": "./es2015/layout/src/index.js",
             "default": "./es2020/layout/src/index.js"
         },
+        "./form": {
+            "types": "./form/src/index.d.ts",
+            "esm2020": "./es2020/form/src/index.js",
+            "es2020": "./es2020/form/src/index.js",
+            "es2015": "./es2015/form/src/index.js",
+            "node": "./es2015/form/src/index.js",
+            "default": "./es2020/form/src/index.js"
+        },
         "./relations": {
             "types": "./relations/src/index.d.ts",
             "esm2020": "./es2020/relations/src/index.js",

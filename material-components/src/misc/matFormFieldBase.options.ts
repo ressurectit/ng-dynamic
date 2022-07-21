@@ -1,4 +1,7 @@
-export class MaterialFormFieldComponentOptions
+import {MatFormFieldAppearance} from '@angular/material/form-field';
+import {FormComponentOptions} from '@anglr/dynamic/form';
+
+export class MaterialFormFieldComponentOptions extends FormComponentOptions
 {
     //######################### properties #########################
 
@@ -20,5 +23,5 @@ export class MaterialFormFieldComponentOptions
     /**
      * Input appearance
      */
-    appearance: string|undefined|null;
+    appearance: MatFormFieldAppearance = 'standard';
 }

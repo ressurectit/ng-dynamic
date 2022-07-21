@@ -1,8 +1,9 @@
-<mat-form-field [appearance]="appearance">
+<mat-form-field [appearance]="options?.appearance|asRequired">
     <mat-label>{{options?.label}}</mat-label>
     <textarea 
         matInput 
         cdkTextareaAutosize
-        [attr.placeholder]="options?.placeholder"></textarea>
+        [attr.placeholder]="options?.placeholder"
+        [formControl]="options?.controlName|formComponentControl:_control|asFormControl|asRequired"></textarea>
     <mat-hint>{{options?.hint}}</mat-hint>
 </mat-form-field>

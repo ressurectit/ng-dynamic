@@ -1,1 +1,1 @@
-<mat-checkbox>{{options?.label}}</mat-checkbox>
+<mat-checkbox [formControl]="options?.controlName|formComponentControl:_control|asFormControl|asRequired">{{options?.label}}</mat-checkbox>

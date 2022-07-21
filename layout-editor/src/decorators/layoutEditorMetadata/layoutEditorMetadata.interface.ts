@@ -82,7 +82,7 @@ export interface LayoutEditorMetadataInfo<TOptions = any>
     /**
      * Instance of default options used when new empty object is created
      */
-    readonly defaultOptions?: TOptions;
+    readonly defaultOptions?: Partial<TOptions>;
 }
 
 /**

@@ -1,7 +1,9 @@
+import {FormComponentOptions} from '@anglr/dynamic/form';
+
 /**
  * Options for material checkbox component
  */
-export interface MaterialCheckboxComponentOptions
+export interface MaterialCheckboxComponentOptions extends FormComponentOptions
 {
     //######################### properties #########################
     

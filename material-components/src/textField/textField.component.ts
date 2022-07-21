@@ -1,9 +1,12 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {MatFormFieldAppearance, MatFormFieldModule} from '@angular/material/form-field';
+import {CommonModule} from '@angular/common';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
+import {ReactiveFormsModule} from '@angular/forms';
+import {FormComponentControlSAPipe, FormComponent, FormComponentBase} from '@anglr/dynamic/form';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {HostDisplayBlockStyle} from '@anglr/common';
+import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
+import {FormPipesModule} from '@anglr/common/forms';
 
 import {MaterialTextFieldLayoutMetadataLoader} from './textField.metadata';
 import {MaterialTextFieldComponentOptions} from './textField.options';
@@ -20,20 +23,15 @@ import {MaterialTextFieldComponentOptions} from './textField.options';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
+        FormPipesModule,
+        CastPipesModule,
+        FormComponentControlSAPipe,
         MatFormFieldModule,
         MatInputModule,
+        ReactiveFormsModule,
+        CommonModule,
     ]
 })
 @LayoutEditorMetadata(MaterialTextFieldLayoutMetadataLoader)
-export class MaterialTextFieldSAComponent extends LayoutComponentBase<MaterialTextFieldComponentOptions> implements LayoutComponent<MaterialTextFieldComponentOptions>
-{
-    //######################### public properties #########################
-
-    /**
-     * Gets form field appearence
-     */
-    public get appearance(): MatFormFieldAppearance
-    {
-        return <MatFormFieldAppearance>this.options?.appearance;
-    }
-}
+export class MaterialTextFieldSAComponent extends FormComponentBase<MaterialTextFieldComponentOptions> implements FormComponent<MaterialTextFieldComponentOptions>
+{}

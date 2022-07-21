@@ -1,13 +1,14 @@
+import {LayoutPropertyName, LayoutPropertyDescription, LayoutPropertyType, DefaultKnownPropertyTypes} from '@anglr/dynamic/layout-editor';
+import {FormComponentBaseModel} from '@anglr/dynamic/form';
 import {mapValuesToThis} from '@jscrpt/common';
 
-import {LayoutPropertyName, LayoutPropertyDescription, LayoutPropertyType, DefaultKnownPropertyTypes} from '../../../../layout-editor/src';
 import {MaterialRadioComponentOptions} from '../radio.options';
 
 
 /**
  * Material radio model for properties editor
  */
-export class MaterialRadioModel implements MaterialRadioComponentOptions
+export class MaterialRadioModel extends FormComponentBaseModel implements MaterialRadioComponentOptions
 {
     //######################### public properties #########################
 
@@ -22,6 +23,7 @@ export class MaterialRadioModel implements MaterialRadioComponentOptions
     //######################### constructor #########################
     constructor(value: MaterialRadioComponentOptions|undefined|null)
     {
+        super(value);
         //TODO: remove ! when fixed in common
         mapValuesToThis.bind(this)(value!);
     }

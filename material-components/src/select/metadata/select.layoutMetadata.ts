@@ -33,7 +33,7 @@ export class MaterialSelectLayoutEditorMetadata implements LayoutEditorMetadataD
                     modelType: MaterialSelectModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance', 'multiple']),
+                        genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance', 'multiple', 'controlName']),
                     ],
                 },
             ],
@@ -43,7 +43,6 @@ export class MaterialSelectLayoutEditorMetadata implements LayoutEditorMetadataD
             label: 'Input label',
             placeholder: 'Placeholder',
             hint: 'Hint',
-            appearance: 'standard',
             multiple: false,
         },
         group: 'Material form fields'

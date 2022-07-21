@@ -1,7 +1,9 @@
+import {FormComponentOptions} from '@anglr/dynamic/form';
+
 /**
  * Options for material radio component
  */
-export interface MaterialRadioComponentOptions
+export interface MaterialRadioComponentOptions extends FormComponentOptions
 {
     //######################### properties #########################
     

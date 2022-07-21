@@ -33,7 +33,7 @@ export class MaterialCheckboxLayoutEditorMetadata implements LayoutEditorMetadat
                     modelType: MaterialCheckboxModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['label']),
+                        genericPropertiesControlFor(['label', 'controlName']),
                     ],
                 },
             ],

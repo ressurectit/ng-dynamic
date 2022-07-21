@@ -1,8 +1,10 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
-import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {HostDisplayBlockStyle} from '@anglr/common';
+import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
+import {FormPipesModule} from '@anglr/common/forms';
+import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
 
 import {MaterialRadioLayoutMetadataLoader} from './radio.metadata';
 import {MaterialRadioComponentOptions} from './radio.options';
@@ -19,11 +21,13 @@ import {MaterialRadioComponentOptions} from './radio.options';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
+        FormPipesModule,
+        CastPipesModule,
+        FormComponentControlSAPipe,
+        ReactiveFormsModule,
         MatRadioModule,
     ]
 })
 @LayoutEditorMetadata(MaterialRadioLayoutMetadataLoader)
-export class MaterialRadioSAComponent extends LayoutComponentBase<MaterialRadioComponentOptions> implements LayoutComponent<MaterialRadioComponentOptions>
-{
-    //######################### public properties #########################
-}
+export class MaterialRadioSAComponent extends FormComponentBase<MaterialRadioComponentOptions> implements FormComponent<MaterialRadioComponentOptions>
+{}

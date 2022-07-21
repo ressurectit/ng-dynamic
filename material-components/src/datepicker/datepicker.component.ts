@@ -1,11 +1,13 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {MatFormFieldAppearance, MatFormFieldModule} from '@angular/material/form-field';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
+import {ReactiveFormsModule} from '@angular/forms';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {HostDisplayBlockStyle} from '@anglr/common';
+import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
+import {FormPipesModule} from '@anglr/common/forms';
+import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
 
 import {MaterialDatepickerLayoutMetadataLoader} from './datepicker.metadata';
 import {MaterialDatepickerComponentOptions} from './datepicker.options';
@@ -22,6 +24,10 @@ import {MaterialDatepickerComponentOptions} from './datepicker.options';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
+        ReactiveFormsModule,
+        FormPipesModule,
+        CastPipesModule,
+        FormComponentControlSAPipe,
         MatFormFieldModule,
         MatInputModule,
         MatDatepickerModule,
@@ -29,15 +35,5 @@ import {MaterialDatepickerComponentOptions} from './datepicker.options';
     ]
 })
 @LayoutEditorMetadata(MaterialDatepickerLayoutMetadataLoader)
-export class MaterialDatepickerSAComponent extends LayoutComponentBase<MaterialDatepickerComponentOptions> implements LayoutComponent<MaterialDatepickerComponentOptions>
-{
-    //######################### public properties #########################
-
-    /**
-     * Gets form field appearence
-     */
-    public get appearance(): MatFormFieldAppearance
-    {
-        return <MatFormFieldAppearance>this.options?.appearance;
-    }
-}
+export class MaterialDatepickerSAComponent extends FormComponentBase<MaterialDatepickerComponentOptions> implements FormComponent<MaterialDatepickerComponentOptions>
+{}

@@ -99,6 +99,13 @@ export class RelationsComponent
                             ]
                         }
                     ]
+                },
+                {
+                    id: 'relations-result',
+                    package: 'static-components',
+                    name: 'relations-result',
+                    relationsOptions: null,
+                    outputs: []
                 }
             ]);
         }, 5000);

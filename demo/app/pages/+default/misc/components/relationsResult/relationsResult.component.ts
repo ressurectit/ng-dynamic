@@ -1,6 +1,9 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef, SimpleChanges} from '@angular/core';
 import {RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {nameof} from '@jscrpt/common';
+
+import {RelationsResultRelationsMetadataLoader} from './relationsResult.metadata';
 
 /**
  * Component used for displaying result binding of relations
@@ -12,6 +15,7 @@ import {nameof} from '@jscrpt/common';
     // styleUrls: ['relationsResult.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@RelationsEditorMetadata(RelationsResultRelationsMetadataLoader)
 export class RelationsResultComponent implements RelationsComponent, OnInit, OnDestroy
 {
     //######################### public static properties #########################

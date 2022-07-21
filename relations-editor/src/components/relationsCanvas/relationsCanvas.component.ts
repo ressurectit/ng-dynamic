@@ -188,19 +188,19 @@ export class RelationsCanvasSAComponent
             package: 'basic-components',
             name: 'sampleChange',
             relationsOptions: null,
-            outputs: [],
-            // [
-            //     {
-            //         outputName: 'vystup',
-            //         inputs:
-            //         [
-            //             {
-            //                 id: 'relations-result',
-            //                 inputName: 'vstup'
-            //             }
-            //         ]
-            //     }
-            // ],
+            outputs:
+            [
+                {
+                    outputName: 'vystup',
+                    inputs:
+                    [
+                        {
+                            id: 'relations-result',
+                            inputName: 'vstup'
+                        }
+                    ]
+                }
+            ],
             nodeMetadata:
             {
                 coordinates: 
@@ -211,6 +211,22 @@ export class RelationsCanvasSAComponent
                 options: null
             }
         },
+        {
+            id: 'relations-result',
+            package: 'static-components',
+            name: 'relations-result',
+            relationsOptions: null,
+            outputs: [],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 630,
+                    y: 60
+                },
+                options: null
+            }
+        }
     ];
 
     //######################### constructor #########################

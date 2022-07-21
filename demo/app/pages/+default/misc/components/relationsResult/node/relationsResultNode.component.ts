@@ -2,13 +2,13 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
- * Relations node component for relations sample click
+ * Relations node component for relations result
  */
 @Component(
 {
-    selector: 'relations-sample-click-node',
-    templateUrl: 'relationsSampleClickNode.component.html',
-    styleUrls: ['relationsSampleClickNode.component.scss'],
+    selector: 'relations-sample-node',
+    templateUrl: 'relationsResultNode.component.html',
+    styleUrls: ['relationsResultNode.component.scss'],
     standalone: true,
     imports:
     [
@@ -17,7 +17,7 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationsSampleClickNodeSAComponent extends RelationsNodeBase implements RelationsNode
+export class RelationsResultNodeSAComponent extends RelationsNodeBase implements RelationsNode
 {
     //######################### protected methods - overrides #########################
 

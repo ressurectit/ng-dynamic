@@ -162,6 +162,7 @@ export default [function(options, args)
                 "numeral-languages": path.join(dirName, "../node_modules/numeral/locales.js"),
                 "@anglr/dynamic/layout": path.join(dirName, "../layout/src/index.ts"),
                 "@anglr/dynamic/layout-editor": path.join(dirName, "../layout-editor/src/index.ts"),
+                "@anglr/dynamic/layout-relations": path.join(dirName, "../layout-relations/src/index.ts"),
                 "@anglr/dynamic/form": path.join(dirName, "../form/src/index.ts"),
                 "@anglr/dynamic/relations": path.join(dirName, "../relations/src/index.ts"),
                 "@anglr/dynamic/relations-editor": path.join(dirName, "../relations-editor/src/index.ts"),

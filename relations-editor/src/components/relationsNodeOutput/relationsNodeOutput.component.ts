@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, HostListener} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostListener, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {RelationNodeEndpointBase} from '../relationsNodeEndpointBase';
@@ -21,7 +21,7 @@ import {INVALIDATE_DROP} from '../../misc/constants';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase implements RelationsOutput
+export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase implements RelationsOutput, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -38,6 +38,24 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
     public get relations(): NodeRelationPath[]
     {
         return this._relations;
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        if(this._relations)
+        {
+            const relations = [...this._relations];
+
+            for(const relation of relations)
+            {
+                relation.destroy();
+            }
+        }
     }
 
     //######################### public methods - implementation of RelationsOutput #########################

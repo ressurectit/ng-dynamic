@@ -127,6 +127,7 @@ export class RelationsNodeManager
                 }
 
                 input.endRelation(waiting.relation);
+                delete this._waitingInputRelations[node.id];
             }
         }
     }

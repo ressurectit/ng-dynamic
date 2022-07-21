@@ -192,6 +192,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
 
                 this._logger?.debug('RelationsNodeRendererSADirective: invalidating node visuals {@id}', {id: this.componentMetadata?.id});
                 node.invalidateVisuals();
+                this._componentRef.changeDetectorRef.markForCheck();
 
                 this._relationsNodeManager.registerNode(this.component);
                 this.create.next(node);

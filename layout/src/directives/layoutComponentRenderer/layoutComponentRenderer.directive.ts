@@ -194,6 +194,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
 
                 this._logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {@id}', {id: componentMetadata?.id});
                 this.component?.invalidateVisuals();
+                this._componentRef.changeDetectorRef.markForCheck();
 
                 // componentManager.registerComponent(this.componentMetadata.id, this.component);
             }

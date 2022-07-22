@@ -4,7 +4,7 @@ import {CdkDragDrop, DragDropModule, DropListOrientation} from '@angular/cdk/dra
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {Func, isPresent} from '@jscrpt/common';
+import {Func, isPresent, resolvePromiseOr} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
@@ -51,7 +51,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public get id(): string
     {
-        return this._options?.typeMetadata?.id ?? '';
+        return this.options?.typeMetadata?.id ?? '';
     }
 
     //######################### protected fields #########################
@@ -78,7 +78,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected get selected(): boolean
     {
-        return this._layoutEditorMetadataManager.selectedComponent === this._options?.typeMetadata.id;
+        return this._layoutEditorMetadataManager.selectedComponent === this.options?.typeMetadata.id;
     }
 
     /**
@@ -86,7 +86,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected get highlighted(): boolean
     {
-        return this._layoutEditorMetadataManager.highlightedComponent === this._options?.typeMetadata.id;
+        return this._layoutEditorMetadataManager.highlightedComponent === this.options?.typeMetadata.id;
     }
 
     /**
@@ -114,7 +114,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override get extensionsOptions(): any|undefined|null
     {
-        return this._options?.typeMetadata.options;
+        return this.options?.typeMetadata.options;
     }
 
     //######################### protected properties - children #########################
@@ -152,31 +152,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         super(changeDetector, element, injector, logger);
     }
 
-    //######################### public methods - overrides #########################
-
-    /**
-     * @inheritdoc
-     */
-    public override async initialize(options: LayoutDesignerComponentOptions|undefined|null): Promise<void>
-    {
-        if(!options)
-        {
-            return;
-        }
-
-        this._options = options;
-
-        //TODO: optimize
-        this._initSubscriptions.add(this._layoutEditorMetadataManager.selectedChange.subscribe(() => this._changeDetector.detectChanges()));
-        this._initSubscriptions.add(this._layoutEditorMetadataManager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
-
-        this._editorMetadata = await this._metadataExtractor.extractMetadata(options.typeMetadata);
-        this._canDropValue = this._editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
-        this._layoutEditorMetadataManager.registerLayoutDesignerComponent(this, options.typeMetadata.id, this._parent?._options?.typeMetadata.id);
-        
-        super.initialize(options);
-    }
-
     //######################### public methods - implementation of OnDestroy #########################
     
     /**
@@ -184,15 +159,15 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public override ngOnDestroy(): void
     {
-        this._logger?.debug('LayoutDesignerSAComponent: Destroying component {@data}', {id: this._options?.typeMetadata.id});
+        this._logger?.debug('LayoutDesignerSAComponent: Destroying component {@data}', {id: this.options?.typeMetadata.id});
 
         this._initSubscriptions.unsubscribe();
 
         super.ngOnDestroy();
 
-        if(this._options)
+        if(this.options)
         {
-            this._layoutEditorMetadataManager.unregisterLayoutDesignerComponent(this._options.typeMetadata.id);
+            this._layoutEditorMetadataManager.unregisterLayoutDesignerComponent(this.options.typeMetadata.id);
         }
     }
 
@@ -204,13 +179,13 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public addDescendant(dragData: CdkDragDrop<LayoutComponentDragData, LayoutComponentDragData, LayoutComponentDragData>): void
     {
-        if(!this._options)
+        if(!this.options)
         {
             return;
         }
 
         const parentId = dragData.item.data.parentId;
-        this._logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.item.data.metadata.id, parent: this._options.typeMetadata.id});
+        this._logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.item.data.metadata.id, parent: this.options.typeMetadata.id});
 
         //already added to tree, removing old reference
         if(parentId)
@@ -218,10 +193,10 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             this._layoutEditorMetadataManager.getComponent(parentId)?._removeDescendant(dragData.item.data.metadata.id);
         }
 
-        this._editorMetadata?.addDescendant?.(dragData.item.data.metadata, this._options.typeMetadata.options, dragData.currentIndex);
-        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
+        this._editorMetadata?.addDescendant?.(dragData.item.data.metadata, this.options.typeMetadata.options, dragData.currentIndex);
+        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
 
-        this._renderedType = {...this._options.typeMetadata};
+        this._renderedType = {...this.options.typeMetadata};
         this._changeDetector.markForCheck();
     }
 
@@ -233,16 +208,16 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected _removeDescendant(id: string): void
     {
-        if(!this._options)
+        if(!this.options)
         {
             return;
         }
 
-        this._logger?.debug('LayoutDesignerSAComponent: Removing descendant {@data}', {id: this._options.typeMetadata.id, child: id});
+        this._logger?.debug('LayoutDesignerSAComponent: Removing descendant {@data}', {id: this.options.typeMetadata.id, child: id});
 
-        this._editorMetadata?.removeDescendant?.(id, this._options.typeMetadata.options);
-        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this._options.typeMetadata.options) ?? false;
-        this._renderedType = {...this._options.typeMetadata};
+        this._editorMetadata?.removeDescendant?.(id, this.options.typeMetadata.options);
+        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+        this._renderedType = {...this.options.typeMetadata};
         this._changeDetector.markForCheck();
     }
 
@@ -254,12 +229,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected _showOverlay(event: Event): void
     {
-        this._logger?.verbose('LayoutDesignerComponent: Showing overlay for {@type}', {name: this._options?.typeMetadata.name, id: this._options?.typeMetadata.id});
+        this._logger?.verbose('LayoutDesignerComponent: Showing overlay for {@type}', {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id});
 
         event.preventDefault();
         event.stopPropagation();
 
-        this._layoutEditorMetadataManager.highlightComponent(this._options?.typeMetadata.id);
+        this._layoutEditorMetadataManager.highlightComponent(this.options?.typeMetadata.id);
     }
 
     /**
@@ -273,7 +248,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        this._logger?.verbose('LayoutDesignerComponent: Hiding overlay for {@type}', {name: this._options?.typeMetadata.name, id: this._options?.typeMetadata.id});
+        this._logger?.verbose('LayoutDesignerComponent: Hiding overlay for {@type}', {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id});
 
         event.preventDefault();
         event.stopPropagation();
@@ -290,9 +265,9 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         event.preventDefault();
         event.stopPropagation();
 
-        if(this._options)
+        if(this.options)
         {
-            this._layoutEditorMetadataManager.selectComponent(this._options.typeMetadata.id);
+            this._layoutEditorMetadataManager.selectComponent(this.options.typeMetadata.id);
         }
     }
 
@@ -313,12 +288,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected _remove(): void
     {
-        if(!this._parent || !this._options)
+        if(!this._parent || !this.options)
         {
             return;
         }
 
-        this._parent._removeDescendant(this._options.typeMetadata.id);
+        this._parent._removeDescendant(this.options.typeMetadata.id);
     }
 
     //######################### protected methods - overrides #########################
@@ -326,15 +301,35 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * @inheritdoc
      */
-    protected override _optionsSet(): void
+    protected override async _onInit(): Promise<void>
     {
-        if(!this._options)
+        await resolvePromiseOr(super._onInit());
+
+        if(!this.options)
         {
             return;
         }
 
-        this._renderedType = {...this._options.typeMetadata};
-        
-        this._orientation = this._editorMetadata?.isHorizontalDrop?.(this._options.typeMetadata.options) ? 'horizontal' : 'vertical';
+        //TODO: optimize
+        this._initSubscriptions.add(this._layoutEditorMetadataManager.selectedChange.subscribe(() => this._changeDetector.detectChanges()));
+        this._initSubscriptions.add(this._layoutEditorMetadataManager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
+
+        this._editorMetadata = await this._metadataExtractor.extractMetadata(this.options.typeMetadata);
+        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+        this._layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this.options.typeMetadata.id, this._parent?.options?.typeMetadata.id);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected override _onOptionsSet(): void
+    {
+        if(!this.options)
+        {
+            return;
+        }
+
+        this._renderedType = {...this.options.typeMetadata};
+        this._orientation = this._editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ? 'horizontal' : 'vertical';
     }
 }

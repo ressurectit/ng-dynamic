@@ -1,7 +1,7 @@
-import {ChangeDetectorRef, Directive, ElementRef, Inject, Injector, OnDestroy, Optional} from '@angular/core';
+import {ChangeDetectorRef, Directive, ElementRef, Inject, Injector, OnDestroy, Optional, SimpleChanges} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemExtension} from '@anglr/dynamic';
-import {resolvePromiseOr} from '@jscrpt/common';
+import {nameof, PromiseOr, resolvePromiseOr} from '@jscrpt/common';
 
 import {LayoutComponent} from '../../interfaces';
 
@@ -14,14 +14,14 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     //######################### protected fields #########################
 
     /**
-     * Options used for rendering this component
-     */
-    protected _options: TOptions|undefined|null;
-
-    /**
      * Array of extensions that are registered for component
      */
     protected _extensions: DynamicItemExtension<TOptions>[] = [];
+
+    /**
+     * Indication whether initialization was already done
+     */
+    protected _initialized: boolean = false;
 
     //######################### protected properties #########################
 
@@ -38,7 +38,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     protected get extensionsOptions(): any|undefined|null
     {
-        return this._options;
+        return this.options;
     }
 
     //######################### public properties - implementation of LayoutComponent #########################
@@ -46,26 +46,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     /**
      * @inheritdoc
      */
-    public get options(): TOptions|undefined|null
-    {
-        return this._options;
-    }
-    public set options(value: TOptions|undefined|null)
-    {
-        this._options = value;
-
-        this._optionsSet();
-
-        const extensionsOptions = this.extensionsOptions;
-
-        if(extensionsOptions)
-        {
-            for(const ext of this._extensions)
-            {
-                ext.optionsChange(extensionsOptions);
-            }
-        }
-    }
+    public options: TOptions|undefined|null;
 
     //######################### constructor #########################
     constructor(protected _changeDetector: ChangeDetectorRef,
@@ -86,6 +67,8 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         {
             ext.destroy();
         }
+
+        this._onDestroy();
     }
 
     //######################### public methods - implementation of LayoutComponent #########################
@@ -93,29 +76,60 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     /**
      * @inheritdoc
      */
-    public async initialize(options: TOptions|undefined|null): Promise<void>
+    public async ngOnInit(): Promise<void>
     {
-        if(!options)
+        if(this._initialized)
         {
             return;
         }
 
-        this.options = options;
-
+        this._initialized = true;
         const extensionsOptions = this.extensionsOptions;
+        
+        await resolvePromiseOr(this._onInit());
+        await resolvePromiseOr(this._onOptionsSet());
 
         if(extensionsOptions)
         {
-            for(const ext of this._extensions)
+            for(const extension of this._extensions)
             {
-                await resolvePromiseOr(ext.initialize(this._injector, this.element, this));
+                await resolvePromiseOr(extension.initialize(this._injector, this.element, this));
             }
         }
     }
 
     /**
-     * Registers extensions for component
-     * @param extensions - Array of extensions that should be added to component
+     * @inheritdoc
+     */
+    public async ngOnChanges(changes: SimpleChanges): Promise<void>
+    {
+        //options has changed
+        if(nameof<LayoutComponentBase<TOptions>>('options') in changes)
+        {
+            await resolvePromiseOr(this._onOptionsSet());
+
+            const extensionsOptions = this.extensionsOptions;
+
+            //set options in extensions
+            if(extensionsOptions)
+            {
+                for(const extension of this._extensions)
+                {
+                    await resolvePromiseOr(extension.optionsChange(extensionsOptions));
+                }
+            }
+
+            if(!this._initialized)
+            {
+                return;
+            }
+
+            await resolvePromiseOr(this._onOptionsChange());
+        }
+    }
+
+    /**
+     * @inheritdoc
      */
     public registerExtensions(extensions: DynamicItemExtension[]): void
     {
@@ -133,9 +147,30 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     //######################### protected methods #########################
 
     /**
-     * Method that is called when options are set, allows register custom code that is called when options are changing
+     * Called on initialzation of component, options are already set
      */
-    protected _optionsSet(): void
+    protected _onInit(): PromiseOr<void>
+    {
+    }
+
+    /**
+     * Called on change of options, after initialization
+     */
+    protected _onOptionsChange(): PromiseOr<void>
+    {
+    }
+
+    /**
+     * Called everytime options are set, after initialization and later
+     */
+    protected _onOptionsSet(): PromiseOr<void>
+    {
+    }
+
+    /**
+     * Called when component is being destroyed
+     */
+    protected _onDestroy(): void
     {
     }
 }

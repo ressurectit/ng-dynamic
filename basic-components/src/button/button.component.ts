@@ -35,7 +35,7 @@ export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOption
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public override async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
         // if(nameof<SampleChangeRelations>('vstup') in changes && this.vstup)
         // {

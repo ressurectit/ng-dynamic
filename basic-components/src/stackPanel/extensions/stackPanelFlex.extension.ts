@@ -13,7 +13,7 @@ export class StackPanelFlexExtension extends DynamicItemExtensionBase<StackPanel
     /**
      * @inheritdoc
      */
-    protected override onInit(): void
+    protected override _onInit(): void
     {
         this._applyStyling();
     }
@@ -21,7 +21,7 @@ export class StackPanelFlexExtension extends DynamicItemExtensionBase<StackPanel
     /**
      * @inheritdoc
      */
-    protected override onOptionsChange(): void
+    protected override _onOptionsChange(): void
     {
         this._applyStyling();
     }

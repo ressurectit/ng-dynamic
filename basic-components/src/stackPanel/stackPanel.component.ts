@@ -30,7 +30,7 @@ export class StackPanelSAComponent extends LayoutComponentBase<StackPanelCompone
     /**
      * @inheritdoc
      */
-    protected override _optionsSet(): void
+    protected override _onOptionsSet(): void
     {
         this._setStyles();
     }
@@ -44,7 +44,7 @@ export class StackPanelSAComponent extends LayoutComponentBase<StackPanelCompone
     {
         const style = this._element.nativeElement.style;
 
-        style.flexDirection = this._options?.horizontal ? 'row' : 'column';
-        style.flexWrap = this._options?.wrap ? 'wrap' : 'nowrap';
+        style.flexDirection = this.options?.horizontal ? 'row' : 'column';
+        style.flexWrap = this.options?.wrap ? 'wrap' : 'nowrap';
     }
 }

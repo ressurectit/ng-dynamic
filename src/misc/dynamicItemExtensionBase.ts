@@ -53,7 +53,7 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
         this._element = element;
         this._instance = instance;
 
-        await resolvePromiseOr(this.onInit());
+        await resolvePromiseOr(this._onInit());
     }
 
     /**
@@ -68,7 +68,7 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
             return;
         }
 
-        await resolvePromiseOr(this.onOptionsChange());
+        await resolvePromiseOr(this._onOptionsChange());
     }
 
     /**
@@ -76,7 +76,7 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
      */
     public destroy(): void
     {
-        this.onDestroy();
+        this._onDestroy();
     }
 
     //######################### protected methods #########################
@@ -84,21 +84,21 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
     /**
      * Called on initialization of component
      */
-    protected onInit(): PromiseOr<void>
+    protected _onInit(): PromiseOr<void>
     {
     }
 
     /**
      * Called on change of options of component
      */
-    protected onOptionsChange(): PromiseOr<void>
+    protected _onOptionsChange(): PromiseOr<void>
     {
     }
 
     /**
      * Called on destruction of component
      */
-    protected onDestroy(): void
+    protected _onDestroy(): void
     {
     }
 }

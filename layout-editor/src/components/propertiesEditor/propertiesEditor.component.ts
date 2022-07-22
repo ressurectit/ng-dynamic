@@ -1,9 +1,11 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Optional, Type} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Optional, Type, SimpleChanges} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
 import {FormModelBuilder} from '@anglr/common/forms';
-import {Dictionary, extend, isPresent} from '@jscrpt/common';
+import {addSimpleChange} from '@anglr/dynamic';
+import {LayoutComponent} from '@anglr/dynamic/layout';
+import {Dictionary, extend, isPresent, resolvePromiseOr} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor} from '../../services';
@@ -115,14 +117,18 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
         this._displayName
             .valueChanges
-            .subscribe(displayName =>
+            .subscribe(async displayName =>
             {
                 if(this._component?.options?.typeMetadata && isPresent(displayName))
                 {
                     this._component.options.typeMetadata.displayName = displayName;
 
+                    const changes: SimpleChanges = {};
+                    addSimpleChange<LayoutComponent>(changes, 'options', this._component.options, this._component.options);
+
                     // eslint-disable-next-line no-self-assign
                     this._component.options = this._component.options;
+                    await resolvePromiseOr(this._component.ngOnChanges?.(changes));
                     this._manager.displayNameUpdated();
                 }
             });
@@ -202,14 +208,18 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                     const form = this._formModelBuilder.build(new props.modelType(this._component?.options?.typeMetadata.options));
                     const metadata = this._propertyExtractor.extract(props.modelType);
     
-                    this._optionsFormSubscription.add(form.valueChanges.subscribe(data =>
+                    this._optionsFormSubscription.add(form.valueChanges.subscribe(async data =>
                     {
                         if(this._component?.options?.typeMetadata)
                         {
                             extend(true, this._component.options.typeMetadata.options, data);
+
+                            const changes: SimpleChanges = {};
+                            addSimpleChange<LayoutComponent>(changes, 'options', this._component.options, this._component.options);
     
                             // eslint-disable-next-line no-self-assign
                             this._component.options = this._component.options;
+                            await resolvePromiseOr(this._component.ngOnChanges?.(changes));
                             this._component.invalidateVisuals();
                         }
                     }));
@@ -240,14 +250,18 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                             const form = this._formModelBuilder.build(new props.modelType(this._component?.options?.typeMetadata.options));
                             const metadata = this._propertyExtractor.extract(props.modelType);
             
-                            this._optionsFormSubscription.add(form.valueChanges.subscribe(data =>
+                            this._optionsFormSubscription.add(form.valueChanges.subscribe(async data =>
                             {
                                 if(this._component?.options?.typeMetadata)
                                 {
                                     extend(true, this._component.options.typeMetadata.options, data);
             
+                                    const changes: SimpleChanges = {};
+                                    addSimpleChange<LayoutComponent>(changes, 'options', this._component.options, this._component.options);
+
                                     // eslint-disable-next-line no-self-assign
                                     this._component.options = this._component.options;
+                                    await resolvePromiseOr(this._component.ngOnChanges?.(changes));
                                     this._component.invalidateVisuals();
                                 }
                             }));

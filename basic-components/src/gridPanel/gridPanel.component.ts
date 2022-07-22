@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {generateId} from '@jscrpt/common';
+import {generateId, PromiseOr} from '@jscrpt/common';
 
 import {GridPanelComponentOptions} from './gridPanel.options';
 import {GridPanelLayoutMetadataLoader} from './gridPanel.metadata';
@@ -31,7 +31,7 @@ export class GridPanelSAComponent extends LayoutComponentBase<GridPanelComponent
     /**
      * @inheritdoc
      */
-    protected override _optionsSet(): void
+    protected override _onOptionsSet(): PromiseOr<void>
     {
         this._fixCells();
 
@@ -39,17 +39,17 @@ export class GridPanelSAComponent extends LayoutComponentBase<GridPanelComponent
         let gridTemplateRows: string = '';
         let gridTemplateColumns: string = '';
 
-        if(this._options?.rows && Array.isArray(this._options?.rows))
+        if(this.options?.rows && Array.isArray(this.options?.rows))
         {
-            for(const row of this._options.rows)
+            for(const row of this.options.rows)
             {
                 gridTemplateRows += `${row.height} `;
             }
         }
 
-        if(this._options?.columns && Array.isArray(this._options?.columns))
+        if(this.options?.columns && Array.isArray(this.options?.columns))
         {
-            for(const column of this._options.columns)
+            for(const column of this.options.columns)
             {
                 gridTemplateColumns += `${column.width} `;
             }
@@ -59,28 +59,30 @@ export class GridPanelSAComponent extends LayoutComponentBase<GridPanelComponent
         style.gridTemplateColumns = gridTemplateColumns.trim();
     }
 
+    //######################### protected methods #########################
+
     /**
      * Fixes cell metadata
      */
     protected _fixCells(): void
     {
-        if(!this._options)
+        if(!this.options)
         {
             return;
         }
 
-        this._options.cells ??= [];
+        this.options.cells ??= [];
 
         const grid: string[][] = [];
 
-        for(let y = 0; y < (this._options.rows ?? []).length; y++)
-        for(let x = 0; x < (this._options.columns ?? []).length; x++)
+        for(let y = 0; y < (this.options.rows ?? []).length; y++)
+        for(let x = 0; x < (this.options.columns ?? []).length; x++)
         {
             grid[y] ??= [];
             grid[y][x] = '';
         }
 
-        for(const cell of this._options.cells)
+        for(const cell of this.options.cells)
         {
             cell.package = 'basic-components';
             cell.name = 'gridPanelCell';
@@ -98,12 +100,12 @@ export class GridPanelSAComponent extends LayoutComponentBase<GridPanelComponent
             }
         }
 
-        for(let y = 1; y <= (this._options.rows ?? []).length; y++)
-        for(let x = 1; x <= (this._options.columns ?? []).length; x++)
+        for(let y = 1; y <= (this.options.rows ?? []).length; y++)
+        for(let x = 1; x <= (this.options.columns ?? []).length; x++)
         {
             if(grid[y - 1][x - 1] === '')
             {
-                this._options.cells.push(
+                this.options.cells.push(
                 {
                     id: `${generateId(6)}-r${y}-${y+1}-c${x}-${x+1}`,
                     package: 'basic-components',

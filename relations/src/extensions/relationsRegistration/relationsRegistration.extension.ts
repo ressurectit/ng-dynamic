@@ -15,7 +15,7 @@ export class RelationsRegistrationExtension extends DynamicItemExtensionBase<unk
     /**
      * @inheritdoc
      */
-    protected override async onInit(): Promise<void>
+    protected override async _onInit(): Promise<void>
     {
         if(!this._injector || !this._metadata || !this._instance)
         {
@@ -38,7 +38,7 @@ export class RelationsRegistrationExtension extends DynamicItemExtensionBase<unk
     /**
      * @inheritdoc
      */
-    protected override onDestroy(): void
+    protected override _onDestroy(): void
     {
         if(!this._injector || !this._metadata)
         {

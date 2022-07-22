@@ -1,10 +1,11 @@
+import {OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DynamicItem, DynamicItemExtension} from '@anglr/dynamic';
-import {Func, PromiseOr} from '@jscrpt/common';
+import {PromiseOr} from '@jscrpt/common';
 
 /**
  * Description of layout component
  */
-export interface LayoutComponent<TOptions = any> extends DynamicItem
+export interface LayoutComponent<TOptions = any> extends DynamicItem, Partial<OnInit>, Partial<OnChanges>
 {
     //######################### properties #########################
 
@@ -16,10 +17,15 @@ export interface LayoutComponent<TOptions = any> extends DynamicItem
     //######################### methods #########################
 
     /**
-     * Initialize dynamic item with initial options
-     * @param options - Initial options for initialization
+     * Called on initialization of layout component
      */
-    initialize?: Func<PromiseOr<void>, [TOptions|undefined|null]>;
+    ngOnInit?(): PromiseOr<void>;
+
+    /**
+     * Called before initialization and every time some property changes
+     * @param changes - Information about changes that occured
+     */
+    ngOnChanges?(changes: SimpleChanges): PromiseOr<void>;
 
     /**
      * Registers extensions for component

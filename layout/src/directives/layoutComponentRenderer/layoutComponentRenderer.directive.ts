@@ -1,6 +1,6 @@
 import {ComponentRef, Directive, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, SkipSelf, ValueProvider, ViewContainerRef} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {DynamicItemExtensionType, DynamicItemLoader} from '@anglr/dynamic';
+import {addSimpleChange, DynamicItemExtensionType, DynamicItemLoader} from '@anglr/dynamic';
 import {nameof, resolvePromiseOr} from '@jscrpt/common';
 
 import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer.options';
@@ -118,7 +118,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
         // component metadata is present
         if(nameof<LayoutComponentRendererSADirective<TComponent, TComponentOptions>>('componentMetadata') in changes && this.componentMetadata)
         {
-            const injector = this.customInjector || this._viewContainerRef.injector;
+            const injector = this.customInjector ?? this._viewContainerRef.injector;
             let componentMetadata = this.componentMetadata;
 
             if(this._metadataTransformer && !this.disableTransformer)
@@ -175,23 +175,34 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                                                                         }) as ComponentRef<TComponent>;
 
             this._logger?.debug('LayoutComponentRendererSADirective: component rendered {@id}', {id: componentMetadata?.id});
+            const component = this.component;
 
-            this.componentChange.next(this._componentRef);
-            
-            if(this.component)
+            if(component)
             {
-                this.component.registerExtensions(
+                //registers extensions and child extensions
+                component.registerExtensions(
                 [
                     ...this._childExtensions?.map(itm => new itm(componentMetadata)) ?? [],
                     ...layoutComponentType?.extensions?.map(itm => new itm(componentMetadata)) ?? [],
                 ]);
 
-                this._logger?.debug('LayoutComponentRendererSADirective: initializing component with options {@id}', {id: componentMetadata?.id});
-                await resolvePromiseOr(this.component.initialize?.(componentMetadata.options));
+                const changes: SimpleChanges = {};
+                addSimpleChange<LayoutComponent>(changes, 'options', componentMetadata.options, component.options, true);
+
+                this._logger?.debug('LayoutComponentRendererSADirective: setting options for component {@id}', {id: componentMetadata?.id});
+                component.options = componentMetadata.options;
+                
+                this._logger?.debug('LayoutComponentRendererSADirective: setting changes for component {@id}', {id: componentMetadata?.id});
+                await resolvePromiseOr(component.ngOnChanges?.(changes));
+
+                this._logger?.debug('LayoutComponentRendererSADirective: initializing component {@id}', {id: componentMetadata?.id});
+                await resolvePromiseOr(component.ngOnInit?.());
 
                 this._logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {@id}', {id: componentMetadata?.id});
-                this.component?.invalidateVisuals();
+                component.invalidateVisuals();
                 this._componentRef.changeDetectorRef.markForCheck();
+
+                this.componentChange.next(this._componentRef);
             }
         }
     }

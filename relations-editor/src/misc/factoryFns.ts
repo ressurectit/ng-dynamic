@@ -1,4 +1,4 @@
-import {inject, InjectFlags} from '@angular/core';
+import {inject} from '@angular/core';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {LOGGER} from '@anglr/common';
 
@@ -14,7 +14,7 @@ export const relationsNodeLoaderFactory = (): DynamicItemLoader<RelationsNodeDef
     return new DynamicItemLoader(inject(RELATIONS_NODES_PROVIDERS),
                                  inject(RELATIONS_NODES_DATA_EXTRACTORS),
                                  isRelationsNodeDef,
-                                 inject(LOGGER, InjectFlags.Optional) ?? undefined);
+                                 inject(LOGGER, {optional: true}) ?? undefined);
 };
 
 /**
@@ -25,5 +25,5 @@ export const relationsModuleTypesLoaderFactory = (): DynamicItemLoader<Relations
     return new DynamicItemLoader(inject(RELATIONS_MODULE_TYPES_PROVIDERS),
                                  inject(RELATIONS_MODULE_TYPES_DATA_EXTRACTORS),
                                  isRelationsModuleTypes,
-                                 inject(LOGGER, InjectFlags.Optional) ?? undefined);
+                                 inject(LOGGER, {optional: true}) ?? undefined);
 };

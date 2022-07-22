@@ -3,8 +3,6 @@ import {DynamicItemExtension, DynamicItemExtensionBase} from '@anglr/dynamic';
 import {RelationsComponent} from '../../interfaces';
 import {RelationsComponentManager, RelationsProcessor} from '../../services';
 
-//TODO: refactor layout component
-
 /**
  * Extension that allows registration of component for relations
  */

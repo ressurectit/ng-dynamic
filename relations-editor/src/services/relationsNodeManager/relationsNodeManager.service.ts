@@ -158,8 +158,6 @@ export class RelationsNodeManager
                 continue;
             }
 
-            //TODO: coordinates and nodeMetadata.options
-
             const nodeMeta: RelationsNodeMetadata =
             {
                 id,

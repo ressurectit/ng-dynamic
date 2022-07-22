@@ -1,4 +1,4 @@
-import {inject, InjectFlags, InjectionToken} from '@angular/core';
+import {inject, InjectionToken} from '@angular/core';
 import {LOGGER} from '@anglr/common';
 import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
 
@@ -26,6 +26,6 @@ export const RELATIONS_COMPONENTS_LOADER: InjectionToken<DynamicItemLoader<Relat
                                                                                                                                                                           return new DynamicItemLoader(inject(RELATIONS_COMPONENTS_MODULE_PROVIDERS),
                                                                                                                                                                                                        inject(RELATIONS_COMPONENTS_MODULE_DATA_EXTRACTORS),
                                                                                                                                                                                                        isRelationsComponentDef,
-                                                                                                                                                                                                       inject(LOGGER, InjectFlags.Optional) ?? undefined);
+                                                                                                                                                                                                       inject(LOGGER, {optional: true}) ?? undefined);
                                                                                                                                                                       }
                                                                                                                                                                   });

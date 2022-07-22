@@ -1,4 +1,4 @@
-import {inject, InjectFlags, InjectionToken} from '@angular/core';
+import {inject, InjectionToken} from '@angular/core';
 import {LOGGER} from '@anglr/common';
 import {DynamicItemExtensionType, DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
 
@@ -37,6 +37,6 @@ export const LAYOUT_COMPONENTS_LOADER: InjectionToken<DynamicItemLoader<LayoutCo
                                                                                                                                                                  return new DynamicItemLoader(inject(LAYOUT_COMPONENTS_MODULE_PROVIDERS),
                                                                                                                                                                                               inject(LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS),
                                                                                                                                                                                               isLayoutComponentDef,
-                                                                                                                                                                                              inject(LOGGER, InjectFlags.Optional) ?? undefined);
+                                                                                                                                                                                              inject(LOGGER, {optional: true}) ?? undefined);
                                                                                                                                                              }
                                                                                                                                                          });

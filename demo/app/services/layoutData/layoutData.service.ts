@@ -5,6 +5,8 @@ import {Dictionary} from '@jscrpt/common';
 
 const DATA = 'LAYOUT_DATA';
 
+//TODO: make it into one class that will be shared, update new remove save load
+
 /**
  * Service used for obtaining and storing layout data
  */

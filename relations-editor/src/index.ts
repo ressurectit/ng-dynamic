@@ -5,7 +5,6 @@ export * from './interfaces';
 export * from './misc/constants';
 export * from './misc/enums';
 export * from './misc/extractors';
-export * from './misc/factoryFns';
 export * from './misc/nodeRelationPath';
 export * from './misc/providers';
 export * from './misc/tokens';

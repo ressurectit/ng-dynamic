@@ -9,7 +9,7 @@ import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataType} from '../../de
 /**
  * Class used for extracting layout editor metadata
  */
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class LayoutEditorMetadataExtractor
 {
     //######################### protected fields #########################

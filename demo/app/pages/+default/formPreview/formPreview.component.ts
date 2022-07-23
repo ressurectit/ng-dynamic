@@ -6,7 +6,8 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataManager} from '@anglr/dynamic/layout-editor';
 import {FORM_COMPONENT_CONTROL} from '@anglr/dynamic/form';
 
-import {LayoutDataService} from '../../../services/layoutData';
+import {StoreDataService} from '../../../services/storeData';
+import {createStoreDataServiceFactory} from '../../../misc/factories';
 
 /**
  * Form preview component
@@ -18,6 +19,7 @@ import {LayoutDataService} from '../../../services/layoutData';
     providers:
     [
         LayoutEditorMetadataManager,
+        createStoreDataServiceFactory('LAYOUT_DATA'),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -39,7 +41,7 @@ export class FormPreviewComponent implements OnInit, OnDestroy
     protected _availableNames: string[] = [];
 
     //######################### constructor #########################
-    constructor(private _store: LayoutDataService,
+    constructor(private _store: StoreDataService,
                 private _router: Router,
                 private _route: ActivatedRoute,
                 private _fb: FormBuilder,

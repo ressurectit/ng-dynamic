@@ -1,11 +1,16 @@
-import {ClassProvider, FactoryProvider, Optional, ValueProvider} from '@angular/core';
-import {DefaultDynamicModuleTypesProvider, defaultExportExtractor, DynamicModuleDataExtractor} from '@anglr/dynamic';
+import {ClassProvider, FactoryProvider, inject, Optional, ValueProvider} from '@angular/core';
+import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
 import {LOGGER, Logger} from '@anglr/common';
 
-import {LayoutDesignerDynamicModuleItemsProvider} from '../services';
-import {LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
+import {DefaultDynamicModuleTypesProvider, LayoutDesignerDynamicModuleItemsProvider} from '../services';
+import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
 import {layoutDesignerComponentTransform} from './transforms/layoutDesignerComponentTransform';
+import {LayoutPropertyMetadata} from './types';
+import {isLayoutModuleTypes} from './utils';
+import {InputStringComponent} from '../modules/propertyTypeControls/components/inputString/inputString.component';
+import {InputBooleanComponent} from '../modules/propertyTypeControls/components/inputBoolean/inputBoolean.component';
+import {SelectValueComponent} from '../modules/propertyTypeControls/components/selectValue/selectValue.component';
 
 /**
  * Provider for layout designer components providers
@@ -51,4 +56,42 @@ export const DEFAULT_LAYOUT_MODULE_TYPES_EXTRACTOR: FactoryProvider =
     },
     deps: [[new Optional(), LOGGER]],
     multi: true
+};
+
+/**
+ * Provider for layout editor property metadata
+ */
+export const LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES_PROVIDER: ValueProvider =
+{
+    provide: LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES,
+    useValue:
+    [
+        LayoutPropertyMetadata
+    ]
+};
+
+/**
+ * Provider for default layout editor property type controls
+ */
+export const DEFAULT_LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS_PROVIDER: ValueProvider =
+{
+    provide: LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS,
+    useValue:
+    {
+        'inputString': InputStringComponent,
+        'inputBoolean': InputBooleanComponent,
+        'selectValue': SelectValueComponent,
+    }
+};
+
+/**
+ * Provider for layout module types loader
+ */
+export const LAYOUT_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
+{
+    provide: LAYOUT_MODULE_TYPES_LOADER,
+    useFactory: () => new DynamicItemLoader(inject(LAYOUT_MODULE_TYPES_PROVIDERS),
+                                            inject(LAYOUT_MODULE_TYPES_DATA_EXTRACTORS),
+                                            isLayoutModuleTypes,
+                                            inject(LOGGER, {optional: true}) ?? undefined)
 };

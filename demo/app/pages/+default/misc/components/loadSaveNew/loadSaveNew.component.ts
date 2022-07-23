@@ -3,12 +3,9 @@ import {CommonModule} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgSelectModule} from '@anglr/select';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {Func} from '@jscrpt/common';
 
-import {LayoutDataService} from '../../../../../services/layoutData';
-import {RelationsDataService} from '../../../../../services/relationsData';
+import {StoreDataService} from '../../../../../services/storeData';
 
 /**
  * Component used for loading saving and creating new layout/relations template
@@ -27,11 +24,11 @@ import {RelationsDataService} from '../../../../../services/relationsData';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoadSaveNewSAComponent<TMetadata extends (LayoutComponentMetadata|RelationsNodeMetadata) = any> implements OnInit
+export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
 {
     //######################### protected properties - template bindings #########################
 
-    protected _metadata: TMetadata|TMetadata[]|null = null;
+    protected _metadata: TMetadata|null = null;
     
     protected _available: FormControl = new FormControl('');
 
@@ -42,18 +39,18 @@ export class LoadSaveNewSAComponent<TMetadata extends (LayoutComponentMetadata|R
     //######################### public properties - inputs #########################
 
     @Input()
-    public store: LayoutDataService|RelationsDataService;
+    public store: StoreDataService;
 
     @Input()
     public routePath: string;
 
     @Input()
-    public getMetadataCallback: Func<TMetadata|TMetadata[]>;
+    public getMetadataCallback: Func<TMetadata>;
 
     //######################### public properties - outputs #########################
 
     @Output()
-    public metadataChange: EventEmitter<TMetadata|TMetadata[]|null> = new EventEmitter<TMetadata|TMetadata[]|null>();
+    public metadataChange: EventEmitter<TMetadata|null> = new EventEmitter<TMetadata|null>();
 
     //######################### constructor #########################
     constructor(private _router: Router,
@@ -84,7 +81,7 @@ export class LoadSaveNewSAComponent<TMetadata extends (LayoutComponentMetadata|R
             {
                 this._name.setValue(id);
                 this._available.setValue(id);
-                this._metadata = this.store.getData(this._available.value) as TMetadata|TMetadata[]|null;
+                this._metadata = this.store.getData(this._available.value);
                 this.metadataChange.next(this._metadata);
             }
         });
@@ -94,7 +91,7 @@ export class LoadSaveNewSAComponent<TMetadata extends (LayoutComponentMetadata|R
 
     protected _load(): void
     {
-        this._metadata = this.store.getData(this._available.value) as TMetadata|TMetadata[]|null;
+        this._metadata = this.store.getData(this._available.value);
         this.metadataChange.next(this._metadata);
         this._name.setValue(this._available.value);
 
@@ -103,7 +100,7 @@ export class LoadSaveNewSAComponent<TMetadata extends (LayoutComponentMetadata|R
 
     protected _save(): void
     {
-        this.store.setData(this._name.value, this.getMetadataCallback() as any);
+        this.store.setData(this._name.value, this.getMetadataCallback());
 
         this._availableNames = this.store.getStored();
         this._router.navigate([this.routePath, this._name.value], {skipLocationChange: false, replaceUrl: true});

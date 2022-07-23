@@ -5,8 +5,9 @@ import {LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {BindThis, generateId} from '@jscrpt/common';
 
-import {LayoutDataService} from '../../../services/layoutData';
 import {DemoData} from '../../../services/demoData';
+import {createStoreDataServiceFactory} from '../../../misc/factories';
+import {StoreDataService} from '../../../services/storeData';
 
 /**
  * Layout editor component
@@ -19,6 +20,7 @@ import {DemoData} from '../../../services/demoData';
     [
         LAYOUT_DESIGNER_COMPONENT_TRANSFORM,
         LayoutEditorMetadataManager,
+        createStoreDataServiceFactory('LAYOUT_DATA'),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -46,7 +48,7 @@ export class EditorComponent
 
     //######################### constructor #########################
     constructor(private _manager: LayoutEditorMetadataManager,
-                protected _store: LayoutDataService,)
+                protected _store: StoreDataService,)
     {
     }
 

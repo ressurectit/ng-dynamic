@@ -5,7 +5,8 @@ import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataManager} from '@anglr/dynamic/layout-editor';
 
-import {LayoutDataService} from '../../../services/layoutData';
+import {StoreDataService} from '../../../services/storeData';
+import {createStoreDataServiceFactory} from '../../../misc/factories';
 
 /**
  * Layout preview component
@@ -17,6 +18,7 @@ import {LayoutDataService} from '../../../services/layoutData';
     providers:
     [
         LayoutEditorMetadataManager,
+        createStoreDataServiceFactory('LAYOUT_DATA'),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -34,7 +36,7 @@ export class PreviewComponent implements OnInit, OnDestroy
     protected _availableNames: string[] = [];
 
     //######################### constructor #########################
-    constructor(private _store: LayoutDataService,
+    constructor(private _store: StoreDataService,
                 private _router: Router,
                 private _route: ActivatedRoute,)
     {

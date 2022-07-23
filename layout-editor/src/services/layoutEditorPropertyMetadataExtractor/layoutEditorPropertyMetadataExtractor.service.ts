@@ -8,7 +8,7 @@ import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES} from '../../misc/tokens';
 /**
  * Service used for extracting property metadata
  */
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class LayoutEditorPropertyMetadataExtractor
 {
     //######################### constructor #########################

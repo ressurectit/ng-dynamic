@@ -18,7 +18,7 @@ import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_F
 import {LoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES} from '@anglr/rest';
 import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
 import {LayoutManager} from '@anglr/dynamic/layout';
-import {provideLayoutEditor} from '@anglr/dynamic/layout-editor';
+import {DEFAULT_LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS_PROVIDER, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {provideRelations} from '@anglr/dynamic/relations';
 import {LayoutComponentsRegister, provideRelationsEditor, StaticComponentsRegister} from '@anglr/dynamic/relations-editor';
 import {RelationsComponentManager} from '@anglr/dynamic/relations';
@@ -372,6 +372,7 @@ export const providers: Provider[] =
     },
 
     //######################### DYNAMIC CONFIG #########################
+    DEFAULT_LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS_PROVIDER,
     ...provideLayoutEditor(),
     ...provideRelations(),
     ...provideRelationsEditor(),

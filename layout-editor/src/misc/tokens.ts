@@ -1,33 +1,19 @@
-import {inject, InjectionToken, Type} from '@angular/core';
+import {InjectionToken, Type} from '@angular/core';
 import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
-import {LOGGER} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 
 import {PropertyTypeControl} from '../interfaces';
-import {InputBooleanComponent, InputStringComponent, SelectValueComponent} from '../modules/propertyTypeControls';
-import {LayoutPropertyMetadata} from './types';
 import {LayoutModuleTypes} from '../components/componentsPalette/componentsPalette.interface';
-import {isLayoutModuleTypes} from './utils';
 
 /**
  * Injection token containing symbols to properties storing layout editor property metadata
  */
-export const LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES: InjectionToken<symbol[]> = new InjectionToken<symbol[]>('LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES', {providedIn: 'root', factory: () => [LayoutPropertyMetadata]});
+export const LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES: InjectionToken<symbol[]> = new InjectionToken<symbol[]>('LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES');
 
 /**
  * Injection token containing available property type controls
  */
-export const LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS: InjectionToken<Dictionary<Type<PropertyTypeControl>>> = new InjectionToken<Dictionary<Type<PropertyTypeControl>>>('LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS',
-                                                                                                                                                                     {
-                                                                                                                                                                         providedIn: 'root',
-                                                                                                                                                                         factory: () =>
-                                                                                                                                                                         {
-                                                                                                                                                                             return {
-                                                                                                                                                                                 'inputString': InputStringComponent,
-                                                                                                                                                                                 'inputBoolean': InputBooleanComponent,
-                                                                                                                                                                                 'selectValue': SelectValueComponent,
-                                                                                                                                                                             };
-                                                                                                                                                                         }});
+export const LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS: InjectionToken<Dictionary<Type<PropertyTypeControl>>> = new InjectionToken<Dictionary<Type<PropertyTypeControl>>>('LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS');
 
 /**
  * Injection token for layout module types data extractors
@@ -42,14 +28,4 @@ export const LAYOUT_MODULE_TYPES_PROVIDERS: InjectionToken<DynamicModuleProvider
 /**
  * Injection token for layout module types loader
  */
-export const LAYOUT_MODULE_TYPES_LOADER: InjectionToken<DynamicItemLoader<LayoutModuleTypes>> = new InjectionToken<DynamicItemLoader<LayoutModuleTypes>>('LAYOUT_MODULE_TYPES_LOADER', 
-                                                                                                                                                         {
-                                                                                                                                                             providedIn: 'root',
-                                                                                                                                                             factory: () =>
-                                                                                                                                                             {
-                                                                                                                                                                 return new DynamicItemLoader(inject(LAYOUT_MODULE_TYPES_PROVIDERS),
-                                                                                                                                                                                              inject(LAYOUT_MODULE_TYPES_DATA_EXTRACTORS),
-                                                                                                                                                                                              isLayoutModuleTypes,
-                                                                                                                                                                                              inject(LOGGER, {optional: true}) ?? undefined);
-                                                                                                                                                             }
-                                                                                                                                                         });
+export const LAYOUT_MODULE_TYPES_LOADER: InjectionToken<DynamicItemLoader<LayoutModuleTypes>> = new InjectionToken<DynamicItemLoader<LayoutModuleTypes>>('LAYOUT_MODULE_TYPES_LOADER');

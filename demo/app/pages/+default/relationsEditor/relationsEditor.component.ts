@@ -4,8 +4,9 @@ import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeDragData, RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {BindThis} from '@jscrpt/common';
 
-import {RelationsDataService} from '../../../services/relationsData';
 import {DemoData} from '../../../services/demoData';
+import {createStoreDataServiceFactory} from '../../../misc/factories';
+import {StoreDataService} from '../../../services/storeData';
 
 /**
  * Layout editor component
@@ -17,6 +18,7 @@ import {DemoData} from '../../../services/demoData';
     providers:
     [
         RelationsNodeManager,
+        createStoreDataServiceFactory('RELATIONS_DATA'),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -35,7 +37,7 @@ export class RelationsEditorComponent
 
     //######################### constructor #########################
     constructor(private _manager: RelationsNodeManager,
-                protected _store: RelationsDataService,)
+                protected _store: StoreDataService,)
     {
     }
 

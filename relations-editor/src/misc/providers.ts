@@ -1,10 +1,11 @@
-import {ClassProvider, FactoryProvider, Optional} from '@angular/core';
-import {BasicComponentsDynamicModuleItemsProvider, DefaultDynamicModuleRelationsProvider, defaultExportExtractor, DynamicModuleDataExtractor} from '@anglr/dynamic';
+import {ClassProvider, FactoryProvider, inject, Optional} from '@angular/core';
+import {BasicComponentsDynamicModuleItemsProvider, defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor} from '@anglr/dynamic';
 import {LOGGER, Logger} from '@anglr/common';
 
-import {RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_PROVIDERS} from './tokens';
+import {RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
 import {componentRelationsNodeExtractor, relationsNodeExtractor} from './extractors';
-import {LayoutComponentsRelationsNodesProvider, LayoutComponentsRelationsTypesProvider, StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider} from '../services';
+import {LayoutComponentsRelationsNodesProvider, LayoutComponentsRelationsTypesProvider, StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider, DefaultDynamicModuleRelationsProvider} from '../services';
+import {isRelationsModuleTypes, isRelationsNodeDef} from './utils';
 
 /**
  * Provider for basic components package relations nodes provider
@@ -115,4 +116,28 @@ export const DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR: FactoryProvider =
     },
     deps: [[new Optional(), LOGGER]],
     multi: true
+};
+
+/**
+ * Provider for relations module types
+ */
+export const RELATIONS_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
+{
+    provide: RELATIONS_MODULE_TYPES_LOADER,
+    useFactory: () => new DynamicItemLoader(inject(RELATIONS_MODULE_TYPES_PROVIDERS),
+                                            inject(RELATIONS_MODULE_TYPES_DATA_EXTRACTORS),
+                                            isRelationsModuleTypes,
+                                            inject(LOGGER, {optional: true}) ?? undefined)
+};
+
+/**
+ * Provider for relations node loader
+ */
+export const RELATIONS_NODES_LOADER_PROVIDER: FactoryProvider =
+{
+    provide: RELATIONS_NODES_LOADER,
+    useFactory: () => new DynamicItemLoader(inject(RELATIONS_NODES_PROVIDERS),
+                                            inject(RELATIONS_NODES_DATA_EXTRACTORS),
+                                            isRelationsNodeDef,
+                                            inject(LOGGER, {optional: true}) ?? undefined)
 };

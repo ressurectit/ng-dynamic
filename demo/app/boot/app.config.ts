@@ -368,15 +368,4 @@ export const providers: Provider[] =
 
     //######################### DYNAMIC CONFIG #########################
     DEFAULT_LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS_PROVIDER,
-    // ...provideLayoutEditor(),
-    // ...provideRelations(),
-    // ...provideRelationsEditor(),
-    // RelationsComponentManager,
-    // LayoutComponentsRegister,
-    // LayoutManager,
-    // <ClassProvider>
-    // {
-    //     provide: StaticComponentsRegister,
-    //     useClass: DemoRegister,
-    // },
 ];

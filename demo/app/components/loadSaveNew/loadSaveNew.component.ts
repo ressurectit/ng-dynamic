@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {NgSelectModule} from '@anglr/select';
 import {Func} from '@jscrpt/common';
 
-import {StoreDataService} from '../../../../../services/storeData';
+import {StoreDataService} from '../../services/storeData';
 
 /**
  * Component used for loading saving and creating new layout/relations template

@@ -9,6 +9,10 @@ import {DemoData} from '../../../services/demoData';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
 import {StoreDataService} from '../../../services/storeData';
 
+//TODO: think of location for LayoutEditorMetadataManager
+//TODO: create component for editor
+//TODO: move LAYOUT_DESIGNER_COMPONENT_TRANSFORM into editor component
+
 /**
  * Layout editor component
  */

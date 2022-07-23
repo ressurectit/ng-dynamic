@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
-import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
+import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataManager} from '@anglr/dynamic/layout-editor';
 
@@ -22,7 +22,6 @@ import {createStoreDataServiceFactory} from '../../../misc/factories';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRedirectRoute('', 'preview')
 @ComponentRoute({path: 'preview'})
 @ComponentRoute({path: 'preview/:id'})
 export class PreviewComponent implements OnInit, OnDestroy
@@ -61,7 +60,7 @@ export class PreviewComponent implements OnInit, OnDestroy
 
             this._available.valueChanges.subscribe(val =>
             {
-                this._router.navigate(['/preview', val], {skipLocationChange: false, replaceUrl: true});
+                this._router.navigate(['/layout/preview', val], {skipLocationChange: false, replaceUrl: true});
             });
         });
     }

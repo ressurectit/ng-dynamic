@@ -21,7 +21,20 @@ export const routesOptions: ModuleRoutesOptions =
     [
         {
             path: '',
+            redirectTo: '/layout/preview',
+            pathMatch: 'full'
+        },
+        {
+            path: '',
             loadChildren: () => import('../pages/+default/default.module').then(({DefaultModule}) => DefaultModule)
+        },
+        {
+            path: 'layout',
+            loadChildren: () => import('../pages/+layout/layout.module').then(({LayoutModule}) => LayoutModule)
+        },
+        {
+            path: 'layout',
+            loadChildren: () => import('../pages/+layoutEditor/layoutEditor.module').then(({LayoutEditorModule}) => LayoutEditorModule)
         }
     ],
     staticRoutesAfter:

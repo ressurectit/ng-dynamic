@@ -17,11 +17,7 @@ import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES} from '@anglr/rest';
 import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
-import {LayoutManager} from '@anglr/dynamic/layout';
-import {DEFAULT_LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS_PROVIDER, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
-import {provideRelations} from '@anglr/dynamic/relations';
-import {LayoutComponentsRegister, provideRelationsEditor, StaticComponentsRegister} from '@anglr/dynamic/relations-editor';
-import {RelationsComponentManager} from '@anglr/dynamic/relations';
+import {DEFAULT_LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS_PROVIDER} from '@anglr/dynamic/layout-editor';
 import {isString, isJsObject} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
 import {sk} from 'date-fns/locale';
@@ -30,7 +26,6 @@ import {GlobalizationService as GlobalizationServiceImpl} from '../services/glob
 import {NOTHING_SELECTED} from '../misc/constants';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
-import {StaticComponentsRegister as DemoRegister} from '../services/staticComponentsRegister';
 
 /**
  * Array of providers that are used in app module
@@ -373,15 +368,15 @@ export const providers: Provider[] =
 
     //######################### DYNAMIC CONFIG #########################
     DEFAULT_LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS_PROVIDER,
-    ...provideLayoutEditor(),
-    ...provideRelations(),
-    ...provideRelationsEditor(),
-    RelationsComponentManager,
-    LayoutComponentsRegister,
-    LayoutManager,
-    <ClassProvider>
-    {
-        provide: StaticComponentsRegister,
-        useClass: DemoRegister,
-    },
+    // ...provideLayoutEditor(),
+    // ...provideRelations(),
+    // ...provideRelationsEditor(),
+    // RelationsComponentManager,
+    // LayoutComponentsRegister,
+    // LayoutManager,
+    // <ClassProvider>
+    // {
+    //     provide: StaticComponentsRegister,
+    //     useClass: DemoRegister,
+    // },
 ];

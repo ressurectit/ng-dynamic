@@ -8,7 +8,8 @@ import {NodesPaletteSAComponent, RelationsCanvasSAComponent} from '@anglr/dynami
 
 import {components} from './default.routes';
 import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} from '../../modules';
-import {LoadSaveNewSAComponent, RelationsResultComponent, RelationsSampleClickComponent} from './misc/components';
+import {RelationsResultComponent, RelationsSampleClickComponent} from './misc/components';
+import {LoadSaveNewSAComponent} from '../../components';
 
 /**
  * Module for Default application pages

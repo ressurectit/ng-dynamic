@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
+import {RelationsNodeDragData, RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {BindThis} from '@jscrpt/common';
 
 import {RelationsDataService} from '../../../services/relationsData';
@@ -49,5 +50,21 @@ export class RelationsEditorComponent
     protected _loadDemo(): void
     {
         this._metadata = DemoData.relationsDemo;
+    }
+
+    protected addNode(event: CdkDragDrop<RelationsNodeDragData, RelationsNodeDragData, RelationsNodeDragData>): void
+    {
+        //TODO: apply transform of canvas
+
+        const canvasRect = event.container.element.nativeElement.getBoundingClientRect();
+
+        event.item.data.metadata.nodeMetadata.coordinates.x = event.dropPoint.x - canvasRect.x;
+        event.item.data.metadata.nodeMetadata.coordinates.y = event.dropPoint.y - canvasRect.y;
+
+        this._metadata =
+        [
+            ...this._metadata,
+            event.item.data.metadata,
+        ];
     }
 }

@@ -7,5 +7,6 @@
 </div>
 
 <div class="flex-row flex-1">
-    <relations-canvas [nodeDefinitions]="_metadata" class="flex-1"></relations-canvas>
+    <nodes-palette [canvasDropList]="dropList" style="width: 250px;"></nodes-palette>
+    <relations-canvas #dropList="cdkDropList" [nodeDefinitions]="_metadata" class="flex-1" cdkDropList (cdkDropListDropped)="addNode($event)"></relations-canvas>
 </div>

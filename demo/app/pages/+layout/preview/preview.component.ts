@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadataManager} from '@anglr/dynamic/layout-editor';
 
 import {StoreDataService} from '../../../services/storeData';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
@@ -17,7 +16,6 @@ import {createStoreDataServiceFactory} from '../../../misc/factories';
     templateUrl: 'preview.component.html',
     providers:
     [
-        LayoutEditorMetadataManager,
         createStoreDataServiceFactory('LAYOUT_DATA'),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

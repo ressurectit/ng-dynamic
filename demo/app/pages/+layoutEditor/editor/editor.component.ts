@@ -1,17 +1,13 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadataManager, LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout-editor';
+import {LayoutEditorMetadataManager} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
 import {StoreDataService} from '../../../services/storeData';
-
-//TODO: think of location for LayoutEditorMetadataManager
-//TODO: create component for editor
-//TODO: move LAYOUT_DESIGNER_COMPONENT_TRANSFORM into editor component
 
 /**
  * Layout editor component
@@ -22,8 +18,6 @@ import {StoreDataService} from '../../../services/storeData';
     templateUrl: 'editor.component.html',
     providers:
     [
-        LAYOUT_DESIGNER_COMPONENT_TRANSFORM,
-        LayoutEditorMetadataManager,
         createStoreDataServiceFactory('LAYOUT_DATA'),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

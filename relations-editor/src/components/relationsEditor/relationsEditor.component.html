@@ -1,0 +1,4 @@
+<div class="flex-row flex-1">
+    <nodes-palette [canvasDropList]="dropList" style="width: 250px;"></nodes-palette>
+    <relations-canvas #dropList="cdkDropList" [nodeDefinitions]="metadata" class="flex-1" cdkDropList (cdkDropListDropped)="addNode($event)"></relations-canvas>
+</div>

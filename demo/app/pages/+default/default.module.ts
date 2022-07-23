@@ -5,7 +5,7 @@ import {ModuleRoutes} from '@anglr/common/router';
 import {LayoutComponentRendererSADirective, LayoutManager} from '@anglr/dynamic/layout';
 import {ComponentsPaletteSAComponent, ComponentsTreeSAComponent, PropertiesEditorSAComponent, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {provideRelations, RelationsComponentManager} from '@anglr/dynamic/relations';
-import {LayoutComponentsRegister, NodesPaletteSAComponent, provideRelationsEditor, RelationsCanvasSAComponent, StaticComponentsRegister} from '@anglr/dynamic/relations-editor';
+import {LayoutComponentsRegister, NodesPaletteSAComponent, provideRelationsEditor, RelationsCanvasSAComponent, RelationsEditorSAComponent, StaticComponentsRegister} from '@anglr/dynamic/relations-editor';
 
 import {components} from './default.routes';
 import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} from '../../modules';
@@ -32,6 +32,7 @@ import {StaticComponentsRegister as DemoRegister} from '../../services/staticCom
         LoadSaveNewSAComponent,
         NodesPaletteSAComponent,
         DragDropModule,
+        RelationsEditorSAComponent,
     ],
     declarations:
     [

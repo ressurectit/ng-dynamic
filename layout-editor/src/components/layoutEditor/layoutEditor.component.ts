@@ -15,7 +15,7 @@ import {LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '../../misc/providers';
 {
     selector: 'layout-editor',
     templateUrl: 'layoutEditor.component.html',
-    // styleUrls: ['layoutEditor.component.scss'],
+    // styleUrls: ['layoutEditor.component.css'],
     styles: [HostDisplayBlockStyle],
     providers:
     [

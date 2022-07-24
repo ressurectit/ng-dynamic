@@ -3,6 +3,7 @@ import {provideRelationsEditor} from '@anglr/dynamic/relations-editor';
 import {LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
 
 import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER} from './providers';
+import {LayoutComponentsRegister, LayoutManager} from '../services';
 
 /**
  * Providers for relations editor subpackage that works with layout metadata
@@ -13,6 +14,8 @@ export function provideLayoutRelationsEditor(): Provider[]
         ...provideRelationsEditor(),
         LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER,
         LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
+        LayoutManager,
+        LayoutComponentsRegister,
         LayoutComponentsIteratorService,
     ];
 }

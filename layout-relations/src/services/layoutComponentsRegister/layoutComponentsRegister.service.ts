@@ -1,9 +1,11 @@
 import {Inject, Injectable, OnDestroy, Type} from '@angular/core';
 import {DynamicItemLoader} from '@anglr/dynamic';
-import {LayoutComponentDef, LayoutManager, LAYOUT_COMPONENTS_LOADER} from '@anglr/dynamic/layout';
+import {LayoutComponentDef, LAYOUT_COMPONENTS_LOADER} from '@anglr/dynamic/layout';
 import {LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
 import {Dictionary} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
+
+import {LayoutManager} from '../layoutManager/layoutManager.service';
 
 /**
  * Register for layout components that are part of relations

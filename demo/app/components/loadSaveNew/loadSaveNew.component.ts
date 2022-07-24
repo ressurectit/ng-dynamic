@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgSelectModule} from '@anglr/select';
-import {Func} from '@jscrpt/common';
+import {extend, Func} from '@jscrpt/common';
 
 import {StoreDataService} from '../../services/storeData';
 
@@ -100,7 +100,9 @@ export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
 
     protected _save(): void
     {
-        this.store.setData(this._name.value, this.getMetadataCallback());
+        const data = this.store.getData(this._name.value) ?? {};
+
+        this.store.setData(this._name.value, extend(data, this.getMetadataCallback()));
 
         this._availableNames = this.store.getStored();
         this._router.navigate([this.routePath, this._name.value], {skipLocationChange: false, replaceUrl: true});

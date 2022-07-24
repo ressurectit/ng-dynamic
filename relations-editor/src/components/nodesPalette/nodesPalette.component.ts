@@ -12,6 +12,8 @@ import {RelationsModuleTypes, RelationsNodeDef} from '../../misc/types';
 import {RelationsNodeManager} from '../../services';
 import {ToRelationsDragDataSAPipe} from '../../pipes';
 
+//TODO: add new provider for refresh required of palette items
+
 /**
  * Component displaying available nodes palette
  */
@@ -91,7 +93,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         // this._getDesignerDropLists();
 
         //TODO make it dynamic
-        for (const packageName of ['basic-components', 'material-components', 'static-components'])
+        for (const packageName of ['basic-components', 'material-components', 'static-components', 'layout-components'])
         {
             const types = (await this._moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
 

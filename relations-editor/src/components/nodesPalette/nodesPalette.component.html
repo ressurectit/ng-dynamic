@@ -15,7 +15,7 @@
                  (cdkDragStarted)="_onDragStarted($event, groupKeyValue.key, item)"> -->
                 <!-- <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>
                 <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="item.metadata" [layoutMetadata]="(item | toLayoutDragData: _newCompnentId).metadata"></layout-editor-drag-preview> -->
-                <div class="editor-component-name">{{item.metadata.metaInfo?.name ?? item.itemSource.name}}</div>
+                <div class="editor-component-name">{{item.metadata.singleton ? item.itemSource.name : item.metadata.metaInfo?.name ?? item.itemSource.name}}</div>
                 <div class="editor-component-description" *ngIf="item.metadata.metaInfo?.description">{{item.metadata.metaInfo?.description}}</div>
             </div>
         </div>

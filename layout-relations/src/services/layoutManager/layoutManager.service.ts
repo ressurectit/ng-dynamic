@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Observable, Subject} from 'rxjs';
-
-import {LayoutComponentMetadata} from '../../interfaces';
 
 /**
  * Manager of layout metadata
@@ -45,7 +44,7 @@ export class LayoutManager
      * Sets layout new value
      * @param layout - Value of layout that changed
      */
-    public setRelations(layout: LayoutComponentMetadata|null): void
+    public setLayout(layout: LayoutComponentMetadata|null): void
     {
         if(this._layout == layout)
         {

@@ -22,9 +22,6 @@ import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../..
     [
         ...components,
     ],
-    providers:
-    [
-    ],
 })
 @ModuleRoutes(components)
 export class RelationsStaticModule

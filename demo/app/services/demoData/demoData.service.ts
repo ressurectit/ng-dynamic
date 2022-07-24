@@ -343,4 +343,108 @@ export class DemoData
             }
         }
     ];
+
+    public static relationsStaticWithEditorDemo: RelationsNodeMetadata[] =
+    [
+        {
+            id: 'sample-source',
+            package: 'basic-components',
+            name: 'sampleSource',
+            relationsOptions: null,
+            outputs:
+            [
+                {
+                    outputName: 'vystup',
+                    inputs:
+                    [
+                        {
+                            id: 'relations-sample-click',
+                            inputName: 'vstup'
+                        }
+                    ]
+                }
+            ],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 30,
+                    y: 60
+                },
+                options: null
+            }
+        },
+        {
+            id: 'relations-sample-click',
+            package: 'static-components',
+            name: 'relations-sample-click',
+            relationsOptions: null,
+            outputs:
+            [
+                {
+                    outputName: 'vystup',
+                    inputs:
+                    [
+                        {
+                            id: 'sample-changes',
+                            inputName: 'vstup'
+                        }
+                    ]
+                }
+            ],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 230,
+                    y: 80
+                },
+                options: null
+            }
+        },
+        {
+            id: 'sample-changes',
+            package: 'basic-components',
+            name: 'sampleChange',
+            relationsOptions: null,
+            outputs:
+            [
+                {
+                    outputName: 'vystup',
+                    inputs:
+                    [
+                        {
+                            id: 'relations-result',
+                            inputName: 'vstup'
+                        }
+                    ]
+                }
+            ],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 430,
+                    y: 100
+                },
+                options: null
+            }
+        },
+        {
+            id: 'relations-result',
+            package: 'static-components',
+            name: 'relations-result',
+            relationsOptions: null,
+            outputs: [],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 630,
+                    y: 60
+                },
+                options: null
+            }
+        }
+    ];
 }

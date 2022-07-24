@@ -5,7 +5,6 @@ import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
 import {StoreDataService} from '../../../services/storeData';
-import {createStoreDataServiceFactory} from '../../../misc/factories';
 
 /**
  * Layout preview component
@@ -14,10 +13,6 @@ import {createStoreDataServiceFactory} from '../../../misc/factories';
 {
     selector: 'layout-preview-view',
     templateUrl: 'preview.component.html',
-    providers:
-    [
-        createStoreDataServiceFactory('LAYOUT_DATA'),
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'preview'})

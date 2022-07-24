@@ -4,6 +4,7 @@ import {DynamicLayoutEditorModule} from '@anglr/dynamic/layout-editor';
 
 import {components} from './layoutEditor.routes';
 import {LoadSaveNewSAComponent} from '../../components';
+import {createStoreDataServiceFactory} from '../../misc/factories';
 
 /**
  * Module for layout editor samples
@@ -19,6 +20,10 @@ import {LoadSaveNewSAComponent} from '../../components';
     [
         ...components,
     ],
+    providers:
+    [
+        createStoreDataServiceFactory('LAYOUT_DATA'),
+    ]
 })
 @ModuleRoutes(components)
 export class LayoutEditorModule

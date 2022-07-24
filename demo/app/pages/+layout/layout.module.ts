@@ -3,9 +3,10 @@ import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ModuleRoutes} from '@anglr/common/router';
 import {NgSelectModule} from '@anglr/select';
-import {LayoutComponentRendererSADirective, provideLayout} from '@anglr/dynamic/layout';
+import {DynamicLayoutModule, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 
 import {components} from './layout.routes';
+import {createStoreDataServiceFactory} from '../../misc/factories';
 
 /**
  * Module for layout preview samples
@@ -18,6 +19,7 @@ import {components} from './layout.routes';
         ReactiveFormsModule,
         NgSelectModule,
         LayoutComponentRendererSADirective,
+        DynamicLayoutModule
     ],
     declarations:
     [
@@ -25,7 +27,7 @@ import {components} from './layout.routes';
     ],
     providers:
     [
-        provideLayout(),
+        createStoreDataServiceFactory('LAYOUT_DATA'),
     ],
 })
 @ModuleRoutes(components)

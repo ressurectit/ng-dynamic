@@ -1,10 +1,10 @@
-import {Provider} from '@angular/core';
+import {ClassProvider, Provider, Type} from '@angular/core';
 import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
 import {isBlank, isBoolean, isJsObject, isPresent, isType} from '@jscrpt/common';
 
-import {BASIC_COMPONENTS_RELATIONS_NODES_PROVIDER, DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR, DEFAULT_RELATIONS_NODES_EXTRACTOR, DYNAMIC_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_MODULE_TYPES_LOADER_PROVIDER, RELATIONS_NODES_LOADER_PROVIDER, COMPONENTS_RELATIONS_NODES_EXTRACTOR} from './providers';
+import {BASIC_COMPONENTS_RELATIONS_NODES_PROVIDER, DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR, DEFAULT_RELATIONS_NODES_EXTRACTOR, DYNAMIC_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_MODULE_TYPES_LOADER_PROVIDER, RELATIONS_NODES_LOADER_PROVIDER, COMPONENTS_RELATIONS_NODES_EXTRACTOR, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER} from './providers';
 import type {RelationsModuleTypes, RelationsNodeDef} from './types';
-import {RelationsNodeManager} from '../services';
+import {RelationsNodeManager, StaticComponentsRegister} from '../services';
 
 /**
  * Clamps number between two values
@@ -72,6 +72,24 @@ export function provideRelationsEditor(): Provider[]
         RELATIONS_MODULE_TYPES_LOADER_PROVIDER,
         RELATIONS_NODES_LOADER_PROVIDER,
         RelationsNodeManager,
+    ];
+}
+
+/**
+ * Providers for relations editor subpackage, with support of static components
+ * @param staticRegister - Type that represents implementation of static components register
+ */
+export function provideRelationsEditorWithStatic(staticRegister: Type<StaticComponentsRegister>): Provider[]
+{
+    return [
+        ...provideRelationsEditor(),
+        STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
+        STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
+        <ClassProvider>
+        {
+            provide: StaticComponentsRegister,
+            useClass: staticRegister
+        }
     ];
 }
 

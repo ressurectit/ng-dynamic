@@ -6,7 +6,6 @@ import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
-import {createStoreDataServiceFactory} from '../../../misc/factories';
 import {StoreDataService} from '../../../services/storeData';
 
 /**
@@ -16,10 +15,6 @@ import {StoreDataService} from '../../../services/storeData';
 {
     selector: 'layout-editor-view',
     templateUrl: 'editor.component.html',
-    providers:
-    [
-        createStoreDataServiceFactory('LAYOUT_DATA'),
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'editor'})

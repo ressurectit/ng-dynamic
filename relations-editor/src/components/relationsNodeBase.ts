@@ -5,6 +5,8 @@ import {Coordinates, RelationsInput, RelationsNode, RelationsNodeMetadata, Relat
 import {RelationNodeOutputSAComponent} from './relationsNodeOutput/relationsNodeOutput.component';
 import {RelationNodeInputSAComponent} from './relationsNodeInput/relationsNodeInput.component';
 
+//TODO: add way of destruction for nodes! into renderer into interface and here
+
 /**
  * Base class for relations node components
  */

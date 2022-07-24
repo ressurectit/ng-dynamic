@@ -10,5 +10,6 @@ export * from './misc/providers';
 export * from './misc/tokens';
 export * from './misc/types';
 export * from './misc/utils';
+export * from './modules';
 export * from './pipes';
 export * from './services';

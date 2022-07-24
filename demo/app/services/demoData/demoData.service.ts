@@ -178,6 +178,82 @@ export class DemoData
                     inputs:
                     [
                         {
+                            id: 'sample-changes',
+                            inputName: 'vstup'
+                        }
+                    ]
+                }
+            ],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 30,
+                    y: 60
+                },
+                options: null
+            }
+        },
+        {
+            id: 'sample-changes',
+            package: 'basic-components',
+            name: 'sampleChange',
+            relationsOptions: null,
+            outputs:
+            [
+                {
+                    outputName: 'vystup',
+                    inputs:
+                    [
+                        {
+                            id: 'sample-changes2',
+                            inputName: 'vstup'
+                        }
+                    ]
+                }
+            ],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 230,
+                    y: 100
+                },
+                options: null
+            }
+        },
+        {
+            id: 'sample-changes2',
+            package: 'basic-components',
+            name: 'sampleChange',
+            relationsOptions: null,
+            outputs: [],
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 430,
+                    y: 40
+                },
+                options: null
+            }
+        },
+    ];
+
+    public static relationsStaticDemo: RelationsNodeMetadata[] =
+    [
+        {
+            id: 'sample-source',
+            package: 'basic-components',
+            name: 'sampleSource',
+            relationsOptions: null,
+            outputs:
+            [
+                {
+                    outputName: 'vystup',
+                    inputs:
+                    [
+                        {
                             id: 'relations-sample-click',
                             inputName: 'vstup'
                         }

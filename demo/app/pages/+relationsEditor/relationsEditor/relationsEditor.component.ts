@@ -5,7 +5,6 @@ import {RelationsNodeDragData, RelationsNodeManager, RelationsNodeMetadata} from
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
-import {createStoreDataServiceFactory} from '../../../misc/factories';
 import {StoreDataService} from '../../../services/storeData';
 
 /**
@@ -15,20 +14,17 @@ import {StoreDataService} from '../../../services/storeData';
 {
     selector: 'relations-editor-view',
     templateUrl: 'relationsEditor.component.html',
-    providers:
-    [
-        RelationsNodeManager,
-        createStoreDataServiceFactory('RELATIONS_DATA'),
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path: 'relations-editor'})
-@ComponentRoute({path: 'relations-editor/:id'})
+@ComponentRoute({path: ''})
+@ComponentRoute({path: ':id'})
 export class RelationsEditorComponent
 {
     //######################### protected properties - template bindings #########################
 
     protected _metadata: RelationsNodeMetadata[] = [];
+
+    protected stringMetadata: string = '';
 
     protected get emptyMetadata(): RelationsNodeMetadata[]
     {
@@ -52,6 +48,13 @@ export class RelationsEditorComponent
     protected _loadDemo(): void
     {
         this._metadata = DemoData.relationsDemo;
+    }
+
+    protected showMetadata(): void
+    {
+        const meta = this._getMetadata();
+
+        this.stringMetadata = JSON.stringify(meta, null, 4);
     }
 
     protected addNode(event: CdkDragDrop<RelationsNodeDragData, RelationsNodeDragData, RelationsNodeDragData>): void

@@ -8,7 +8,7 @@ import {WaitingInputRelation} from './relationsNodeManager.interface';
 //TODO: logging
 
 /**
- * Class used for handling layout metadata
+ * Class used for handling relations nodes metadata
  */
 @Injectable()
 export class RelationsNodeManager

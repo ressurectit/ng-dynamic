@@ -4,13 +4,10 @@ import {LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_COMPONENT_TRANSFORM} from '@a
 import {LOGGER, Logger} from '@anglr/common';
 
 import {DefaultDynamicModuleTypesProvider, LayoutDesignerDynamicModuleItemsProvider} from '../services';
-import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
+import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
 import {layoutDesignerComponentTransform} from './transforms/layoutDesignerComponentTransform';
 import {LayoutPropertyMetadata} from './types';
 import {isLayoutModuleTypes} from './utils';
-import {InputStringComponent} from '../modules/propertyTypeControls/components/inputString/inputString.component';
-import {InputBooleanComponent} from '../modules/propertyTypeControls/components/inputBoolean/inputBoolean.component';
-import {SelectValueComponent} from '../modules/propertyTypeControls/components/selectValue/selectValue.component';
 
 /**
  * Provider for layout designer components providers
@@ -68,20 +65,6 @@ export const LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES_PROVIDER: ValueProvider 
     [
         LayoutPropertyMetadata
     ]
-};
-
-/**
- * Provider for default layout editor property type controls
- */
-export const DEFAULT_LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS_PROVIDER: ValueProvider =
-{
-    provide: LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS,
-    useValue:
-    {
-        'inputString': InputStringComponent,
-        'inputBoolean': InputBooleanComponent,
-        'selectValue': SelectValueComponent,
-    }
 };
 
 /**

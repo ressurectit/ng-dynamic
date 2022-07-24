@@ -36,6 +36,6 @@ export class RelationsComponent
      */
     public ngOnInit(): void
     {
-        this._relationsManager.setRelations(DemoData.relationsDemo);
+        this._relationsManager.setRelations(DemoData.relationsStaticDemo);
     }
 }

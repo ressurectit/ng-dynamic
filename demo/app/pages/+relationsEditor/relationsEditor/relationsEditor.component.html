@@ -1,0 +1,23 @@
+<div class="flex-row">
+    <load-save-new [store]="_store" [getMetadataCallback]="_getMetadata" routePath="/relationsEditor" (metadataChange)="_metadata = ($any($event) ?? emptyMetadata)"></load-save-new>
+
+    <button class="btn btn-primary" type="button" (click)="_loadDemo()">
+        <span>demo</span>
+    </button>
+</div>
+
+<div class="flex-1 flex-row">
+    <relations-editor class="flex-1" [metadata]="_metadata"></relations-editor>
+
+    <div style="width: 300px;" class="flex-column">
+        <div>Relations metadata</div>
+
+        <div>
+            <button type="button" class="btn btn-primary" (click)="showMetadata()">
+                <span>show metadata</span>
+            </button>
+        </div>
+
+        <div style="white-space: pre; overflow: scroll;" class="thin-scrollbar flex-1">{{stringMetadata}}</div>
+    </div>
+</div>

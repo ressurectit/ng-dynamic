@@ -85,9 +85,9 @@ export const DEFAULT_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
 };
 
 /**
- * Provider for static components relations nodes extractor
+ * Provider for static and layout components relations nodes extractor
  */
-export const STATIC_COMPONENTS_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
+export const COMPONENTS_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
 {
     provide: RELATIONS_NODES_DATA_EXTRACTORS,
     useFactory: (logger?: Logger) =>

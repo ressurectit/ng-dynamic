@@ -1,9 +1,0 @@
-<div class="flex-row">
-    <load-save-new [store]="_store" [getMetadataCallback]="_getMetadata" routePath="/relations-editor" (metadataChange)="_metadata = ($any($event) ?? emptyMetadata)"></load-save-new>
-
-    <button class="btn btn-primary" type="button" (click)="_loadDemo()">
-        <span>demo</span>
-    </button>
-</div>
-
-<relations-editor class="flex-1" [metadata]="_metadata"></relations-editor>

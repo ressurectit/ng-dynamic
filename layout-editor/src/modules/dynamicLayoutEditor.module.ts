@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 
 import {LayoutEditorSAComponent} from '../components';
 import {provideLayoutEditor} from '../misc/utils';
-import {LayoutEditorMetadataManager} from '../services';
 
 /**
  * Module contains components, directives, pipes for dynamic layout editor rendering
@@ -20,7 +19,6 @@ import {LayoutEditorMetadataManager} from '../services';
     providers:
     [
         provideLayoutEditor(),
-        LayoutEditorMetadataManager,
     ]
 })
 export class DynamicLayoutEditorModule

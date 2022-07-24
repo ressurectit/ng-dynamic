@@ -4,12 +4,12 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {ModuleRoutes} from '@anglr/common/router';
 import {LayoutComponentRendererSADirective, LayoutManager} from '@anglr/dynamic/layout';
 import {ComponentsPaletteSAComponent, ComponentsTreeSAComponent, PropertiesEditorSAComponent, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
-import {provideRelations, RelationsComponentManager} from '@anglr/dynamic/relations';
+import {provideRelations} from '@anglr/dynamic/relations';
 import {LayoutComponentsRegister, NodesPaletteSAComponent, provideRelationsEditor, RelationsCanvasSAComponent, RelationsEditorSAComponent, StaticComponentsRegister} from '@anglr/dynamic/relations-editor';
 
 import {components} from './default.routes';
 import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} from '../../modules';
-import {LoadSaveNewSAComponent, RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../../components';
+import {LoadSaveNewSAComponent} from '../../components';
 import {StaticComponentsRegister as DemoRegister} from '../../services/staticComponentsRegister';
 
 /**
@@ -32,8 +32,6 @@ import {StaticComponentsRegister as DemoRegister} from '../../services/staticCom
         NodesPaletteSAComponent,
         DragDropModule,
         RelationsEditorSAComponent,
-        RelationsSampleClickSAComponent,
-        RelationsResultSAComponent,
     ],
     declarations:
     [
@@ -44,7 +42,6 @@ import {StaticComponentsRegister as DemoRegister} from '../../services/staticCom
         ...provideLayoutEditor(),
         ...provideRelations(),
         ...provideRelationsEditor(),
-        RelationsComponentManager,
         LayoutComponentsRegister,
         LayoutManager,
         <ClassProvider>

@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {RelationsManager} from '@anglr/dynamic/relations';
 
 import {DemoData} from '../../../services/demoData';
 
@@ -12,14 +12,9 @@ import {DemoData} from '../../../services/demoData';
     selector: 'relations-view',
     templateUrl: 'relations.component.html',
     // styleUrls: ['relations.component.scss'],
-    providers:
-    [
-        RelationsManager,
-        RelationsProcessor,
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path: 'relations'})
+@ComponentRoute({path: ''})
 export class RelationsComponent
 {
     //######################### protected properties - template bindings #########################
@@ -41,9 +36,6 @@ export class RelationsComponent
      */
     public ngOnInit(): void
     {
-        setTimeout(() =>
-        {
-            this._relationsManager.setRelations(DemoData.relationsDemo);
-        }, 5000);
+        this._relationsManager.setRelations(DemoData.relationsDemo);
     }
 }

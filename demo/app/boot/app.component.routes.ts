@@ -35,7 +35,11 @@ export const routesOptions: ModuleRoutesOptions =
         {
             path: 'layout',
             loadChildren: () => import('../pages/+layoutEditor/layoutEditor.module').then(({LayoutEditorModule}) => LayoutEditorModule)
-        }
+        },
+        {
+            path: 'relationsStatic',
+            loadChildren: () => import('../pages/+relationsStatic/relationsStatic.module').then(({RelationsStaticModule}) => RelationsStaticModule)
+        },
     ],
     staticRoutesAfter:
     [

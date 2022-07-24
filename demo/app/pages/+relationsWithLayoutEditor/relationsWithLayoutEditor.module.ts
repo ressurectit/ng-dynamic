@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {ModuleRoutes} from '@anglr/common/router';
+import {DynamicLayoutRelationsEditorModule} from '@anglr/dynamic/layout-relations';
 
 import {components} from './relationsWithLayoutEditor.routes';
 
@@ -10,13 +11,11 @@ import {components} from './relationsWithLayoutEditor.routes';
 {
     imports:
     [
+        DynamicLayoutRelationsEditorModule.withProviders(),
     ],
     declarations:
     [
         ...components,
-    ],
-    providers:
-    [
     ],
 })
 @ModuleRoutes(components)

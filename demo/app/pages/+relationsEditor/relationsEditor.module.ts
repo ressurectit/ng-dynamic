@@ -14,7 +14,7 @@ import {createStoreDataServiceFactory} from '../../misc/factories';
     imports:
     [
         LoadSaveNewSAComponent,
-        DynamicRelationsEditorModule,
+        DynamicRelationsEditorModule.withProviders(),
     ],
     declarations:
     [

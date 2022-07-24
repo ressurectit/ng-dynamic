@@ -18,7 +18,7 @@ import {StaticComponentsRegister} from '../../services/staticComponentsRegister'
     [
         RouterModule,
         GoBackModule,
-        DynamicRelationsModule,
+        DynamicRelationsModule.withProviders(),
         DynamicRelationsEditorModule.withStaticComponents(StaticComponentsRegister),
         RelationsSampleClickSAComponent,
         RelationsResultSAComponent,

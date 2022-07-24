@@ -16,7 +16,7 @@ import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../..
         CommonModule,
         RelationsSampleClickSAComponent,
         RelationsResultSAComponent,
-        DynamicRelationsModule,
+        DynamicRelationsModule.withProviders(),
     ],
     declarations:
     [

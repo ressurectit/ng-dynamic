@@ -92,24 +92,3 @@ export function provideRelationsEditorWithStatic(staticRegister: Type<StaticComp
         }
     ];
 }
-
-// /**
-//  * Default providers for relations editor subpackage
-//  */
-// export function provideRelationsEditor(): Provider[]
-// {
-//     return [
-//         BASIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
-//         STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
-//         LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER,
-//         DYNAMIC_RELATIONS_MODULE_TYPES_PROVIDER,
-//         STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
-//         LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
-//         DEFAULT_RELATIONS_NODES_EXTRACTOR,
-//         STATIC_COMPONENTS_RELATIONS_NODES_EXTRACTOR,
-//         DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR,
-//         RELATIONS_MODULE_TYPES_LOADER_PROVIDER,
-//         RELATIONS_NODES_LOADER_PROVIDER,
-//         LayoutComponentsIteratorService,
-//     ];
-// }

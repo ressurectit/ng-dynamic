@@ -17,14 +17,24 @@ import {StaticComponentsRegister} from '../services';
     [
         RelationsEditorSAComponent,
     ],
-    providers:
-    [
-        provideRelationsEditor(),
-    ]
 })
 export class DynamicRelationsEditorModule
 {
     //######################### public methods #########################
+
+    /**
+     * Creates DynamicRelationsEditorModule extended with providers
+     */
+    public static withProviders(): ModuleWithProviders<DynamicRelationsEditorModule>
+    {
+        return {
+            ngModule: DynamicRelationsEditorModule,
+            providers:
+            [
+                provideRelationsEditor(),
+            ]
+        };
+    }
 
     /**
      * Creates DynamicRelationsEditorModule extended with providers for static components

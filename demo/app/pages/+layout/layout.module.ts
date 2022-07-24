@@ -19,7 +19,7 @@ import {createStoreDataServiceFactory} from '../../misc/factories';
         ReactiveFormsModule,
         NgSelectModule,
         LayoutComponentRendererSADirective,
-        DynamicLayoutModule
+        DynamicLayoutModule.withProviders(),
     ],
     declarations:
     [

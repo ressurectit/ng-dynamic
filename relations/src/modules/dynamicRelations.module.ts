@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ModuleWithProviders, NgModule} from '@angular/core';
 
 import {provideRelations} from '../misc/utils';
 
@@ -7,11 +7,22 @@ import {provideRelations} from '../misc/utils';
  */
 @NgModule(
 {
-    providers:
-    [
-        provideRelations(),
-    ]
 })
 export class DynamicRelationsModule
 {
+    //######################### public methods #########################
+
+    /**
+     * Creates DynamicRelationsModule extended with providers
+     */
+    public static withProviders(): ModuleWithProviders<DynamicRelationsModule>
+    {
+        return {
+            ngModule: DynamicRelationsModule,
+            providers:
+            [
+                provideRelations(),
+            ]
+        };
+    }
 }

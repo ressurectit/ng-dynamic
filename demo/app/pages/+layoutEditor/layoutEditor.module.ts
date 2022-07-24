@@ -13,7 +13,7 @@ import {createStoreDataServiceFactory} from '../../misc/factories';
 {
     imports:
     [
-        DynamicLayoutEditorModule,
+        DynamicLayoutEditorModule.withProviders(),
         LoadSaveNewSAComponent,
     ],
     declarations:

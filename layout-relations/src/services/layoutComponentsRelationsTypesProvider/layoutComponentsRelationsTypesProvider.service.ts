@@ -1,10 +1,9 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemLoader, DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
+import {RelationsNodeDef, RELATIONS_NODES_LOADER} from '@anglr/dynamic/relations-editor';
 
 import {LayoutComponentsRegister} from '../layoutComponentsRegister/layoutComponentsRegister.service';
-import {RelationsNodeDef} from '../../misc/types';
-import {RELATIONS_NODES_LOADER} from '../../misc/tokens';
 
 /**
  * Dynamic relations types provider for layout components

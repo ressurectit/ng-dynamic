@@ -13,10 +13,11 @@ import {RelationsResultRelationsMetadataLoader} from './relationsResult.metadata
     selector: 'relations-result',
     templateUrl: 'relationsResult.component.html',
     // styleUrls: ['relationsResult.component.scss'],
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(RelationsResultRelationsMetadataLoader)
-export class RelationsResultComponent implements RelationsComponent, OnInit, OnDestroy
+export class RelationsResultSAComponent implements RelationsComponent, OnInit, OnDestroy
 {
     //######################### public static properties #########################
 
@@ -57,9 +58,9 @@ export class RelationsResultComponent implements RelationsComponent, OnInit, OnD
      */
     public async ngOnInit(): Promise<void>
     {
-        this._componentManager.registerComponent(RelationsResultComponent.relationsId, this);
+        this._componentManager.registerComponent(RelationsResultSAComponent.relationsId, this);
         await this._relationsProcessor.initialized;
-        this._relationsProcessor.updateRelations(RelationsResultComponent.relationsId);
+        this._relationsProcessor.updateRelations(RelationsResultSAComponent.relationsId);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -69,8 +70,8 @@ export class RelationsResultComponent implements RelationsComponent, OnInit, OnD
      */
     public ngOnDestroy(): void
     {
-        this._relationsProcessor.destroyComponent(RelationsResultComponent.relationsId);
-        this._componentManager.unregisterComponent(RelationsResultComponent.relationsId);
+        this._relationsProcessor.destroyComponent(RelationsResultSAComponent.relationsId);
+        this._componentManager.unregisterComponent(RelationsResultSAComponent.relationsId);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################
@@ -80,7 +81,7 @@ export class RelationsResultComponent implements RelationsComponent, OnInit, OnD
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<RelationsResultComponent>('vstup') in changes && this.vstup)
+        if(nameof<RelationsResultSAComponent>('vstup') in changes && this.vstup)
         {
             console.log('vstup sa zmenil v result', this.vstup);
         }

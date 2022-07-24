@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, SimpleChanges, ChangeDetectorRef, Input, OnInit, OnDestroy} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {DynamicOutput, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {nameof} from '@jscrpt/common';
@@ -14,10 +14,15 @@ import {RelationsSampleClickRelationsMetadataLoader} from './relationsSampleClic
     selector: 'relations-sample-click',
     templateUrl: 'relationsSampleClick.component.html',
     // styleUrls: ['relationsSampleClick.component.scss'],
+    standalone: true,
+    imports:
+    [
+        ReactiveFormsModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(RelationsSampleClickRelationsMetadataLoader)
-export class RelationsSampleClickComponent implements RelationsComponent, OnInit, OnDestroy
+export class RelationsSampleClickSAComponent implements RelationsComponent, OnInit, OnDestroy
 {
     //######################### public static properties #########################
 
@@ -74,9 +79,9 @@ export class RelationsSampleClickComponent implements RelationsComponent, OnInit
      */
     public async ngOnInit(): Promise<void>
     {
-        this._componentManager.registerComponent(RelationsSampleClickComponent.relationsId, this);
+        this._componentManager.registerComponent(RelationsSampleClickSAComponent.relationsId, this);
         await this._relationsProcessor.initialized;
-        this._relationsProcessor.updateRelations(RelationsSampleClickComponent.relationsId);
+        this._relationsProcessor.updateRelations(RelationsSampleClickSAComponent.relationsId);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -86,8 +91,8 @@ export class RelationsSampleClickComponent implements RelationsComponent, OnInit
      */
     public ngOnDestroy(): void
     {
-        this._relationsProcessor.destroyComponent(RelationsSampleClickComponent.relationsId);
-        this._componentManager.unregisterComponent(RelationsSampleClickComponent.relationsId);
+        this._relationsProcessor.destroyComponent(RelationsSampleClickSAComponent.relationsId);
+        this._componentManager.unregisterComponent(RelationsSampleClickSAComponent.relationsId);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################
@@ -97,7 +102,7 @@ export class RelationsSampleClickComponent implements RelationsComponent, OnInit
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<RelationsSampleClickComponent>('vstup') in changes && this.vstup)
+        if(nameof<RelationsSampleClickSAComponent>('vstup') in changes && this.vstup)
         {
             console.log('vstup sa zmenil', this.vstup);
         }

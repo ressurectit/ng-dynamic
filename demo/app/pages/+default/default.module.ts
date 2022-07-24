@@ -9,8 +9,7 @@ import {LayoutComponentsRegister, NodesPaletteSAComponent, provideRelationsEdito
 
 import {components} from './default.routes';
 import {DebuggingFeatureModule, DisplayingFeatureModule, FormsFeatureModule} from '../../modules';
-import {RelationsResultComponent, RelationsSampleClickComponent} from './misc/components';
-import {LoadSaveNewSAComponent} from '../../components';
+import {LoadSaveNewSAComponent, RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../../components';
 import {StaticComponentsRegister as DemoRegister} from '../../services/staticComponentsRegister';
 
 /**
@@ -33,12 +32,12 @@ import {StaticComponentsRegister as DemoRegister} from '../../services/staticCom
         NodesPaletteSAComponent,
         DragDropModule,
         RelationsEditorSAComponent,
+        RelationsSampleClickSAComponent,
+        RelationsResultSAComponent,
     ],
     declarations:
     [
         ...components,
-        RelationsSampleClickComponent,
-        RelationsResultComponent,
     ],
     providers:
     [

@@ -2,7 +2,7 @@ import {Injectable, Type} from '@angular/core';
 import {StaticComponentsRegister as Register} from '@anglr/dynamic/relations-editor';
 import {Dictionary} from '@jscrpt/common';
 
-import {RelationsResultComponent, RelationsSampleClickComponent} from '../../pages/+default/misc/components';
+import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../../components';
 
 /**
  * Static components register for demo app
@@ -19,8 +19,8 @@ export class StaticComponentsRegister extends Register
     {
         const result: Dictionary<Type<any>> = {};
 
-        result[RelationsResultComponent.relationsId] = RelationsResultComponent;
-        result[RelationsSampleClickComponent.relationsId] = RelationsSampleClickComponent;
+        result[RelationsResultSAComponent.relationsId] = RelationsResultSAComponent;
+        result[RelationsSampleClickSAComponent.relationsId] = RelationsSampleClickSAComponent;
 
         return result;
     }

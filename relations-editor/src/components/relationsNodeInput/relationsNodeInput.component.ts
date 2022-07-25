@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, HostListener} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostListener, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import {RelationNodeEndpointBase} from '../relationsNodeEndpointBase';
@@ -22,7 +22,7 @@ import {INVALIDATE_DROP} from '../../misc/constants';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationNodeInputSAComponent extends RelationNodeEndpointBase implements RelationsInput
+export class RelationNodeInputSAComponent extends RelationNodeEndpointBase implements RelationsInput, OnDestroy
 {
     //######################### private properties #########################
 
@@ -30,6 +30,19 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
      * Temporary relation path when updating existing relation
      */
     private _tempRelation: NodeRelationPath|null|undefined;
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        if(this._relation)
+        {
+            this._relation.destroy();
+        }
+    }
 
     //######################### public methods - implementation of RelationsInput #########################
 

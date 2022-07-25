@@ -5,6 +5,3 @@ export * from './ifBlock';
 export * from './stackPanel';
 export * from './textBlock';
 export * from './toggleButton';
-
-export * from './sampleChange';
-export * from './sampleSource';

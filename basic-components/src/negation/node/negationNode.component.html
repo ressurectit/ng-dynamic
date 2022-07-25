@@ -1,0 +1,19 @@
+<div class="node-header">
+    Negation
+</div>
+
+<div class="node-content">
+    <div class="inputs margin-right-small">
+        <div class="flex-row">
+            <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="condition" [parent]="this"></relation-node-input>
+            <div class="margin-left-extra-small">condition</div>
+        </div>
+    </div>
+
+    <div class="outputs margin-left-small">
+        <div class="flex-row">
+            <div class="margin-right-extra-small">negated condition</div>
+            <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="negatedCondition" [parent]="this"></relation-node-output>
+        </div>
+    </div>
+</div>

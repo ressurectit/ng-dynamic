@@ -7,6 +7,98 @@ import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
  */
 export class DemoData
 {
+    public static demoLayoutWithRelations: LayoutComponentMetadata =
+    {
+        id: 'stackPanel-vqvfofhvbr',
+        displayName: 'root',
+        package: 'basic-components',
+        name: 'stackPanel',
+        options: 
+        {
+            children: 
+            [
+                {
+                    id: 'toggleButton-hdiibafzmmsbxwce',
+                    displayName: 'toggleButton-hdiibafzmmsbxwce',
+                    package: 'basic-components',
+                    name: 'toggleButton',
+                    options: 
+                    {
+                        onText: 'enabled',
+                        offText: 'disabled',
+                        state: true,
+                        disabled: false
+                    }
+                },
+                {
+                    id: 'toggleButton-fdlsupcfigkcfkht',
+                    displayName: 'button',
+                    package: 'basic-components',
+                    name: 'toggleButton',
+                    options: 
+                    {
+                        onText: 'Visible',
+                        offText: 'Hidden',
+                        state: false,
+                        disabled: false
+                    }
+                },
+                {
+                    id: 'ifBlock-mptoexcmmpziivra',
+                    displayName: 'if block',
+                    package: 'basic-components',
+                    name: 'ifBlock',
+                    options: 
+                    {
+                        content: 
+                        {
+                            id: 'stackPanel-rrnjftuftknhrect',
+                            displayName: 'stackPanel-rrnjftuftknhrect',
+                            package: 'basic-components',
+                            name: 'stackPanel',
+                            options: 
+                            {
+                                children: 
+                                [
+                                    {
+                                        id: 'textBlock-rqatdtspmrxoiphw',
+                                        displayName: 'textBlock-rqatdtspmrxoiphw',
+                                        package: 'basic-components',
+                                        name: 'textBlock',
+                                        options: 
+                                        {
+                                            text: 'Druhý riadok'
+                                        }
+                                    },
+                                    {
+                                        id: 'textBlock-kogfkyqyjrbjmscb',
+                                        displayName: 'textBlock-kogfkyqyjrbjmscb',
+                                        package: 'basic-components',
+                                        name: 'textBlock',
+                                        options: 
+                                        {
+                                            text: 'Prvý riadok'
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                {
+                    id: 'textBlock-cwbnbrdroqimxhor',
+                    displayName: 'textBlock-cwbnbrdroqimxhor',
+                    package: 'basic-components',
+                    name: 'textBlock',
+                    options: 
+                    {
+                        text: 'Tretí riadok - mimo'
+                    }
+                }
+            ]
+        }
+    };
+
     public static demoLayout: LayoutComponentMetadata =
     {
         id: 'gridPanelTest',
@@ -341,6 +433,114 @@ export class DemoData
                 },
                 options: null
             }
+        }
+    ];
+
+    public static relationsWithLayoutDemo: RelationsNodeMetadata[] =
+    [
+        {
+            id: 'toggleButton-fdlsupcfigkcfkht',
+            name: 'toggleButton-fdlsupcfigkcfkht',
+            package: 'layout-components',
+            displayName: 'toggleButton-fdlsupcfigkcfkht',
+            relationsOptions: {},
+            nodeMetadata: 
+            {
+                coordinates: 
+                {
+                    x: 517,
+                    y: 315
+                },
+                options: null
+            },
+            outputs: 
+            [
+                {
+                    outputName: 'toggle',
+                    inputs: 
+                    [
+                        {
+                            id: 'ifBlock-mptoexcmmpziivra',
+                            inputName: 'condition'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            id: 'ifBlock-mptoexcmmpziivra',
+            name: 'ifBlock-mptoexcmmpziivra',
+            package: 'layout-components',
+            displayName: 'ifBlock-mptoexcmmpziivra',
+            relationsOptions: {},
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 565,
+                    y: 105
+                },
+                options: null
+            },
+            outputs: []
+        },
+        {
+            id: 'toggleButton-hdiibafzmmsbxwce',
+            name: 'toggleButton-hdiibafzmmsbxwce',
+            package: 'layout-components',
+            displayName: 'toggleButton-hdiibafzmmsbxwce',
+            relationsOptions: {},
+            nodeMetadata: 
+            {
+                coordinates: 
+                {
+                    x: 89,
+                    y: 103
+                },
+                options: null
+            },
+            outputs: 
+            [
+                {
+                    outputName: 'toggle',
+                    inputs: 
+                    [
+                        {
+                            id: 'negation-sgxkzfxotghwaopl',
+                            inputName: 'condition'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            id: 'negation-sgxkzfxotghwaopl',
+            name: 'negation',
+            package: 'basic-components',
+            displayName: 'negation-sgxkzfxotghwaopl',
+            relationsOptions: {},
+            nodeMetadata: 
+            {
+                coordinates: 
+                {
+                    x: 163,
+                    y: 314
+                },
+                options: null
+            },
+            outputs: 
+            [
+                {
+                    outputName: 'negatedCondition',
+                    inputs: 
+                    [
+                        {
+                            id: 'toggleButton-fdlsupcfigkcfkht',
+                            inputName: 'disabled'
+                        }
+                    ]
+                }
+            ]
         }
     ];
 

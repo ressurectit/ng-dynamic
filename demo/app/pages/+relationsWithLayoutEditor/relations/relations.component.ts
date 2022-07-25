@@ -49,7 +49,7 @@ export class RelationsComponent
 
     protected _loadDemo(): void
     {
-        this._metadata = DemoData.relationsDemo;
+        this._metadata = DemoData.relationsWithLayoutDemo;
     }
 
     protected setMetadata(metadata: LayoutRelationsMetadata): void

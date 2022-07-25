@@ -4,7 +4,7 @@ import {DynamicItem} from '@anglr/dynamic';
 /**
  * Description of relations component
  */
-export interface RelationsComponent<TOptions = any> extends DynamicItem, Partial<OnDestroy>, OnChanges
+export interface RelationsComponent<TOptions = any> extends DynamicItem, Partial<OnDestroy>, Partial<OnChanges>
 {
     //######################### properties #########################
 

@@ -1,9 +1,10 @@
-import {Component, ChangeDetectionStrategy, SimpleChanges} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {RelationsComponent} from '@anglr/dynamic/relations';
-import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
+import {DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
+import {RelationsEditorMetadata, VoidObject} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
+import {PromiseOr} from '@jscrpt/common';
 
 import {ButtonComponentOptions} from './button.options';
 import {ButtonLayoutMetadataLoader, ButtonRelationsMetadataLoader} from './button.metadata';
@@ -30,18 +31,26 @@ export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOption
      */
     public relationsOptions: any;
 
-    //######################### public methods - implementation of RelationsComponent #########################
-    
-    /**
-     * @inheritdoc
-     */
-    public override async ngOnChanges(changes: SimpleChanges): Promise<void>
-    {
-        // if(nameof<SampleChangeRelations>('vstup') in changes && this.vstup)
-        // {
-        //     console.log('value changes', this.vstup);
+    //######################### public properties - inputs #########################
 
-        //     this.vystup = `${this.vstup} changes!`;
-        // }
+    /**
+     * Indication whether is button disabled
+     */
+    @Input()
+    public disabled: boolean = false;
+
+    //######################### public properties - dynamic outputs #########################
+
+    /**
+     * Output used for emitting new void object value when clicked
+     */
+    @DynamicOutput()
+    public click: VoidObject = {};
+
+    //######################### protected - overrides #########################
+
+    protected override _onOptionsSet(): PromiseOr<void>
+    {
+        this.disabled = this.options?.disabled ?? false;
     }
 }

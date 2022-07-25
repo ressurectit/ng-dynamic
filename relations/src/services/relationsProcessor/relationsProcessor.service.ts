@@ -371,7 +371,7 @@ export class RelationsProcessor implements OnDestroy
             isFirstChange: () => initial
         };
 
-        target.ngOnChanges(changes);
+        target.ngOnChanges?.(changes);
         target.invalidateVisuals();
 
         return true;

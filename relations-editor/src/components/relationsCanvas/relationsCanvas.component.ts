@@ -51,12 +51,12 @@ export class RelationsCanvasSAComponent
     /**
      * Background pattern size
      */
-    protected _backgroundSize: number = DEFAULT_BACKGROUND_SIZE;
+    protected backgroundSize: number = DEFAULT_BACKGROUND_SIZE;
 
     /**
      * Last mouse down position
      */
-    protected _lastMouseDownPosition: Coordinates = 
+    protected lastMouseDownPosition: Coordinates = 
     {
         x: 0, 
         y: 0
@@ -65,7 +65,7 @@ export class RelationsCanvasSAComponent
     /**
      * Last mouse up position
      */
-    protected _lastMouseUpPosition: Coordinates = 
+    protected lastMouseUpPosition: Coordinates = 
     {
         x: 0, 
         y: 0
@@ -77,9 +77,9 @@ export class RelationsCanvasSAComponent
      * Background size css styles
      */
     @HostBinding('style.backgroundSize')
-    protected get _backgroundSizeStyle(): string
+    protected get backgroundSizeStyle(): string
     {
-        return `${this._backgroundSize}px ${this._backgroundSize}px`;
+        return `${this.backgroundSize}px ${this.backgroundSize}px`;
     }
 
     /**
@@ -88,7 +88,7 @@ export class RelationsCanvasSAComponent
     @HostBinding('style.backgroundPosition')
     protected get _backgroundPositionStyle(): string
     {
-        return `${this._canvasPosition.x % this._backgroundSize}px ${this._canvasPosition.y % this._backgroundSize}px`;
+        return `${this.canvasPosition.x % this.backgroundSize}px ${this.canvasPosition.y % this.backgroundSize}px`;
     }
 
     //######################### protected properties - template bindings #########################
@@ -96,17 +96,17 @@ export class RelationsCanvasSAComponent
     /**
      * Canvas position
      */
-    protected _canvasPosition: Coordinates = {x: 0, y: 0};
+    protected canvasPosition: Coordinates = {x: 0, y: 0};
 
     /**
      * Zoom level
      */
-    protected _zoomLevel = 1;
+    protected zoomLevel = 1;
 
     /**
      * Indication whether canvas is being dragged
      */
-    protected _isDragging: boolean = false;
+    protected isDragging: boolean = false;
 
     //######################### protected properties - children #########################
 
@@ -114,7 +114,7 @@ export class RelationsCanvasSAComponent
      * Node relations svg group
      */
     @ViewChild('relationsGroup', {read: ElementRef})
-    protected _relationsGroup: ElementRef|null|undefined;
+    protected relationsGroup: ElementRef|null|undefined;
 
     //######################### public properties - inputs #########################
 
@@ -125,7 +125,7 @@ export class RelationsCanvasSAComponent
     public nodeDefinitions: RelationsNodeMetadata[] = [];
 
     //######################### constructor #########################
-    constructor(protected _relationManager: RelationsNodeManager,)
+    constructor(protected relationManager: RelationsNodeManager,)
     {
     }
 
@@ -136,7 +136,7 @@ export class RelationsCanvasSAComponent
      */
     public createRelation(): NodeRelationPath
     {
-        return new NodeRelationPath(select(this._relationsGroup?.nativeElement), this._relationManager, null, null);
+        return new NodeRelationPath(select(this.relationsGroup?.nativeElement), this.relationManager, null, null);
     }
 
     //######################### protected methods - host listeners #########################
@@ -146,17 +146,17 @@ export class RelationsCanvasSAComponent
      * @param event - Mouse event that occured
      */
     @HostListener('mousedown', ['$event'])
-    protected _onMouseDown(event: MouseEvent): void
+    protected onMouseDown(event: MouseEvent): void
     {
         if (event.buttons == MouseButton.LEFT)
         {
-            this._lastMouseDownPosition = 
+            this.lastMouseDownPosition = 
             {
                 x: event.clientX,
                 y: event.clientY
             };
             
-            this._isDragging = true;
+            this.isDragging = true;
         }
     }
 
@@ -165,14 +165,14 @@ export class RelationsCanvasSAComponent
      * @param event - Mouse event that occured
      */
     @HostListener('mousemove', ['$event'])
-    protected _onMouseMove(event: MouseEvent): void
+    protected onMouseMove(event: MouseEvent): void
     {
-        if (this._isDragging)
+        if (this.isDragging)
         {
-            this._canvasPosition = 
+            this.canvasPosition = 
             {
-                x: this._lastMouseUpPosition.x + event.clientX - this._lastMouseDownPosition.x,
-                y: this._lastMouseUpPosition.y + event.clientY - this._lastMouseDownPosition.y,
+                x: this.lastMouseUpPosition.x + event.clientX - this.lastMouseDownPosition.x,
+                y: this.lastMouseUpPosition.y + event.clientY - this.lastMouseDownPosition.y,
             };
 
         }
@@ -183,16 +183,16 @@ export class RelationsCanvasSAComponent
      * @param event - Mouse event that occured
      */
     @HostListener('window:mouseup', ['$event'])
-    protected _onMouseUp(event: MouseEvent): void
+    protected onMouseUp(event: MouseEvent): void
     {
-        if (this._isDragging)
+        if (this.isDragging)
         {
-            this._isDragging = false;
+            this.isDragging = false;
 
-            this._lastMouseUpPosition = 
+            this.lastMouseUpPosition = 
             {
-                x: this._lastMouseUpPosition.x + event.clientX - this._lastMouseDownPosition.x,
-                y: this._lastMouseUpPosition.y + event.clientY - this._lastMouseDownPosition.y,
+                x: this.lastMouseUpPosition.x + event.clientX - this.lastMouseDownPosition.x,
+                y: this.lastMouseUpPosition.y + event.clientY - this.lastMouseDownPosition.y,
             };
         }
     }
@@ -202,30 +202,48 @@ export class RelationsCanvasSAComponent
      * @param event - Wheel event that occured
      */
     @HostListener('wheel', ['$event'])
-    protected _onWheel(event: WheelEvent): void
+    protected onWheel(event: WheelEvent): void
     {
         if (event.deltaY)
         {
-            const newZoomLevel = clamp(this._zoomLevel + (event.deltaY > 1 ? -1 : 1) * 0.05, SCALE_FACTOR_MIN, SCALE_FACTOR_MAX);            
+            const newZoomLevel = clamp(this.zoomLevel + (event.deltaY > 1 ? -1 : 1) * 0.05, SCALE_FACTOR_MIN, SCALE_FACTOR_MAX);            
             
-            this._canvasPosition = 
+            this.canvasPosition = 
             {
-                x: (this._canvasPosition.x/this._zoomLevel) * newZoomLevel,
-                y: (this._canvasPosition.y/this._zoomLevel) * newZoomLevel,
+                x: (this.canvasPosition.x/this.zoomLevel) * newZoomLevel,
+                y: (this.canvasPosition.y/this.zoomLevel) * newZoomLevel,
             };
 
-            this._zoomLevel = newZoomLevel;
+            this.zoomLevel = newZoomLevel;
 
-            this._lastMouseUpPosition = 
+            this.lastMouseUpPosition = 
             {
-                x: this._canvasPosition.x,
-                y: this._canvasPosition.y
+                x: this.canvasPosition.x,
+                y: this.canvasPosition.y
             };
 
-            this._backgroundSize = DEFAULT_BACKGROUND_SIZE * this._zoomLevel;
+            this.backgroundSize = DEFAULT_BACKGROUND_SIZE * this.zoomLevel;
         }
         
         event.preventDefault();
         event.stopImmediatePropagation();
+    }
+
+    //######################### protected methods - template bindings #########################
+
+    /**
+     * Destroys node
+     * @param node - Definition of node to be destroyed
+     */
+    protected destroyNode(node: RelationsNodeMetadata): void
+    {
+        const index = this.nodeDefinitions.indexOf(node);
+
+        if(index < 0)
+        {
+            return;
+        }
+
+        this.nodeDefinitions.splice(index, 1);
     }
 }

@@ -1,11 +1,10 @@
 import {HostListener, ViewChildren, QueryList, ChangeDetectorRef, ElementRef, SimpleChanges, Directive} from '@angular/core';
 import {Dictionary, nameof} from '@jscrpt/common';
+import {Observable, Subject} from 'rxjs';
 
 import {Coordinates, RelationsInput, RelationsNode, RelationsNodeMetadata, RelationsOutput} from '../interfaces';
 import {RelationNodeOutputSAComponent} from './relationsNodeOutput/relationsNodeOutput.component';
 import {RelationNodeInputSAComponent} from './relationsNodeInput/relationsNodeInput.component';
-
-//TODO: add way of destruction for nodes! into renderer into interface and here
 
 /**
  * Base class for relations node components
@@ -13,22 +12,22 @@ import {RelationNodeInputSAComponent} from './relationsNodeInput/relationsNodeIn
 @Directive()
 export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> implements RelationsNode<TOptions, TEditorOptions>
 {
-    //######################### protected fields #########################
+    //######################### protected properties #########################
 
     /**
      * Indication whether is node initialized
      */
-    protected _initialized: boolean = false;
+    protected initialized: boolean = false;
 
     /**
      * Indication whether user is dragging
      */
-    protected _isDragging: boolean = false;
+    protected isDragging: boolean = false;
 
     /**
      * Last mouse down position
      */
-    protected _lastMouseDownPosition: Coordinates =
+    protected lastMouseDownPosition: Coordinates =
     {
         x: 0,
         y: 0
@@ -37,7 +36,7 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     /**
      * Node position on last mouse down event
      */
-    protected _lastMouseDownNodePosition: Coordinates =
+    protected lastMouseDownNodePosition: Coordinates =
     {
         x: 0,
         y: 0
@@ -46,7 +45,7 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     /**
      * Node position
      */
-    protected _nodePosition: Coordinates =
+    protected nodePosition: Coordinates =
     {
         x: 0,
         y: 0,
@@ -55,17 +54,22 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     /**
      * Array of all available outputs
      */
-    protected _allOutputs: readonly RelationsOutput[] = [];
+    protected ɵAllOutputs: readonly RelationsOutput[] = [];
 
     /**
      * Object storing inputs by their names
      */
-    protected _inputs: Dictionary<RelationsInput> = {};
+    protected ɵInputs: Dictionary<RelationsInput> = {};
  
     /**
      * Object storing outputs by their names
      */
-    protected _outputs: Dictionary<RelationsOutput> = {};
+    protected ɵOutputs: Dictionary<RelationsOutput> = {};
+
+    /**
+     * Subject used for destroying node by user
+     */
+    protected destroySubject: Subject<void> = new Subject<void>();
 
     //######################### protected properties - view children #########################
 
@@ -73,13 +77,13 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
      * Relations node inputs
      */
     @ViewChildren(RelationNodeInputSAComponent)
-    protected _inputsChildren!: QueryList<RelationsInput>;
+    protected inputsChildren!: QueryList<RelationsInput>;
 
     /**
      * Relations node outputs
      */
     @ViewChildren(RelationNodeOutputSAComponent)
-    protected _outputsChildren!: QueryList<RelationsOutput>;
+    protected outputsChildren!: QueryList<RelationsOutput>;
 
     //######################### public properties - implementation of RelationsNode #########################
 
@@ -106,7 +110,7 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
      */
     public get allOutputs(): readonly RelationsOutput[]
     {
-        return this._allOutputs;
+        return this.ɵAllOutputs;
     }
 
     /**
@@ -114,7 +118,7 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
      */
     public get inputs(): Dictionary<RelationsInput>
     {
-        return this._inputs;
+        return this.ɵInputs;
     }
 
     /**
@@ -122,14 +126,22 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
      */
     public get outputs(): Dictionary<RelationsOutput>
     {
-        return this._outputs;
+        return this.ɵOutputs;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public get destroy(): Observable<void>
+    {
+        return this.destroySubject.asObservable();
     }
 
     //######################### constructor #########################
-    constructor(protected _changeDetector: ChangeDetectorRef,
-                protected _element: ElementRef<HTMLElement>,)
+    constructor(protected changeDetector: ChangeDetectorRef,
+                protected element: ElementRef<HTMLElement>,)
     {
-        this._updatePosition();
+        this.updatePosition();
     }
 
     //######################### public methods - implementation of OnChanges #########################
@@ -144,8 +156,8 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
         {
             if(this.metadata.nodeMetadata?.coordinates)
             {
-                this._nodePosition = this.metadata.nodeMetadata.coordinates;
-                this._updatePosition();
+                this.nodePosition = this.metadata.nodeMetadata.coordinates;
+                this.updatePosition();
             }
 
             this.metadataSet();
@@ -159,13 +171,13 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
      */
     public invalidateVisuals(): void
     {
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
 
-        if(!this._initialized)
+        if(!this.initialized)
         {
-            this._initialized = true;
+            this.initialized = true;
 
-            this._initEndpoints();
+            this.initEndpoints();
         }
     }
 
@@ -176,19 +188,19 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
      * @param event
      */
     @HostListener('mousedown', ['$event'])
-    protected _onMouseDown(event: MouseEvent): void
+    protected onMouseDown(event: MouseEvent): void
     {
-        this._isDragging = true;
-        this._lastMouseDownPosition =
+        this.isDragging = true;
+        this.lastMouseDownPosition =
         {
             x: event.clientX,
             y: event.clientY
         };
 
-        this._lastMouseDownNodePosition =
+        this.lastMouseDownNodePosition =
         {
-            x: this._nodePosition.x,
-            y: this._nodePosition.y
+            x: this.nodePosition.x,
+            y: this.nodePosition.y
         };
 
         event.stopImmediatePropagation();
@@ -199,21 +211,21 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
      * @param event
      */
     @HostListener('window:mousemove', ['$event'])
-    protected _onMouseMove(event: MouseEvent): void
+    protected onMouseMove(event: MouseEvent): void
     {
-        if (this._isDragging)
+        if (this.isDragging)
         {
-            this._nodePosition =
+            this.nodePosition =
             {
-                x: this._lastMouseDownNodePosition.x + (event.clientX - this._lastMouseDownPosition.x) * 1/this.zoomLevel,
-                y: this._lastMouseDownNodePosition.y + (event.clientY - this._lastMouseDownPosition.y) * 1/this.zoomLevel,
+                x: this.lastMouseDownNodePosition.x + (event.clientX - this.lastMouseDownPosition.x) * 1/this.zoomLevel,
+                y: this.lastMouseDownNodePosition.y + (event.clientY - this.lastMouseDownPosition.y) * 1/this.zoomLevel,
             };
 
-            this._updatePosition();
+            this.updatePosition();
 
             event.stopImmediatePropagation();
             event.preventDefault();
-            this._updateRelations();
+            this.updateRelations();
         }
     }
 
@@ -222,11 +234,11 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
      * @param event
      */
     @HostListener('window:mouseup', ['$event'])
-    protected _onMouseUp(event: MouseEvent): void
+    protected onMouseUp(event: MouseEvent): void
     {
-        if (this._isDragging)
+        if (this.isDragging)
         {
-            this._isDragging = false;
+            this.isDragging = false;
             event.stopImmediatePropagation();
             event.preventDefault();
         }
@@ -237,41 +249,41 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     /**
      * Initialize endpoints
      */
-    protected _initEndpoints(): void
+    protected initEndpoints(): void
     {
         const updateInputs = () =>
         {
-            this._inputs = {};
+            this.ɵInputs = {};
 
-            this._inputsChildren?.forEach(input =>
+            this.inputsChildren?.forEach(input =>
             {
                 if(input.name)
                 {
-                    this._inputs[input.name] = input;
+                    this.ɵInputs[input.name] = input;
                 }
             });
 
-            Object.freeze(this._inputs);
+            Object.freeze(this.ɵInputs);
         };
 
         const updateOutputs = () =>
         {
-            this._allOutputs = this._outputsChildren.toArray();
-            this._outputs = {};
+            this.ɵAllOutputs = this.outputsChildren.toArray();
+            this.ɵOutputs = {};
 
-            this._outputsChildren?.forEach(output =>
+            this.outputsChildren?.forEach(output =>
             {
                 if(output.name)
                 {
-                    this._outputs[output.name] = output;
+                    this.ɵOutputs[output.name] = output;
                 }
             });
 
-            Object.freeze(this._outputs);
+            Object.freeze(this.ɵOutputs);
         };
 
-        this._inputsChildren?.changes.subscribe(() => updateInputs());
-        this._outputsChildren?.changes.subscribe(() => updateOutputs());
+        this.inputsChildren?.changes.subscribe(() => updateInputs());
+        this.outputsChildren?.changes.subscribe(() => updateOutputs());
 
         updateInputs();
         updateOutputs();
@@ -280,14 +292,14 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     /**
      * Updates node relations
      */
-    protected _updateRelations(): void
+    protected updateRelations(): void
     {
-        this._inputsChildren.forEach(input =>
+        this.inputsChildren.forEach(input =>
         {
             input.updateRelation();
         });
 
-        this._outputsChildren.forEach(output =>
+        this.outputsChildren.forEach(output =>
         {
             output.updateRelation();
         });
@@ -296,15 +308,15 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     /**
      * Updates node position
      */
-    protected _updatePosition(): void
+    protected updatePosition(): void
     {
-        this._element.nativeElement.style.left = `${this._nodePosition.x}px`;
-        this._element.nativeElement.style.top = `${this._nodePosition.y}px`;
+        this.element.nativeElement.style.left = `${this.nodePosition.x}px`;
+        this.element.nativeElement.style.top = `${this.nodePosition.y}px`;
 
         if(this.metadata?.nodeMetadata?.coordinates)
         {
-            this.metadata.nodeMetadata.coordinates.x = this._nodePosition.x;
-            this.metadata.nodeMetadata.coordinates.y = this._nodePosition.y;
+            this.metadata.nodeMetadata.coordinates.x = this.nodePosition.x;
+            this.metadata.nodeMetadata.coordinates.y = this.nodePosition.y;
         }
     }
 

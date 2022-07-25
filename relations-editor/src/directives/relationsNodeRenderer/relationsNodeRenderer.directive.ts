@@ -1,7 +1,8 @@
-import {ComponentRef, Directive, EventEmitter, Inject, Input, OnChanges, OnDestroy, Optional, Output, SimpleChange, SimpleChanges, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, EventEmitter, Inject, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, ViewContainerRef} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {DynamicItemLoader} from '@anglr/dynamic';
+import {addSimpleChange, DynamicItemLoader} from '@anglr/dynamic';
 import {isPresent, nameof} from '@jscrpt/common';
+import {Subscription} from 'rxjs';
 
 import {RelationsNode, RelationsNodeMetadata} from '../../interfaces';
 import {RELATIONS_NODES_LOADER} from '../../misc/tokens';
@@ -19,12 +20,17 @@ import {RelationsNodeManager} from '../../services';
 })
 export class RelationsNodeRendererSADirective<TComponent extends RelationsNode = any, TOptions = any, TEditorOptions = any> implements OnChanges, OnDestroy
 {
-    //######################### protected fields #########################
+    //######################### protected properties #########################
+
+    /**
+     * Destroy subscription
+     */
+    protected destroySubscription: Subscription|null = null;
 
     /**
      * Created component reference
      */
-    protected _componentRef: ComponentRef<TComponent>|null = null;
+    protected componentRef: ComponentRef<TComponent>|null = null;
 
     //######################### public properties - inputs #########################
 
@@ -52,7 +58,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
      * Occurs when rendered node is destroyed
      */
     @Output()
-    public destroy: EventEmitter<TComponent> = new EventEmitter<TComponent>();
+    public destroy: EventEmitter<RelationsNodeMetadata<TOptions, TEditorOptions>> = new EventEmitter<RelationsNodeMetadata<TOptions, TEditorOptions>>();
 
     //######################### protected properties #########################
 
@@ -61,19 +67,19 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
      */
     protected get component(): TComponent|null
     {
-        if(!this._componentRef)
+        if(!this.componentRef)
         {
             return null;
         }
 
-        return this._componentRef.instance;
+        return this.componentRef.instance;
     }
 
     //######################### constructor #########################
-    constructor(protected _viewContainerRef: ViewContainerRef,
-                protected _relationsNodeManager: RelationsNodeManager,
-                @Inject(RELATIONS_NODES_LOADER) protected _loader: DynamicItemLoader<RelationsNodeDef>,
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(protected viewContainerRef: ViewContainerRef,
+                protected relationsNodeManager: RelationsNodeManager,
+                @Inject(RELATIONS_NODES_LOADER) protected loader: DynamicItemLoader<RelationsNodeDef>,
+                @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
     }
 
@@ -94,19 +100,10 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
             if(component)
             {
                 const zoomChanges = changes[nameof<RelationsNodeRendererSADirective<TComponent, TOptions, TEditorOptions>>('zoomLevel')];
-
                 component.zoomLevel = this.zoomLevel;
-                
-                const change: SimpleChange =
-                {
-                    currentValue: zoomChanges.currentValue,
-                    firstChange: false,
-                    previousValue: zoomChanges.previousValue,
-                    isFirstChange: () => false,
-                };
 
                 const chngs: SimpleChanges = {};
-                chngs[nameof<RelationsNode>('zoomLevel')] = change;
+                addSimpleChange<RelationsNode>(chngs, 'zoomLevel', zoomChanges, zoomChanges.previousValue);
 
                 component.ngOnChanges(chngs);
                 component.invalidateVisuals();
@@ -115,19 +112,19 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
             return;
         }
 
-        this._logger?.debug('RelationsNodeRendererSADirective: rendering node {@id}', {id: this.componentMetadata?.id});
+        this.logger?.debug('RelationsNodeRendererSADirective: rendering node {@id}', {id: this.componentMetadata?.id});
 
         this.ngOnDestroy();
-        this._viewContainerRef.clear();
+        this.viewContainerRef.clear();
 
         // component metadata is present
         if(nameof<RelationsNodeRendererSADirective<TComponent, TOptions, TEditorOptions>>('componentMetadata') in changes && this.componentMetadata)
         {
-            const layoutComponentType = await this._loader.loadItem(this.componentMetadata);
+            const layoutComponentType = await this.loader.loadItem(this.componentMetadata);
 
             if(!layoutComponentType)
             {
-                this._logger?.warn('RelationsNodeRendererSADirective: Unable to find relations node type {@type}', {name: this.componentMetadata.name, package: this.componentMetadata.package});
+                this.logger?.warn('RelationsNodeRendererSADirective: Unable to find relations node type {@type}', {name: this.componentMetadata.name, package: this.componentMetadata.package});
 
                 //TODO: similar handling
 
@@ -155,46 +152,35 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
                 return;
             }
 
-            this._componentRef = this._viewContainerRef.createComponent(layoutComponentType.data,
-                                                                        {
-                                                                            injector: this._viewContainerRef.injector,
-                                                                        }) as ComponentRef<TComponent>;
+            this.componentRef = this.viewContainerRef.createComponent(layoutComponentType.data,
+                                                                      {
+                                                                          injector: this.viewContainerRef.injector,
+                                                                      }) as ComponentRef<TComponent>;
 
-            this._logger?.debug('RelationsNodeRendererSADirective: node rendered {@id}', {id: this.componentMetadata?.id});
+            this.logger?.debug('RelationsNodeRendererSADirective: node rendered {@id}', {id: this.componentMetadata?.id});
 
             if(this.component)
             {
                 const node = this.component;
 
-                this._logger?.debug('RelationsNodeRendererSADirective: initializing node with metadata {@id}', {id: this.componentMetadata?.id});
+                this.destroySubscription = node.destroy.subscribe(() => this.ngOnDestroy());
+
+                this.logger?.debug('RelationsNodeRendererSADirective: initializing node with metadata {@id}', {id: this.componentMetadata?.id});
                 node.metadata = this.componentMetadata;
                 node.zoomLevel = this.zoomLevel;
 
                 const chngs: SimpleChanges = {};
+
+                addSimpleChange<RelationsNode>(chngs, 'metadata', this.componentMetadata, null, true);
+                addSimpleChange<RelationsNode>(chngs, 'zoomLevel', this.zoomLevel, null, true);
                 
-                chngs[nameof<RelationsNode>('metadata')] =
-                {
-                    currentValue: this.componentMetadata,
-                    previousValue: null,
-                    firstChange: true,
-                    isFirstChange: () => true
-                };
-
-                chngs[nameof<RelationsNode>('zoomLevel')] =
-                {
-                    currentValue: this.zoomLevel,
-                    previousValue: null,
-                    firstChange: true,
-                    isFirstChange: () => true
-                };
-
                 node.ngOnChanges(chngs);
 
-                this._logger?.debug('RelationsNodeRendererSADirective: invalidating node visuals {@id}', {id: this.componentMetadata?.id});
+                this.logger?.debug('RelationsNodeRendererSADirective: invalidating node visuals {@id}', {id: this.componentMetadata?.id});
                 node.invalidateVisuals();
-                this._componentRef.changeDetectorRef.markForCheck();
+                this.componentRef.changeDetectorRef.markForCheck();
 
-                this._relationsNodeManager.registerNode(this.component);
+                this.relationsNodeManager.registerNode(this.component);
                 this.create.next(node);
             }
         }
@@ -207,18 +193,25 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
      */
     public ngOnDestroy(): void
     {
-        if(this._componentRef)
+        this.destroySubscription?.unsubscribe();
+        this.destroySubscription = null;
+
+        if(this.componentRef)
         {
-            this._logger?.debug('RelationsNodeRendererSADirective: destroying node {@id}', {id: this.componentMetadata?.id});
+            this.logger?.debug('RelationsNodeRendererSADirective: destroying node {@id}', {id: this.componentMetadata?.id});
     
             if(this.component)
             {
-                this.destroy.next(this.component);
-                this._relationsNodeManager.unregisterNode(this.component);
+                if(this.componentMetadata)
+                {
+                    this.destroy.next(this.componentMetadata);
+                }
+                
+                this.relationsNodeManager.unregisterNode(this.component);
             }
 
-            this._componentRef?.destroy();
-            this._componentRef = null;
+            this.componentRef?.destroy();
+            this.componentRef = null;
         }
     }
 }

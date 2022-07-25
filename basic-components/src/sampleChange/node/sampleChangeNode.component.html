@@ -5,7 +5,7 @@
 <div class="node-content">
     <div class="inputs margin-right-small">
         <div class="flex-row">
-            <relation-node-input [parentCoordiantes]="_nodePosition" [zoomLevel]="zoomLevel" name="vstup" [parent]="this"></relation-node-input>
+            <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="vstup" [parent]="this"></relation-node-input>
             <div class="margin-left-extra-small">vstup</div>
         </div>
     </div>
@@ -13,7 +13,7 @@
     <div class="outputs margin-left-small">
         <div class="flex-row">
             <div class="margin-right-extra-small">výstup</div>
-            <relation-node-output [parentCoordiantes]="_nodePosition" [zoomLevel]="zoomLevel" name="vystup" [parent]="this"></relation-node-output>
+            <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="vystup" [parent]="this"></relation-node-output>
         </div>
     </div>
 </div>

@@ -19,6 +19,8 @@
     background-color: rgb(77, 77, 77);
     color: white;
     border-radius: 1rem 1rem 0 0;
+    display: flex;
+    flex-direction: row;
 }
 
 .node-content

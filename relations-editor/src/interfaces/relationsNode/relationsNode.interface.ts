@@ -1,6 +1,7 @@
 import {OnChanges} from '@angular/core';
 import {DynamicItem} from '@anglr/dynamic';
 import {Dictionary} from '@jscrpt/common';
+import {Observable} from 'rxjs';
 
 import {RelationsNodeMetadata} from '../metadata';
 import {RelationsInput, RelationsOutput} from '../relationsEndpoint/relationsEndpoint.interface';
@@ -29,6 +30,11 @@ export interface RelationsNode<TOptions = any, TEditorOptions = any> extends Dyn
      * Object storing outputs by their names
      */
     readonly outputs: Dictionary<RelationsOutput>;
+
+    /**
+     * Occurs when node is being destroyed by user
+     */
+    readonly destroy: Observable<void>;
 
     /**
      * Editor zoom level

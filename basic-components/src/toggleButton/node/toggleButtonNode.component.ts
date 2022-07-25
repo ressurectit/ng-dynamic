@@ -2,13 +2,13 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
- * Relations node component for button
+ * Relations node component for toggle button
  */
 @Component(
 {
-    selector: 'button-node',
-    templateUrl: 'buttonNode.component.html',
-    styleUrls: ['buttonNode.component.css'],
+    selector: 'toggle-button-node',
+    templateUrl: 'toggleButtonNode.component.html',
+    styleUrls: ['toggleButtonNode.component.css'],
     standalone: true,
     imports:
     [
@@ -17,7 +17,7 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ButtonNodeSAComponent extends RelationsNodeBase implements RelationsNode
+export class ToggleButtonNodeSAComponent extends RelationsNodeBase implements RelationsNode
 {
     //######################### protected methods - overrides #########################
 

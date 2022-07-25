@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {HostDisplayBlockStyle} from '@anglr/common';
+import {HostDisplayFlexStyle} from '@anglr/common';
 
 import {ComponentsPaletteSAComponent} from '../componentsPalette/componentsPalette.component';
 import {ComponentsTreeSAComponent} from '../componentsTree/componentsTree.component';
@@ -16,7 +16,7 @@ import {LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '../../misc/providers';
     selector: 'layout-editor',
     templateUrl: 'layoutEditor.component.html',
     // styleUrls: ['layoutEditor.component.css'],
-    styles: [HostDisplayBlockStyle],
+    styles: [HostDisplayFlexStyle],
     providers:
     [
         LAYOUT_DESIGNER_COMPONENT_TRANSFORM,

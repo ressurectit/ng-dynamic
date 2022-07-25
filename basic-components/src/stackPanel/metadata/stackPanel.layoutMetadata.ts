@@ -35,7 +35,7 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
                     modelType: StackPanelModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['horizontal', 'wrap'])
+                        genericPropertiesControlFor<StackPanelModel>(['horizontal', 'wrap'])
                     ],
                 },
             ],
@@ -45,7 +45,7 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
                     modelType: StackPanelFlexExtensionModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['flex'])
+                        genericPropertiesControlFor<StackPanelFlexExtensionModel>(['flex'])
                     ],
                 },
             ]

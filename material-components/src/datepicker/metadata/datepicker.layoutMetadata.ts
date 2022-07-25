@@ -33,7 +33,7 @@ export class MaterialDatepickerLayoutEditorMetadata implements LayoutEditorMetad
                     modelType: MaterialDatepickerModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
+                        genericPropertiesControlFor<MaterialDatepickerModel>(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
                     ],
                 },
             ],

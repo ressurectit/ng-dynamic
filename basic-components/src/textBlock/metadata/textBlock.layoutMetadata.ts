@@ -17,6 +17,7 @@ export class TextBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
     {
         name: 'Text block',
         description: 'Displays text',
+        group: 'Texts',
         optionsMetadata:
         {
             propertiesMetadata:
@@ -32,7 +33,7 @@ export class TextBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
                     modelType: TextBlockModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['text']),
+                        genericPropertiesControlFor<TextBlockModel>(['text']),
                     ],
                 },
             ],

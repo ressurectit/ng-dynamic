@@ -33,7 +33,7 @@ export class MaterialSelectLayoutEditorMetadata implements LayoutEditorMetadataD
                     modelType: MaterialSelectModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance', 'multiple', 'controlName']),
+                        genericPropertiesControlFor<MaterialSelectModel>(['label', 'placeholder', 'hint', 'appearance', 'multiple', 'controlName']),
                     ],
                 },
             ],

@@ -1,6 +1,7 @@
 const components = 
 [
     'button',
+    'toggleButton',
     'gridPanel',
     'stackPanel',
     'textBlock',

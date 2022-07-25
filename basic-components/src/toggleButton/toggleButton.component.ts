@@ -2,27 +2,27 @@ import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
-import {RelationsEditorMetadata, VoidObject} from '@anglr/dynamic/relations-editor';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {PromiseOr} from '@jscrpt/common';
+import {isBlank, PromiseOr} from '@jscrpt/common';
 
-import {ButtonComponentOptions} from './button.options';
-import {ButtonLayoutMetadataLoader, ButtonRelationsMetadataLoader} from './button.metadata';
+import {ToggleButtonComponentOptions} from './toggleButton.options';
+import {ToggleButtonLayoutMetadataLoader, ToggleButtonRelationsMetadataLoader} from './toggleButton.metadata';
 
 /**
- * Component used for displaying button
+ * Component used for displaying toggle button
  */
 @Component(
 {
-    selector: 'button-component',
-    templateUrl: 'button.component.html',
+    selector: 'toggle-button',
+    templateUrl: 'toggleButton.component.html',
     styles: [HostDisplayBlockStyle],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@RelationsEditorMetadata(ButtonRelationsMetadataLoader)
-@LayoutEditorMetadata(ButtonLayoutMetadataLoader)
-export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOptions> implements LayoutComponent<ButtonComponentOptions>, RelationsComponent
+@RelationsEditorMetadata(ToggleButtonRelationsMetadataLoader)
+@LayoutEditorMetadata(ToggleButtonLayoutMetadataLoader)
+export class ToggleButtonSAComponent extends LayoutComponentBase<ToggleButtonComponentOptions> implements LayoutComponent<ToggleButtonComponentOptions>, RelationsComponent
 {
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -34,7 +34,7 @@ export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOption
     //######################### public properties - inputs #########################
 
     /**
-     * Indication whether is button disabled
+     * Indication whether is toggle button disabled
      */
     @Input()
     public disabled: boolean = false;
@@ -42,10 +42,10 @@ export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOption
     //######################### public properties - dynamic outputs #########################
 
     /**
-     * Output used for emitting new void object value when clicked
+     * Output used for emitting on/off state of toggle button
      */
     @DynamicOutput()
-    public click: VoidObject = {};
+    public toggle: boolean|null = null;
 
     //######################### protected - overrides #########################
 
@@ -55,5 +55,10 @@ export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOption
     protected override _onOptionsSet(): PromiseOr<void>
     {
         this.disabled = this.options?.disabled ?? false;
+
+        if(isBlank(this.toggle) && this.options?.state)
+        {
+            this.toggle = this.options.state;
+        }
     }
 }

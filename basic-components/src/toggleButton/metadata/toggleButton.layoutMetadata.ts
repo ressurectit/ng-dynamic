@@ -1,22 +1,22 @@
 import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
-import {ButtonComponentOptions} from '../button.options';
-import {ButtonModel} from './button.model';
+import {ToggleButtonComponentOptions} from '../toggleButton.options';
+import {ToggleButtonModel} from './toggleButton.model';
 
 /**
- * Button layout metadata
+ * Toggle button layout metadata
  */
-export class ButtonLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<ButtonComponentOptions>
+export class ToggleButtonLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<ToggleButtonComponentOptions>
 {
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
     /**
      * @inheritdoc
      */
-    public metaInfo?: LayoutEditorMetadataInfo<ButtonComponentOptions> =
+    public metaInfo?: LayoutEditorMetadataInfo<ToggleButtonComponentOptions> =
     {
-        name: 'Button',
-        description: 'Simple button',
+        name: 'Toggle button',
+        description: 'Toggle button',
         group: 'Buttons',
         optionsMetadata:
         {
@@ -30,17 +30,19 @@ export class ButtonLayoutEditorMetadata implements LayoutEditorMetadataDescripto
                     ],
                 },
                 {
-                    modelType: ButtonModel,
+                    modelType: ToggleButtonModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor<ButtonModel>(['text', 'disabled']),
+                        genericPropertiesControlFor<ToggleButtonModel>(['onText', 'offText', 'state', 'disabled']),
                     ],
                 },
             ],
         },
         defaultOptions:
         {
-            text: 'Click me',
+            onText: 'On',
+            offText: 'Off',
+            state: true,
             disabled: false,
         }
     };

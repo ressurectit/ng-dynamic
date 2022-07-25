@@ -33,7 +33,7 @@ export class MaterialPeriodLayoutEditorMetadata implements LayoutEditorMetadataD
                     modelType: MaterialPeriodModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
+                        genericPropertiesControlFor<MaterialPeriodModel>(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
                     ],
                 },
             ],

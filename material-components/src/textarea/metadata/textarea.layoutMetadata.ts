@@ -33,7 +33,7 @@ export class MaterialTextareaLayoutEditorMetadata implements LayoutEditorMetadat
                     modelType: MaterialTextareaModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
+                        genericPropertiesControlFor<MaterialTextareaModel>(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
                     ],
                 },
             ],

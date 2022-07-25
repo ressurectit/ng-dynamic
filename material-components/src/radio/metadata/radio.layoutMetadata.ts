@@ -33,7 +33,7 @@ export class MaterialRadioLayoutEditorMetadata implements LayoutEditorMetadataDe
                     modelType: MaterialRadioModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor(['options', 'controlName']),
+                        genericPropertiesControlFor<MaterialRadioModel>(['options', 'controlName']),
                     ],
                 },
             ],

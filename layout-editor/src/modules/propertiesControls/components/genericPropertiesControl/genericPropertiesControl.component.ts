@@ -31,7 +31,7 @@ export class DefaultGenericPropertiesControlComponent<TOptions = any> extends Pr
  * Gets generic properties control component for specific properties
  * @param properties - Array of properties which will be displayed in generic properties control
  */
-export function genericPropertiesControlFor(properties: string[]): Type<PropertiesControl>
+export function genericPropertiesControlFor<TModel>(properties: (Extract<keyof TModel, string>)[]): Type<PropertiesControl>
 {
     @Component(
     {

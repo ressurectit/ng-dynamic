@@ -1,12 +1,14 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataManager} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
+import {MetadataStorage} from '@anglr/dynamic';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
+import {DemoStorage} from '../../../services/metadataStorage';
 
 /**
  * Layout editor component
@@ -15,6 +17,15 @@ import {StoreDataService} from '../../../services/storeData';
 {
     selector: 'layout-editor-view',
     templateUrl: 'editor.component.html',
+    providers:
+    [
+        DemoStorage,
+        <ExistingProvider>
+        {
+            provide: MetadataStorage,
+            useExisting: DemoStorage
+        }
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'editor'})
@@ -41,7 +52,7 @@ export class EditorComponent
 
     //######################### constructor #########################
     constructor(private _manager: LayoutEditorMetadataManager,
-                protected _store: StoreDataService,)
+                protected store: StoreDataService,)
     {
     }
 

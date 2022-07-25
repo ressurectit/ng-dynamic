@@ -1,13 +1,15 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataManager} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
+import {MetadataStorage} from '@anglr/dynamic';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
+import {DemoStorage} from '../../../services/metadataStorage';
 
 /**
  * Layout editor component
@@ -16,6 +18,15 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 {
     selector: 'layout-editor-view',
     templateUrl: 'layout.component.html',
+    providers:
+    [
+        DemoStorage,
+        <ExistingProvider>
+        {
+            provide: MetadataStorage,
+            useExisting: DemoStorage
+        }
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'layout'})

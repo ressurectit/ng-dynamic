@@ -1,10 +1,10 @@
 import {ClassProvider, FactoryProvider, inject, Optional, ValueProvider} from '@angular/core';
-import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor} from '@anglr/dynamic';
+import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_HISTORY_MANAGER_GET_STATE} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
 import {LOGGER, Logger} from '@anglr/common';
 
-import {DefaultDynamicModuleTypesProvider, LayoutDesignerDynamicModuleItemsProvider} from '../services';
-import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
+import {DefaultDynamicModuleTypesProvider, LayoutDesignerDynamicModuleItemsProvider, LayoutEditorMetadataManager} from '../services';
+import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_HISTORY_MANAGER, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
 import {layoutDesignerComponentTransform} from './transforms/layoutDesignerComponentTransform';
 import {LayoutPropertyMetadata} from './types';
 import {isLayoutModuleTypes} from './utils';
@@ -77,4 +77,27 @@ export const LAYOUT_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
                                             inject(LAYOUT_MODULE_TYPES_DATA_EXTRACTORS),
                                             isLayoutModuleTypes,
                                             inject(LOGGER, {optional: true}) ?? undefined)
+};
+
+/**
+ * Provider for layout history manager get state function
+ */
+export const LAYOUT_HISTORY_MANAGER_GET_STATE: FactoryProvider =
+{
+    provide: METADATA_HISTORY_MANAGER_GET_STATE,
+    useFactory: () =>
+    {
+        const manager = inject(LayoutEditorMetadataManager);
+
+        return manager.getMetadata.bind(manager);
+    }
+};
+
+/**
+ * Provider for layout history manager
+ */
+export const LAYOUT_HISTORY_MANAGER_PROVIDER: ClassProvider =
+{
+    provide: LAYOUT_HISTORY_MANAGER,
+    useClass: MetadataHistoryManager
 };

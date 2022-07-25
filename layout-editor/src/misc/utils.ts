@@ -4,7 +4,7 @@ import {provideLayout} from '@anglr/dynamic/layout';
 import {isBlank} from '@jscrpt/common';
 
 import {LayoutModuleTypes} from '../components';
-import {DEFAULT_LAYOUT_MODULE_TYPES_EXTRACTOR, DYNAMIC_LAYOUT_MODULE_TYPES_PROVIDER, LAYOUT_DESIGNER_COMPONENTS_PROVIDER, LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES_PROVIDER, LAYOUT_MODULE_TYPES_LOADER_PROVIDER} from './providers';
+import {DEFAULT_LAYOUT_MODULE_TYPES_EXTRACTOR, DYNAMIC_LAYOUT_MODULE_TYPES_PROVIDER, LAYOUT_DESIGNER_COMPONENTS_PROVIDER, LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES_PROVIDER, LAYOUT_HISTORY_MANAGER_GET_STATE, LAYOUT_HISTORY_MANAGER_PROVIDER, LAYOUT_MODULE_TYPES_LOADER_PROVIDER} from './providers';
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor} from '../services';
 
 /**
@@ -22,6 +22,8 @@ export function provideLayoutEditor(): Provider[]
         LayoutEditorMetadataExtractor,
         LayoutEditorPropertyMetadataExtractor,
         LayoutEditorMetadataManager,
+        LAYOUT_HISTORY_MANAGER_PROVIDER,
+        LAYOUT_HISTORY_MANAGER_GET_STATE,
     ];
 }
 

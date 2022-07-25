@@ -4,6 +4,7 @@ import {CdkDragDrop, DragDropModule, DropListOrientation} from '@angular/cdk/dra
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {MetadataHistoryManager} from '@anglr/dynamic';
 import {Func, isPresent, resolvePromiseOr} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -15,6 +16,7 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
+import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 
 //TODO: when new is clicked only after event new item can be dropped into 
 
@@ -146,6 +148,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
                 injector: Injector,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
                 protected _layoutEditorMetadataManager: LayoutEditorMetadataManager,
+                @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
                 @Inject(LOGGER) @Optional() logger?: Logger,
                 @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
     {
@@ -190,7 +193,9 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         //already added to tree, removing old reference
         if(parentId)
         {
+            this.history.disable();
             this._layoutEditorMetadataManager.getComponent(parentId)?._removeDescendant(dragData.item.data.metadata.id);
+            this.history.enable();
         }
 
         this._editorMetadata?.addDescendant?.(dragData.item.data.metadata, this.options.typeMetadata.options, dragData.currentIndex);
@@ -198,6 +203,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         this._renderedType = {...this.options.typeMetadata};
         this._changeDetector.markForCheck();
+        this.history.getNewState();
     }
 
     //######################### protected methods #########################
@@ -219,6 +225,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this._canDropValue = this._editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
         this._renderedType = {...this.options.typeMetadata};
         this._changeDetector.markForCheck();
+        this.history.getNewState();
     }
 
     //######################### protected methods - template bindings #########################

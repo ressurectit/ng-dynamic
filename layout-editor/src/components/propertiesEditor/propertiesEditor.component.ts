@@ -3,8 +3,8 @@ import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
 import {FormModelBuilder} from '@anglr/common/forms';
-import {addSimpleChange} from '@anglr/dynamic';
-import {LayoutComponent} from '@anglr/dynamic/layout';
+import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
+import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Dictionary, extend, isPresent, resolvePromiseOr} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -14,6 +14,7 @@ import {LayoutEditorMetadataDescriptor, LayoutPropertyTypeData} from '../../deco
 import {PropertiesControlsModule} from '../../modules';
 import {LayoutEditorPropertyMetadata} from '../../misc/types';
 import {PropertiesControl} from '../../interfaces';
+import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 
 /**
  * Properties editor data
@@ -101,6 +102,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                 protected _propertyExtractor: LayoutEditorPropertyMetadataExtractor,
                 protected _formModelBuilder: FormModelBuilder,
                 protected _changeDetector: ChangeDetectorRef,
+                @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
     }
@@ -130,6 +132,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                     this._component.options = this._component.options;
                     await resolvePromiseOr(this._component.ngOnChanges?.(changes));
                     this._manager.displayNameUpdated();
+                    this.history.getNewState();
                 }
             });
 
@@ -221,6 +224,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                             this._component.options = this._component.options;
                             await resolvePromiseOr(this._component.ngOnChanges?.(changes));
                             this._component.invalidateVisuals();
+                            this.history.getNewState();
                         }
                     }));
 
@@ -263,6 +267,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                                     this._component.options = this._component.options;
                                     await resolvePromiseOr(this._component.ngOnChanges?.(changes));
                                     this._component.invalidateVisuals();
+                                    this.history.getNewState();
                                 }
                             }));
         

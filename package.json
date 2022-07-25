@@ -83,7 +83,8 @@
         "@anglr/common": ">=14.1.0",
         "rxjs": ">=6.6.7",
         "@jscrpt/common": ">=2.3.0",
-        "d3": "^7.4.4",
+        "angular2-hotkeys": "^13.1.0",
+        "d3": "^7.6.1",
         "monaco-editor": "^0.33.0",
         "tslib": "^2.4.0"
     },
@@ -126,7 +127,7 @@
         "buffer": "6.0.3",
         "stream-browserify": "3.0.0",
         "file-saver": "2.0.5",
-        "d3": "7.3.0",
+        "d3": "7.6.1",
         "marked": "2.1.3",
         "highlight.js": "10.6.0",
         "sourcemapped-stacktrace": "1.1.11",

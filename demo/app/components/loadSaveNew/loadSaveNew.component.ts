@@ -6,6 +6,7 @@ import {NgSelectModule} from '@anglr/select';
 import {extend, Func} from '@jscrpt/common';
 
 import {StoreDataService} from '../../services/storeData';
+import {DemoStorage} from '../../services/metadataStorage';
 
 /**
  * Component used for loading saving and creating new layout/relations template
@@ -54,7 +55,8 @@ export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
 
     //######################### constructor #########################
     constructor(private _router: Router,
-                private _route: ActivatedRoute,)
+                private _route: ActivatedRoute,
+                private _storage: DemoStorage,)
     {
     }
 
@@ -66,6 +68,11 @@ export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
     public ngOnInit(): void
     {
         this._availableNames = this.store.getStored();
+
+        this._name.valueChanges.subscribe(value =>
+        {
+            this._storage.setName(value || null);
+        });
 
         this._route.params.subscribe(({id}) =>
         {

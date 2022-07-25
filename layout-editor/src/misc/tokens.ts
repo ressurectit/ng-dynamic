@@ -1,5 +1,5 @@
 import {InjectionToken, Type} from '@angular/core';
-import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
+import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataHistoryManager} from '@anglr/dynamic';
 import {Dictionary} from '@jscrpt/common';
 
 import {PropertyTypeControl} from '../interfaces';
@@ -7,6 +7,7 @@ import {LayoutModuleTypes} from '../components/componentsPalette/componentsPalet
 import {InputStringComponent} from '../modules/propertyTypeControls/components/inputString/inputString.component';
 import {InputBooleanComponent} from '../modules/propertyTypeControls/components/inputBoolean/inputBoolean.component';
 import {SelectValueComponent} from '../modules/propertyTypeControls/components/selectValue/selectValue.component';
+import {LayoutComponentMetadata} from '../../../layout/src';
 
 /**
  * Injection token containing symbols to properties storing layout editor property metadata
@@ -43,3 +44,8 @@ export const LAYOUT_MODULE_TYPES_PROVIDERS: InjectionToken<DynamicModuleProvider
  * Injection token for layout module types loader
  */
 export const LAYOUT_MODULE_TYPES_LOADER: InjectionToken<DynamicItemLoader<LayoutModuleTypes>> = new InjectionToken<DynamicItemLoader<LayoutModuleTypes>>('LAYOUT_MODULE_TYPES_LOADER');
+
+/**
+ * Injection token for layout history manager
+ */
+export const LAYOUT_HISTORY_MANAGER: InjectionToken<MetadataHistoryManager<LayoutComponentMetadata>> = new InjectionToken<MetadataHistoryManager<LayoutComponentMetadata>>('LAYOUT_HISTORY_MANAGER');

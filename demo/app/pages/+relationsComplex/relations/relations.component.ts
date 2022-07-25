@@ -1,12 +1,14 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {LayoutManager} from '@anglr/dynamic/layout-relations';
+import {MetadataStorage} from '@anglr/dynamic';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
+import {DemoStorage} from '../../../services/metadataStorage';
 
 /**
  * Layout editor component
@@ -15,6 +17,15 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 {
     selector: 'relations-editor-view',
     templateUrl: 'relations.component.html',
+    providers:
+    [
+        DemoStorage,
+        <ExistingProvider>
+        {
+            provide: MetadataStorage,
+            useExisting: DemoStorage
+        }
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'relations'})

@@ -52,6 +52,10 @@ export const routesOptions: ModuleRoutesOptions =
             path: 'relationsWithLayoutEditor',
             loadChildren: () => import('../pages/+relationsWithLayoutEditor/relationsWithLayoutEditor.module').then(({RelationsWithLayoutEditorModule}) => RelationsWithLayoutEditorModule)
         },
+        {
+            path: 'relationsComplex',
+            loadChildren: () => import('../pages/+relationsComplex/relationsComplex.module').then(({RelationsComplexModule}) => RelationsComplexModule)
+        },
     ],
     staticRoutesAfter:
     [

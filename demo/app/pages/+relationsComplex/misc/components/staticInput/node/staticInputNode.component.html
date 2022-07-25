@@ -1,0 +1,20 @@
+<div class="node-header">
+    {{metadata?.id}}
+</div>
+
+<div class="node-content">
+    <div class="inputs margin-right-small">
+    </div>
+
+    <div class="outputs margin-left-small">
+        <div class="flex-row margin-bottom-extra-small">
+            <div class="margin-right-extra-small">string</div>
+            <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="stringOutput" [parent]="this"></relation-node-output>
+        </div>
+
+        <div class="flex-row margin-bottom-extra-small">
+            <div class="margin-right-extra-small">boolean</div>
+            <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="booleanOutput" [parent]="this"></relation-node-output>
+        </div>
+    </div>
+</div>

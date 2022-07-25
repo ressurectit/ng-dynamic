@@ -58,6 +58,6 @@ export class LayoutComponent
 
     protected _loadDemo(): void
     {
-        this._metadata = DemoData.demoLayoutWithRelations;
+        this._metadata = DemoData.demoRelationsComplexLayout;
     }
 }

@@ -1,9 +1,9 @@
-import {ModuleWithProviders, NgModule} from '@angular/core';
+import {ModuleWithProviders, NgModule, Type} from '@angular/core';
 import {DynamicLayoutEditorModule, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {provideRelations} from '@anglr/dynamic/relations';
-import {DynamicRelationsEditorModule} from '@anglr/dynamic/relations-editor';
+import {DynamicRelationsEditorModule, StaticComponentsRegister} from '@anglr/dynamic/relations-editor';
 
-import {provideLayoutRelationsEditor} from '../misc/utils';
+import {provideLayoutRelationsEditor, provideLayoutRelationsEditorWithStatic} from '../misc/utils';
 
 /**
  * Module contains components, directives, pipes for dynamic layout relations editor rendering
@@ -36,18 +36,20 @@ export class DynamicLayoutRelationsEditorModule
         };
     }
 
-    // /**
-    //  * Creates DynamicRelationsEditorModule extended with providers for static components
-    //  * @param staticRegister - Type that represents implementation of static components register
-    //  */
-    // public static withStaticComponents(staticRegister: Type<StaticComponentsRegister>): ModuleWithProviders<DynamicRelationsEditorModule>
-    // {
-    //     return {
-    //         ngModule: DynamicRelationsEditorModule,
-    //         providers:
-    //         [
-    //             provideRelationsEditorWithStatic(staticRegister),
-    //         ]
-    //     };
-    // }
+    /**
+     * Creates DynamicLayoutRelationsEditorModule extended with providers for static components
+     * @param staticRegister - Type that represents implementation of static components register
+     */
+    public static withStaticComponents(staticRegister: Type<StaticComponentsRegister>): ModuleWithProviders<DynamicRelationsEditorModule>
+    {
+        return {
+            ngModule: DynamicLayoutRelationsEditorModule,
+            providers:
+            [
+                provideRelations(),
+                provideLayoutRelationsEditorWithStatic(staticRegister),
+                provideLayoutEditor(),
+            ]
+        };
+    }
 }

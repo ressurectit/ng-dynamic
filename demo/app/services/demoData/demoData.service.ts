@@ -7,6 +7,61 @@ import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
  */
 export class DemoData
 {
+    public static demoRelationsComplexLayout: LayoutComponentMetadata =
+    {
+        id: 'stackPanel-gnunpdxjmo',
+        displayName: 'root',
+        package: 'basic-components',
+        name: 'stackPanel',
+        options: 
+        {
+            children: 
+            [
+                {
+                    id: 'toggleButton-cxgzwxfbakimcwtt',
+                    displayName: 'toggleButton-cxgzwxfbakimcwtt',
+                    package: 'basic-components',
+                    name: 'toggleButton',
+                    options: 
+                    {
+                        onText: 'enabled',
+                        offText: 'disabled',
+                        state: true,
+                        disabled: false
+                    }
+                },
+                {
+                    id: 'toggleButton-tebgqrkcwwjohouy',
+                    displayName: 'toggleButton-tebgqrkcwwjohouy',
+                    package: 'basic-components',
+                    name: 'toggleButton',
+                    options: 
+                    {
+                        onText: 'true',
+                        offText: 'false',
+                        state: true,
+                        disabled: false,
+                        margin: 
+                        {
+                            top: '100px',
+                            right: null,
+                            bottom: null,
+                            left: '50px'
+                        },
+                        padding: 
+                        {
+                            top: null,
+                            right: null,
+                            bottom: null,
+                            left: null
+                        },
+                        textStyling: null
+                    }
+                }
+            ]
+        }
+    };
+
     public static demoLayoutWithRelations: LayoutComponentMetadata =
     {
         id: 'stackPanel-vqvfofhvbr',
@@ -255,6 +310,147 @@ export class DemoData
             ]
         }
     };
+
+    public static demoRelationsComplexRelations: RelationsNodeMetadata[] =
+    [
+        {
+            id: 'negation-sgxkzfxotghwaopl',
+            name: 'negation',
+            package: 'basic-components',
+            displayName: 'negation-sgxkzfxotghwaopl',
+            relationsOptions: {},
+            nodeMetadata: 
+            {
+                coordinates: 
+                {
+                    x: 600,
+                    y: 321
+                },
+                options: null
+            },
+            outputs: 
+            [
+                {
+                    outputName: 'negatedCondition',
+                    inputs: 
+                    [
+                        {
+                            id: 'toggleButton-tebgqrkcwwjohouy',
+                            inputName: 'disabled'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            id: 'static-input',
+            name: 'static-input',
+            package: 'static-components',
+            displayName: 'static-input',
+            relationsOptions: {},
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 166,
+                    y: 257
+                },
+                options: null
+            },
+            outputs: 
+            [
+                {
+                    outputName: 'stringOutput',
+                    inputs: []
+                },
+                {
+                    outputName: 'booleanOutput',
+                    inputs: 
+                    [
+                        {
+                            id: 'toggleButton-cxgzwxfbakimcwtt',
+                            inputName: 'disabled'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            id: 'static-output',
+            name: 'static-output',
+            package: 'static-components',
+            displayName: 'static-output',
+            relationsOptions: {},
+            nodeMetadata: 
+            {
+                coordinates: 
+                {
+                    x: 1238,
+                    y: 259
+                },
+                options: null
+            },
+            outputs: []
+        },
+        {
+            id: 'toggleButton-cxgzwxfbakimcwtt',
+            name: 'toggleButton-cxgzwxfbakimcwtt',
+            package: 'layout-components',
+            displayName: 'toggleButton-cxgzwxfbakimcwtt',
+            relationsOptions: {},
+            nodeMetadata:
+            {
+                coordinates:
+                {
+                    x: 388,
+                    y: 135
+                },
+                options: null
+            },
+            outputs:
+            [
+                {
+                    outputName: 'toggle',
+                    inputs: 
+                    [
+                        {
+                            id: 'negation-sgxkzfxotghwaopl',
+                            inputName: 'condition'
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            id: 'toggleButton-tebgqrkcwwjohouy',
+            name: 'toggleButton-tebgqrkcwwjohouy',
+            package: 'layout-components',
+            displayName: 'toggleButton-tebgqrkcwwjohouy',
+            relationsOptions: {},
+            nodeMetadata:
+            {
+                coordinates: 
+                {
+                    x: 836,
+                    y: 131
+                },
+                options: null
+            },
+            outputs:
+            [
+                {
+                    outputName: 'toggle',
+                    inputs:
+                    [
+                        {
+                            id: 'static-output',
+                            inputName: 'stringInput'
+                        }
+                    ]
+                }
+            ]
+        }
+    ];
 
     public static relationsDemo: RelationsNodeMetadata[] =
     [

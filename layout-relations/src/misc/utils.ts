@@ -1,5 +1,5 @@
-import {FactoryProvider, Provider} from '@angular/core';
-import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/relations-editor';
+import {ClassProvider, FactoryProvider, Provider, Type} from '@angular/core';
+import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES, StaticComponentsRegister, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER} from '@anglr/dynamic/relations-editor';
 import {LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
 
 import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER} from './providers';
@@ -26,6 +26,24 @@ export function provideLayoutRelationsEditor(): Provider[]
             },
             deps: [LayoutManager],
             multi: true
+        }
+    ];
+}
+
+/**
+ * Providers for relations editor subpackage, that works with layout metadata, with support of static components
+ * @param staticRegister - Type that represents implementation of static components register
+ */
+export function provideLayoutRelationsEditorWithStatic(staticRegister: Type<StaticComponentsRegister>): Provider[]
+{
+    return [
+        ...provideLayoutRelationsEditor(),
+        STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
+        STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
+        <ClassProvider>
+        {
+            provide: StaticComponentsRegister,
+            useClass: staticRegister
         }
     ];
 }

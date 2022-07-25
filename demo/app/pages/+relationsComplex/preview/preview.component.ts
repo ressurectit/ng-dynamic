@@ -53,7 +53,6 @@ export class PreviewComponent implements OnInit, OnDestroy
                 this._available.setValue(id);
                 const meta = this._store.getData(id);
                 this._metadata = meta?.layout;
-
                 this._relationsManager.setRelations(meta.relations ?? []);
             }
             else
@@ -63,7 +62,7 @@ export class PreviewComponent implements OnInit, OnDestroy
 
             this._available.valueChanges.subscribe(val =>
             {
-                this._router.navigate(['/relationsWithLayoutEditor/preview', val], {skipLocationChange: false, replaceUrl: true});
+                this._router.navigate(['/relationsComplex/preview', val], {skipLocationChange: false, replaceUrl: true});
             });
         });
     }

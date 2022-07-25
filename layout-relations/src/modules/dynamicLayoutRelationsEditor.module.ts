@@ -1,6 +1,5 @@
 import {ModuleWithProviders, NgModule, Type} from '@angular/core';
 import {DynamicLayoutEditorModule, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
-import {provideRelations} from '@anglr/dynamic/relations';
 import {DynamicRelationsEditorModule, StaticComponentsRegister} from '@anglr/dynamic/relations-editor';
 
 import {provideLayoutRelationsEditor, provideLayoutRelationsEditorWithStatic} from '../misc/utils';
@@ -29,7 +28,6 @@ export class DynamicLayoutRelationsEditorModule
             ngModule: DynamicLayoutRelationsEditorModule,
             providers:
             [
-                provideRelations(),
                 provideLayoutRelationsEditor(),
                 provideLayoutEditor(),
             ]
@@ -46,7 +44,6 @@ export class DynamicLayoutRelationsEditorModule
             ngModule: DynamicLayoutRelationsEditorModule,
             providers:
             [
-                provideRelations(),
                 provideLayoutRelationsEditorWithStatic(staticRegister),
                 provideLayoutEditor(),
             ]

@@ -57,6 +57,26 @@ export class DemoData
                         },
                         textStyling: null
                     }
+                },
+                {
+                    id: 'ifBlock-itsfrxuwqkjwmfba',
+                    displayName: 'ifBlock-itsfrxuwqkjwmfba',
+                    package: 'basic-components',
+                    name: 'ifBlock',
+                    options: 
+                    {
+                        content: 
+                        {
+                            id: 'textBlock-uxqfhpaidkfrkkcn',
+                            displayName: 'textBlock-uxqfhpaidkfrkkcn',
+                            package: 'basic-components',
+                            name: 'textBlock',
+                            options: 
+                            {
+                                text: 'Text zavisly'
+                            }
+                        }
+                    }
                 }
             ]
         }
@@ -348,7 +368,7 @@ export class DemoData
             package: 'static-components',
             displayName: 'static-input',
             relationsOptions: {},
-            nodeMetadata:
+            nodeMetadata: 
             {
                 coordinates: 
                 {
@@ -385,8 +405,8 @@ export class DemoData
             {
                 coordinates: 
                 {
-                    x: 1238,
-                    y: 259
+                    x: 1278,
+                    y: 255
                 },
                 options: null
             },
@@ -398,16 +418,16 @@ export class DemoData
             package: 'layout-components',
             displayName: 'toggleButton-cxgzwxfbakimcwtt',
             relationsOptions: {},
-            nodeMetadata:
+            nodeMetadata: 
             {
-                coordinates:
+                coordinates: 
                 {
                     x: 388,
                     y: 135
                 },
                 options: null
             },
-            outputs:
+            outputs: 
             [
                 {
                     outputName: 'toggle',
@@ -427,7 +447,7 @@ export class DemoData
             package: 'layout-components',
             displayName: 'toggleButton-tebgqrkcwwjohouy',
             relationsOptions: {},
-            nodeMetadata:
+            nodeMetadata: 
             {
                 coordinates: 
                 {
@@ -436,19 +456,40 @@ export class DemoData
                 },
                 options: null
             },
-            outputs:
+            outputs: 
             [
                 {
                     outputName: 'toggle',
-                    inputs:
+                    inputs: 
                     [
                         {
                             id: 'static-output',
-                            inputName: 'stringInput'
+                            inputName: 'booleanInput'
+                        },
+                        {
+                            id: 'ifBlock-itsfrxuwqkjwmfba',
+                            inputName: 'condition'
                         }
                     ]
                 }
             ]
+        },
+        {
+            id: 'ifBlock-itsfrxuwqkjwmfba',
+            name: 'ifBlock-itsfrxuwqkjwmfba',
+            package: 'layout-components',
+            displayName: 'ifBlock-itsfrxuwqkjwmfba',
+            relationsOptions: {},
+            nodeMetadata: 
+            {
+                coordinates: 
+                {
+                    x: 1246,
+                    y: 94
+                },
+                options: null
+            },
+            outputs: []
         }
     ];
 

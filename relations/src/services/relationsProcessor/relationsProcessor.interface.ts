@@ -34,7 +34,7 @@ export interface RelationsProcessorInputOutputData
 /**
  * Metadata for single component relations
  */
-export interface RelationsProcessorComponentData
+export interface RelationsProcessorComponentData<TOptions = any>
 {
     /**
      * Indication whether was relations component automatically created or existing one was used
@@ -50,4 +50,14 @@ export interface RelationsProcessorComponentData
      * Array of subscriptions for changes of outputs for component
      */
     outputsChangeSubscriptions: Subscription[];
+
+    /**
+     * Indication whether were options initialized for component
+     */
+    optionsInitialized: boolean;
+
+    /**
+     * Instance of options stored in metadata used for initialization
+     */
+    metadataOptions: TOptions;
 }

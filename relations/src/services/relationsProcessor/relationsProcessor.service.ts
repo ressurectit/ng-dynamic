@@ -85,17 +85,21 @@ export class RelationsProcessor implements OnDestroy
      */
     public updateRelations(id: string): void
     {
+        this._logger?.debug('RelationsProcessor: Updating relations for {@id}', {id});
+
         const relations: RelationsProcessorComponentData = this._relations[id];
         const backwardRelations = this._backwardRelations[id];
         let components = this._componentManager.get(id);
 
         //this component has no relations
-        if(!relations && !backwardRelations?.length || !components)
+        if(!relations || !components)
         {
-            this._logger?.debug('RelationsProcessor: No relations for {@id}', {id});
+            this._logger?.warn('RelationsProcessor: No relations for {@id}', {id});
 
             return;
         }
+
+        this.initOptions(components, relations);
 
         //initialize default value from connection to this
         if(backwardRelations?.length)
@@ -113,6 +117,10 @@ export class RelationsProcessor implements OnDestroy
                 components = [components];
             }
 
+            //destroy existing subscriptions if there are any
+            relations.outputsChangeSubscriptions?.forEach(subscription => subscription.unsubscribe());
+            relations.outputsChangeSubscriptions = [];
+
             for(const inputOutput of relations.inputOutputs)
             {
                 let inputComponents = this._componentManager.get(inputOutput.inputComponentId);
@@ -121,6 +129,8 @@ export class RelationsProcessor implements OnDestroy
                 {
                     inputComponents = [inputComponents];
                 }
+
+                this._logger?.verbose('RelationsProcessor: processing input outputs {@data} ', {id, inputOutput, inputComponents, components});
 
                 for(const outputComponent of components)
                 {
@@ -133,10 +143,6 @@ export class RelationsProcessor implements OnDestroy
 
                         continue;
                     }
-
-                    //destroy existing subscriptions if there are any
-                    relations.outputsChangeSubscriptions?.forEach(subscription => subscription.unsubscribe());
-                    relations.outputsChangeSubscriptions = [];
 
                     //set listening for output changes
                     relations.outputsChangeSubscriptions.push(outputObservable.subscribe(() =>
@@ -203,6 +209,7 @@ export class RelationsProcessor implements OnDestroy
         {
             metadata.outputsChangeSubscriptions.forEach(subscription => subscription.unsubscribe());
             metadata.outputsChangeSubscriptions = [];
+            metadata.optionsInitialized = false;
 
             if(metadata.inputOutputs && Array.isArray(metadata.inputOutputs))
             {
@@ -388,7 +395,7 @@ export class RelationsProcessor implements OnDestroy
 
         if(component)
         {
-            this._initRelation(component, false, meta, outputs);
+            this._initRelation(false, meta, outputs);
             this.updateRelations(meta.id);
 
             return;
@@ -398,6 +405,8 @@ export class RelationsProcessor implements OnDestroy
 
         if(!componentMeta)
         {
+            this._initRelation(false, meta, outputs);
+
             this._logger?.warn('RelationsProcessor: Unable to load relations component! {@meta}', {package: meta.package, name: meta.name});
 
             return;
@@ -406,36 +415,52 @@ export class RelationsProcessor implements OnDestroy
         const instance = new componentMeta.data();
         this._componentManager.registerComponent(meta.id, instance);
 
-        this._initRelation(instance, true, meta, outputs);
+        this._initRelation(true, meta, outputs);
         this.updateRelations(meta.id);
     }
 
     /**
      * Initialize relation for metadata and component
-     * @param component - Instance of component which relation will be initialized
      * @param autoCreated - Indication whether was component auto created or not
      * @param meta - Metadata for relations component
      * @param outputs - Array of outputs data for relations
      */
-    protected _initRelation(component: RelationsComponent|RelationsComponent[], autoCreated: boolean, meta: RelationsComponentMetadata, outputs: RelationsProcessorInputOutputData[]): void
+    protected _initRelation(autoCreated: boolean, meta: RelationsComponentMetadata, outputs: RelationsProcessorInputOutputData[]): void
     {
         this._relations[meta.id] =
         {
             autoCreated,
             inputOutputs: outputs,
-            outputsChangeSubscriptions: []
+            outputsChangeSubscriptions: [],
+            optionsInitialized: false,
+            metadataOptions: meta.relationsOptions,
         };
+    }
 
-        if(Array.isArray(component))
+    /**
+     * Initialize relations component options
+     * @param components - Components which options should be initialized
+     * @param meta - Metadata containing options for initialization
+     */
+    protected initOptions(components: RelationsComponent|RelationsComponent[], meta: RelationsProcessorComponentData): void
+    {
+        if(meta.optionsInitialized)
         {
-            for(const comp of component)
+            return;
+        }
+
+        meta.optionsInitialized = true;
+
+        if(Array.isArray(components))
+        {
+            for(const comp of components)
             {
-                comp.relationsOptions = meta.relationsOptions;
+                comp.relationsOptions = meta.metadataOptions;
             }
         }
         else
         {
-            component.relationsOptions = meta.relationsOptions;
+            components.relationsOptions = meta.metadataOptions;
         }
     }
 

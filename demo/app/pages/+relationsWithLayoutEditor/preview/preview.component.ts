@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {RelationsManager} from '@anglr/dynamic/relations';
+import {provideRelations, RelationsManager} from '@anglr/dynamic/relations';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
@@ -15,6 +15,10 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 {
     selector: 'layout-preview-view',
     templateUrl: 'preview.component.html',
+    providers:
+    [
+        provideRelations(),
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'preview'})

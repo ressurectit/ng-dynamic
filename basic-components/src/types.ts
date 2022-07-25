@@ -4,6 +4,7 @@ const components =
     'toggleButton',
     'gridPanel',
     'stackPanel',
+    'ifBlock',
     'textBlock',
 ];
 

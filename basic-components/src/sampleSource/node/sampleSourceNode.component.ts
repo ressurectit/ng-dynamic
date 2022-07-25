@@ -18,12 +18,4 @@ import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent} from '@
 })
 export class SampleSourceNodeSAComponent extends RelationsNodeBase implements RelationsNode
 {
-    //######################### protected methods - overrides #########################
-
-    /**
-     * @inheritdoc
-     */
-    protected metadataSet(): void
-    {
-    }
 }

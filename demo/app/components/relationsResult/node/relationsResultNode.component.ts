@@ -19,12 +19,4 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
 })
 export class RelationsResultNodeSAComponent extends RelationsNodeBase implements RelationsNode
 {
-    //######################### protected methods - overrides #########################
-
-    /**
-     * @inheritdoc
-     */
-    protected metadataSet(): void
-    {
-    }
 }

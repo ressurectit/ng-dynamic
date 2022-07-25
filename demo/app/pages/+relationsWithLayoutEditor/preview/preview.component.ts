@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {RelationsManager} from '@anglr/dynamic/relations';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../misc';
@@ -31,6 +32,7 @@ export class PreviewComponent implements OnInit, OnDestroy
     //######################### constructor #########################
     constructor(private _store: StoreDataService<LayoutRelationsMetadata>,
                 private _router: Router,
+                private _relationsManager: RelationsManager,
                 private _route: ActivatedRoute,)
     {
     }
@@ -49,7 +51,13 @@ export class PreviewComponent implements OnInit, OnDestroy
             if(id)
             {
                 this._available.setValue(id);
-                this._metadata = this._store.getData(id)?.layout;
+                const meta = this._store.getData(id);
+                this._metadata = meta?.layout;
+                this._relationsManager.setRelations(meta.relations ?? []);
+            }
+            else
+            {
+                this._relationsManager.setRelations([]);
             }
 
             this._available.valueChanges.subscribe(val =>

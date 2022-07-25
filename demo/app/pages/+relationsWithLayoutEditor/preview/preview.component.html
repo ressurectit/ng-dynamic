@@ -1,6 +1,6 @@
 <div class="flex-row">
-    <a class="margin-horizontal-small" routerLink="/relationsWithLayoutEditor/layout">layout</a>
-    <a class="margin-horizontal-small" routerLink="/relationsWithLayoutEditor/relations">relations</a>
+    <a class="margin-horizontal-small" [routerLink]="['/relationsWithLayoutEditor/layout', _available.value]">layout</a>
+    <a class="margin-horizontal-small" [routerLink]="['/relationsWithLayoutEditor/relations', _available.value]">relations</a>
 
     <ng-select [formControl]="_available" class="flex-1">
         <ng-option *ngFor="let val of _availableNames" [value]="val" [text]="val"></ng-option>

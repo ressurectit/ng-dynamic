@@ -323,5 +323,7 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     /**
      * Allows code to be called after metadata were set
      */
-    protected abstract metadataSet(): void;
+    protected metadataSet(): void
+    {
+    }
 }

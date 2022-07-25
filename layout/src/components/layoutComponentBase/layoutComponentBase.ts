@@ -23,6 +23,11 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     protected _initialized: boolean = false;
 
+    /**
+     * Indication whether was component destroyed
+     */
+    protected destroyed: boolean = false;
+
     //######################### protected properties #########################
 
     /**
@@ -63,6 +68,13 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     public ngOnDestroy(): void
     {
+        if(this.destroyed)
+        {
+            return;
+        }
+
+        this.destroyed = true;
+
         for(const ext of this._extensions)
         {
             ext.destroy();

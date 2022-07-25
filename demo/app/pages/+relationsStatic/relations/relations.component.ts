@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {RelationsManager} from '@anglr/dynamic/relations';
 
@@ -15,7 +15,7 @@ import {DemoData} from '../../../services/demoData';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: ''})
-export class RelationsComponent
+export class RelationsComponent implements OnInit
 {
     //######################### protected properties - template bindings #########################
 

@@ -13,3 +13,8 @@ export type RelationsModuleTypes = DynamicItemDefData<string[]>;
  * Relations node definition
  */
 export type RelationsNodeDef = DynamicItemDefData<Type<RelationsNode>> & RelationsEditorMetaInfo & {singleton?: boolean};
+
+/**
+ * Object used as void type of relation ouptuts with no data
+ */
+export type VoidObject = {};

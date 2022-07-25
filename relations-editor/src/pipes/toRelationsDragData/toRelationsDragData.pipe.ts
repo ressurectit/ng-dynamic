@@ -16,10 +16,11 @@ export class ToRelationsDragDataSAPipe implements PipeTransform
      * Transforms NodesPaletteItem item to RelationsNodeDragData
      * @param value - Palette item to be transformed
      * @param id - Unique id to be used for new node
+     * @param singleton - Indication whether is new node singleton, can be used only once
      */
-    public transform(value: NodesPaletteItem, id: string): RelationsNodeDragData
+    public transform(value: NodesPaletteItem, id: string, singleton: boolean|undefined): RelationsNodeDragData
     {
-        const newId = `${value.itemSource.name}-${id}`;
+        const newId = singleton ? id : `${value.itemSource.name}-${id}`;
 
         return {
             metadata:

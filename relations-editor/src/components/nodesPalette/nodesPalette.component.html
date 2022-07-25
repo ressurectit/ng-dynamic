@@ -9,7 +9,7 @@
              class="palette-droplist">
             <div class="editor-component mat-elevation-z2"
                  cdkDrag
-                 [cdkDragData]="item | toRelationsDragData: _newCompnentId"
+                 [cdkDragData]="item | toRelationsDragData: (item.metadata.singleton ? item.itemSource.name : _newCompnentId): item.metadata.singleton"
                  (cdkDragDropped)="_generateNewId()">
                  <!-- (cdkDragEnded)="_onDragEnded(groupKeyValue.key)"
                  (cdkDragStarted)="_onDragStarted($event, groupKeyValue.key, item)"> -->

@@ -1,5 +1,6 @@
 import {InjectionToken} from '@angular/core';
 import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
+import {Observable} from 'rxjs';
 
 import {RelationsModuleTypes, RelationsNodeDef} from './types';
 
@@ -32,3 +33,8 @@ export const RELATIONS_NODES_PROVIDERS: InjectionToken<DynamicModuleProvider[]> 
  * Injection token for relations nodes loader
  */
 export const RELATIONS_NODES_LOADER: InjectionToken<DynamicItemLoader<RelationsNodeDef>> = new InjectionToken<DynamicItemLoader<RelationsNodeDef>>('RELATIONS_NODES_LOADER');
+
+/**
+ * Injection token for observables that allows refreshing of nodes palatte items
+ */
+export const REFRESH_PALETTE_OBSERVABLES: InjectionToken<Observable<void>[]> = new InjectionToken<Observable<void>[]>('REFRESH_PALETTE_OBSERVABLES');

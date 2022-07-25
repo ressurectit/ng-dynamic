@@ -107,7 +107,8 @@ export const RELATIONS_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
     useFactory: () => new DynamicItemLoader(inject(RELATIONS_MODULE_TYPES_PROVIDERS),
                                             inject(RELATIONS_MODULE_TYPES_DATA_EXTRACTORS),
                                             isRelationsModuleTypes,
-                                            inject(LOGGER, {optional: true}) ?? undefined)
+                                            inject(LOGGER, {optional: true}) ?? undefined,
+                                            true)
 };
 
 /**

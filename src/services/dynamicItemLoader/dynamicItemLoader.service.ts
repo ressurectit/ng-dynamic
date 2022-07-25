@@ -5,6 +5,8 @@ import {DynamicModuleProvider, DynamicItemLoaderValidatorFn} from './dynamicItem
 import {DynamicModule, DynamicItemSource} from '../../interfaces';
 import {DynamicModuleDataExtractor} from '../dynamicModuleDataExtractor/dynamicModuleDataExtractor.service';
 
+//TODO: make no chace dynamic, observable
+
 /**
  * Service used for loading dynamic items
  */
@@ -21,7 +23,8 @@ export class DynamicItemLoader<TDynamicItemDef = any>
     constructor(protected _providers: DynamicModuleProvider[],
                 protected _extractors: DynamicModuleDataExtractor<TDynamicItemDef>[],
                 protected _validatorFn: DynamicItemLoaderValidatorFn<TDynamicItemDef>,
-                protected _logger?: Logger,)
+                protected _logger?: Logger,
+                protected _noCache?: boolean,)
     {
         //providers is not an array
         if(!Array.isArray(this._providers))
@@ -52,7 +55,7 @@ export class DynamicItemLoader<TDynamicItemDef = any>
         const cacheId = `${source.package}-${source.name}`;
 
         //try to get from cache
-        if(cacheId in this._cachedDynamicItems)
+        if(cacheId in this._cachedDynamicItems && !this._noCache)
         {
             this._logger?.verbose('DynamicItemLoader: Loading from cache {@source}', {name: source.name, package: source.package});
 

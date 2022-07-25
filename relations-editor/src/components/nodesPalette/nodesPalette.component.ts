@@ -4,15 +4,13 @@ import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemLoader, DynamicItemSource} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
 import {Dictionary, generateId} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 import {NodesPaletteItem} from './nodesPalette.interface';
-import {RELATIONS_MODULE_TYPES_LOADER, RELATIONS_NODES_LOADER} from '../../misc/tokens';
+import {REFRESH_PALETTE_OBSERVABLES, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_NODES_LOADER} from '../../misc/tokens';
 import {RelationsModuleTypes, RelationsNodeDef} from '../../misc/types';
 import {RelationsNodeManager} from '../../services';
 import {ToRelationsDragDataSAPipe} from '../../pipes';
-
-//TODO: add new provider for refresh required of palette items
 
 /**
  * Component displaying available nodes palette
@@ -77,6 +75,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
                 @Inject(RELATIONS_NODES_LOADER) protected _nodesLoader: DynamicItemLoader<RelationsNodeDef>,
                 protected _changeDetector: ChangeDetectorRef,
                 protected _metadataManager: RelationsNodeManager,
+                @Inject(REFRESH_PALETTE_OBSERVABLES) @Optional() protected _refreshObservables?: Observable<void>[],
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
     }
@@ -88,9 +87,34 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      */
     public async ngOnInit(): Promise<void>
     {
-        // this._initSubscriptions.add(this._metadataManager.layoutChange.subscribe(() => this._getDesignerDropLists()));
+        if(this._refreshObservables && Array.isArray(this._refreshObservables))
+        {
+            for(const obs of this._refreshObservables)
+            {
+                this._initSubscriptions.add(obs.subscribe(() => this.loadNodes()));
+            }
+        }
 
-        // this._getDesignerDropLists();
+        await this.loadNodes();
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        this._initSubscriptions.unsubscribe();
+    }
+
+    /**
+     * Loads available relations nodes into palette
+     */
+    protected async loadNodes(): Promise<void>
+    {
+        this._allItems = [];
+        this._groupedItems = {};
 
         //TODO make it dynamic
         for (const packageName of ['basic-components', 'material-components', 'static-components', 'layout-components'])
@@ -128,16 +152,6 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         }
 
         this._changeDetector.detectChanges();
-    }
-
-    //######################### public methods - implementation of OnDestroy #########################
-    
-    /**
-     * Called when component is destroyed
-     */
-    public ngOnDestroy(): void
-    {
-        this._initSubscriptions.unsubscribe();
     }
 
     //######################### protected methods - template bindings #########################

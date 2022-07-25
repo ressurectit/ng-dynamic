@@ -1,5 +1,5 @@
-import {Provider} from '@angular/core';
-import {provideRelationsEditor} from '@anglr/dynamic/relations-editor';
+import {FactoryProvider, Provider} from '@angular/core';
+import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/relations-editor';
 import {LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
 
 import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER} from './providers';
@@ -17,5 +17,15 @@ export function provideLayoutRelationsEditor(): Provider[]
         LayoutManager,
         LayoutComponentsRegister,
         LayoutComponentsIteratorService,
+        <FactoryProvider>
+        {
+            provide: REFRESH_PALETTE_OBSERVABLES,
+            useFactory: (layoutManager: LayoutManager) =>
+            {
+                return layoutManager.layoutChange;
+            },
+            deps: [LayoutManager],
+            multi: true
+        }
     ];
 }

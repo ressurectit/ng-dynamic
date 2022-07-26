@@ -1,0 +1,9 @@
+{
+    "name": "@anglr/dynamic-tinymce-components",
+    "sideEffects": false,
+    "module": "../es2015/tinymce-components/src/index.js",
+    "es2015": "../es2015/tinymce-components/src/index.js",
+    "es2020": "../es2020/tinymce-components/src/index.js",
+    "esm2020": "../es2020/tinymce-components/src/index.js",
+    "typings": "./src/index.d.ts"
+  }

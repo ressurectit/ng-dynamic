@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {ModuleRoutes} from '@anglr/common/router';
 import {DynamicRelationsEditorModule} from '@anglr/dynamic/relations-editor';
-import {LAYOUT_HISTORY_MANAGER_GET_STATE, LAYOUT_HISTORY_MANAGER_PROVIDER} from '@anglr/dynamic/layout-editor';
 
 import {components} from './relationsEditor.routes';
 import {LoadSaveNewSAComponent} from '../../components';
@@ -27,8 +26,6 @@ import {createStoreDataServiceFactory} from '../../misc/factories';
     providers:
     [
         createStoreDataServiceFactory('RELATIONS_DATA'),
-        LAYOUT_HISTORY_MANAGER_PROVIDER,
-        LAYOUT_HISTORY_MANAGER_GET_STATE,
     ]
 })
 @ModuleRoutes(components)

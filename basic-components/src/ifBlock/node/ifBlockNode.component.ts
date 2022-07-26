@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for if block
@@ -13,7 +13,6 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
     imports:
     [
         RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

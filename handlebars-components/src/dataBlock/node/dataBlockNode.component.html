@@ -1,0 +1,16 @@
+<div class="node-header">
+    <div class="flex-1">{{metadata?.id}}</div>
+    <div (click)="destroySubject.next()">x</div>
+</div>
+
+<div class="node-content">
+    <div class="inputs margin-right-small">
+        <div class="flex-row">
+            <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="condition" [parent]="this"></relation-node-input>
+            <div class="margin-left-extra-small">condition</div>
+        </div>
+    </div>
+
+    <div class="outputs margin-left-small">
+    </div>
+</div>

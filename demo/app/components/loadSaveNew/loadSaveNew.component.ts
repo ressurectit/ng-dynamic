@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, OnInit, EventEmitter, Output} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input, OnInit, EventEmitter, Output, Optional} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -56,7 +56,7 @@ export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
     //######################### constructor #########################
     constructor(private _router: Router,
                 private _route: ActivatedRoute,
-                private _storage: DemoStorage,)
+                @Optional() private _storage?: DemoStorage,)
     {
     }
 
@@ -71,7 +71,7 @@ export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
 
         this._name.valueChanges.subscribe(value =>
         {
-            this._storage.setName(value || null);
+            this._storage?.setName(value || null);
         });
 
         this._route.params.subscribe(({id}) =>

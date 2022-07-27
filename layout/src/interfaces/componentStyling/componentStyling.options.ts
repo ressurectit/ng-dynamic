@@ -10,6 +10,11 @@ export interface ComponentStylingOptions
     //######################### properties #########################
 
     /**
+     * Css class that should be applied to component
+     */
+    cssClass: string|undefined|null;
+
+    /**
      * Allows to set margin of component
      */
     margin: Margin|undefined|null;

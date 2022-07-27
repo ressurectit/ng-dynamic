@@ -269,6 +269,65 @@ export class DemoData
                                         }
                                     },
                                     {
+                                        id: 'styleBlock-thjphwmhesuywokp',
+                                        displayName: 'styleBlock-thjphwmhesuywokp',
+                                        package: 'css-components',
+                                        name: 'styleBlock',
+                                        options: 
+                                        {
+                                            content: 
+                                            {
+                                                id: 'stackPanel-veydkvmijnamfvgo',
+                                                displayName: 'stackPanel-veydkvmijnamfvgo',
+                                                package: 'basic-components',
+                                                name: 'stackPanel',
+                                                options: 
+                                                {
+                                                    children: 
+                                                    [
+                                                        {
+                                                            id: 'textBlock-recxnhpmozgxhrqe',
+                                                            displayName: 'textBlock-recxnhpmozgxhrqe',
+                                                            package: 'basic-components',
+                                                            name: 'textBlock',
+                                                            options: 
+                                                            {
+                                                                text: 'This is your text'
+                                                            }
+                                                        },
+                                                        {
+                                                            id: 'textBlock-lvxyyyfodftunril',
+                                                            displayName: 'textBlock-lvxyyyfodftunril',
+                                                            package: 'basic-components',
+                                                            name: 'textBlock',
+                                                            options: 
+                                                            {
+                                                                text: 'This is your text',
+                                                                cssClass: 'text-danger',
+                                                                margin: 
+                                                                {
+                                                                    top: null,
+                                                                    right: null,
+                                                                    bottom: null,
+                                                                    left: null
+                                                                },
+                                                                padding: 
+                                                                {
+                                                                    top: null,
+                                                                    right: null,
+                                                                    bottom: null,
+                                                                    left: null
+                                                                },
+                                                                textStyling: null
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            style: 'text-block\r\n{\r\n    font-size: 1.2em;\r\n    font-weight: bold;\r\n}\r\n\r\n.text-danger\r\n{\r\n    color: red;\r\n}'
+                                        }
+                                    },
+                                    {
                                         id: 'button-test',
                                         package: 'basic-components',
                                         name: 'button',

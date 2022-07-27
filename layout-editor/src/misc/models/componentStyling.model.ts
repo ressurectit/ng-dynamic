@@ -2,8 +2,8 @@ import {FormGroupProperty} from '@anglr/common/forms';
 import {ComponentStylingOptions, Margin, Padding, TextStyling} from '@anglr/dynamic/layout';
 import {mapValuesToThis} from '@jscrpt/common';
 
-import {LayoutPropertyDescription, LayoutPropertyName, LayoutPropertyObject} from '../../decorators';
-import {LayoutPropertyMetadata} from '../types';
+import {LayoutPropertyDescription, LayoutPropertyName, LayoutPropertyObject, LayoutPropertyType} from '../../decorators';
+import {DefaultKnownPropertyTypes, LayoutPropertyMetadata} from '../types';
 import {MarginModel} from './margin.model';
 import {PaddingModel} from './padding.model';
 
@@ -14,6 +14,11 @@ export class ComponentStylingModel implements ComponentStylingOptions
 {
     //######################### public properties #########################
 
+    @LayoutPropertyName('Css class')
+    @LayoutPropertyDescription('Css class that should be applied to component')
+    @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
+    public cssClass: string|undefined|null = null;
+
     /**
      * @inheritdoc
      */
@@ -21,7 +26,7 @@ export class ComponentStylingModel implements ComponentStylingOptions
     @LayoutPropertyDescription('Margin of component')
     @LayoutPropertyObject(MarginModel, [LayoutPropertyMetadata])
     @FormGroupProperty()
-    margin: Margin|undefined|null = null;
+    public margin: Margin|undefined|null = null;
 
     /**
      * @inheritdoc
@@ -30,12 +35,12 @@ export class ComponentStylingModel implements ComponentStylingOptions
     @LayoutPropertyDescription('Padding of component')
     @LayoutPropertyObject(PaddingModel, [LayoutPropertyMetadata])
     @FormGroupProperty()
-    padding: Padding|undefined|null = null;
+    public padding: Padding|undefined|null = null;
 
     /**
      * @inheritdoc
      */
-    textStyling: TextStyling|undefined|null = null;
+    public textStyling: TextStyling|undefined|null = null;
 
     //######################### constructor #########################
     constructor(value: ComponentStylingOptions|undefined|null)

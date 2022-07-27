@@ -1,2 +1,7 @@
+<div class="form-group">
+    <label class="control-label">{{propertiesMetadata?.cssClass?.name ?? 'cssClass'}} <span *ngIf="propertiesMetadata?.cssClass?.description" class="fas fa-info-circle" [tooltip]="propertiesMetadata?.cssClass?.description"></span></label>
+    <input-string [control]="form?.controls?.cssClass | asRequired"></input-string>
+</div>
+
 <margin-control [form]="form" [propertiesMetadata]="propertiesMetadata"></margin-control>
 <padding-control [form]="form" [propertiesMetadata]="propertiesMetadata"></padding-control>

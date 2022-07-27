@@ -8,6 +8,13 @@ import {ComponentStylingOptions} from '../../interfaces';
  */
 export class ComponentStylingExtension extends DynamicItemExtensionBase<ComponentStylingOptions> implements DynamicItemExtension<ComponentStylingOptions>
 {
+    //######################### protected properties #########################
+
+    /**
+     * Value of last css class
+     */
+    protected lastCssClass: string|undefined|null;
+
     //######################### public methods - overrides #########################
 
     /**
@@ -35,6 +42,21 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
     {
         const options = this._options;
         const style = this._element?.nativeElement.style;
+
+        if(this._element)
+        {
+            if(isPresent(this.lastCssClass))
+            {
+                this._element.nativeElement.classList.remove(this.lastCssClass);
+            }
+
+            this.lastCssClass = options?.cssClass;
+
+            if(options?.cssClass)
+            {
+                this._element?.nativeElement.classList.add(options!.cssClass);
+            }
+        }
 
         if(isPresent(style))
         {

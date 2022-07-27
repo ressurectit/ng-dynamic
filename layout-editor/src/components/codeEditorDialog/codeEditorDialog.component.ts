@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {CodeEditorModule} from '@anglr/dynamic';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
 
@@ -16,6 +17,7 @@ import {CodeEditorDialogData} from './codeEditorDialog.interface';
     imports:
     [
         CodeEditorModule,
+        MatDialogModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -29,7 +31,8 @@ export class CodeEditorDialogSAComponent
     protected content: string|null = null;
 
     //######################### constructor #########################
-    constructor(@Inject(TITLED_DIALOG_DATA) protected data: CodeEditorDialogData,)
+    constructor(@Inject(TITLED_DIALOG_DATA) protected data: CodeEditorDialogData,
+                protected dialog: MatDialogRef<CodeEditorDialogSAComponent, string|null>,)
     {
         this.content = data.content;
     }

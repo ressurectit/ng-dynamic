@@ -29,7 +29,7 @@ export const LAYOUT_DESIGNER_COMPONENT_TRANSFORM: ValueProvider =
 };
 
 /**
- * Provider for default dynamic layout module types provider for all built-in types in dynamic
+ * Provider for default dynamic layout module types provider
  */
 export const DYNAMIC_LAYOUT_MODULE_TYPES_PROVIDER: ClassProvider =
 {

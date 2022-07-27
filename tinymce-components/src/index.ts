@@ -1,1 +1,1 @@
-export * from './richTextBlock';
+export * from './dynamicItems';

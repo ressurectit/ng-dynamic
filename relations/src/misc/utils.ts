@@ -3,7 +3,7 @@ import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
 import {isBlank, isType} from '@jscrpt/common';
 
 import {RelationsComponentDef} from './types';
-import {BASIC_COMPONENTS_RELATIONS_COMPONENTS_PROVIDER, DEFAULT_RELATIONS_COMPONENTS_EXTRACTOR, RELATIONS_COMPONENTS_LOADER_PROVIDER} from './providers';
+import {DEFAULT_RELATIONS_COMPONENTS_PROVIDER, DEFAULT_RELATIONS_COMPONENTS_EXTRACTOR, RELATIONS_COMPONENTS_LOADER_PROVIDER} from './providers';
 import {RelationsComponentManager, RelationsManager, RelationsProcessor} from '../services';
 
 /**
@@ -27,7 +27,7 @@ export const isRelationsComponentDef: DynamicItemLoaderValidatorFn<RelationsComp
 export function provideRelations(): Provider[]
 {
     return [
-        BASIC_COMPONENTS_RELATIONS_COMPONENTS_PROVIDER,
+        DEFAULT_RELATIONS_COMPONENTS_PROVIDER,
         DEFAULT_RELATIONS_COMPONENTS_EXTRACTOR,
         RELATIONS_COMPONENTS_LOADER_PROVIDER,
         RelationsComponentManager,

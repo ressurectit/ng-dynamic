@@ -1,5 +1,5 @@
 import {ClassProvider, FactoryProvider, inject, Optional} from '@angular/core';
-import {BasicComponentsDynamicModuleItemsProvider, DynamicItemLoader, DynamicModuleDataExtractor} from '@anglr/dynamic';
+import {DefaultDynamicModuleItemsProvider, DynamicItemLoader, DynamicModuleDataExtractor} from '@anglr/dynamic';
 import {LOGGER, Logger} from '@anglr/common';
 
 import {RELATIONS_COMPONENTS_LOADER, RELATIONS_COMPONENTS_MODULE_DATA_EXTRACTORS, RELATIONS_COMPONENTS_MODULE_PROVIDERS} from './tokens';
@@ -7,12 +7,12 @@ import {relationsExportExtractor} from './extractors';
 import {isRelationsComponentDef} from './utils';
 
 /**
- * Provider for basic components package relations components provider
+ * Provider for default package relations components provider
  */
-export const BASIC_COMPONENTS_RELATIONS_COMPONENTS_PROVIDER: ClassProvider =
+export const DEFAULT_RELATIONS_COMPONENTS_PROVIDER: ClassProvider =
 {
     provide: RELATIONS_COMPONENTS_MODULE_PROVIDERS,
-    useClass: BasicComponentsDynamicModuleItemsProvider,
+    useClass: DefaultDynamicModuleItemsProvider,
     multi: true
 };
 

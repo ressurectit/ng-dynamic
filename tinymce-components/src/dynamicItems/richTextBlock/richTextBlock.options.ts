@@ -3,4 +3,8 @@
  */
 export interface RichTextBlockComponentOptions
 {
+    /**
+     * HTML enriched content to be displayed
+     */
+    content: string|undefined|null;
 }

@@ -24,7 +24,7 @@ import {CodeEditorDialogData} from '../codeEditorDialog/codeEditorDialog.interfa
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BaseCodePropertiesControlComponent<TOptions = any> extends PropertiesControlBase<TOptions> implements PropertiesControl<TOptions>
+export class BaseCodePropertiesControlSAComponent<TOptions = any> extends PropertiesControlBase<TOptions> implements PropertiesControl<TOptions>
 {
     //######################### public properties - inputs #########################
 
@@ -104,7 +104,7 @@ export function codePropertiesControlFor<TModel>(property: Extract<keyof TModel,
         ],
         changeDetection: ChangeDetectionStrategy.OnPush
     })
-    class CodePropertiesControl<TOptions = any> extends BaseCodePropertiesControlComponent implements PropertiesControl<TOptions>
+    class CodePropertiesControl<TOptions = any> extends BaseCodePropertiesControlSAComponent implements PropertiesControl<TOptions>
     {
         /**
          * @inheritdoc

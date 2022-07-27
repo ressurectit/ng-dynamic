@@ -1,6 +1,8 @@
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
+import {RichTextBlockPropertiesControlSAComponent} from '../misc/components';
 import {RichTextBlockComponentOptions} from '../richTextBlock.options';
+import {RichTextBlockModel} from './richTextBlock.model';
 
 /**
  * Rich text block layout metadata
@@ -19,7 +21,16 @@ export class RichTextBlockLayoutEditorMetadata implements LayoutEditorMetadataDe
         group: 'Texts',
         optionsMetadata:
         {
-            propertiesMetadata: []
+            propertiesMetadata:
+            [
+                {
+                    modelType: RichTextBlockModel,
+                    propertiesControls: 
+                    [
+                        RichTextBlockPropertiesControlSAComponent,
+                    ],
+                },
+            ]
         },
     };
 

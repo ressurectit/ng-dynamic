@@ -276,12 +276,18 @@ export default [function(options, args)
                     include:
                     [
                         path.join(dirName, 'packages'),
-                        path.join(dirName, '../src'),
                         path.join(dirName, '../basic-components'),
+                        path.join(dirName, '../css-components'),
+                        path.join(dirName, '../form'),
+                        path.join(dirName, '../handlebars-components'),
                         path.join(dirName, '../layout'),
                         path.join(dirName, '../layout-editor'),
+                        path.join(dirName, '../layout-relations'),
+                        path.join(dirName, '../material-components'),
                         path.join(dirName, '../relations'),
                         path.join(dirName, '../relations-editor'),
+                        path.join(dirName, '../src'),
+                        path.join(dirName, '../tinymce-components'),
                     ]
                 },
                 {
@@ -291,12 +297,18 @@ export default [function(options, args)
                     [
                         path.join(dirName, 'app'),
                         path.join(dirName, 'packages'),
-                        path.join(dirName, '../src'),
                         path.join(dirName, '../basic-components'),
+                        path.join(dirName, '../css-components'),
+                        path.join(dirName, '../form'),
+                        path.join(dirName, '../handlebars-components'),
                         path.join(dirName, '../layout'),
                         path.join(dirName, '../layout-editor'),
+                        path.join(dirName, '../layout-relations'),
+                        path.join(dirName, '../material-components'),
                         path.join(dirName, '../relations'),
                         path.join(dirName, '../relations-editor'),
+                        path.join(dirName, '../src'),
+                        path.join(dirName, '../tinymce-components'),
                     ]
                 },
                 {

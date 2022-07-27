@@ -90,7 +90,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
         this._getDesignerDropLists();
 
         //TODO make it dynamic
-        for (const packageName of ['basic-components', 'material-components', 'css-components'])
+        for (const packageName of ['basic-components', 'material-components', 'css-components', 'tinymce-components'])
         {
             const types = (await this._moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
 

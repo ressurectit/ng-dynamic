@@ -8,6 +8,11 @@ import {RichTextBlockComponentOptions} from '../richTextBlock.options';
 export class RichTextBlockModel implements RichTextBlockComponentOptions
 {
     //######################### public properties #########################
+
+    /**
+     * @inheritdoc
+     */
+    public content: string|undefined|null = '';
     
     //######################### constructor #########################
     constructor(value: RichTextBlockComponentOptions|undefined|null)

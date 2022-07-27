@@ -1,8 +1,11 @@
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {codePropertiesControlFor} from '@anglr/dynamic/layout-editor';
+import {CssLanguageModel} from '@anglr/dynamic';
 import {Action, Func} from '@jscrpt/common';
 
 import {StyleBlockComponentOptions} from '../styleBlock.options';
+import {StyleBlockModel} from './styleBlock.model';
 
 /**
  * Style block layout metadata
@@ -21,7 +24,16 @@ export class StyleBlockLayoutEditorMetadata implements LayoutEditorMetadataDescr
         group: 'Layout',
         optionsMetadata:
         {
-            propertiesMetadata: []
+            propertiesMetadata: 
+            [
+                {
+                    modelType: StyleBlockModel,
+                    propertiesControls: 
+                    [
+                        codePropertiesControlFor<StyleBlockModel>('style', CssLanguageModel),
+                    ],
+                },
+            ]
         },
     };
 

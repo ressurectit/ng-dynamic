@@ -5,6 +5,8 @@ import {LayoutEditorMetadataManager} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {MetadataStorage} from '@anglr/dynamic';
 import {BindThis, generateId} from '@jscrpt/common';
+import prefixer  from 'postcss-prefix-selector';
+import postcss, {Root} from 'postcss';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
@@ -54,6 +56,28 @@ export class EditorComponent
     constructor(private _manager: LayoutEditorMetadataManager,
                 protected store: StoreDataService,)
     {
+        const out = postcss().use((root: Root) =>
+        {
+            const prefixedFn = prefixer(
+            {
+                prefix: '.some-selector',
+            });
+
+            prefixedFn(root);
+        }).process(`
+        body {
+            background: red;
+          }
+          
+          .a, .b {
+            color: aqua;
+          }
+          
+          .c {
+            color: coral;
+          }`).css;
+
+        console.log(out);
     }
 
     //######################### protected methods - template bindings #########################

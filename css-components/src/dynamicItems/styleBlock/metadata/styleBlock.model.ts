@@ -13,7 +13,12 @@ export class StyleBlockModel implements StyleBlockComponentOptions
     /**
      * @inheritdoc
      */
-    content: LayoutComponentMetadata|undefined|null;
+    public content: LayoutComponentMetadata|undefined|null;
+
+    /**
+     * @inheritdoc
+     */
+    public style: string|undefined|null = '';
     
     //######################### constructor #########################
     constructor(value: StyleBlockComponentOptions|undefined|null)

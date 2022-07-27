@@ -2,3 +2,4 @@ export * from './componentStylingPropertiesControl/componentStylingPropertiesCon
 export * from './genericPropertiesControl/genericPropertiesControl.component';
 export * from './marginControl/marginControl.component';
 export * from './paddingControl/paddingControl.component';
+export * from './propertiesControlBase';

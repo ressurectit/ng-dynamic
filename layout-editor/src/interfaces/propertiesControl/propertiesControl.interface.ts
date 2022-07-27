@@ -6,6 +6,8 @@ import {Dictionary, PromiseOr} from '@jscrpt/common';
 import {LayoutEditorPropertyMetadata} from '../../misc/types';
 import {LayoutPropertyTypeData} from '../../decorators';
 
+//TODO: also rework for ngOnInit
+
 /**
  * Defines control that will handle displaying of properties/options of component
  */

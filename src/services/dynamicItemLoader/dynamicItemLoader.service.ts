@@ -17,29 +17,29 @@ export class DynamicItemLoader<TDynamicItemDef = any>
     /**
      * Cached dynamic items definition
      */
-    protected _cachedDynamicItems: Dictionary<TDynamicItemDef|null> = {};
+    protected cachedDynamicItems: Dictionary<TDynamicItemDef|null> = {};
 
     //######################### constructors #########################
-    constructor(protected _providers: DynamicModuleProvider[],
-                protected _extractors: DynamicModuleDataExtractor<TDynamicItemDef>[],
-                protected _validatorFn: DynamicItemLoaderValidatorFn<TDynamicItemDef>,
-                protected _logger?: Logger,
-                protected _noCache?: boolean,)
+    constructor(protected providers: DynamicModuleProvider[],
+                protected extractors: DynamicModuleDataExtractor<TDynamicItemDef>[],
+                protected validatorFn: DynamicItemLoaderValidatorFn<TDynamicItemDef>,
+                protected logger?: Logger,
+                protected noCache?: boolean,)
     {
         //providers is not an array
-        if(!Array.isArray(this._providers))
+        if(!Array.isArray(this.providers))
         {
-            this._logger?.error('DynamicItemLoader: missing providers!');
+            this.logger?.error('DynamicItemLoader: missing providers!');
 
-            this._providers = [];
+            this.providers = [];
         }
 
         //extractors is not an array
-        if(!Array.isArray(this._extractors))
+        if(!Array.isArray(this.extractors))
         {
-            this._logger?.error('DynamicItemLoader: missing extractors!');
+            this.logger?.error('DynamicItemLoader: missing extractors!');
 
-            this._extractors = [];
+            this.extractors = [];
         }
     }
 
@@ -55,15 +55,15 @@ export class DynamicItemLoader<TDynamicItemDef = any>
         const cacheId = `${source.package}-${source.name}`;
 
         //try to get from cache
-        if(cacheId in this._cachedDynamicItems && !this._noCache)
+        if(cacheId in this.cachedDynamicItems && !this.noCache)
         {
-            this._logger?.verbose('DynamicItemLoader: Loading from cache {@source}', {name: source.name, package: source.package});
+            this.logger?.verbose('DynamicItemLoader: Loading from cache {@source}', {name: source.name, package: source.package});
 
-            return this._cachedDynamicItems[cacheId];
+            return this.cachedDynamicItems[cacheId];
         }
 
         //loops all providers, return result from first that returns non null value
-        for(const provider of this._providers)
+        for(const provider of this.providers)
         {
             const asyncDynamicModule = provider.tryToGet(source);
 
@@ -85,33 +85,33 @@ export class DynamicItemLoader<TDynamicItemDef = any>
         //no module found
         if(!dynamicModule)
         {
-            this._logger?.debug('DynamicItemLoader: Failed to get dynamic module {@source}', {name: source.name, package: source.package});
+            this.logger?.debug('DynamicItemLoader: Failed to get dynamic module {@source}', {name: source.name, package: source.package});
 
             return null;
         }
 
         //loops all extractors, return result from first that returns non null value
-        for(const extractor of this._extractors)
+        for(const extractor of this.extractors)
         {
             const dynamicItem = await extractor.tryToExtract(dynamicModule);
 
             if(dynamicItem)
             {
-                this._cachedDynamicItems[cacheId] = this._validatorFn(dynamicItem) ? dynamicItem : null; 
+                this.cachedDynamicItems[cacheId] = this.validatorFn(dynamicItem) ? dynamicItem : null; 
 
-                if(!this._cachedDynamicItems[cacheId])
+                if(!this.cachedDynamicItems[cacheId])
                 {
-                    this._logger?.warn('DynamicItemLoader: Found dynamic item {@source} is not of requested type', {name: source.name, package: source.package});        
+                    this.logger?.warn('DynamicItemLoader: Found dynamic item {@source} is not of requested type', {name: source.name, package: source.package});        
                 }
 
-                return this._cachedDynamicItems[cacheId];
+                return this.cachedDynamicItems[cacheId];
 
             }
         }
 
-        this._logger?.debug('DynamicItemLoader: Failed to extract dynamic item {@source}', {name: source.name, package: source.package});
+        this.logger?.debug('DynamicItemLoader: Failed to extract dynamic item {@source}', {name: source.name, package: source.package});
 
-        this._cachedDynamicItems[cacheId] = null;
+        this.cachedDynamicItems[cacheId] = null;
 
         return null;
     }

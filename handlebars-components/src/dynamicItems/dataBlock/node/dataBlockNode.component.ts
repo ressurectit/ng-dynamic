@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for data block
@@ -8,7 +8,7 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
 {
     selector: 'data-block-node',
     templateUrl: 'dataBlockNode.component.html',
-    styleUrls: ['dataBlockNode.component.css'],
+    // styleUrls: ['dataBlockNode.component.css'],
     standalone: true,
     imports:
     [

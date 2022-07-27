@@ -44,7 +44,6 @@ export function genericPropertiesControlFor<TModel>(properties: (Extract<keyof T
             TooltipModule,
             PropertyTypeControlsModule,
             FormPipesModule,
-            
         ],
         changeDetection: ChangeDetectionStrategy.OnPush
     })

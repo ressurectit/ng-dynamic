@@ -12,7 +12,7 @@ import {RichTextBlockLayoutMetadataLoader} from './richTextBlock.metadata';
 @Component(
 {
     selector: 'rich-text-block',
-    templateUrl: 'richTextBlock.component.html',
+    template: '',
     styles: [HostDisplayBlockStyle],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

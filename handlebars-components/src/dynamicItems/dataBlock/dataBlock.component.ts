@@ -32,8 +32,6 @@ export class DataBlockSAComponent extends LayoutComponentBase<DataBlockComponent
      */
     protected compiledTemplate: HandlebarsTemplateDelegate|undefined|null;
 
-    //######################### protected properties - template bindings #########################
-
     //######################### public properties - implementation of RelationsComponent #########################
 
     /**

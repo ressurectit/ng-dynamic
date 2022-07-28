@@ -8,7 +8,7 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent} from '@a
 {
     selector: 'data-block-node',
     templateUrl: 'dataBlockNode.component.html',
-    // styleUrls: ['dataBlockNode.component.css'],
+    styleUrls: ['dataBlockNode.component.css'],
     standalone: true,
     imports:
     [

@@ -60,9 +60,9 @@ export class RelationsProcessor implements OnDestroy
                 @Inject(RELATIONS_COMPONENTS_LOADER) protected _loader: DynamicItemLoader<RelationsComponentDef>,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
-        this._initSubscriptions.add(this._relationsManager.relationsChange.subscribe(() => this._initializeRelations()));
+        this._initSubscriptions.add(this._relationsManager.relationsChange.subscribe(() => this.initializeRelations()));
 
-        this._initializeRelations();
+        this.initializeRelations();
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -74,7 +74,7 @@ export class RelationsProcessor implements OnDestroy
     {
         this._initSubscriptions.unsubscribe();
 
-        this._destroyRelations();
+        this.destroyRelations();
     }
     
     //######################### public methods #########################
@@ -106,7 +106,7 @@ export class RelationsProcessor implements OnDestroy
         {
             backwardRelations.forEach(inputOutput =>
             {
-                this._initBackwardRelation(inputOutput);
+                this.initBackwardRelation(inputOutput);
             });
         }
 
@@ -163,7 +163,7 @@ export class RelationsProcessor implements OnDestroy
 
                         for(const input of inputs)
                         {
-                            this._transferData(outputComponent, inputOutput.outputName, input, inputOutput.inputName, false);
+                            this.transferData(outputComponent, inputOutput.outputName, input, inputOutput.inputName, false);
                         }
                     }));
 
@@ -179,7 +179,7 @@ export class RelationsProcessor implements OnDestroy
                         //initialize default value from this to its connections
                         if(!inputOutput.initialized)
                         {
-                            inputOutput.initialized = this._transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
+                            inputOutput.initialized = this.transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
                         }
                     }
                 }
@@ -249,10 +249,10 @@ export class RelationsProcessor implements OnDestroy
     /**
      * Initialize relations from metadata
      */
-    protected async _initializeRelations(): Promise<void>
+    protected async initializeRelations(): Promise<void>
     {
-        await this._destroyRelations();
-        this._setInitializePromise();
+        await this.destroyRelations();
+        this.setInitializePromise();
 
         this._logger?.debug('RelationsProcessor: initializing relations');
 
@@ -305,7 +305,7 @@ export class RelationsProcessor implements OnDestroy
             }
 
             //sets options for relations component
-            await this._initComponent(meta, outputs);
+            await this.initComponent(meta, outputs);
         }
 
         this._resolveInitialized();
@@ -315,7 +315,7 @@ export class RelationsProcessor implements OnDestroy
      * Initialize backward relations
      * @param inputOutput - Data for input and output
      */
-    protected _initBackwardRelation(inputOutput: RelationsProcessorInputOutputData): void
+    protected initBackwardRelation(inputOutput: RelationsProcessorInputOutputData): void
     {
         let outputComponents = this._componentManager.get(inputOutput.outputComponentId);
         let inputComponents = this._componentManager.get(inputOutput.inputComponentId);
@@ -344,7 +344,7 @@ export class RelationsProcessor implements OnDestroy
             {
                 if(!inputOutput.initialized)
                 {
-                    inputOutput.initialized = this._transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
+                    inputOutput.initialized = this.transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
                 }
             }
         }
@@ -358,7 +358,7 @@ export class RelationsProcessor implements OnDestroy
      * @param targetProperty Name of target property which will be filled with data
      * @param initial Indication whether is transfer of data initial, or on event
      */
-    protected _transferData(source: RelationsComponent, sourceProperty: string, target: RelationsComponent, targetProperty: string, initial: boolean): boolean
+    protected transferData(source: RelationsComponent, sourceProperty: string, target: RelationsComponent, targetProperty: string, initial: boolean): boolean
     {
         if(!source || !target)
         {
@@ -389,13 +389,13 @@ export class RelationsProcessor implements OnDestroy
      * @param meta - Metadata for relations component
      * @param outputs - Array of outputs data for relations component
      */
-    protected async _initComponent(meta: RelationsComponentMetadata, outputs: RelationsProcessorInputOutputData[]): Promise<void>
+    protected async initComponent(meta: RelationsComponentMetadata, outputs: RelationsProcessorInputOutputData[]): Promise<void>
     {
         const component = this._componentManager.get(meta.id);
 
         if(component)
         {
-            this._initRelation(false, meta, outputs);
+            this.initRelation(false, meta, outputs);
             this.updateRelations(meta.id);
 
             return;
@@ -405,7 +405,7 @@ export class RelationsProcessor implements OnDestroy
 
         if(!componentMeta)
         {
-            this._initRelation(false, meta, outputs);
+            this.initRelation(false, meta, outputs);
 
             this._logger?.warn('RelationsProcessor: Unable to load relations component! {@meta}', {package: meta.package, name: meta.name});
 
@@ -415,7 +415,7 @@ export class RelationsProcessor implements OnDestroy
         const instance = new componentMeta.data();
         this._componentManager.registerComponent(meta.id, instance);
 
-        this._initRelation(true, meta, outputs);
+        this.initRelation(true, meta, outputs);
         this.updateRelations(meta.id);
     }
 
@@ -425,7 +425,7 @@ export class RelationsProcessor implements OnDestroy
      * @param meta - Metadata for relations component
      * @param outputs - Array of outputs data for relations
      */
-    protected _initRelation(autoCreated: boolean, meta: RelationsComponentMetadata, outputs: RelationsProcessorInputOutputData[]): void
+    protected initRelation(autoCreated: boolean, meta: RelationsComponentMetadata, outputs: RelationsProcessorInputOutputData[]): void
     {
         this._relations[meta.id] =
         {
@@ -467,7 +467,7 @@ export class RelationsProcessor implements OnDestroy
     /**
      * Sets initialized promise
      */
-    protected _setInitializePromise(): void
+    protected setInitializePromise(): void
     {
         this._initialized = new Promise(resolve => this._resolveInitialized = resolve);
     }
@@ -475,7 +475,7 @@ export class RelationsProcessor implements OnDestroy
     /**
      * Destroys initialized relations
      */
-    protected async _destroyRelations(): Promise<void>
+    protected async destroyRelations(): Promise<void>
     {
         await this._initialized;
 

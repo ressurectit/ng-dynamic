@@ -1,8 +1,8 @@
 const relations = 
 [
+    'negation',
     'sampleChange',
     'sampleSource',
-    'negation',
 ];
 
 export default relations;

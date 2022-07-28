@@ -1,13 +1,13 @@
 const components = 
 [
-    'textField',
+    'checkbox',
+    'datepicker',
     'numberField',
+    'period',
+    'radio',
     'select',
     'textarea',
-    'datepicker',
-    'period',
-    'checkbox',
-    'radio',
+    'textField',
 ];
 
 export default components;

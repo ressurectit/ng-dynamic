@@ -30,7 +30,7 @@ export class DefaultDynamicModuleItemsProvider implements DynamicModuleProvider
                 {
                     this._logger?.debug('DefaultDynamicModuleItemsProvider: trying to get item {@item}', {name: source.name, package: source.package});
 
-                    const dynamicItemModule = await import(`@anglr/dynamic/basic-components/${source.name}/type`);
+                    const dynamicItemModule = await import(`@anglr/dynamic/basic-components/dynamicItems/${source.name}/type`);
 
                     return dynamicItemModule;
                 }
@@ -47,7 +47,7 @@ export class DefaultDynamicModuleItemsProvider implements DynamicModuleProvider
                 {
                     this._logger?.debug('DefaultDynamicModuleItemsProvider: trying to get item {@item}', {name: source.name, package: source.package});
         
-                    const dynamicItemModule = await import(`@anglr/dynamic/material-components/${source.name}/type`);
+                    const dynamicItemModule = await import(`@anglr/dynamic/material-components/dynamicItems/${source.name}/type`);
         
                     return dynamicItemModule;
                 }

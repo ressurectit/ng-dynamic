@@ -1,12 +1,12 @@
 const components = 
 [
     'button',
-    'toggleButton',
     'gridPanel',
-    'stackPanel',
-    'ifBlock',
-    'textBlock',
     'htmlBlock',
+    'ifBlock',
+    'stackPanel',
+    'textBlock',
+    'toggleButton',
 ];
 
 export default components;

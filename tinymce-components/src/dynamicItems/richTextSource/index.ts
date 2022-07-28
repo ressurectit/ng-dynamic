@@ -1,1 +1,1 @@
-export * from './richTextSource.relations';
+export * from './richTextSource.options';

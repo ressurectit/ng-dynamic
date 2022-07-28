@@ -1,8 +1,10 @@
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {genericPropertiesControlFor} from '@anglr/dynamic/layout-editor';
 import {Action, Func} from '@jscrpt/common';
 
 import {IfBlockComponentOptions} from '../ifBlock.options';
+import {IfBlockModel} from './ifBlock.model';
 
 /**
  * If block layout metadata
@@ -21,8 +23,21 @@ export class IfBlockLayoutEditorMetadata implements LayoutEditorMetadataDescript
         group: 'Layout',
         optionsMetadata:
         {
-            propertiesMetadata: []
+            propertiesMetadata:
+            [
+                {
+                    modelType: IfBlockModel,
+                    propertiesControls: 
+                    [
+                        genericPropertiesControlFor<IfBlockModel>(['condition']),
+                    ],
+                },
+            ]
         },
+        defaultOptions:
+        {
+            condition: true,
+        }
     };
 
     /**

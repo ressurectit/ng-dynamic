@@ -1,17 +1,13 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {IfBlockComponentOptions} from './ifBlock.options';
-import {IfBlockLayoutMetadataLoader, IfBlockRelationsMetadataLoader} from './ifBlock.metadata';
-
-//TODO: maybe design time injection token for special displaying
-//TODO: maybe event dual template ???
-//TODO: maybe add support for custom layout designer component
+import {IfBlockLayoutDesignerTypeLoader, IfBlockLayoutMetadataLoader, IfBlockRelationsMetadataLoader} from './ifBlock.metadata';
 
 /**
  * Component used for displaying if block
@@ -29,6 +25,7 @@ import {IfBlockLayoutMetadataLoader, IfBlockRelationsMetadataLoader} from './ifB
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@LayoutEditorDesignerType(IfBlockLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(IfBlockRelationsMetadataLoader)
 @LayoutEditorMetadata(IfBlockLayoutMetadataLoader)
 export class IfBlockSAComponent extends LayoutComponentBase<IfBlockComponentOptions> implements LayoutComponent<IfBlockComponentOptions>, RelationsComponent
@@ -47,4 +44,14 @@ export class IfBlockSAComponent extends LayoutComponentBase<IfBlockComponentOpti
      */
     @Input()
     public condition: boolean = true;
+
+    //######################### protected - overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override _onOptionsSet(): void
+    {
+        this.condition = this.options?.condition ?? false;
+    }
 }

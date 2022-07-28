@@ -1,3 +1,5 @@
+export * from './layoutEditorDesignerType/layoutEditorDesignerType.decorator';
+export * from './layoutEditorDesignerType/layoutEditorDesignerType.interface';
 export * from './layoutEditorMetadata/layoutEditorMetadata.decorator';
 export * from './layoutEditorMetadata/layoutEditorMetadata.interface';
 export * from './layoutPropertyDescription/propertyDescription.decorator';

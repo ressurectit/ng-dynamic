@@ -1,4 +1,5 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {DefaultKnownPropertyTypes, LayoutPropertyDescription, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
 import {mapValuesToThis} from '@jscrpt/common';
 
 import {IfBlockComponentOptions} from '../ifBlock.options';
@@ -13,7 +14,15 @@ export class IfBlockModel implements IfBlockComponentOptions
     /**
      * @inheritdoc
      */
-    content: LayoutComponentMetadata|undefined|null;
+    public content: LayoutComponentMetadata|undefined|null;
+
+    /**
+     * @inheritdoc
+     */
+    @LayoutPropertyName('Condition')
+    @LayoutPropertyDescription('Initial value of condition used for displaying content of if block')
+    @LayoutPropertyType<DefaultKnownPropertyTypes>('inputBoolean')
+    public condition: boolean|undefined|null = true;
     
     //######################### constructor #########################
     constructor(value: IfBlockComponentOptions|undefined|null)

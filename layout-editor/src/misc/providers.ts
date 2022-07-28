@@ -1,6 +1,6 @@
 import {ClassProvider, FactoryProvider, inject, Optional, ValueProvider} from '@angular/core';
 import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_HISTORY_MANAGER_GET_STATE} from '@anglr/dynamic';
-import {LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
+import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
 import {LOGGER, Logger} from '@anglr/common';
 
 import {DefaultDynamicModuleTypesProvider, LayoutDesignerDynamicModuleItemsProvider, LayoutEditorMetadataManager} from '../services';
@@ -8,6 +8,24 @@ import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_HISTORY_MANAGER, LAYO
 import {layoutDesignerComponentTransform} from './transforms/layoutDesignerComponentTransform';
 import {LayoutPropertyMetadata} from './types';
 import {isLayoutModuleTypes} from './utils';
+import {layoutDesignerTypeExtractor} from './extractors';
+
+/**
+ * Provider for designer layout components extractor
+ */
+export const DESIGNER_LAYOUT_COMPONENTS_EXTRACTOR: FactoryProvider =
+{
+    provide: LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS,
+    useFactory: (logger?: Logger) =>
+    {
+        return new DynamicModuleDataExtractor([
+                                                  layoutDesignerTypeExtractor,
+                                              ],
+                                              logger);
+    },
+    deps: [[new Optional(), LOGGER]],
+    multi: true
+};
 
 /**
  * Provider for layout designer components providers

@@ -2,6 +2,8 @@ import {DynamicMetadataLoader} from './dynamicMetadata.interface';
 
 declare let ngDesignerMetadata: boolean;
 
+//TODO: rework also with symbol
+
 /**
  * Sets dynamic metadata to class on which is this decorator applied
  * @param metadataLoader - Metadata loader function used for obtaining metadata

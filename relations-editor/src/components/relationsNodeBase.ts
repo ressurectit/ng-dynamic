@@ -1,10 +1,11 @@
-import {HostListener, ViewChildren, QueryList, ChangeDetectorRef, ElementRef, SimpleChanges, Directive} from '@angular/core';
+import {HostListener, ViewChildren, QueryList, ChangeDetectorRef, ElementRef, SimpleChanges, Directive, Inject, Optional} from '@angular/core';
 import {Dictionary, nameof} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
-import {Coordinates, RelationsInput, RelationsNode, RelationsNodeMetadata, RelationsOutput} from '../interfaces';
+import {Coordinates, RelationsInput, RelationsNode, RelationsNodeDestroySubject, RelationsNodeMetadata, RelationsOutput} from '../interfaces';
 import {RelationNodeOutputSAComponent} from './relationsNodeOutput/relationsNodeOutput.component';
 import {RelationNodeInputSAComponent} from './relationsNodeInput/relationsNodeInput.component';
+import {RELATIONS_NODE_DESTROY_SUBJECT} from '../misc/tokens';
 
 /**
  * Base class for relations node components
@@ -139,8 +140,14 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
 
     //######################### constructor #########################
     constructor(protected changeDetector: ChangeDetectorRef,
-                protected element: ElementRef<HTMLElement>,)
+                protected element: ElementRef<HTMLElement>,
+                @Inject(RELATIONS_NODE_DESTROY_SUBJECT) @Optional() destroySubject?: RelationsNodeDestroySubject,)
     {
+        if(destroySubject)
+        {
+            destroySubject.destroy = this.destroySubject;
+        }
+
         this.updatePosition();
     }
 

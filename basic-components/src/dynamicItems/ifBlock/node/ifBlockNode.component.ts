@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for if block
@@ -12,7 +12,12 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent} from '@a
     standalone: true,
     imports:
     [
+        RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
+    ],
+    providers:
+    [
+        RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

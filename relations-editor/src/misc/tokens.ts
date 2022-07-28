@@ -3,6 +3,7 @@ import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} fr
 import {Observable} from 'rxjs';
 
 import {RelationsModuleTypes, RelationsNodeDef} from './types';
+import {RelationsNodeDestroySubject} from '../interfaces';
 
 /**
  * Injection token for relations module types data extractors
@@ -38,3 +39,8 @@ export const RELATIONS_NODES_LOADER: InjectionToken<DynamicItemLoader<RelationsN
  * Injection token for observables that allows refreshing of nodes palatte items
  */
 export const REFRESH_PALETTE_OBSERVABLES: InjectionToken<Observable<void>[]> = new InjectionToken<Observable<void>[]>('REFRESH_PALETTE_OBSERVABLES');
+
+/**
+ * Injection token allowing obtaining of relations node destroy subject
+ */
+export const RELATIONS_NODE_DESTROY_SUBJECT: InjectionToken<RelationsNodeDestroySubject> = new InjectionToken<RelationsNodeDestroySubject>('RELATIONS_NODE_DESTROY_SUBJECT');

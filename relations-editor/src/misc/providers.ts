@@ -2,7 +2,7 @@ import {ClassProvider, FactoryProvider, inject, Optional} from '@angular/core';
 import {DefaultDynamicModuleItemsProvider, defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor} from '@anglr/dynamic';
 import {LOGGER, Logger} from '@anglr/common';
 
-import {RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
+import {RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS, RELATIONS_NODE_DESTROY_SUBJECT} from './tokens';
 import {componentRelationsNodeExtractor, relationsNodeExtractor} from './extractors';
 import {StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider, DefaultDynamicModuleRelationsProvider} from '../services';
 import {isRelationsModuleTypes, isRelationsNodeDef} from './utils';
@@ -121,4 +121,13 @@ export const RELATIONS_NODES_LOADER_PROVIDER: FactoryProvider =
                                             inject(RELATIONS_NODES_DATA_EXTRACTORS),
                                             isRelationsNodeDef,
                                             inject(LOGGER, {optional: true}) ?? undefined)
+};
+
+/**
+ * Provider for relations node destory subject
+ */
+export const RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER: FactoryProvider =
+{
+    provide: RELATIONS_NODE_DESTROY_SUBJECT,
+    useFactory: () => ({})
 };

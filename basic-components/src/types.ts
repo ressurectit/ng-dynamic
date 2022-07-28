@@ -6,6 +6,7 @@ const components =
     'stackPanel',
     'ifBlock',
     'textBlock',
+    'htmlBlock',
 ];
 
 export default components;

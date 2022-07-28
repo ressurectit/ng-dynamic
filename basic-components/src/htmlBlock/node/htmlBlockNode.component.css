@@ -28,12 +28,5 @@
     background-color: white;
     border-radius: 0 0 1rem 1rem;
     display: flex;
-    flex-direction: column;
-}
-
-.inputs-outputs
-{
-    display: flex;
-    flex-direction: row;
     justify-content: space-between;
 }

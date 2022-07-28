@@ -5,6 +5,8 @@ import {TITLED_DIALOG_DATA} from '@anglr/common/material';
 
 import {CodeEditorDialogData} from './codeEditorDialog.interface';
 
+//TODO: maybe move into core
+
 /**
  * Component used as dialog displaying code editor
  */

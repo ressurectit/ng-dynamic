@@ -25,14 +25,15 @@ export class DynamicLayoutEditorModule
 
     /**
      * Creates DynamicLayoutEditorModule extended with providers
+     * @param designerLayout - Indication whether provide extractor for layout designer types
      */
-    public static withProviders(): ModuleWithProviders<DynamicLayoutEditorModule>
+    public static withProviders(designerLayout: boolean = true): ModuleWithProviders<DynamicLayoutEditorModule>
     {
         return {
             ngModule: DynamicLayoutEditorModule,
             providers:
             [
-                provideLayoutEditor(),
+                provideLayoutEditor(designerLayout),
             ]
         };
     }

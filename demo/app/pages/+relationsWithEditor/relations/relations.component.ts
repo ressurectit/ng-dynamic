@@ -1,8 +1,12 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsManager} from '@anglr/dynamic/relations';
+import {provideRelations, RelationsManager} from '@anglr/dynamic/relations';
+import {provideTinyMceRelations} from '@anglr/dynamic/tinymce-components';
+import {provideHandlebarsRelations} from '@anglr/dynamic/handlebars-components';
 
 import {DemoData} from '../../../services/demoData';
+
+//TODO: check why relations does not work after returning from editor
 
 /**
  * Page for displaying relations
@@ -12,6 +16,14 @@ import {DemoData} from '../../../services/demoData';
     selector: 'relations-view',
     templateUrl: 'relations.component.html',
     // styleUrls: ['relations.component.scss'],
+    providers:
+    [
+        provideRelations(),
+        provideTinyMceRelations(),
+        // provideTinyMceRelationsEditor(),
+        provideHandlebarsRelations(),
+        // provideHandlebarsRelationsEditor(),
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: ''})

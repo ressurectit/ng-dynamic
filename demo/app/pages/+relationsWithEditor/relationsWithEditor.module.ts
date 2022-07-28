@@ -7,7 +7,6 @@ import {DynamicRelationsEditorModule} from '@anglr/dynamic/relations-editor';
 
 import {components} from './relationsWithEditor.routes';
 import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../../components';
-import {StaticComponentsRegister} from '../../services/staticComponentsRegister';
 
 /**
  * Module for relations with editor samples
@@ -18,8 +17,8 @@ import {StaticComponentsRegister} from '../../services/staticComponentsRegister'
     [
         RouterModule,
         GoBackModule,
-        DynamicRelationsModule.withProviders(),
-        DynamicRelationsEditorModule.withStaticComponents(StaticComponentsRegister),
+        DynamicRelationsModule,
+        DynamicRelationsEditorModule,
         RelationsSampleClickSAComponent,
         RelationsResultSAComponent,
     ],

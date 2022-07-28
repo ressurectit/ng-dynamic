@@ -1,8 +1,11 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
+import {provideRelationsEditorWithStatic, RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
+import {provideTinyMceRelationsEditor} from '@anglr/dynamic/tinymce-components';
+import {provideHandlebarsRelationsEditor} from '@anglr/dynamic/handlebars-components';
 
 import {DemoData} from '../../../services/demoData';
+import {StaticComponentsRegister} from '../../../services/staticComponentsRegister/staticComponentsRegister.service';
 
 /**
  * Layout editor component
@@ -11,6 +14,14 @@ import {DemoData} from '../../../services/demoData';
 {
     selector: 'editor-view',
     templateUrl: 'editor.component.html',
+    providers:
+    [
+        provideRelationsEditorWithStatic(StaticComponentsRegister),
+        // provideTinyMceRelations(),
+        provideTinyMceRelationsEditor(),
+        // provideHandlebarsRelations(),
+        provideHandlebarsRelationsEditor(),
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'editor'})

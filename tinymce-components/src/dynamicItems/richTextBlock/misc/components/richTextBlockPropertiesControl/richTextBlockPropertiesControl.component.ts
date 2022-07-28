@@ -47,8 +47,6 @@ export class RichTextBlockPropertiesControlSAComponent extends PropertiesControl
         }).afterClosed()
             .toPromise();
 
-        console.log(result);
-
         if(isPresent(result))
         {
             const control = this.form?.controls.content;

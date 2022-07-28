@@ -117,7 +117,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         this._groupedItems = {};
 
         //TODO make it dynamic
-        for (const packageName of ['basic-components', 'material-components', 'static-components', 'layout-components', 'handlebars-components'])
+        for (const packageName of ['basic-components', 'material-components', 'static-components', 'layout-components', 'handlebars-components', 'tinymce-components'])
         {
             const types = (await this._moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
 

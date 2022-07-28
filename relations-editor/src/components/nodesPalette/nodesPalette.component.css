@@ -1,3 +1,8 @@
+:host
+{
+    display: flex;
+}
+
 .editor-component
 {
     margin: 2px 10px;

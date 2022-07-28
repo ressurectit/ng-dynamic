@@ -1,3 +1,6 @@
-const relations: string[] = [];
+const relations =
+[
+    'richTextSource',
+];
 
 export default relations;

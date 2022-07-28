@@ -3,7 +3,7 @@ import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, provideLayoutRelationsEditorWithStatic} from '@anglr/dynamic/layout-relations';
 import {CSS_LAYOUT_COMPONENTS_PROVIDER, CSS_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/css-components';
-import {TINY_MCE_LAYOUT_COMPONENTS_PROVIDER, TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/tinymce-components';
+import {TINY_MCE_LAYOUT_COMPONENTS_PROVIDER, TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER, TINY_MCE_RELATIONS_MODULE_TYPES_PROVIDER, TINY_MCE_RELATIONS_NODES_PROVIDER} from '@anglr/dynamic/tinymce-components';
 import {HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER, HANDLEBARS_LAYOUT_MODULE_TYPES_PROVIDER, HANDLEBARS_RELATIONS_MODULE_TYPES_PROVIDER, HANDLEBARS_RELATIONS_NODES_PROVIDER} from '@anglr/dynamic/handlebars-components';
 import {BindThis} from '@jscrpt/common';
 
@@ -32,6 +32,8 @@ import {ComplexStaticRegister} from '../misc';
         CSS_LAYOUT_MODULE_TYPES_PROVIDER,
         TINY_MCE_LAYOUT_COMPONENTS_PROVIDER,
         TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER,
+        TINY_MCE_RELATIONS_MODULE_TYPES_PROVIDER,
+        TINY_MCE_RELATIONS_NODES_PROVIDER,
         HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER,
         HANDLEBARS_LAYOUT_MODULE_TYPES_PROVIDER,
         HANDLEBARS_RELATIONS_MODULE_TYPES_PROVIDER,

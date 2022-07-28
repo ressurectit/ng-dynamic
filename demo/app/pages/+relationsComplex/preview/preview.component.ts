@@ -5,7 +5,7 @@ import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata, provideLayout} from '@anglr/dynamic/layout';
 import {provideRelations, RelationsManager} from '@anglr/dynamic/relations';
 import {CSS_LAYOUT_COMPONENTS_PROVIDER} from '@anglr/dynamic/css-components';
-import {TINY_MCE_LAYOUT_COMPONENTS_PROVIDER} from '@anglr/dynamic/tinymce-components';
+import {TINY_MCE_LAYOUT_COMPONENTS_PROVIDER, TINY_MCE_RELATIONS_COMPONENTS_PROVIDER} from '@anglr/dynamic/tinymce-components';
 import {HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER, HANDLEBARS_RELATIONS_COMPONENTS_PROVIDER} from '@anglr/dynamic/handlebars-components';
 
 import {StoreDataService} from '../../../services/storeData';
@@ -24,6 +24,7 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
         provideRelations(),
         CSS_LAYOUT_COMPONENTS_PROVIDER,
         TINY_MCE_LAYOUT_COMPONENTS_PROVIDER,
+        TINY_MCE_RELATIONS_COMPONENTS_PROVIDER,
         HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER,
         HANDLEBARS_RELATIONS_COMPONENTS_PROVIDER,
     ],

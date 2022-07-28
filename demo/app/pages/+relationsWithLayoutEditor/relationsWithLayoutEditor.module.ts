@@ -23,7 +23,7 @@ import {createStoreDataServiceFactory} from '../../misc/factories';
         RouterModule,
         NgSelectModule,
         GoBackModule,
-        DynamicLayoutRelationsEditorModule.withProviders(),
+        DynamicLayoutRelationsEditorModule,
         LoadSaveNewSAComponent,
     ],
     declarations:

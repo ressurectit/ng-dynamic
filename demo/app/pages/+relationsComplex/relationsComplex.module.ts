@@ -10,7 +10,7 @@ import {DynamicLayoutRelationsEditorModule} from '@anglr/dynamic/layout-relation
 import {components} from './relationsComplex.routes';
 import {LoadSaveNewSAComponent} from '../../components';
 import {createStoreDataServiceFactory} from '../../misc/factories';
-import {ComplexStaticRegister, StaticInputSAComponent, StaticOutputSAComponent} from './misc';
+import {StaticInputSAComponent, StaticOutputSAComponent} from './misc';
 
 /**
  * Module for relations complex sample with editor, static components and layout components samples
@@ -24,7 +24,7 @@ import {ComplexStaticRegister, StaticInputSAComponent, StaticOutputSAComponent} 
         RouterModule,
         NgSelectModule,
         GoBackModule,
-        DynamicLayoutRelationsEditorModule.withStaticComponents(ComplexStaticRegister),
+        DynamicLayoutRelationsEditorModule,
         LoadSaveNewSAComponent,
         StaticInputSAComponent,
         StaticOutputSAComponent,

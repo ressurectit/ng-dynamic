@@ -1,14 +1,15 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
-import {LayoutManager} from '@anglr/dynamic/layout-relations';
-import {MetadataStorage} from '@anglr/dynamic';
+import {LayoutManager, provideLayoutRelationsEditor} from '@anglr/dynamic/layout-relations';
+import {CSS_LAYOUT_COMPONENTS_PROVIDER, CSS_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/css-components';
+import {TINY_MCE_LAYOUT_COMPONENTS_PROVIDER, TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/tinymce-components';
+import {HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER, HANDLEBARS_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/handlebars-components';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
-import {DemoStorage} from '../../../services/metadataStorage';
 
 /**
  * Layout editor component
@@ -19,12 +20,19 @@ import {DemoStorage} from '../../../services/metadataStorage';
     templateUrl: 'relations.component.html',
     providers:
     [
-        DemoStorage,
-        <ExistingProvider>
-        {
-            provide: MetadataStorage,
-            useExisting: DemoStorage
-        }
+        // DemoStorage,
+        // <ExistingProvider>
+        // {
+        //     provide: MetadataStorage,
+        //     useExisting: DemoStorage
+        // },
+        provideLayoutRelationsEditor(),
+        CSS_LAYOUT_COMPONENTS_PROVIDER,
+        CSS_LAYOUT_MODULE_TYPES_PROVIDER,
+        TINY_MCE_LAYOUT_COMPONENTS_PROVIDER,
+        TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER,
+        HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER,
+        HANDLEBARS_LAYOUT_MODULE_TYPES_PROVIDER,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

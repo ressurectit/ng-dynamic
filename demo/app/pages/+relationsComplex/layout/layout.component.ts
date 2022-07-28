@@ -1,9 +1,12 @@
 import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadataManager} from '@anglr/dynamic/layout-editor';
+import {LayoutEditorMetadataManager, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {MetadataStorage} from '@anglr/dynamic';
+import {CSS_LAYOUT_COMPONENTS_PROVIDER, CSS_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/css-components';
+import {TINY_MCE_LAYOUT_COMPONENTS_PROVIDER, TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/tinymce-components';
+import {HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER, HANDLEBARS_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/handlebars-components';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
@@ -25,7 +28,14 @@ import {DemoStorage} from '../../../services/metadataStorage';
         {
             provide: MetadataStorage,
             useExisting: DemoStorage
-        }
+        },
+        provideLayoutEditor(),
+        CSS_LAYOUT_COMPONENTS_PROVIDER,
+        CSS_LAYOUT_MODULE_TYPES_PROVIDER,
+        TINY_MCE_LAYOUT_COMPONENTS_PROVIDER,
+        TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER,
+        HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER,
+        HANDLEBARS_LAYOUT_MODULE_TYPES_PROVIDER,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

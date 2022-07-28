@@ -1,6 +1,8 @@
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {codePropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {HandlebarsLanguageModel} from '@anglr/dynamic';
 
 import {DataBlockComponentOptions} from '../dataBlock.options';
+import {DataBlockModel} from './dataBlock.model';
 
 /**
  * Data block layout metadata
@@ -19,7 +21,16 @@ export class DataBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
         group: 'Data',
         optionsMetadata:
         {
-            propertiesMetadata: []
+            propertiesMetadata:
+            [
+                {
+                    modelType: DataBlockModel,
+                    propertiesControls:
+                    [
+                        codePropertiesControlFor<DataBlockModel>('template', HandlebarsLanguageModel),
+                    ],
+                },
+            ]
         },
     };
 

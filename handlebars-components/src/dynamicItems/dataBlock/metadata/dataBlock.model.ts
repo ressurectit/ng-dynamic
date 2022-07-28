@@ -8,6 +8,11 @@ import {DataBlockComponentOptions} from '../dataBlock.options';
 export class DataBlockModel implements DataBlockComponentOptions
 {
     //######################### public properties #########################
+
+    /**
+     * @inheritdoc
+     */
+    public template: string|undefined|null = '';
     
     //######################### constructor #########################
     constructor(value: DataBlockComponentOptions|undefined|null)

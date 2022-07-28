@@ -3,6 +3,7 @@ import {ModuleRoutes} from '@anglr/common/router';
 import {DynamicLayoutEditorModule} from '@anglr/dynamic/layout-editor';
 import {CSS_LAYOUT_COMPONENTS_PROVIDER, CSS_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/css-components';
 import {TINY_MCE_LAYOUT_COMPONENTS_PROVIDER, TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/tinymce-components';
+import {HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER, HANDLEBARS_LAYOUT_MODULE_TYPES_PROVIDER} from '@anglr/dynamic/handlebars-components';
 
 import {components} from './layoutEditor.routes';
 import {LoadSaveNewSAComponent} from '../../components';
@@ -29,6 +30,8 @@ import {createStoreDataServiceFactory} from '../../misc/factories';
         CSS_LAYOUT_MODULE_TYPES_PROVIDER,
         TINY_MCE_LAYOUT_COMPONENTS_PROVIDER,
         TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER,
+        HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER,
+        HANDLEBARS_LAYOUT_MODULE_TYPES_PROVIDER,
     ]
 })
 @ModuleRoutes(components)

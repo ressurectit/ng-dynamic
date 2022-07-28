@@ -26,6 +26,21 @@ export class SampleSourceRelations implements RelationsComponent
     @DynamicOutput()
     public vystup: string = 'super hodnota';
 
+    /**
+     * Test output object property
+     */
+    @DynamicOutput()
+    public obj = 
+    {
+        name: 'kukjevov',
+        surname: 'buko',
+        man: true,
+        address:
+        {
+            city: 'hz'
+        }
+    };
+
     //######################### public methods - implementation of RelationsComponent #########################
     
     /**

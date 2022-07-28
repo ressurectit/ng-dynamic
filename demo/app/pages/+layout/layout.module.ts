@@ -6,6 +6,7 @@ import {NgSelectModule} from '@anglr/select';
 import {DynamicLayoutModule, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {CSS_LAYOUT_COMPONENTS_PROVIDER} from '@anglr/dynamic/css-components';
 import {TINY_MCE_LAYOUT_COMPONENTS_PROVIDER} from '@anglr/dynamic/tinymce-components';
+import {HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER} from '@anglr/dynamic/handlebars-components';
 
 import {components} from './layout.routes';
 import {createStoreDataServiceFactory} from '../../misc/factories';
@@ -32,6 +33,7 @@ import {createStoreDataServiceFactory} from '../../misc/factories';
         createStoreDataServiceFactory('LAYOUT_DATA'),
         CSS_LAYOUT_COMPONENTS_PROVIDER,
         TINY_MCE_LAYOUT_COMPONENTS_PROVIDER,
+        HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER,
     ],
 })
 @ModuleRoutes(components)

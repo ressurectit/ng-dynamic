@@ -160,6 +160,7 @@ export default [function(options, args)
             {
                 "modernizr": path.join(dirName, "content/external/scripts/modernizr-custom.js"),
                 "numeral-languages": path.join(dirName, "../node_modules/numeral/locales.js"),
+                "handlebars": path.join(dirName, "../node_modules/handlebars/dist/handlebars.js"),
                 "@anglr/dynamic/layout": path.join(dirName, "../layout/src/index.ts"),
                 "@anglr/dynamic/layout-editor": path.join(dirName, "../layout-editor/src/index.ts"),
                 "@anglr/dynamic/layout-relations": path.join(dirName, "../layout-relations/src/index.ts"),

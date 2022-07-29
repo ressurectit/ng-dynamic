@@ -1,19 +1,17 @@
 <div>Margin</div>
 
-<div class="flex-column">
-    <input-size class="align-self-center" [control]="_margin?.controls?.top | asFormControl"></input-size>
-
-    <div class="flex-row">
-        <div class="flex-1">
-            <input-size [control]="_margin?.controls?.left | asFormControl"></input-size>
-        </div>
-
-        <div style="width: 20px; height: 20px; border: 1px solid #aaa;"></div>
-
-        <div class="flex-1">
-            <input-size [control]="_margin?.controls?.right | asFormControl"></input-size>
-        </div>
+<div>
+    <div class="flex-row align-items-center margin-bottom-extra-small">
+        <span class="fas fa-arrow-left"></span>
+        <input-size [control]="_margin?.controls?.left | asFormControl"></input-size>
+        <span class="fas fa-arrow-right margin-left-big"></span>
+        <input-size [control]="_margin?.controls?.right | asFormControl"></input-size>
     </div>
 
-    <input-size class="align-self-center" [control]="_margin?.controls?.bottom | asFormControl"></input-size>
+    <div class="flex-row align-items-center">
+        <span class="fas fa-arrow-up"></span>
+        <input-size class="align-self-center" [control]="_margin?.controls?.top | asFormControl"></input-size>
+        <span class="fas fa-arrow-down margin-left-big"></span>
+        <input-size class="align-self-center" [control]="_margin?.controls?.bottom | asFormControl"></input-size>
+    </div>
 </div>

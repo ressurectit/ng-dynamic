@@ -54,7 +54,7 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
 
             if(options?.cssClass)
             {
-                this._element?.nativeElement.classList.add(options!.cssClass);
+                this._element?.nativeElement.classList.add(options.cssClass);
             }
         }
 

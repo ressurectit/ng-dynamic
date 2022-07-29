@@ -46,6 +46,8 @@ export class HtmlBlockSAComponent extends LayoutComponentBase<HtmlBlockComponent
      */
     public override async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
+        await super.ngOnChanges(changes);
+
         if(nameof<HtmlBlockSAComponent>('content') in changes)
         {
             this._element.nativeElement.innerHTML = this.content ?? '';

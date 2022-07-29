@@ -40,6 +40,8 @@ export class PreviewComponent implements OnInit, OnDestroy
 
     protected _metadata: LayoutComponentMetadata = null;
 
+    protected selectedMetadata: LayoutRelationsMetadata|null = null;
+
     protected _availableNames: string[] = [];
 
     //######################### constructor #########################
@@ -64,12 +66,13 @@ export class PreviewComponent implements OnInit, OnDestroy
             if(id)
             {
                 this._available.setValue(id);
-                const meta = this._store.getData(id);
+                const meta = this.selectedMetadata = this._store.getData(id);
                 this._metadata = meta?.layout;
                 this._relationsManager.setRelations(meta.relations ?? []);
             }
             else
             {
+                this.selectedMetadata = null;
                 this._relationsManager.setRelations([]);
             }
 

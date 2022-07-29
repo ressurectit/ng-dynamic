@@ -5,6 +5,8 @@
     <ng-select [formControl]="_available" class="flex-1">
         <ng-option *ngFor="let val of _availableNames" [value]="val" [text]="val"></ng-option>
     </ng-select>
+
+    <debug-data [copyClick]="selectedMetadata"><div class="margin-horizontal-small">{{_available.value}}</div></debug-data>
 </div>
 
 <div class="flex-row margin-top-big flex-1">

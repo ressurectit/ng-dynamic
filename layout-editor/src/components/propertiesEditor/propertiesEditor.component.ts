@@ -5,7 +5,7 @@ import {Logger, LOGGER} from '@anglr/common';
 import {FormModelBuilder} from '@anglr/common/forms';
 import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {Dictionary, extend, isPresent, resolvePromiseOr} from '@jscrpt/common';
+import {DebounceCall, Dictionary, extend, isPresent, NoopAction, resolvePromiseOr} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor} from '../../services';
@@ -59,7 +59,7 @@ interface PropertiesEditorData
 })
 export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 {
-    //######################### protected fields #########################
+    //######################### protected properties #########################
 
     /**
      * Subscriptions created during initialization
@@ -70,6 +70,11 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      * Subscription for options form
      */
     protected optionsFormSubscription: Subscription|null = null;
+
+    /**
+     * Promise used for syncing async operations
+     */
+    protected syncPromise: Promise<void> = Promise.resolve();
 
     //######################### protected properties - template bindings #########################
 
@@ -114,7 +119,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     /**
      * Initialize component
      */
-    public ngOnInit(): void
+    public async ngOnInit(): Promise<void>
     {
         this.initSubscriptions.add(this.manager.layoutChange.subscribe(() => this.initProperties()));
         this.initSubscriptions.add(this.manager.selectedChange.subscribe(() => this.initProperties()));
@@ -138,7 +143,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                 }
             });
 
-        this.initProperties();
+        await this.initProperties();
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -158,8 +163,13 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     /**
      * Initialize properties for selected component
      */
+    @DebounceCall(10)
     protected async initProperties(): Promise<void>
     {
+        await this.syncPromise;
+        let syncResolve: NoopAction|undefined;
+        this.syncPromise = new Promise(resolve => syncResolve = resolve);
+
         if(isPresent(this.manager.selectedComponent))
         {
             this.visible = true;
@@ -181,6 +191,8 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         {
             this.hide();
         }
+
+        syncResolve?.();
     }
 
     /**
@@ -188,6 +200,10 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     protected async getMetadata(): Promise<void>
     {
+        this.optionsFormSubscription?.unsubscribe();
+        this.optionsFormSubscription = new Subscription();
+        this.propertiesData = [];
+
         if(this.component?.options?.typeMetadata)
         {
             this.displayName.setValue(this.component.options.typeMetadata.displayName || this.component.options.typeMetadata.id, {emitEvent: false});
@@ -200,10 +216,6 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
                 this.hide();
             }
-
-            this.optionsFormSubscription?.unsubscribe();
-            this.optionsFormSubscription = new Subscription();
-            this.propertiesData = [];
 
             //properties metadata
             if(this.metadata?.metaInfo?.optionsMetadata?.propertiesMetadata?.length)

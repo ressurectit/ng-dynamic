@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemLoader, DynamicItemSource} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
-import {Dictionary, generateId} from '@jscrpt/common';
+import {DebounceCall, Dictionary, generateId, NoopAction} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
 import {NodesPaletteItem} from './nodesPalette.interface';
@@ -33,34 +33,39 @@ import {ToRelationsDragDataSAPipe} from '../../pipes';
 })
 export class NodesPaletteSAComponent implements OnInit, OnDestroy
 {
-    //######################### protected fields #########################
+    //######################### protected properties #########################
 
     /**
      * Subscriptions created during initialization
      */
-    protected _initSubscriptions: Subscription = new Subscription();
+    protected initSubscriptions: Subscription = new Subscription();
 
     /**
      * Array of all available items in palette
      */
-    protected _allItems: NodesPaletteItem[] = [];
+    protected allItems: NodesPaletteItem[] = [];
+
+    /**
+     * Promise used for syncing async operations
+     */
+    protected syncPromise: Promise<void> = Promise.resolve();
 
     //######################### protected properties - template bindings #########################
 
     /**
      * Available items grouped by group name
      */
-    protected _groupedItems: Dictionary<(NodesPaletteItem & {temp?: boolean})[]> = {};
+    protected groupedItems: Dictionary<(NodesPaletteItem & {temp?: boolean})[]> = {};
 
     /**
      * Generated component id, that is used for new component
      */
-    protected _newCompnentId: string = generateId(16);
+    protected newCompnentId: string = generateId(16);
 
     /**
      * Indication whether drag element is over palette
      */
-    protected _isDragOverPalette: boolean = false;
+    protected isDragOverPalette: boolean = false;
 
     //######################### public properties - inputs #########################
 
@@ -91,7 +96,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         {
             for(const obs of this._refreshObservables)
             {
-                this._initSubscriptions.add(obs.subscribe(() => this.loadNodes()));
+                this.initSubscriptions.add(obs.subscribe(() => this.loadNodes()));
             }
         }
 
@@ -105,16 +110,21 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._initSubscriptions.unsubscribe();
+        this.initSubscriptions.unsubscribe();
     }
 
     /**
      * Loads available relations nodes into palette
      */
+    @DebounceCall(10)
     protected async loadNodes(): Promise<void>
     {
-        this._allItems = [];
-        this._groupedItems = {};
+        await this.syncPromise;
+        let syncResolve: NoopAction|undefined;
+        this.syncPromise = new Promise(resolve => syncResolve = resolve);
+
+        this.allItems = [];
+        this.groupedItems = {};
 
         //TODO make it dynamic
         for (const packageName of ['basic-components', 'material-components', 'static-components', 'layout-components', 'handlebars-components', 'tinymce-components'])
@@ -132,7 +142,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
                 }
                 else
                 {
-                    this._allItems.push(
+                    this.allItems.push(
                     {
                         itemSource,
                         metadata
@@ -141,17 +151,19 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
             }
         }        
 
-        this._groupedItems[''] = [];
+        this.groupedItems[''] = [];
 
         //group items
-        for(const item of this._allItems)
+        for(const item of this.allItems)
         {
             const group = item.metadata.metaInfo?.group ?? '';
-            this._groupedItems[group] ??= [];
-            this._groupedItems[group].push(item);
+            this.groupedItems[group] ??= [];
+            this.groupedItems[group].push(item);
         }
 
         this._changeDetector.detectChanges();
+
+        syncResolve?.();
     }
 
     //######################### protected methods - template bindings #########################
@@ -159,9 +171,9 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
     /**
      * Generates new component id
      */
-    protected _generateNewId(): void
+    protected generateNewId(): void
     {
-        this._newCompnentId = generateId(16);
+        this.newCompnentId = generateId(16);
     }
 
     // /**

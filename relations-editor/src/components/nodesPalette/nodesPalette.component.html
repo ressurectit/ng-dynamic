@@ -1,5 +1,5 @@
 <div class="flex-column overflow-vertical-scroll thin-scrollbar">
-    <ng-container *ngFor="let groupKeyValue of _groupedItems | keyvalue">
+    <ng-container *ngFor="let groupKeyValue of groupedItems | keyvalue">
         <div class="text-spread text-small-caps margin-left-extra-small margin-horizontal-small bold">{{groupKeyValue.key}}&nbsp;</div>
 
         <div *ngFor="let item of groupKeyValue.value"
@@ -9,8 +9,8 @@
              class="palette-droplist">
             <div class="editor-component mat-elevation-z2"
                  cdkDrag
-                 [cdkDragData]="item | toRelationsDragData: (item.metadata.singleton ? item.itemSource.name : _newCompnentId): item.metadata.singleton"
-                 (cdkDragDropped)="_generateNewId()">
+                 [cdkDragData]="item | toRelationsDragData: (item.metadata.singleton ? item.itemSource.name : newCompnentId): item.metadata.singleton"
+                 (cdkDragDropped)="generateNewId()">
                  <!-- (cdkDragEnded)="_onDragEnded(groupKeyValue.key)"
                  (cdkDragStarted)="_onDragStarted($event, groupKeyValue.key, item)"> -->
                 <!-- <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>

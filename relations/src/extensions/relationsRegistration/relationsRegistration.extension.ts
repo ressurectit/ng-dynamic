@@ -8,6 +8,18 @@ import {RelationsComponentManager, RelationsProcessor} from '../../services';
  */
 export class RelationsRegistrationExtension extends DynamicItemExtensionBase<unknown, RelationsComponent> implements DynamicItemExtension<unknown, RelationsComponent>
 {
+    //######################### protected properties #########################
+
+    /**
+     * Instance of relations processor
+     */
+    protected relationsProcessor: RelationsProcessor|null = null;
+
+    /**
+     * Instance of component manager
+     */
+    protected componentManager: RelationsComponentManager|null = null;
+
     //######################### public methods - overrides #########################
 
     /**
@@ -20,17 +32,17 @@ export class RelationsRegistrationExtension extends DynamicItemExtensionBase<unk
             return;
         }
 
-        const relationsProcessor: RelationsProcessor|null = this._injector.get(RelationsProcessor, null);
-        const componentManager: RelationsComponentManager|null = this._injector.get(RelationsComponentManager, null);
+        this.relationsProcessor ??= this._injector.get(RelationsProcessor, null);
+        this.componentManager ??= this._injector.get(RelationsComponentManager, null);
 
-        if(!relationsProcessor || !componentManager)
+        if(!this.relationsProcessor || !this.componentManager)
         {
             return;
         }
 
-        componentManager.registerComponent(this._metadata.id, this._instance);
-        await relationsProcessor.initialized;
-        relationsProcessor.updateRelations(this._metadata.id);
+        this.componentManager.registerComponent(this._metadata.id, this._instance);
+        await this.relationsProcessor.initialized;
+        this.relationsProcessor.updateRelations(this._metadata.id);
     }
 
     /**
@@ -43,15 +55,12 @@ export class RelationsRegistrationExtension extends DynamicItemExtensionBase<unk
             return;
         }
 
-        const relationsProcessor: RelationsProcessor|null = this._injector.get(RelationsProcessor, null);
-        const componentManager: RelationsComponentManager|null = this._injector.get(RelationsComponentManager, null);
-
-        if(!relationsProcessor || !componentManager)
+        if(!this.relationsProcessor || !this.componentManager)
         {
             return;
         }
 
-        relationsProcessor.destroyComponent(this._metadata.id);
-        componentManager.unregisterComponent(this._metadata.id);
+        this.relationsProcessor.destroyComponent(this._metadata.id);
+        this.componentManager.unregisterComponent(this._metadata.id);
     }
 }

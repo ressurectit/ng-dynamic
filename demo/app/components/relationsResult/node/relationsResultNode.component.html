@@ -1,15 +1,15 @@
-<div class="node-header">
-    {{metadata?.id}}
-</div>
+<relations-node-header>{{metadata?.id}}</relations-node-header>
 
 <div class="node-content">
-    <div class="inputs margin-right-small">
-        <div class="flex-row">
-            <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="vstup" [parent]="this"></relation-node-input>
-            <div class="margin-left-extra-small">vstup</div>
+    <div class="inputs-outputs">
+        <div class="inputs">
+            <div class="input">
+                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="vstup" [parent]="this"></relation-node-input>
+                <div>vstup</div>
+            </div>
         </div>
-    </div>
-
-    <div class="outputs margin-left-small">
+    
+        <div class="outputs">
+        </div>
     </div>
 </div>

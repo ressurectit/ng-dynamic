@@ -136,3 +136,4 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
     @include meta.load-css('parts/grid', $with: (theme: $theme));
     @include meta.load-css('parts/shared.components', $with: (theme: $theme));
     @include meta.load-css('parts/common.components', $with: (theme: $theme));
+    @include meta.load-css('parts/dynamic', $with: (theme: $theme));

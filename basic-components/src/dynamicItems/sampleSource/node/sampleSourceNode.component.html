@@ -1,18 +1,20 @@
-<relations-node-header class="node-header">Sample source</relations-node-header>
+<relations-node-header>sample source</relations-node-header>
 
 <div class="node-content">
-    <div class="inputs margin-right-small">
-    </div>
-
-    <div class="outputs margin-left-small">
-        <div class="flex-row margin-bottom-extra-small">
-            <div class="margin-right-extra-small">výstup</div>
-            <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="vystup" [parent]="this"></relation-node-output>
+    <div class="inputs-outputs">
+        <div class="inputs">
         </div>
-
-        <div class="flex-row margin-bottom-extra-small">
-            <div class="margin-right-extra-small">object</div>
-            <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="obj" [parent]="this"></relation-node-output>
+    
+        <div class="outputs">
+            <div class="output">
+                <div>výstup</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="vystup" [parent]="this"></relation-node-output>
+            </div>
+    
+            <div class="output">
+                <div>object</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="obj" [parent]="this"></relation-node-output>
+            </div>
         </div>
     </div>
 </div>

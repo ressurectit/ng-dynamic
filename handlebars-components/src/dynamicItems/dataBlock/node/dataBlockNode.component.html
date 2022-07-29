@@ -1,16 +1,15 @@
-<div class="node-header">
-    <div class="flex-1">{{metadata?.id}}</div>
-    <div (click)="destroySubject.next()">x</div>
-</div>
+<relations-node-header>{{metadata?.id}}</relations-node-header>
 
 <div class="node-content">
-    <div class="inputs margin-right-small">
-        <div class="flex-row">
-            <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="data" [parent]="this"></relation-node-input>
-            <div class="margin-left-extra-small">Data</div>
+    <div class="inputs-outputs">
+        <div class="inputs">
+            <div class="input">
+                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="data" [parent]="this"></relation-node-input>
+                <div>data</div>
+            </div>
         </div>
-    </div>
 
-    <div class="outputs margin-left-small">
+        <div class="outputs">
+        </div>
     </div>
 </div>

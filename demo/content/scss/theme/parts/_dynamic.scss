@@ -1,0 +1,110 @@
+@use 'sass:map';
+
+$theme: null !default;
+
+//############## RELATIONS CANVAS ##############
+
+relations-canvas
+{
+    .relations-node
+    {
+        display: block;
+        position: absolute;
+        border-radius: 1rem;
+        -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.3),0px 8px 10px 1px rgba(0, 0, 0, 0.24),0px 3px 14px 2px rgba(0, 0, 0, 0.22);
+        -moz-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.3),0px 8px 10px 1px rgba(0, 0, 0, 0.24),0px 3px 14px 2px rgba(0, 0, 0, 0.22);
+        box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.3),0px 8px 10px 1px rgba(0, 0, 0, 0.24),0px 3px 14px 2px rgba(0, 0, 0, 0.22);
+
+        relations-node-header,
+        .node-content
+        {
+            padding: .5rem;
+        }
+        
+        .inputs
+        {
+            margin-right: 10px;
+
+            .input
+            {
+                display: flex;
+                flex-direction: row;
+                margin-bottom: 4px;
+
+                &>div
+                {
+                    margin-left: 4px;
+
+                    &:first-letter
+                    {
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+
+        .outputs
+        {
+            margin-left: 10px;
+
+            .output
+            {
+                display: flex;
+                flex-direction: row;
+                margin-bottom: 4px;
+
+                &>div
+                {
+                    margin-right: 4px;
+
+                    &:first-letter
+                    {
+                        text-transform: uppercase;
+                    }
+                }
+            }
+        }
+
+        relations-node-header
+        {
+            background-color: rgb(77, 77, 77);
+            color: white;
+            border-radius: 1rem 1rem 0 0;
+            display: flex;
+            flex-direction: row;
+
+            .header-content
+            {
+                flex: 1;
+                min-width: 0;
+                min-height: 0;
+                
+                &:first-letter
+                {
+                    text-transform: uppercase;
+                }
+            }
+
+            .destroy-icon
+            {
+                margin-left: 10px;
+                margin-right: 4px;
+            }
+        }
+        
+        .node-content
+        {
+            background-color: white;
+            border-radius: 0 0 1rem 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .inputs-outputs
+        {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    }
+}

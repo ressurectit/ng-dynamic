@@ -8,7 +8,7 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RELATION
 {
     selector: 'if-block-node',
     templateUrl: 'ifBlockNode.component.html',
-    styleUrls: ['ifBlockNode.component.css'],
+    // styleUrls: ['ifBlockNode.component.css'],
     standalone: true,
     imports:
     [

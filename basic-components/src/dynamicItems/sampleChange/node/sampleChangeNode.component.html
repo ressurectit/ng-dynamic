@@ -1,19 +1,19 @@
-<div class="node-header">
-    Sample change
-</div>
+<relations-node-header>sample change</relations-node-header>
 
 <div class="node-content">
-    <div class="inputs margin-right-small">
-        <div class="flex-row">
-            <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="vstup" [parent]="this"></relation-node-input>
-            <div class="margin-left-extra-small">vstup</div>
+    <div class="inputs-outputs">
+        <div class="inputs">
+            <div class="input">
+                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="vstup" [parent]="this"></relation-node-input>
+                <div>vstup</div>
+            </div>
         </div>
-    </div>
-
-    <div class="outputs margin-left-small">
-        <div class="flex-row">
-            <div class="margin-right-extra-small">výstup</div>
-            <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="vystup" [parent]="this"></relation-node-output>
+    
+        <div class="outputs">
+            <div class="output">
+                <div>výstup</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="vystup" [parent]="this"></relation-node-output>
+            </div>
         </div>
     </div>
 </div>

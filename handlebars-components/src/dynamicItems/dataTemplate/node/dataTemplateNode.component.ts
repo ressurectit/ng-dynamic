@@ -1,13 +1,11 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {CodeEditorDialogData, CodeEditorDialogSAComponent} from '@anglr/dynamic/layout-editor';
 import {HandlebarsLanguageModel} from '@anglr/dynamic';
 import {isPresent} from '@jscrpt/common';
 
 import {DataTemplateRelationsOptions} from '../dataTemplate.options';
-
-//TODO: clean up styling of nodes
 
 /**
  * Relations node component for data template
@@ -16,12 +14,17 @@ import {DataTemplateRelationsOptions} from '../dataTemplate.options';
 {
     selector: 'data-template-node',
     templateUrl: 'dataTemplateNode.component.html',
-    styleUrls: ['dataTemplateNode.component.css'],
+    // styleUrls: ['dataTemplateNode.component.css'],
     standalone: true,
     imports:
     [
+        RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
+    ],
+    providers:
+    [
+        RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

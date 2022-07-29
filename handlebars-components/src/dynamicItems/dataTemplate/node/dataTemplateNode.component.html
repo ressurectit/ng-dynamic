@@ -1,25 +1,22 @@
-<div class="node-header">
-    <div class="flex-1">Data template</div>
-    <div (click)="destroySubject.next()">x</div>
-</div>
+<relations-node-header>data template</relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
-        <div class="inputs margin-right-small">
-            <div class="flex-row margin-bottom-extra-small">
+        <div class="inputs">
+            <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="template" [parent]="this"></relation-node-input>
-                <div class="margin-left-extra-small">template</div>
+                <div>template</div>
             </div>
             
-            <div class="flex-row margin-bottom-extra-small">
+            <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="data" [parent]="this"></relation-node-input>
-                <div class="margin-left-extra-small">data</div>
+                <div>data</div>
             </div>
         </div>
 
-        <div class="outputs margin-left-small">
-            <div class="flex-row">
-                <div class="margin-right-extra-small">output</div>
+        <div class="outputs">
+            <div class="output">
+                <div>output</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="output" [parent]="this"></relation-node-output>
             </div>
         </div>

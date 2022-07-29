@@ -8,7 +8,7 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RELATION
 {
     selector: 'html-block-node',
     templateUrl: 'htmlBlockNode.component.html',
-    styleUrls: ['htmlBlockNode.component.css'],
+    // styleUrls: ['htmlBlockNode.component.css'],
     standalone: true,
     imports:
     [

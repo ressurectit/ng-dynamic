@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationsNodeHeaderSAComponent, RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for data block
@@ -8,11 +8,16 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent} from '@a
 {
     selector: 'data-block-node',
     templateUrl: 'dataBlockNode.component.html',
-    styleUrls: ['dataBlockNode.component.css'],
+    // styleUrls: ['dataBlockNode.component.css'],
     standalone: true,
     imports:
     [
+        RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
+    ],
+    providers:
+    [
+        RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

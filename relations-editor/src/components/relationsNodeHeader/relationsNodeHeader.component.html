@@ -1,2 +1,2 @@
-<div class="flex-1"><ng-content></ng-content></div>
-<div *ngIf="destroySubject?.destroy" class="margin-left-small margin-right-extra-small" (click)="destroySubject?.destroy?.next()">x</div>
+<div class="header-content"><ng-content></ng-content></div>
+<div *ngIf="destroySubject?.destroy" class="destroy-icon" (click)="destroySubject?.destroy?.next()">x</div>

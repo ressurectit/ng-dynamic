@@ -8,7 +8,7 @@ import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, Relatio
 {
     selector: 'sample-source-node',
     templateUrl: 'sampleSourceNode.component.html',
-    styleUrls: ['sampleSourceNode.component.css'],
+    // styleUrls: ['sampleSourceNode.component.css'],
     standalone: true,
     imports:
     [

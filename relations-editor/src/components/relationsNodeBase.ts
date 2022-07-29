@@ -148,6 +148,8 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
             destroySubject.destroy = this.destroySubject;
         }
 
+        this.element.nativeElement.classList.add('relations-node');
+
         this.updatePosition();
     }
 

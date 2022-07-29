@@ -1,20 +1,19 @@
-<div class="node-header">
-    <div class="flex-1">{{metadata?.id}}</div>
-    <div (click)="destroySubject.next()">x</div>
-</div>
+<relations-node-header>{{metadata?.id}}</relations-node-header>
 
 <div class="node-content">
-    <div class="inputs margin-right-small">
-        <div class="flex-row">
-            <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="disabled" [parent]="this"></relation-node-input>
-            <div class="margin-left-extra-small">disabled</div>
+    <div class="inputs-outputs">
+        <div class="inputs">
+            <div class="input">
+                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="disabled" [parent]="this"></relation-node-input>
+                <div>disabled</div>
+            </div>
         </div>
-    </div>
-
-    <div class="outputs margin-left-small">
-        <div class="flex-row">
-            <div class="margin-right-extra-small">toggle</div>
-            <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="toggle" [parent]="this"></relation-node-output>
+    
+        <div class="outputs">
+            <div class="output">
+                <div>toggle</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="toggle" [parent]="this"></relation-node-output>
+            </div>
         </div>
     </div>
 </div>

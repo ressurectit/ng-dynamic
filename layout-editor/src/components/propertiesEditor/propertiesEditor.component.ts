@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor} from '../../services';
 import {LayoutDesignerSAComponent} from '../layoutDesigner/layoutDesigner.component';
-import {LayoutEditorMetadataDescriptor, LayoutPropertyTypeData} from '../../decorators';
+import {LayoutEditorMetadataDescriptor, LayoutEditorPropertiesDefinitionMetadata, LayoutPropertyTypeData} from '../../decorators';
 import {PropertiesControlsModule} from '../../modules';
 import {LayoutEditorPropertyMetadata} from '../../misc/types';
 import {PropertiesControl} from '../../interfaces';
@@ -37,6 +37,8 @@ interface PropertiesEditorData
     controls: Type<PropertiesControl>[];
 }
 
+//TODO: keep focus when changing padding, margin on container
+
 /**
  * Component that represents editor for components options/properties
  */
@@ -62,48 +64,48 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     /**
      * Subscriptions created during initialization
      */
-    protected _initSubscriptions: Subscription = new Subscription();
+    protected initSubscriptions: Subscription = new Subscription();
 
     /**
      * Subscription for options form
      */
-    protected _optionsFormSubscription: Subscription|null = null;
+    protected optionsFormSubscription: Subscription|null = null;
 
     //######################### protected properties - template bindings #########################
 
     /**
      * Indication whether are properties visible
      */
-    protected _visible: boolean = false;
+    protected visible: boolean = false;
 
     /**
      * Instance of selected designer component
      */
-    protected _component: LayoutDesignerSAComponent|null = null;
+    protected component: LayoutDesignerSAComponent|null = null;
 
     /**
      * Instance of metadata for selected designed component
      */
-    protected _metadata: LayoutEditorMetadataDescriptor|null = null;
+    protected metadata: LayoutEditorMetadataDescriptor|null = null;
 
     /**
      * Control for display name of component
      */
-    protected _displayName: FormControl<string|null> = new FormControl<string|null>(null);
+    protected displayName: FormControl<string|null> = new FormControl<string|null>(null);
 
     /**
      * Properties data for editation
      */
-    protected _propertiesData: PropertiesEditorData[] = [];
+    protected propertiesData: PropertiesEditorData[] = [];
 
     //######################### constructor #########################
-    constructor(protected _manager: LayoutEditorMetadataManager,
-                protected _metadataExtractor: LayoutEditorMetadataExtractor,
-                protected _propertyExtractor: LayoutEditorPropertyMetadataExtractor,
-                protected _formModelBuilder: FormModelBuilder,
-                protected _changeDetector: ChangeDetectorRef,
+    constructor(protected manager: LayoutEditorMetadataManager,
+                protected metadataExtractor: LayoutEditorMetadataExtractor,
+                protected propertyExtractor: LayoutEditorPropertyMetadataExtractor,
+                protected formModelBuilder: FormModelBuilder,
+                protected changeDetector: ChangeDetectorRef,
                 @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+                @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
     }
 
@@ -114,29 +116,29 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._initSubscriptions.add(this._manager.layoutChange.subscribe(() => this._initProperties()));
-        this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => this._initProperties()));
+        this.initSubscriptions.add(this.manager.layoutChange.subscribe(() => this.initProperties()));
+        this.initSubscriptions.add(this.manager.selectedChange.subscribe(() => this.initProperties()));
 
-        this._displayName
+        this.displayName
             .valueChanges
             .subscribe(async displayName =>
             {
-                if(this._component?.options?.typeMetadata && isPresent(displayName))
+                if(this.component?.options?.typeMetadata && isPresent(displayName))
                 {
-                    this._component.options.typeMetadata.displayName = displayName;
+                    this.component.options.typeMetadata.displayName = displayName;
 
                     const changes: SimpleChanges = {};
-                    addSimpleChange<LayoutComponent>(changes, 'options', this._component.options, this._component.options);
+                    addSimpleChange<LayoutComponent>(changes, 'options', this.component.options, this.component.options);
 
                     // eslint-disable-next-line no-self-assign
-                    this._component.options = this._component.options;
-                    await resolvePromiseOr(this._component.ngOnChanges?.(changes));
-                    this._manager.displayNameUpdated();
+                    this.component.options = this.component.options;
+                    await resolvePromiseOr(this.component.ngOnChanges?.(changes));
+                    this.manager.displayNameUpdated();
                     this.history.getNewState();
                 }
             });
 
-        this._initProperties();
+        this.initProperties();
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -146,9 +148,9 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._initSubscriptions.unsubscribe();
-        this._optionsFormSubscription?.unsubscribe();
-        this._optionsFormSubscription = null;
+        this.initSubscriptions.unsubscribe();
+        this.optionsFormSubscription?.unsubscribe();
+        this.optionsFormSubscription = null;
     }
 
     //######################### protected methods #########################
@@ -156,127 +158,77 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     /**
      * Initialize properties for selected component
      */
-    protected async _initProperties(): Promise<void>
+    protected async initProperties(): Promise<void>
     {
-        if(isPresent(this._manager.selectedComponent))
+        if(isPresent(this.manager.selectedComponent))
         {
-            this._visible = true;
-            const component = this._manager.getComponent(this._manager.selectedComponent);
+            this.visible = true;
+            const component = this.manager.getComponent(this.manager.selectedComponent);
 
             if(component)
             {
-                this._visible = true;
-                this._component = component;
+                this.visible = true;
+                this.component = component;
 
-                await this._getMetadata();
+                await this.getMetadata();
             }
             else
             {
-                this._hide();
+                this.hide();
             }
         }
         else
         {
-            this._hide();
+            this.hide();
         }
     }
 
     /**
      * Gets metadta for selected component
      */
-    protected async _getMetadata(): Promise<void>
+    protected async getMetadata(): Promise<void>
     {
-        if(this._component?.options?.typeMetadata)
+        if(this.component?.options?.typeMetadata)
         {
-            this._displayName.setValue(this._component.options.typeMetadata.displayName || this._component.options.typeMetadata.id, {emitEvent: false});
+            this.displayName.setValue(this.component.options.typeMetadata.displayName || this.component.options.typeMetadata.id, {emitEvent: false});
 
-            this._metadata = await this._metadataExtractor.extractMetadata(this._component.options?.typeMetadata);
+            this.metadata = await this.metadataExtractor.extractMetadata(this.component.options?.typeMetadata);
 
-            if(!this._metadata)
+            if(!this.metadata)
             {
-                this._logger?.error('PropertiesEditorSAComponent: unable to get metadata {@source}', {package: this._component.options?.typeMetadata.package, name: this._component.options?.typeMetadata.name});
+                this.logger?.error('PropertiesEditorSAComponent: unable to get metadata {@source}', {package: this.component.options?.typeMetadata.package, name: this.component.options?.typeMetadata.name});
 
-                this._hide();
+                this.hide();
             }
 
-            this._optionsFormSubscription?.unsubscribe();
-            this._optionsFormSubscription = new Subscription();
-            this._propertiesData = [];
+            this.optionsFormSubscription?.unsubscribe();
+            this.optionsFormSubscription = new Subscription();
+            this.propertiesData = [];
 
             //properties metadata
-            if(this._metadata?.metaInfo?.optionsMetadata?.propertiesMetadata?.length)
+            if(this.metadata?.metaInfo?.optionsMetadata?.propertiesMetadata?.length)
             {
-                for(const props of this._metadata?.metaInfo?.optionsMetadata?.propertiesMetadata)
+                for(const props of this.metadata?.metaInfo?.optionsMetadata?.propertiesMetadata)
                 {
-                    const form = this._formModelBuilder.build(new props.modelType(this._component?.options?.typeMetadata.options));
-                    const metadata = this._propertyExtractor.extract(props.modelType);
-    
-                    this._optionsFormSubscription.add(form.valueChanges.subscribe(async data =>
-                    {
-                        if(this._component?.options?.typeMetadata)
-                        {
-                            extend(true, this._component.options.typeMetadata.options, data);
-
-                            const changes: SimpleChanges = {};
-                            addSimpleChange<LayoutComponent>(changes, 'options', this._component.options, this._component.options);
-    
-                            // eslint-disable-next-line no-self-assign
-                            this._component.options = this._component.options;
-                            await resolvePromiseOr(this._component.ngOnChanges?.(changes));
-                            this._component.invalidateVisuals();
-                            this.history.getNewState();
-                        }
-                    }));
-
-                    this._propertiesData.push(
-                    {
-                        form,
-                        metadata,
-                        controls: props.propertiesControls,
-                    });
+                    this.initDynamicProperty(props);
                 }
             }
 
-            if(this._component)
+            if(this.component)
             {
-                const parent = this._manager.getParent(this._component.id);
+                const parent = this.manager.getParent(this.component.id);
 
                 //gets parent metadata
                 if(parent?.options?.typeMetadata)
                 {
-                    const parentMetadata = await this._metadataExtractor.extractMetadata(parent.options?.typeMetadata);
+                    const parentMetadata = await this.metadataExtractor.extractMetadata(parent.options?.typeMetadata);
                     
                     //parent extensions properties metadata
                     if(parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata?.length)
                     {
                         for(const props of parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata)
                         {
-                            const form = this._formModelBuilder.build(new props.modelType(this._component?.options?.typeMetadata.options));
-                            const metadata = this._propertyExtractor.extract(props.modelType);
-            
-                            this._optionsFormSubscription.add(form.valueChanges.subscribe(async data =>
-                            {
-                                if(this._component?.options?.typeMetadata)
-                                {
-                                    extend(true, this._component.options.typeMetadata.options, data);
-            
-                                    const changes: SimpleChanges = {};
-                                    addSimpleChange<LayoutComponent>(changes, 'options', this._component.options, this._component.options);
-
-                                    // eslint-disable-next-line no-self-assign
-                                    this._component.options = this._component.options;
-                                    await resolvePromiseOr(this._component.ngOnChanges?.(changes));
-                                    this._component.invalidateVisuals();
-                                    this.history.getNewState();
-                                }
-                            }));
-        
-                            this._propertiesData.push(
-                            {
-                                form,
-                                metadata,
-                                controls: props.propertiesControls,
-                            });
+                            this.initDynamicProperty(props);
                         }
                     }
                 }
@@ -284,23 +236,60 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         }
         else
         {
-            this._hide();
+            this.hide();
         }
 
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 
     /**
      * Hides properties
      */
-    protected _hide(): void
+    protected hide(): void
     {
-        this._visible = false;
-        this._component = null;
-        this._metadata = null;
-        this._propertiesData = [];
-        this._optionsFormSubscription?.unsubscribe();
-        this._optionsFormSubscription = null;
-        this._changeDetector.detectChanges();
+        this.visible = false;
+        this.component = null;
+        this.metadata = null;
+        this.propertiesData = [];
+        this.optionsFormSubscription?.unsubscribe();
+        this.optionsFormSubscription = null;
+        this.changeDetector.detectChanges();
+    }
+
+    /**
+     * Initialize dynamic property
+     * @param props - Property to be initialized
+     */
+    protected initDynamicProperty(props: LayoutEditorPropertiesDefinitionMetadata): void
+    {
+        const form = this.formModelBuilder.build(new props.modelType(this.component?.options?.typeMetadata.options));
+        const metadata = this.propertyExtractor.extract(props.modelType);
+
+        if(this.optionsFormSubscription)
+        {
+            this.optionsFormSubscription.add(form.valueChanges.subscribe(async data =>
+            {
+                if(this.component?.options?.typeMetadata)
+                {
+                    extend(true, this.component.options.typeMetadata.options, data);
+    
+                    const changes: SimpleChanges = {};
+                    addSimpleChange<LayoutComponent>(changes, 'options', this.component.options, this.component.options);
+    
+                    // eslint-disable-next-line no-self-assign
+                    this.component.options = this.component.options;
+                    await resolvePromiseOr(this.component.ngOnChanges?.(changes));
+                    this.component.invalidateVisuals();
+                    this.history.getNewState();
+                }
+            }));
+    
+            this.propertiesData.push(
+            {
+                form,
+                metadata,
+                controls: props.propertiesControls,
+            });
+        }
     }
 }

@@ -4,6 +4,7 @@ export * from './gridPanelCell';
 export * from './htmlBlock';
 export * from './ifBlock';
 export * from './negation';
+export * from './rest';
 export * from './sampleChange';
 export * from './sampleSource';
 export * from './stackPanel';

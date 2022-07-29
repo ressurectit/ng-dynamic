@@ -1,0 +1,36 @@
+<div [formGroup]="form">
+    <div class="form-group margin-bottom-extra-small">
+        <label class="control-label text-uppercase">type</label>
+
+        <select class="form-control" formControlName="type">
+            <option value="BODY" *ngIf="!data.hasBody">BODY</option>
+            <option value="PATH">PATH</option>
+            <option value="QUERY">QUERY</option>
+        </select>
+    </div>
+
+    <div class="form-group margin-bottom-extra-small">
+        <label class="control-label text-uppercase">value</label>
+        <input type="text" class="form-control" formControlName="value">
+    </div>
+
+    <div class="form-group margin-bottom-extra-small">
+        <label class="control-label text-uppercase">name</label>
+        <input type="text" class="form-control" formControlName="name">
+    </div>
+
+    <div class="form-group margin-bottom-extra-small">
+        <label class="control-label text-uppercase">configurable</label>
+        <input type="checkbox" class="form-control" formControlName="configurable">
+    </div>
+</div>
+
+<div class="flex-row flex-end">
+    <button class="btn btn-info margin-right-extra-small" [mat-dialog-close]="null">
+        <span>cancel</span>
+    </button>
+
+    <button class="btn btn-primary" [mat-dialog-close]="true">
+        <span>ok</span>
+    </button>
+</div>

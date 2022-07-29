@@ -1,12 +1,12 @@
-<div *ngIf="_visible" class="properties-main">
-    <div class="header">Properties <span class="bold">{{_metadata?.metaInfo?.name ?? _component?.options?.typeMetadata?.name}} - {{_component?.options?.typeMetadata?.id}}</span></div>
+<div *ngIf="visible" class="properties-main">
+    <div class="header">Properties <span class="bold">{{metadata?.metaInfo?.name ?? component?.options?.typeMetadata?.name}} - {{component?.options?.typeMetadata?.id}}</span></div>
 
     <div class="form-group">
         <label class="control-label">Display name</label>
-        <input class="form-control" type="text" [formControl]="_displayName">
+        <input class="form-control" type="text" [formControl]="displayName">
     </div>
 
-    <ng-container *ngFor="let props of _propertiesData">
+    <ng-container *ngFor="let props of propertiesData">
         <ng-container *ngFor="let propertiesCtrl of props.controls">
             <ng-container [propertiesControl]="propertiesCtrl" [form]="props.form" [propertiesMetadata]="props.metadata"></ng-container>
         </ng-container>

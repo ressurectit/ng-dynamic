@@ -1,4 +1,4 @@
-import {Inject, Injectable, OnDestroy, Optional, SimpleChanges} from '@angular/core';
+import {Inject, Injectable, Injector, OnDestroy, Optional, SimpleChanges} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {Dictionary, isBlank, noop, NoopAction} from '@jscrpt/common';
@@ -10,6 +10,8 @@ import {RelationsManager} from '../relationsManager/relationsManager.service';
 import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from './relationsProcessor.interface';
 import {RELATIONS_COMPONENTS_LOADER} from '../../misc/tokens';
 import {RelationsComponentDef} from '../../misc/types';
+
+//TODO: maybe update type for node add injector as parameter
 
 /**
  * Processor that applies relations to registered components
@@ -57,6 +59,7 @@ export class RelationsProcessor implements OnDestroy
     //######################### constructor #########################
     constructor(protected _relationsManager: RelationsManager,
                 protected _componentManager: RelationsComponentManager,
+                protected injector: Injector,
                 @Inject(RELATIONS_COMPONENTS_LOADER) protected _loader: DynamicItemLoader<RelationsComponentDef>,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
@@ -412,7 +415,7 @@ export class RelationsProcessor implements OnDestroy
             return;
         }
 
-        const instance = new componentMeta.data();
+        const instance = new componentMeta.data(this.injector);
         this._componentManager.registerComponent(meta.id, instance);
 
         this.initRelation(true, meta, outputs);

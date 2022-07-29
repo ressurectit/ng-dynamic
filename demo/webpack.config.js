@@ -6,6 +6,7 @@ import ScriptExtHtmlWebpackPlugin from 'script-ext-html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import WebpackNotifierPlugin from 'webpack-notifier';
 import CompressionPlugin from 'compression-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
 import BitBarWebpackProgressPlugin from 'bitbar-webpack-progress-plugin';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
@@ -330,9 +331,21 @@ export default [function(options, args)
         [
             new WebpackNotifierPlugin({title: `Webpack - ${hmr ? 'HMR' : 'BUILD'}`, excludeWarnings: true, alwaysNotify: true, sound: false}),
             //copy external dependencies
-            // new CopyWebpackPlugin(
-            // {
-            // }),
+            new CopyWebpackPlugin(
+            {
+                patterns:
+                [
+                    {
+                        context: "content/api",
+                        from: "**/*.*",
+                        to: "../api"
+                    },
+                ],
+                options: 
+                {
+                    concurrency: 10,
+                },
+            }),
             new BitBarWebpackProgressPlugin(),
             new webpack.DefinePlugin(
             {

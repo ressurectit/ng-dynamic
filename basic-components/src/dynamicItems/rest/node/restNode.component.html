@@ -1,0 +1,97 @@
+<relations-node-header>rest</relations-node-header>
+
+<div class="node-content" [formGroup]="form">
+    <div class="form-group margin-bottom-extra-small">
+        <label class="control-label text-uppercase">url</label>
+        <input type="text" class="form-control" formControlName="url">
+    </div>
+    
+    <div class="form-group margin-bottom-extra-small">
+        <label class="control-label text-uppercase">method</label>
+        
+        <select class="form-control" formControlName="method">
+            <option value="GET">GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="PATCH">PATCH</option>
+            <option value="DELETE">DELETE</option>
+        </select>
+    </div>
+
+    <div class="form-group margin-bottom-extra-small">
+        <label class="control-label text-uppercase">run immediately</label>
+        <input type="checkbox" class="form-control" formControlName="runImmediately">
+    </div>
+
+    <div class="inputs-outputs">
+        <div class="inputs">
+            <ng-container *ngFor="let param of params">
+                <ng-container [ngSwitch]="param.type">
+                    <div class="input" *ngSwitchCase="'BODY'">
+                        <relation-node-input *ngIf="param.configurable" [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="param.name" [parent]="this"></relation-node-input>
+
+                        <div class="flex-row">
+                            <div>BODY: {{param.name}}</div>
+
+                            <button class="btn-icon margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureRestParameter(param)">
+                                <span class="fas fa-cog"></span>
+                            </button>
+
+                            <button class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
+                                <span class="fas fa-times"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input" *ngSwitchCase="'PATH'">
+                        <relation-node-input *ngIf="param.configurable" [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="param.name" [parent]="this"></relation-node-input>
+
+                        <div class="flex-row">
+                            <div>PATH: {{param.name}}</div>
+
+                            <button class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                                <span class="fas fa-cog"></span>
+                            </button>
+
+                            <button class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
+                                <span class="fas fa-times"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input" *ngSwitchCase="'QUERY'">
+                        <relation-node-input *ngIf="param.configurable" [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="param.name" [parent]="this"></relation-node-input>
+
+                        <div class="flex-row">
+                            <div>QUERY: {{param.name}}</div>
+
+                            <button class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                                <span class="fas fa-cog"></span>
+                            </button>
+
+                            <button class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
+                                <span class="fas fa-times"></span>
+                            </button>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+
+            <button class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); addParam()">
+                <span class="fas fa-plus"></span>
+            </button>
+        </div>
+
+        <div class="outputs">
+            <div class="output">
+                <div>success</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="success" [parent]="this"></relation-node-output>
+            </div>
+
+            <div class="output">
+                <div>error</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="error" [parent]="this"></relation-node-output>
+            </div>
+        </div>
+    </div>
+</div>

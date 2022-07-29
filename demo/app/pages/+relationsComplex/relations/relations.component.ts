@@ -69,6 +69,16 @@ export class RelationsComponent
         this._metadata = DemoData.demoRelationsComplexRelations;
     }
 
+    protected _loadRestDemo(): void
+    {
+        this._metadata = DemoData.complexDemoRestRelations;
+    }
+
+    protected _loadFullDemo(): void
+    {
+        this._metadata = DemoData.complexDemoFullRelations;
+    }
+
     protected setMetadata(metadata: LayoutRelationsMetadata): void
     {
         this._metadata = metadata?.relations ?? this.emptyMetadata;

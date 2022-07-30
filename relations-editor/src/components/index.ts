@@ -5,5 +5,6 @@ export * from './relationsEditor/relationsEditor.component';
 export * from './relationsNodeBase';
 export * from './relationsNodeEndpointBase';
 export * from './relationsNodeHeader/relationsNodeHeader.component';
+export * from './relationsNodeHeaderDisplayNameEditor/relationsNodeHeaderDisplayNameEditor.component';
 export * from './relationsNodeInput/relationsNodeInput.component';
 export * from './relationsNodeOutput/relationsNodeOutput.component';

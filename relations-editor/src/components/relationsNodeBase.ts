@@ -1,4 +1,4 @@
-import {HostListener, ViewChildren, QueryList, ChangeDetectorRef, ElementRef, SimpleChanges, Directive} from '@angular/core';
+import {HostListener, ViewChildren, QueryList, ChangeDetectorRef, ElementRef, SimpleChanges, Directive, OnDestroy} from '@angular/core';
 import {Dictionary, nameof} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
@@ -10,9 +10,14 @@ import {RelationNodeInputSAComponent} from './relationsNodeInput/relationsNodeIn
  * Base class for relations node components
  */
 @Directive()
-export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> implements RelationsNode<TOptions, TEditorOptions>
+export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> implements RelationsNode<TOptions, TEditorOptions>, OnDestroy
 {
     //######################### protected properties #########################
+
+    /**
+     * Instance of resize observer
+     */
+    protected observer: ResizeObserver;
 
     /**
      * Indication whether is node initialized
@@ -144,6 +149,9 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
         this.element.nativeElement.classList.add('relations-node');
 
         this.updatePosition();
+
+        this.observer = new ResizeObserver(() =>this.updateRelations());
+        this.observer.observe(this.element.nativeElement);
     }
 
     //######################### public methods - implementation of OnChanges #########################
@@ -164,6 +172,16 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
 
             this.metadataSet();
         }
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        this.observer?.disconnect();
     }
 
     //######################### public methods - implementation of RelationsNode #########################

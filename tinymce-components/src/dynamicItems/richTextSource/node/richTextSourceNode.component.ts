@@ -1,5 +1,5 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, Inject} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER, RELATIONS_NODE_DESTROY_SUBJECT, RelationsNodeDestroySubject} from '@anglr/dynamic/relations-editor';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {isPresent} from '@jscrpt/common';
 
@@ -20,10 +20,6 @@ import {RichTextBlockEditorDialogSAComponent} from '../../richTextBlock/misc/com
         RelationsNodeHeaderSAComponent,
         RelationNodeOutputSAComponent,
     ],
-    providers:
-    [
-        RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER,
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RichTextSourceNodeSAComponent extends RelationsNodeBase<RichTextSourceRelationsOptions> implements RelationsNode<RichTextSourceRelationsOptions>
@@ -31,10 +27,9 @@ export class RichTextSourceNodeSAComponent extends RelationsNodeBase<RichTextSou
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
                 element: ElementRef<HTMLElement>,
-                protected dialog: TitledDialogService,
-                @Inject(RELATIONS_NODE_DESTROY_SUBJECT) destroySubject?: RelationsNodeDestroySubject,)
+                protected dialog: TitledDialogService,)
     {
-        super(changeDetector, element,destroySubject);
+        super(changeDetector, element);
     }
 
     //######################### protected methods - template bindings #########################

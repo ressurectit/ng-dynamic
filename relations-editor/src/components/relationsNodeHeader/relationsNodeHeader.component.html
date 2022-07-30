@@ -1,2 +1,9 @@
-<div class="header-content"><ng-content></ng-content></div>
-<div *ngIf="destroySubject?.destroy" class="destroy-icon" (click)="destroySubject?.destroy?.next()">x</div>
+<div class="header-content">{{parent?.metadata?.displayName || name || parent?.metadata?.id}}</div>
+
+<button type="butotn" class="btn-icon edit-icon">
+    <span class="fas fa-pen"></span>
+</button>
+
+<button type="button" *ngIf="destroySubject" class="btn-icon destroy-icon" (click)="destroySubject.next()">
+    <span class="fas fa-times"></span>
+</button>

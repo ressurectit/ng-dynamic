@@ -89,9 +89,31 @@ relations-canvas
                 }
             }
 
+            .edit-icon,
             .destroy-icon
             {
+                color: #eae8e8;
+
+                &:hover
+                {
+                    color: #6aba4f;
+                }
+
+                &:active
+                {
+                    color: #5dab43;
+                }
+            }
+
+            .edit-icon
+            {
                 margin-left: 10px;
+                margin-right: 4px;
+            }
+
+            .destroy-icon
+            {
+                margin-left: 4px;
                 margin-right: 4px;
             }
         }

@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {Subject} from 'rxjs';
 
-import {RelationsNodeDestroySubject} from '../../interfaces';
-import {RELATIONS_NODE_DESTROY_SUBJECT} from '../../misc/tokens';
+import {RelationsNode} from '../../interfaces';
 
 /**
  * Component used for displaying relations node header
@@ -21,8 +21,23 @@ import {RELATIONS_NODE_DESTROY_SUBJECT} from '../../misc/tokens';
 })
 export class RelationsNodeHeaderSAComponent
 {
-    //######################### constructor #########################
-    constructor(@Inject(RELATIONS_NODE_DESTROY_SUBJECT) @Optional() protected destroySubject?: RelationsNodeDestroySubject,)
-    {
-    }
+    //######################### public properties - inputs #########################
+
+    /**
+     * Parent relations node of node header
+     */
+    @Input()
+    public parent: RelationsNode|undefined|null;
+
+    /**
+     * Subject used for destroying relations node
+     */
+    @Input()
+    public destroySubject: Subject<void>|undefined|null;
+
+    /**
+     * Name of node to be displayed
+     */
+    @Input()
+    public name: string|undefined|null;
 }

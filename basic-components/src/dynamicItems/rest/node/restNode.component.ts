@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER, RELATIONS_NODE_DESTROY_SUBJECT, RelationsNodeDestroySubject} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 import {extend} from '@jscrpt/common';
@@ -30,7 +30,6 @@ import {RestRelationsOptionsModel} from './restNode.model';
     ],
     providers:
     [
-        RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER,
         FormModelBuilder,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -69,10 +68,9 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
     constructor(changeDetector: ChangeDetectorRef,
                 element: ElementRef<HTMLElement>,
                 protected dialog: TitledDialogService,
-                formModelBuilder: FormModelBuilder,
-                @Inject(RELATIONS_NODE_DESTROY_SUBJECT) destroySubject?: RelationsNodeDestroySubject,)
+                formModelBuilder: FormModelBuilder,)
     {
-        super(changeDetector, element, destroySubject);
+        super(changeDetector, element);
 
         this.form = formModelBuilder.build<RestRelationsOptions>(new RestRelationsOptionsModel(null));
         this.form.valueChanges.subscribe(value =>

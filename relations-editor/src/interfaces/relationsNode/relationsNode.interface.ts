@@ -1,7 +1,7 @@
 import {OnChanges} from '@angular/core';
 import {DynamicItem} from '@anglr/dynamic';
 import {Dictionary} from '@jscrpt/common';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 
 import {RelationsNodeMetadata} from '../metadata';
 import {RelationsInput, RelationsOutput} from '../relationsEndpoint/relationsEndpoint.interface';
@@ -45,17 +45,6 @@ export interface RelationsNode<TOptions = any, TEditorOptions = any> extends Dyn
      * Metadata for relations node
      */
     metadata: RelationsNodeMetadata<TOptions, TEditorOptions>|undefined|null;
-}
-
-/**
- * Allows passing down relations node destroy subject
- */
-export interface RelationsNodeDestroySubject
-{
-    /**
-     * Subject used for destroying node
-     */
-    destroy?: Subject<void>;
 }
 
 /**

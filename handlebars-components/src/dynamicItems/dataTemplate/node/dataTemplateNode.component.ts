@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {CodeEditorDialogData, CodeEditorDialogSAComponent} from '@anglr/dynamic/layout-editor';
 import {HandlebarsLanguageModel} from '@anglr/dynamic';
@@ -21,10 +21,6 @@ import {DataTemplateRelationsOptions} from '../dataTemplate.options';
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
-    ],
-    providers:
-    [
-        RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

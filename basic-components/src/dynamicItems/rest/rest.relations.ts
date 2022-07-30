@@ -3,12 +3,12 @@ import {HttpClient, HttpEventType, HttpRequest} from '@angular/common/http';
 import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {LOGGER, Logger} from '@anglr/common';
+import {catchError} from 'rxjs/operators';
+import {EMPTY} from 'rxjs';
 
 import {RestRelationsMetadataLoader} from './rest.metadata';
 import {RestRelationsOptions} from './rest.options';
 import {RestParam} from './misc/interfaces';
-import {catchError} from 'rxjs/operators';
-import {EMPTY} from 'rxjs';
 
 //TODO: maybe improve @anglr/rest and use same functionality here
 

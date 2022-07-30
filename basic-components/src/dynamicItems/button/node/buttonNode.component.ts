@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for button
@@ -15,10 +15,6 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
-    ],
-    providers:
-    [
-        RELATIONS_NODE_DESTROY_SUBJECT_PROVIDER,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

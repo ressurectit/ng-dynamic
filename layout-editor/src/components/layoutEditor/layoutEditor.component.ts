@@ -3,7 +3,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {HostDisplayFlexStyle} from '@anglr/common';
 import {AppHotkeysService} from '@anglr/common/hotkeys';
-import {EditorHotkeys, MetadataHistoryManager, MetadataStorage} from '@anglr/dynamic';
+import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManagerSAComponent} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -39,6 +39,7 @@ import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
         ComponentsPaletteSAComponent,
         PropertiesEditorSAComponent,
         LayoutComponentRendererSADirective,
+        PackageManagerSAComponent,
         MatTabsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

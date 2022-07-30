@@ -1,0 +1,8 @@
+[
+    "basic-components",
+    "material-components",
+    "static-components",
+    "layout-components",
+    "handlebars-components",
+    "tinymce-components"
+]

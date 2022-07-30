@@ -7,3 +7,4 @@ export * from './dynamicModuleDataExtractor/dynamicModuleDataExtractor.service';
 export * from './metadataHistoryManager/metadataHistoryManager.interface';
 export * from './metadataHistoryManager/metadataHistoryManager.service';
 export * from './metadataStorage/metadataStorage.service';
+export * from './packageManager/packageManager.service';

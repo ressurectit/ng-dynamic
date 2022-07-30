@@ -1,0 +1,13 @@
+:host
+{
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px;
+    border-bottom: 1px solid #aaa;
+}
+
+.pm-header
+{
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

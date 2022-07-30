@@ -1,5 +1,6 @@
-import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild, ElementRef, Input} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild, ElementRef, Input, Inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {MetadataHistoryManager} from '@anglr/dynamic';
 import {select} from 'd3';
 
 import {Coordinates, RelationsNodeMetadata} from '../../interfaces';
@@ -8,6 +9,7 @@ import {NodeRelationPath} from '../../misc/nodeRelationPath';
 import {MouseButton} from '../../misc/enums';
 import {clamp} from '../../misc/utils';
 import {RelationsNodeRendererSADirective} from '../../directives';
+import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
 
 /**
  * Default background size in pixels
@@ -125,7 +127,8 @@ export class RelationsCanvasSAComponent
     public nodeDefinitions: RelationsNodeMetadata[] = [];
 
     //######################### constructor #########################
-    constructor(protected relationManager: RelationsNodeManager,)
+    constructor(protected relationManager: RelationsNodeManager,
+                @Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager<RelationsNodeMetadata[]>,)
     {
     }
 
@@ -136,7 +139,7 @@ export class RelationsCanvasSAComponent
      */
     public createRelation(): NodeRelationPath
     {
-        return new NodeRelationPath(select(this.relationsGroup?.nativeElement), this.relationManager, null, null);
+        return new NodeRelationPath(select(this.relationsGroup?.nativeElement), this.relationManager, this.history, null, null);
     }
 
     //######################### protected methods - host listeners #########################
@@ -245,5 +248,7 @@ export class RelationsCanvasSAComponent
         }
 
         this.nodeDefinitions.splice(index, 1);
+
+        this.history.getNewState();
     }
 }

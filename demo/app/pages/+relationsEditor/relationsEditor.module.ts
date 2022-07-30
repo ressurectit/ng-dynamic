@@ -8,9 +8,6 @@ import {components} from './relationsEditor.routes';
 import {LoadSaveNewSAComponent} from '../../components';
 import {createStoreDataServiceFactory} from '../../misc/factories';
 
-//TODO: remove LAYOUT_HISTORY_MANAGER_PROVIDER, LAYOUT_HISTORY_MANAGER_GET_STATE, providers when state management for relatiosn will be working
-//TODO: find out why relations editor requires things for layout editor
-
 /**
  * Module for relations editor samples
  */

@@ -1,8 +1,9 @@
 import {Inject, Injectable} from '@angular/core';
-import {Func, isBlank} from '@jscrpt/common';
+import {isBlank} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
-import {METADATA_HISTORY_MANAGER_GET_STATE} from '../../misc/tokens';
+import {METADATA_HISTORY_MANAGER_STATE} from '../../misc/tokens';
+import {MetadataHistoryManagerState} from './metadataHistoryManager.interface';
 
 /**
  * Maximum number of items in history
@@ -113,7 +114,7 @@ export class MetadataHistoryManager<TMetadata = any>
     }
 
     //######################### constructor #########################
-    constructor(@Inject(METADATA_HISTORY_MANAGER_GET_STATE) protected getStateFn: Func<TMetadata>,)
+    constructor(@Inject(METADATA_HISTORY_MANAGER_STATE) protected metadataState: MetadataHistoryManagerState<TMetadata>,)
     {
     }
 
@@ -169,9 +170,15 @@ export class MetadataHistoryManager<TMetadata = any>
             this.states.splice(this.activeIndex + 1, this.states.length - (this.activeIndex + 1));
         }
 
-        this.states.push(JSON.parse(JSON.stringify(this.getStateFn())));
-        this.activeIndex = this.states.length - 1;
-        this.historyChangeSubject.next();
+        const state = this.metadataState.getMetadata();
+
+        //only for existing state
+        if(state)
+        {
+            this.states.push(JSON.parse(JSON.stringify(state)));
+            this.activeIndex = this.states.length - 1;
+            this.historyChangeSubject.next();
+        }
     }
 
     /**

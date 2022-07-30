@@ -1,8 +1,9 @@
 import {InjectionToken} from '@angular/core';
-import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
+import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataHistoryManager} from '@anglr/dynamic';
 import {Observable} from 'rxjs';
 
 import {RelationsModuleTypes, RelationsNodeDef} from './types';
+import {RelationsNodeMetadata} from '../interfaces';
 
 /**
  * Injection token for relations module types data extractors
@@ -38,3 +39,8 @@ export const RELATIONS_NODES_LOADER: InjectionToken<DynamicItemLoader<RelationsN
  * Injection token for observables that allows refreshing of nodes palatte items
  */
 export const REFRESH_PALETTE_OBSERVABLES: InjectionToken<Observable<void>[]> = new InjectionToken<Observable<void>[]>('REFRESH_PALETTE_OBSERVABLES');
+
+/**
+ * Injection token for relations history manager
+ */
+export const RELATIONS_HISTORY_MANAGER: InjectionToken<MetadataHistoryManager<RelationsNodeMetadata[]>> = new InjectionToken<MetadataHistoryManager<RelationsNodeMetadata[]>>('RELATIONS_HISTORY_MANAGER');

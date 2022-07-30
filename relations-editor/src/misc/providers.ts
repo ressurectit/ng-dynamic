@@ -1,10 +1,10 @@
-import {ClassProvider, FactoryProvider, inject, Optional} from '@angular/core';
-import {DefaultDynamicModuleItemsProvider, defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor} from '@anglr/dynamic';
+import {ClassProvider, ExistingProvider, FactoryProvider, inject, Optional} from '@angular/core';
+import {DefaultDynamicModuleItemsProvider, defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_HISTORY_MANAGER_STATE} from '@anglr/dynamic';
 import {LOGGER, Logger} from '@anglr/common';
 
-import {RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
+import {RELATIONS_HISTORY_MANAGER, RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
 import {componentRelationsNodeExtractor, relationsNodeExtractor} from './extractors';
-import {StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider, DefaultDynamicModuleRelationsProvider} from '../services';
+import {StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider, DefaultDynamicModuleRelationsProvider, RelationsNodeManager} from '../services';
 import {isRelationsModuleTypes, isRelationsNodeDef} from './utils';
 
 /**
@@ -121,4 +121,22 @@ export const RELATIONS_NODES_LOADER_PROVIDER: FactoryProvider =
                                             inject(RELATIONS_NODES_DATA_EXTRACTORS),
                                             isRelationsNodeDef,
                                             inject(LOGGER, {optional: true}) ?? undefined)
+};
+
+/**
+ * Provider for relations history manager state
+ */
+export const RELATIONS_HISTORY_MANAGER_STATE: ExistingProvider =
+{
+    provide: METADATA_HISTORY_MANAGER_STATE,
+    useExisting: RelationsNodeManager,
+};
+
+/**
+ * Provider for relations history manager
+ */
+export const RELATIONS_HISTORY_MANAGER_PROVIDER: ClassProvider =
+{
+    provide: RELATIONS_HISTORY_MANAGER,
+    useClass: MetadataHistoryManager
 };

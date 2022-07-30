@@ -1,5 +1,5 @@
-import {ClassProvider, FactoryProvider, inject, Optional, ValueProvider} from '@angular/core';
-import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_HISTORY_MANAGER_GET_STATE} from '@anglr/dynamic';
+import {ClassProvider, ExistingProvider, FactoryProvider, inject, Optional, ValueProvider} from '@angular/core';
+import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_HISTORY_MANAGER_STATE} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
 import {LOGGER, Logger} from '@anglr/common';
 
@@ -98,17 +98,12 @@ export const LAYOUT_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
 };
 
 /**
- * Provider for layout history manager get state function
+ * Provider for layout history manager state
  */
-export const LAYOUT_HISTORY_MANAGER_GET_STATE: FactoryProvider =
+export const LAYOUT_HISTORY_MANAGER_STATE: ExistingProvider =
 {
-    provide: METADATA_HISTORY_MANAGER_GET_STATE,
-    useFactory: () =>
-    {
-        const manager = inject(LayoutEditorMetadataManager);
-
-        return manager.getMetadata.bind(manager);
-    }
+    provide: METADATA_HISTORY_MANAGER_STATE,
+    useExisting: LayoutEditorMetadataManager,
 };
 
 /**

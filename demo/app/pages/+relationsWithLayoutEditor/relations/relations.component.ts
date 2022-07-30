@@ -1,15 +1,17 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, provideLayoutRelationsEditor} from '@anglr/dynamic/layout-relations';
 import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
+import {MetadataStorage} from '@anglr/dynamic';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
+import {DemoStorage} from '../../../services/metadataStorage';
 
 /**
  * Layout editor component
@@ -20,12 +22,12 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
     templateUrl: 'relations.component.html',
     providers:
     [
-        // DemoStorage,
-        // <ExistingProvider>
-        // {
-        //     provide: MetadataStorage,
-        //     useExisting: DemoStorage
-        // },
+        DemoStorage,
+        <ExistingProvider>
+        {
+            provide: MetadataStorage,
+            useExisting: DemoStorage
+        },
         provideLayoutRelationsEditor(),
         provideHandlebarsLayoutRelationsEditor(),
         provideTinyMceLayoutRelationsEditor(),

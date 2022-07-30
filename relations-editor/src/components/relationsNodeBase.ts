@@ -1,10 +1,12 @@
-import {HostListener, ViewChildren, QueryList, ChangeDetectorRef, ElementRef, SimpleChanges, Directive, OnDestroy} from '@angular/core';
+import {HostListener, ViewChildren, QueryList, ChangeDetectorRef, ElementRef, SimpleChanges, Directive, OnDestroy, inject} from '@angular/core';
+import {MetadataHistoryManager} from '@anglr/dynamic';
 import {Dictionary, nameof} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
 import {Coordinates, RelationsInput, RelationsNode, RelationsNodeMetadata, RelationsOutput} from '../interfaces';
 import {RelationNodeOutputSAComponent} from './relationsNodeOutput/relationsNodeOutput.component';
 import {RelationNodeInputSAComponent} from './relationsNodeInput/relationsNodeInput.component';
+import {RELATIONS_HISTORY_MANAGER} from '../misc/tokens';
 
 /**
  * Base class for relations node components
@@ -18,6 +20,11 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
      * Instance of resize observer
      */
     protected observer: ResizeObserver;
+
+    /**
+     * Metadata history manager
+     */
+    protected history: MetadataHistoryManager<RelationsNodeMetadata[]> = inject(RELATIONS_HISTORY_MANAGER);
 
     /**
      * Indication whether is node initialized
@@ -258,6 +265,7 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     {
         if (this.isDragging)
         {
+            this.history.getNewState();
             this.isDragging = false;
             event.stopImmediatePropagation();
             event.preventDefault();

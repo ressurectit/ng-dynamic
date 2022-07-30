@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
-import {MetadataStorage, METADATA_HISTORY_MANAGER_GET_STATE} from '@anglr/dynamic';
-import {Func, PromiseOr} from '@jscrpt/common';
+import {MetadataHistoryManagerState, MetadataStorage, METADATA_HISTORY_MANAGER_STATE} from '@anglr/dynamic';
+import {PromiseOr} from '@jscrpt/common';
 
 import {StoreDataService} from '../storeData';
 
@@ -19,7 +19,7 @@ export class DemoStorage<TMetadata = any> extends MetadataStorage
 
     //######################### constructor #########################
     constructor(private _store: StoreDataService<TMetadata>,
-                @Inject(METADATA_HISTORY_MANAGER_GET_STATE) private _getMetadata: Func<TMetadata>,)
+                @Inject(METADATA_HISTORY_MANAGER_STATE) private state: MetadataHistoryManagerState<TMetadata>,)
     {
         super();
     }
@@ -36,7 +36,7 @@ export class DemoStorage<TMetadata = any> extends MetadataStorage
             return;
         }
 
-        this._store.setData(this._name, this._getMetadata());
+        this._store.setData(this._name, this.state.getMetadata());
     }
 
     /**

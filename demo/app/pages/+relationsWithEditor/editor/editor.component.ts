@@ -1,11 +1,13 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {provideRelationsEditorWithStatic, RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {provideTinyMceRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsRelationsEditor} from '@anglr/dynamic/handlebars-components';
+import {MetadataStorage} from '@anglr/dynamic';
 
 import {DemoData} from '../../../services/demoData';
 import {StaticComponentsRegister} from '../../../services/staticComponentsRegister/staticComponentsRegister.service';
+import {DemoStorage} from '../../../services/metadataStorage';
 
 /**
  * Layout editor component
@@ -19,6 +21,12 @@ import {StaticComponentsRegister} from '../../../services/staticComponentsRegist
         provideRelationsEditorWithStatic(StaticComponentsRegister),
         provideTinyMceRelationsEditor(),
         provideHandlebarsRelationsEditor(),
+        DemoStorage,
+        <ExistingProvider>
+        {
+            provide: MetadataStorage,
+            useExisting: DemoStorage
+        }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

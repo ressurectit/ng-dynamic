@@ -1,7 +1,8 @@
+import {MetadataHistoryManager} from '@anglr/dynamic';
 import {Selection, BaseType, Line, line, curveBundle} from 'd3';
 import {Observable, Subject} from 'rxjs';
 
-import {Coordinates, RelationsInput, RelationsOutput} from '../interfaces';
+import {Coordinates, RelationsInput, RelationsNodeMetadata, RelationsOutput} from '../interfaces';
 import {RelationsNodeManager} from '../services';
 import {INVALIDATE_DROP} from './constants';
 
@@ -51,6 +52,7 @@ export class NodeRelationPath
 
     constructor(protected _parentGroup: Selection<BaseType, {}, null, undefined>,
                 protected _relationManager: RelationsNodeManager,
+                protected history: MetadataHistoryManager<RelationsNodeMetadata[]>,
                 public start: Coordinates|null,
                 public end: Coordinates|null)
     {
@@ -101,6 +103,7 @@ export class NodeRelationPath
                 {
                     this.end = activeInput.getCoordinates();
                     this.input = activeInput;
+                    this.history.getNewState();
                 }
                 else
                 {
@@ -109,6 +112,7 @@ export class NodeRelationPath
                     this.end = null;
                     this.input = null;
                     this.output = null;
+                    this.history.getNewState();
                 }
             }
         }

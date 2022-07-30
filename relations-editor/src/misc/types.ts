@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {DynamicItemDefData} from '@anglr/dynamic';
 
-import type {RelationsNode} from '../interfaces';
+import type {RelationsNode, RelationsNodeEditorData} from '../interfaces';
 import type {RelationsEditorMetaInfo} from '../decorators';
 
 /**
@@ -12,7 +12,7 @@ export type RelationsModuleTypes = DynamicItemDefData<string[]>;
 /**
  * Relations node definition
  */
-export type RelationsNodeDef = DynamicItemDefData<Type<RelationsNode>> & RelationsEditorMetaInfo & {singleton?: boolean};
+export type RelationsNodeDef = DynamicItemDefData<Type<RelationsNode>> & RelationsEditorMetaInfo & RelationsNodeEditorData;
 
 /**
  * Object used as void type of relation ouptuts with no data

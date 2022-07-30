@@ -1,6 +1,8 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
-import {DynamicLayoutModule, provideLayout} from '@anglr/dynamic/layout';
-import {DynamicRelationsModule, provideRelations} from '@anglr/dynamic/relations';
+import {DynamicLayoutModule} from '@anglr/dynamic/layout';
+import {DynamicRelationsModule} from '@anglr/dynamic/relations';
+
+import {provideLayoutRelations} from '../misc/utils';
 
 /**
  * Module contains components, directives, pipes for dynamic layout relations rendering
@@ -26,8 +28,7 @@ export class DynamicLayoutRelationsModule
             ngModule: DynamicLayoutRelationsModule,
             providers:
             [
-                provideLayout(),
-                provideRelations(),
+                provideLayoutRelations(),
             ]
         };
     }

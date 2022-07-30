@@ -17,9 +17,7 @@ import {StaticComponentsRegister} from '../../../services/staticComponentsRegist
     providers:
     [
         provideRelationsEditorWithStatic(StaticComponentsRegister),
-        // provideTinyMceRelations(),
         provideTinyMceRelationsEditor(),
-        // provideHandlebarsRelations(),
         provideHandlebarsRelationsEditor(),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

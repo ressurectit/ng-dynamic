@@ -32,3 +32,13 @@ export function provideCssLayoutRelationsEditor(): Provider[]
         ...provideCssLayout(),
     ];
 }
+
+/**
+ * Providers for layout relations css subpackage
+ */
+export function provideCssLayoutRelations(): Provider[]
+{
+    return [
+        ...provideCssLayout(),
+    ];
+}

@@ -57,3 +57,19 @@ export interface RelationsNodeDestroySubject
      */
     destroy?: Subject<void>;
 }
+
+/**
+ * Relations node editor data
+ */
+export interface RelationsNodeEditorData
+{
+    /**
+     * Indication whether relations node can be used only once
+     */
+    singleton?: boolean;
+
+    /**
+     * Display name of relations node
+     */
+    displayName?: string;
+}

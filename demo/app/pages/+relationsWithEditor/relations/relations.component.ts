@@ -20,9 +20,7 @@ import {DemoData} from '../../../services/demoData';
     [
         provideRelations(),
         provideTinyMceRelations(),
-        // provideTinyMceRelationsEditor(),
         provideHandlebarsRelations(),
-        // provideHandlebarsRelationsEditor(),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

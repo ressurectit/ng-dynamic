@@ -13,6 +13,11 @@ interface ɵDynamicModuleWithDefault<TData = any> extends DynamicModule
      * Default export value
      */
     default?: TData;
+
+    /**
+     * Display name of layout component
+     */
+    displayName?: string;
 }
 
 /**
@@ -47,5 +52,6 @@ export const componentRelationsNodeExtractor: DynamicModuleDataExtractorFn<Relat
         data: metadata.nodeDefinition,
         metaInfo: metadata.metaInfo,
         singleton: true,
+        displayName: localModule.displayName,
     };
 };

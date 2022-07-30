@@ -8,6 +8,22 @@ import {Subscription} from 'rxjs';
 import {LayoutManager} from '../layoutManager/layoutManager.service';
 
 /**
+ * Layout component register type definition
+ */
+export interface LayoutComponentsRegisterType
+{
+    /**
+     * Type that represents layout component
+     */
+    type: Type<any>|undefined|null;
+
+    /**
+     * Display name of layout component
+     */
+    displayName: string|undefined|null;
+}
+
+/**
  * Register for layout components that are part of relations
  */
 @Injectable()
@@ -23,7 +39,7 @@ export class LayoutComponentsRegister implements OnDestroy
     /**
      * Object storing defined types
      */
-    protected _definedTypes: Dictionary<Type<any>> = {};
+    protected _definedTypes: Dictionary<LayoutComponentsRegisterType> = {};
 
     /**
      * Initialization promise
@@ -73,7 +89,18 @@ export class LayoutComponentsRegister implements OnDestroy
     {
         await (this._initPromise ??= this._initializeTypes());
 
-        return this._definedTypes[name] ?? null;
+        return this._definedTypes[name]?.type ?? null;
+    }
+
+    /**
+     * Gets display name of type by its name
+     * @param name - Name of type that display name should be obtained
+     */
+    public async getDisplayName(name: string): Promise<string|undefined>
+    {
+        await (this._initPromise ??= this._initializeTypes());
+
+        return this._definedTypes[name]?.displayName ?? undefined;
     }
 
     //######################### protected method #########################
@@ -101,7 +128,11 @@ export class LayoutComponentsRegister implements OnDestroy
                 continue;
             }
 
-            this._definedTypes[component.metadata.id] = type.data;
+            this._definedTypes[component.metadata.id] = 
+            {
+                type: type.data,
+                displayName: component.metadata.displayName,
+            };
         }
     }
 }

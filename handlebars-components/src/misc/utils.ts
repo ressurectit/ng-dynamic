@@ -54,3 +54,14 @@ export function provideHandlebarsLayoutRelationsEditor(): Provider[]
         ...provideHandlebarsLayout(),
     ];
 }
+
+/**
+ * Providers for layout relations handlebars subpackage
+ */
+export function provideHandlebarsLayoutRelations(): Provider[]
+{
+    return [
+        ...provideHandlebarsLayout(),
+        ...provideHandlebarsRelations(),
+    ];
+}

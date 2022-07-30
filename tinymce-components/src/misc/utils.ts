@@ -54,3 +54,15 @@ export function provideTinyMceLayoutRelationsEditor(): Provider[]
         ...provideTinyMceLayout(),
     ];
 }
+
+
+/**
+ * Providers for layout relations tiny MCE subpackage
+ */
+export function provideTinyMceLayoutRelations(): Provider[]
+{
+    return [
+        ...provideTinyMceLayout(),
+        ...provideTinyMceRelations(),
+    ];
+}

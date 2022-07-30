@@ -2,11 +2,12 @@ import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/co
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
-import {LayoutComponentMetadata, provideLayout} from '@anglr/dynamic/layout';
-import {provideRelations, RelationsManager} from '@anglr/dynamic/relations';
-import {provideCssLayout} from '@anglr/dynamic/css-components';
-import {provideTinyMceLayout, provideTinyMceRelations} from '@anglr/dynamic/tinymce-components';
-import {provideHandlebarsLayout, provideHandlebarsRelations} from '@anglr/dynamic/handlebars-components';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {provideLayoutRelations} from '@anglr/dynamic/layout-relations';
+import {RelationsManager} from '@anglr/dynamic/relations';
+import {provideCssLayoutRelations} from '@anglr/dynamic/css-components';
+import {provideTinyMceLayoutRelations} from '@anglr/dynamic/tinymce-components';
+import {provideHandlebarsLayoutRelations} from '@anglr/dynamic/handlebars-components';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
@@ -20,13 +21,10 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
     templateUrl: 'preview.component.html',
     providers:
     [
-        provideLayout(),
-        provideRelations(),
-        provideCssLayout(),
-        provideTinyMceLayout(),
-        provideTinyMceRelations(),
-        provideHandlebarsLayout(),
-        provideHandlebarsRelations(),
+        provideLayoutRelations(),
+        provideCssLayoutRelations(),
+        provideTinyMceLayoutRelations(),
+        provideHandlebarsLayoutRelations(),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

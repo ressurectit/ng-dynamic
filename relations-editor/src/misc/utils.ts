@@ -1,6 +1,6 @@
 import {ClassProvider, Provider, Type} from '@angular/core';
 import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
-import {isBlank, isBoolean, isJsObject, isPresent, isType} from '@jscrpt/common';
+import {isBlank, isBoolean, isJsObject, isPresent, isString, isType} from '@jscrpt/common';
 
 import {DEFAULT_RELATIONS_NODES_PROVIDER, DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR, DEFAULT_RELATIONS_NODES_EXTRACTOR, DYNAMIC_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_MODULE_TYPES_LOADER_PROVIDER, RELATIONS_NODES_LOADER_PROVIDER, COMPONENTS_RELATIONS_NODES_EXTRACTOR, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER} from './providers';
 import type {RelationsModuleTypes, RelationsNodeDef} from './types';
@@ -45,6 +45,12 @@ export const isRelationsNodeDef: DynamicItemLoaderValidatorFn<RelationsNodeDef> 
 
     //singleton should be boolean if used
     if(isPresent(data.singleton) && !isBoolean(data.singleton))
+    {
+        return false;
+    }
+
+    //display name should be string if used
+    if(isPresent(data.displayName) && !isString(data.displayName))
     {
         return false;
     }

@@ -1,5 +1,4 @@
 import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
 
 import {PackageManager} from '../../../../services';
 
@@ -34,11 +33,6 @@ export class PackageManagerComponent implements OnInit
      */
     protected availablePackages: readonly string[] = [];
 
-    /**
-     * Instance of form control for handling available packages
-     */
-    protected control: FormControl<string> = new FormControl();
-
     //######################### constructor #########################
     constructor(protected packageManager: PackageManager,)
     {
@@ -52,7 +46,7 @@ export class PackageManagerComponent implements OnInit
     public ngOnInit(): void
     {
         this.usedPackages = this.packageManager.usedPackages;
-        this.availablePackages = this.packageManager.packages;
+        this.updatedAvailablePackages();
     }
 
     //######################### protected methods - template bindings #########################
@@ -69,6 +63,7 @@ export class PackageManagerComponent implements OnInit
         }
 
         this.usedPackages = [...this.usedPackages, packageName];
+        this.updatedAvailablePackages();
         this.packageManager.setUsedPackages(this.usedPackages);
     }
 
@@ -79,6 +74,17 @@ export class PackageManagerComponent implements OnInit
     protected removePackage(packageName: string): void
     {
         this.usedPackages = this.usedPackages.filter(itm => itm != packageName);
+        this.updatedAvailablePackages();
         this.packageManager.setUsedPackages(this.usedPackages);
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Updates available packages using used packages
+     */
+    protected updatedAvailablePackages(): void
+    {
+        this.availablePackages = this.packageManager.packages.filter(itm => !this.usedPackages.find(it => it == itm));
     }
 }

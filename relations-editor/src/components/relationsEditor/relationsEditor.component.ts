@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, Input, FactoryProvider, inject, OnDe
 import {CdkDragDrop, DragDropModule} from '@angular/cdk/drag-drop';
 import {HostDisplayFlexStyle} from '@anglr/common';
 import {AppHotkeysService} from '@anglr/common/hotkeys';
-import {EditorHotkeys, MetadataHistoryManager, MetadataStorage} from '@anglr/dynamic';
+import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManagerModule} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -26,6 +26,7 @@ import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
         NodesPaletteSAComponent,
         RelationsCanvasSAComponent,
         DragDropModule,
+        PackageManagerModule,
     ],
     providers:
     [

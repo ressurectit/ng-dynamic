@@ -8,7 +8,7 @@ import {MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {DemoData} from '../../../services/demoData';
 import {StaticComponentsRegister} from '../../../services/staticComponentsRegister/staticComponentsRegister.service';
 import {DemoStorage} from '../../../services/metadataStorage';
-import {DemoPackageManager} from '../../../services/demoPackageManager/demoPackageManager.service';
+import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
 
 /**
  * Layout editor component
@@ -31,7 +31,7 @@ import {DemoPackageManager} from '../../../services/demoPackageManager/demoPacka
         <ClassProvider>
         {
             provide: PackageManager,
-            useClass: DemoPackageManager,
+            useClass: DemoRelationsPackageManager,
         },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

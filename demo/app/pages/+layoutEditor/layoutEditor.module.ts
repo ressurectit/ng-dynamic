@@ -9,7 +9,7 @@ import {PackageManager} from '@anglr/dynamic';
 import {components} from './layoutEditor.routes';
 import {LoadSaveNewSAComponent} from '../../components';
 import {createStoreDataServiceFactory} from '../../misc/factories';
-import {DemoPackageManager} from '../../services/demoPackageManager/demoPackageManager.service';
+import {DemoLayoutPackageManager} from '../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
 
 /**
  * Module for layout editor samples
@@ -34,7 +34,7 @@ import {DemoPackageManager} from '../../services/demoPackageManager/demoPackageM
         <ClassProvider>
         {
             provide: PackageManager,
-            useClass: DemoPackageManager,
+            useClass: DemoLayoutPackageManager,
         },
     ]
 })

@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
-import {DynamicItemLoader, DynamicItemSource} from '@anglr/dynamic';
+import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, generateId, NoopAction} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
@@ -79,6 +79,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
     constructor(@Inject(RELATIONS_MODULE_TYPES_LOADER) protected _moduleTypesLoader: DynamicItemLoader<RelationsModuleTypes>,
                 @Inject(RELATIONS_NODES_LOADER) protected _nodesLoader: DynamicItemLoader<RelationsNodeDef>,
                 protected _changeDetector: ChangeDetectorRef,
+                protected packageManager: PackageManager,
                 protected _metadataManager: RelationsNodeManager,
                 @Inject(REFRESH_PALETTE_OBSERVABLES) @Optional() protected _refreshObservables?: Observable<void>[],
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -99,6 +100,8 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
                 this.initSubscriptions.add(obs.subscribe(() => this.loadNodes()));
             }
         }
+
+        this.initSubscriptions.add(this.packageManager.usedPackagesChange.subscribe(() => this.loadNodes()));
 
         await this.loadNodes();
     }
@@ -127,7 +130,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         this.groupedItems = {};
 
         //TODO make it dynamic
-        for (const packageName of ['basic-components', 'material-components', 'static-components', 'layout-components', 'handlebars-components', 'tinymce-components'])
+        for (const packageName of this.packageManager.usedPackages)
         {
             const types = (await this._moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
 

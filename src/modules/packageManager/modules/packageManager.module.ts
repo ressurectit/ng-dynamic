@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 
 import {PackageManagerComponent} from '../components';
-import {WithoutUsedPipe} from '../pipes';
 
 /**
  * Module for package manager components, directives and pipes
@@ -18,12 +17,10 @@ import {WithoutUsedPipe} from '../pipes';
     declarations:
     [
         PackageManagerComponent,
-        WithoutUsedPipe,
     ],
     exports:
     [
         PackageManagerComponent,
-        WithoutUsedPipe,
     ]
 })
 export class PackageManagerModule

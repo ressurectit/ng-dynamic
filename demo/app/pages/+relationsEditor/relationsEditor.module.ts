@@ -8,7 +8,7 @@ import {PackageManager} from '@anglr/dynamic';
 import {components} from './relationsEditor.routes';
 import {LoadSaveNewSAComponent} from '../../components';
 import {createStoreDataServiceFactory} from '../../misc/factories';
-import {DemoPackageManager} from '../../services/demoPackageManager/demoPackageManager.service';
+import {DemoRelationsPackageManager} from '../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
 
 /**
  * Module for relations editor samples
@@ -32,7 +32,7 @@ import {DemoPackageManager} from '../../services/demoPackageManager/demoPackageM
         <ClassProvider>
         {
             provide: PackageManager,
-            useClass: DemoPackageManager,
+            useClass: DemoRelationsPackageManager,
         },
     ]
 })

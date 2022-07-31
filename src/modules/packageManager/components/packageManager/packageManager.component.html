@@ -8,11 +8,11 @@
 
 <div *ngIf="detailVisible">
     <div class="flex-row">
-        <select class="form-control flex-1" [formControl]="control">
-            <option *ngFor="let package of availablePackages | withoutUsed: usedPackages" [value]="package">{{package}}</option>
+        <select class="form-control flex-1" #avPkgs>
+            <option *ngFor="let package of availablePackages" [value]="package">{{package}}</option>
         </select>
 
-        <button type="button" class="btn-icon margin-left-extra-small" (click)="addPackage(control.value)">
+        <button type="button" class="btn-icon margin-left-extra-small" (click)="addPackage(availablePackages[avPkgs.selectedIndex])">
             <span class="fas fa-plus"></span>
         </button>
     </div>

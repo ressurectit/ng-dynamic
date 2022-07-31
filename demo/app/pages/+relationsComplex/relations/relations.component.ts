@@ -13,7 +13,7 @@ import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {ComplexStaticRegister} from '../misc';
 import {DemoStorage} from '../../../services/metadataStorage';
-import {DemoPackageManager} from '../../../services/demoPackageManager/demoPackageManager.service';
+import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
 
 /**
  * Layout editor component
@@ -37,7 +37,7 @@ import {DemoPackageManager} from '../../../services/demoPackageManager/demoPacka
         <ClassProvider>
         {
             provide: PackageManager,
-            useClass: DemoPackageManager,
+            useClass: DemoRelationsPackageManager,
         },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

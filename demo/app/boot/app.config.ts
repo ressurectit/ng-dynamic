@@ -368,9 +368,9 @@ export const providers: Provider[] =
     },
 
     //######################### DYNAMIC INIT #########################
-    <FactoryProvider>
+    <ClassProvider>
     {
         provide: PackageManager,
-        useFactory: () => new DemoPackageManager('PACKAGES_STORE')
+        useClass: DemoPackageManager,
     },
 ];

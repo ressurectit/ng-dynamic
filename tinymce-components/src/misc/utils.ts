@@ -1,4 +1,5 @@
 import {Provider} from '@angular/core';
+import {provideStaticPackageSource} from '@anglr/dynamic';
 
 import {TINY_MCE_LAYOUT_COMPONENTS_PROVIDER, TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER, TINY_MCE_RELATIONS_COMPONENTS_PROVIDER, TINY_MCE_RELATIONS_MODULE_TYPES_PROVIDER, TINY_MCE_RELATIONS_NODES_PROVIDER} from './providers';
 
@@ -30,6 +31,7 @@ export function provideTinyMceLayoutEditor(): Provider[]
     return [
         TINY_MCE_LAYOUT_COMPONENTS_PROVIDER,
         TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER,
+        provideStaticPackageSource('tinymce-components'),
     ];
 }
 
@@ -41,6 +43,7 @@ export function provideTinyMceRelationsEditor(): Provider[]
     return [
         TINY_MCE_RELATIONS_MODULE_TYPES_PROVIDER,
         TINY_MCE_RELATIONS_NODES_PROVIDER,
+        provideStaticPackageSource('tinymce-components'),
     ];
 }
 

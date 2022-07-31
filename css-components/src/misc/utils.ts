@@ -1,4 +1,5 @@
 import {Provider} from '@angular/core';
+import {provideStaticPackageSource} from '@anglr/dynamic';
 
 import {CSS_LAYOUT_COMPONENTS_PROVIDER, CSS_LAYOUT_MODULE_TYPES_PROVIDER} from './providers';
 
@@ -20,6 +21,7 @@ export function provideCssLayoutEditor(): Provider[]
     return [
         CSS_LAYOUT_COMPONENTS_PROVIDER,
         CSS_LAYOUT_MODULE_TYPES_PROVIDER,
+        provideStaticPackageSource('css-components'),
     ];
 }
 

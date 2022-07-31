@@ -1,4 +1,8 @@
-import {SimpleChange, SimpleChanges} from '@angular/core';
+import {Provider, SimpleChange, SimpleChanges, ValueProvider} from '@angular/core';
+import {NEVER} from 'rxjs';
+
+import {PackageSource} from '../interfaces';
+import {PACKAGE_SOURCES} from './tokens';
 
 /**
  * Adds simple change into simple changes object
@@ -16,5 +20,26 @@ export function addSimpleChange<TObj, TValue = any>(changes: SimpleChanges, key:
         previousValue,
         firstChange,
         isFirstChange: () => firstChange,
+    };
+}
+
+/**
+ * Gets provider for static package source
+ * @param packageName - Name of package for which will be provider created
+ */
+export function provideStaticPackageSource(packageName: string): Provider
+{
+    return <ValueProvider>
+    {
+        provide: PACKAGE_SOURCES,
+        useValue: <PackageSource>
+        {
+            packages: [packageName],
+            packagesChange: NEVER,
+            refresh()
+            {
+            }
+        },
+        multi: true,
     };
 }

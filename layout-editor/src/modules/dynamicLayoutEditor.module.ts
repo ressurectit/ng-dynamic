@@ -1,5 +1,6 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {DynamicLayoutModule} from '@anglr/dynamic/layout';
+import {DefaultDynamicPackage} from '@anglr/dynamic';
 
 import {LayoutEditorSAComponent} from '../components';
 import {provideLayoutEditor} from '../misc/utils';
@@ -26,14 +27,16 @@ export class DynamicLayoutEditorModule
     /**
      * Creates DynamicLayoutEditorModule extended with providers
      * @param designerLayout - Indication whether provide extractor for layout designer types
+     * @param packages - Array of default packages to be used, if omitted all built-in packages are used
      */
-    public static withProviders(designerLayout: boolean = true): ModuleWithProviders<DynamicLayoutEditorModule>
+    public static withProviders(designerLayout: boolean = true,
+                                packages: DefaultDynamicPackage[] = ['basic-components', 'material-components']): ModuleWithProviders<DynamicLayoutEditorModule>
     {
         return {
             ngModule: DynamicLayoutEditorModule,
             providers:
             [
-                provideLayoutEditor(designerLayout),
+                provideLayoutEditor(designerLayout, packages),
             ]
         };
     }

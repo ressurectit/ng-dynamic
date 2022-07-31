@@ -1,4 +1,5 @@
 import {Provider} from '@angular/core';
+import {provideStaticPackageSource} from '@anglr/dynamic';
 
 import {HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER, HANDLEBARS_LAYOUT_MODULE_TYPES_PROVIDER, HANDLEBARS_RELATIONS_COMPONENTS_PROVIDER, HANDLEBARS_RELATIONS_MODULE_TYPES_PROVIDER, HANDLEBARS_RELATIONS_NODES_PROVIDER} from './providers';
 
@@ -30,6 +31,7 @@ export function provideHandlebarsLayoutEditor(): Provider[]
     return [
         HANDLEBARS_LAYOUT_COMPONENTS_PROVIDER,
         HANDLEBARS_LAYOUT_MODULE_TYPES_PROVIDER,
+        provideStaticPackageSource('handlebars-components'),
     ];
 }
 
@@ -41,6 +43,7 @@ export function provideHandlebarsRelationsEditor(): Provider[]
     return [
         HANDLEBARS_RELATIONS_MODULE_TYPES_PROVIDER,
         HANDLEBARS_RELATIONS_NODES_PROVIDER,
+        provideStaticPackageSource('handlebars-components'),
     ];
 }
 

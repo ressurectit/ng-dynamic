@@ -1,5 +1,5 @@
 import {Provider} from '@angular/core';
-import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
+import {DefaultDynamicPackage, DynamicItemLoaderValidatorFn, provideStaticPackageSource} from '@anglr/dynamic';
 import {provideLayout} from '@anglr/dynamic/layout';
 import {isBlank} from '@jscrpt/common';
 
@@ -9,9 +9,10 @@ import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditor
 
 /**
  * Default providers for layout editor subpackage, including providers for layout subpackage
- * @param designerLayout - Indication whether provide extractor for layout designer types
+ * @param designerLayout - Indication whether provide extractor for layout designer types, defaults to true
+ * @param packages - Array of default packages to be used, if omitted all built-in packages are used
  */
-export function provideLayoutEditor(designerLayout: boolean = true): Provider[]
+export function provideLayoutEditor(designerLayout: boolean = true, packages: DefaultDynamicPackage[] = ['basic-components', 'material-components']): Provider[]
 {
     return [
         ...designerLayout ? [DESIGNER_LAYOUT_COMPONENTS_EXTRACTOR] : [],
@@ -26,6 +27,7 @@ export function provideLayoutEditor(designerLayout: boolean = true): Provider[]
         LayoutEditorMetadataManager,
         LAYOUT_HISTORY_MANAGER_PROVIDER,
         LAYOUT_HISTORY_MANAGER_STATE,
+        ...packages.map(pkg => provideStaticPackageSource(pkg)),
     ];
 }
 

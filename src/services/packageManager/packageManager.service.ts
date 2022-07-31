@@ -1,12 +1,15 @@
 import {inject} from '@angular/core';
 import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
 import {PromiseOr} from '@jscrpt/common';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
+
+import {PackageSource} from '../../interfaces';
+import {PACKAGE_SOURCES} from '../../misc/tokens';
 
 /**
  * Service used for obtaining available and used packages
  */
-export abstract class PackageManager
+export class PackageManager
 {
     //######################### private fields #########################
     
@@ -18,26 +21,54 @@ export abstract class PackageManager
     //######################### protected properties #########################
     
     /**
+     * Subscriptions created during initialization
+     */
+    protected initSubscriptions: Subscription = new Subscription();
+
+    /**
      * Used for emitting usedPackages changes
      */
     protected usedPackagesSubject: Subject<void> = new Subject<void>();
+
+    /**
+     * Used for emitting packages changes
+     */
+    protected packagesChangeSubject: Subject<void> = new Subject<void>();
 
     /**
      * Permanent storage storing selected packages
      */
     protected store: PermanentStorage = inject(PERMANENT_STORAGE);
 
+    /**
+     * Array of package source
+     */
+    protected packageSources: PackageSource[] = inject(PACKAGE_SOURCES);
+
     //######################### public properties #########################
 
     /**
      * Occurs when available packages changes
      */
-    public abstract get packagesChange(): Observable<void>;
+    public get packagesChange(): Observable<void>
+    {
+        return this.packagesChangeSubject.asObservable();
+    }
 
     /**
      * Gets available packages
      */
-    public abstract get packages(): readonly string[];
+    public get packages(): readonly string[]
+    {
+        const result: string[] = [];
+
+        for(const source of this.packageSources)
+        {
+            result.push(...source.packages);
+        }
+
+        return result;
+    }
 
     /**
      * Gets current usedPackages value
@@ -63,6 +94,11 @@ export abstract class PackageManager
     constructor(protected storageName: string,)
     {
         this.usedPackages = this.store.get<string[]|null>(storageName) ?? [];
+
+        for(const source of this.packageSources)
+        {
+            this.initSubscriptions.add(source.packagesChange.subscribe(() =>this.packagesChangeSubject.next()));
+        }
     }
     
     //######################### public methods #########################
@@ -88,5 +124,19 @@ export abstract class PackageManager
     /**
      * Refresh available packages with current data
      */
-    public abstract refresh(): PromiseOr<void>;
-}
+    public refresh(): PromiseOr<void>
+    {
+        for(const source of this.packageSources)
+        {
+            source.refresh();
+        }
+    }
+
+    /**
+     * Destroys service and all its resources
+     */
+    public destroy(): void
+    {
+        this.initSubscriptions.unsubscribe();
+    }
+} 

@@ -1,17 +1,18 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ExistingProvider, ClassProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, provideLayoutRelationsEditor} from '@anglr/dynamic/layout-relations';
 import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
-import {MetadataStorage} from '@anglr/dynamic';
+import {MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {DemoStorage} from '../../../services/metadataStorage';
+import {DemoPackageManager} from '../../../services/demoPackageManager/demoPackageManager.service';
 
 /**
  * Layout editor component
@@ -32,6 +33,11 @@ import {DemoStorage} from '../../../services/metadataStorage';
         provideHandlebarsLayoutRelationsEditor(),
         provideTinyMceLayoutRelationsEditor(),
         provideCssLayoutRelationsEditor(),
+        <ClassProvider>
+        {
+            provide: PackageManager,
+            useClass: DemoPackageManager,
+        },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

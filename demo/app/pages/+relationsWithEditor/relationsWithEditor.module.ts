@@ -7,6 +7,7 @@ import {DynamicRelationsEditorModule} from '@anglr/dynamic/relations-editor';
 
 import {components} from './relationsWithEditor.routes';
 import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../../components';
+import {createStoreDataServiceFactory} from '../../misc/factories';
 
 /**
  * Module for relations with editor samples
@@ -25,6 +26,10 @@ import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../..
     declarations:
     [
         ...components,
+    ],
+    providers:
+    [
+        createStoreDataServiceFactory('RELATIONS_TMP'),
     ],
 })
 @ModuleRoutes(components)

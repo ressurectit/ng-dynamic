@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CdkDrag, CdkDragStart, DragDropModule} from '@angular/cdk/drag-drop';
-import {DynamicItemLoader, DynamicItemSource} from '@anglr/dynamic';
+import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
 import {Dictionary, generateId, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
@@ -72,6 +72,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
     //######################### constructor #########################
     constructor(@Inject(LAYOUT_MODULE_TYPES_LOADER) protected _moduleTypesLoader: DynamicItemLoader<LayoutModuleTypes>,
                 protected _changeDetector: ChangeDetectorRef,
+                protected packageManager: PackageManager,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
                 protected _metadataManager: LayoutEditorMetadataManager,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -86,45 +87,10 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
     public async ngOnInit(): Promise<void>
     {
         this._initSubscriptions.add(this._metadataManager.layoutChange.subscribe(() => this._getDesignerDropLists()));
+        this._initSubscriptions.add(this.packageManager.usedPackagesChange.subscribe(() => this.initItems()));
 
         this._getDesignerDropLists();
-
-        //TODO make it dynamic
-        for (const packageName of ['basic-components', 'material-components', 'css-components', 'tinymce-components', 'handlebars-components'])
-        {
-            const types = (await this._moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
-
-            for(const type of types)
-            {
-                const itemSource: DynamicItemSource = {package: packageName, name: type};
-                const metadata = await this._metadataExtractor.extractMetadata(itemSource);
-    
-                if(!metadata)
-                {
-                    this._logger?.warn('ComponentsPaletteSAComponent: Failed to obtain layout editor metadata {@source}', itemSource);
-                }
-                else
-                {
-                    this._allItems.push(
-                    {
-                        itemSource,
-                        metadata
-                    });
-                }
-            }
-        }        
-
-        this._groupedItems[''] = [];
-
-        //group items
-        for(const item of this._allItems)
-        {
-            const group = item.metadata.metaInfo?.group ?? '';
-            this._groupedItems[group] ??= [];
-            this._groupedItems[group].push(item);
-        }
-
-        this._changeDetector.detectChanges();
+        await this.initItems();
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -188,5 +154,50 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
     protected _getDesignerDropLists(): void
     {
         this._designerDropLists = this._metadataManager.flatTree.map(itm => itm.component.id).reverse();
+    }
+
+    /**
+     * Initialize items in palette
+     */
+    protected async initItems(): Promise<void>
+    {
+        this._groupedItems = {};
+        this._allItems = [];
+
+        for (const packageName of this.packageManager.usedPackages)
+        {
+            const types = (await this._moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
+
+            for(const type of types)
+            {
+                const itemSource: DynamicItemSource = {package: packageName, name: type};
+                const metadata = await this._metadataExtractor.extractMetadata(itemSource);
+    
+                if(!metadata)
+                {
+                    this._logger?.warn('ComponentsPaletteSAComponent: Failed to obtain layout editor metadata {@source}', itemSource);
+                }
+                else
+                {
+                    this._allItems.push(
+                    {
+                        itemSource,
+                        metadata
+                    });
+                }
+            }
+        }        
+
+        this._groupedItems[''] = [];
+
+        //group items
+        for(const item of this._allItems)
+        {
+            const group = item.metadata.metaInfo?.group ?? '';
+            this._groupedItems[group] ??= [];
+            this._groupedItems[group].push(item);
+        }
+
+        this._changeDetector.detectChanges();
     }
 }

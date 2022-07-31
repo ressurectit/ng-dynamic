@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {FormControl} from '@angular/forms';
 
-import {PackageManager} from '../../services';
+import {PackageManager} from '../../../../services';
 
 //TODO: animations
 
@@ -13,14 +13,9 @@ import {PackageManager} from '../../services';
     selector: 'package-manager',
     templateUrl: 'packageManager.component.html',
     styleUrls: ['packageManager.component.css'],
-    standalone: true,
-    imports:
-    [
-        CommonModule,
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PackageManagerSAComponent implements OnInit
+export class PackageManagerComponent implements OnInit
 {
     //######################### protected properties - template bindings #########################
 
@@ -39,6 +34,11 @@ export class PackageManagerSAComponent implements OnInit
      */
     protected availablePackages: readonly string[] = [];
 
+    /**
+     * Instance of form control for handling available packages
+     */
+    protected control: FormControl<string> = new FormControl();
+
     //######################### constructor #########################
     constructor(protected packageManager: PackageManager,)
     {
@@ -53,5 +53,32 @@ export class PackageManagerSAComponent implements OnInit
     {
         this.usedPackages = this.packageManager.usedPackages;
         this.availablePackages = this.packageManager.packages;
+    }
+
+    //######################### protected methods - template bindings #########################
+
+    /**
+     * Adds package to used packages
+     * @param packageName - Name of package to be added
+     */
+    protected addPackage(packageName: string|null): void
+    {
+        if(!packageName)
+        {
+            return;
+        }
+
+        this.usedPackages = [...this.usedPackages, packageName];
+        this.packageManager.setUsedPackages(this.usedPackages);
+    }
+
+    /**
+     * Removes package from used packages
+     * @param packageName - Name of package to be removed
+     */
+    protected removePackage(packageName: string): void
+    {
+        this.usedPackages = this.usedPackages.filter(itm => itm != packageName);
+        this.packageManager.setUsedPackages(this.usedPackages);
     }
 }

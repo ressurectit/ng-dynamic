@@ -23,11 +23,11 @@ export function provideLayoutRelations(): Provider[]
  * Providers for relations editor subpackage that works with layout metadata
  * @param packages - Array of default packages to be used, if omitted all built-in packages are used
  */
-export function provideLayoutRelationsEditor(packages: DefaultDynamicPackage[] = ['basic-components', 'material-components']): Provider[]
+export function provideLayoutRelationsEditor(packages?: DefaultDynamicPackage[]): Provider[]
 {
     return [
         ...provideLayoutEditor(false, packages),
-        ...provideRelationsEditor(),
+        ...provideRelationsEditor([]),
         LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER,
         LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
         LayoutManager,
@@ -52,7 +52,7 @@ export function provideLayoutRelationsEditor(packages: DefaultDynamicPackage[] =
  * @param staticRegister - Type that represents implementation of static components register
  * @param packages - Array of default packages to be used, if omitted all built-in packages are used
  */
-export function provideLayoutRelationsEditorWithStatic(staticRegister: Type<StaticComponentsRegister>, packages: DefaultDynamicPackage[] = ['basic-components', 'material-components']): Provider[]
+export function provideLayoutRelationsEditorWithStatic(staticRegister: Type<StaticComponentsRegister>, packages?: DefaultDynamicPackage[]): Provider[]
 {
     return [
         ...provideLayoutRelationsEditor(packages),

@@ -30,7 +30,7 @@ export class DynamicLayoutEditorModule
      * @param packages - Array of default packages to be used, if omitted all built-in packages are used
      */
     public static withProviders(designerLayout: boolean = true,
-                                packages: DefaultDynamicPackage[] = ['basic-components', 'material-components']): ModuleWithProviders<DynamicLayoutEditorModule>
+                                packages?: DefaultDynamicPackage[]): ModuleWithProviders<DynamicLayoutEditorModule>
     {
         return {
             ngModule: DynamicLayoutEditorModule,

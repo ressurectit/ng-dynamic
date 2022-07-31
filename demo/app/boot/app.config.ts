@@ -17,7 +17,6 @@ import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES} from '@anglr/rest';
 import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
-import {PackageManager} from '@anglr/dynamic';
 import {isString, isJsObject} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
 import {sk} from 'date-fns/locale';
@@ -26,7 +25,6 @@ import {GlobalizationService as GlobalizationServiceImpl} from '../services/glob
 import {NOTHING_SELECTED} from '../misc/constants';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
-import {DemoPackageManager} from '../services/demoPackageManager/demoPackageManager.service';
 
 /**
  * Array of providers that are used in app module
@@ -365,12 +363,5 @@ export const providers: Provider[] =
             };
         },
         deps: [Injector]
-    },
-
-    //######################### DYNAMIC INIT #########################
-    <ClassProvider>
-    {
-        provide: PackageManager,
-        useClass: DemoPackageManager,
     },
 ];

@@ -1,9 +1,9 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ExistingProvider, ClassProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataManager, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
-import {MetadataStorage} from '@anglr/dynamic';
+import {MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
@@ -13,6 +13,7 @@ import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {DemoStorage} from '../../../services/metadataStorage';
+import {DemoPackageManager} from '../../../services/demoPackageManager/demoPackageManager.service';
 
 /**
  * Layout editor component
@@ -33,6 +34,11 @@ import {DemoStorage} from '../../../services/metadataStorage';
         provideCssLayoutEditor(),
         provideTinyMceLayoutEditor(),
         provideHandlebarsLayoutEditor(),
+        <ClassProvider>
+        {
+            provide: PackageManager,
+            useClass: DemoPackageManager,
+        },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,0 +1,27 @@
+<div class="flex-row">
+    <button class="btn-icon margin-right-extra-small" (click)="detailVisible = !detailVisible">
+        <span class="fas" [class.fa-plus]="!detailVisible" [class.fa-minus]="detailVisible"></span>
+    </button>
+
+    <div class="pm-header">packages</div>
+</div>
+
+<div *ngIf="detailVisible">
+    <div class="flex-row">
+        <select class="form-control flex-1" [formControl]="control">
+            <option *ngFor="let package of availablePackages | withoutUsed: usedPackages" [value]="package">{{package}}</option>
+        </select>
+
+        <button type="button" class="btn-icon margin-left-extra-small" (click)="addPackage(control.value)">
+            <span class="fas fa-plus"></span>
+        </button>
+    </div>
+
+    <div class="flex-row align-items-center margin-top-small" *ngFor="let package of usedPackages">
+        <div class="flex-1">{{package}}</div>
+
+        <button class="btn-icon margin-left-extra-small" (click)="removePackage(package)">
+            <span class="fas fa-times"></span>
+        </button>
+    </div>
+</div>

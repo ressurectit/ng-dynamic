@@ -88,11 +88,12 @@ export function provideRelationsEditor(packages: DefaultDynamicPackage[] = ['bas
 /**
  * Providers for relations editor subpackage, with support of static components
  * @param staticRegister - Type that represents implementation of static components register
+ * @param packages - Array of default packages to be used, if omitted all built-in packages are used
  */
-export function provideRelationsEditorWithStatic(staticRegister: Type<StaticComponentsRegister>): Provider[]
+export function provideRelationsEditorWithStatic(staticRegister: Type<StaticComponentsRegister>, packages?: DefaultDynamicPackage[]): Provider[]
 {
     return [
-        ...provideRelationsEditor(),
+        ...provideRelationsEditor(packages),
         STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
         STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
         <ClassProvider>

@@ -1,5 +1,6 @@
 import {InjectionToken, Type} from '@angular/core';
 import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataHistoryManager} from '@anglr/dynamic';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Dictionary} from '@jscrpt/common';
 
 import {PropertyTypeControl} from '../interfaces';
@@ -7,7 +8,6 @@ import {LayoutModuleTypes} from '../components/componentsPalette/componentsPalet
 import {InputStringComponent} from '../modules/propertyTypeControls/components/inputString/inputString.component';
 import {InputBooleanComponent} from '../modules/propertyTypeControls/components/inputBoolean/inputBoolean.component';
 import {SelectValueComponent} from '../modules/propertyTypeControls/components/selectValue/selectValue.component';
-import {LayoutComponentMetadata} from '../../../layout/src';
 
 /**
  * Injection token containing symbols to properties storing layout editor property metadata

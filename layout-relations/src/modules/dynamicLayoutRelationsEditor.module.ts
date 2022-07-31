@@ -24,7 +24,7 @@ export class DynamicLayoutRelationsEditorModule
      * Creates DynamicLayoutRelationsEditorModule extended with providers
      * @param packages - Array of default packages to be used, if omitted all built-in packages are used
      */
-    public static withProviders(packages: DefaultDynamicPackage[] = ['basic-components', 'material-components']): ModuleWithProviders<DynamicLayoutRelationsEditorModule>
+    public static withProviders(packages?: DefaultDynamicPackage[]): ModuleWithProviders<DynamicLayoutRelationsEditorModule>
     {
         return {
             ngModule: DynamicLayoutRelationsEditorModule,
@@ -41,7 +41,7 @@ export class DynamicLayoutRelationsEditorModule
      * @param packages - Array of default packages to be used, if omitted all built-in packages are used
      */
     public static withStaticComponents(staticRegister: Type<StaticComponentsRegister>,
-                                       packages: DefaultDynamicPackage[] = ['basic-components', 'material-components']): ModuleWithProviders<DynamicLayoutRelationsEditorModule>
+                                       packages?: DefaultDynamicPackage[]): ModuleWithProviders<DynamicLayoutRelationsEditorModule>
     {
         return {
             ngModule: DynamicLayoutRelationsEditorModule,

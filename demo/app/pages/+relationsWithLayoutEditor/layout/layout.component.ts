@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider, ClassProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadataManager, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
+import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
+import {provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
@@ -12,7 +12,6 @@ import {BindThis, generateId} from '@jscrpt/common';
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
-import {DemoStorage} from '../../../services/metadataStorage';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
 
 /**
@@ -24,11 +23,16 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
     templateUrl: 'layout.component.html',
     providers:
     [
-        DemoStorage,
+        <FactoryProvider>
+        {
+            provide: LAYOUT_METADATA_STORAGE,
+            useFactory: (store: StoreDataService<LayoutRelationsMetadata>) => new MetadataStorage<LayoutComponentMetadata>(id => store.getData(id)?.layout),
+            deps: [StoreDataService]
+        },
         <ExistingProvider>
         {
             provide: MetadataStorage,
-            useExisting: DemoStorage
+            useExisting: LAYOUT_METADATA_STORAGE,
         },
         provideLayoutEditor(),
         provideCssLayoutEditor(),
@@ -65,18 +69,17 @@ export class LayoutComponent
     }
 
     //######################### constructor #########################
-    constructor(private _manager: LayoutEditorMetadataManager,
-                protected _store: StoreDataService<LayoutRelationsMetadata>,)
+    constructor(protected _store: StoreDataService<LayoutRelationsMetadata>,)
     {
     }
 
     //######################### protected methods - template bindings #########################
 
     @BindThis
-    protected _getMetadata(): LayoutRelationsMetadata
+    protected _getMetadata(metadata: LayoutComponentMetadata): LayoutRelationsMetadata
     {
         return {
-            layout: this._manager.getMetadata()
+            layout: metadata
         };
     }
 

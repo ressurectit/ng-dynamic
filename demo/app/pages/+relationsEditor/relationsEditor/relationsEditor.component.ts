@@ -1,12 +1,11 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
-import {MetadataStorage} from '@anglr/dynamic';
+import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
+import {MetadataStateManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
-import {DemoStorage} from '../../../services/metadataStorage';
 
 /**
  * Layout editor component
@@ -15,15 +14,6 @@ import {DemoStorage} from '../../../services/metadataStorage';
 {
     selector: 'relations-editor-view',
     templateUrl: 'relationsEditor.component.html',
-    providers:
-    [
-        DemoStorage,
-        <ExistingProvider>
-        {
-            provide: MetadataStorage,
-            useExisting: DemoStorage
-        }
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: ''})
@@ -42,17 +32,17 @@ export class RelationsEditorComponent
     }
 
     //######################### constructor #########################
-    constructor(private _manager: RelationsNodeManager,
-                protected _store: StoreDataService,)
+    constructor(protected _store: StoreDataService,
+                @Inject(METADATA_STATE_MANAGER) protected _metadataState: MetadataStateManager<RelationsNodeMetadata[]>,)
     {
     }
 
     //######################### protected methods - template bindings #########################
 
     @BindThis
-    protected _getMetadata(): RelationsNodeMetadata[]
+    protected _getMetadata(metadata: RelationsNodeMetadata[]): RelationsNodeMetadata[]
     {
-        return this._manager.getMetadata();
+        return metadata;
     }
 
     protected _loadDemo(): void
@@ -62,7 +52,7 @@ export class RelationsEditorComponent
 
     protected showMetadata(): void
     {
-        const meta = this._getMetadata();
+        const meta = this._metadataState.getMetadata();
 
         this.stringMetadata = JSON.stringify(meta, null, 4);
     }

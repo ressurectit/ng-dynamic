@@ -1,17 +1,17 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider, ClassProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
+import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, provideLayoutRelationsEditor} from '@anglr/dynamic/layout-relations';
 import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
+import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
-import {DemoStorage} from '../../../services/metadataStorage';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
 
 /**
@@ -23,11 +23,16 @@ import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackag
     templateUrl: 'relations.component.html',
     providers:
     [
-        DemoStorage,
+        <FactoryProvider>
+        {
+            provide: RELATIONS_METADATA_STORAGE,
+            useFactory: (store: StoreDataService<LayoutRelationsMetadata>) => new MetadataStorage<RelationsNodeMetadata[]>(id => store.getData(id)?.relations),
+            deps: [StoreDataService]
+        },
         <ExistingProvider>
         {
             provide: MetadataStorage,
-            useExisting: DemoStorage
+            useExisting: RELATIONS_METADATA_STORAGE,
         },
         provideLayoutRelationsEditor(),
         provideHandlebarsLayoutRelationsEditor(),
@@ -55,8 +60,7 @@ export class RelationsComponent
     }
 
     //######################### constructor #########################
-    constructor(private _manager: RelationsNodeManager,
-                protected _store: StoreDataService<LayoutRelationsMetadata>,
+    constructor(protected _store: StoreDataService<LayoutRelationsMetadata>,
                 protected _layoutManager: LayoutManager,)
     {
     }
@@ -64,10 +68,10 @@ export class RelationsComponent
     //######################### protected methods - template bindings #########################
 
     @BindThis
-    protected _getMetadata(): LayoutRelationsMetadata
+    protected _getMetadata(metadata: RelationsNodeMetadata[]): LayoutRelationsMetadata
     {
         return {
-            relations: this._manager.getMetadata()
+            relations: metadata
         };
     }
 

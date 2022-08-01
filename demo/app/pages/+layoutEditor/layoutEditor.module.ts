@@ -1,15 +1,17 @@
-import {ClassProvider, NgModule} from '@angular/core';
+import {ClassProvider, ExistingProvider, FactoryProvider, NgModule} from '@angular/core';
 import {ModuleRoutes} from '@anglr/common/router';
 import {DynamicLayoutEditorModule} from '@anglr/dynamic/layout-editor';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
-import {PackageManager} from '@anglr/dynamic';
+import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
+import {MetadataStorage, PackageManager} from '@anglr/dynamic';
 
 import {components} from './layoutEditor.routes';
 import {LoadSaveNewSAComponent} from '../../components';
 import {createStoreDataServiceFactory} from '../../misc/factories';
 import {DemoLayoutPackageManager} from '../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
+import {StoreDataService} from '../../services/storeData';
 
 /**
  * Module for layout editor samples
@@ -27,6 +29,17 @@ import {DemoLayoutPackageManager} from '../../services/demoLayoutPackageManager/
     ],
     providers:
     [
+        <FactoryProvider>
+        {
+            provide: LAYOUT_METADATA_STORAGE,
+            useFactory: (store: StoreDataService<LayoutComponentMetadata>) => new MetadataStorage<LayoutComponentMetadata>(id => store.getData(id)),
+            deps: [StoreDataService]
+        },
+        <ExistingProvider>
+        {
+            provide: MetadataStorage,
+            useExisting: LAYOUT_METADATA_STORAGE,
+        },
         createStoreDataServiceFactory('LAYOUT_DATA'),
         provideCssLayoutEditor(),
         provideTinyMceLayoutEditor(),

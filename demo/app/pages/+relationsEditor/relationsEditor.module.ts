@@ -1,14 +1,16 @@
-import {ClassProvider, NgModule} from '@angular/core';
+import {ClassProvider, ExistingProvider, FactoryProvider, NgModule} from '@angular/core';
 import {ModuleRoutes} from '@anglr/common/router';
-import {DynamicRelationsEditorModule} from '@anglr/dynamic/relations-editor';
+import {DynamicRelationsEditorModule, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {provideTinyMceRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsRelationsEditor} from '@anglr/dynamic/handlebars-components';
-import {PackageManager} from '@anglr/dynamic';
+import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
+import {MetadataStorage, PackageManager} from '@anglr/dynamic';
 
 import {components} from './relationsEditor.routes';
 import {LoadSaveNewSAComponent} from '../../components';
 import {createStoreDataServiceFactory} from '../../misc/factories';
 import {DemoRelationsPackageManager} from '../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
+import {StoreDataService} from '../../services/storeData';
 
 /**
  * Module for relations editor samples
@@ -26,6 +28,17 @@ import {DemoRelationsPackageManager} from '../../services/demoRelationsPackageMa
     ],
     providers:
     [
+        <FactoryProvider>
+        {
+            provide: RELATIONS_METADATA_STORAGE,
+            useFactory: (store: StoreDataService<RelationsNodeMetadata[]>) => new MetadataStorage<RelationsNodeMetadata[]>(id => store.getData(id)),
+            deps: [StoreDataService]
+        },
+        <ExistingProvider>
+        {
+            provide: MetadataStorage,
+            useExisting: RELATIONS_METADATA_STORAGE,
+        },
         createStoreDataServiceFactory('RELATIONS_DATA'),
         provideTinyMceRelationsEditor(),
         provideHandlebarsRelationsEditor(),

@@ -1,7 +1,7 @@
 import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {MetadataHistoryManagerState} from '@anglr/dynamic';
+import {MetadataStateManager} from '@anglr/dynamic';
 import {Dictionary, isBlank} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
@@ -12,7 +12,7 @@ import {LayoutEditorMetadataManagerComponent} from './layoutEditorMetadataManage
  * Class used for handling layout metadata
  */
 @Injectable()
-export class LayoutEditorMetadataManager implements MetadataHistoryManagerState<LayoutComponentMetadata>
+export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutComponentMetadata>
 {
     //######################### protected fields #########################
 

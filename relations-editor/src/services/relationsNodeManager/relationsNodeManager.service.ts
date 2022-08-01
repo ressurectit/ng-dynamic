@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {RelationOutputMetadata} from '@anglr/dynamic/relations';
-import {MetadataHistoryManagerState} from '@anglr/dynamic';
+import {MetadataStateManager} from '@anglr/dynamic';
 import {Dictionary} from '@jscrpt/common';
 
 import {RelationsInput, RelationsNode, RelationsNodeMetadata} from '../../interfaces';
@@ -12,7 +12,7 @@ import {WaitingInputRelation} from './relationsNodeManager.interface';
  * Class used for handling relations nodes metadata
  */
 @Injectable()
-export class RelationsNodeManager implements MetadataHistoryManagerState<RelationsNodeMetadata[]>
+export class RelationsNodeManager implements MetadataStateManager<RelationsNodeMetadata[]>
 {
     //######################### protected properties #########################
 

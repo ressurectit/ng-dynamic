@@ -1,13 +1,13 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider, ClassProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {provideRelationsEditorWithStatic, RelationsNodeManager, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {provideTinyMceRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsRelationsEditor} from '@anglr/dynamic/handlebars-components';
+import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {MetadataStorage, PackageManager} from '@anglr/dynamic';
 
 import {DemoData} from '../../../services/demoData';
 import {StaticComponentsRegister} from '../../../services/staticComponentsRegister/staticComponentsRegister.service';
-import {DemoStorage} from '../../../services/metadataStorage';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
 
 /**
@@ -19,15 +19,19 @@ import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackag
     templateUrl: 'editor.component.html',
     providers:
     [
-        provideRelationsEditorWithStatic(StaticComponentsRegister),
-        provideTinyMceRelationsEditor(),
-        provideHandlebarsRelationsEditor(),
-        DemoStorage,
+        <FactoryProvider>
+        {
+            provide: RELATIONS_METADATA_STORAGE,
+            useFactory: () => new MetadataStorage<RelationsNodeMetadata[]>(() => []),
+        },
         <ExistingProvider>
         {
             provide: MetadataStorage,
-            useExisting: DemoStorage
+            useExisting: RELATIONS_METADATA_STORAGE,
         },
+        provideRelationsEditorWithStatic(StaticComponentsRegister),
+        provideTinyMceRelationsEditor(),
+        provideHandlebarsRelationsEditor(),
         <ClassProvider>
         {
             provide: PackageManager,

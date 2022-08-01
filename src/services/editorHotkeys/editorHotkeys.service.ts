@@ -35,8 +35,7 @@ export class EditorHotkeys
     {
         this.hotkeys.hotkeys.add(new Hotkey('ctrl+s', () =>
         {
-            //TODO: improve class that stores metadata
-            // this.metadataStorage.save();
+            this.metadataStorage.saveMetadata();
 
             return false;
         }, ['INPUT', 'TEXTAREA'], 'Saves current state of editor'));

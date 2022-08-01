@@ -1,7 +1,7 @@
 /**
  * Allows working with state of metadata
  */
-export interface MetadataHistoryManagerState<TMetadata = any>
+export interface MetadataStateManager<TMetadata = any>
 {
     /**
      * Gets current state of metadata

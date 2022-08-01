@@ -1,5 +1,5 @@
 import {InjectionToken} from '@angular/core';
-import {DynamicItemExtensionType, DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
+import {DynamicItemExtensionType, DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataStorage} from '@anglr/dynamic';
 
 import {LayoutComponentTransform} from '../interfaces';
 import {LayoutComponentDef} from './types';
@@ -28,3 +28,8 @@ export const LAYOUT_COMPONENTS_MODULE_PROVIDERS: InjectionToken<DynamicModulePro
  * Injection token for layout components loader
  */
 export const LAYOUT_COMPONENTS_LOADER: InjectionToken<DynamicItemLoader<LayoutComponentDef>> = new InjectionToken<DynamicItemLoader<LayoutComponentDef>>('LAYOUT_COMPONENTS_LOADER');
+
+/**
+ * Injection token for metadata storage set up for layout
+ */
+export const LAYOUT_METADATA_STORAGE: InjectionToken<MetadataStorage> = new InjectionToken<MetadataStorage>('LAYOUT_METADATA_STORAGE');

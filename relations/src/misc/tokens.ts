@@ -1,5 +1,5 @@
 import {InjectionToken} from '@angular/core';
-import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider} from '@anglr/dynamic';
+import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataStorage} from '@anglr/dynamic';
 
 import {RelationsComponentDef} from './types';
 
@@ -17,3 +17,8 @@ export const RELATIONS_COMPONENTS_MODULE_PROVIDERS: InjectionToken<DynamicModule
  * Injection token for relations components loader
  */
 export const RELATIONS_COMPONENTS_LOADER: InjectionToken<DynamicItemLoader<RelationsComponentDef>> = new InjectionToken<DynamicItemLoader<RelationsComponentDef>>('RELATIONS_COMPONENTS_LOADER');
+
+/**
+ * Injection token for metadata storage set up for relations
+ */
+export const RELATIONS_METADATA_STORAGE: InjectionToken<MetadataStorage> = new InjectionToken<MetadataStorage>('RELATIONS_METADATA_STORAGE');

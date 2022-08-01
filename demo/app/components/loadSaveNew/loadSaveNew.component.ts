@@ -1,12 +1,13 @@
-import {Component, ChangeDetectionStrategy, Input, OnInit, EventEmitter, Output, Optional} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input, OnInit, EventEmitter, Output, OnDestroy, Inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgSelectModule} from '@anglr/select';
+import {MetadataStateManager, MetadataStorage, METADATA_STATE_MANAGER} from '@anglr/dynamic';
 import {extend, Func} from '@jscrpt/common';
+import {Subscription} from 'rxjs';
 
 import {StoreDataService} from '../../services/storeData';
-import {DemoStorage} from '../../services/metadataStorage';
 
 /**
  * Component used for loading saving and creating new layout/relations template
@@ -25,11 +26,11 @@ import {DemoStorage} from '../../services/metadataStorage';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
+export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> implements OnInit, OnDestroy
 {
     //######################### protected properties - template bindings #########################
 
-    protected _metadata: TMetadata|null = null;
+    protected _metadata: TStoreMetadata|null = null;
     
     protected _available: FormControl = new FormControl('');
 
@@ -37,26 +38,32 @@ export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
 
     protected _availableNames: string[] = [];
 
+    /**
+     * Subscriptions created during initialization
+     */
+    protected initSubscriptions: Subscription = new Subscription();
+
     //######################### public properties - inputs #########################
 
     @Input()
-    public store: StoreDataService;
+    public store: StoreDataService<TStoreMetadata>;
 
     @Input()
     public routePath: string;
 
     @Input()
-    public getMetadataCallback: Func<TMetadata>;
+    public getMetadataCallback: Func<TStoreMetadata, [TMetadata]>;
 
     //######################### public properties - outputs #########################
 
     @Output()
-    public metadataChange: EventEmitter<TMetadata|null> = new EventEmitter<TMetadata|null>();
+    public metadataChange: EventEmitter<TStoreMetadata|null> = new EventEmitter<TStoreMetadata|null>();
 
     //######################### constructor #########################
     constructor(private _router: Router,
                 private _route: ActivatedRoute,
-                @Optional() private _storage?: DemoStorage,)
+                private _storage: MetadataStorage<TMetadata>,
+                @Inject(METADATA_STATE_MANAGER) private _metaManager: MetadataStateManager<TMetadata>,)
     {
     }
 
@@ -67,12 +74,9 @@ export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
      */
     public ngOnInit(): void
     {
-        this._availableNames = this.store.getStored();
+        this.initSubscriptions.add(this._storage.save.subscribe(metadata => this._saveData(metadata)));
 
-        this._name.valueChanges.subscribe(value =>
-        {
-            this._storage?.setName(value || null);
-        });
+        this._availableNames = this.store.getStored();
 
         this._route.params.subscribe(({id}) =>
         {
@@ -94,6 +98,16 @@ export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
         });
     }
 
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        this.initSubscriptions.unsubscribe();
+    }
+
     //######################### protected methods - template bindings #########################
 
     protected _load(): void
@@ -107,12 +121,7 @@ export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
 
     protected _save(): void
     {
-        const data = this.store.getData(this._name.value) ?? {};
-
-        this.store.setData(this._name.value, extend(data, this.getMetadataCallback()));
-
-        this._availableNames = this.store.getStored();
-        this._router.navigate([this.routePath, this._name.value], {skipLocationChange: false, replaceUrl: true});
+        this._saveData(this._metaManager.getMetadata());
     }
 
     protected _delete(): void
@@ -132,5 +141,15 @@ export class LoadSaveNewSAComponent<TMetadata = any> implements OnInit
         this._available.setValue('');
         
         this._router.navigate([this.routePath], {skipLocationChange: false, replaceUrl: true});
+    }
+
+    protected _saveData(metadata: TMetadata): void
+    {
+        const data = this.store.getData(this._name.value) ?? {};
+
+        this.store.setData(this._name.value, extend(data, this.getMetadataCallback(metadata)));
+
+        this._availableNames = this.store.getStored();
+        this._router.navigate([this.routePath, this._name.value], {skipLocationChange: false, replaceUrl: true});
     }
 }

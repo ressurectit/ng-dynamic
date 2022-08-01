@@ -8,5 +8,6 @@ export * from './rest';
 export * from './sampleChange';
 export * from './sampleSource';
 export * from './stackPanel';
+export * from './templateBlock';
 export * from './textBlock';
 export * from './toggleButton';

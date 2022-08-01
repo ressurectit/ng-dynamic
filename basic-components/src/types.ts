@@ -5,6 +5,7 @@ const components =
     'htmlBlock',
     'ifBlock',
     'stackPanel',
+    'templateBlock',
     'textBlock',
     'toggleButton',
 ];

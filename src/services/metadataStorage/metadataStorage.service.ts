@@ -20,7 +20,7 @@ export class MetadataStorage<TMetadata = any>
     /**
      * Instance of metadata state manager
      */
-    protected metadataStateManger: MetadataStateManager<TMetadata> = inject(METADATA_STATE_MANAGER);
+    protected metadataStateManger: MetadataStateManager<TMetadata>|null = inject(METADATA_STATE_MANAGER, {optional: true});
 
     //######################### public properties #########################
 
@@ -44,7 +44,7 @@ export class MetadataStorage<TMetadata = any>
      */
     public saveMetadata(): void
     {
-        const metadata = this.metadataStateManger.getMetadata();
+        const metadata = this.metadataStateManger?.getMetadata();
 
         if(metadata)
         {

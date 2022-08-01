@@ -1,5 +1,6 @@
 /.vscode
 temp/
+demo/
 .eslintrc.json
 api-extractor.json
 appveyor.yml

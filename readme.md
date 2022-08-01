@@ -1,6 +1,6 @@
 # Angular module for dynamic content
 
-TODO
+Anglr dynamic module for dynamic content with dynamic relations
 
 ## Dev instructions
 

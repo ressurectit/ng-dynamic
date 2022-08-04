@@ -26,6 +26,7 @@
             "@anglr/dynamic/layout": ["../layout/src/index.ts"],
             "@anglr/dynamic/layout-editor": ["../layout-editor/src/index.ts"],
             "@anglr/dynamic/layout-relations": ["../layout-relations/src/index.ts"],
+            "@anglr/dynamic/form/types": ["../form/src/types.ts"],
             "@anglr/dynamic/form": ["../form/src/index.ts"],
             "@anglr/dynamic/relations": ["../relations/src/index.ts"],
             "@anglr/dynamic/relations-editor": ["../relations-editor/src/index.ts"],
@@ -73,7 +74,8 @@
         "../material-components/**/*.ts",
         "../css-components/**/*.ts",
         "../handlebars-components/**/*.ts",
-        "../tinymce-components/**/*.ts"
+        "../tinymce-components/**/*.ts",
+        "../form/**/*.ts",
     ],
     "exclude":
     [

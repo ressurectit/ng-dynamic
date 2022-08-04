@@ -1,13 +1,12 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, Injector, ValueProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, Injector, ValueProvider, ChangeDetectorRef} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
+import {FormComponentControlBuilder, FORM_COMPONENT_CONTROL} from '@anglr/dynamic/form';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadataManager} from '@anglr/dynamic/layout-editor';
-import {FORM_COMPONENT_CONTROL} from '@anglr/dynamic/form';
+import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor} from '@anglr/dynamic/layout-editor';
 
 import {StoreDataService} from '../../../services/storeData';
-import {createStoreDataServiceFactory} from '../../../misc/factories';
 
 /**
  * Form preview component
@@ -18,8 +17,9 @@ import {createStoreDataServiceFactory} from '../../../misc/factories';
     templateUrl: 'formPreview.component.html',
     providers:
     [
-        LayoutEditorMetadataManager,
-        createStoreDataServiceFactory('LAYOUT_DATA'),
+        FormComponentControlBuilder,
+        LayoutComponentsIteratorService,
+        LayoutEditorMetadataExtractor,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -44,8 +44,9 @@ export class FormPreviewComponent implements OnInit, OnDestroy
     constructor(private _store: StoreDataService,
                 private _router: Router,
                 private _route: ActivatedRoute,
-                private _fb: FormBuilder,
-                private _injector: Injector,)
+                private _injector: Injector,
+                private _formComponentControlBuilder: FormComponentControlBuilder,
+                private _changeDetector: ChangeDetectorRef,)
     {
     }
 
@@ -58,24 +59,13 @@ export class FormPreviewComponent implements OnInit, OnDestroy
     {
         this._availableNames = this._store.getStored();
 
-        this._route.params.subscribe(({id}) =>
+        this._route.params.subscribe(async ({id}) =>
         {
             if(id)
             {
                 this._available.setValue(id);
                 this._metadata = this._store.getData(id);
-
-                //TODO build formGroup from metadata
-                this._formGroup = this._fb.group({
-                    checkbox: true,
-                    datepicker: new Date(),
-                    number: 10,
-                    period: '202201',
-                    radio: null,
-                    select: 'foo',
-                    textarea: 'Text in textarea',
-                    text: 'classic input field'
-                });
+                this._formGroup = await this._formComponentControlBuilder.build(this._metadata);
         
                 this._formInjector = Injector.create(
                     {
@@ -90,11 +80,12 @@ export class FormPreviewComponent implements OnInit, OnDestroy
                         ]
                     }
                 );
+                this._changeDetector.detectChanges();
             }
 
             this._available.valueChanges.subscribe(val =>
             {
-                this._router.navigate(['/form-preview', val], {skipLocationChange: false, replaceUrl: true});
+                this._router.navigate(['/layout', 'form-preview', val], {skipLocationChange: false, replaceUrl: true});
             });
         });
     }
@@ -110,7 +101,10 @@ export class FormPreviewComponent implements OnInit, OnDestroy
 
     //######################### protected methods #########################
 
-    protected _submit()
+    /**
+     * Form submission
+     */
+    protected _submit(): void
     {
         console.log(this._formGroup.value);
     }

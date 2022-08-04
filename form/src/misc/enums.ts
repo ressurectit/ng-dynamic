@@ -1,6 +1,6 @@
 export enum FormComponentControlType
 {
-    FormControl,
-    FormArray,
-    FormGroup,
+    FormControl = 'FormControl',
+    FormArray = 'FormArray',
+    FormGroup = 'FormGroup',
 }

@@ -11,9 +11,9 @@ export interface LayoutComponentsIteratorItem
     metadata: LayoutComponentMetadata;
 
     /**
-     * Metadata for parent layout component
+     * Parent layout component iterator item
      */
-    parentMetadata: LayoutComponentMetadata|undefined|null;
+    parent: LayoutComponentsIteratorItem|undefined|null;
 
     /**
      * Index of layout component in current level

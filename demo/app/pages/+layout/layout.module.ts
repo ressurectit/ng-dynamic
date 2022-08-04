@@ -7,6 +7,7 @@ import {DynamicLayoutModule, LayoutComponentMetadata, LayoutComponentRendererSAD
 import {provideCssLayout} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayout} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayout} from '@anglr/dynamic/handlebars-components';
+import {provideFormLayout} from '@anglr/dynamic/form';
 import {MetadataStorage} from '@anglr/dynamic';
 
 import {components} from './layout.routes';
@@ -42,6 +43,7 @@ import {StoreDataService} from '../../services/storeData';
         provideCssLayout(),
         provideTinyMceLayout(),
         provideHandlebarsLayout(),
+        provideFormLayout(),
     ],
 })
 @ModuleRoutes(components)

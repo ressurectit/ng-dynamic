@@ -12,6 +12,7 @@ import {LoadSaveNewSAComponent} from '../../components';
 import {createStoreDataServiceFactory} from '../../misc/factories';
 import {DemoLayoutPackageManager} from '../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
 import {StoreDataService} from '../../services/storeData';
+import {provideFormLayoutEditor} from '../../../../form/src';
 
 /**
  * Module for layout editor samples
@@ -44,6 +45,7 @@ import {StoreDataService} from '../../services/storeData';
         provideCssLayoutEditor(),
         provideTinyMceLayoutEditor(),
         provideHandlebarsLayoutEditor(),
+        provideFormLayoutEditor(),
         <ClassProvider>
         {
             provide: PackageManager,

@@ -197,6 +197,22 @@
             "node": "./es2015/form/src/index.js",
             "default": "./es2020/form/src/index.js"
         },
+        "./form/dynamicItems/*/type": {
+            "types": "./form/src/dynamicItems/*/type.d.ts",
+            "esm2020": "./es2020/form/src/dynamicItems/*/type.js",
+            "es2020": "./es2020/form/src/dynamicItems/*/type.js",
+            "es2015": "./es2015/form/src/dynamicItems/*/type.js",
+            "node": "./es2015/form/src/dynamicItems/*/type.js",
+            "default": "./es2020/form/src/dynamicItems/*/type.js"
+        },
+        "./form/types": {
+            "types": "./form/src/types.d.ts",
+            "esm2020": "./es2020/form/src/types.js",
+            "es2020": "./es2020/form/src/types.js",
+            "es2015": "./es2015/form/src/types.js",
+            "node": "./es2015/form/src/types.js",
+            "default": "./es2020/form/src/types.js"
+        },
         "./relations": {
             "types": "./relations/src/index.d.ts",
             "esm2020": "./es2020/relations/src/index.js",

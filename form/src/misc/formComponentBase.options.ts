@@ -1,5 +1,4 @@
-import {Type} from '@angular/core';
-import {FormArray, FormControl, FormGroup} from '@angular/forms';
+import {FormComponentControlType} from './enums';
 
 export class FormComponentOptions
 {
@@ -13,5 +12,5 @@ export class FormComponentOptions
     /**
      * Type of form component control
      */
-    controlType: Type<FormControl | FormGroup | FormArray>|undefined = FormControl;
+    controlType: FormComponentControlType = FormComponentControlType.FormControl;
 }

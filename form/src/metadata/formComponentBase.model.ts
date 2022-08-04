@@ -1,8 +1,7 @@
-import {Type} from '@angular/core';
-import {FormControl, FormGroup, FormArray} from '@angular/forms';
 import {LayoutPropertyName, LayoutPropertyDescription, LayoutPropertyType, DefaultKnownPropertyTypes} from '@anglr/dynamic/layout-editor';
 import {mapValuesToThis} from '@jscrpt/common';
 
+import {FormComponentControlType} from '../misc/enums';
 import {FormComponentOptions} from '../misc/formComponentBase.options';
 
 /**
@@ -21,7 +20,7 @@ export class FormComponentBaseModel implements FormComponentOptions
     /**
      * @inheritdoc
      */
-    public controlType: Type<FormControl|FormGroup|FormArray>|undefined = undefined;
+    public controlType: FormComponentControlType = FormComponentControlType.FormControl;
 
     //######################### constructor #########################
     constructor(value: FormComponentOptions|undefined|null)

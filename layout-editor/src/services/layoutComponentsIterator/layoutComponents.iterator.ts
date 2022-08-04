@@ -75,13 +75,13 @@ export class LayoutComponentsIterator<TOptions = any>
      * Calls callback for each component in tree
      * @param callback - Callback called for each layout component metadata
      */
-    public async forEach(callback: Action<[LayoutComponentMetadata, LayoutComponentMetadata|undefined|null, number, number]>): Promise<void>
+    public async forEach(callback: Action<[LayoutComponentMetadata, LayoutComponentsIteratorItem|undefined|null, number, number]>): Promise<void>
     {
         await (this._initPromise ??= this._getInitPromise());
 
         for(const item of this._items)
         {
-            callback(item.metadata, item.parentMetadata, item.levelIndex, item.level);
+            callback(item.metadata, item.parent, item.levelIndex, item.level);
         }
     }
 
@@ -98,19 +98,19 @@ export class LayoutComponentsIterator<TOptions = any>
     /**
      * Gets metadata for single layout component metadata and its children
      * @param metadata - Metadata for layout component
-     * @param parentMetadata - Metadata for parent layout component
+     * @param parentMetadata - parent layout component iterator item
      * @param levelIndex - Index of layout component in current level
      * @param level - Current level of nexted components, 0 is root component
      */
-    protected async _getComponent(metadata: LayoutComponentMetadata<TOptions>, parentMetadata: LayoutComponentMetadata<TOptions>|undefined|null, levelIndex: number, level: number): Promise<void>
+    protected async _getComponent(metadata: LayoutComponentMetadata<TOptions>, parent: LayoutComponentsIteratorItem|undefined|null, levelIndex: number, level: number): Promise<void>
     {
-        this._items.push(
-        {
+        const iteratorItem : LayoutComponentsIteratorItem = {
             metadata,
-            parentMetadata,
+            parent,
             levelIndex,
             level
-        });
+        };
+        this._items.push(iteratorItem);
 
         const meta = await this._extractor.extractMetadata(metadata) as LayoutEditorMetadataDescriptor<TOptions>;
 
@@ -131,7 +131,7 @@ export class LayoutComponentsIterator<TOptions = any>
 
         for(let x = 0; x < childrenMeta.length; x++)
         {
-            await this._getComponent(childrenMeta[x], metadata, x, level + 1);
+            await this._getComponent(childrenMeta[x], iteratorItem, x, level + 1);
         }
     }
 

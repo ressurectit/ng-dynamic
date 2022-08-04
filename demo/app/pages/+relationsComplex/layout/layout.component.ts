@@ -7,6 +7,7 @@ import {MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
+import {provideFormLayoutEditor} from '@anglr/dynamic/form';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
@@ -35,6 +36,7 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
             useExisting: LAYOUT_METADATA_STORAGE,
         },
         provideLayoutEditor(),
+        provideFormLayoutEditor(),
         provideCssLayoutEditor(),
         provideTinyMceLayoutEditor(),
         provideHandlebarsLayoutEditor(),

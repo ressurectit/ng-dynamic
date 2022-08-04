@@ -6,6 +6,12 @@
     overflow: hidden;
 }
 
+.flow-area
+{
+    height: 100%;
+    position: relative;
+}
+
 .relations-wrapper
 {
     width: 100%;

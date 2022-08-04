@@ -110,6 +110,30 @@ export class RelationsCanvasSAComponent
      */
     protected isDragging: boolean = false;
 
+    
+    //######################### protected properties - getters and setters #########################
+
+    /**
+     * Canvas bounding box
+     */
+    protected get boundingBox(): DOMRect
+    {
+        return this.element.nativeElement.getBoundingClientRect();
+    }
+
+    /**
+     * Canvas offset
+     */
+    protected get canvasOffset(): Coordinates
+    {
+        //Compute width offset(when scaling)
+        //Add element offset top and left
+        return {
+            x: (this.boundingBox.width - (this.boundingBox.width*this.zoomLevel))/2 + this.boundingBox.left,
+            y: (this.boundingBox.height - (this.boundingBox.height*this.zoomLevel))/2 + this.boundingBox.top,
+        };
+    }
+
     //######################### protected properties - children #########################
 
     /**
@@ -127,7 +151,8 @@ export class RelationsCanvasSAComponent
     public nodeDefinitions: RelationsNodeMetadata[] = [];
 
     //######################### constructor #########################
-    constructor(protected relationManager: RelationsNodeManager,
+    constructor(protected element: ElementRef,
+                protected relationManager: RelationsNodeManager,
                 @Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager<RelationsNodeMetadata[]>,)
     {
     }
@@ -140,6 +165,16 @@ export class RelationsCanvasSAComponent
     public createRelation(): NodeRelationPath
     {
         return new NodeRelationPath(select(this.relationsGroup?.nativeElement), this.relationManager, this.history, null, null);
+    }
+
+    public getPositionInCanvas(point: {x: number, y: number}): Coordinates
+    {
+        const canvasOffset = this.canvasOffset;
+
+        return {
+            x: (point.x - canvasOffset.x - this.canvasPosition.x)/this.zoomLevel,
+            y: (point.y - canvasOffset.y - this.canvasPosition.y)/this.zoomLevel
+        };
     }
 
     //######################### protected methods - host listeners #########################

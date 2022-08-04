@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, FactoryProvider, inject, OnDestroy, OnInit, Inject, ChangeDetectorRef, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input, FactoryProvider, inject, OnDestroy, OnInit, Inject, ChangeDetectorRef, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {CdkDragDrop, DragDropModule} from '@angular/cdk/drag-drop';
 import {HostDisplayFlexStyle} from '@anglr/common';
 import {AppHotkeysService} from '@anglr/common/hotkeys';
@@ -47,6 +47,15 @@ export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
      * Subscriptions created during initialization
      */
     protected initSubscriptions: Subscription = new Subscription();
+
+
+    //######################### protected properties - view children #########################
+
+    /**
+     * Relation canvas
+     */
+    @ViewChild(RelationsCanvasSAComponent)
+    protected relationCanvas: RelationsCanvasSAComponent|undefined|null;
 
     //######################### public properties - inputs #########################
 
@@ -114,15 +123,15 @@ export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
      * @param event - Drop event that occured
      */
     protected addNode(event: CdkDragDrop<RelationsNodeDragData, RelationsNodeDragData, RelationsNodeDragData>): void
-    {
-        //TODO: apply transform of canvas
-
-        const canvasRect = event.container.element.nativeElement.getBoundingClientRect();
-
-        if(event.item.data.metadata.nodeMetadata?.coordinates)
+    {        
+        if (event.item.data.metadata.nodeMetadata?.coordinates)
         {
-            event.item.data.metadata.nodeMetadata.coordinates.x = event.dropPoint.x - canvasRect.x;
-            event.item.data.metadata.nodeMetadata.coordinates.y = event.dropPoint.y - canvasRect.y;
+            const coordinates = this.relationCanvas?.getPositionInCanvas(event.dropPoint);
+            if(coordinates)
+            {
+                event.item.data.metadata.nodeMetadata.coordinates.x = coordinates.x;
+                event.item.data.metadata.nodeMetadata.coordinates.y = coordinates.y;
+            }
         }
 
         this.metadata =

@@ -1,9 +1,9 @@
-import {Component, ChangeDetectionStrategy, Input, OnInit, EventEmitter, Output, OnDestroy, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input, OnInit, EventEmitter, Output, OnDestroy, Inject, Optional} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgSelectModule} from '@anglr/select';
-import {MetadataStateManager, MetadataStorage, METADATA_STATE_MANAGER} from '@anglr/dynamic';
+import {EditorHotkeys, MetadataStateManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
 import {extend, Func} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -62,8 +62,8 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
     //######################### constructor #########################
     constructor(private _router: Router,
                 private _route: ActivatedRoute,
-                private _storage: MetadataStorage<TMetadata>,
-                @Inject(METADATA_STATE_MANAGER) private _metaManager: MetadataStateManager<TMetadata>,)
+                @Inject(METADATA_STATE_MANAGER) private _metaManager: MetadataStateManager<TMetadata>,
+                @Optional() private _hotkeys?: EditorHotkeys,)
     {
     }
 
@@ -74,7 +74,11 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
      */
     public ngOnInit(): void
     {
-        this.initSubscriptions.add(this._storage.save.subscribe(metadata => this._saveData(metadata)));
+        if(this._hotkeys)
+        {
+            this.initSubscriptions.add(this._hotkeys.save.subscribe(() => this._save()));
+            this.initSubscriptions.add(this._hotkeys.new.subscribe(() => this._new()));
+        }
 
         this._availableNames = this.store.getStored();
 

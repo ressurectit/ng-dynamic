@@ -1,9 +1,9 @@
-import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, ExistingProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
 import {provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
-import {MetadataStorage, PackageManager} from '@anglr/dynamic';
+import {EditorHotkeys, MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
@@ -23,16 +23,12 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
     templateUrl: 'layout.component.html',
     providers:
     [
+        EditorHotkeys,
         <FactoryProvider>
         {
             provide: LAYOUT_METADATA_STORAGE,
             useFactory: (store: StoreDataService<LayoutRelationsMetadata>) => new MetadataStorage<LayoutComponentMetadata>(id => store.getData(id)?.layout),
             deps: [StoreDataService]
-        },
-        <ExistingProvider>
-        {
-            provide: MetadataStorage,
-            useExisting: LAYOUT_METADATA_STORAGE,
         },
         provideLayoutEditor(),
         provideCssLayoutEditor(),

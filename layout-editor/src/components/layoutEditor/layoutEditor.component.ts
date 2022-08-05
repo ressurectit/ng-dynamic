@@ -1,9 +1,8 @@
-import {Component, ChangeDetectionStrategy, Input, FactoryProvider, inject, OnDestroy, OnChanges, SimpleChanges, Inject, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnChanges, SimpleChanges, Inject, OnInit, ChangeDetectorRef, Optional} from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {HostDisplayFlexStyle} from '@anglr/common';
-import {AppHotkeysService} from '@anglr/common/hotkeys';
-import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManagerModule} from '@anglr/dynamic';
+import {EditorHotkeys, MetadataHistoryManager, PackageManagerModule} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -25,12 +24,6 @@ import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
     providers:
     [
         LAYOUT_DESIGNER_COMPONENT_TRANSFORM,
-        <FactoryProvider>
-        {
-            provide: EditorHotkeys,
-            useFactory: (hotkeys: AppHotkeysService, storage: MetadataStorage) => new EditorHotkeys(hotkeys, inject(LAYOUT_HISTORY_MANAGER), storage),
-            deps: [AppHotkeysService, MetadataStorage],
-        },
     ],
     standalone: true,
     imports:
@@ -62,11 +55,11 @@ export class LayoutEditorSAComponent implements OnDestroy, OnChanges, OnInit
     public metadata: LayoutComponentMetadata|undefined|null = null;
 
     //######################### constructor #########################
-    constructor(protected hotkeys: EditorHotkeys,
-                @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
-                protected changeDetector: ChangeDetectorRef,)
+    constructor(@Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
+                protected changeDetector: ChangeDetectorRef,
+                @Optional() protected hotkeys?: EditorHotkeys,)
     {
-        hotkeys.init();
+        hotkeys?.init();
     }
 
     //######################### public methods - implementation of OnInit #########################
@@ -81,6 +74,12 @@ export class LayoutEditorSAComponent implements OnDestroy, OnChanges, OnInit
             this.metadata = metadata;
             this.changeDetector.detectChanges();
         }));
+
+        if(this.hotkeys)
+        {
+            this.initSubscriptions.add(this.hotkeys.undo.subscribe(() => this.history.undo()));
+            this.initSubscriptions.add(this.hotkeys.redo.subscribe(() => this.history.redo()));
+        }
     }
 
     //######################### public methods - implementation of OnChanges #########################
@@ -109,6 +108,6 @@ export class LayoutEditorSAComponent implements OnDestroy, OnChanges, OnInit
     public ngOnDestroy(): void
     {
         this.initSubscriptions.unsubscribe();
-        this.hotkeys.destroy();
+        this.hotkeys?.destroy();
     }
 }

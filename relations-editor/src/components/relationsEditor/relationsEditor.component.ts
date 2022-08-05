@@ -1,8 +1,7 @@
-import {Component, ChangeDetectionStrategy, Input, FactoryProvider, inject, OnDestroy, OnInit, Inject, ChangeDetectorRef, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnInit, Inject, ChangeDetectorRef, OnChanges, SimpleChanges, ViewChild, Optional} from '@angular/core';
 import {CdkDragDrop, DragDropModule} from '@angular/cdk/drag-drop';
 import {HostDisplayFlexStyle} from '@anglr/common';
-import {AppHotkeysService} from '@anglr/common/hotkeys';
-import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManagerModule} from '@anglr/dynamic';
+import {EditorHotkeys, MetadataHistoryManager, PackageManagerModule} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -27,15 +26,6 @@ import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
         RelationsCanvasSAComponent,
         DragDropModule,
         PackageManagerModule,
-    ],
-    providers:
-    [
-        <FactoryProvider>
-        {
-            provide: EditorHotkeys,
-            useFactory: (hotkeys: AppHotkeysService, storage: MetadataStorage) => new EditorHotkeys(hotkeys, inject(RELATIONS_HISTORY_MANAGER), storage),
-            deps: [AppHotkeysService, MetadataStorage],
-        },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -66,11 +56,11 @@ export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
     public metadata: RelationsNodeMetadata[] = [];
 
     //######################### constructor #########################
-    constructor(protected hotkeys: EditorHotkeys,
-                @Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager<RelationsNodeMetadata[]>,
-                protected changeDetector: ChangeDetectorRef,)
+    constructor(@Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager<RelationsNodeMetadata[]>,
+                protected changeDetector: ChangeDetectorRef,
+                @Optional() protected hotkeys?: EditorHotkeys,)
     {
-        hotkeys.init();
+        hotkeys?.init();
     }
 
     //######################### public methods - implementation of OnInit #########################
@@ -85,6 +75,12 @@ export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
             this.metadata = metadata;
             this.changeDetector.detectChanges();
         }));
+
+        if(this.hotkeys)
+        {
+            this.initSubscriptions.add(this.hotkeys.undo.subscribe(() => this.history.undo()));
+            this.initSubscriptions.add(this.hotkeys.redo.subscribe(() => this.history.redo()));
+        }
     }
 
     //######################### public methods - implementation of OnChanges #########################
@@ -113,7 +109,7 @@ export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
     public ngOnDestroy(): void
     {
         this.initSubscriptions.unsubscribe();
-        this.hotkeys.destroy();
+        this.hotkeys?.destroy();
     }
 
     //######################### protected methods - template bindings #########################

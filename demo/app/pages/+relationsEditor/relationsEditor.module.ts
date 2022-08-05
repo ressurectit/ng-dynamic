@@ -1,4 +1,4 @@
-import {ClassProvider, ExistingProvider, FactoryProvider, NgModule} from '@angular/core';
+import {ClassProvider, FactoryProvider, NgModule} from '@angular/core';
 import {ModuleRoutes} from '@anglr/common/router';
 import {DynamicRelationsEditorModule, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {provideTinyMceRelationsEditor} from '@anglr/dynamic/tinymce-components';
@@ -33,11 +33,6 @@ import {StoreDataService} from '../../services/storeData';
             provide: RELATIONS_METADATA_STORAGE,
             useFactory: (store: StoreDataService<RelationsNodeMetadata[]>) => new MetadataStorage<RelationsNodeMetadata[]>(id => store.getData(id)),
             deps: [StoreDataService]
-        },
-        <ExistingProvider>
-        {
-            provide: MetadataStorage,
-            useExisting: RELATIONS_METADATA_STORAGE,
         },
         createStoreDataServiceFactory('RELATIONS_DATA'),
         provideTinyMceRelationsEditor(),

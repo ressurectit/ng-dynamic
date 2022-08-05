@@ -76,6 +76,16 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     protected syncPromise: Promise<void> = Promise.resolve();
 
+    /**
+     * Id of last component that was used for property editation
+     */
+    protected lastComponentId: string|null = null;
+
+    /**
+     * Instance of last component that was used for property editation
+     */
+    protected lastComponent: LayoutDesignerSAComponent|null = null;
+
     //######################### protected properties - template bindings #########################
 
     /**
@@ -175,6 +185,16 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
             this.visible = true;
             const component = this.manager.getComponent(this.manager.selectedComponent);
 
+            if(this.lastComponent == component && this.lastComponentId == this.manager.selectedComponent)
+            {
+                syncResolve?.();
+
+                return;
+            }
+            
+            this.lastComponent = component;
+            this.lastComponentId = this.manager.selectedComponent;
+
             if(component)
             {
                 this.visible = true;
@@ -259,6 +279,8 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     protected hide(): void
     {
+        this.lastComponent = null;
+        this.lastComponentId = null;
         this.visible = false;
         this.component = null;
         this.metadata = null;

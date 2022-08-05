@@ -10,6 +10,7 @@
 {
     height: 100%;
     position: relative;
+    transform-origin: 0 0;
 }
 
 .relations-wrapper

@@ -56,21 +56,12 @@ export class RelationsCanvasSAComponent
     protected backgroundSize: number = DEFAULT_BACKGROUND_SIZE;
 
     /**
-     * Last mouse down position
+     * Drag start position coordinates
      */
-    protected lastMouseDownPosition: Coordinates = 
+    protected dragStartPosition: Coordinates =
     {
-        x: 0, 
-        y: 0
-    };
-
-    /**
-     * Last mouse up position
-     */
-    protected lastMouseUpPosition: Coordinates = 
-    {
-        x: 0, 
-        y: 0
+        x: 0,
+        y: 0,
     };
 
     //######################### protected properties - host bindings #########################
@@ -121,19 +112,6 @@ export class RelationsCanvasSAComponent
         return this.element.nativeElement.getBoundingClientRect();
     }
 
-    /**
-     * Canvas offset
-     */
-    protected get canvasOffset(): Coordinates
-    {
-        //Compute width offset(when scaling)
-        //Add element offset top and left
-        return {
-            x: (this.boundingBox.width - (this.boundingBox.width*this.zoomLevel))/2 + this.boundingBox.left,
-            y: (this.boundingBox.height - (this.boundingBox.height*this.zoomLevel))/2 + this.boundingBox.top,
-        };
-    }
-
     //######################### protected properties - children #########################
 
     /**
@@ -169,11 +147,9 @@ export class RelationsCanvasSAComponent
 
     public getPositionInCanvas(point: {x: number, y: number}): Coordinates
     {
-        const canvasOffset = this.canvasOffset;
-
         return {
-            x: (point.x - canvasOffset.x - this.canvasPosition.x)/this.zoomLevel,
-            y: (point.y - canvasOffset.y - this.canvasPosition.y)/this.zoomLevel
+            x: (point.x - this.boundingBox.left - this.canvasPosition.x)/this.zoomLevel,
+            y: (point.y - this.boundingBox.top - this.canvasPosition.y)/this.zoomLevel
         };
     }
 
@@ -188,10 +164,10 @@ export class RelationsCanvasSAComponent
     {
         if (event.buttons == MouseButton.LEFT)
         {
-            this.lastMouseDownPosition = 
+            this.dragStartPosition =
             {
-                x: event.clientX,
-                y: event.clientY
+                x: event.clientX - this.canvasPosition.x,
+                y: event.clientY - this.canvasPosition.y
             };
             
             this.isDragging = true;
@@ -207,12 +183,11 @@ export class RelationsCanvasSAComponent
     {
         if (this.isDragging)
         {
-            this.canvasPosition = 
+            this.canvasPosition =
             {
-                x: this.lastMouseUpPosition.x + event.clientX - this.lastMouseDownPosition.x,
-                y: this.lastMouseUpPosition.y + event.clientY - this.lastMouseDownPosition.y,
+                x: event.clientX - this.dragStartPosition.x,
+                y: event.clientY - this.dragStartPosition.y
             };
-
         }
     }
 
@@ -226,12 +201,6 @@ export class RelationsCanvasSAComponent
         if (this.isDragging)
         {
             this.isDragging = false;
-
-            this.lastMouseUpPosition = 
-            {
-                x: this.lastMouseUpPosition.x + event.clientX - this.lastMouseDownPosition.x,
-                y: this.lastMouseUpPosition.y + event.clientY - this.lastMouseDownPosition.y,
-            };
         }
     }
 
@@ -244,22 +213,15 @@ export class RelationsCanvasSAComponent
     {
         if (event.deltaY)
         {
-            const newZoomLevel = clamp(this.zoomLevel + (event.deltaY > 1 ? -1 : 1) * 0.05, SCALE_FACTOR_MIN, SCALE_FACTOR_MAX);            
+            const newZoomLevel = clamp(this.zoomLevel + (event.deltaY > 1 ? -1 : 1) * 0.05, SCALE_FACTOR_MIN, SCALE_FACTOR_MAX);    
             
-            this.canvasPosition = 
-            {
-                x: (this.canvasPosition.x/this.zoomLevel) * newZoomLevel,
-                y: (this.canvasPosition.y/this.zoomLevel) * newZoomLevel,
-            };
+            const posX = (event.clientX - this.canvasPosition.x - this.boundingBox.left) / this.zoomLevel;
+            const posY = (event.clientY - this.canvasPosition.y - this.boundingBox.top) / this.zoomLevel;
+
+            this.canvasPosition.x = event.clientX - this.boundingBox.left - posX*newZoomLevel;
+            this.canvasPosition.y = event.clientY - this.boundingBox.top - posY*newZoomLevel;
 
             this.zoomLevel = newZoomLevel;
-
-            this.lastMouseUpPosition = 
-            {
-                x: this.canvasPosition.x,
-                y: this.canvasPosition.y
-            };
-
             this.backgroundSize = DEFAULT_BACKGROUND_SIZE * this.zoomLevel;
         }
         

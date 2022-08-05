@@ -1,9 +1,9 @@
-import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
-import {provideLayoutEditor} from '@anglr/dynamic/layout-editor';
+import {LAYOUT_HISTORY_MANAGER, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
-import {EditorHotkeys, MetadataStorage, PackageManager} from '@anglr/dynamic';
+import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
@@ -65,7 +65,9 @@ export class LayoutComponent
     }
 
     //######################### constructor #########################
-    constructor(protected _store: StoreDataService<LayoutRelationsMetadata>,)
+    constructor(protected _store: StoreDataService<LayoutRelationsMetadata>,
+        
+                @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager,)
     {
     }
 

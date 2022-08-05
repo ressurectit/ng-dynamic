@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
-import {MetadataStateManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER} from '@anglr/dynamic/relations-editor';
+import {MetadataHistoryManager, MetadataStateManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
@@ -33,6 +33,7 @@ export class RelationsEditorComponent
 
     //######################### constructor #########################
     constructor(protected _store: StoreDataService,
+                @Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager,
                 @Inject(METADATA_STATE_MANAGER) protected _metadataState: MetadataStateManager<RelationsNodeMetadata[]>,)
     {
     }

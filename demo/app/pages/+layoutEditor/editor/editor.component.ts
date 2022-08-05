@@ -1,7 +1,9 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
+import {MetadataHistoryManager} from '@anglr/dynamic';
+import {LAYOUT_HISTORY_MANAGER} from '@anglr/dynamic/layout-editor';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
@@ -39,7 +41,9 @@ export class EditorComponent
     }
 
     //######################### constructor #########################
-    constructor(protected store: StoreDataService,)
+    constructor(protected store: StoreDataService,
+        
+                @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager,)
     {
     }
 

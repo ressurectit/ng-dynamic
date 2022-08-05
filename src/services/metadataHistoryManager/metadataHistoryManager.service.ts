@@ -8,7 +8,7 @@ import {METADATA_STATE_MANAGER} from '../../misc/tokens';
 /**
  * Maximum number of items in history
  */
-const MAX_ITEMS = 100;
+const MAX_ITEMS = 200;
 
 /**
  * Service used for managing state of metadata

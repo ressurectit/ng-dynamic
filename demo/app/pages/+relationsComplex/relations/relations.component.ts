@@ -1,11 +1,11 @@
-import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, provideLayoutRelationsEditorWithStatic} from '@anglr/dynamic/layout-relations';
 import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
 import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
-import {EditorHotkeys, MetadataStorage, PackageManager} from '@anglr/dynamic';
+import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {BindThis} from '@jscrpt/common';
 
@@ -58,6 +58,7 @@ export class RelationsComponent
 
     //######################### constructor #########################
     constructor(protected _store: StoreDataService<LayoutRelationsMetadata>,
+                @Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager,
                 protected _layoutManager: LayoutManager,)
     {
     }

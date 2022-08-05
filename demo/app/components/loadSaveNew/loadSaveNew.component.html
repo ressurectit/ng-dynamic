@@ -14,7 +14,7 @@
 <input type="text" [formControl]="_name">
 
 <button class="btn btn-primary" type="button" (click)="_save()" [disabled]="!_name.value">
-    <span>save</span>
+    <span>save <ng-container *ngIf="!(history?.saved ?? true)">*</ng-container></span>
 </button>
 
 <button class="btn btn-primary" type="button" (click)="_new()">

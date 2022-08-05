@@ -6,13 +6,13 @@ import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
 import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
 import {MetadataStorage, PackageManager} from '@anglr/dynamic';
+import {provideFormLayoutEditor} from '@anglr/dynamic/form';
 
 import {components} from './layoutEditor.routes';
 import {LoadSaveNewSAComponent} from '../../components';
 import {createStoreDataServiceFactory} from '../../misc/factories';
 import {DemoLayoutPackageManager} from '../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
 import {StoreDataService} from '../../services/storeData';
-import {provideFormLayoutEditor} from '../../../../form/src';
 
 /**
  * Module for layout editor samples

@@ -3,21 +3,22 @@
         <div class="text-spread text-small-caps margin-left-extra-small margin-horizontal-small bold">{{groupKeyValue.key}}&nbsp;</div>
 
         <div *ngFor="let item of groupKeyValue.value"
-             cdkDropList
-             cdkDropListSortingDisabled
-             [cdkDropListConnectedTo]="_designerDropLists"
              class="palette-droplist">
             <div class="editor-component mat-elevation-z2"
-                 cdkDrag
-                 [cdkDragData]="item | toLayoutDragData: _newCompnentId"
-                 (cdkDragDropped)="_generateNewId()"
-                 (cdkDragEnded)="_onDragEnded(groupKeyValue.key)"
-                 (cdkDragStarted)="_onDragStarted($event, groupKeyValue.key, item)">
+                 [dndDraggable]="item | toLayoutDragData: _newCompnentId"
+                 (dndStart)="draggingSvc.setDragging(true)"
+                 (dndEnd)="draggingSvc.setDragging(false)">
                 <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>
                 <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="item.metadata" [layoutMetadata]="(item | toLayoutDragData: _newCompnentId).metadata"></layout-editor-drag-preview>
                 <div class="editor-component-name">{{item.metadata.metaInfo?.name ?? item.itemSource.name}}</div>
                 <div class="editor-component-description" *ngIf="item.metadata.metaInfo?.description">{{item.metadata.metaInfo?.description}}</div>
             </div>
+<!-- 
+            cdkDrag
+                 [cdkDragData]="item | toLayoutDragData: _newCompnentId"
+                 (cdkDragDropped)="_generateNewId()"
+                 (cdkDragEnded)="_onDragEnded(groupKeyValue.key)"
+                 (cdkDragStarted)="_onDragStarted($event, groupKeyValue.key, item)" -->
         </div>
     </ng-container>
 </div>

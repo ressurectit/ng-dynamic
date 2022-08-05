@@ -1,26 +1,41 @@
 <div class="designer-overlay" 
      #layoutDesigner
-     cdkDrag
-     cdkDropList
      designerMinWidth
-     connectDropLists
-     [id]="id"
-     [copyDesignerStyles]="_renderedType"
-     [cdkDragData]="{metadata: _renderedType, parentId: parent?._renderedType?.id}"
-     [cdkDragDisabled]="dragDisabled"
-     [cdkDropListEnterPredicate]="canDrop"
-     [cdkDropListOrientation]="_orientation"
+     [dndDraggable]="{metadata: renderedType, parentId: parent?.renderedType?.id}"
+     [dndDisableDragIf]="dragDisabled"
+     dndEffectAllowed="move"
+     [copyDesignerStyles]="renderedType"
+     (dndStart)="draggingSvc.setDragging(true); dragging = true"
+     (dndEnd)="draggingSvc.setDragging(false); dragging = false"
      (mouseleave)="hideOverlay($event)"
      (mouseover)="showOverlay($event)"
-     (cdkDragStarted)="draggingSvc.setDragging(true)"
-     (cdkDragEnded)="draggingSvc.setDragging(false)"
-     (cdkDropListDropped)="addDescendant($event)"
      (click)="selectComponent($event)"
      (dblclick)="unselectComponent($event)">
-    <div class="designer-dropzone" [isDropZone]="canDropValue">
-        <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>
-        <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="editorMetadata" [layoutMetadata]="_renderedType"></layout-editor-drag-preview>
-        <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="_renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
+     <!-- [id]="id" -->
+     <!-- connectDropLists -->
+     <!-- (cdkDragStarted)="draggingSvc.setDragging(true)"
+     (cdkDragEnded)="draggingSvc.setDragging(false)"
+     (cdkDropListDropped)="addDescendant($event)" -->
+     <!-- cdkDrag
+     cdkDropList -->
+     <!-- [cdkDragData]="{metadata: renderedType, parentId: parent?.renderedType?.id}"
+     [cdkDragDisabled]="dragDisabled"
+     [cdkDropListEnterPredicate]="canDrop"
+     [cdkDropListOrientation]="_orientation" -->
+    <div class="designer-dropzone drag-active"
+         dndDropzone
+         [dndDisableDropIf]="!canDropValue"
+         [dndHorizontal]="horizontal"
+         [isDropZone]="canDropValue"
+         (dndDrop)="draggingSvc.setDragging(false); addDescendant($event)">
+        <!-- <div dndDragImageRef class="drag-preview" [class.dragging]="dragging">DRAG_IMAGE</div> -->
+
+        <!-- <div style="border: 1px orangered solid; border-radius: 5px; padding: 4px;" dndPlaceholderRef>
+        </div> -->
+
+        <layout-editor-drag-placeholder class="mat-elevation-z6" dndPlaceholderRef></layout-editor-drag-placeholder>
+        <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="editorMetadata" [layoutMetadata]="renderedType"></layout-editor-drag-preview>
+        <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
         <ng-container *ngIf="highlighted || selected">
             <div class="designer-overlay-border"></div>
@@ -28,7 +43,7 @@
 
             <div class="designer-overlay-title"
                 [positionTo]="layoutDesigner"
-                placement="TopStart">{{editorMetadata?.metaInfo?.name ?? _renderedType?.name}}</div>
+                placement="TopStart">{{editorMetadata?.metaInfo?.name ?? renderedType?.name}}</div>
 
             <div *ngIf="!!parent && parent.editorMetadata?.removeDescendant" class="designer-overlay-remove" (click)="remove()">x</div>
         </ng-container>

@@ -16,8 +16,14 @@
 
 .designer-dropzone.drag-active
 {
-    margin: 10px;
+    margin: 8px;
+    padding: 6px;
     border: solid 1px rgb(0, 0, 0, .3);
+}
+
+.designer-dropzone.drag-active.dndDragover
+{
+    border: solid 1px rgb(0, 200, 0, .3);
 }
 
 .designer-overlay-layout,
@@ -58,4 +64,14 @@
     opacity: .75;
     color: #fff;
     cursor: pointer;
+}
+
+.drag-preview
+{
+    display: none;
+}
+
+.drag-preview.dragging
+{
+    display: block;
 }

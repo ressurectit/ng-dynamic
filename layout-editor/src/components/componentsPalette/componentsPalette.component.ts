@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CdkDrag, CdkDragStart, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
-import {Dictionary, generateId, isPresent} from '@jscrpt/common';
+import {Dictionary, generateId} from '@jscrpt/common';
+import {DndModule} from 'ngx-drag-drop';
 import {Subscription} from 'rxjs';
 
 import {DragActiveService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
@@ -11,7 +11,6 @@ import {ComponentsPaletteItem, LayoutModuleTypes} from './componentsPalette.inte
 import {ToLayoutDragDataSAPipe} from '../../pipes';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
-import {LayoutComponentDragData} from '../../interfaces';
 import {LAYOUT_MODULE_TYPES_LOADER} from '../../misc/tokens';
 
 /**
@@ -26,7 +25,7 @@ import {LAYOUT_MODULE_TYPES_LOADER} from '../../misc/tokens';
     imports:
     [
         CommonModule,
-        DragDropModule,
+        DndModule,
         LayoutEditorDragPreviewSAComponent,
         LayoutEditorDragPlaceholderSAComponent,
         ToLayoutDragDataSAPipe,
@@ -54,20 +53,20 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      */
     protected _groupedItems: Dictionary<(ComponentsPaletteItem & {temp?: boolean})[]> = {};
 
-    /**
-     * Array of available cdk drop lists
-     */
-    protected _designerDropLists: string[] = [];
+    // /**
+    //  * Array of available cdk drop lists
+    //  */
+    // protected _designerDropLists: string[] = [];
 
     /**
      * Generated component id, that is used for new component
      */
     protected _newCompnentId: string = generateId(16);
 
-    /**
-     * Indication whether drag element is over palette
-     */
-    protected _isDragOverPalette: boolean = false;
+    // /**
+    //  * Indication whether drag element is over palette
+    //  */
+    // protected _isDragOverPalette: boolean = false;
 
     //######################### constructor #########################
     constructor(@Inject(LAYOUT_MODULE_TYPES_LOADER) protected _moduleTypesLoader: DynamicItemLoader<LayoutModuleTypes>,
@@ -87,10 +86,10 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      */
     public async ngOnInit(): Promise<void>
     {
-        this._initSubscriptions.add(this._metadataManager.layoutChange.subscribe(() => this._getDesignerDropLists()));
+        // this._initSubscriptions.add(this._metadataManager.layoutChange.subscribe(() => this._getDesignerDropLists()));
         this._initSubscriptions.add(this.packageManager.usedPackagesChange.subscribe(() => this.initItems()));
 
-        this._getDesignerDropLists();
+        // this._getDesignerDropLists();
         await this.initItems();
     }
 
@@ -114,52 +113,52 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
         this._newCompnentId = generateId(16);
     }
 
-    /**
-     * Removes temporary palette item when drag ends
-     * @param key Items group key
-     */
-    protected _onDragEnded(key: string): void
-    {
-        this.draggingSvc.setDragging(false);
+    // /**
+    //  * Removes temporary palette item when drag ends
+    //  * @param key Items group key
+    //  */
+    // protected _onDragEnded(key: string): void
+    // {
+    //     this.draggingSvc.setDragging(false);
 
-        if (!isPresent(key))
-        {
-            return;
-        }
+    //     if (!isPresent(key))
+    //     {
+    //         return;
+    //     }
 
-        this._groupedItems[key] = [...this._groupedItems[key].filter(datum => !datum.temp)];
-    }
+    //     this._groupedItems[key] = [...this._groupedItems[key].filter(datum => !datum.temp)];
+    // }
 
-    /**
-     * Generates temporary palette item when drag starts
-     * @param event Drag start event
-     * @param key Items group key
-     * @param item Palette item
-     */
-    protected _onDragStarted(event: CdkDragStart<LayoutComponentDragData>, key: string, item: ComponentsPaletteItem): void
-    {
-        this.draggingSvc.setDragging(true);
+    // /**
+    //  * Generates temporary palette item when drag starts
+    //  * @param event Drag start event
+    //  * @param key Items group key
+    //  * @param item Palette item
+    //  */
+    // protected _onDragStarted(event: CdkDragStart<LayoutComponentDragData>, key: string, item: ComponentsPaletteItem): void
+    // {
+    //     this.draggingSvc.setDragging(true);
 
-        const currentIdx = event.source.dropContainer.getSortedItems().findIndex((datum: CdkDrag<LayoutComponentDragData>) => datum.data?.metadata?.id === event.source.data?.metadata?.id);
+    //     const currentIdx = event.source.dropContainer.getSortedItems().findIndex((datum: CdkDrag<LayoutComponentDragData>) => datum.data?.metadata?.id === event.source.data?.metadata?.id);
 
-        if (isPresent(currentIdx))
-        {
-            this._groupedItems[key]?.splice(currentIdx + 1, 0, {
-                ...item,
-                temp: true
-            });
-        }
-    }
+    //     if (isPresent(currentIdx))
+    //     {
+    //         this._groupedItems[key]?.splice(currentIdx + 1, 0, {
+    //             ...item,
+    //             temp: true
+    //         });
+    //     }
+    // }
 
     //######################### protected methods #########################
 
-    /**
-     * Gets and sets designer drop lists
-     */
-    protected _getDesignerDropLists(): void
-    {
-        this._designerDropLists = this._metadataManager.flatTree.map(itm => itm.component.id).reverse();
-    }
+    // /**
+    //  * Gets and sets designer drop lists
+    //  */
+    // protected _getDesignerDropLists(): void
+    // {
+    //     this._designerDropLists = this._metadataManager.flatTree.map(itm => itm.component.id).reverse();
+    // }
 
     /**
      * Initialize items in palette

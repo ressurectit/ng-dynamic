@@ -1,17 +1,17 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy, Injector, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CdkDragDrop, DragDropModule, DropListOrientation} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {MetadataHistoryManager} from '@anglr/dynamic';
 import {Func, isPresent} from '@jscrpt/common';
+import {DndModule} from 'ngx-drag-drop';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
 import {DragActiveService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
-import {LayoutComponentDragData} from '../../interfaces';
+import {LayoutComponentDragData, DndDropEventData} from '../../interfaces';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
@@ -34,7 +34,7 @@ import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
     [
         CommonModule,
         PositionModule,
-        DragDropModule,
+        DndModule,
         LayoutEditorDragPreviewSAComponent,
         LayoutEditorDragPlaceholderSAComponent,
         LayoutDesignerOverlayForSAComponent,
@@ -66,11 +66,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     protected initSubscriptions: Subscription = new Subscription();
 
     /**
-     * Indication whether item can be dropped here
-     */
-    protected canDropValue: boolean = false;
-
-    /**
      * Layout editor metadata
      */
     protected editorMetadata: LayoutEditorMetadataDescriptor<LayoutDesignerComponentOptions>|null = null;
@@ -96,12 +91,22 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * Metadata for rendered type
      */
-    protected _renderedType: LayoutComponentMetadata|undefined|null;
+    protected renderedType: LayoutComponentMetadata|undefined|null;
 
     /**
-     * Orientation of drop list
+     * Indication whether is being current object dragged
      */
-    protected _orientation: DropListOrientation = 'vertical';
+    protected dragging: boolean = false;
+
+    /**
+     * Indication whether item can be dropped here
+     */
+    protected canDropValue: boolean = false;
+
+    /**
+     * Indication whether orientation of drop list is horizontal
+     */
+    protected horizontal: boolean = false;
 
     //######################### protected properties - overrides #########################
 
@@ -183,28 +188,37 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Adds descentant component metadata to this component metadata
      * @param dragData - Data from drag n drop event
      */
-    public addDescendant(dragData: CdkDragDrop<LayoutComponentDragData, LayoutComponentDragData, LayoutComponentDragData>): void
+    public addDescendant(dragData: DndDropEventData<LayoutComponentDragData>): void
     {
+        console.log(dragData);
+
         if(!this.options)
         {
             return;
         }
 
-        const parentId = dragData.item.data.parentId;
-        this._logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.item.data.metadata.id, parent: this.options.typeMetadata.id});
+        if(!dragData.data)
+        {
+            this._logger?.debug('LayoutDesignerSAComponent: Missing data for drop event!');
+
+            return;
+        }
+
+        const parentId = dragData.data.parentId;
+        this._logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.data.metadata.id, parent: this.options.typeMetadata.id});
 
         //already added to tree, removing old reference
         if(parentId)
         {
             this.history.disable();
-            this.layoutEditorMetadataManager.getComponent(parentId)?.removeDescendant(dragData.item.data.metadata.id);
+            this.layoutEditorMetadataManager.getComponent(parentId)?.removeDescendant(dragData.data.metadata.id);
             this.history.enable();
         }
 
-        this.editorMetadata?.addDescendant?.(dragData.item.data.metadata, this.options.typeMetadata.options, dragData.currentIndex);
+        this.editorMetadata?.addDescendant?.(dragData.data.metadata, this.options.typeMetadata.options, dragData.index ?? 0);
         this.canDropValue = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
 
-        this._renderedType = {...this.options.typeMetadata};
+        this.renderedType = {...this.options.typeMetadata};
         this._changeDetector.markForCheck();
         this.history.getNewState();
     }
@@ -226,7 +240,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         this.editorMetadata?.removeDescendant?.(id, this.options.typeMetadata.options);
         this.canDropValue = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
-        this._renderedType = {...this.options.typeMetadata};
+        this.renderedType = {...this.options.typeMetadata};
         this._changeDetector.markForCheck();
         this.history.getNewState();
     }
@@ -339,7 +353,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        this._renderedType = {...this.options.typeMetadata};
-        this._orientation = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ? 'horizontal' : 'vertical';
+        this.renderedType = {...this.options.typeMetadata};
+        this.horizontal = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ?? false;
     }
 }

@@ -61,7 +61,8 @@ export class DesignerDropzoneSADirective implements OnInit, OnDestroy
      */
     protected processDragValue(): void
     {
-        if(this.draggingSvc.dragging && this.isDropZone)
+        // if(this.draggingSvc.dragging && this.isDropZone)
+        if(this.draggingSvc.dragging)
         {
             this.element.nativeElement.classList.add('drag-active');
         }

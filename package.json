@@ -116,6 +116,7 @@
         "@anglr/translate-extensions": "9.0.0",
         "@jscrpt/common": "^2.3.0",
         "@ngx-translate/core": "14.0.0",
+        "ngx-drag-drop": "13.0.1",
         "angular2-hotkeys": "13.1.0",
         "zone.js": "0.11.4",
         "rxjs": "6.6.7",

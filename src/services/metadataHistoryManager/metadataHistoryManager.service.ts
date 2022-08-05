@@ -1,5 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-import {isBlank} from '@jscrpt/common';
+import {isBlank, isPresent} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
 import {MetadataStateManager} from '../../interfaces';
@@ -9,6 +9,8 @@ import {METADATA_STATE_MANAGER} from '../../misc/tokens';
  * Maximum number of items in history
  */
 const MAX_ITEMS = 200;
+
+//TODO: maybe store state as string and compare with it to correctly display saved, discuss with vinci
 
 /**
  * Service used for managing state of metadata
@@ -31,7 +33,7 @@ export class MetadataHistoryManager<TMetadata = any>
     /**
      * All stored states
      */
-    protected states: TMetadata[] = [];
+    protected states: string[] = [];
 
     /**
      * Indication whether is manager enabled
@@ -110,7 +112,7 @@ export class MetadataHistoryManager<TMetadata = any>
             return null;
         }
 
-        return this.states[this.activeIndex];
+        return JSON.parse(this.states[this.activeIndex]);
     }
 
     //######################### constructor #########################
@@ -125,13 +127,13 @@ export class MetadataHistoryManager<TMetadata = any>
      */
     public undo(): void
     {
-        if(!this.canUndo || !this.activeIndex)
+        if(!this.canUndo || isBlank(this.activeIndex))
         {
             return;
         }
 
         this.activeIndex--;
-        this.popSubject.next(this.states[this.activeIndex]);
+        this.popSubject.next(JSON.parse(this.states[this.activeIndex]));
     }
 
     /**
@@ -139,13 +141,13 @@ export class MetadataHistoryManager<TMetadata = any>
      */
     public redo(): void
     {
-        if(!this.canRedo || !this.activeIndex)
+        if(!this.canRedo || isBlank(this.activeIndex))
         {
             return;
         }
 
         this.activeIndex++;
-        this.popSubject.next(this.states[this.activeIndex]);
+        this.popSubject.next(JSON.parse(this.states[this.activeIndex]));
     }
 
     /**
@@ -165,7 +167,7 @@ export class MetadataHistoryManager<TMetadata = any>
         }
 
         //getting new state, where current index is not at the end, rewriting history for redo
-        if(this.activeIndex && this.activeIndex + 1 < this.states.length)
+        if(isPresent(this.activeIndex) && this.activeIndex + 1 < this.states.length)
         {
             this.states.splice(this.activeIndex + 1, this.states.length - (this.activeIndex + 1));
         }
@@ -175,7 +177,7 @@ export class MetadataHistoryManager<TMetadata = any>
         //only for existing state
         if(state)
         {
-            this.states.push(JSON.parse(JSON.stringify(state)));
+            this.states.push(JSON.stringify(state));
             this.activeIndex = this.states.length - 1;
             this.historyChangeSubject.next();
         }
@@ -191,7 +193,7 @@ export class MetadataHistoryManager<TMetadata = any>
 
     public setInitialState(metadata: TMetadata): void
     {
-        this.states.push(JSON.parse(JSON.stringify(metadata)));
+        this.states.push(JSON.stringify(metadata));
         this.activeIndex = this.states.length - 1;
         this.save();
     }

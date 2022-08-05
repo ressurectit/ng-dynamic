@@ -1,4 +1,5 @@
 export * from './defaultDynamicModuleTypesProvider/defaultDynamicModuleTypesProvider.service';
+export * from './dragActive/dragActive.service';
 export * from './layoutComponentsIterator/layoutComponents.iterator';
 export * from './layoutComponentsIterator/layoutComponentsIterator.interface';
 export * from './layoutComponentsIterator/layoutComponentsIterator.service';

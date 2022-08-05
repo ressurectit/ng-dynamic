@@ -9,8 +9,8 @@ import {Func, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
-import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerMinDimensionSADirective} from '../../directives';
-import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
+import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
+import {DragActiveService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutComponentDragData} from '../../interfaces';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
@@ -19,6 +19,7 @@ import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 
 //TODO: when new is clicked only after event new item can be dropped into 
+//TODO: display overlay outside of component so overflow has no effect on it
 
 /**
  * Component used as designer component wrapper for layout component
@@ -41,6 +42,7 @@ import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
         CopyDesignerStylesSADirective,
         ConnectDropListsSADirective,
         LayoutComponentRendererSADirective,
+        DesignerDropzoneSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -61,17 +63,17 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * Subscriptions created during initialization
      */
-    protected _initSubscriptions: Subscription = new Subscription();
+    protected initSubscriptions: Subscription = new Subscription();
 
     /**
      * Indication whether item can be dropped here
      */
-    protected _canDropValue: boolean = false;
+    protected canDropValue: boolean = false;
 
     /**
      * Layout editor metadata
      */
-    protected _editorMetadata: LayoutEditorMetadataDescriptor<LayoutDesignerComponentOptions>|null = null;
+    protected editorMetadata: LayoutEditorMetadataDescriptor<LayoutDesignerComponentOptions>|null = null;
 
     //######################### protected properties - template bindings #########################
 
@@ -80,7 +82,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected get selected(): boolean
     {
-        return this._layoutEditorMetadataManager.selectedComponent === this.options?.typeMetadata.id;
+        return this.layoutEditorMetadataManager.selectedComponent === this.options?.typeMetadata.id;
     }
 
     /**
@@ -88,7 +90,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected get highlighted(): boolean
     {
-        return this._layoutEditorMetadataManager.highlightedComponent === this.options?.typeMetadata.id;
+        return this.layoutEditorMetadataManager.highlightedComponent === this.options?.typeMetadata.id;
     }
 
     /**
@@ -134,23 +136,24 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public get dragDisabled(): boolean
     {
-        return !this._parent || !!this._editorMetadata?.metaInfo?.dragDisabled;
+        return !this.parent || !!this.editorMetadata?.metaInfo?.dragDisabled;
     }
 
     /**
      * Gets predicate that returns indication whether item can be dropped into this list
      */
-    public canDrop: Func<boolean> = () => this._canDropValue;
+    public canDrop: Func<boolean> = () => this.canDropValue;
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
                 element: ElementRef<HTMLElement>,
                 injector: Injector,
-                protected _metadataExtractor: LayoutEditorMetadataExtractor,
-                protected _layoutEditorMetadataManager: LayoutEditorMetadataManager,
+                protected draggingSvc: DragActiveService,
+                protected metadataExtractor: LayoutEditorMetadataExtractor,
+                protected layoutEditorMetadataManager: LayoutEditorMetadataManager,
                 @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
                 @Inject(LOGGER) @Optional() logger?: Logger,
-                @SkipSelf() @Optional() protected _parent?: LayoutDesignerSAComponent,)
+                @SkipSelf() @Optional() protected parent?: LayoutDesignerSAComponent,)
     {
         super(changeDetector, element, injector, logger);
     }
@@ -164,13 +167,13 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     {
         this._logger?.debug('LayoutDesignerSAComponent: Destroying component {@data}', {id: this.options?.typeMetadata.id});
 
-        this._initSubscriptions.unsubscribe();
+        this.initSubscriptions.unsubscribe();
 
         super.ngOnDestroy();
 
         if(this.options)
         {
-            this._layoutEditorMetadataManager.unregisterLayoutDesignerComponent(this.options.typeMetadata.id);
+            this.layoutEditorMetadataManager.unregisterLayoutDesignerComponent(this.options.typeMetadata.id);
         }
     }
 
@@ -194,12 +197,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         if(parentId)
         {
             this.history.disable();
-            this._layoutEditorMetadataManager.getComponent(parentId)?._removeDescendant(dragData.item.data.metadata.id);
+            this.layoutEditorMetadataManager.getComponent(parentId)?.removeDescendant(dragData.item.data.metadata.id);
             this.history.enable();
         }
 
-        this._editorMetadata?.addDescendant?.(dragData.item.data.metadata, this.options.typeMetadata.options, dragData.currentIndex);
-        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+        this.editorMetadata?.addDescendant?.(dragData.item.data.metadata, this.options.typeMetadata.options, dragData.currentIndex);
+        this.canDropValue = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
 
         this._renderedType = {...this.options.typeMetadata};
         this._changeDetector.markForCheck();
@@ -212,7 +215,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Removes descendant metadata from this component metadata
      * @param id - Id of descendant to be removed
      */
-    protected _removeDescendant(id: string): void
+    protected removeDescendant(id: string): void
     {
         if(!this.options)
         {
@@ -221,8 +224,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         this._logger?.debug('LayoutDesignerSAComponent: Removing descendant {@data}', {id: this.options.typeMetadata.id, child: id});
 
-        this._editorMetadata?.removeDescendant?.(id, this.options.typeMetadata.options);
-        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+        this.editorMetadata?.removeDescendant?.(id, this.options.typeMetadata.options);
+        this.canDropValue = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
         this._renderedType = {...this.options.typeMetadata};
         this._changeDetector.markForCheck();
         this.history.getNewState();
@@ -234,23 +237,23 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Shows designer overlay
      * @param event - Mouse event that occured
      */
-    protected _showOverlay(event: Event): void
+    protected showOverlay(event: Event): void
     {
         this._logger?.verbose('LayoutDesignerComponent: Showing overlay for {@type}', {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id});
 
         event.preventDefault();
         event.stopPropagation();
 
-        this._layoutEditorMetadataManager.highlightComponent(this.options?.typeMetadata.id);
+        this.layoutEditorMetadataManager.highlightComponent(this.options?.typeMetadata.id);
     }
 
     /**
      * Hides designer overlay
      * @param event - Mouse event that occured
      */
-    protected _hideOverlay(event: Event): void
+    protected hideOverlay(event: Event): void
     {
-        if(isPresent(this._parent))
+        if(isPresent(this.parent))
         {
             return;
         }
@@ -260,21 +263,21 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         event.preventDefault();
         event.stopPropagation();
 
-        this._layoutEditorMetadataManager.cancelHighlightedComponent();
+        this.layoutEditorMetadataManager.cancelHighlightedComponent();
     }
 
     /**
      * Marks component as selected
      * @param event - Event that occured
      */
-    protected _selectComponent(event: MouseEvent): void
+    protected selectComponent(event: MouseEvent): void
     {
         event.preventDefault();
         event.stopPropagation();
 
         if(this.options)
         {
-            this._layoutEditorMetadataManager.selectComponent(this.options.typeMetadata.id);
+            this.layoutEditorMetadataManager.selectComponent(this.options.typeMetadata.id);
         }
     }
 
@@ -282,25 +285,25 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Unselects selected component
      * @param event - Event that occured
      */
-    protected _unselectComponent(event: MouseEvent): void
+    protected unselectComponent(event: MouseEvent): void
     {
         event.preventDefault();
         event.stopPropagation();
 
-        this._layoutEditorMetadataManager.unselectComponent();
+        this.layoutEditorMetadataManager.unselectComponent();
     }
 
     /**
      * Removes itself from tree
      */
-    protected _remove(): void
+    protected remove(): void
     {
-        if(!this._parent || !this.options)
+        if(!this.parent || !this.options)
         {
             return;
         }
 
-        this._parent._removeDescendant(this.options.typeMetadata.id);
+        this.parent.removeDescendant(this.options.typeMetadata.id);
     }
 
     //######################### protected methods - overrides #########################
@@ -318,12 +321,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         //TODO: optimize
-        this._initSubscriptions.add(this._layoutEditorMetadataManager.selectedChange.subscribe(() => this._changeDetector.detectChanges()));
-        this._initSubscriptions.add(this._layoutEditorMetadataManager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
+        this.initSubscriptions.add(this.layoutEditorMetadataManager.selectedChange.subscribe(() => this._changeDetector.detectChanges()));
+        this.initSubscriptions.add(this.layoutEditorMetadataManager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
 
-        this._editorMetadata = await this._metadataExtractor.extractMetadata(this.options.typeMetadata);
-        this._canDropValue = this._editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
-        this._layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this.options.typeMetadata.id, this._parent?.options?.typeMetadata.id);
+        this.editorMetadata = await this.metadataExtractor.extractMetadata(this.options.typeMetadata);
+        this.canDropValue = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+        this.layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this.options.typeMetadata.id, this.parent?.options?.typeMetadata.id);
     }
 
     /**
@@ -337,6 +340,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         this._renderedType = {...this.options.typeMetadata};
-        this._orientation = this._editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ? 'horizontal' : 'vertical';
+        this._orientation = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ? 'horizontal' : 'vertical';
     }
 }

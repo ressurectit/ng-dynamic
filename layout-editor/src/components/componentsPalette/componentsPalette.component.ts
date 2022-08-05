@@ -6,7 +6,7 @@ import {Logger, LOGGER} from '@anglr/common';
 import {Dictionary, generateId, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
+import {DragActiveService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {ComponentsPaletteItem, LayoutModuleTypes} from './componentsPalette.interface';
 import {ToLayoutDragDataSAPipe} from '../../pipes';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
@@ -75,6 +75,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
                 protected packageManager: PackageManager,
                 protected _metadataExtractor: LayoutEditorMetadataExtractor,
                 protected _metadataManager: LayoutEditorMetadataManager,
+                protected draggingSvc: DragActiveService,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
     }
@@ -119,6 +120,8 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      */
     protected _onDragEnded(key: string): void
     {
+        this.draggingSvc.setDragging(false);
+
         if (!isPresent(key))
         {
             return;
@@ -135,6 +138,8 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      */
     protected _onDragStarted(event: CdkDragStart<LayoutComponentDragData>, key: string, item: ComponentsPaletteItem): void
     {
+        this.draggingSvc.setDragging(true);
+
         const currentIdx = event.source.dropContainer.getSortedItems().findIndex((datum: CdkDrag<LayoutComponentDragData>) => datum.data?.metadata?.id === event.source.data?.metadata?.id);
 
         if (isPresent(currentIdx))

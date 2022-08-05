@@ -6,27 +6,31 @@
      connectDropLists
      [id]="id"
      [copyDesignerStyles]="_renderedType"
-     [cdkDragData]="{metadata: _renderedType, parentId: _parent?._renderedType?.id}"
+     [cdkDragData]="{metadata: _renderedType, parentId: parent?._renderedType?.id}"
      [cdkDragDisabled]="dragDisabled"
      [cdkDropListEnterPredicate]="canDrop"
      [cdkDropListOrientation]="_orientation"
-     (mouseleave)="_hideOverlay($event)"
-     (mouseover)="_showOverlay($event)"
+     (mouseleave)="hideOverlay($event)"
+     (mouseover)="showOverlay($event)"
+     (cdkDragStarted)="draggingSvc.setDragging(true)"
+     (cdkDragEnded)="draggingSvc.setDragging(false)"
      (cdkDropListDropped)="addDescendant($event)"
-     (click)="_selectComponent($event)"
-     (dblclick)="_unselectComponent($event)">
-    <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>
-    <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="_editorMetadata" [layoutMetadata]="_renderedType"></layout-editor-drag-preview>
-    <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="_renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
+     (click)="selectComponent($event)"
+     (dblclick)="unselectComponent($event)">
+    <div class="designer-dropzone" [isDropZone]="canDropValue">
+        <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>
+        <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="editorMetadata" [layoutMetadata]="_renderedType"></layout-editor-drag-preview>
+        <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="_renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
-    <ng-container *ngIf="highlighted || selected">
-        <div class="designer-overlay-border"></div>
-        <div class="designer-overlay-layout" [layoutDesignerOverlayFor]="renderer"></div>
+        <ng-container *ngIf="highlighted || selected">
+            <div class="designer-overlay-border"></div>
+            <div class="designer-overlay-layout" [layoutDesignerOverlayFor]="renderer"></div>
 
-        <div class="designer-overlay-title"
-             [positionTo]="layoutDesigner"
-             placement="TopStart">{{_editorMetadata?.metaInfo?.name ?? _renderedType?.name}}</div>
+            <div class="designer-overlay-title"
+                [positionTo]="layoutDesigner"
+                placement="TopStart">{{editorMetadata?.metaInfo?.name ?? _renderedType?.name}}</div>
 
-        <div *ngIf="!!_parent && _parent._editorMetadata?.removeDescendant" class="designer-overlay-remove" (click)="_remove()">x</div>
-    </ng-container>
+            <div *ngIf="!!parent && parent.editorMetadata?.removeDescendant" class="designer-overlay-remove" (click)="remove()">x</div>
+        </ng-container>
+    </div>
 </div>

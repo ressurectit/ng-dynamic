@@ -13,6 +13,7 @@
     min-height: 0;
     border: 1px solid #bbb;
     background-color: #F5F5F5;
+    max-width: 390px;
 }
 
 .header

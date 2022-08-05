@@ -6,6 +6,18 @@
 .designer-overlay
 {
     position: relative;
+    overflow: hidden;
+}
+
+.designer-dropzone
+{
+    overflow: hidden;
+}
+
+.designer-dropzone.drag-active
+{
+    margin: 10px;
+    border: solid 1px rgb(0, 0, 0, .3);
 }
 
 .designer-overlay-layout,

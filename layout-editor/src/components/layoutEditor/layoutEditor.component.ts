@@ -19,7 +19,7 @@ import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 {
     selector: 'layout-editor',
     templateUrl: 'layoutEditor.component.html',
-    // styleUrls: ['layoutEditor.component.css'],
+    styleUrls: ['layoutEditor.component.css'],
     styles: [HostDisplayFlexStyle],
     providers:
     [

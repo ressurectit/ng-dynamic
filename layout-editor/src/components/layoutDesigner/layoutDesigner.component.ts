@@ -5,7 +5,7 @@ import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {MetadataHistoryManager} from '@anglr/dynamic';
-import {Func, isPresent, resolvePromiseOr} from '@jscrpt/common';
+import {Func, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
@@ -310,7 +310,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override async _onInit(): Promise<void>
     {
-        await resolvePromiseOr(super._onInit());
+        await super._onInit();
 
         if(!this.options)
         {

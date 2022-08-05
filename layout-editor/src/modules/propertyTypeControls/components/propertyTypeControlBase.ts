@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Directive, Input, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {PromiseOr, resolvePromiseOr} from '@jscrpt/common';
+import {PromiseOr} from '@jscrpt/common';
 
 import {PropertyTypeControl} from '../../../interfaces';
 
@@ -64,7 +64,7 @@ export abstract class PropertyTypeControlBase<TValue = any> implements PropertyT
 
         this._initialized = true;
 
-        await resolvePromiseOr(this._initialize());
+        await this._initialize();
     }
 
     //######################### public methods - implementation of PropertyTypeControl #########################
@@ -74,7 +74,7 @@ export abstract class PropertyTypeControlBase<TValue = any> implements PropertyT
      */
     public async initialize(): Promise<void>
     {
-        await resolvePromiseOr(this.ngOnInit());
+        await this.ngOnInit();
     }
 
     /**

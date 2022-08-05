@@ -1,5 +1,5 @@
 import {Logger} from '@anglr/common';
-import {Dictionary, resolvePromiseOr} from '@jscrpt/common';
+import {Dictionary} from '@jscrpt/common';
 
 import {DynamicModuleProvider, DynamicItemLoaderValidatorFn} from './dynamicItemLoader.interface';
 import {DynamicModule, DynamicItemSource} from '../../interfaces';
@@ -69,7 +69,7 @@ export class DynamicItemLoader<TDynamicItemDef = any>
 
             if(asyncDynamicModule)
             {
-                dynamicModule = await resolvePromiseOr(asyncDynamicModule);
+                dynamicModule = await asyncDynamicModule;
             }
             else
             {

@@ -1,5 +1,5 @@
 import {ElementRef, Injector} from '@angular/core';
-import {PromiseOr, resolvePromiseOr} from '@jscrpt/common';
+import {PromiseOr} from '@jscrpt/common';
 
 import {DynamicItem, DynamicItemExtension, DynamicItemMetadata} from '../interfaces';
 
@@ -53,7 +53,7 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
         this._element = element;
         this._instance = instance;
 
-        await resolvePromiseOr(this._onInit());
+        await this._onInit();
     }
 
     /**
@@ -68,7 +68,7 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
             return;
         }
 
-        await resolvePromiseOr(this._onOptionsChange());
+        await this._onOptionsChange();
     }
 
     /**

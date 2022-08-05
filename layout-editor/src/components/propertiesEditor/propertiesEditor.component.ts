@@ -5,7 +5,7 @@ import {Logger, LOGGER} from '@anglr/common';
 import {FormModelBuilder} from '@anglr/common/forms';
 import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {DebounceCall, Dictionary, extend, isPresent, NoopAction, resolvePromiseOr} from '@jscrpt/common';
+import {DebounceCall, Dictionary, extend, isPresent, NoopAction} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor} from '../../services';
@@ -137,7 +137,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
                     // eslint-disable-next-line no-self-assign
                     this.component.options = this.component.options;
-                    await resolvePromiseOr(this.component.ngOnChanges?.(changes));
+                    await this.component.ngOnChanges?.(changes);
                     this.manager.displayNameUpdated();
                     this.history.getNewState();
                 }
@@ -290,7 +290,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     
                     // eslint-disable-next-line no-self-assign
                     this.component.options = this.component.options;
-                    await resolvePromiseOr(this.component.ngOnChanges?.(changes));
+                    await this.component.ngOnChanges?.(changes);
                     this.component.invalidateVisuals();
                     this.history.getNewState();
                 }

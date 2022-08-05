@@ -1,7 +1,7 @@
 import {ComponentRef, Directive, Inject, Input, Optional, Type, ViewContainerRef} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
-import {Dictionary, resolvePromiseOr} from '@jscrpt/common';
+import {Dictionary} from '@jscrpt/common';
 
 import {PropertyTypeControl} from '../../../../interfaces';
 import {LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS} from '../../../../misc/tokens';
@@ -86,7 +86,7 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
                 component.control = this.control;
                 component.values = this.values;
 
-                await resolvePromiseOr(component.initialize());
+                await component.initialize();
                 component.invalidateVisuals();
             }
         }

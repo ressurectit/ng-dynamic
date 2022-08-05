@@ -1,6 +1,5 @@
 import {DynamicModuleDataExtractorFn} from '@anglr/dynamic';
 import {relationsExportExtractor} from '@anglr/dynamic/relations';
-import {resolvePromiseOr} from '@jscrpt/common';
 
 import {RelationsEditorMetadataType} from '../../decorators';
 import {RelationsNodeDef} from '../types';
@@ -10,7 +9,7 @@ import {RelationsNodeDef} from '../types';
  */
 export const relationsNodeExtractor: DynamicModuleDataExtractorFn<RelationsNodeDef> = async (module, logger) =>
 {
-    const relations = await resolvePromiseOr(relationsExportExtractor(module, logger));
+    const relations = await relationsExportExtractor(module, logger);
 
     logger?.debug('relationsNodeExtractor: trying to extract dynamic node');
 

@@ -1,5 +1,4 @@
 import {defaultExportExtractor, DynamicItemDefData, DynamicItemExtensions, DynamicModuleDataExtractorFn, extensionsExportsExtractor} from '@anglr/dynamic';
-import {resolvePromiseOr} from '@jscrpt/common';
 
 import {LayoutEditorDesignerTypeType} from '../../decorators';
 
@@ -8,8 +7,8 @@ import {LayoutEditorDesignerTypeType} from '../../decorators';
  */
 export const layoutDesignerTypeExtractor: DynamicModuleDataExtractorFn<DynamicItemDefData&DynamicItemExtensions> = async (module, logger) =>
 {
-    const def = (await resolvePromiseOr(defaultExportExtractor(module, logger)));
-    const ext = (await resolvePromiseOr(extensionsExportsExtractor(module, logger)));
+    const def = (await defaultExportExtractor(module, logger));
+    const ext = (await extensionsExportsExtractor(module, logger));
     const localModule = def?.data as LayoutEditorDesignerTypeType;
 
     logger?.debug('layoutDesignerTypeExtractor: trying to extract default dynamic data');

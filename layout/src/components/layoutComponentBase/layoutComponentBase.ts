@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Directive, ElementRef, Inject, Injector, OnDestroy, Optional, SimpleChanges} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemExtension} from '@anglr/dynamic';
-import {nameof, PromiseOr, resolvePromiseOr} from '@jscrpt/common';
+import {nameof, PromiseOr} from '@jscrpt/common';
 
 import {LayoutComponent} from '../../interfaces';
 
@@ -98,14 +98,14 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         this._initialized = true;
         const extensionsOptions = this.extensionsOptions;
         
-        await resolvePromiseOr(this._onInit());
-        await resolvePromiseOr(this._onOptionsSet());
+        await this._onInit();
+        await this._onOptionsSet();
 
         if(extensionsOptions)
         {
             for(const extension of this._extensions)
             {
-                await resolvePromiseOr(extension.initialize(this._injector, this.element, this));
+                await extension.initialize(this._injector, this.element, this);
             }
         }
     }
@@ -118,7 +118,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         //options has changed
         if(nameof<LayoutComponentBase<TOptions>>('options') in changes)
         {
-            await resolvePromiseOr(this._onOptionsSet());
+            await this._onOptionsSet();
 
             const extensionsOptions = this.extensionsOptions;
 
@@ -127,7 +127,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
             {
                 for(const extension of this._extensions)
                 {
-                    await resolvePromiseOr(extension.optionsChange(extensionsOptions));
+                    await extension.optionsChange(extensionsOptions);
                 }
             }
 
@@ -136,7 +136,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
                 return;
             }
 
-            await resolvePromiseOr(this._onOptionsChange());
+            await this._onOptionsChange();
         }
     }
 

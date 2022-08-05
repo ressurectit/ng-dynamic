@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Directive, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormModelGroup} from '@anglr/common/forms';
-import {Dictionary, PromiseOr, resolvePromiseOr} from '@jscrpt/common';
+import {Dictionary, PromiseOr} from '@jscrpt/common';
 
 import {PropertiesControl} from '../../../interfaces';
 import {LayoutEditorMetadataExtractor} from '../../../services';
@@ -55,7 +55,7 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
 
         this._initialized = true;
 
-        await resolvePromiseOr(this._initialize());
+        await this._initialize();
     }
 
     //######################### public methods - implementation of PropertiesControl #########################
@@ -65,7 +65,7 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
      */
     public async initialize(): Promise<void>
     {
-        await resolvePromiseOr(this.ngOnInit());
+        await this.ngOnInit();
     }
 
     /**

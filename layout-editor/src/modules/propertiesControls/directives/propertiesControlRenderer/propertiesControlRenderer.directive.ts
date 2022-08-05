@@ -2,7 +2,7 @@ import {ComponentRef, Directive, Inject, Input, Optional, Type, ViewContainerRef
 import {FormGroup} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
 import {FormModelGroup} from '@anglr/common/forms';
-import {Dictionary, resolvePromiseOr} from '@jscrpt/common';
+import {Dictionary} from '@jscrpt/common';
 
 import {PropertiesControl} from '../../../../interfaces';
 import {LayoutEditorPropertyMetadata} from '../../../../misc/types';
@@ -78,7 +78,7 @@ export class PropertiesControlRendererDirective<TComponent extends PropertiesCon
                 component.propertiesMetadata = this.propertiesMetadata;
                 component.form = this.form;
 
-                await resolvePromiseOr(component.initialize());
+                await component.initialize();
                 component.invalidateVisuals();
             }
         }

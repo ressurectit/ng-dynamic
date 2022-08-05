@@ -37,8 +37,6 @@ interface PropertiesEditorData
     controls: Type<PropertiesControl>[];
 }
 
-//TODO: keep focus when changing padding, margin on container
-
 /**
  * Component that represents editor for components options/properties
  */
@@ -168,6 +166,16 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         this.optionsFormSubscription = null;
     }
 
+    //######################### protected methods - template bindings #########################
+
+    /**
+     * Toggles collapsed state of properties
+     */
+    protected toggleCollapsed(): void
+    {
+        this.visible = !this.visible;
+    }
+
     //######################### protected methods #########################
 
     /**
@@ -182,7 +190,6 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
         if(isPresent(this.manager.selectedComponent))
         {
-            this.visible = true;
             const component = this.manager.getComponent(this.manager.selectedComponent);
 
             if(this.lastComponent == component && this.lastComponentId == this.manager.selectedComponent)
@@ -197,7 +204,6 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
             if(component)
             {
-                this.visible = true;
                 this.component = component;
 
                 await this.getMetadata();
@@ -281,7 +287,6 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     {
         this.lastComponent = null;
         this.lastComponentId = null;
-        this.visible = false;
         this.component = null;
         this.metadata = null;
         this.propertiesData = [];

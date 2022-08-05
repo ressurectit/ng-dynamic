@@ -2,6 +2,7 @@
 {
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .properties-main
@@ -16,11 +17,20 @@
 
 .header
 {
+    display: flex;
+    flex-direction: row;
     padding: 2px 8px;
     background-color: #bbb;
 }
 
-.header::first-letter
+.header-title
+{
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+}
+
+.header-title::first-letter
 {
     text-transform: uppercase;
     line-height: 0em;
@@ -40,4 +50,18 @@
 {
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.properties-toolbar
+{
+    background-color: #ddd;
+    padding: 6px 4px;
+    writing-mode: vertical-rl;
+    transform: translateX(calc(-1em - 4px));
+    position: absolute;
+}
+
+.properties-toolbar>button>span
+{
+    font-weight: 600;
 }

@@ -1,25 +1,41 @@
-<div *ngIf="visible" class="properties-main">
-    <div class="header">properties</div>
+<div *ngIf="!visible">
+    <div class="properties-toolbar">
+        <button class="btn-icon" (click)="toggleCollapsed()">
+            <span>properties</span>
+        </button>
+    </div>
+</div>
 
-    <div class="static-properties">
-        <div class="properties-form-group">
-            <label class="properties-control-label">type</label>
-            <div class="properties-form-static">{{metadata?.metaInfo?.name ?? component?.options?.typeMetadata?.name}}</div>
+<div class="properties-main" *ngIf="visible">
+    <div class="header">
+        <div class="header-title">properties</div>
+        
+        <button class="btn-icon" (click)="toggleCollapsed()">
+            <span class="fas fa-times"></span>
+        </button>
+    </div>
 
-            <label class="properties-control-label">id</label>
-            <div class="properties-form-static">{{component?.options?.typeMetadata?.id}}</div>
+    <ng-container *ngIf="component">
+        <div class="static-properties">
+            <div class="properties-form-group">
+                <label class="properties-control-label">type</label>
+                <div class="properties-form-static">{{metadata?.metaInfo?.name ?? component.options?.typeMetadata?.name}}</div>
 
-            <label class="properties-control-label">display name</label>
-            <input class="properties-form-control" type="text" [formControl]="displayName">
+                <label class="properties-control-label">id</label>
+                <div class="properties-form-static">{{component.options?.typeMetadata?.id}}</div>
+
+                <label class="properties-control-label">display name</label>
+                <input class="properties-form-control" type="text" [formControl]="displayName">
+            </div>
         </div>
-    </div>
 
 
-    <div class="thin-scrollbar properties-controls">
-        <ng-container *ngFor="let props of propertiesData">
-            <ng-container *ngFor="let propertiesCtrl of props.controls">
-                <ng-container [propertiesControl]="propertiesCtrl" [form]="props.form" [propertiesMetadata]="props.metadata"></ng-container>
+        <div class="thin-scrollbar properties-controls">
+            <ng-container *ngFor="let props of propertiesData">
+                <ng-container *ngFor="let propertiesCtrl of props.controls">
+                    <ng-container [propertiesControl]="propertiesCtrl" [form]="props.form" [propertiesMetadata]="props.metadata"></ng-container>
+                </ng-container>
             </ng-container>
-        </ng-container>
-    </div>
+        </div>
+    </ng-container>
 </div>

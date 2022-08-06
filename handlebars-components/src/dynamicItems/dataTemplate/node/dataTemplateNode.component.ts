@@ -4,6 +4,7 @@ import {TitledDialogService} from '@anglr/common/material';
 import {CodeEditorDialogData, CodeEditorDialogSAComponent} from '@anglr/dynamic/layout-editor';
 import {HandlebarsLanguageModel} from '@anglr/dynamic';
 import {isPresent} from '@jscrpt/common';
+import {lastValueFrom} from 'rxjs';
 
 import {DataTemplateRelationsOptions} from '../dataTemplate.options';
 
@@ -41,7 +42,7 @@ export class DataTemplateNodeSAComponent extends RelationsNodeBase<DataTemplateR
      */
     protected async showCodeEditor(): Promise<void>
     {
-        const result = await this.dialog.open<CodeEditorDialogSAComponent, CodeEditorDialogData, string|null>(CodeEditorDialogSAComponent,
+        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogSAComponent, CodeEditorDialogData, string|null>(CodeEditorDialogSAComponent,
         {
             title: 'Code editor',
             width: '75vw',
@@ -52,8 +53,7 @@ export class DataTemplateNodeSAComponent extends RelationsNodeBase<DataTemplateR
                 languageModel: HandlebarsLanguageModel,
 
             }
-        }).afterClosed()
-            .toPromise();
+        }).afterClosed());
 
         if(isPresent(result))
         {

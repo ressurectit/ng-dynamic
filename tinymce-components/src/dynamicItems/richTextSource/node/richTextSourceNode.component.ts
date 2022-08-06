@@ -2,6 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from 
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {isPresent} from '@jscrpt/common';
+import {lastValueFrom} from 'rxjs';
 
 import {RichTextSourceRelationsOptions} from '../richTextSource.options';
 import {RichTextBlockEditorDialogSAComponent} from '../../richTextBlock/misc/components';
@@ -39,14 +40,13 @@ export class RichTextSourceNodeSAComponent extends RelationsNodeBase<RichTextSou
      */
     protected async showCodeEditor(): Promise<void>
     {
-        const result = await this.dialog.open<RichTextBlockEditorDialogSAComponent, string, string|null>(RichTextBlockEditorDialogSAComponent,
+        const result = await lastValueFrom(this.dialog.open<RichTextBlockEditorDialogSAComponent, string, string|null>(RichTextBlockEditorDialogSAComponent,
         {
             title: 'Rich text editor',
             width: '75vw',
             height: '75vh',
             data: this.metadata?.relationsOptions?.content ?? ''
-        }).afterClosed()
-            .toPromise();
+        }).afterClosed());
 
         if(isPresent(result))
         {

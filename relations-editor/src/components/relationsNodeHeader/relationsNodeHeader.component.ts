@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, ChangeDetectorRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TitledDialogService} from '@anglr/common/material';
-import {Subject} from 'rxjs';
+import {lastValueFrom, Subject} from 'rxjs';
 
 import {RelationsNode} from '../../interfaces';
 import {RelationsNodeHeaderDisplayNameEditorSAComponent} from '../relationsNodeHeaderDisplayNameEditor/relationsNodeHeaderDisplayNameEditor.component';
@@ -56,13 +56,12 @@ export class RelationsNodeHeaderSAComponent
      */
     protected async editDisplayName(): Promise<void>
     {
-        const result = await this.dialog.open<RelationsNodeHeaderDisplayNameEditorSAComponent, string, string|undefined|null>(RelationsNodeHeaderDisplayNameEditorSAComponent,
+        const result = await lastValueFrom(this.dialog.open<RelationsNodeHeaderDisplayNameEditorSAComponent, string, string|undefined|null>(RelationsNodeHeaderDisplayNameEditorSAComponent,
         {
             title: 'edit display name',
             width: '30vw',
             data: this.parent?.metadata?.displayName || this.name || this.parent?.metadata?.id || ''
-        }).afterClosed()
-            .toPromise();
+        }).afterClosed());
 
         if(result && this.parent?.metadata)
         {

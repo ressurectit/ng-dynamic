@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 import {TitledDialogService} from '@anglr/common/material';
 import {LanguageModel} from '@anglr/dynamic';
 import {isBlank, isPresent} from '@jscrpt/common';
+import {lastValueFrom} from 'rxjs';
 
 import {PropertiesControl} from '../../interfaces';
 import {PropertiesControlBase} from '../../modules';
@@ -60,7 +61,7 @@ export class BaseCodePropertiesControlSAComponent<TOptions = any> extends Proper
             return;
         }
 
-        const result = await this.dialog.open<CodeEditorDialogSAComponent, CodeEditorDialogData, string|null>(CodeEditorDialogSAComponent,
+        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogSAComponent, CodeEditorDialogData, string|null>(CodeEditorDialogSAComponent,
         {
             title: 'Code editor',
             width: '75vw',
@@ -71,8 +72,7 @@ export class BaseCodePropertiesControlSAComponent<TOptions = any> extends Proper
                 languageModel: this.languageModel
 
             }
-        }).afterClosed()
-            .toPromise();
+        }).afterClosed());
 
         if(isPresent(result))
         {

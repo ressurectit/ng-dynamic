@@ -3,6 +3,7 @@ import {FormControl} from '@angular/forms';
 import {TitledDialogService} from '@anglr/common/material';
 import {LayoutEditorMetadataExtractor, PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
 import {isPresent} from '@jscrpt/common';
+import {lastValueFrom} from 'rxjs';
 
 import {RichTextBlockEditorDialogSAComponent} from '../richTextBlockEditorDialog/richTextBlockEditorDialog.component';
 import {RichTextBlockComponentOptions} from '../../../richTextBlock.options';
@@ -38,14 +39,13 @@ export class RichTextBlockPropertiesControlSAComponent extends PropertiesControl
      */
     protected async showCodeEditor(): Promise<void>
     {
-        const result = await this.dialog.open<RichTextBlockEditorDialogSAComponent, string, string|null>(RichTextBlockEditorDialogSAComponent,
+        const result = await lastValueFrom(this.dialog.open<RichTextBlockEditorDialogSAComponent, string, string|null>(RichTextBlockEditorDialogSAComponent,
         {
             title: 'Rich text block editor',
             width: '75vw',
             height: '75vh',
             data: this.form?.controls.content.value
-        }).afterClosed()
-            .toPromise();
+        }).afterClosed());
 
         if(isPresent(result))
         {

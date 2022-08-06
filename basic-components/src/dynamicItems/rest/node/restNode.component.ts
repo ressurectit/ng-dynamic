@@ -5,6 +5,7 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
 import {TitledDialogService} from '@anglr/common/material';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 import {extend} from '@jscrpt/common';
+import {lastValueFrom} from 'rxjs';
 
 import {ConfigureRestParameterData, ConfigureRestParameterSAComponent} from '../misc/components';
 import {RestRelationsOptions} from '../rest.options';
@@ -125,7 +126,7 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
     {
         const original = JSON.parse(JSON.stringify(param));
         
-        const result = await this.dialog.open<ConfigureRestParameterSAComponent, ConfigureRestParameterData, true|undefined|null>(ConfigureRestParameterSAComponent,
+        const result = await lastValueFrom(this.dialog.open<ConfigureRestParameterSAComponent, ConfigureRestParameterData, true|undefined|null>(ConfigureRestParameterSAComponent,
         {
             title: 'configure rest parameter',
             width: '60vw',
@@ -134,8 +135,7 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
                 parameter: param,
                 hasBody: param.type === 'BODY' ? false : !!this.params.find(itm => itm.type === 'BODY')
             }
-        }).afterClosed()
-            .toPromise();
+        }).afterClosed());
 
         if(!result)
         {

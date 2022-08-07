@@ -8,7 +8,9 @@ import {ProgressIndicatorModule} from '@anglr/common';
 import {InternalServerErrorModule} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
 import {TranslateModule, TranslateLoader, MissingTranslationHandler} from '@ngx-translate/core';
+import {DndModule} from '@ng-dnd/core';
 import {HotkeyModule} from 'angular2-hotkeys';
+import {HTML5Backend} from 'react-dnd-html5-backend';
 
 import {AppComponent} from './app.component';
 import {components, routesOptions} from './app.component.routes';
@@ -18,6 +20,8 @@ import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader'
 import {MenuModule} from '../modules';
 import {config} from '../config';
 import {ReportMissingTranslationService} from '../services/missingTranslation';
+
+//TODO: think of how to include dnd
 
 /**
  * Main module shared for both server and browser side
@@ -38,6 +42,10 @@ import {ReportMissingTranslationService} from '../services/missingTranslation';
         HotkeyModule,
         MenuModule,
         ConsoleLogModule.forRoot(),
+        DndModule.forRoot(
+        {
+            backend: HTML5Backend
+        }),
         TranslateModule.forRoot(
         {
             loader: <ClassProvider>

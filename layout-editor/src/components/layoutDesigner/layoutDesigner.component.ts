@@ -1,6 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy, Injector, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CdkDragDrop, DragDropModule, DropListOrientation} from '@angular/cdk/drag-drop';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
@@ -11,7 +10,7 @@ import {Subscription} from 'rxjs';
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {BodyRenderSADirective, ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
 import {DragActiveService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
-import {LayoutComponentDragData} from '../../interfaces';
+// import {LayoutComponentDragData} from '../../interfaces';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
@@ -34,7 +33,6 @@ import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
     [
         CommonModule,
         PositionModule,
-        DragDropModule,
         LayoutEditorDragPreviewSAComponent,
         LayoutEditorDragPlaceholderSAComponent,
         LayoutDesignerOverlayForSAComponent,
@@ -99,10 +97,10 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected _renderedType: LayoutComponentMetadata|undefined|null;
 
-    /**
-     * Orientation of drop list
-     */
-    protected _orientation: DropListOrientation = 'vertical';
+    // /**
+    //  * Orientation of drop list
+    //  */
+    // protected _orientation: DropListOrientation = 'vertical';
 
     //######################### protected properties - overrides #########################
 
@@ -184,7 +182,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Adds descentant component metadata to this component metadata
      * @param dragData - Data from drag n drop event
      */
-    public addDescendant(dragData: CdkDragDrop<LayoutComponentDragData, LayoutComponentDragData, LayoutComponentDragData>): void
+    // public addDescendant(dragData: CdkDragDrop<LayoutComponentDragData, LayoutComponentDragData, LayoutComponentDragData>): void
+    public addDescendant(dragData: any): void
     {
         if(!this.options)
         {
@@ -341,6 +340,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         this._renderedType = {...this.options.typeMetadata};
-        this._orientation = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ? 'horizontal' : 'vertical';
+        // this._orientation = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ? 'horizontal' : 'vertical';
     }
 }

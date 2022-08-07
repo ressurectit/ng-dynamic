@@ -9,7 +9,7 @@ import {Func, isPresent} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
-import {ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
+import {BodyRenderSADirective, ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
 import {DragActiveService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutComponentDragData} from '../../interfaces';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
@@ -43,6 +43,7 @@ import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
         ConnectDropListsSADirective,
         LayoutComponentRendererSADirective,
         DesignerDropzoneSADirective,
+        BodyRenderSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

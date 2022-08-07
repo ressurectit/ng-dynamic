@@ -1,3 +1,4 @@
+export * from './bodyRender/bodyRender.directive';
 export * from './componentTreeNodeTemplate/componentTreeNodeTemplate.context';
 export * from './componentTreeNodeTemplate/componentTreeNodeTemplate.directive';
 export * from './connectDropLists/connectDropLists.directive';

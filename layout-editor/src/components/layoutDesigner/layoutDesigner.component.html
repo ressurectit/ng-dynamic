@@ -1,7 +1,6 @@
 <div class="designer-overlay" 
      #layoutDesigner
      cdkDrag
-     designerMinWidth
      [copyDesignerStyles]="_renderedType"
      [cdkDragData]="{metadata: _renderedType, parentId: parent?._renderedType?.id}"
      [cdkDragDisabled]="dragDisabled"
@@ -14,6 +13,7 @@
     <div class="designer-dropzone"
          cdkDropList
          connectDropLists
+         designerMinWidth
          [isDropZone]="canDropValue"
          [id]="id"
          [cdkDropListEnterPredicate]="canDrop"
@@ -28,10 +28,19 @@
             <div class="designer-overlay-layout" [layoutDesignerOverlayFor]="renderer"></div>
 
             <div class="designer-overlay-title"
-                [positionTo]="layoutDesigner"
-                placement="TopStart">{{editorMetadata?.metaInfo?.name ?? _renderedType?.name}}</div>
+                 *bodyRender
+                 [positionTo]="layoutDesigner"
+                 placement="TopStart">{{editorMetadata?.metaInfo?.name ?? _renderedType?.name}}</div>
 
-            <div *ngIf="!!parent && parent.editorMetadata?.removeDescendant" class="designer-overlay-remove" (click)="remove()">x</div>
+            <ng-container *ngIf="!!parent && parent.editorMetadata?.removeDescendant">
+                <div *bodyRender
+                     class="designer-overlay-remove"
+                     [positionTo]="layoutDesigner"
+                     placement="TopEnd"
+                     (click)="remove()">
+                    <span class="fas fa-times"></span>
+                </div>
+            </ng-container>
         </ng-container>
     </div>
 </div>

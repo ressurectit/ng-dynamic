@@ -12,13 +12,14 @@
 
 <div class="node-children" 
         cdkDropList
-        (cdkDropListDropped)="data?.component?.addDescendant($event)"
+        
         [cdkDropListEnterPredicate]="_canDrop"
         [id]="'component-tree-' + data?.component?.options?.typeMetadata?.id"
         *ngIf="hasChildren || _canDrop()"
         [class.hidden]="!open"
         connectDropLists
         connectDropListsPrefix="component-tree-">
+        <!-- (cdkDropListDropped)="data?.component?.addDescendant($event)" -->
     <div 
         *ngFor="let child of data?.children"
         cdkDrag 

@@ -211,7 +211,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         //insert into parent at the end
         if(parent)
         {
-            parent.children.splice(parent.children.length, 0, componentItem);
+            parent.children.push(componentItem);
         }
 
         this._flatTree = null;
@@ -238,6 +238,22 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     public getParent(id: string): LayoutDesignerSAComponent|null
     {
         return this._components[id]?.parent?.component ?? null;
+    }
+
+    /**
+     * Gets index of componet in its parent, if not parent or id not found null is returned
+     * @param id - Id of component which index from parent will be obtained
+     */
+    public getIndex(id: string): number|null
+    {
+        const item = this._components[id];
+
+        if(!item || !item.parent)
+        {
+            return null;
+        }
+
+        return item.parent.children.indexOf(item);
     }
 
     /**

@@ -30,7 +30,8 @@ export class ToLayoutDragDataSAPipe implements PipeTransform
                 name: value.itemSource.name,
                 options: extend(true, {}, value.metadata.metaInfo?.defaultOptions),
             },
-            parentId: null
+            parentId: null,
+            index: null,
         };
     }
 }

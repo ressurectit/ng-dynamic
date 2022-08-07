@@ -1,27 +1,35 @@
 <div class="designer-overlay" 
      #layoutDesigner
-     cdkDrag
-     [copyDesignerStyles]="_renderedType"
-     [cdkDragData]="{metadata: _renderedType, parentId: parent?._renderedType?.id}"
-     [cdkDragDisabled]="dragDisabled"
+     #dndCore="dndCoreDesigner"
+     [dndCoreDesigner]="{metadata: renderedType, parentId: parent?.renderedType?.id, index: index}"
+     [dropzoneElement]="layoutDropzone"
+     [dragDisabled]="dragDisabled"
+     [dragSource]="dndCore.drag"
+     (dropMetadata)="addDescendant($event)"
+     [copyDesignerStyles]="renderedType"
      (mouseleave)="hideOverlay($event)"
      (mouseover)="showOverlay($event)"
-     (cdkDragStarted)="draggingSvc.setDragging(true)"
-     (cdkDragEnded)="draggingSvc.setDragging(false)"
      (click)="selectComponent($event)"
      (dblclick)="unselectComponent($event)">
+     <!-- cdkDrag
+     [cdkDragData]="{metadata: renderedType, parentId: parent?.renderedType?.id}"
+     [cdkDragDisabled]="dragDisabled"
+     (cdkDragStarted)="draggingSvc.setDragging(true)"
+     (cdkDragEnded)="draggingSvc.setDragging(false)" -->
     <div class="designer-dropzone"
-         cdkDropList
-         connectDropLists
+         #layoutDropzone
          designerMinWidth
-         [isDropZone]="canDropValue"
-         [id]="id"
+         [dropTarget]="dndCore.dropzone"
+         [isDropZone]="canDropValue">
+         <!-- [id]="id"
          [cdkDropListEnterPredicate]="canDrop"
          [cdkDropListOrientation]="_orientation"
-         (cdkDropListDropped)="addDescendant($event)">
-        <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>
-        <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="editorMetadata" [layoutMetadata]="_renderedType"></layout-editor-drag-preview>
-        <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="_renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
+         (cdkDropListDropped)="addDescendant($event)"
+         cdkDropList
+         connectDropLists -->
+        <!-- <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>
+        <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="editorMetadata" [layoutMetadata]="renderedType"></layout-editor-drag-preview> -->
+        <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
         <ng-container *ngIf="highlighted || selected">
             <div class="designer-overlay-border"></div>
@@ -30,7 +38,7 @@
             <div class="designer-overlay-title"
                  *bodyRender
                  [positionTo]="layoutDesigner"
-                 placement="TopStart">{{editorMetadata?.metaInfo?.name ?? _renderedType?.name}}</div>
+                 placement="TopStart">{{editorMetadata?.metaInfo?.name ?? renderedType?.name}}</div>
 
             <ng-container *ngIf="!!parent && parent.editorMetadata?.removeDescendant">
                 <div *bodyRender

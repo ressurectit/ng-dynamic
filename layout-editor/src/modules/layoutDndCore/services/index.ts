@@ -1,2 +1,2 @@
-export * from './dropTarget/dropTarget.interface';
-export * from './dropTarget/dropTarget.service';
+export * from './dndBus/dndBus.interface';
+export * from './dndBus/dndBus.service';

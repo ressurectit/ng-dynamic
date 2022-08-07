@@ -4,8 +4,8 @@ import {filter, Subscription} from 'rxjs';
 
 import {LayoutComponentDragData} from '../../../../interfaces';
 import {DragActiveService} from '../../../../services';
-import {DropTargetService} from '../../services';
-import {LayoutDropResult} from './dndCoreDesigner.interface';
+import {DndBusService} from '../../services';
+import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 
 /**
  * Directive used for initializing and handling dnd core functionality
@@ -29,22 +29,26 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     /**
      * Drag source used for dragging component
      */
-    public drag: DragSource<LayoutComponentDragData, LayoutDropResult> = this.dnd.dragSource('COMPONENT',
+    public drag: DragSource<LayoutDragItem, LayoutDropResult> = this.dnd.dragSource('COMPONENT',
     {
-        beginDrag: (monitor) =>
+        beginDrag: () =>
         {
             this.designerElement.nativeElement.classList.add('hidden');
             this.draggingSvc.setDragging(true);
 
-            return this.dragData;
+            return {
+                dragData: this.dragData,
+            };
         },
         canDrag: () => !this.dragDisabled,
         endDrag: monitor =>
         {
+            //dropped outside of any dropzone
             if(!monitor.didDrop())
             {
                 this.designerElement.nativeElement.classList.remove('hidden');
             }
+            //dropped into drop zone
             else
             {
                 const item = monitor.getItem();
@@ -55,15 +59,16 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                     return;
                 }
 
-                item.index = dropResult.index;
+                item.dragData.index = dropResult.index;
 
-                this.dropTargetSvc.setData(
+                this.bus.setDropData(
                 {
-                    data: item,
+                    data: item.dragData,
                     id: dropResult.id,
                 });
             }
 
+            this.bus.setDropPlaceholderPreview(null);
             this.draggingSvc.setDragging(false);
         },
     }, this.initSubscriptions);
@@ -71,26 +76,40 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     /**
      * Drop zone target that handles drop of component
      */
-    public dropzone: DropTarget<LayoutComponentDragData, LayoutDropResult> = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
+    public dropzone: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
     {
         canDrop: (monitor) =>
         {
-            return monitor.isOver({shallow: true});
+            return (this.canDrop || this.parentCanDrop) && monitor.isOver({shallow: true});
         },
         drop: monitor =>
         {
-            //TODO handle drop on parent self
+            //TODO: get proper index if drop on parent itself
 
             return <LayoutDropResult>{
                 index: this.getIndex(monitor),
-                id: this.dragData.parentId,
+                id: this.canDrop ? this.dragData.metadata?.id : this.dragData.parentId,
             };
         },
         hover: monitor =>
         {
             if(monitor.isOver({shallow: true}))
             {
-                
+                this.bus.setDropPlaceholderPreview(
+                {
+                    index: this.getIndex(monitor),
+                    parentId: this.canDrop ? this.dragData.metadata?.id : this.dragData.parentId,
+                    placeholder: 
+                    {
+                        height: 0,
+                        width: 0
+                    }
+                });
+
+                return <LayoutDropResult>{
+                    index: this.getIndex(monitor),
+                    id: this.canDrop ? this.dragData.metadata?.id : this.dragData.parentId,
+                };
 
                 
 
@@ -131,6 +150,18 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     @Input()
     public dragDisabled: boolean = false;
 
+    /**
+     * Indication whether child can be dropped on this component
+     */
+    @Input()
+    public canDrop: boolean = false;
+
+    /**
+     * Indication whether child can be dropped on this parent component
+     */
+    @Input()
+    public parentCanDrop: boolean = false;
+
     //######################### public properties - outputs #########################
 
     /**
@@ -143,7 +174,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     constructor(protected dnd: DndService,
                 protected designerElement: ElementRef<HTMLElement>,
                 protected draggingSvc: DragActiveService,
-                protected dropTargetSvc: DropTargetService,)
+                protected bus: DndBusService,)
     {
     }
 
@@ -164,11 +195,20 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
             throw new Error('DndCoreDesignerDirective: missing drag data!');
         }
 
-        this.initSubscriptions.add(this.dropTargetSvc
-                                       .dataChange
+        this.initSubscriptions.add(this.bus
+                                       .dropDataChange
                                        .pipe(filter(itm => itm.id === this.dragData.metadata?.id))
                                        .subscribe(itm => this.dropMetadata.emit(itm.data)));
 
+        this.initSubscriptions.add(this.bus
+                                       .oldDropPlaceholderPreviewChange
+                                       .pipe(filter(itm => itm.parentId === this.dragData.metadata?.id))
+                                       .subscribe(itm => console.log('old', itm)));
+
+        this.initSubscriptions.add(this.bus
+                                       .newDropPlaceholderPreviewChange
+                                       .pipe(filter(itm => itm.parentId === this.dragData.metadata?.id))
+                                       .subscribe(itm => console.log('new', itm)));
     }
 
     //######################### public methods - implementation of OnDestroy #########################

@@ -4,6 +4,8 @@
      [dndCoreDesigner]="{metadata: renderedType, parentId: parent?.renderedType?.id, index: index}"
      [dropzoneElement]="layoutDropzone"
      [dragDisabled]="dragDisabled"
+     [canDrop]="canDropValue"
+     [parentCanDrop]="parent?.canDropValue ?? false"
      [dragSource]="dndCore.drag"
      (dropMetadata)="addDescendant($event)"
      [copyDesignerStyles]="renderedType"

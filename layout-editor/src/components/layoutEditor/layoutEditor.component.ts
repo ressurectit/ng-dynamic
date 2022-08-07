@@ -11,7 +11,7 @@ import {ComponentsTreeSAComponent} from '../componentsTree/componentsTree.compon
 import {PropertiesEditorSAComponent} from '../propertiesEditor/propertiesEditor.component';
 import {LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '../../misc/providers';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
-import {DropTargetService} from '../../modules';
+import {DndBusService} from '../../modules';
 
 /**
  * Component that represents layout editor with palette, tree and properties
@@ -25,7 +25,7 @@ import {DropTargetService} from '../../modules';
     providers:
     [
         LAYOUT_DESIGNER_COMPONENT_TRANSFORM,
-        DropTargetService,
+        DndBusService,
     ],
     standalone: true,
     imports:

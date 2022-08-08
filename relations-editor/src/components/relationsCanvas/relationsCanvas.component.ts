@@ -196,7 +196,7 @@ export class RelationsCanvasSAComponent
      * @param event - Mouse event that occured
      */
     @HostListener('window:mouseup', ['$event'])
-    protected onMouseUp(event: MouseEvent): void
+    protected onMouseUp(_: MouseEvent): void
     {
         if (this.isDragging)
         {

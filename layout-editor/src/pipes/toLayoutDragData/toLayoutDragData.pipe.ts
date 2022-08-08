@@ -15,17 +15,14 @@ export class ToLayoutDragDataSAPipe implements PipeTransform
     /**
      * Transforms ComponentsPaletteItem item to LayoutComponentDragData
      * @param value - Palette item to be transformed
-     * @param id - Unique id to be used for new component
      */
-    public transform(value: ComponentsPaletteItem, id: string): LayoutComponentDragData
+    public transform(value: ComponentsPaletteItem): LayoutComponentDragData
     {
-        const newId = `${value.itemSource.name}-${id}`;
-
         return {
             metadata:
             {
-                id: newId,
-                displayName: newId,
+                id: '',
+                displayName: '',
                 package: value.itemSource.package,
                 name: value.itemSource.name,
                 options: extend(true, {}, value.metadata.metaInfo?.defaultOptions),

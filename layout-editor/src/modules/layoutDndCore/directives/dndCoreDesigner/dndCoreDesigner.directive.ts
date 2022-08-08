@@ -11,7 +11,7 @@ import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 
 /**
- * Directive used for initializing and handling dnd core functionality
+ * Directive used for initializing and handling dnd core functionality for layout designer
  */
 @Directive(
 {
@@ -21,7 +21,7 @@ import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 export class DndCoreDesignerDirective implements OnInit, OnDestroy
 {
     //######################### protected properties #########################
-    
+
     /**
      * Subscriptions created during initialization
      */
@@ -30,7 +30,12 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     /**
      * Subscription for placeholder connection to DOM
      */
-    protected placeholderConnection: Subscription|undefined|null; 
+    protected placeholderConnection: Subscription|undefined|null;
+
+    /**
+     * Subscription for container connection to DOM
+     */
+    protected containerConnection: Subscription|undefined|null;
 
     /**
      * Current component element
@@ -56,6 +61,41 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                                                                                                           };
                                                                                                       },
                                                                                                   }, this.initSubscriptions);
+
+    /**
+     * Drop zone target that handles drop of component
+     */
+    protected containerDrop: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
+                                                                                                {
+                                                                                                    canDrop: monitor => this.parentCanDrop && monitor.isOver({shallow: true}),
+                                                                                                    drop: monitor =>
+                                                                                                    {
+                                                                                                        const index = this.getIndex(monitor);
+
+                                                                                                        return <LayoutDropResult>{
+                                                                                                            index: index,
+                                                                                                            id: this.dragData.parentId,
+                                                                                                        };
+                                                                                                    },
+                                                                                                    hover: monitor =>
+                                                                                                    {
+                                                                                                        if(monitor.isOver({shallow: true}))
+                                                                                                        {
+                                                                                                            const index = this.getIndex(monitor);
+
+                                                                                                            this.bus.setDropPlaceholderPreview(
+                                                                                                            {
+                                                                                                                index: index,
+                                                                                                                parentId: this.dragData.parentId,
+                                                                                                                placeholder:
+                                                                                                                {
+                                                                                                                    height: 0,
+                                                                                                                    width: 0
+                                                                                                                }
+                                                                                                            });
+                                                                                                        }
+                                                                                                    }
+                                                                                                }, this.initSubscriptions);
 
     //######################### protected properties - children #########################
 
@@ -112,7 +152,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                                                                                             this.bus.setDropPlaceholderPreview(null);
                                                                                             this.draggingSvc.setDragging(false);
                                                                                         },
-                                                                                    }, 
+                                                                                    },
                                                                                     this.initSubscriptions);
 
     /**
@@ -140,7 +180,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                                                                                                     {
                                                                                                         index: this.canDrop && this.dragData.metadata ? (index === 0 ? 0 : ((this.manager.getChildrenCount(this.dragData.metadata.id)) ?? 0) - 1) : index,
                                                                                                         parentId: this.canDrop ? this.dragData.metadata?.id : this.dragData.parentId,
-                                                                                                        placeholder: 
+                                                                                                        placeholder:
                                                                                                         {
                                                                                                             height: 0,
                                                                                                             width: 0
@@ -205,10 +245,11 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                 protected zone: NgZone,
                 @Inject(DOCUMENT) protected document: Document,)
     {
+        this.connectDropToContainer();
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -257,15 +298,19 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
     public ngOnDestroy(): void
     {
         this.initSubscriptions.unsubscribe();
+
         this.placeholderConnection?.unsubscribe();
         this.placeholderConnection = null;
+
+        this.containerConnection?.unsubscribe();
+        this.containerConnection = null;
     }
 
     //######################### protected methods #########################
@@ -278,7 +323,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     {
         const rect = this.dropzoneElement.getBoundingClientRect();
         const offset = monitor.getClientOffset();
-        
+
         if(!offset)
         {
             return 0;
@@ -322,7 +367,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
      */
     protected connectDropToPlaceholder(): void
     {
-        this.zone.runOutsideAngular(() => 
+        this.zone.runOutsideAngular(() =>
         {
             this.placeholderConnection?.unsubscribe();
 
@@ -330,6 +375,18 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
             {
                 this.placeholderConnection = this.placeholderDrop.connectDropTarget(this.placeholderPreviewElement);
             }
+        });
+    }
+
+    /**
+     * Connects container element to container drop
+     */
+    protected connectDropToContainer(): void
+    {
+        this.zone.runOutsideAngular(() =>
+        {
+            this.containerConnection?.unsubscribe();
+            this.containerConnection = this.containerDrop.connectDropTarget(this.designerElement.nativeElement);
         });
     }
 }

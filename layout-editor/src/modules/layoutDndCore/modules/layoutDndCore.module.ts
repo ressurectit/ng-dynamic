@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {DndCoreDesignerDirective} from '../directives';
+import {DndCoreDesignerDirective, DndCorePaletteItemDirective} from '../directives';
 
 /**
  * Module used for handling layout dnd core stuff
@@ -10,10 +10,12 @@ import {DndCoreDesignerDirective} from '../directives';
     declarations:
     [
         DndCoreDesignerDirective,
+        DndCorePaletteItemDirective,
     ],
     exports:
     [
         DndCoreDesignerDirective,
+        DndCorePaletteItemDirective,
     ],
 })
 export class LayoutDndCoreModule

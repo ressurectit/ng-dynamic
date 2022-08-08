@@ -6,7 +6,8 @@
      [dragDisabled]="dragDisabled"
      [canDrop]="canDropValue"
      [parentCanDrop]="parent?.canDropValue ?? false"
-     [horizontal]="parent?.horizontal ?? false"
+     [horizontal]="horizontal"
+     [parentHorizontal]="parent?.horizontal ?? false"
      [dragSource]="dndCore.drag"
      (dropMetadata)="addDescendant($event)"
      [copyDesignerStyles]="renderedType"
@@ -17,6 +18,7 @@
     <div class="designer-dropzone"
          #layoutDropzone
          designerMinWidth
+         [canDrop]="canDropValue"
          [dropTarget]="dndCore.dropzone"
          [isDropZone]="canDropValue">
         <!-- <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder> -->

@@ -1,5 +1,5 @@
 import {Directive, ElementRef, Input, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {generateId} from '@jscrpt/common';
+import {extend, generateId} from '@jscrpt/common';
 import {DndService, DragSource} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
 
@@ -37,7 +37,8 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
                                                                                            beginDrag: () =>
                                                                                            {
                                                                                                this.draggingSvc.setDragging(true);
-                                                                                               
+                                                                                               this.dragData = extend(true, {}, this.dragData);
+
                                                                                                if(this.dragData.metadata)
                                                                                                {
                                                                                                    const newId = `${this.dragData.metadata.name}-${generateId(16)}`;

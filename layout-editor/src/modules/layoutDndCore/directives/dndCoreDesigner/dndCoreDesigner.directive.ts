@@ -12,6 +12,8 @@ import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 import {DragPreviewRegistrator} from '../../interfaces';
 import {DRAG_PREVIEW_REGISTRATOR} from '../../misc/tokens';
 
+//TODO: go over all items up to find out whether can be dropped
+
 /**
  * Directive used for initializing and handling dnd core functionality for layout designer
  */
@@ -80,7 +82,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                                     canDrop: monitor => this.parentCanDrop && monitor.isOver({shallow: true}),
                                                                                                     drop: monitor =>
                                                                                                     {
-                                                                                                        const index = this.getIndex(monitor);
+                                                                                                        const index = this.getIndex(monitor, this.horizontal);
 
                                                                                                         return <LayoutDropResult>{
                                                                                                             index: index,
@@ -91,7 +93,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                                     {
                                                                                                         if(monitor.isOver({shallow: true}))
                                                                                                         {
-                                                                                                            const index = this.getIndex(monitor);
+                                                                                                            const index = this.getIndex(monitor, this.horizontal);
 
                                                                                                             this.bus.setDropPlaceholderPreview(
                                                                                                             {
@@ -173,7 +175,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                             canDrop: monitor => (this.canDrop || this.parentCanDrop) && monitor.isOver({shallow: true}),
                                                                                             drop: monitor =>
                                                                                             {
-                                                                                                const index = this.getIndex(monitor);
+                                                                                                const index = this.getIndex(monitor, this.canDrop ? this.horizontal : this.parentHorizontal);
 
                                                                                                 return <LayoutDropResult>{
                                                                                                     index: this.canDrop && this.dragData.metadata ? (index === 0 ? 0 : ((this.manager.getChildrenCount(this.dragData.metadata.id)) ?? 0) - 1) : index,
@@ -184,7 +186,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                             {
                                                                                                 if(monitor.isOver({shallow: true}) && monitor.canDrop())
                                                                                                 {
-                                                                                                    const index = this.getIndex(monitor);
+                                                                                                    const index = this.getIndex(monitor, this.canDrop ? this.horizontal : this.parentHorizontal);
 
                                                                                                     this.bus.setDropPlaceholderPreview(
                                                                                                     {
@@ -207,6 +209,12 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
      */
     @Input()
     public horizontal: boolean = false;
+
+    /**
+     * Indication whether is flow of items horizontal or vertical in parent
+     */
+    @Input()
+    public parentHorizontal: boolean = false;
 
     /**
      * Html element that represents dropzone
@@ -338,8 +346,9 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
     /**
      * Gets new index of drop item
      * @param monitor - Monitor to be used for obtaining information about index
+     * @param horizontal - Indication whether are items horizontaly oriented
      */
-    protected getIndex(monitor: DropTargetMonitor): number
+    protected getIndex(monitor: DropTargetMonitor, horizontal: boolean): number
     {
         const rect = this.dropzoneElement.getBoundingClientRect();
         const offset = monitor.getClientOffset();
@@ -349,8 +358,8 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
             return 0;
         }
 
-        const position = this.horizontal ? offset.x - rect.x : offset.y - rect.y;
-        const half = this.horizontal ? rect.width / 2 : rect.height / 2;
+        const position = horizontal ? offset.x - rect.x : offset.y - rect.y;
+        const half = horizontal ? rect.width / 2 : rect.height / 2;
 
         if(position <= half)
         {
@@ -376,6 +385,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
 
         this.placeholderPreviewElement ??= this.document.createElement('div');
         this.placeholderPreviewElement.style.border = '3px solid blue';
+        this.placeholderPreviewElement.classList.add('drag-placeholder');
         this.placeholderPreviewElement.remove();
 
         this.connectDropToPlaceholder();

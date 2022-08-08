@@ -1,4 +1,4 @@
-import {ContentChild, Directive, ElementRef, EmbeddedViewRef, OnDestroy, OnInit} from '@angular/core';
+import {ContentChild, Directive, ElementRef, EmbeddedViewRef, Input, OnDestroy, OnInit} from '@angular/core';
 import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {Subscription} from 'rxjs';
 
@@ -12,23 +12,44 @@ import {Subscription} from 'rxjs';
 })
 export class DesignerMinDimensionSADirective implements OnInit, OnDestroy
 {
-    //######################### protected fields #########################
+    //######################### protected properties #########################
 
     /**
-     * Instance of resize observer
+     * Instance of mutation observer
      */
-    protected _observer?: ResizeObserver;
+    protected observer?: MutationObserver;
+
+    /**
+     * Indication whether is min dimensions active
+     */
+    protected active: boolean = false;
 
     /**
      * Subscriptions created during initialization
      */
-    protected _initSubscriptions: Subscription = new Subscription();
+    protected initSubscriptions: Subscription = new Subscription();
+
+    //######################### protected properties - children #########################
 
     /**
      * Instance of layout component renderer
      */
     @ContentChild(LayoutComponentRendererSADirective, {static: true})
-    protected _layoutComponentRendererDirective?: LayoutComponentRendererSADirective;
+    protected layoutComponentRendererDirective?: LayoutComponentRendererSADirective;
+
+    //######################### public properties - inputs #########################
+
+    /**
+     * Indication whether is flow of this component horizontal or vertical
+     */
+    @Input()
+    public horizontal: boolean = false;
+
+    /**
+     * Indication whether can drop children inside of this
+     */
+    @Input()
+    public canDrop: boolean = false;
 
     //######################### constructor #########################
     constructor(protected _element: ElementRef<HTMLElement>,)
@@ -42,28 +63,34 @@ export class DesignerMinDimensionSADirective implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._observer = new ResizeObserver(changes =>
+        this.observer = new MutationObserver(changes =>
         {
             for(const change of changes)
             {
-                this._updatedDimensions(change.contentRect);
+                if(change.target instanceof HTMLElement)
+                {
+                    this.updatedDimensions(change.target);
+                }
             }
         });
 
-        this._initSubscriptions.add(this._layoutComponentRendererDirective?.componentChange.subscribe(componentRef =>
+        this.initSubscriptions.add(this.layoutComponentRendererDirective?.componentChange.subscribe(componentRef =>
         {
             if(!componentRef)
             {
-                this._observer?.disconnect();
+                this.observer?.disconnect();
 
                 return;
             }
 
             const element = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
 
-            this._updatedDimensions(element.getBoundingClientRect());
+            this.updatedDimensions(element);
 
-            this._observer?.observe(element);
+            this.observer?.observe(element,
+            {
+                childList: true,
+            });
         }));
     }
 
@@ -74,38 +101,61 @@ export class DesignerMinDimensionSADirective implements OnInit, OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._observer?.disconnect();
-        this._initSubscriptions.unsubscribe();
+        this.observer?.disconnect();
+        this.initSubscriptions.unsubscribe();
     }
 
     //######################### protected methods #########################
 
-    protected _updatedDimensions(rect: DOMRect): void
+    /**
+     * Updates min dimensions if empty
+     * @param element - Element to be checked for changes
+     */
+    protected updatedDimensions(element: HTMLElement): void
     {
-        //no height, apply min height
+        console.log('update', element.children, this.active);
 
-        if(rect.height != 30)
+        if((element.children.length && !this.active) ||
+           (!element.children.length && this.active) ||
+           !this.canDrop)
         {
-            if(rect.height <= 0)
-            {
-                this._element.nativeElement.style.minHeight = '30px';
-            }
-            else
-            {
-                this._element.nativeElement.style.minHeight = '';
-            }
+            return;
         }
 
-        if(rect.width != 30)
+        //TODO: handle existing min width and min height
+
+        //deactivate, children are present
+        if(element.children.length)
         {
-            //no width, apply min width
-            if(rect.width <= 0)
+            //only placeholder is present
+            if(element.children.length === 1 && element.children.item(0)?.classList.contains('drag-placeholder'))
             {
-                this._element.nativeElement.style.minWidth = '30px';
+                return;
+            }
+
+            this.active = false;
+
+            if(this.horizontal)
+            {
+                element.style.minWidth = '';
             }
             else
             {
-                this._element.nativeElement.style.minWidth = '';
+                element.style.minHeight = '';
+            }
+        }
+        //activate, children are not present
+        else
+        {
+            this.active = true;
+
+            if(this.horizontal)
+            {
+                element.style.minWidth = '30px';
+            }
+            else
+            {
+                element.style.minHeight = '30px';
             }
         }
     }

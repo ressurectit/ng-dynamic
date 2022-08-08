@@ -1,7 +1,7 @@
 import {ContentChild, Directive, ElementRef, EmbeddedViewRef, EventEmitter, ExistingProvider, forwardRef, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {BindThis} from '@jscrpt/common';
+import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {BindThis, isBlank} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
 import {filter, Subscription} from 'rxjs';
 
@@ -34,6 +34,35 @@ import {DRAG_PREVIEW_REGISTRATOR} from '../../misc/tokens';
 export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewRegistrator
 {
     //######################### protected properties #########################
+
+    /**
+     * Current metadata for this component
+     */
+    protected get metadata(): LayoutComponentMetadata
+    {
+        if(!this.dragData.metadata)
+        {
+            throw new Error('DndCoreDesignerDirective: invalid drag data without metadata!');
+        }
+
+        return this.dragData.metadata;
+    }
+
+    /**
+     * Gets indication whether component can accept drop
+     */
+    protected get canDrop(): boolean
+    {
+        return this.manager.getComponent(this.metadata.id)?.canDrop ?? false;
+    }
+
+    /**
+     * Gets indication whether component children flow is horizontal
+     */
+    protected get horizontal(): boolean
+    {
+        return this.manager.getComponent(this.metadata.id)?.horizontal ?? false;
+    }
 
     /**
      * Subscriptions created during initialization
@@ -70,7 +99,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                                       {
                                                                                                           return <LayoutDropResult>{
                                                                                                               index: this.bus.dropPlaceholderPreviewIndex,
-                                                                                                              id: this.dragData.metadata?.id,
+                                                                                                              id: this.metadata?.id,
                                                                                                           };
                                                                                                       },
                                                                                                   }, this.initSubscriptions);
@@ -80,26 +109,31 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
      */
     protected containerDrop: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
                                                                                                 {
-                                                                                                    canDrop: monitor => this.parentCanDrop && monitor.isOver({shallow: true}),
+                                                                                                    canDrop: monitor => this.canDropAncestors()[0] && monitor.isOver({shallow: true}),
                                                                                                     drop: monitor =>
                                                                                                     {
-                                                                                                        const index = this.getIndex(monitor, this.horizontal);
+                                                                                                        const [index, id] = this.getDropCoordinates(monitor, false);
 
                                                                                                         return <LayoutDropResult>{
-                                                                                                            index: index,
-                                                                                                            id: this.dragData.parentId,
+                                                                                                            index,
+                                                                                                            id,
                                                                                                         };
                                                                                                     },
                                                                                                     hover: monitor =>
                                                                                                     {
                                                                                                         if(monitor.isOver({shallow: true}))
                                                                                                         {
-                                                                                                            const index = this.getIndex(monitor, this.horizontal);
+                                                                                                            const [index, parentId] = this.getDropCoordinates(monitor, false);
+
+                                                                                                            if(isBlank(index) || isBlank(parentId))
+                                                                                                            {
+                                                                                                                return;
+                                                                                                            }
 
                                                                                                             this.bus.setDropPlaceholderPreview(
                                                                                                             {
-                                                                                                                index: index,
-                                                                                                                parentId: this.dragData.parentId,
+                                                                                                                index,
+                                                                                                                parentId,
                                                                                                                 placeholder:
                                                                                                                 {
                                                                                                                     height: 0,
@@ -127,8 +161,8 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                     {
                                                                                         beginDrag: () =>
                                                                                         {
-                                                                                            this.designerElement.nativeElement.classList.add('hidden');
                                                                                             this.draggingSvc.setDragging(true);
+                                                                                            this.designerElement.nativeElement.classList.add('hidden');
 
                                                                                             return {
                                                                                                 dragData: this.dragData,
@@ -173,26 +207,31 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
      */
     public dropzone: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
                                                                                         {
-                                                                                            canDrop: monitor => (this.canDrop || this.parentCanDrop) && monitor.isOver({shallow: true}),
+                                                                                            canDrop: monitor => (this.canDrop || this.canDropAncestors()[0]) && monitor.isOver({shallow: true}),
                                                                                             drop: monitor =>
                                                                                             {
-                                                                                                const index = this.getIndex(monitor, this.canDrop ? this.horizontal : this.parentHorizontal);
+                                                                                                const [index, id] = this.getDropCoordinates(monitor, this.canDrop);
 
                                                                                                 return <LayoutDropResult>{
-                                                                                                    index: this.canDrop && this.dragData.metadata ? (index === 0 ? 0 : ((this.manager.getChildrenCount(this.dragData.metadata.id)) ?? 0) - 1) : index,
-                                                                                                    id: this.canDrop ? this.dragData.metadata?.id : this.dragData.parentId,
+                                                                                                    index,
+                                                                                                    id
                                                                                                 };
                                                                                             },
                                                                                             hover: monitor =>
                                                                                             {
                                                                                                 if(monitor.isOver({shallow: true}) && monitor.canDrop())
                                                                                                 {
-                                                                                                    const index = this.getIndex(monitor, this.canDrop ? this.horizontal : this.parentHorizontal);
+                                                                                                    const [index, parentId] = this.getDropCoordinates(monitor, this.canDrop);
+
+                                                                                                    if(isBlank(index) || isBlank(parentId))
+                                                                                                    {
+                                                                                                        return;
+                                                                                                    }
 
                                                                                                     this.bus.setDropPlaceholderPreview(
                                                                                                     {
-                                                                                                        index: this.canDrop && this.dragData.metadata ? (index === 0 ? 0 : ((this.manager.getChildrenCount(this.dragData.metadata.id)) ?? 0) - 1) : index,
-                                                                                                        parentId: this.canDrop ? this.dragData.metadata?.id : this.dragData.parentId,
+                                                                                                        index,
+                                                                                                        parentId,
                                                                                                         placeholder:
                                                                                                         {
                                                                                                             height: 0,
@@ -204,18 +243,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                         }, this.initSubscriptions);
 
     //######################### public properties - inputs #########################
-
-    /**
-     * Indication whether is flow of items horizontal or vertical
-     */
-    @Input()
-    public horizontal: boolean = false;
-
-    /**
-     * Indication whether is flow of items horizontal or vertical in parent
-     */
-    @Input()
-    public parentHorizontal: boolean = false;
 
     /**
      * Html element that represents dropzone
@@ -234,18 +261,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
      */
     @Input()
     public dragDisabled: boolean = false;
-
-    /**
-     * Indication whether child can be dropped on this component
-     */
-    @Input()
-    public canDrop: boolean = false;
-
-    /**
-     * Indication whether child can be dropped on this parent component
-     */
-    @Input()
-    public parentCanDrop: boolean = false;
 
     //######################### public properties - outputs #########################
 
@@ -285,6 +300,8 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
             throw new Error('DndCoreDesignerDirective: missing drag data!');
         }
 
+
+        //TODO: change for element change event
         this.initSubscriptions.add(this.layoutComponentRendererDirective?.componentChange.subscribe(componentRef =>
         {
             if(!componentRef)
@@ -299,12 +316,12 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
 
         this.initSubscriptions.add(this.bus
                                        .dropDataChange
-                                       .pipe(filter(itm => itm.id === this.dragData.metadata?.id))
+                                       .pipe(filter(itm => itm.id === this.metadata.id))
                                        .subscribe(itm => this.dropMetadata.emit(itm.data)));
 
         this.initSubscriptions.add(this.bus
                                        .oldDropPlaceholderPreviewChange
-                                       .pipe(filter(itm => itm.parentId === this.dragData.metadata?.id))
+                                       .pipe(filter(itm => itm.parentId === this.metadata.id))
                                        .subscribe(() =>
                                        {
                                            this.placeholderPreviewElement?.remove();
@@ -313,7 +330,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
 
         this.initSubscriptions.add(this.bus
                                        .newDropPlaceholderPreviewChange
-                                       .pipe(filter(itm => itm.parentId === this.dragData.metadata?.id))
+                                       .pipe(filter(itm => itm.parentId === this.metadata.id))
                                        .subscribe(this.showPlaceholderPreview));
 
         // this.initSubscriptions.add(registerDropzoneOverlay(this.dropzone, this.dropzoneElement, this.injector, this.dragData));
@@ -350,11 +367,44 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
     //######################### protected methods #########################
 
     /**
-     * Gets new index of drop item
+     * Gets drop coordinates
+     * @param monitor - Monitor containing information about current drag drop state
+     * @param canDrop - Indication whether can drop can occur on monitor itself
+     */
+    protected getDropCoordinates(monitor: DropTargetMonitor, canDrop: boolean): [number|null, string|null]
+    {
+        //can drop in itself// for now drop at index 0
+        if(canDrop)
+        {
+            return [0, this.metadata.id];
+        }
+
+        //else get index from descendant
+        const [canDropAncestor, ancestorId, id] = this.canDropAncestors();
+        
+        //this should not happen
+        if(!canDropAncestor || isBlank(ancestorId))
+        {
+            return [null, null];
+        }
+
+        const parentComponent = this.manager.getComponent(ancestorId);
+        const componentIndex = this.manager.getComponent(id)?.index ?? 0;
+
+        if(!parentComponent)
+        {
+            return [null, null];
+        }
+
+        return [componentIndex + this.getIndexIncrement(monitor, parentComponent.horizontal), ancestorId];
+    }
+
+    /**
+     * Gets index increment
      * @param monitor - Monitor to be used for obtaining information about index
      * @param horizontal - Indication whether are items horizontaly oriented
      */
-    protected getIndex(monitor: DropTargetMonitor, horizontal: boolean): number
+    protected getIndexIncrement(monitor: DropTargetMonitor, horizontal: boolean): number
     {
         const rect = this.dropzoneElement.getBoundingClientRect();
         const offset = monitor.getClientOffset();
@@ -369,11 +419,11 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
 
         if(position <= half)
         {
-            return this.dragData.index ?? 0;
+            return 0;
         }
         else
         {
-            return (this.dragData.index ?? 0) + 1;
+            return 1;
         }
     }
 
@@ -424,5 +474,34 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
             this.containerConnection?.unsubscribe();
             this.containerConnection = this.containerDrop.connectDropTarget(this.designerElement.nativeElement);
         });
+    }
+
+    /**
+     * Gets indication whether any of ancestors can accept drop, also returns id of that ancestor
+     * @param id - Id of component whose parent will be tested, if not specified id of this component will be used
+     */
+    protected canDropAncestors(id?: string): [boolean, string|null, string]
+    {
+        if(isBlank(id))
+        {
+            id = this.metadata.id;
+        }
+
+        const component = this.manager.getComponentDef(id);
+
+
+        if(!component?.parent)
+        {
+            return [false, null, id];
+        }
+
+        if(component.parent.component.canDrop)
+        {
+            return [true, component.parent.component.id, id];
+        }
+        else
+        {
+            return this.canDropAncestors(component.parent.component.id);
+        }
     }
 }

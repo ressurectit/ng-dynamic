@@ -81,7 +81,7 @@ export class ConnectDropListsSADirective implements OnInit, OnDestroy
     {
         const flatTree = this._manager
             .flatTree
-            .filter(itm => itm.component.canDrop())
+            .filter(itm => itm.component.canDropFn())
             .map(itm => this.connectDropListsPrefix + itm.component.id).reverse();
 
         const connectedTo = flatTree.filter(itm => itm != this._cdkDropList.id);

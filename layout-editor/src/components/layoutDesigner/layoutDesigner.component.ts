@@ -9,14 +9,14 @@ import {DndModule} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
-import {BodyRenderSADirective, ConnectDropListsSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
+import {BodyRenderSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
-import {LayoutDndCoreModule} from '../../modules';
+import {DndCoreDesignerDirective, LayoutDndCoreModule} from '../../modules';
 import {LayoutComponentDragData} from '../../interfaces';
 
 //TODO: when new is clicked only after event new item can be dropped into 
@@ -41,7 +41,6 @@ import {LayoutComponentDragData} from '../../interfaces';
         LayoutDesignerOverlayForSAComponent,
         DesignerMinDimensionSADirective,
         CopyDesignerStylesSADirective,
-        ConnectDropListsSADirective,
         LayoutComponentRendererSADirective,
         DesignerDropzoneSADirective,
         BodyRenderSADirective,
@@ -58,11 +57,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Subscriptions created during initialization
      */
     protected initSubscriptions: Subscription = new Subscription();
-
-    /**
-     * Indication whether item can be dropped here
-     */
-    protected canDropValue: boolean = false;
 
     /**
      * Layout editor metadata
@@ -92,11 +86,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected renderedType: LayoutComponentMetadata|undefined|null;
 
-    /**
-     * Indication whether drop list is horizontally oriented
-     */
-    protected horizontal: boolean = false;
-
     //######################### protected properties - overrides #########################
 
     /**
@@ -123,6 +112,14 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     @ViewChild('layoutDesigner', {static: true})
     protected designerElement!: ElementRef<HTMLElement>;
 
+    //######################### public properties - children #########################
+
+    /**
+     * Instance of designer dnd core directive
+     */
+    @ViewChild('dndCoreDesigner', {static: true})
+    public dndCoreDesigner!: DndCoreDesignerDirective;
+
     //######################### public properties #########################
 
     /**
@@ -137,7 +134,17 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Gets predicate that returns indication whether item can be dropped into this list
      * //TODO: remove
      */
-    public canDrop: Func<boolean> = () => this.canDropValue;
+    public canDropFn: Func<boolean> = () => this.canDrop;
+
+    /**
+     * Indication whether item can be dropped here
+     */
+    public canDrop: boolean = false;
+
+    /**
+     * Indication whether drop list is horizontally oriented
+     */
+    public horizontal: boolean = false;
 
     /**
      * Component identifier
@@ -217,7 +224,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         this.editorMetadata?.addDescendant?.(dragData?.metadata, this.options.typeMetadata.options, dragData.index ?? 0);
-        this.canDropValue = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+        this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
 
         this.renderedType = {...this.options.typeMetadata};
         this._changeDetector.markForCheck();
@@ -240,7 +247,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this._logger?.debug('LayoutDesignerSAComponent: Removing descendant {@data}', {id: this.options.typeMetadata.id, child: id});
 
         this.editorMetadata?.removeDescendant?.(id, this.options.typeMetadata.options);
-        this.canDropValue = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+        this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
         this.renderedType = {...this.options.typeMetadata};
         this._changeDetector.markForCheck();
         this.history.getNewState();
@@ -340,7 +347,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.initSubscriptions.add(this.layoutEditorMetadataManager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
 
         this.editorMetadata = await this.metadataExtractor.extractMetadata(this.options.typeMetadata);
-        this.canDropValue = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+        this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
         this.layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this.options.typeMetadata.id, this.parent?.options?.typeMetadata.id);
 
         this.index = this.layoutEditorMetadataManager.getIndex(this.id) ?? 0;

@@ -196,7 +196,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      * Indicataion whether drag data can be dropped into node
      * @returns 
      */
-    protected _canDrop: Func<boolean> = () => this.data?.component?.canDrop() ?? false;
+    protected _canDrop: Func<boolean> = () => this.data?.component?.canDropFn() ?? false;
 
     //######################### protected methods - host #########################
 

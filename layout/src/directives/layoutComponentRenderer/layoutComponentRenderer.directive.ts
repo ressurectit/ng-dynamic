@@ -1,4 +1,4 @@
-import {ComponentRef, Directive, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, SkipSelf, ValueProvider, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, EmbeddedViewRef, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, SkipSelf, ValueProvider, ViewContainerRef} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {addSimpleChange, DynamicItemExtensionType, DynamicItemLoader} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
@@ -9,6 +9,8 @@ import {NotFoundLayoutTypeSAComponent} from '../../components';
 import {LayoutComponent, LayoutComponentMetadata, LayoutComponentTransform} from '../../interfaces';
 import {LAYOUT_COMPONENTS_LOADER, LAYOUT_COMPONENT_CHILD_EXTENSIONS, LAYOUT_COMPONENT_TRANSFORM} from '../../misc/tokens';
 import {LayoutComponentDef} from '../../misc/types';
+
+//TODO: refactor input, output names
 
 /**
  * Renders layout component from metadata
@@ -63,6 +65,12 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     @Output('layoutComponentRendererComponentChange')
     public componentChange: EventEmitter<ComponentRef<TComponent>|null> = new EventEmitter<ComponentRef<TComponent>|null>();
+
+    /**
+     * Occurs when components element changes
+     */
+    @Output()
+    public componentElementChange: EventEmitter<HTMLElement|null> = new EventEmitter<HTMLElement|null>();
 
     //######################### protected properties #########################
 
@@ -202,6 +210,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                 component.invalidateVisuals();
                 this._componentRef?.changeDetectorRef.markForCheck();
 
+                this.componentElementChange.next((this._componentRef.hostView as EmbeddedViewRef<unknown>).rootNodes[0] as HTMLElement);
                 this.componentChange.next(this._componentRef);
             }
         }
@@ -221,6 +230,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
             this._componentRef?.destroy();
             this._componentRef = null;
             this.componentChange.next(null);
+            this.componentElementChange.next(null);
         }
     }
 }

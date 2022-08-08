@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {distinctUntilChanged, Observable, Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {DropPlaceholderPreview, DropTargetData} from './dndBus.interface';
 
@@ -47,8 +47,7 @@ export class DndBusService
     public get newDropPlaceholderPreviewChange(): Observable<DropPlaceholderPreview>
     {
         return this.newDropPlaceholderPreviewSubject
-            .asObservable()
-            .pipe(distinctUntilChanged((curr, prev) => curr.parentId === prev.parentId && curr.index === prev.index));
+            .asObservable();
     }
 
     /**
@@ -57,8 +56,15 @@ export class DndBusService
     public get oldDropPlaceholderPreviewChange(): Observable<DropPlaceholderPreview>
     {
         return this.oldDropPlaceholderPreviewSubject
-            .asObservable()
-            .pipe(distinctUntilChanged((curr, prev) => curr.parentId === prev.parentId && curr.index === prev.index));
+            .asObservable();
+    }
+
+    /**
+     * Gets current drop placeholder preview index
+     */
+    public get dropPlaceholderPreviewIndex(): number|null
+    {
+        return this.dropPlaceholderPreview?.index ?? null;
     }
     
     //######################### public methods #########################
@@ -78,6 +84,12 @@ export class DndBusService
      */
     public setDropPlaceholderPreview(data: DropPlaceholderPreview|null): void
     {
+        //nothing has changed
+        if(data?.index === this.dropPlaceholderPreview?.index && data?.parentId === this.dropPlaceholderPreview?.parentId)
+        {
+            return;
+        }
+
         if(this.dropPlaceholderPreview)
         {
             this.oldDropPlaceholderPreviewSubject.next(this.dropPlaceholderPreview);

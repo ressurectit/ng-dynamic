@@ -257,6 +257,15 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     }
 
     /**
+     * Gets number of children for specified id, or null if it does not exists
+     * @param id - Id of component whose children will be counted
+     */
+    public getChildrenCount(id: string): number|null
+    {
+        return this._components[id]?.children?.length ?? null;
+    }
+
+    /**
      * Unregisters layout designer component
      * @param id - Id of component that will be unregistered
      */

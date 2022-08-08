@@ -52,6 +52,8 @@ export class BodyRenderSADirective implements OnInit, OnDestroy
     public ngOnDestroy(): void
     {
         this.element?.remove();
+        this.element = null;
         this.view?.destroy();
+        this.view = null;
     }
 }

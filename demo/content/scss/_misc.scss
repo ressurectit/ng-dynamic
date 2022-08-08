@@ -302,6 +302,12 @@
     white-space: nowrap;
 }
 
+.text-vertical
+{
+    writing-mode: vertical-rl;
+    text-orientation: sideways;
+}
+
 .line-height-1em
 {
     line-height: 1em;

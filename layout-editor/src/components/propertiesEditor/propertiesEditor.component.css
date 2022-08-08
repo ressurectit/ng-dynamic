@@ -57,7 +57,6 @@
 {
     background-color: #ddd;
     padding: 6px 4px;
-    writing-mode: vertical-rl;
     transform: translateX(calc(-1em - 4px));
     position: absolute;
 }

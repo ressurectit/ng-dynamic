@@ -6,6 +6,7 @@
      [dragDisabled]="dragDisabled"
      [canDrop]="canDropValue"
      [parentCanDrop]="parent?.canDropValue ?? false"
+     [horizontal]="parent?.horizontal ?? false"
      [dragSource]="dndCore.drag"
      (dropMetadata)="addDescendant($event)"
      [copyDesignerStyles]="renderedType"
@@ -18,8 +19,6 @@
          designerMinWidth
          [dropTarget]="dndCore.dropzone"
          [isDropZone]="canDropValue">
-         <!-- [cdkDropListEnterPredicate]="canDrop"
-         [cdkDropListOrientation]="_orientation" -->
         <!-- <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>
         <layout-editor-drag-preview class="mat-elevation-z4" *cdkDragPreview [editorMetadata]="editorMetadata" [layoutMetadata]="renderedType"></layout-editor-drag-preview> -->
         <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>

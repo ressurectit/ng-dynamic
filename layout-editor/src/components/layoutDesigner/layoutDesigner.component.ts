@@ -92,11 +92,10 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected renderedType: LayoutComponentMetadata|undefined|null;
 
-    //TODO: change for horizontal
-    // /**
-    //  * Orientation of drop list
-    //  */
-    // protected _orientation: DropListOrientation = 'vertical';
+    /**
+     * Indication whether drop list is horizontally oriented
+     */
+    protected horizontal: boolean = false;
 
     //######################### protected properties - overrides #########################
 
@@ -358,6 +357,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         this.renderedType = {...this.options.typeMetadata};
-        // this._orientation = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ? 'horizontal' : 'vertical';
+        this.horizontal = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ?? false;
     }
 }

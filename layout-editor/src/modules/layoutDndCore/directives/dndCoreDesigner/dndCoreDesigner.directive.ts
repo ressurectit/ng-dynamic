@@ -172,7 +172,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                                                                                             },
                                                                                             hover: monitor =>
                                                                                             {
-                                                                                                if(monitor.isOver({shallow: true}))
+                                                                                                if(monitor.isOver({shallow: true}) && monitor.canDrop())
                                                                                                 {
                                                                                                     const index = this.getIndex(monitor);
 
@@ -329,10 +329,10 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
             return 0;
         }
 
-        const coordinates = {x: offset.x - rect.x, y: offset.y - rect.y};
-        const half = rect.height / 2;
+        const position = this.horizontal ? offset.x - rect.x : offset.y - rect.y;
+        const half = this.horizontal ? rect.width / 2 : rect.height / 2;
 
-        if(coordinates.y <= half)
+        if(position <= half)
         {
             return this.dragData.index ?? 0;
         }
@@ -355,7 +355,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
         }
 
         this.placeholderPreviewElement ??= this.document.createElement('div');
-        this.placeholderPreviewElement.style.border = '2px solid blue';
+        this.placeholderPreviewElement.style.border = '3px solid blue';
         this.placeholderPreviewElement.remove();
 
         this.connectDropToPlaceholder();

@@ -1,4 +1,4 @@
-import {ContentChild, Directive, ElementRef, EmbeddedViewRef, EventEmitter, Inject, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
+import {ContentChild, Directive, ElementRef, EmbeddedViewRef, EventEmitter, ExistingProvider, forwardRef, Inject, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {BindThis} from '@jscrpt/common';
@@ -9,6 +9,8 @@ import {LayoutComponentDragData} from '../../../../interfaces';
 import {DragActiveService, LayoutEditorMetadataManager} from '../../../../services';
 import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
+import {DragPreviewRegistrator} from '../../interfaces';
+import {DRAG_PREVIEW_REGISTRATOR} from '../../misc/tokens';
 
 /**
  * Directive used for initializing and handling dnd core functionality for layout designer
@@ -17,8 +19,16 @@ import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 {
     selector: '[dndCoreDesigner]',
     exportAs: 'dndCoreDesigner',
+    providers:
+    [
+        <ExistingProvider>
+        {
+            provide: DRAG_PREVIEW_REGISTRATOR,
+            useExisting: forwardRef(() => DndCoreDesignerDirective),
+        }
+    ]
 })
-export class DndCoreDesignerDirective implements OnInit, OnDestroy
+export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewRegistrator
 {
     //######################### protected properties #########################
 
@@ -311,6 +321,16 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
 
         this.containerConnection?.unsubscribe();
         this.containerConnection = null;
+    }
+
+    //######################### public methods - implementation of DragPreviewRegistrator #########################
+
+    /**
+     * @inheritdoc
+     */
+    public registerPreviewElement(element: HTMLElement): Subscription
+    {
+        return this.drag.connectDragPreview(element, {offsetX: 0, offsetY: 0});
     }
 
     //######################### protected methods #########################

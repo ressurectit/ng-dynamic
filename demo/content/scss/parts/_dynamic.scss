@@ -1,0 +1,12 @@
+.dropzone-overlay
+{
+    position: absolute;
+    pointer-events: none;
+
+    &>div
+    {
+        position: absolute;
+        top: -2em;
+        opacity: 0.85;
+    }
+}

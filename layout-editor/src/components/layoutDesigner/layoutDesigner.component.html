@@ -19,6 +19,7 @@
          #layoutDropzone
          designerMinWidth
          [canDrop]="canDropValue"
+         [horizontal]="parent?.horizontal ?? false"
          [dropTarget]="dndCore.dropzone"
          [isDropZone]="canDropValue">
         <!-- <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder> -->

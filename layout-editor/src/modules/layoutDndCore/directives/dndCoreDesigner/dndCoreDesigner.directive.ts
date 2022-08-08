@@ -1,4 +1,4 @@
-import {ContentChild, Directive, ElementRef, EmbeddedViewRef, EventEmitter, ExistingProvider, forwardRef, Inject, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
+import {ContentChild, Directive, ElementRef, EmbeddedViewRef, EventEmitter, ExistingProvider, forwardRef, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {BindThis} from '@jscrpt/common';
@@ -11,6 +11,7 @@ import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 import {DragPreviewRegistrator} from '../../interfaces';
 import {DRAG_PREVIEW_REGISTRATOR} from '../../misc/tokens';
+// import {registerDropzoneOverlay} from '../../misc/utils';
 
 //TODO: go over all items up to find out whether can be dropped
 
@@ -261,6 +262,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                 protected manager: LayoutEditorMetadataManager,
                 protected bus: DndBusService,
                 protected zone: NgZone,
+                protected injector: Injector,
                 @Inject(DOCUMENT) protected document: Document,)
     {
         this.connectDropToContainer();
@@ -313,6 +315,10 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                        .newDropPlaceholderPreviewChange
                                        .pipe(filter(itm => itm.parentId === this.dragData.metadata?.id))
                                        .subscribe(this.showPlaceholderPreview));
+
+        // this.initSubscriptions.add(registerDropzoneOverlay(this.dropzone, this.dropzoneElement, this.injector, this.dragData));
+        // this.initSubscriptions.add(registerDropzoneOverlay(this.containerDrop, this.designerElement.nativeElement, this.injector, this.dragData));
+        // this.initSubscriptions.add(registerDropzoneOverlay(this.containerDrop, this.designerElement.nativeElement, this.injector, this.dragData));
     }
 
     //######################### public methods - implementation of OnDestroy #########################

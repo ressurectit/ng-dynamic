@@ -113,8 +113,6 @@ export class DesignerMinDimensionSADirective implements OnInit, OnDestroy
      */
     protected updatedDimensions(element: HTMLElement): void
     {
-        console.log('update', element.children, this.active);
-
         if((element.children.length && !this.active) ||
            (!element.children.length && this.active) ||
            !this.canDrop)

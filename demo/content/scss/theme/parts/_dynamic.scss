@@ -135,6 +135,8 @@ relations-canvas
     }
 }
 
+//############## PROPERTIES EDITOR ##############
+
 properties-editor
 {
     .properties-form-group
@@ -178,4 +180,11 @@ properties-editor
             background-color: #fafafa;
         }
     }
+}
+
+//############## DRAG N DROP OVERLAYS ##############
+
+.dropzone-overlay
+{
+    background-color: #3333331c;
 }

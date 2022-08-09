@@ -162,7 +162,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                         beginDrag: () =>
                                                                                         {
                                                                                             this.draggingSvc.setDragging(true);
-                                                                                            this.designerElement.nativeElement.classList.add('hidden');
+                                                                                            this.designerElement.nativeElement.classList.add('is-dragged');
 
                                                                                             return {
                                                                                                 dragData: this.dragData,
@@ -174,7 +174,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                             //dropped outside of any dropzone
                                                                                             if(!monitor.didDrop())
                                                                                             {
-                                                                                                this.designerElement.nativeElement.classList.remove('hidden');
+                                                                                                this.designerElement.nativeElement.classList.remove('is-dragged');
                                                                                             }
                                                                                             //dropped into drop zone
                                                                                             else
@@ -388,16 +388,15 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
         }
 
         const parentComponent = this.manager.getComponent(ancestorId);
-        let componentIndex = this.manager.getComponent(id)?.index ?? 0;
+        const componentIndex = this.manager.getComponent(id)?.index ?? 0;
         const item = monitor.getItem();
 
         if(item && isPresent(item.dragData.index))
         {
-            //same parent and is after self
-            if(item.dragData.parentId === ancestorId &&
-               componentIndex > item.dragData.index)
+            //is over itself
+            if(item.dragData.metadata?.id === this.metadata.id)
             {
-                componentIndex--;
+                return [item.dragData.index, item.dragData.parentId ?? ''];
             }
         }
 

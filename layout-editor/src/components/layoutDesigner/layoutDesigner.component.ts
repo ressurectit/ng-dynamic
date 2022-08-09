@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {BodyRenderSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
-import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
+import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
@@ -165,6 +165,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
                 injector: Injector,
                 protected metadataExtractor: LayoutEditorMetadataExtractor,
                 protected layoutEditorMetadataManager: LayoutEditorMetadataManager,
+                protected iteratorSvc: LayoutComponentsIteratorService,
                 @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
                 @Inject(LOGGER) @Optional() logger?: Logger,
                 @SkipSelf() @Optional() protected parent?: LayoutDesignerSAComponent,)
@@ -342,6 +343,19 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
+        if(this.parent?.options)
+        {
+            for await(const child of this.iteratorSvc.getChildrenIteratorFor(this.parent.options?.typeMetadata))
+            {
+                if(this.options.typeMetadata.id === child.metadata.id)
+                {
+                    this.index = child.index;
+
+                    break;
+                }
+            }
+        }
+
         //TODO: optimize
         this.initSubscriptions.add(this.layoutEditorMetadataManager.selectedChange.subscribe(() => this._changeDetector.detectChanges()));
         this.initSubscriptions.add(this.layoutEditorMetadataManager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
@@ -350,7 +364,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
         this.layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this.options.typeMetadata.id, this.parent?.options?.typeMetadata.id);
 
-        this.index = this.layoutEditorMetadataManager.getIndex(this.id) ?? 0;
     }
 
     /**

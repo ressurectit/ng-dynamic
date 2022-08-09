@@ -19,7 +19,6 @@
         "version:build": "ngv -e \"echo $GIT_VERSION > version.bak\"",
         "prepublishOnly": "npm run bundle && npm run version:placeholder && npm run version:git",
         "postpublish": "npm run doc && npm run version:placeholder && npm run clean",
-        "postinstall": "cd demo && npm install && cd ..",
         "bundle": "npm run clean && npm run build",
         "deploy": "npm publish --loglevel error",
         "deploy:next": "npm publish --tag next --loglevel error",

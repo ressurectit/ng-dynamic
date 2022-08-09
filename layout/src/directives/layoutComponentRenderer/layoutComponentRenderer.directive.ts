@@ -210,7 +210,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                 component.invalidateVisuals();
                 this._componentRef?.changeDetectorRef.markForCheck();
 
-                this.componentElementChange.next((this._componentRef.hostView as EmbeddedViewRef<unknown>).rootNodes[0] as HTMLElement);
+                this.componentElementChange.next((this._componentRef?.hostView as EmbeddedViewRef<unknown>).rootNodes[0] as HTMLElement);
                 this.componentChange.next(this._componentRef);
             }
         }

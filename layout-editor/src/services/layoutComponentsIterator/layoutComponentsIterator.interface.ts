@@ -25,3 +25,19 @@ export interface LayoutComponentsIteratorItem
      */
     level: number;
 }
+
+/**
+ * Item for layout components children iterator
+ */
+export interface LayoutComponentsChildrenIteratorItem
+{
+    /**
+     * Metadata for layout component
+     */
+    metadata: LayoutComponentMetadata;
+
+    /**
+     * Index of child in its parent
+     */
+    index: number;
+}

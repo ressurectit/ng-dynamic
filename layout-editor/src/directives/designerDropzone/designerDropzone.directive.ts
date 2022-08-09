@@ -61,13 +61,18 @@ export class DesignerDropzoneSADirective implements OnInit, OnDestroy
      */
     protected processDragValue(): void
     {
-        if(this.draggingSvc.dragging && this.isDropZone)
+        //relate to https://stackoverflow.com/a/20734159
+        //Need to wait before manipulating with DOM because browser can trigger dragend if dragged node is out of mouse position
+        setTimeout(() =>
         {
-            this.element.nativeElement.classList.add('drag-active');
-        }
-        else
-        {
-            this.element.nativeElement.classList.remove('drag-active');
-        }
+            if(this.draggingSvc.dragging && this.isDropZone)
+            {
+                this.element.nativeElement.classList.add('drag-active');
+            }
+            else
+            {
+                this.element.nativeElement.classList.remove('drag-active');
+            }
+        });
     }
 }

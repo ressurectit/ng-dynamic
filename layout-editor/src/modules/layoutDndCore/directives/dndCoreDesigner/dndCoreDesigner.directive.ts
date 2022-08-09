@@ -1,7 +1,7 @@
-import {ContentChild, Directive, ElementRef, EmbeddedViewRef, EventEmitter, ExistingProvider, forwardRef, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
+import {ContentChild, Directive, ElementRef, EventEmitter, ExistingProvider, forwardRef, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {BindThis, isBlank} from '@jscrpt/common';
+import {BindThis, isBlank, isPresent} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
 import {filter, Subscription} from 'rxjs';
 
@@ -301,17 +301,16 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
         }
 
 
-        //TODO: change for element change event
-        this.initSubscriptions.add(this.layoutComponentRendererDirective?.componentChange.subscribe(componentRef =>
+        this.initSubscriptions.add(this.layoutComponentRendererDirective?.componentElementChange.subscribe(element =>
         {
-            if(!componentRef)
+            if(!element)
             {
                 this.componentElement = null;
 
                 return;
             }
 
-            this.componentElement = (componentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+            this.componentElement = element;
         }));
 
         this.initSubscriptions.add(this.bus
@@ -371,12 +370,12 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
      * @param monitor - Monitor containing information about current drag drop state
      * @param canDrop - Indication whether can drop can occur on monitor itself
      */
-    protected getDropCoordinates(monitor: DropTargetMonitor, canDrop: boolean): [number|null, string|null]
+    protected getDropCoordinates(monitor: DropTargetMonitor<LayoutDragItem, LayoutDropResult>, canDrop: boolean): [number|null, string|null]
     {
         //can drop in itself// for now drop at index 0
         if(canDrop)
         {
-            return [0, this.metadata.id];
+            return this.getDropCoordinatesForChildren(monitor);
         }
 
         //else get index from descendant
@@ -389,7 +388,18 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
         }
 
         const parentComponent = this.manager.getComponent(ancestorId);
-        const componentIndex = this.manager.getComponent(id)?.index ?? 0;
+        let componentIndex = this.manager.getComponent(id)?.index ?? 0;
+        const item = monitor.getItem();
+
+        if(item && isPresent(item.dragData.index))
+        {
+            //same parent and is after self
+            if(item.dragData.parentId === ancestorId &&
+               componentIndex > item.dragData.index)
+            {
+                componentIndex--;
+            }
+        }
 
         if(!parentComponent)
         {
@@ -400,11 +410,63 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
     }
 
     /**
+     * Gets coordinates calculated for children of this component
+     * @param monitor - Monitor containing information about current drag drop state
+     */
+    protected getDropCoordinatesForChildren(monitor: DropTargetMonitor<LayoutDragItem, LayoutDropResult>): [number|null, string|null]
+    {
+        const getHalf = (element: Element) =>
+        {
+            const rect = element.children[0].getBoundingClientRect();
+            const position = this.horizontal ? rect.x : rect.y;
+            const half = (this.horizontal ? rect.width : rect.height) / 2;
+            
+            return position + half;
+        };
+
+        if(!this.componentElement)
+        {
+            return [null, null];
+        }
+
+        let index = 0;
+        const offset = monitor.getClientOffset();
+        
+        if(!offset)
+        {
+            return [null, null];
+        }
+
+        const position = this.horizontal ? offset.x : offset.y;
+
+        for(let x = 0; x < this.componentElement.children.length; x++)
+        {
+            const child = this.componentElement.children[x];
+
+            //do nothing for placeholder
+            if(child.classList.contains('drag-placeholder'))
+            {
+                continue;
+            }
+
+            //return index if less than half
+            if(position <= getHalf(child))
+            {
+                return [index, this.metadata.id];
+            }
+
+            index++;
+        }
+
+        return [index, this.metadata.id];
+    }
+
+    /**
      * Gets index increment
      * @param monitor - Monitor to be used for obtaining information about index
      * @param horizontal - Indication whether are items horizontaly oriented
      */
-    protected getIndexIncrement(monitor: DropTargetMonitor, horizontal: boolean): number
+    protected getIndexIncrement(monitor: DropTargetMonitor<LayoutDragItem, LayoutDropResult>, horizontal: boolean): number
     {
         const rect = this.dropzoneElement.getBoundingClientRect();
         const offset = monitor.getClientOffset();

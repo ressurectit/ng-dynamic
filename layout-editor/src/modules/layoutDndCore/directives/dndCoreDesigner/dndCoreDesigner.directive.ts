@@ -95,10 +95,22 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
     protected placeholderDrop: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
                                                                                                   {
                                                                                                       canDrop: () => true,
-                                                                                                      drop: () =>
+                                                                                                      drop: monitor =>
                                                                                                       {
+                                                                                                          const item = monitor.getItem();
+                                                                                                          let index = this.bus.dropPlaceholderPreviewIndex;
+                                                                                                  
+                                                                                                          if(item && isPresent(item.dragData.index) && isPresent(index))
+                                                                                                          {
+                                                                                                              //same parent and higher index
+                                                                                                              if(index > item.dragData.index)
+                                                                                                              {
+                                                                                                                  index--;
+                                                                                                              }
+                                                                                                          }
+
                                                                                                           return <LayoutDropResult>{
-                                                                                                              index: this.bus.dropPlaceholderPreviewIndex,
+                                                                                                              index,
                                                                                                               id: this.metadata?.id,
                                                                                                           };
                                                                                                       },
@@ -112,7 +124,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                                     canDrop: monitor => this.canDropAncestors()[0] && monitor.isOver({shallow: true}),
                                                                                                     drop: monitor =>
                                                                                                     {
-                                                                                                        const [index, id] = this.getDropCoordinates(monitor, false);
+                                                                                                        const [index, id] = this.getFixedDropCoordinates(monitor, false);
 
                                                                                                         return <LayoutDropResult>{
                                                                                                             index,
@@ -210,7 +222,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                             canDrop: monitor => (this.canDrop || this.canDropAncestors()[0]) && monitor.isOver({shallow: true}),
                                                                                             drop: monitor =>
                                                                                             {
-                                                                                                const [index, id] = this.getDropCoordinates(monitor, this.canDrop);
+                                                                                                const [index, id] = this.getFixedDropCoordinates(monitor, this.canDrop);
 
                                                                                                 return <LayoutDropResult>{
                                                                                                     index,
@@ -461,6 +473,30 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
     }
 
     /**
+     * Gets fixed drop coordinates
+     * @param monitor - Monitor containing information about current drag drop state
+     * @param canDrop - Indication whether can drop can occur on monitor itself
+     */
+    protected getFixedDropCoordinates(monitor: DropTargetMonitor<LayoutDragItem, LayoutDropResult>, canDrop: boolean): [number|null, string|null]
+    {
+        const [index, id] = this.getDropCoordinates(monitor, canDrop);
+        let usedIndex = index;
+        const item = monitor.getItem();
+
+        if(item && isPresent(usedIndex) && isPresent(item.dragData.index))
+        {
+            //same parent and higher index
+            if(id === item.dragData.parentId &&
+                usedIndex > item.dragData.index)
+            {
+                usedIndex--;
+            }
+        }
+
+        return [usedIndex, id];
+    }
+
+    /**
      * Gets index increment
      * @param monitor - Monitor to be used for obtaining information about index
      * @param horizontal - Indication whether are items horizontaly oriented
@@ -501,7 +537,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
         }
 
         this.placeholderPreviewElement ??= this.document.createElement('div');
-        this.placeholderPreviewElement.style.border = '3px solid blue';
         this.placeholderPreviewElement.classList.add('drag-placeholder');
         this.placeholderPreviewElement.remove();
 

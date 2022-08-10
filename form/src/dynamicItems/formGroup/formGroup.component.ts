@@ -47,7 +47,7 @@ export class FormGroupSAComponent extends FormComponentBase<FormGroupComponentOp
                     <ValueProvider>
                     {
                         provide: FORM_COMPONENT_CONTROL,
-                        useValue: this.options?.controlName ? this._control?.get(this.options.controlName) : null,
+                        useValue: this.options?.controlName ? this._parentControl?.get(this.options.controlName) : null,
                     }
                 ]
             }

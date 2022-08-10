@@ -1,6 +1,6 @@
 <mat-form-field [appearance]="options?.appearance|asRequired">
     <mat-label>{{options?.label}}</mat-label>
-    <input matInput [matDatepicker]="picker" [formControl]="options?.controlName|formComponentControl:_control|asFormControl|asRequired">
+    <input matInput [matDatepicker]="picker" [formControl]="control|asFormControl|asRequired">
     <mat-hint>{{options?.hint}}</mat-hint>
     
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

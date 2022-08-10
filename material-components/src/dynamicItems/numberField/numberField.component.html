@@ -1,5 +1,5 @@
 <mat-form-field [appearance]="options?.appearance|asRequired">
     <mat-label>{{options?.label}}</mat-label>
-    <input matInput [attr.placeholder]="options?.placeholder" type="number" [formControl]="options?.controlName|formComponentControl:_control|asFormControl|asRequired">
+    <input matInput [attr.placeholder]="options?.placeholder" type="number" [formControl]="control|asFormControl|asRequired">
     <mat-hint>{{options?.hint}}</mat-hint>
 </mat-form-field>

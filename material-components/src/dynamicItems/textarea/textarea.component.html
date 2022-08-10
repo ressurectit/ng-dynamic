@@ -4,6 +4,6 @@
         matInput 
         cdkTextareaAutosize
         [attr.placeholder]="options?.placeholder"
-        [formControl]="options?.controlName|formComponentControl:_control|asFormControl|asRequired"></textarea>
+        [formControl]="control|asFormControl|asRequired"></textarea>
     <mat-hint>{{options?.hint}}</mat-hint>
 </mat-form-field>

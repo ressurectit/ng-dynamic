@@ -5,10 +5,11 @@ import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {FormComponentControlSAPipe, FormComponent, FormComponentBase} from '@anglr/dynamic/form';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 
-import {MaterialTextFieldLayoutMetadataLoader} from './textField.metadata';
+import {MaterialTextFieldLayoutMetadataLoader, MaterialTextFieldRelationsMetadataLoader} from './textField.metadata';
 import {MaterialTextFieldComponentOptions} from './textField.options';
 
 /**
@@ -32,6 +33,8 @@ import {MaterialTextFieldComponentOptions} from './textField.options';
         CommonModule,
     ]
 })
+@RelationsEditorMetadata(MaterialTextFieldRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialTextFieldLayoutMetadataLoader)
 export class MaterialTextFieldSAComponent extends FormComponentBase<MaterialTextFieldComponentOptions> implements FormComponent<MaterialTextFieldComponentOptions>
-{}
+{
+}

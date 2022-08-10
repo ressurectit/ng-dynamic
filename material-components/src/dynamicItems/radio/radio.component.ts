@@ -5,8 +5,9 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
-import {MaterialRadioLayoutMetadataLoader} from './radio.metadata';
+import {MaterialRadioLayoutMetadataLoader, MaterialRadioRelationsMetadataLoader} from './radio.metadata';
 import {MaterialRadioComponentOptions} from './radio.options';
 
 /**
@@ -28,6 +29,7 @@ import {MaterialRadioComponentOptions} from './radio.options';
         MatRadioModule,
     ]
 })
+@RelationsEditorMetadata(MaterialRadioRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialRadioLayoutMetadataLoader)
 export class MaterialRadioSAComponent extends FormComponentBase<MaterialRadioComponentOptions> implements FormComponent<MaterialRadioComponentOptions>
 {}

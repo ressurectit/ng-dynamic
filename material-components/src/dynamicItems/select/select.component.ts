@@ -7,8 +7,9 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
-import {MaterialSelectLayoutMetadataLoader} from './select.metadata';
+import {MaterialSelectLayoutMetadataLoader, MaterialSelectRelationsMetadataLoader} from './select.metadata';
 import {MaterialSelectComponentOptions} from './select.options';
 
 /**
@@ -32,6 +33,7 @@ import {MaterialSelectComponentOptions} from './select.options';
         MatSelectModule,
     ]
 })
+@RelationsEditorMetadata(MaterialSelectRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialSelectLayoutMetadataLoader)
 export class MaterialSelectSAComponent extends FormComponentBase<MaterialSelectComponentOptions> implements FormComponent<MaterialSelectComponentOptions>
 {

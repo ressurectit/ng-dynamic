@@ -5,8 +5,9 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
-import {MaterialCheckboxLayoutMetadataLoader} from './checkbox.metadata';
+import {MaterialCheckboxLayoutMetadataLoader, MaterialCheckboxRelationsMetadataLoader} from './checkbox.metadata';
 import {MaterialCheckboxComponentOptions} from './checkbox.options';
 
 /**
@@ -28,6 +29,7 @@ import {MaterialCheckboxComponentOptions} from './checkbox.options';
         ReactiveFormsModule,
     ]
 })
+@RelationsEditorMetadata(MaterialCheckboxRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialCheckboxLayoutMetadataLoader)
 export class MaterialCheckboxSAComponent extends FormComponentBase<MaterialCheckboxComponentOptions> implements FormComponent<MaterialCheckboxComponentOptions>
 {}

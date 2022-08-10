@@ -6,8 +6,9 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
 import {FormPipesModule} from '@anglr/common/forms';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
-import {MaterialPeriodLayoutMetadataLoader} from './period.metadata';
+import {MaterialPeriodLayoutMetadataLoader, MaterialPeriodRelationsMetadataLoader} from './period.metadata';
 import {MaterialPeriodComponentOptions} from './period.options';
 
 /**
@@ -30,6 +31,7 @@ import {MaterialPeriodComponentOptions} from './period.options';
         MatInputModule,
     ]
 })
+@RelationsEditorMetadata(MaterialPeriodRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialPeriodLayoutMetadataLoader)
 export class MaterialPeriodSAComponent extends FormComponentBase<MaterialPeriodComponentOptions> implements FormComponent<MaterialPeriodComponentOptions>
 {}

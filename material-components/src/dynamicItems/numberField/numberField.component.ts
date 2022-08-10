@@ -6,8 +6,9 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
-import {MaterialNumberFieldLayoutMetadataLoader} from './numberField.metadata';
+import {MaterialNumberFieldLayoutMetadataLoader, MaterialNumberFieldRelationsMetadataLoader} from './numberField.metadata';
 import {MaterialNumberFieldComponentOptions} from './numberField.options';
 
 /**
@@ -30,6 +31,7 @@ import {MaterialNumberFieldComponentOptions} from './numberField.options';
         MatInputModule,
     ]
 })
+@RelationsEditorMetadata(MaterialNumberFieldRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialNumberFieldLayoutMetadataLoader)
 export class MaterialNumberFieldSAComponent extends FormComponentBase<MaterialNumberFieldComponentOptions> implements FormComponent<MaterialNumberFieldComponentOptions>
 {}

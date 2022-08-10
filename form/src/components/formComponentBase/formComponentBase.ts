@@ -15,7 +15,7 @@ import {getControlForType, getFormControl} from '../../misc/utils';
  * Base component for form component
  */
 @Directive()
-export abstract class FormComponentBase<TOptions extends FormComponentOptions> extends LayoutComponentBase<TOptions>
+export abstract class FormComponentBase<TOptions extends FormComponentOptions, TValue = string> extends LayoutComponentBase<TOptions>
 {
     //######################### private properties #########################
 
@@ -47,7 +47,7 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions> e
      * Form component value
      */
     @Input()
-    public set value(value: string|null|undefined)
+    public set value(value: TValue|null|undefined)
     {
         const oldValue = this.value;
         this.valueOutput = value;
@@ -57,7 +57,7 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions> e
             this.control?.patchValue(value);
         }
     }
-    public get value(): string|null|undefined
+    public get value(): TValue|null|undefined
     {
         return this.valueOutput;
     }
@@ -110,7 +110,7 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions> e
      * Form component value
      */
     @DynamicOutput()
-    public valueOutput: string|null|undefined;
+    public valueOutput: TValue|null|undefined;
 
     //######################### constructor #########################
 
@@ -167,7 +167,7 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions> e
      * @param initValue Initial value for control
      * @returns Specified type of control
      */
-    private _getFormControl(controlName: string|null|undefined, parentControl: AbstractControl|undefined, defaultControlType: FormComponentControlType = FormComponentControlType.FormControl, initValue: string|null|undefined): AbstractControl
+    private _getFormControl(controlName: string|null|undefined, parentControl: AbstractControl|undefined, defaultControlType: FormComponentControlType = FormComponentControlType.FormControl, initValue: TValue|null|undefined): AbstractControl
     {
         let control = getFormControl(controlName, parentControl, defaultControlType, initValue);
 

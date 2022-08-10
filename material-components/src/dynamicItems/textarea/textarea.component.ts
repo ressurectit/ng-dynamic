@@ -7,8 +7,9 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
-import {MaterialTextareaLayoutMetadataLoader} from './textarea.metadata';
+import {MaterialTextareaLayoutMetadataLoader, MaterialTextareaRelationsMetadataLoader} from './textarea.metadata';
 import {MaterialTextareaComponentOptions} from './textarea.options';
 
 /**
@@ -32,6 +33,7 @@ import {MaterialTextareaComponentOptions} from './textarea.options';
         TextFieldModule,
     ]
 })
+@RelationsEditorMetadata(MaterialTextareaRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialTextareaLayoutMetadataLoader)
 export class MaterialTextareaSAComponent extends FormComponentBase<MaterialTextareaComponentOptions> implements FormComponent<MaterialTextareaComponentOptions>
 {}

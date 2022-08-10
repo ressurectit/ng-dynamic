@@ -8,8 +8,9 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
-import {MaterialDatepickerLayoutMetadataLoader} from './datepicker.metadata';
+import {MaterialDatepickerLayoutMetadataLoader, MaterialDatepickerRelationsMetadataLoader} from './datepicker.metadata';
 import {MaterialDatepickerComponentOptions} from './datepicker.options';
 
 /**
@@ -34,6 +35,7 @@ import {MaterialDatepickerComponentOptions} from './datepicker.options';
         MatNativeDateModule,
     ]
 })
+@RelationsEditorMetadata(MaterialDatepickerRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialDatepickerLayoutMetadataLoader)
 export class MaterialDatepickerSAComponent extends FormComponentBase<MaterialDatepickerComponentOptions> implements FormComponent<MaterialDatepickerComponentOptions>
 {}

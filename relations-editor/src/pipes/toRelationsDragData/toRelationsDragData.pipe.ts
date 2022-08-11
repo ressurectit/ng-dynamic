@@ -26,7 +26,7 @@ export class ToRelationsDragDataSAPipe implements PipeTransform
             metadata:
             {
                 id: newId,
-                displayName: undefined,
+                displayName: singleton ? value.metadata.displayName || value.itemSource.name : undefined,
                 package: value.itemSource.package,
                 name: value.itemSource.name,
                 relationsOptions: extend(true, {}, value.metadata.metaInfo?.defaultOptions),

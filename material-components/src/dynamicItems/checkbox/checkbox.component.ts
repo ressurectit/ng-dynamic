@@ -31,5 +31,5 @@ import {MaterialCheckboxComponentOptions} from './checkbox.options';
 })
 @RelationsEditorMetadata(MaterialCheckboxRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialCheckboxLayoutMetadataLoader)
-export class MaterialCheckboxSAComponent extends FormComponentBase<MaterialCheckboxComponentOptions> implements FormComponent<MaterialCheckboxComponentOptions>
+export class MaterialCheckboxSAComponent extends FormComponentBase<MaterialCheckboxComponentOptions, boolean> implements FormComponent<MaterialCheckboxComponentOptions>
 {}

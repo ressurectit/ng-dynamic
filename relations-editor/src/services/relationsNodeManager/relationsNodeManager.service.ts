@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {RelationOutputMetadata} from '@anglr/dynamic/relations';
 import {MetadataStateManager} from '@anglr/dynamic';
 import {Dictionary} from '@jscrpt/common';
+import {Observable, Subject} from 'rxjs';
 
 import {RelationsInput, RelationsNode, RelationsNodeMetadata} from '../../interfaces';
 import {WaitingInputRelation} from './relationsNodeManager.interface';
@@ -30,6 +31,26 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
      * Waiting input relations to be processed when node is created
      */
     protected _waitingInputRelations: Dictionary<WaitingInputRelation[]> = {};
+    
+    /**
+     * Used for emitting node registration
+     */
+    protected _nodesChange: Subject<void> = new Subject<void>();
+    
+    //######################### public properties #########################
+
+    public get nodes(): Dictionary<RelationsNode>
+    {
+        return this._nodes;
+    }
+
+    /**
+     * Occurs when new node is registered
+     */
+    public get nodesChange(): Observable<void>
+    {
+        return this._nodesChange.asObservable();
+    }
 
     //######################### public methods #########################
 
@@ -57,6 +78,7 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
     public registerNode(node: RelationsNode): void
     {
         this._nodes[node.id] = node;
+        this._nodesChange.next();
 
         //iterate over all outputs
         if(node.metadata?.outputs && Array.isArray(node.metadata?.outputs))
@@ -140,6 +162,7 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
     public unregisterNode(node: RelationsNode): void
     {
         delete this._nodes[node.id];
+        this._nodesChange.next();
     }
 
     /**

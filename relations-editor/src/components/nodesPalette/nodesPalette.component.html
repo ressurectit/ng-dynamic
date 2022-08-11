@@ -2,13 +2,15 @@
     <ng-container *ngFor="let groupKeyValue of groupedItems | keyvalue">
         <div class="text-spread text-small-caps margin-left-extra-small margin-horizontal-small bold">{{groupKeyValue.key}}&nbsp;</div>
 
-        <div *ngFor="let item of groupKeyValue.value"
+        <div *ngFor="let item of groupKeyValue.value | flagUsedNodes : registeredNodes"
              cdkDropList
              cdkDropListSortingDisabled
              [cdkDropListConnectedTo]="canvasDropList"
              class="palette-droplist">
             <div class="editor-component mat-elevation-z2"
+                 [class.used]="item.metadata.singleton && item.metadata.used"
                  cdkDrag
+                 [cdkDragDisabled]="item.metadata.singleton && item.metadata.used"
                  [cdkDragData]="item | toRelationsDragData: (item.metadata.singleton ? item.itemSource.name : newCompnentId): item.metadata.singleton"
                  (cdkDragDropped)="generateNewId()">
                  <!-- (cdkDragEnded)="_onDragEnded(groupKeyValue.key)"

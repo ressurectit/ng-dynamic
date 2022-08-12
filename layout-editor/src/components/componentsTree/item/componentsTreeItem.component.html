@@ -1,7 +1,7 @@
 <div class="flex align-items-center" [ngClass]="hasChildren ? 'nested-node-tree' : 'node-tree'">
-    <button mat-icon-button *ngIf="hasChildren" (click)="toggle()"
+    <button mat-icon-button [disabled]="!hasChildren" (click)="toggle()"
         [attr.aria-label]="'Toggle'">
-        <span class="fa" [ngClass]="open ? 'fa-chevron-down' : 'fa-chevron-right'"></span>
+        <span class="fa" *ngIf="hasChildren" [ngClass]="open ? 'fa-chevron-down' : 'fa-chevron-right'"></span>
     </button>
     <div 
         [class.selected]="data?.component?.options?.typeMetadata?.id === _manager.selectedComponent"

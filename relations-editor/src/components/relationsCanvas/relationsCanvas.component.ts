@@ -1,7 +1,8 @@
-import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild, ElementRef, Input, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild, ElementRef, Input, Inject, OnInit, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MetadataHistoryManager} from '@anglr/dynamic';
 import {select} from 'd3';
+import {Subscription} from 'rxjs';
 
 import {Coordinates, RelationsNodeMetadata} from '../../interfaces';
 import {RelationsNodeManager} from '../../services';
@@ -42,9 +43,14 @@ const SCALE_FACTOR_MAX = 2;
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationsCanvasSAComponent
+export class RelationsCanvasSAComponent implements OnInit, OnDestroy
 {
     //######################### protected properties #########################
+
+    /**
+     * Subscriptions created during initialization
+     */
+    protected _initSubscriptions: Subscription = new Subscription();
 
     /**
      * Background pattern size
@@ -127,11 +133,57 @@ export class RelationsCanvasSAComponent
     //######################### constructor #########################
     constructor(protected element: ElementRef,
                 protected relationManager: RelationsNodeManager,
+                private _changeDetector: ChangeDetectorRef,
                 @Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager<RelationsNodeMetadata[]>,)
     {
     }
 
+    //######################### public methods - implementation of OnInit #########################
+    
+    /**
+     * Initialize component
+     */
+    public ngOnInit(): void
+    {
+        this._initSubscriptions.add(this.relationManager.activeNodeChange.subscribe(() => this.focusNode(this.relationManager.activeNode)));
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        this._initSubscriptions.unsubscribe();
+    }
+
     //######################### public methods #########################
+
+    /**
+     * Focuses canvas to selected node
+     * @param id Relations node identifier
+     * @returns 
+     */
+    public focusNode(id?: string|null): void
+    {
+        if (!id)
+        {
+            return;
+        }
+
+        const node = this.nodeDefinitions?.find(node => node.id === id);
+
+        if (node?.nodeMetadata?.coordinates)
+        {
+            // this._setZoomLevel(1);
+            this.canvasPosition = {
+                x: (-node?.nodeMetadata?.coordinates.x) * this.zoomLevel  + this.boundingBox.width/2,
+                y: (-node?.nodeMetadata?.coordinates.y) * this.zoomLevel  + this.boundingBox.height/2,
+            };
+            this._changeDetector.detectChanges();
+        }
+    }
 
     /**
      * Creates node relation path
@@ -217,8 +269,7 @@ export class RelationsCanvasSAComponent
             this.canvasPosition.x = event.clientX - this.boundingBox.left - posX*newZoomLevel;
             this.canvasPosition.y = event.clientY - this.boundingBox.top - posY*newZoomLevel;
 
-            this.zoomLevel = newZoomLevel;
-            this.backgroundSize = DEFAULT_BACKGROUND_SIZE * this.zoomLevel;
+            this._setZoomLevel(newZoomLevel);
         }
         
         event.preventDefault();
@@ -243,5 +294,17 @@ export class RelationsCanvasSAComponent
         this.nodeDefinitions.splice(index, 1);
 
         this.history.getNewState();
+    }
+
+    //######################### private methods #########################
+
+    /**
+     * Sets zoom level
+     * @param newZoomLevel new zoom level
+     */
+    private _setZoomLevel(newZoomLevel: number): void
+    {
+        this.zoomLevel = newZoomLevel;
+        this.backgroundSize = DEFAULT_BACKGROUND_SIZE * this.zoomLevel;
     }
 }

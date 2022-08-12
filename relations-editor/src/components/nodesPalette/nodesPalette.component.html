@@ -12,7 +12,8 @@
                  cdkDrag
                  [cdkDragDisabled]="item.metadata.singleton && item.metadata.used"
                  [cdkDragData]="item | toRelationsDragData: (item.metadata.singleton ? item.itemSource.name : newCompnentId): item.metadata.singleton"
-                 (cdkDragDropped)="generateNewId()">
+                 (cdkDragDropped)="generateNewId()"
+                 (dblclick)="focusNode(item)">
                  <!-- (cdkDragEnded)="_onDragEnded(groupKeyValue.key)"
                  (cdkDragStarted)="_onDragStarted($event, groupKeyValue.key, item)"> -->
                 <!-- <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder>

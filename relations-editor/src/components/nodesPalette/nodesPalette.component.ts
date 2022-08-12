@@ -189,6 +189,23 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         this._changeDetector.detectChanges();
     }
 
+    /**
+     * Focus to relations node
+     * @param item 
+     * @returns 
+     */
+    protected focusNode(item?: NodesPaletteItem|null): void
+    {
+        if (!item?.metadata.used ||
+            !item?.metadata.singleton)
+        {
+            this._metadataManager.setActiveNode(null);
+            return;
+        }
+
+        this._metadataManager.setActiveNode(item.itemSource.name);
+    }
+
     //######################### protected methods - template bindings #########################
 
     /**

@@ -23,6 +23,11 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
     protected _activeInput: RelationsInput|null|undefined;
 
     /**
+     * Active relations node
+     */
+    protected _activeNode: string|null|undefined;
+
+    /**
      * Registered relations nodes
      */
     protected _nodes: Dictionary<RelationsNode> = {};
@@ -36,9 +41,17 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
      * Used for emitting node registration
      */
     protected _nodesChange: Subject<void> = new Subject<void>();
+
+    /**
+     * Used for emitting active node change
+     */
+    protected _activeNodeChange: Subject<void> = new Subject<void>();
     
     //######################### public properties #########################
 
+    /**
+     * Registered relation nodes
+     */
     public get nodes(): Dictionary<RelationsNode>
     {
         return this._nodes;
@@ -50,6 +63,22 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
     public get nodesChange(): Observable<void>
     {
         return this._nodesChange.asObservable();
+    }
+
+    /**
+     * Active relations node
+     */
+    public get activeNode(): string|null|undefined
+    {
+        return this._activeNode;
+    }
+
+    /**
+     * Occurs when active relations node is changed
+     */
+    public get activeNodeChange(): Observable<void>
+    {
+        return this._activeNodeChange.asObservable();
     }
 
     //######################### public methods #########################
@@ -238,5 +267,15 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
         }
 
         return result;
+    }
+
+    /**
+     * Sets active relations node
+     * @param id node identifier
+     */
+    public setActiveNode(id?: string|null): void
+    {
+        this._activeNode = id;
+        this._activeNodeChange.next();
     }
 }

@@ -8,6 +8,7 @@ const components =
     'select',
     'textarea',
     'textField',
+    'expansionPanel',
 ];
 
 export default components;

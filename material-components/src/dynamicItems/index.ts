@@ -6,3 +6,4 @@ export * from './radio';
 export * from './select';
 export * from './textarea';
 export * from './textField';
+export * from './expansionPanel';

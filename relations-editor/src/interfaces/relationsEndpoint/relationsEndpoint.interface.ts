@@ -25,6 +25,16 @@ export interface RelationsEndpoint
      * Gets node coordinates
      */
     getCoordinates(): Coordinates;
+
+    /**
+     * Highlight relation endpoint
+     */
+    highlight(): void;
+
+    /**
+     * Cancels relation endpoint highligh
+     */
+    cancelHighlight(): void;
 }
 
 /**

@@ -9,3 +9,8 @@
     background-color: white;
     cursor: crosshair;
 }
+
+:host.highlighted
+{
+    box-shadow: 0 0 8px 2px #48B8B8;
+}

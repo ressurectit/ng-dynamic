@@ -109,6 +109,8 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
         {
             this._relationManager.setActiveInput(this);
         }
+
+        this._relation?.highlight();
     }
 
     /**
@@ -122,6 +124,8 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
         {
             this._relationManager.setActiveInput(null);
         }
+
+        this._relation?.cancelHighlight();
     }
 
     /**

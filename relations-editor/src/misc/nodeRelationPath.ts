@@ -6,6 +6,9 @@ import {Coordinates, RelationsInput, RelationsNodeMetadata, RelationsOutput} fro
 import {RelationsNodeManager} from '../services';
 import {INVALIDATE_DROP} from './constants';
 
+const STROKE_WIDTH = '3px';
+const HIGHLIGHT_STROKE_WIDTH = '5px';
+
 /**
  * Class that represents node relation path
  */
@@ -59,7 +62,15 @@ export class NodeRelationPath
         this._path = this._parentGroup.append('path')
             .attr('fill', 'transparent')
             .attr('stroke', '#48B8B8')
-            .attr('stroke-width', '3px');
+            .attr('stroke-width', STROKE_WIDTH)
+            .on('mouseover', () =>
+            {
+                this.highlight();
+            })                  
+            .on('mouseout', () =>
+            {
+                this.cancelHighlight();
+            });
 
         this._lineGenerator = line()
             .curve(curveBundle.beta(0.75));
@@ -74,6 +85,26 @@ export class NodeRelationPath
     {
         this._path?.remove();
         this._destroyingSubject.next();
+    }
+
+    /**
+     * Highlights relation path and its input/output
+     */
+    public highlight(): void
+    {
+        this._path.attr('stroke-width', HIGHLIGHT_STROKE_WIDTH);
+        this.input?.highlight();
+        this.output?.highlight();
+    }
+
+    /**
+     * Cancel hight for relation path
+     */
+    public cancelHighlight(): void
+    {
+        this._path.attr('stroke-width', STROKE_WIDTH);
+        this.input?.cancelHighlight();
+        this.output?.cancelHighlight();
     }
 
     /**

@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, OnInit} from '@angular/core';
+import {Directive, ElementRef, HostBinding, Input, OnInit} from '@angular/core';
 
 import {Coordinates, RelationsEndpoint, RelationsNode} from '../interfaces';
 import {NodeRelationPath} from '../misc/nodeRelationPath';
@@ -22,6 +22,12 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnI
      * Indication whether component is dragging
      */
     protected _isDragging: boolean = false;
+
+    /**
+     * Indication whether node endpoint is highlighted
+     */
+    @HostBinding('class.highlighted')
+    protected _isHighlighted: boolean = false;
 
     /**
      * Last mouse down position
@@ -103,6 +109,22 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnI
             x: this.parentCoordiantes.x + this._element.nativeElement.offsetLeft + this._element.nativeElement.offsetWidth/2,
             y: this.parentCoordiantes.y + this._element.nativeElement.offsetTop + this._element.nativeElement.offsetHeight/2
         };
+    }
+
+    /**
+     * Highlight node endpoit
+     */
+    public highlight(): void
+    {
+        this._isHighlighted = true;
+    }
+
+    /**
+     * Cancel highlight for node endpoint
+     */
+    public cancelHighlight(): void
+    {
+        this._isHighlighted = false;
     }
 
     /**

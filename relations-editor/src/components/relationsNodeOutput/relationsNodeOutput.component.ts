@@ -127,6 +127,26 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
     }
 
     /**
+     * Mouse enter event, marks input as active
+     * @param event - Mouse event that occured
+     */
+    @HostListener('mouseenter', ['$event'])
+    protected _onMouseEnter(_: MouseEvent): void
+    {
+        this._relations?.forEach(relation => relation?.highlight());
+    }
+
+    /**
+     * Mouse leave event, clears marked active input
+     * @param event - Mouse event that occured
+     */
+    @HostListener('mouseleave', ['$event'])
+    protected _onMouseLeave(_: MouseEvent): void
+    {
+        this._relations?.forEach(relation => relation?.cancelHighlight());
+    }
+
+    /**
      * Mouse move event - whole window
      * @param event - Mouse event that occured
      */

@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
 import {extend, generateId} from '@jscrpt/common';
 import {DndService, DragSource} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
@@ -71,6 +71,8 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
                                                                                                        data: item.dragData,
                                                                                                        id: dropResult.id,
                                                                                                    });
+
+                                                                                                   this.itemDrop.emit();
                                                                                                }
 
                                                                                                this.bus.setDropPlaceholderPreview(null);
@@ -86,6 +88,14 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
      */
     @Input('dndCorePaletteItem')
     public dragData!: LayoutComponentDragData;
+
+    //######################### public properties - outputs #########################
+
+    /**
+     * Occurs when item was succesfully dropped
+     */
+    @Output()
+    public itemDrop: EventEmitter<void> = new EventEmitter<void>();
 
     //######################### constructor #########################
     constructor(protected dnd: DndService,

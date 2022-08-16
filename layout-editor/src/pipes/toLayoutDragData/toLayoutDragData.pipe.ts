@@ -4,6 +4,8 @@ import {extend} from '@jscrpt/common';
 import {ComponentsPaletteItem} from '../../components';
 import {LayoutComponentDragData} from '../../interfaces';
 
+//TODO: rework for generated id again
+
 /**
  * Transforms ComponentsPaletteItem item to LayoutComponentDragData
  */
@@ -15,8 +17,9 @@ export class ToLayoutDragDataSAPipe implements PipeTransform
     /**
      * Transforms ComponentsPaletteItem item to LayoutComponentDragData
      * @param value - Palette item to be transformed
+     * @param _ - Used for refreshing value of pipe
      */
-    public transform(value: ComponentsPaletteItem): LayoutComponentDragData
+    public transform(value: ComponentsPaletteItem, _: boolean): LayoutComponentDragData
     {
         return {
             metadata:

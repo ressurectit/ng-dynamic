@@ -49,6 +49,11 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      */
     protected groupedItems: Dictionary<(ComponentsPaletteItem & {temp?: boolean})[]> = {};
 
+    /**
+     * Used for refreshing pipe value
+     */
+    protected refreshPipe: boolean = false;
+
     //######################### constructor #########################
     constructor(@Inject(LAYOUT_MODULE_TYPES_LOADER) protected moduleTypesLoader: DynamicItemLoader<LayoutModuleTypes>,
                 protected changeDetector: ChangeDetectorRef,

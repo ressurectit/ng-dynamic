@@ -59,6 +59,11 @@ export class MaterialExpansionPanelLayoutEditorMetadata implements LayoutEditorM
     /**
      * @inheritdoc
      */
+    public getChildrenContainer?: Func<Element|null, [Element]> = element => element.querySelector('.mat-expansion-panel-body');
+
+    /**
+     * @inheritdoc
+     */
     public getDescendants?: Func<LayoutComponentMetadata[], [MaterialExpansionPanelComponentOptions|undefined|null]> = options => options?.children ?? [];
 
     /**

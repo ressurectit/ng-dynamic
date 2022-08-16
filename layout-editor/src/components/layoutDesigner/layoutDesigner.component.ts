@@ -58,11 +58,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected initSubscriptions: Subscription = new Subscription();
 
-    /**
-     * Layout editor metadata
-     */
-    protected editorMetadata: LayoutEditorMetadataDescriptor<LayoutDesignerComponentOptions>|null = null;
-
     //######################### protected properties - template bindings #########################
 
     /**
@@ -158,6 +153,11 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Index of current layout designer in its parent
      */
     public index: number = 0;
+
+    /**
+     * Layout editor metadata
+     */
+    public editorMetadata: LayoutEditorMetadataDescriptor<LayoutDesignerComponentOptions>|null = null;
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
@@ -363,7 +363,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.editorMetadata = await this.metadataExtractor.extractMetadata(this.options.typeMetadata);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
         this.layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this.options.typeMetadata.id, this.parent?.options?.typeMetadata.id);
-
     }
 
     /**

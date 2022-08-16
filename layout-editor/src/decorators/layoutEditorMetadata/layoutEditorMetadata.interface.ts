@@ -117,6 +117,12 @@ export interface LayoutEditorMetadataDescriptor<TOptions = any>
     readonly canDropMetadata?: Func<boolean, [TOptions|undefined|null]>;
 
     /**
+     * Gets children container element for this components element
+     * @param componentsElement - Element of component that contains children container element
+     */
+    readonly getChildrenContainer?: Func<Element|null, [Element]>;
+
+    /**
      * Gets all descendants layout metadata for this layout component metadata
      * @param options - Options that contains descendants of layout component metadata
      */

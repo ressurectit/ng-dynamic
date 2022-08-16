@@ -156,6 +156,26 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
                                                                                                     }
                                                                                                 }, this.initSubscriptions);
 
+    /**
+     * Gets element that represents container that contains children
+     */
+    protected get containerElement(): Element|undefined|null
+    {
+        if(!this.componentElement)
+        {
+            return;
+        }
+
+        const component = this.manager.getComponent(this.metadata.id);
+
+        if(!component?.editorMetadata?.getChildrenContainer)
+        {
+            return this.componentElement;
+        }
+
+        return component.editorMetadata.getChildrenContainer(this.componentElement) ?? this.componentElement;
+    }
+
     //######################### protected properties - children #########################
 
     /**
@@ -435,7 +455,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
             return position + half;
         };
 
-        if(!this.componentElement)
+        if(!this.containerElement)
         {
             return [null, null];
         }
@@ -450,9 +470,9 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
 
         const position = this.horizontal ? offset.x : offset.y;
 
-        for(let x = 0; x < this.componentElement.children.length; x++)
+        for(let x = 0; x < this.containerElement.children.length; x++)
         {
-            const child = this.componentElement.children[x];
+            const child = this.containerElement.children[x];
 
             //do nothing for placeholder
             if(child.classList.contains('drag-placeholder'))
@@ -531,7 +551,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
     @BindThis
     protected showPlaceholderPreview(preview: DropPlaceholderPreview): void
     {
-        if(!this.componentElement)
+        if(!this.containerElement)
         {
             return;
         }
@@ -541,7 +561,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
         this.placeholderPreviewElement.remove();
 
         this.connectDropToPlaceholder();
-        this.componentElement.insertBefore(this.placeholderPreviewElement, this.componentElement.children[preview.index]);
+        this.containerElement.insertBefore(this.placeholderPreviewElement, this.containerElement.children[preview.index]);
     }
 
     /**

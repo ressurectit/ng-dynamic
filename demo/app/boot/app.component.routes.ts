@@ -56,6 +56,10 @@ export const routesOptions: ModuleRoutesOptions =
             path: 'relationsComplex',
             loadChildren: () => import('../pages/+relationsComplex/relationsComplex.module').then(({RelationsComplexModule}) => RelationsComplexModule)
         },
+        {
+            path: 'relationsLayoutForm',
+            loadChildren: () => import('../pages/+relationsLayoutForm/relationsLayoutForm.module').then(({RelationsLayoutFormModule}) => RelationsLayoutFormModule)
+        },
     ],
     staticRoutesAfter:
     [

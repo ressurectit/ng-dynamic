@@ -2,11 +2,14 @@ import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, Injector, ValuePr
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
-import {FormComponentControlBuilder, FORM_COMPONENT_CONTROL} from '@anglr/dynamic/form';
+import {FormComponentControlBuilder, FORM_COMPONENT_CONTROL, provideFormLayout} from '@anglr/dynamic/form';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor} from '@anglr/dynamic/layout-editor';
 
 import {StoreDataService} from '../../../services/storeData';
+import {LayoutRelationsMetadata} from '../../../misc/interfaces';
+import {RelationsManager} from '../../../../../relations/src';
+import {provideLayoutRelations} from '../../../../../layout-relations/src';
 
 /**
  * Form preview component
@@ -14,12 +17,14 @@ import {StoreDataService} from '../../../services/storeData';
 @Component(
 {
     selector: 'form-preview-view',
-    templateUrl: 'formPreview.component.html',
+    templateUrl: 'preview.component.html',
     providers:
     [
         FormComponentControlBuilder,
         LayoutComponentsIteratorService,
         LayoutEditorMetadataExtractor,
+        provideLayoutRelations(),
+        provideFormLayout(),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -29,6 +34,8 @@ import {StoreDataService} from '../../../services/storeData';
 export class FormPreviewComponent implements OnInit, OnDestroy
 {
     //######################### protected properties - template bindings #########################
+    
+    protected selectedMetadata: LayoutRelationsMetadata|null = null;
 
     protected _formInjector: Injector;
 
@@ -41,7 +48,8 @@ export class FormPreviewComponent implements OnInit, OnDestroy
     protected _availableNames: string[] = [];
 
     //######################### constructor #########################
-    constructor(private _store: StoreDataService,
+    constructor(private _relationsManager: RelationsManager,
+                private _store: StoreDataService,
                 private _router: Router,
                 private _route: ActivatedRoute,
                 private _injector: Injector,
@@ -64,9 +72,11 @@ export class FormPreviewComponent implements OnInit, OnDestroy
             if(id)
             {
                 this._available.setValue(id);
-                this._metadata = this._store.getData(id);
-                this._formGroup = await this._formComponentControlBuilder.build(this._metadata);
-        
+                const meta = this.selectedMetadata = this._store.getData(id);
+                this._metadata = meta?.layout;
+                this._relationsManager.setRelations(meta.relations ?? []);
+
+                this._formGroup = await this._formComponentControlBuilder.build(this._metadata);        
                 this._formInjector = Injector.create(
                     {
                         parent: this._injector,
@@ -82,10 +92,15 @@ export class FormPreviewComponent implements OnInit, OnDestroy
                 );
                 this._changeDetector.detectChanges();
             }
+            else
+            {
+                this.selectedMetadata = null;
+                this._relationsManager.setRelations([]);
+            }
 
             this._available.valueChanges.subscribe(val =>
             {
-                this._router.navigate(['/layout', 'form-preview', val], {skipLocationChange: false, replaceUrl: true});
+                this._router.navigate(['/relationsLayoutForm', 'form-preview', val], {skipLocationChange: false, replaceUrl: true});
             });
         });
     }

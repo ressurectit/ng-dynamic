@@ -10,7 +10,8 @@ import {NodesPaletteItem} from './nodesPalette.interface';
 import {REFRESH_PALETTE_OBSERVABLES, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_NODES_LOADER} from '../../misc/tokens';
 import {RelationsModuleTypes, RelationsNodeDef} from '../../misc/types';
 import {RelationsNodeManager} from '../../services';
-import {FlagUsedNodesSAPipe, ToRelationsDragDataSAPipe} from '../../pipes';
+import {ToRelationsDragDataSAPipe} from '../../pipes';
+import {NodesPaletteItemSAComponent} from './item/nodesPaletteItem.component';
 
 /**
  * Component displaying available nodes palette
@@ -28,7 +29,7 @@ import {FlagUsedNodesSAPipe, ToRelationsDragDataSAPipe} from '../../pipes';
         // LayoutEditorDragPreviewSAComponent,
         // LayoutEditorDragPlaceholderSAComponent,
         ToRelationsDragDataSAPipe,
-        FlagUsedNodesSAPipe,
+        NodesPaletteItemSAComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -50,8 +51,6 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      * Promise used for syncing async operations
      */
     protected syncPromise: Promise<void> = Promise.resolve();
-
-    protected registeredNodes: string[] = [];
 
     //######################### protected properties - template bindings #########################
 
@@ -105,7 +104,6 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         }
 
         this.initSubscriptions.add(this.packageManager.usedPackagesChange.subscribe(() => this.loadNodes()));
-        this.initSubscriptions.add(this._metadataManager.nodesChange.subscribe(() => this.loadRegisteredNodes()));
 
         await this.loadNodes();
     }
@@ -171,39 +169,6 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         this._changeDetector.detectChanges();
 
         syncResolve?.();
-    }
-
-    /**
-     * Gets list of ids of registered nodes
-     */
-    protected loadRegisteredNodes(): void
-    {
-        const registeredNodes: string[] = [];
-
-        for (const nodeId in this._metadataManager.nodes)
-        {
-            registeredNodes.push(nodeId);
-        }
-
-        this.registeredNodes = registeredNodes;
-        this._changeDetector.detectChanges();
-    }
-
-    /**
-     * Focus to relations node
-     * @param item 
-     * @returns 
-     */
-    protected focusNode(item?: NodesPaletteItem|null): void
-    {
-        if (!item?.metadata.used ||
-            !item?.metadata.singleton)
-        {
-            this._metadataManager.setActiveNode(null);
-            return;
-        }
-
-        this._metadataManager.setActiveNode(item.itemSource.name);
     }
 
     //######################### protected methods - template bindings #########################

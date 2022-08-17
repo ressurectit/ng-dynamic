@@ -46,6 +46,16 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
      * Used for emitting active node change
      */
     protected _activeNodeChange: Subject<void> = new Subject<void>();
+
+    /**
+     * Used for emitting node registration change
+     */
+    protected _nodeRegisterChange: Subject<RelationsNode> = new Subject<RelationsNode>();
+
+    /**
+     * Used for emitting node unregistration change
+     */
+    protected _nodeUnregisterChange: Subject<RelationsNode> = new Subject<RelationsNode>();
     
     //######################### public properties #########################
 
@@ -81,6 +91,22 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
         return this._activeNodeChange.asObservable();
     }
 
+    /**
+     * Occurs when registered node is changed
+     */
+    public get nodeRegisterChange(): Observable<RelationsNode>
+    {
+        return this._nodeRegisterChange.asObservable();
+    }
+
+    /**
+     * Occurs when unregistered node is changed
+     */
+    public get nodeUnregisterChange(): Observable<RelationsNode>
+    {
+        return this._nodeUnregisterChange.asObservable();
+    }
+
     //######################### public methods #########################
 
     /**
@@ -108,6 +134,7 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
     {
         this._nodes[node.id] = node;
         this._nodesChange.next();
+        this._nodeRegisterChange.next(node);
 
         //iterate over all outputs
         if(node.metadata?.outputs && Array.isArray(node.metadata?.outputs))
@@ -192,6 +219,7 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
     {
         delete this._nodes[node.id];
         this._nodesChange.next();
+        this._nodeUnregisterChange.next(node);
     }
 
     /**

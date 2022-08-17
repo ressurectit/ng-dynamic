@@ -1,0 +1,2 @@
+<div class="editor-component-name">{{data.metadata.singleton ? (data.metadata.displayName || data.itemSource.name) : (data.metadata.metaInfo?.name ?? data.itemSource.name)}}</div>
+<div class="editor-component-description" *ngIf="data.metadata.metaInfo?.description">{{data.metadata.metaInfo?.description}}</div>

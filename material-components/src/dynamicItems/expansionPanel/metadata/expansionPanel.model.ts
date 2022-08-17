@@ -17,7 +17,7 @@ export class MaterialExpansionPanelModel implements MaterialExpansionPanelCompon
     @LayoutPropertyName('Expanded')
     @LayoutPropertyDescription('State of panel - visible or invisible')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('inputBoolean')
-    public expanded: boolean|undefined|null = true;
+    public expanded: boolean|undefined|null = null;
 
     /**
      * @inheritdoc
@@ -25,7 +25,7 @@ export class MaterialExpansionPanelModel implements MaterialExpansionPanelCompon
     @LayoutPropertyName('Title')
     @LayoutPropertyDescription('Text to be displayed as panel title')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
-    public title: string|undefined|null = 'Panel Title';
+    public title: string|undefined|null = null;
 
     /**
      * @inheritdoc

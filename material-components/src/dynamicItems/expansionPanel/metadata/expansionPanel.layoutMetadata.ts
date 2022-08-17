@@ -39,6 +39,11 @@ export class MaterialExpansionPanelLayoutEditorMetadata implements LayoutEditorM
                     ],
                 },
             ]
+        },
+        defaultOptions:
+        {
+            expanded: true,
+            title: 'Panel title'   
         }
     };
 

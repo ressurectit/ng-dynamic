@@ -1,5 +1,5 @@
 <div class="flex-row">
-    <button class="btn-icon margin-right-extra-small" (click)="detailVisible = !detailVisible">
+    <button type="button" class="btn-icon margin-right-extra-small" (click)="detailVisible = !detailVisible">
         <span class="fas" [class.fa-plus]="!detailVisible" [class.fa-minus]="detailVisible"></span>
     </button>
 
@@ -20,7 +20,7 @@
     <div class="flex-row align-items-center margin-top-small" *ngFor="let package of usedPackages">
         <div class="flex-1">{{package}}</div>
 
-        <button class="btn-icon margin-left-extra-small" (click)="removePackage(package)">
+        <button type="button" class="btn-icon margin-left-extra-small" (click)="removePackage(package)">
             <span class="fas fa-times"></span>
         </button>
     </div>

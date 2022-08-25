@@ -1,11 +1,11 @@
 <editor #editor [initialValue]="content ?? ''"></editor>
 
 <div class="flex-row flex-end">
-    <button class="btn btn-info" type="button" [mat-dialog-close]="null">
+    <button type="button" class="btn btn-info" type="button" [mat-dialog-close]="null">
         <span>cancel</span>
     </button>
 
-    <button class="btn btn-primary" type="button" (click)="content = editor.editor.getContent(); dialog.close(content)">
+    <button type="button" class="btn btn-primary" type="button" (click)="content = editor.editor.getContent(); dialog.close(content)">
         <span>ok</span>
     </button>
 </div>

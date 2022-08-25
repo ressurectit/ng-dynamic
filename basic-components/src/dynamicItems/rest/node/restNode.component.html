@@ -33,11 +33,11 @@
                         <div class="flex-row">
                             <div>BODY: {{param.name}}</div>
 
-                            <button class="btn-icon margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureRestParameter(param)">
+                            <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
-                            <button class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
+                            <button type="button" class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
                                 <span class="fas fa-times"></span>
                             </button>
                         </div>
@@ -49,11 +49,11 @@
                         <div class="flex-row">
                             <div>PATH: {{param.name}}</div>
 
-                            <button class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                            <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
-                            <button class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
+                            <button type="button" class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
                                 <span class="fas fa-times"></span>
                             </button>
                         </div>
@@ -77,7 +77,7 @@
                 </ng-container>
             </ng-container>
 
-            <button class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); addParam()">
+            <button type="button" class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); addParam()">
                 <span class="fas fa-plus"></span>
             </button>
         </div>

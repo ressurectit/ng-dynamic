@@ -1,9 +1,9 @@
 
 <div class="component-tree" *ngIf="root">
-    <button mat-icon-button aria-label="Collapse all"  (click)="rootTreeItem?.collapseAll()">
+    <button type="button" mat-icon-button aria-label="Collapse all"  (click)="rootTreeItem?.collapseAll()">
         <span class="fa fa-minus-square"></span>
     </button>
-    <button mat-icon-button aria-label="Expand all" (click)="rootTreeItem?.expandAll()">
+    <button type="button" mat-icon-button aria-label="Expand all" (click)="rootTreeItem?.expandAll()">
         <span class="fa fa-plus-square"></span>
     </button>
     <components-tree-item [data]="root"></components-tree-item>

@@ -37,18 +37,18 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
                                                                                            beginDrag: () =>
                                                                                            {
                                                                                                this.draggingSvc.setDragging(true);
-                                                                                               this.dragData = extend(true, {}, this.dragData);
+                                                                                               const dragData = extend(true, {}, this.dragData);
 
-                                                                                               if(this.dragData.metadata)
+                                                                                               if(dragData.metadata)
                                                                                                {
-                                                                                                   const newId = `${this.dragData.metadata.name}-${generateId(16)}`;
+                                                                                                   const newId = `${dragData.metadata.name}-${generateId(16)}`;
 
-                                                                                                   this.dragData.metadata.id = newId;
-                                                                                                   this.dragData.metadata.displayName = newId;
+                                                                                                   dragData.metadata.id = newId;
+                                                                                                   dragData.metadata.displayName = newId;
                                                                                                }
 
                                                                                                return {
-                                                                                                   dragData: this.dragData,
+                                                                                                   dragData,
                                                                                                };
                                                                                            },
                                                                                            endDrag: monitor =>

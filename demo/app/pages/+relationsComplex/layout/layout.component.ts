@@ -7,6 +7,7 @@ import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} 
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
+import {provideEditorLayoutCustomComponents} from '@anglr/dynamic/layout-relations';
 import {provideFormLayoutEditor} from '@anglr/dynamic/form';
 import {BindThis, generateId} from '@jscrpt/common';
 
@@ -14,6 +15,7 @@ import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
+import {DemoRelationsComponentsRegister} from '../../../services/demoRelationsComponentsRegister';
 
 /**
  * Layout editor component
@@ -36,6 +38,7 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
         provideCssLayoutEditor(),
         provideTinyMceLayoutEditor(),
         provideHandlebarsLayoutEditor(),
+        provideEditorLayoutCustomComponents(DemoRelationsComponentsRegister),
         <ClassProvider>
         {
             provide: PackageManager,

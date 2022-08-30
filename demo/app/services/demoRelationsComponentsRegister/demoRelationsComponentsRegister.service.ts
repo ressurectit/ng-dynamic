@@ -1,19 +1,21 @@
 import {Injectable} from '@angular/core';
-import {RelationsComponentsRegister} from '@anglr/dynamic/layout-relations';
+import {CustomComponentsRegister} from '@anglr/dynamic/layout-relations';
+
+//TODO: rename
 
 /**
  * Demo relations components register
  */
 @Injectable()
-export class DemoRelationsComponentsRegister extends RelationsComponentsRegister
+export class DemoRelationsComponentsRegister extends CustomComponentsRegister
 {
     //######################### public methods - overrides #########################
 
     /**
      * Gets registered components
      */
-    protected override getRegisteredComponents(): string[]
+    public override getRegisteredComponents(): string[]
     {
-        return [];
+        return ['component'];
     }
 }

@@ -1,7 +1,10 @@
 import {ClassProvider} from '@angular/core';
+import {LAYOUT_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/layout';
+import {LAYOUT_MODULE_TYPES_PROVIDERS} from '@anglr/dynamic/layout-editor';
+import {RELATIONS_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/relations';
 import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS} from '@anglr/dynamic/relations-editor';
 
-import {LayoutComponentsRelationsNodesProvider, LayoutComponentsRelationsTypesProvider, RelationsComponentsRelationsNodesProvider, RelationsComponentsRelationsTypesProvider} from '../services';
+import {LayoutComponentsRelationsNodesProvider, LayoutComponentsRelationsTypesProvider, CustomComponentsDynamicModuleItemsProvider, CustomComponentsDynamicModuleRelationsProvider, CustomComponentsDynamicModuleTypesProvider} from '../services';
 
 /**
  * Provider for layout components relations nodes provider
@@ -24,21 +27,51 @@ export const LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
 };
 
 /**
- * Provider for relations components relations nodes provider
+ * Provider for custom components package layout components provider
  */
-export const RELATIONS_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
+export const CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER: ClassProvider =
 {
-    provide: RELATIONS_NODES_PROVIDERS,
-    useClass: RelationsComponentsRelationsNodesProvider,
+    provide: LAYOUT_COMPONENTS_MODULE_PROVIDERS,
+    useClass: CustomComponentsDynamicModuleItemsProvider,
     multi: true
 };
 
 /**
- * Provider for relations components relations types provider
+ * Provider for custom components dynamic layout module types provider
  */
-export const RELATIONS_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
+export const CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER: ClassProvider =
+{
+    provide: LAYOUT_MODULE_TYPES_PROVIDERS,
+    useClass: CustomComponentsDynamicModuleTypesProvider,
+    multi: true
+};
+
+/**
+ * Provider for custom components dynamic relations types provider
+ */
+export const CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
 {
     provide: RELATIONS_MODULE_TYPES_PROVIDERS,
-    useClass: RelationsComponentsRelationsTypesProvider,
+    useClass: CustomComponentsDynamicModuleRelationsProvider,
+    multi: true
+};
+
+/**
+ * Provider for custom components package relations nodes provider
+ */
+export const CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
+{
+    provide: RELATIONS_NODES_PROVIDERS,
+    useClass: CustomComponentsDynamicModuleItemsProvider,
+    multi: true
+};
+
+/**
+ * Provider for custom components package relations components provider
+ */
+export const CUSTOM_COMPONENTS_RELATIONS_COMPONENTS_PROVIDER: ClassProvider =
+{
+    provide: RELATIONS_COMPONENTS_MODULE_PROVIDERS,
+    useClass: CustomComponentsDynamicModuleItemsProvider,
     multi: true
 };

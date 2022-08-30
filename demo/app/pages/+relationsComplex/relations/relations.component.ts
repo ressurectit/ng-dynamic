@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER} from '@anglr/dynamic/relations-editor';
-import {LayoutManager, provideLayoutRelationsEditorWithStatic, provideRelationsComponents} from '@anglr/dynamic/layout-relations';
+import {LayoutManager, provideLayoutRelationsEditorWithStatic, provideEditorRelationsCustomComponents} from '@anglr/dynamic/layout-relations';
 import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
 import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
@@ -36,12 +36,12 @@ import {DemoRelationsComponentsRegister} from '../../../services/demoRelationsCo
         provideHandlebarsLayoutRelationsEditor(),
         provideTinyMceLayoutRelationsEditor(),
         provideCssLayoutRelationsEditor(),
+        provideEditorRelationsCustomComponents(DemoRelationsComponentsRegister),
         <ClassProvider>
         {
             provide: PackageManager,
             useClass: DemoRelationsPackageManager,
         },
-        provideRelationsComponents(DemoRelationsComponentsRegister),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

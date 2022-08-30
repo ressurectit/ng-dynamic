@@ -1,12 +1,12 @@
 import {Inject, Injectable, Optional} from '@angular/core';
-import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
+import {Logger, LOGGER} from '@anglr/common';
 
 /**
- * Dynamic relations nodes provider for relations components
+ * Dynamic module items provider for custom components module items
  */
 @Injectable()
-export class RelationsComponentsRelationsNodesProvider implements DynamicModuleProvider
+export class CustomComponentsDynamicModuleItemsProvider implements DynamicModuleProvider
 {
     //######################### constructor #########################
     constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -20,13 +20,13 @@ export class RelationsComponentsRelationsNodesProvider implements DynamicModuleP
      */
     public async tryToGet(source: DynamicItemSource): Promise<DynamicModule|null>
     {
-        //only works with relations components
-        if(source.package != 'relations-components')
+        //only works with custom components
+        if(source.package != 'custom-components')
         {
             return null;
         }
 
-        this._logger?.debug('RelationsComponentsRelationsNodesProvider: trying to get node {@item}', {name: source.name, package: source.package});
+        this._logger?.debug('CustomComponentsDynamicModuleItemsProvider: trying to get node {@item}', {name: source.name, package: source.package});
 
         switch(source.name)
         {
@@ -40,10 +40,8 @@ export class RelationsComponentsRelationsNodesProvider implements DynamicModuleP
             }
             default:
             {
-                break;
+                return await import('../../dynamicItems/customComponent/type');
             }
         }
-
-        return null;
     }
 }

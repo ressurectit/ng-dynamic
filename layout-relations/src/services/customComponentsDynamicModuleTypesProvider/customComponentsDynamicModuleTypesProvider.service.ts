@@ -2,16 +2,16 @@ import {Inject, Injectable, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
 
-import {RelationsComponentsRegister} from '../relationsComponentsRegister/relationsComponentsRegister.service';
+import {CustomComponentsRegister} from '../customComponentsRegister/customComponentsRegister.service';
 
 /**
- * Dynamic relations types provider for relations components
+ * Dynamic module types provider, for custom components types
  */
 @Injectable()
-export class RelationsComponentsRelationsTypesProvider implements DynamicModuleProvider
+export class CustomComponentsDynamicModuleTypesProvider implements DynamicModuleProvider
 {
     //######################### constructor #########################
-    constructor(protected _componentsRegister: RelationsComponentsRegister,
+    constructor(protected _componentsRegister: CustomComponentsRegister,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
     }
@@ -23,15 +23,15 @@ export class RelationsComponentsRelationsTypesProvider implements DynamicModuleP
      */
     public async tryToGet(source: DynamicItemSource): Promise<DynamicModule|null>
     {
-        //only works with relations components
-        if(source.package != 'relations-components')
+        //only works with custom components
+        if(source.package != 'custom-components')
         {
             return null;
         }
 
-        this._logger?.debug('RelationsComponentsRelationsTypesProvider: trying to get relations types {@item}', {name: source.name, package: source.package});
+        this._logger?.debug('CustomComponentsDynamicModuleTypesProvider: trying to get relations types {@item}', {name: source.name, package: source.package});
 
-        const types = await this._componentsRegister.getComponents();
+        const types = await this._componentsRegister.getRegisteredComponents();
 
         if(!types.length)
         {

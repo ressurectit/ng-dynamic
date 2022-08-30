@@ -5,8 +5,8 @@ import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES, StaticComponentsReg
 import {LayoutComponentsIteratorService, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {DefaultDynamicPackage, provideStaticPackageSource} from '@anglr/dynamic';
 
-import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER, RELATIONS_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_COMPONENTS_RELATIONS_NODES_PROVIDER} from './providers';
-import {LayoutComponentsRegister, LayoutManager, RelationsComponentsRegister} from '../services';
+import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER} from './providers';
+import {LayoutComponentsRegister, LayoutManager, CustomComponentsRegister} from '../services';
 
 /**
  * Providers for relations subpackage that works with layout metadata
@@ -48,18 +48,36 @@ export function provideLayoutRelationsEditor(packages?: DefaultDynamicPackage[])
 }
 
 /**
- * Providers that enables use of relations components
- * @param relationsComponentRegister - Type that represents implementation of relations components register
+ * Providers that enables use of custom relations components in relations editor
+ * @param customComponentRegister - Type that represents implementation of custom components register
  */
-export function provideRelationsComponents(relationsComponentRegister: Type<RelationsComponentsRegister> = RelationsComponentsRegister): Provider[]
+export function provideEditorRelationsCustomComponents(customComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister): Provider[]
 {
     return [
-        RELATIONS_COMPONENTS_RELATIONS_NODES_PROVIDER,
-        RELATIONS_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
-        provideStaticPackageSource('relations-components'),
+        CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER,
+        CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
+        provideStaticPackageSource('custom-components'),
         <ClassProvider>
         {
-            provide: RelationsComponentsRegister,
+            provide: CustomComponentsRegister,
+            useClass: customComponentRegister,
+        }
+    ];
+}
+
+/**
+ * Providers that enables use of custom layout components in layout editor
+ * @param customComponentRegister - Type that represents implementation of custom components register
+ */
+export function provideEditorLayoutCustomComponents(relationsComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister): Provider[]
+{
+    return [
+        CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER,
+        CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER,
+        provideStaticPackageSource('custom-components'),
+        <ClassProvider>
+        {
+            provide: CustomComponentsRegister,
             useClass: relationsComponentRegister,
         }
     ];

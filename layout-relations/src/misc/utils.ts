@@ -5,8 +5,8 @@ import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES, StaticComponentsReg
 import {LayoutComponentsIteratorService, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {DefaultDynamicPackage, provideStaticPackageSource} from '@anglr/dynamic';
 
-import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER} from './providers';
-import {LayoutComponentsRegister, LayoutManager} from '../services';
+import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER, RELATIONS_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_COMPONENTS_RELATIONS_NODES_PROVIDER} from './providers';
+import {LayoutComponentsRegister, LayoutManager, RelationsComponentsRegister} from '../services';
 
 /**
  * Providers for relations subpackage that works with layout metadata
@@ -44,6 +44,24 @@ export function provideLayoutRelationsEditor(packages?: DefaultDynamicPackage[])
             multi: true
         },
         provideStaticPackageSource('layout-components'),
+    ];
+}
+
+/**
+ * Providers that enables use of relations components
+ * @param relationsComponentRegister - Type that represents implementation of relations components register
+ */
+export function provideRelationsComponents(relationsComponentRegister: Type<RelationsComponentsRegister> = RelationsComponentsRegister): Provider[]
+{
+    return [
+        RELATIONS_COMPONENTS_RELATIONS_NODES_PROVIDER,
+        RELATIONS_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
+        provideStaticPackageSource('relations-components'),
+        <ClassProvider>
+        {
+            provide: RelationsComponentsRegister,
+            useClass: relationsComponentRegister,
+        }
     ];
 }
 

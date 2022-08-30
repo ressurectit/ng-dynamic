@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER} from '@anglr/dynamic/relations-editor';
-import {LayoutManager, provideLayoutRelationsEditorWithStatic} from '@anglr/dynamic/layout-relations';
+import {LayoutManager, provideLayoutRelationsEditorWithStatic, provideRelationsComponents} from '@anglr/dynamic/layout-relations';
 import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
 import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
@@ -14,6 +14,7 @@ import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {ComplexStaticRegister} from '../misc';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
+import {DemoRelationsComponentsRegister} from '../../../services/demoRelationsComponentsRegister';
 
 /**
  * Layout editor component
@@ -40,6 +41,7 @@ import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackag
             provide: PackageManager,
             useClass: DemoRelationsPackageManager,
         },
+        provideRelationsComponents(DemoRelationsComponentsRegister),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

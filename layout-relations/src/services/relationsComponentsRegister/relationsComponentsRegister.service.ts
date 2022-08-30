@@ -16,6 +16,7 @@ export class RelationsComponentsRegister
     {
         return [
             'componentInputs',
+            'componentOutputs',
             ...(await this.getRegisteredComponents())
         ];
     }

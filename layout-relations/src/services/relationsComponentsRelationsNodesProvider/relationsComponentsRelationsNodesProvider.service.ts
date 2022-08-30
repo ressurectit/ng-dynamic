@@ -34,6 +34,10 @@ export class RelationsComponentsRelationsNodesProvider implements DynamicModuleP
             {
                 return await import('../../dynamicItems/componentInputs/type');
             }
+            case 'componentOutputs':
+            {
+                return await import('../../dynamicItems/componentOutputs/type');
+            }
             default:
             {
                 break;

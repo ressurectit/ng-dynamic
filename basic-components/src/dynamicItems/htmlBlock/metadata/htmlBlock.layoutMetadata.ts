@@ -40,6 +40,10 @@ export class HtmlBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
                 },
             ]
         },
+        defaultOptions:
+        {
+            content: '<div>This is your <strong>HTML</strong> block</div>'
+        }
     };
 
     //######################### constructor #########################

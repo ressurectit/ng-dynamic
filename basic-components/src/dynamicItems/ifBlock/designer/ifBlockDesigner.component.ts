@@ -6,8 +6,6 @@ import {HostDisplayBlockStyle} from '@anglr/common';
 import {IfBlockComponentOptions} from '../ifBlock.options';
 import {IfBlockSAComponent} from '../ifBlock.component';
 
-//TODO: fixup default and initial value
-
 /**
  * Component used for displaying if block designer
  */
@@ -25,4 +23,22 @@ import {IfBlockSAComponent} from '../ifBlock.component';
 })
 export class IfBlockDesignerSAComponent extends IfBlockSAComponent implements LayoutComponent<IfBlockComponentOptions>, RelationsComponent
 {
+    //######################### protected - overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override _onOptionsSet(): void
+    {
+        super._onOptionsSet();
+
+        if(this.condition)
+        {
+            this._element.nativeElement.classList.remove('hidden');
+        }
+        else
+        {
+            this._element.nativeElement.classList.add('hidden');
+        }
+    }
 }

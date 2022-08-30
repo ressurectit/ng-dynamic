@@ -19,9 +19,6 @@ import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 import {DndCoreDesignerDirective, LayoutDndCoreModule} from '../../modules';
 import {LayoutComponentDragData} from '../../interfaces';
 
-//TODO: when new is clicked only after event new item can be dropped into 
-//TODO: display overlay outside of component so overflow has no effect on it
-
 /**
  * Component used as designer component wrapper for layout component
  */
@@ -157,7 +154,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * Layout editor metadata
      */
-    public editorMetadata: LayoutEditorMetadataDescriptor<LayoutDesignerComponentOptions>|null = null;
+    public editorMetadata: LayoutEditorMetadataDescriptor|null = null;
 
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,

@@ -1,6 +1,8 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {RelationsComponentManager, RelationsManager, RelationsProcessor, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
+import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {MetadataStorage} from '@anglr/dynamic';
 
@@ -20,6 +22,12 @@ import {TemplateBlockLayoutDesignerTypeLoader, TemplateBlockLayoutMetadataLoader
     [
         LayoutComponentRendererSADirective,
     ],
+    providers:
+    [
+        RelationsComponentManager,
+        RelationsManager,
+        RelationsProcessor,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(TemplateBlockLayoutDesignerTypeLoader)
@@ -31,7 +39,17 @@ export class TemplateBlockSAComponent extends LayoutComponentBase<TemplateBlockC
     /**
      * Storage for layout metadata
      */
-    protected metadataStorage: MetadataStorage<LayoutComponentMetadata> = inject(LAYOUT_METADATA_STORAGE);
+    protected layoutMetadataStorage: MetadataStorage<LayoutComponentMetadata> = inject(LAYOUT_METADATA_STORAGE);
+
+    /**
+     * Storage for relations metadata
+     */
+    protected relationsMetadataStorage: MetadataStorage<RelationsNodeMetadata[]>|null = inject(RELATIONS_METADATA_STORAGE, {optional: true});
+
+    /**
+     * Instance of relations manager
+     */
+    protected relationsManager: RelationsManager|null = inject(RelationsManager, {optional: true});
 
     //######################### protected properties - template bindings #########################
 
@@ -59,6 +77,13 @@ export class TemplateBlockSAComponent extends LayoutComponentBase<TemplateBlockC
             return;
         }
 
-        this.metadata = await this.metadataStorage.getMetadata(id);
+        this.metadata = await this.layoutMetadataStorage.getMetadata(id);
+
+        if(this.relationsManager && this.relationsMetadataStorage)
+        {
+            const relations = await this.relationsMetadataStorage.getMetadata(id);
+
+            this.relationsManager.setRelations(relations ?? []);
+        }
     }
 }

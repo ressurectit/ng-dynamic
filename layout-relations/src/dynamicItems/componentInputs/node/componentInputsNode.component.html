@@ -6,9 +6,26 @@
         </div>
 
         <div class="outputs">
-            <div class="output">
-                <div>negated condition</div>
-                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="negatedCondition" [parent]="this"></relation-node-output>
+            <div class="output" *ngFor="let endpoint of endpoints">
+                <div class="flex-row">
+                    <div>{{endpoint.name}}</div>
+
+                    <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureEndpoint(endpoint)">
+                        <span class="fas fa-cog"></span>
+                    </button>
+
+                    <button type="button" class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeEndpoint(endpoint)">
+                        <span class="fas fa-times"></span>
+                    </button>
+                </div>
+
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="endpoint.name" [parent]="this"></relation-node-output>
+            </div>
+
+            <div class="flex-row flex-end">
+                <button type="button" class="btn-icon margin-right-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); addEndpoint()">
+                    <span class="fas fa-plus"></span>
+                </button>
             </div>
         </div>
     </div>

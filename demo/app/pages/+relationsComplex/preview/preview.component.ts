@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
-import {provideLayoutRelations} from '@anglr/dynamic/layout-relations';
+import {provideLayoutRelationsCustomComponents} from '@anglr/dynamic/layout-relations';
 import {RelationsManager, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {provideCssLayoutRelations} from '@anglr/dynamic/css-components';
@@ -35,7 +35,7 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
             useFactory: (store: StoreDataService<LayoutRelationsMetadata>) => new MetadataStorage<RelationsNodeMetadata[]>(id => store.getData(id)?.relations),
             deps: [StoreDataService]
         },
-        provideLayoutRelations(),
+        provideLayoutRelationsCustomComponents(),
         provideCssLayoutRelations(),
         provideTinyMceLayoutRelations(),
         provideHandlebarsLayoutRelations(),

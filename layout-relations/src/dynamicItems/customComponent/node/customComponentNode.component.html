@@ -3,13 +3,17 @@
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
-            <div class="input">
-                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="content" [parent]="this"></relation-node-input>
-                <div>content</div>
+            <div class="input" *ngFor="let inputMeta of inputsMeta?.relationsOptions?.inputs">
+                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="inputMeta.name" [parent]="this"></relation-node-input>
+                <div>{{inputMeta.name}}</div>
             </div>
         </div>
 
         <div class="outputs">
+            <div class="output" *ngFor="let outputMeta of outputsMeta?.relationsOptions?.outputs">
+                <div>{{outputMeta.name}}</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="outputMeta.name" [parent]="this"></relation-node-output>
+            </div>
         </div>
     </div>
 </div>

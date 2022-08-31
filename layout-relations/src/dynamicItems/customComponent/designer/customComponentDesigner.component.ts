@@ -6,6 +6,8 @@ import {PromiseOr} from '@jscrpt/common';
 
 import {CustomComponentSAComponent} from '../customComponent.component';
 import {CustomComponentComponentOptions} from '../customComponent.options';
+import {ComponentOutputsRelationsSAComponent} from '../../componentOutputs/componentOutputs.relations.component';
+import {ComponentInputsRelationsSAComponent} from '../../componentInputs/componentInputs.relations.component';
 
 /**
  * Component used for displaying custom component designer
@@ -19,6 +21,8 @@ import {CustomComponentComponentOptions} from '../customComponent.options';
     imports:
     [
         LayoutComponentRendererSADirective,
+        ComponentInputsRelationsSAComponent,
+        ComponentOutputsRelationsSAComponent,
     ],
     providers:
     [

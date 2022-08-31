@@ -20,6 +20,17 @@ export function provideLayoutRelations(): Provider[]
 }
 
 /**
+ * Providers for relations subpackage that works with layout metadata
+ */
+export function provideLayoutRelationsCustomComponents(): Provider[]
+{
+    return [
+        ...provideLayoutRelations(),
+        CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER,
+    ];
+}
+
+/**
  * Providers for relations editor subpackage that works with layout metadata
  * @param packages - Array of default packages to be used, if omitted all built-in packages are used
  */
@@ -58,6 +69,7 @@ export function provideEditorRelationsCustomComponents(layoutRelationsEditorProv
     return [
         CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER,
         CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
+        CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER,
         provideStaticPackageSource('custom-components'),
         <ClassProvider>
         {

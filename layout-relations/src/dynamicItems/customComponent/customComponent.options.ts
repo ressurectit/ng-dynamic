@@ -8,3 +8,14 @@ export interface CustomComponentComponentOptions
      */
     name: string;
 }
+
+/**
+ * Options for custom component relations
+ */
+export interface CustomComponentRelationsOptions
+{
+    /**
+     * Name of custom component, used for obtaining metadata
+     */
+    name: string;
+}

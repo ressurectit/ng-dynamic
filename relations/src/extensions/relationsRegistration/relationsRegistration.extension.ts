@@ -50,12 +50,7 @@ export class RelationsRegistrationExtension extends DynamicItemExtensionBase<unk
      */
     protected override onDestroy(): void
     {
-        if(!this.injector || !this.metadata)
-        {
-            return;
-        }
-
-        if(!this.relationsProcessor || !this.componentManager)
+        if(!this.relationsProcessor || !this.componentManager || !this.metadata)
         {
             return;
         }

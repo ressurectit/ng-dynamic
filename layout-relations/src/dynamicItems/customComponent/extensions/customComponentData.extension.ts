@@ -15,6 +15,10 @@ export class CustomComponentDataExtension extends DynamicItemExtensionBase<Custo
      */
     protected override async onInit(): Promise<void>
     {
-        await this.instance?.processCustomComponentData(this.metadata.name);
+        if(this.instance)
+        {
+            this.instance.setId(this.metadata.id);
+            await this.instance.processCustomComponentData(this.metadata.name);
+        }
     }
 }

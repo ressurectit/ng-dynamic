@@ -15,9 +15,7 @@ export class CustomComponentRelationsEditorMetadata implements RelationsEditorMe
      */
     public metaInfo?: RelationsEditorMetadataInfo =
     {
-        name: 'Custom component',
-        description: 'Custom component - allows displaying of custom components',
-        group: 'Component',
+        group: 'Components',
     };
 
     /**

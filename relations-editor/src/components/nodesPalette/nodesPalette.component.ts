@@ -131,7 +131,6 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         this.allItems = [];
         this.groupedItems = {};
 
-        //TODO make it dynamic
         for (const packageName of this.packageManager.usedPackages)
         {
             const types = (await this._moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
@@ -180,37 +179,4 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
     {
         this.newCompnentId = generateId(16);
     }
-
-    // /**
-    //  * Removes temporary palette item when drag ends
-    //  * @param key Items group key
-    //  */
-    // protected _onDragEnded(key: string): void
-    // {
-    //     if (!isPresent(key))
-    //     {
-    //         return;
-    //     }
-
-    //     this._groupedItems[key] = [...this._groupedItems[key].filter(datum => !datum.temp)];
-    // }
-
-    // /**
-    //  * Generates temporary palette item when drag starts
-    //  * @param event Drag start event
-    //  * @param key Items group key
-    //  * @param item Palette item
-    //  */
-    // protected _onDragStarted(event: CdkDragStart<LayoutComponentDragData>, key: string, item: NodesPaletteItem): void
-    // {
-    //     const currentIdx = event.source.dropContainer.getSortedItems().findIndex((datum: CdkDrag<LayoutComponentDragData>) => datum.data?.metadata?.id === event.source.data?.metadata?.id);
-
-    //     if (isPresent(currentIdx))
-    //     {
-    //         this._groupedItems[key]?.splice(currentIdx + 1, 0, {
-    //             ...item,
-    //             temp: true
-    //         });
-    //     }
-    // }
 }

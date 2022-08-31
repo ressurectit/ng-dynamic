@@ -16,12 +16,12 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     /**
      * Array of extensions that are registered for component
      */
-    protected _extensions: DynamicItemExtension<TOptions>[] = [];
+    protected extensions: DynamicItemExtension<TOptions>[] = [];
 
     /**
      * Indication whether initialization was already done
      */
-    protected _initialized: boolean = false;
+    protected initialized: boolean = false;
 
     /**
      * Indication whether was component destroyed
@@ -75,12 +75,12 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
 
         this.destroyed = true;
 
-        for(const ext of this._extensions)
+        for(const ext of this.extensions)
         {
             ext.destroy();
         }
 
-        this._onDestroy();
+        this.onDestroy();
     }
 
     //######################### public methods - implementation of LayoutComponent #########################
@@ -90,24 +90,26 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     public async ngOnInit(): Promise<void>
     {
-        if(this._initialized)
+        if(this.initialized)
         {
             return;
         }
 
-        this._initialized = true;
+        this.initialized = true;
         const extensionsOptions = this.extensionsOptions;
         
-        await this._onInit();
-        await this._onOptionsSet();
+        await this.onInit();
+        await this.onOptionsSet();
 
         if(extensionsOptions)
         {
-            for(const extension of this._extensions)
+            for(const extension of this.extensions)
             {
                 await extension.initialize(this._injector, this.element, this);
             }
         }
+
+        await this.afterInit();
     }
 
     /**
@@ -118,25 +120,25 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         //options has changed
         if(nameof<LayoutComponentBase<TOptions>>('options') in changes)
         {
-            await this._onOptionsSet();
+            await this.onOptionsSet();
 
             const extensionsOptions = this.extensionsOptions;
 
             //set options in extensions
             if(extensionsOptions)
             {
-                for(const extension of this._extensions)
+                for(const extension of this.extensions)
                 {
                     await extension.optionsChange(extensionsOptions);
                 }
             }
 
-            if(!this._initialized)
+            if(!this.initialized)
             {
                 return;
             }
 
-            await this._onOptionsChange();
+            await this.onOptionsChange();
         }
     }
 
@@ -145,7 +147,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     public registerExtensions(extensions: DynamicItemExtension[]): void
     {
-        this._extensions = extensions;
+        this.extensions = extensions;
     }
 
     /**
@@ -161,28 +163,35 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     /**
      * Called on initialzation of component, options are already set
      */
-    protected _onInit(): PromiseOr<void>
+    protected onInit(): PromiseOr<void>
+    {
+    }
+
+    /**
+     * Called right after initialization finished, including extesions
+     */
+    protected afterInit(): PromiseOr<void>
     {
     }
 
     /**
      * Called on change of options, after initialization
      */
-    protected _onOptionsChange(): PromiseOr<void>
+    protected onOptionsChange(): PromiseOr<void>
     {
     }
 
     /**
      * Called everytime options are set, after initialization and later
      */
-    protected _onOptionsSet(): PromiseOr<void>
+    protected onOptionsSet(): PromiseOr<void>
     {
     }
 
     /**
      * Called when component is being destroyed
      */
-    protected _onDestroy(): void
+    protected onDestroy(): void
     {
     }
 }

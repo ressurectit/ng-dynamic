@@ -13,7 +13,7 @@ export class StackPanelFlexExtension extends DynamicItemExtensionBase<StackPanel
     /**
      * @inheritdoc
      */
-    protected override _onInit(): void
+    protected override onInit(): void
     {
         this._applyStyling();
     }
@@ -21,7 +21,7 @@ export class StackPanelFlexExtension extends DynamicItemExtensionBase<StackPanel
     /**
      * @inheritdoc
      */
-    protected override _onOptionsChange(): void
+    protected override onOptionsChange(): void
     {
         this._applyStyling();
     }
@@ -33,15 +33,15 @@ export class StackPanelFlexExtension extends DynamicItemExtensionBase<StackPanel
      */
     protected _applyStyling(): void
     {
-        const options = this._options;
+        const options = this.options;
 
         if(isPresent(options?.flex))
         {
-            const style = this._element?.nativeElement.style;
+            const style = this.element?.nativeElement.style;
 
-            if(style && this._options)
+            if(style && this.options)
             {
-                style.flex = this._options.flex ?? '';
+                style.flex = this.options.flex ?? '';
             }
         }
     }

@@ -52,7 +52,7 @@ export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOption
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): PromiseOr<void>
+    protected override onOptionsSet(): PromiseOr<void>
     {
         this.disabled = this.options?.disabled ?? false;
     }

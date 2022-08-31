@@ -59,9 +59,9 @@ export class HtmlBlockSAComponent extends LayoutComponentBase<HtmlBlockComponent
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): void
+    protected override onOptionsSet(): void
     {
-        if(!this._initialized)
+        if(!this.initialized)
         {
             return;
         }

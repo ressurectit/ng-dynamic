@@ -14,9 +14,7 @@ export class CustomComponentLayoutEditorMetadata implements LayoutEditorMetadata
      */
     public metaInfo?: LayoutEditorMetadataInfo<CustomComponentComponentOptions> =
     {
-        name: 'Custom component',
-        description: 'Custom component - allows displaying of custom components',
-        group: 'Component',
+        group: 'Components',
         optionsMetadata:
         {
             propertiesMetadata:

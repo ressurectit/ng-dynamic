@@ -52,7 +52,7 @@ export class ToggleButtonSAComponent extends LayoutComponentBase<ToggleButtonCom
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): PromiseOr<void>
+    protected override onOptionsSet(): PromiseOr<void>
     {
         this.disabled = this.options?.disabled ?? false;
 

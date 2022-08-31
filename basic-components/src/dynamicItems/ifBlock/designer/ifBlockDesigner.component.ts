@@ -28,9 +28,9 @@ export class IfBlockDesignerSAComponent extends IfBlockSAComponent implements La
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): void
+    protected override onOptionsSet(): void
     {
-        super._onOptionsSet();
+        super.onOptionsSet();
 
         if(this.condition)
         {

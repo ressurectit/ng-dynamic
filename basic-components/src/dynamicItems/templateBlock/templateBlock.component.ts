@@ -63,9 +63,9 @@ export class TemplateBlockSAComponent extends LayoutComponentBase<TemplateBlockC
     /**
      * @inheritdoc
      */
-    protected override async _onOptionsSet(): Promise<void>
+    protected override async onOptionsSet(): Promise<void>
     {
-        if(!this._initialized)
+        if(!this.initialized)
         {
             return;
         }

@@ -31,7 +31,7 @@ export class GridPanelSAComponent extends LayoutComponentBase<GridPanelComponent
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): PromiseOr<void>
+    protected override onOptionsSet(): PromiseOr<void>
     {
         this._fixCells();
 

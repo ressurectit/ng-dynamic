@@ -52,7 +52,7 @@ export class MaterialExpansionPanelSAComponent extends LayoutComponentBase<Mater
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): void
+    protected override onOptionsSet(): void
     {
         this.expanded = this.options?.expanded ?? false;
         this.title = this.options?.title;

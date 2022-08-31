@@ -67,9 +67,9 @@ export class DataBlockSAComponent extends LayoutComponentBase<DataBlockComponent
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): void
+    protected override onOptionsSet(): void
     {
-        if(!this._initialized)
+        if(!this.initialized)
         {
             return;
         }

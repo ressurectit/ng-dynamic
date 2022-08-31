@@ -13,30 +13,30 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
     /**
      * Injector from extended component
      */
-    protected _injector?: Injector;
+    protected injector?: Injector;
 
     /**
      * Element that could be extended
      */
-    protected _element?: ElementRef<HTMLElement>;
+    protected element?: ElementRef<HTMLElement>;
 
     /**
      * Options that stores extension and component data
      */
-    protected _options?: TOptions;
+    protected options?: TOptions;
 
     /**
      * Instance of dynamic item that is being extended
      */
-    protected _instance?: TInstance;
+    protected instance?: TInstance;
 
     /**
      * Indication whether was extension initialized
      */
-    protected _initialized: boolean = false;
+    protected initialized: boolean = false;
 
     //######################### constructor #########################
-    constructor(protected _metadata: DynamicItemMetadata)
+    constructor(protected metadata: DynamicItemMetadata)
     {
     }
 
@@ -47,13 +47,13 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
      */
     public async initialize(injector: Injector, element: ElementRef<HTMLElement>, instance: TInstance): Promise<void>
     {
-        this._initialized = true;
+        this.initialized = true;
 
-        this._injector = injector;
-        this._element = element;
-        this._instance = instance;
+        this.injector = injector;
+        this.element = element;
+        this.instance = instance;
 
-        await this._onInit();
+        await this.onInit();
     }
 
     /**
@@ -61,14 +61,14 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
      */
     public async optionsChange(options: TOptions): Promise<void>
     {
-        this._options = options;
+        this.options = options;
 
-        if(!this._initialized)
+        if(!this.initialized)
         {
             return;
         }
 
-        await this._onOptionsChange();
+        await this.onOptionsChange();
     }
 
     /**
@@ -76,7 +76,7 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
      */
     public destroy(): void
     {
-        this._onDestroy();
+        this.onDestroy();
     }
 
     //######################### protected methods #########################
@@ -84,21 +84,21 @@ export abstract class DynamicItemExtensionBase<TOptions = unknown, TInstance ext
     /**
      * Called on initialization of component
      */
-    protected _onInit(): PromiseOr<void>
+    protected onInit(): PromiseOr<void>
     {
     }
 
     /**
      * Called on change of options of component
      */
-    protected _onOptionsChange(): PromiseOr<void>
+    protected onOptionsChange(): PromiseOr<void>
     {
     }
 
     /**
      * Called on destruction of component
      */
-    protected _onDestroy(): void
+    protected onDestroy(): void
     {
     }
 }

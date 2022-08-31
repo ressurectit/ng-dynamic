@@ -25,7 +25,7 @@ export class RichTextBlockSAComponent extends LayoutComponentBase<RichTextBlockC
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): void
+    protected override onOptionsSet(): void
     {
         this._element.nativeElement.innerHTML = this.options?.content ?? '';
     }

@@ -30,7 +30,7 @@ export class StackPanelSAComponent extends LayoutComponentBase<StackPanelCompone
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): void
+    protected override onOptionsSet(): void
     {
         this._setStyles();
     }

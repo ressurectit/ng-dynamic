@@ -50,7 +50,7 @@ export class IfBlockSAComponent extends LayoutComponentBase<IfBlockComponentOpti
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): void
+    protected override onOptionsSet(): void
     {
         this.condition = this.options?.condition ?? false;
     }

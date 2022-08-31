@@ -29,7 +29,7 @@ export class GridPanelCellSAComponent extends LayoutComponentBase<GridPanelCellC
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): void
+    protected override onOptionsSet(): void
     {
         const style = this._element.nativeElement.style;
         

@@ -49,9 +49,11 @@ export function provideLayoutRelationsEditor(packages?: DefaultDynamicPackage[])
 
 /**
  * Providers that enables use of custom relations components in relations editor
+ * @param layoutRelationsEditorProviders - Array of providers for layout relations editor
  * @param customComponentRegister - Type that represents implementation of custom components register
  */
-export function provideEditorRelationsCustomComponents(customComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister): Provider[]
+export function provideEditorRelationsCustomComponents(layoutRelationsEditorProviders: Provider[],
+                                                       customComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister,): Provider[]
 {
     return [
         CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER,
@@ -61,16 +63,21 @@ export function provideEditorRelationsCustomComponents(customComponentRegister: 
         {
             provide: CustomComponentsRegister,
             useClass: customComponentRegister,
-        }
+        },
+        ...layoutRelationsEditorProviders,
     ];
 }
 
 /**
  * Providers that enables use of custom layout components in layout editor
+ * @param layoutRelationsEditorProviders - Array of providers for layout relations editor
  * @param customComponentRegister - Type that represents implementation of custom components register
  */
-export function provideEditorLayoutCustomComponents(relationsComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister): Provider[]
+export function provideEditorLayoutCustomComponents(layoutRelationsEditorProviders: Provider[],
+                                                    customComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister,): Provider[]
 {
+    //TODO: maybe remove first parameter
+
     return [
         CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER,
         CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER,
@@ -78,8 +85,9 @@ export function provideEditorLayoutCustomComponents(relationsComponentRegister: 
         <ClassProvider>
         {
             provide: CustomComponentsRegister,
-            useClass: relationsComponentRegister,
-        }
+            useClass: customComponentRegister,
+        },
+        ...layoutRelationsEditorProviders,
     ];
 }
 

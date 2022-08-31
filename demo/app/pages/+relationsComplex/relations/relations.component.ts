@@ -32,11 +32,10 @@ import {DemoRelationsComponentsRegister} from '../../../services/demoRelationsCo
             useFactory: (store: StoreDataService<LayoutRelationsMetadata>) => new MetadataStorage<RelationsNodeMetadata[]>(id => store.getData(id)?.relations),
             deps: [StoreDataService]
         },
-        provideLayoutRelationsEditorWithStatic(ComplexStaticRegister),
         provideHandlebarsLayoutRelationsEditor(),
         provideTinyMceLayoutRelationsEditor(),
         provideCssLayoutRelationsEditor(),
-        provideEditorRelationsCustomComponents(DemoRelationsComponentsRegister),
+        provideEditorRelationsCustomComponents(provideLayoutRelationsEditorWithStatic(ComplexStaticRegister), DemoRelationsComponentsRegister),
         <ClassProvider>
         {
             provide: PackageManager,

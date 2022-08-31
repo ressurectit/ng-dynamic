@@ -1,4 +1,6 @@
+import {Type} from '@angular/core';
 import {DynamicMetadataLoader} from '@anglr/dynamic';
+import {LayoutComponent} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
 import {RelationsEditorMetadataDescriptor} from '@anglr/dynamic/relations-editor';
 
@@ -13,3 +15,8 @@ export const CustomComponentLayoutMetadataLoader: DynamicMetadataLoader<LayoutEd
  * Custom component relations metadata loader
  */
 export const CustomComponentRelationsMetadataLoader: DynamicMetadataLoader<RelationsEditorMetadataDescriptor> = async () => new (await import('./metadata/customComponent.relationsMetadata')).CustomComponentRelationsEditorMetadata();
+
+/**
+ * Custom component layout designer type loader
+ */
+export const CustomComponentLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/customComponentDesigner.component')).CustomComponentDesignerSAComponent;

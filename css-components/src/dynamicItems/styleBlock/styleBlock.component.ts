@@ -66,7 +66,7 @@ export class StyleBlockSAComponent extends LayoutComponentBase<StyleBlockCompone
     /**
      * @inheritdoc
      */
-    protected override _onInit(): void
+    protected override onInit(): void
     {
         this.cssProcessor = postcss()
             .use((root: Root) =>
@@ -81,7 +81,7 @@ export class StyleBlockSAComponent extends LayoutComponentBase<StyleBlockCompone
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): void
+    protected override onOptionsSet(): void
     {
         if(this.options?.style && this.cssProcessor)
         {
@@ -97,7 +97,7 @@ export class StyleBlockSAComponent extends LayoutComponentBase<StyleBlockCompone
     /**
      * @inheritdoc
      */
-    protected override _onDestroy(): void
+    protected override onDestroy(): void
     {
         this.style?.remove();
         this.style = null;

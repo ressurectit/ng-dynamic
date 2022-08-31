@@ -3,4 +3,8 @@
  */
 export interface CustomComponentComponentOptions
 {
+    /**
+     * Name of custom component, used for obtaining metadata
+     */
+    name: string;
 }

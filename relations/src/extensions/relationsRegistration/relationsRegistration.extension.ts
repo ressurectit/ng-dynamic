@@ -25,32 +25,32 @@ export class RelationsRegistrationExtension extends DynamicItemExtensionBase<unk
     /**
      * @inheritdoc
      */
-    protected override async _onInit(): Promise<void>
+    protected override async onInit(): Promise<void>
     {
-        if(!this._injector || !this._metadata || !this._instance)
+        if(!this.injector || !this.metadata || !this.instance)
         {
             return;
         }
 
-        this.relationsProcessor ??= this._injector.get(RelationsProcessor, null);
-        this.componentManager ??= this._injector.get(RelationsComponentManager, null);
+        this.relationsProcessor ??= this.injector.get(RelationsProcessor, null);
+        this.componentManager ??= this.injector.get(RelationsComponentManager, null);
 
         if(!this.relationsProcessor || !this.componentManager)
         {
             return;
         }
 
-        this.componentManager.registerComponent(this._metadata.id, this._instance);
+        this.componentManager.registerComponent(this.metadata.id, this.instance);
         await this.relationsProcessor.initialized;
-        this.relationsProcessor.updateRelations(this._metadata.id);
+        this.relationsProcessor.updateRelations(this.metadata.id);
     }
 
     /**
      * @inheritdoc
      */
-    protected override _onDestroy(): void
+    protected override onDestroy(): void
     {
-        if(!this._injector || !this._metadata)
+        if(!this.injector || !this.metadata)
         {
             return;
         }
@@ -60,7 +60,7 @@ export class RelationsRegistrationExtension extends DynamicItemExtensionBase<unk
             return;
         }
 
-        this.relationsProcessor.destroyComponent(this._metadata.id);
-        this.componentManager.unregisterComponent(this._metadata.id);
+        this.relationsProcessor.destroyComponent(this.metadata.id);
+        this.componentManager.unregisterComponent(this.metadata.id);
     }
 }

@@ -128,7 +128,7 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions, T
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): PromiseOr<void> 
+    protected override onOptionsSet(): PromiseOr<void> 
     {
         if(!this.options)
         {

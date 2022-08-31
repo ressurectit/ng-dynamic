@@ -38,7 +38,7 @@ import {DemoRelationsComponentsRegister} from '../../../services/demoRelationsCo
         provideCssLayoutEditor(),
         provideTinyMceLayoutEditor(),
         provideHandlebarsLayoutEditor(),
-        provideEditorLayoutCustomComponents(DemoRelationsComponentsRegister),
+        provideEditorLayoutCustomComponents([], DemoRelationsComponentsRegister),
         <ClassProvider>
         {
             provide: PackageManager,

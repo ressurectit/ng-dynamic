@@ -20,7 +20,7 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
     /**
      * @inheritdoc
      */
-    protected override _onInit(): void
+    protected override onInit(): void
     {
         this._applyStyling();
     }
@@ -28,7 +28,7 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
     /**
      * @inheritdoc
      */
-    protected override _onOptionsChange(): void
+    protected override onOptionsChange(): void
     {
         this._applyStyling();
     }
@@ -40,21 +40,21 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
      */
     protected _applyStyling(): void
     {
-        const options = this._options;
-        const style = this._element?.nativeElement.style;
+        const options = this.options;
+        const style = this.element?.nativeElement.style;
 
-        if(this._element)
+        if(this.element)
         {
             if(isPresent(this.lastCssClass))
             {
-                this._element.nativeElement.classList.remove(this.lastCssClass);
+                this.element.nativeElement.classList.remove(this.lastCssClass);
             }
 
             this.lastCssClass = options?.cssClass;
 
             if(options?.cssClass)
             {
-                this._element?.nativeElement.classList.add(options.cssClass);
+                this.element?.nativeElement.classList.add(options.cssClass);
             }
         }
 

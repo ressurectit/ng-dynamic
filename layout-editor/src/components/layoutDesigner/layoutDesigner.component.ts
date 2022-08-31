@@ -331,9 +331,9 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * @inheritdoc
      */
-    protected override async _onInit(): Promise<void>
+    protected override async onInit(): Promise<void>
     {
-        await super._onInit();
+        await super.onInit();
 
         if(!this.options)
         {
@@ -365,7 +365,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     /**
      * @inheritdoc
      */
-    protected override _onOptionsSet(): void
+    protected override onOptionsSet(): void
     {
         if(!this.options)
         {

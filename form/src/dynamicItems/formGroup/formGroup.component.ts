@@ -37,7 +37,7 @@ export class FormGroupSAComponent extends FormComponentBase<FormGroupComponentOp
     /**
      * Called on initialzation of component, options are already set
      */
-    protected override _onInit(): PromiseOr<void>
+    protected override onInit(): PromiseOr<void>
     {
         this._formInjector = Injector.create(
             {

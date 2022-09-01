@@ -4,6 +4,7 @@ const relations =
     'rest',
     'sampleChange',
     'sampleSource',
+    'value',
 ];
 
 export default relations;

@@ -1,15 +1,13 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, Type} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {TitledDialogService} from '@anglr/common/material';
-import {LanguageModel} from '@anglr/dynamic';
+import {LanguageModel, CodeEditorDialogComponent, CodeEditorDialogData} from '@anglr/dynamic';
 import {isBlank, isPresent} from '@jscrpt/common';
 import {lastValueFrom} from 'rxjs';
 
 import {PropertiesControl} from '../../interfaces';
 import {PropertiesControlBase} from '../../modules';
 import {LayoutEditorMetadataExtractor} from '../../services';
-import {CodeEditorDialogSAComponent} from '../codeEditorDialog/codeEditorDialog.component';
-import {CodeEditorDialogData} from '../codeEditorDialog/codeEditorDialog.interface';
 
 /**
  * Base component used for displaying code properties control
@@ -61,7 +59,7 @@ export class BaseCodePropertiesControlSAComponent<TOptions = any> extends Proper
             return;
         }
 
-        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogSAComponent, CodeEditorDialogData, string|null>(CodeEditorDialogSAComponent,
+        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, string|null>(CodeEditorDialogComponent,
         {
             title: 'Code editor',
             width: '75vw',

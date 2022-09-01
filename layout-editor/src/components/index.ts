@@ -1,5 +1,3 @@
-export * from './codeEditorDialog/codeEditorDialog.component';
-export * from './codeEditorDialog/codeEditorDialog.interface';
 export * from './codePropertiesControl/codePropertiesControl.component';
 export * from './componentsPalette/componentsPalette.component';
 export * from './componentsPalette/componentsPalette.interface';

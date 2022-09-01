@@ -1,32 +1,30 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {CodeEditorDialogComponent, CodeEditorDialogData, getJson, JsonLanguageModel} from '@anglr/dynamic';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
-import {HandlebarsLanguageModel, CodeEditorDialogData, CodeEditorDialogComponent} from '@anglr/dynamic';
 import {isPresent} from '@jscrpt/common';
 import {lastValueFrom} from 'rxjs';
 
-import {DataTemplateRelationsOptions} from '../dataTemplate.options';
+import {ValueRelationsOptions} from '../value.options';
 
 /**
- * Relations node component for data template
+ * Relations node component for value
  */
 @Component(
 {
-    selector: 'data-template-node',
-    templateUrl: 'dataTemplateNode.component.html',
-    // styleUrls: ['dataTemplateNode.component.css'],
+    selector: 'value-node',
+    templateUrl: 'valueNode.component.html',
     standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DataTemplateNodeSAComponent extends RelationsNodeBase<DataTemplateRelationsOptions> implements RelationsNode<DataTemplateRelationsOptions>
+export class ValueNodeSAComponent extends RelationsNodeBase<ValueRelationsOptions> implements RelationsNode<ValueRelationsOptions>
 {
-    //######################### constructor #########################
+//######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
                 element: ElementRef<HTMLElement>,
                 protected dialog: TitledDialogService,)
@@ -41,6 +39,8 @@ export class DataTemplateNodeSAComponent extends RelationsNodeBase<DataTemplateR
      */
     protected async showCodeEditor(): Promise<void>
     {
+        const content = isPresent(this.metadata?.relationsOptions?.value) ? JSON.stringify(this.metadata?.relationsOptions?.value, null, 4) : '';
+
         const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, string|null>(CodeEditorDialogComponent,
         {
             title: 'Code editor',
@@ -48,18 +48,24 @@ export class DataTemplateNodeSAComponent extends RelationsNodeBase<DataTemplateR
             height: '75vh',
             data: 
             {
-                content: this.metadata?.relationsOptions?.template ?? '',
-                languageModel: HandlebarsLanguageModel,
+                content,
+                languageModel: JsonLanguageModel,
 
             }
         }).afterClosed());
 
-        if(isPresent(result))
+        if(!this.metadata?.relationsOptions)
         {
-            if(this.metadata?.relationsOptions)
-            {
-                this.metadata.relationsOptions.template = result;
-            }
+            return;
+        }
+
+        if(result)
+        {
+            this.metadata.relationsOptions.value = getJson(result);
+        }
+        else
+        {
+            this.metadata.relationsOptions.value = null;
         }
     }
 }

@@ -43,3 +43,19 @@ export function provideStaticPackageSource(packageName: string): Provider
         multi: true,
     };
 }
+
+/**
+ * Gets json from its string representation
+ * @param jsonString - Json string to be parsed into json
+ */
+export function getJson<TResult = any>(jsonString: string): TResult|null
+{
+    try
+    {
+        return JSON.parse(jsonString);
+    }
+    catch
+    {
+        return null;
+    }
+}

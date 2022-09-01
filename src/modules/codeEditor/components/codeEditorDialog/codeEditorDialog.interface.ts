@@ -1,4 +1,4 @@
-import {LanguageModel} from '@anglr/dynamic';
+import {LanguageModel} from '../../misc/types';
 
 /**
  * Data for code editor dialog

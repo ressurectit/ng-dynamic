@@ -2,3 +2,15 @@
 {
     display: block;
 }
+
+.editor-component-name
+{
+    font-weight: 500;
+}
+
+.editor-component-description
+{
+    margin-left: 4px;
+    margin-top: 2px;
+    font-size: .8em;
+}

@@ -175,6 +175,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
                 addSimpleChange<RelationsNode>(chngs, 'zoomLevel', this.zoomLevel, null, true);
                 
                 node.ngOnChanges(chngs);
+                await node.initialize();
 
                 this.logger?.debug('RelationsNodeRendererSADirective: invalidating node visuals {@id}', {id: this.componentMetadata?.id});
                 node.invalidateVisuals();

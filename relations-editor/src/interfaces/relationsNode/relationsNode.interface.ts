@@ -1,6 +1,6 @@
 import {OnChanges} from '@angular/core';
 import {DynamicItem} from '@anglr/dynamic';
-import {Dictionary} from '@jscrpt/common';
+import {Dictionary, PromiseOr} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 
 import {RelationsNodeMetadata} from '../metadata';
@@ -45,6 +45,11 @@ export interface RelationsNode<TOptions = any, TEditorOptions = any> extends Dyn
      * Metadata for relations node
      */
     metadata: RelationsNodeMetadata<TOptions, TEditorOptions>|undefined|null;
+
+    /**
+     * Initialize relations node
+     */
+    initialize(): PromiseOr<void>;
 }
 
 /**

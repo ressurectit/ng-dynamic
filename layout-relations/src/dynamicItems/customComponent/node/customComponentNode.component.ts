@@ -54,12 +54,12 @@ export class CustomComponentNodeSAComponent extends RelationsNodeBase<CustomComp
      */
     protected outputsMeta: RelationsNodeMetadata<ComponentOutputsRelationsOptions>|undefined;
 
-    //######################### protected methods - overrides #########################
+    //######################### public methods - overrides #########################
 
     /**
      * @inheritdoc
      */
-    protected override async metadataSet(): Promise<void>
+    public override async initialize(): Promise<void>
     {
         if(!this.metadata)
         {
@@ -82,7 +82,5 @@ export class CustomComponentNodeSAComponent extends RelationsNodeBase<CustomComp
         const relations = await this.relationsMetadataStorage?.getMetadata(componentName) ?? [];
         this.inputsMeta = getInputs(relations);
         this.outputsMeta = getOutputs(relations);
-
-        this.changeDetector.detectChanges();
     }
 }

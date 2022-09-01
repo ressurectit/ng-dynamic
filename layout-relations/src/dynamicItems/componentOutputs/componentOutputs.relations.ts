@@ -53,8 +53,6 @@ export class ComponentOutputsRelations implements RelationsComponent<ComponentOu
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        console.log('out', changes);
-
         for(const key of Object.keys(changes))
         {
             this.customComponent[key] = changes[key].currentValue;

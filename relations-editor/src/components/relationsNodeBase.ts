@@ -208,6 +208,13 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
         }
     }
 
+    /**
+     * @inheritdoc
+     */
+    public initialize(): void
+    {
+    }
+
     //######################### protected methods methods - host listeners #########################
 
     /**

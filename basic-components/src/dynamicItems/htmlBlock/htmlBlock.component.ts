@@ -50,7 +50,7 @@ export class HtmlBlockSAComponent extends LayoutComponentBase<HtmlBlockComponent
 
         if(nameof<HtmlBlockSAComponent>('content') in changes)
         {
-            this._element.nativeElement.innerHTML = this.content ?? '';
+            this.componentElement.nativeElement.innerHTML = this.content ?? '';
         }
     }
 
@@ -69,7 +69,7 @@ export class HtmlBlockSAComponent extends LayoutComponentBase<HtmlBlockComponent
         if(this.options?.content)
         {
             this.content = this.options.content;
-            this._element.nativeElement.innerHTML = this.content ?? '';
+            this.componentElement.nativeElement.innerHTML = this.content ?? '';
         }
     }
 }

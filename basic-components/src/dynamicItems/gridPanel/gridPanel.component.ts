@@ -35,7 +35,7 @@ export class GridPanelSAComponent extends LayoutComponentBase<GridPanelComponent
     {
         this._fixCells();
 
-        const style = this._element.nativeElement.style;
+        const style = this.componentElement.nativeElement.style;
         let gridTemplateRows: string = '';
         let gridTemplateColumns: string = '';
 

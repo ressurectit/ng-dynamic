@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Directive, ElementRef, Inject, Injector, OnDestroy, Optional, SimpleChanges} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemExtension} from '@anglr/dynamic';
-import {nameof, PromiseOr} from '@jscrpt/common';
+import {isEmptyObject, nameof, PromiseOr} from '@jscrpt/common';
 
 import {LayoutComponent} from '../../interfaces';
 
@@ -35,7 +35,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     protected get element(): ElementRef<HTMLElement>
     {
-        return this._element;
+        return this.componentElement;
     }
 
     /**
@@ -54,10 +54,10 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     public options: TOptions|undefined|null;
 
     //######################### constructor #########################
-    constructor(protected _changeDetector: ChangeDetectorRef,
-                protected _element: ElementRef<HTMLElement>,
-                protected _injector: Injector,
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(protected changeDetector: ChangeDetectorRef,
+                protected componentElement: ElementRef<HTMLElement>,
+                protected injector: Injector,
+                @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
     }
 
@@ -105,7 +105,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         {
             for(const extension of this.extensions)
             {
-                await extension.initialize(this._injector, this.element, this);
+                await extension.initialize(this.injector, this.element, this);
             }
         }
 
@@ -140,6 +140,13 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
 
             await this.onOptionsChange();
         }
+
+        delete changes[nameof<LayoutComponentBase<TOptions>>('options')];
+
+        if(!isEmptyObject(changes))
+        {
+            this.onChanges(changes);
+        }
     }
 
     /**
@@ -155,7 +162,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     public invalidateVisuals(): void
     {
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 
     //######################### protected methods #########################
@@ -178,6 +185,14 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      * Called on change of options, after initialization
      */
     protected onOptionsChange(): PromiseOr<void>
+    {
+    }
+
+    /**
+     * Occurs when some property changes on component
+     * @param _changes - Changes that occured on component
+     */
+    protected onChanges(_changes: SimpleChanges): PromiseOr<void>
     {
     }
 

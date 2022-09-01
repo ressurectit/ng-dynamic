@@ -1,3 +1,3 @@
-import {ComponentInputsRelationsSAComponent} from './componentInputs.relations.component';
+import {ComponentInputsRelations} from './componentInputs.relations';
 
-export default ComponentInputsRelationsSAComponent;
+export default ComponentInputsRelations;

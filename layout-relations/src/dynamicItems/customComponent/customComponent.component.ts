@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, SimpleChanges} from '@angular/core';
 import {MetadataStorage} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -9,8 +9,8 @@ import {PromiseOr} from '@jscrpt/common';
 
 import {CustomComponentComponentOptions} from './customComponent.options';
 import {CustomComponentLayoutDesignerTypeLoader, CustomComponentLayoutMetadataLoader, CustomComponentRelationsMetadataLoader} from './customComponent.metadata';
-import {ComponentOutputsRelationsSAComponent} from '../componentOutputs/componentOutputs.relations.component';
-import {ComponentInputsRelationsSAComponent} from '../componentInputs/componentInputs.relations.component';
+import {ComponentInputsRelations} from '../componentInputs/componentInputs.relations';
+import {getInputs} from './customComponent.utils';
 
 /**
  * Component used for displaying custom component
@@ -24,8 +24,6 @@ import {ComponentInputsRelationsSAComponent} from '../componentInputs/componentI
     imports:
     [
         LayoutComponentRendererSADirective,
-        ComponentInputsRelationsSAComponent,
-        ComponentOutputsRelationsSAComponent,
     ],
     providers:
     [
@@ -72,6 +70,11 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
      */
     protected parentComponentManager: RelationsComponentManager|null = inject(RelationsComponentManager, {skipSelf: true, optional: true});
 
+    /**
+     * Instance of inputs relations if it exists
+     */
+    protected inputsRelations: ComponentInputsRelations|null = null;
+
     //######################### protected properties - template bindings #########################
 
     /**
@@ -117,21 +120,46 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
             return;
         }
 
+        //get layout metadata and displays layout
         this.metadata = await this.layoutMetadataStorage.getMetadata(this.options.name);
 
+        let relations: RelationsNodeMetadata[]|null = null;
+
+        //gets and initialize inner relations of custom component
         if(this.relationsManager && this.relationsMetadataStorage)
         {
-            const relations = await this.relationsMetadataStorage.getMetadata(this.options.name);
+            relations = await this.relationsMetadataStorage.getMetadata(this.options.name);
 
             this.relationsManager.setRelations(relations ?? []);
         }
 
+        //if relations available initialize custom component inputs
+        if(relations)
+        {
+            const inputsMeta = getInputs(relations);
+
+            if(inputsMeta)
+            {
+                this.inputsRelations = new ComponentInputsRelations(this.injector);
+                this.inputsRelations.initInputs(inputsMeta, inputsMeta.id);
+            }
+        }
+
+        //initialize and register relations from outside world to this custom component
         if(this.parentComponentManager && this.parentRelationsProcessor)
         {
             this.parentComponentManager.registerComponent(this.id, this);
             await this.parentRelationsProcessor.initialized;
             this.parentRelationsProcessor.updateRelations(this.id);
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected override onChanges(changes: SimpleChanges): PromiseOr<void>
+    {
+        this.inputsRelations?.ngOnChanges(changes);
     }
 
     /**

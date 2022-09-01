@@ -58,7 +58,7 @@ export class DataBlockSAComponent extends LayoutComponentBase<DataBlockComponent
 
         if(nameof<DataBlockSAComponent>('data') in changes)
         {
-            this._element.nativeElement.innerHTML = this.compiledTemplate?.(this.data) ?? '';
+            this.componentElement.nativeElement.innerHTML = this.compiledTemplate?.(this.data) ?? '';
         }
     }
 
@@ -79,6 +79,6 @@ export class DataBlockSAComponent extends LayoutComponentBase<DataBlockComponent
             this.compiledTemplate = Handlebars.compile(this.options.template);
         }
 
-        this._element.nativeElement.innerHTML = this.compiledTemplate?.(this.data) ?? '';
+        this.componentElement.nativeElement.innerHTML = this.compiledTemplate?.(this.data) ?? '';
     }
 }

@@ -177,7 +177,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public override ngOnDestroy(): void
     {
-        this._logger?.debug('LayoutDesignerSAComponent: Destroying component {@data}', {id: this.options?.typeMetadata.id});
+        this.logger?.debug('LayoutDesignerSAComponent: Destroying component {@data}', {id: this.options?.typeMetadata.id});
 
         this.initSubscriptions.unsubscribe();
 
@@ -204,11 +204,11 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         const parentId = dragData.parentId;
-        this._logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.metadata?.id, parent: this.options.typeMetadata.id});
+        this.logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.metadata?.id, parent: this.options.typeMetadata.id});
 
         if(!dragData.metadata)
         {
-            this._logger?.warn('LayoutDesignerSAComponent: Missing metadata while adding descendant');
+            this.logger?.warn('LayoutDesignerSAComponent: Missing metadata while adding descendant');
 
             return;
         }
@@ -225,7 +225,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
 
         this.renderedType = {...this.options.typeMetadata};
-        this._changeDetector.markForCheck();
+        this.changeDetector.markForCheck();
         this.history.getNewState();
     }
 
@@ -242,12 +242,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        this._logger?.debug('LayoutDesignerSAComponent: Removing descendant {@data}', {id: this.options.typeMetadata.id, child: id});
+        this.logger?.debug('LayoutDesignerSAComponent: Removing descendant {@data}', {id: this.options.typeMetadata.id, child: id});
 
         this.editorMetadata?.removeDescendant?.(id, this.options.typeMetadata.options);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
         this.renderedType = {...this.options.typeMetadata};
-        this._changeDetector.markForCheck();
+        this.changeDetector.markForCheck();
         this.history.getNewState();
     }
 
@@ -259,7 +259,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected showOverlay(event: Event): void
     {
-        this._logger?.verbose('LayoutDesignerComponent: Showing overlay for {@type}', {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id});
+        this.logger?.verbose('LayoutDesignerComponent: Showing overlay for {@type}', {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id});
 
         event.preventDefault();
         event.stopPropagation();
@@ -278,7 +278,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        this._logger?.verbose('LayoutDesignerComponent: Hiding overlay for {@type}', {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id});
+        this.logger?.verbose('LayoutDesignerComponent: Hiding overlay for {@type}', {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id});
 
         event.preventDefault();
         event.stopPropagation();
@@ -354,8 +354,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         //TODO: optimize
-        this.initSubscriptions.add(this.layoutEditorMetadataManager.selectedChange.subscribe(() => this._changeDetector.detectChanges()));
-        this.initSubscriptions.add(this.layoutEditorMetadataManager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
+        this.initSubscriptions.add(this.layoutEditorMetadataManager.selectedChange.subscribe(() => this.changeDetector.detectChanges()));
+        this.initSubscriptions.add(this.layoutEditorMetadataManager.highlightedChange.subscribe(() => this.changeDetector.detectChanges()));
 
         this.editorMetadata = await this.metadataExtractor.extractMetadata(this.options.typeMetadata);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;

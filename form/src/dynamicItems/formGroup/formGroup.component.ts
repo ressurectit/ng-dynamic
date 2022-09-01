@@ -41,7 +41,7 @@ export class FormGroupSAComponent extends FormComponentBase<FormGroupComponentOp
     {
         this._formInjector = Injector.create(
             {
-                parent: this._injector,
+                parent: this.injector,
                 providers:
                 [
                     <ValueProvider>

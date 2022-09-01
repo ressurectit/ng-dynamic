@@ -15,12 +15,17 @@ export interface LayoutComponentsRegisterType
     /**
      * Type that represents layout component
      */
-    type: Type<any>|undefined|null;
+    type: Type<any>;
 
     /**
      * Display name of layout component
      */
     displayName: string|undefined|null;
+
+    /**
+     * Name of layout component
+     */
+    name: string;
 }
 
 /**
@@ -34,17 +39,17 @@ export class LayoutComponentsRegister implements OnDestroy
     /**
      * Subscriptions created during initialization
      */
-    protected _initSubscriptions: Subscription = new Subscription();
+    protected initSubscriptions: Subscription = new Subscription();
 
     /**
      * Object storing defined types
      */
-    protected _definedTypes: Dictionary<LayoutComponentsRegisterType> = {};
+    protected definedTypes: Dictionary<LayoutComponentsRegisterType> = {};
 
     /**
      * Initialization promise
      */
-    protected _initPromise: Promise<void>|null = null;
+    protected initPromise: Promise<void>|null = null;
 
     //######################### public properties #########################
 
@@ -53,20 +58,20 @@ export class LayoutComponentsRegister implements OnDestroy
      */
     public get types(): Promise<string[]>
     {
-        this._initPromise ??= this._initializeTypes();
+        this.initPromise ??= this.initializeTypes();
 
-        return this._initPromise.then(() =>
+        return this.initPromise.then(() =>
         {
-            return Object.keys(this._definedTypes);
+            return Object.keys(this.definedTypes);
         });
     }
 
     //######################### constructor #########################
-    constructor(protected _layoutManager: LayoutManager,
-                @Inject(LAYOUT_COMPONENTS_LOADER) protected _loader: DynamicItemLoader<LayoutComponentDef>,
-                protected _iteratorSvc: LayoutComponentsIteratorService)
+    constructor(protected layoutManager: LayoutManager,
+                @Inject(LAYOUT_COMPONENTS_LOADER) protected loader: DynamicItemLoader<LayoutComponentDef>,
+                protected iteratorSvc: LayoutComponentsIteratorService)
     {
-        this._initSubscriptions.add(this._layoutManager.layoutChange.subscribe(() => this._initPromise = null));
+        this.initSubscriptions.add(this.layoutManager.layoutChange.subscribe(() => this.initPromise = null));
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -76,7 +81,7 @@ export class LayoutComponentsRegister implements OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._initSubscriptions.unsubscribe();
+        this.initSubscriptions.unsubscribe();
     }
 
     //######################### public methods #########################
@@ -87,9 +92,9 @@ export class LayoutComponentsRegister implements OnDestroy
      */
     public async getType(name: string): Promise<Type<any>|null>
     {
-        await (this._initPromise ??= this._initializeTypes());
+        await (this.initPromise ??= this.initializeTypes());
 
-        return this._definedTypes[name]?.type ?? null;
+        return this.definedTypes[name]?.type ?? null;
     }
 
     /**
@@ -98,9 +103,20 @@ export class LayoutComponentsRegister implements OnDestroy
      */
     public async getDisplayName(name: string): Promise<string|undefined>
     {
-        await (this._initPromise ??= this._initializeTypes());
+        await (this.initPromise ??= this.initializeTypes());
 
-        return this._definedTypes[name]?.displayName ?? undefined;
+        return this.definedTypes[name]?.displayName ?? undefined;
+    }
+
+    /**
+     * Gets component name of type byt its name
+     * @param name - Name of type that component name should be obtained
+     */
+    public async getComponentName(name: string): Promise<string|null>
+    {
+        await (this.initPromise ??= this.initializeTypes());
+
+        return this.definedTypes[name]?.name ?? null;
     }
 
     //######################### protected method #########################
@@ -108,30 +124,31 @@ export class LayoutComponentsRegister implements OnDestroy
     /**
      * Initialize layout types
      */
-    protected async _initializeTypes(): Promise<void>
+    protected async initializeTypes(): Promise<void>
     {
-        this._definedTypes = {};
+        this.definedTypes = {};
 
-        if(!this._layoutManager.layout)
+        if(!this.layoutManager.layout)
         {
             return;
         }
 
-        const layoutComponents = this._iteratorSvc.getIteratorFor(this._layoutManager.layout);
+        const layoutComponents = this.iteratorSvc.getIteratorFor(this.layoutManager.layout);
 
         for await(const component of layoutComponents)
         {
-            const type = await this._loader.loadItem(component.metadata);
+            const type = await this.loader.loadItem(component.metadata);
 
             if(!type)
             {
                 continue;
             }
 
-            this._definedTypes[component.metadata.id] = 
+            this.definedTypes[component.metadata.id] = 
             {
                 type: type.data,
                 displayName: component.metadata.displayName,
+                name: component.metadata.name,
             };
         }
     }

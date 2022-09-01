@@ -31,7 +31,7 @@ export class GridPanelCellSAComponent extends LayoutComponentBase<GridPanelCellC
      */
     protected override onOptionsSet(): void
     {
-        const style = this._element.nativeElement.style;
+        const style = this.componentElement.nativeElement.style;
         
         applyGridCoordinates(this.options, style);
     }

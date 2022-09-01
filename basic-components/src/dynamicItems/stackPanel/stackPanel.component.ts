@@ -42,7 +42,7 @@ export class StackPanelSAComponent extends LayoutComponentBase<StackPanelCompone
      */
     protected _setStyles(): void
     {
-        const style = this._element.nativeElement.style;
+        const style = this.componentElement.nativeElement.style;
 
         style.flexDirection = this.options?.horizontal ? 'row' : 'column';
         style.flexWrap = this.options?.wrap ? 'wrap' : 'nowrap';

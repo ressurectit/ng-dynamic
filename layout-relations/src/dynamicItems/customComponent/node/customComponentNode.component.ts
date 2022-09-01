@@ -7,6 +7,8 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
 import {CustomComponentRelationsOptions} from '../customComponent.options';
 import {ComponentInputsRelationsOptions} from '../../componentInputs';
 import {ComponentOutputsRelationsOptions} from '../../componentOutputs';
+import {LayoutComponentsRegister} from '../../../services';
+import {getInputs} from '../customComponent.utils';
 
 /**
  * Relations node component for custom component
@@ -33,7 +35,12 @@ export class CustomComponentNodeSAComponent extends RelationsNodeBase<CustomComp
     /**
      * Storage for relations metadata
      */
-    protected relationsMetadataStorage: MetadataStorage<RelationsNodeMetadata[]>|null = inject(RELATIONS_METADATA_STORAGE);
+    protected relationsMetadataStorage: MetadataStorage<RelationsNodeMetadata[]> = inject(RELATIONS_METADATA_STORAGE);
+
+    /**
+     * Layout components register instance
+     */
+    protected layoutComponentsRegister: LayoutComponentsRegister = inject(LayoutComponentsRegister);
 
     //######################### protected properties - template bindings #########################
 
@@ -64,9 +71,16 @@ export class CustomComponentNodeSAComponent extends RelationsNodeBase<CustomComp
             name: ''
         };
 
+        const componentName = await this.layoutComponentsRegister.getComponentName(this.metadata.name);
+
+        if(!componentName)
+        {
+            return;
+        }
+
         this.metadata.relationsOptions.name = this.metadata.name;
-        const relations = await this.relationsMetadataStorage?.getMetadata(this.metadata.name) ?? [];
-        this.inputsMeta = relations.find(itm => itm.package == 'custom-components' && itm.name == 'componentInputs');
+        const relations = await this.relationsMetadataStorage?.getMetadata(componentName) ?? [];
+        this.inputsMeta = getInputs(relations);
         this.outputsMeta = relations.find(itm => itm.package == 'custom-components' && itm.name == 'componentOutputs');
 
         this.changeDetector.detectChanges();

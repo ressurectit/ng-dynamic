@@ -34,11 +34,11 @@ export class IfBlockDesignerSAComponent extends IfBlockSAComponent implements La
 
         if(this.condition)
         {
-            this._element.nativeElement.classList.remove('hidden');
+            this.componentElement.nativeElement.classList.remove('hidden');
         }
         else
         {
-            this._element.nativeElement.classList.add('hidden');
+            this.componentElement.nativeElement.classList.add('hidden');
         }
     }
 }

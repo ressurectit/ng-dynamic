@@ -10,7 +10,8 @@ import {PromiseOr} from '@jscrpt/common';
 import {CustomComponentComponentOptions} from './customComponent.options';
 import {CustomComponentLayoutDesignerTypeLoader, CustomComponentLayoutMetadataLoader, CustomComponentRelationsMetadataLoader} from './customComponent.metadata';
 import {ComponentInputsRelations} from '../componentInputs/componentInputs.relations';
-import {getInputs} from './customComponent.utils';
+import {ComponentOutputsRelations} from '../componentOutputs/componentOutputs.relations';
+import {getInputs, getOutputs} from './customComponent.utils';
 
 /**
  * Component used for displaying custom component
@@ -74,6 +75,11 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
      * Instance of inputs relations if it exists
      */
     protected inputsRelations: ComponentInputsRelations|null = null;
+
+    /**
+     * Instance of outputs relations if it exists
+     */
+    protected outputsRelations: ComponentOutputsRelations|null = null;
 
     //######################### protected properties - template bindings #########################
 
@@ -142,6 +148,14 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
             {
                 this.inputsRelations = new ComponentInputsRelations(this.injector);
                 this.inputsRelations.initInputs(inputsMeta, inputsMeta.id);
+            }
+
+            const outputsMeta = getOutputs(relations);
+
+            if(outputsMeta)
+            {
+                this.outputsRelations = new ComponentOutputsRelations(this.injector);
+                this.outputsRelations.initOutputs(outputsMeta, outputsMeta.id, this);
             }
         }
 

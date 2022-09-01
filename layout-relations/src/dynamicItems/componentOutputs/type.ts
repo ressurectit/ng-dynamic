@@ -1,3 +1,3 @@
-import {ComponentOutputsRelationsSAComponent} from './componentOutputs.relations.component';
+import {ComponentOutputsRelations} from './componentOutputs.relations';
 
-export default ComponentOutputsRelationsSAComponent;
+export default ComponentOutputsRelations;

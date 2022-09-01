@@ -8,7 +8,7 @@ import {CustomComponentRelationsOptions} from '../customComponent.options';
 import {ComponentInputsRelationsOptions} from '../../componentInputs';
 import {ComponentOutputsRelationsOptions} from '../../componentOutputs';
 import {LayoutComponentsRegister} from '../../../services';
-import {getInputs} from '../customComponent.utils';
+import {getInputs, getOutputs} from '../customComponent.utils';
 
 /**
  * Relations node component for custom component
@@ -81,7 +81,7 @@ export class CustomComponentNodeSAComponent extends RelationsNodeBase<CustomComp
         this.metadata.relationsOptions.name = this.metadata.name;
         const relations = await this.relationsMetadataStorage?.getMetadata(componentName) ?? [];
         this.inputsMeta = getInputs(relations);
-        this.outputsMeta = relations.find(itm => itm.package == 'custom-components' && itm.name == 'componentOutputs');
+        this.outputsMeta = getOutputs(relations);
 
         this.changeDetector.detectChanges();
     }

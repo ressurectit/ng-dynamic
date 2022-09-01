@@ -35,6 +35,9 @@ export class ConfigureRestParameterSAComponent
 {
     //######################### protected properties - template bindings #########################
 
+    /**
+     * Instance of form group that is bound to form
+     */
     protected form: FormGroup<FormModelGroup<RestParam>>;
 
     //######################### constructor #########################

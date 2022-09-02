@@ -1,4 +1,5 @@
 export * from './button';
+export * from './forBlock';
 export * from './gridPanel';
 export * from './gridPanelCell';
 export * from './htmlBlock';
@@ -11,3 +12,4 @@ export * from './stackPanel';
 export * from './templateBlock';
 export * from './textBlock';
 export * from './toggleButton';
+export * from './value';

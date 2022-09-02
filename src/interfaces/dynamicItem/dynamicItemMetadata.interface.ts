@@ -14,4 +14,9 @@ export interface DynamicItemMetadata extends DynamicItemSource
      * Display name of dynamic item, this is how is item displayed during editation
      */
     displayName?: string;
+
+    /**
+     * Id of scope to be used for components and relations
+     */
+    scope?: string;
 }

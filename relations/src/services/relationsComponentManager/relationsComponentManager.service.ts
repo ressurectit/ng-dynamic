@@ -10,15 +10,25 @@ import {RelationsComponent} from '../../interfaces';
 @Injectable()
 export class RelationsComponentManager implements OnDestroy
 {
-    //######################### protected fields #########################
+    //######################### protected properties #########################
 
     /**
      * Registered components
      */
-    protected _components: Dictionary<RelationsComponent> = {};
+    protected components: Dictionary<RelationsComponent> = {};
+
+    /**
+     * Object storing all scopes and their managers
+     */
+    protected scopes: Dictionary<RelationsComponentManager[]> = {};
+
+    /**
+     * Instance of parent relations component manager
+     */
+    protected parent: RelationsComponentManager|null = null;
 
     //######################### constructor #########################
-    constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(@Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
     }
 
@@ -40,14 +50,14 @@ export class RelationsComponentManager implements OnDestroy
      */
     public registerComponent(id: string, component: RelationsComponent): void
     {
-        if(this._components[id])
+        if(this.components[id])
         {
-            this._logger?.warn(`RelationsComponentManager: Component with id '${id}' is already registered, provide unique id.`);
+            this.logger?.warn(`RelationsComponentManager: Component with id '${id}' is already registered, provide unique id.`);
 
             return;
         }
 
-        this._components[id] = component;
+        this.components[id] = component;
     }
 
     /**
@@ -56,14 +66,14 @@ export class RelationsComponentManager implements OnDestroy
      */
     public unregisterComponent(id: string): void
     {
-        if(!this._components[id])
+        if(!this.components[id])
         {
-            this._logger?.warn(`RelationsComponentManager: Component with id '${id}' has already been unregistered.`);
+            this.logger?.warn(`RelationsComponentManager: Component with id '${id}' has already been unregistered.`);
 
             return;
         }
 
-        delete this._components[id];
+        delete this.components[id];
     }
 
     /**
@@ -72,6 +82,65 @@ export class RelationsComponentManager implements OnDestroy
      */
     public get(id: string): RelationsComponent[]|RelationsComponent|null
     {
-        return this._components[id];
+        //TODO: optimize search of scopes
+
+        const component = this.components[id];
+
+        if(component)
+        {
+            return component;
+        }
+
+        for(const scopeId in this.scopes)
+        {
+            const scope = this.scopes[scopeId];
+
+            if(!scope[0])
+            {
+                return null;
+            }
+
+            const scopedComponent = scope[0].get(id);
+
+            if(scopedComponent)
+            {
+                return scopedComponent;
+            }
+        }
+
+        return this.parent?.components[id] ?? null;
+    }
+
+    /**
+     * Opens new scope for relations component manager
+     * @param id - Id of newly created scope
+     */
+    public openScope(id: string): RelationsComponentManager
+    {
+        this.scopes[id] ??= [];
+        const scope = new RelationsComponentManager(this.logger);
+        scope.parent = this;
+        this.scopes[id].push(scope);
+
+        return scope;
+    }
+
+    /**
+     * Destroyes scope by id
+     * @param id - Id of scope to be destroyed
+     */
+    public destroyScope(id: string): void
+    {
+        const scope = this.scopes[id];
+
+        if(scope)
+        {
+            for(const manager of scope)
+            {
+                manager.ngOnDestroy();
+            }
+        }
+
+        delete this.scopes[id];
     }
 }

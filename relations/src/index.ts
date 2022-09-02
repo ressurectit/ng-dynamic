@@ -1,4 +1,5 @@
 export * from './decorators';
+export * from './directives';
 export * from './extensions';
 export * from './interfaces';
 export * from './misc/extractors';

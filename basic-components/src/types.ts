@@ -1,6 +1,7 @@
 const components = 
 [
     'button',
+    'forBlock',
     'gridPanel',
     'htmlBlock',
     'ifBlock',

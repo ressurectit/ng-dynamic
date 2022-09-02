@@ -70,13 +70,9 @@ export class ConfigureNodeEndpointSAComponent
             }
         }).afterClosed());
 
-        if(result)
+        if(isPresent(result))
         {
             this.data.defaultValue = getJson(result);
-        }
-        else
-        {
-            this.data.defaultValue = null;
         }
     }
 }

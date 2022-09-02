@@ -2,6 +2,7 @@ import {InjectionToken, Type} from '@angular/core';
 import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Dictionary} from '@jscrpt/common';
+import {Observable} from 'rxjs';
 
 import {PropertyTypeControl} from '../interfaces';
 import {LayoutModuleTypes} from '../components/componentsPalette/componentsPalette.interface';
@@ -49,3 +50,8 @@ export const LAYOUT_MODULE_TYPES_LOADER: InjectionToken<DynamicItemLoader<Layout
  * Injection token for layout history manager
  */
 export const LAYOUT_HISTORY_MANAGER: InjectionToken<MetadataHistoryManager<LayoutComponentMetadata>> = new InjectionToken<MetadataHistoryManager<LayoutComponentMetadata>>('LAYOUT_HISTORY_MANAGER');
+
+/**
+ * Injection token for observables that allows refreshing of components palatte items
+ */
+export const REFRESH_PALETTE_OBSERVABLES: InjectionToken<Observable<void>[]> = new InjectionToken<Observable<void>[]>('REFRESH_PALETTE_OBSERVABLES');

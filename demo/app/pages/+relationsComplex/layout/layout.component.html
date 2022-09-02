@@ -3,7 +3,12 @@
         <span>go back</span>
     </button>
 
-    <load-save-new [store]="_store" [getMetadataCallback]="_getMetadata" routePath="/relationsComplex/layout" (metadataChange)="_metadata = ($any($event?.layout) ?? emptyMetadata)" [history]="history"></load-save-new>
+    <load-save-new [store]="_store"
+                   [getMetadataCallback]="_getMetadata"
+                   [history]="history"
+                   [componentMarking]="true"
+                   routePath="/relationsComplex/layout"
+                   (metadataChange)="_metadata = ($any($event?.layout) ?? emptyMetadata)"></load-save-new>
     
     <button class="btn btn-primary" type="button" (click)="_loadDemo()">
         <span>demo</span>

@@ -8,6 +8,7 @@ import {extend, Func} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {StoreDataService} from '../../services/storeData';
+import {DemoCustomComponentsRegister} from '../../services/demoCustomComponentsRegister';
 
 /**
  * Component used for loading saving and creating new layout/relations template
@@ -32,7 +33,9 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
 
     protected _metadata: TStoreMetadata|null = null;
     
-    protected _available: FormControl = new FormControl('');
+    protected _available: FormControl<string> = new FormControl('');
+
+    protected _component: FormControl<boolean> = new FormControl(false);
 
     protected _name: FormControl = new FormControl(null);
 
@@ -57,6 +60,9 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
     @Input()
     public getMetadataCallback: Func<TStoreMetadata, [TMetadata]>;
 
+    @Input()
+    public componentMarking: boolean = false;
+
     //######################### public properties - outputs #########################
 
     @Output()
@@ -67,6 +73,7 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
                 private _route: ActivatedRoute,
                 @Inject(METADATA_STATE_MANAGER) private _metaManager: MetadataStateManager<TMetadata>,
                 private _changeDetector: ChangeDetectorRef,
+                @Optional() private _customComponentsRegister?: DemoCustomComponentsRegister,
                 @Optional() private _hotkeys?: EditorHotkeys,)
     {
     }
@@ -78,6 +85,23 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
      */
     public ngOnInit(): void
     {
+        if(this.componentMarking)
+        {
+            this._available.valueChanges.subscribe(value =>
+            {
+                if(!value)
+                {
+                    return;
+                }
+    
+                const components = this._customComponentsRegister?.getRegisteredComponents();
+    
+                this._component.setValue(components.indexOf(value) >= 0, {emitEvent: false});
+            });
+    
+            this._component.valueChanges.subscribe(() => this._customComponentsRegister?.toggleRegisteredComponent(this._available.value));
+        }
+
         if(this._hotkeys)
         {
             this.initSubscriptions.add(this._hotkeys.save.subscribe(() => this._save()));

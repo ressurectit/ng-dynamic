@@ -14,7 +14,7 @@ import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {ComplexStaticRegister} from '../misc';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
-import {DemoRelationsComponentsRegister} from '../../../services/demoRelationsComponentsRegister';
+import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
 
 /**
  * Layout editor component
@@ -35,7 +35,7 @@ import {DemoRelationsComponentsRegister} from '../../../services/demoRelationsCo
         provideHandlebarsLayoutRelationsEditor(),
         provideTinyMceLayoutRelationsEditor(),
         provideCssLayoutRelationsEditor(),
-        provideEditorRelationsCustomComponents(provideLayoutRelationsEditorWithStatic(ComplexStaticRegister), DemoRelationsComponentsRegister),
+        provideEditorRelationsCustomComponents(provideLayoutRelationsEditorWithStatic(ComplexStaticRegister), DemoCustomComponentsRegister),
         <ClassProvider>
         {
             provide: PackageManager,

@@ -9,6 +9,10 @@ export class CustomComponentModel implements CustomComponentComponentOptions
 {
     //######################### public properties #########################
 
+    /**
+     * @inheritdoc
+     */
+    public name: string = '';
 
     //######################### constructor #########################
     constructor(value: CustomComponentComponentOptions|undefined|null)

@@ -94,7 +94,8 @@ export const LAYOUT_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
     useFactory: () => new DynamicItemLoader(inject(LAYOUT_MODULE_TYPES_PROVIDERS),
                                             inject(LAYOUT_MODULE_TYPES_DATA_EXTRACTORS),
                                             isLayoutModuleTypes,
-                                            inject(LOGGER, {optional: true}) ?? undefined)
+                                            inject(LOGGER, {optional: true}) ?? undefined,
+                                            true)
 };
 
 /**

@@ -1,13 +1,13 @@
-import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
-import {LAYOUT_HISTORY_MANAGER, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
+import {LAYOUT_HISTORY_MANAGER, provideLayoutEditor, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
-import {provideEditorLayoutCustomComponents} from '@anglr/dynamic/layout-relations';
+import {CustomComponentsRegister, provideEditorLayoutCustomComponents} from '@anglr/dynamic/layout-relations';
 import {provideFormLayoutEditor} from '@anglr/dynamic/form';
 import {BindThis, generateId} from '@jscrpt/common';
 
@@ -15,7 +15,7 @@ import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
-import {DemoRelationsComponentsRegister} from '../../../services/demoRelationsComponentsRegister';
+import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
 
 /**
  * Layout editor component
@@ -38,11 +38,23 @@ import {DemoRelationsComponentsRegister} from '../../../services/demoRelationsCo
         provideCssLayoutEditor(),
         provideTinyMceLayoutEditor(),
         provideHandlebarsLayoutEditor(),
-        provideEditorLayoutCustomComponents([], DemoRelationsComponentsRegister),
+        provideEditorLayoutCustomComponents([], DemoCustomComponentsRegister),
         <ClassProvider>
         {
             provide: PackageManager,
             useClass: DemoLayoutPackageManager,
+        },
+        <ExistingProvider>
+        {
+            provide: DemoCustomComponentsRegister,
+            useExisting: CustomComponentsRegister,
+        },
+        <FactoryProvider>
+        {
+            provide: REFRESH_PALETTE_OBSERVABLES,
+            useFactory: (register: DemoCustomComponentsRegister) => register.registeredChange,
+            deps: [DemoCustomComponentsRegister],
+            multi: true,
         },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

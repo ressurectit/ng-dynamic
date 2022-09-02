@@ -3,12 +3,12 @@ import {CommonModule} from '@angular/common';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor} from '../../services';
 import {ComponentsPaletteItem, LayoutModuleTypes} from './componentsPalette.interface';
 import {ToLayoutDragDataSAPipe} from '../../pipes';
-import {LAYOUT_MODULE_TYPES_LOADER} from '../../misc/tokens';
+import {LAYOUT_MODULE_TYPES_LOADER, REFRESH_PALETTE_OBSERVABLES} from '../../misc/tokens';
 import {LayoutDndCoreModule} from '../../modules';
 
 /**
@@ -59,6 +59,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
                 protected changeDetector: ChangeDetectorRef,
                 protected packageManager: PackageManager,
                 protected metadataExtractor: LayoutEditorMetadataExtractor,
+                @Inject(REFRESH_PALETTE_OBSERVABLES) @Optional() protected _refreshObservables?: Observable<void>[],
                 @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
     }
@@ -71,6 +72,14 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
     public async ngOnInit(): Promise<void>
     {
         this.initSubscriptions.add(this.packageManager.usedPackagesChange.subscribe(() => this.initItems()));
+
+        if(this._refreshObservables && Array.isArray(this._refreshObservables))
+        {
+            for(const obs of this._refreshObservables)
+            {
+                this.initSubscriptions.add(obs.subscribe(() => this.initItems()));
+            }
+        }
 
         await this.initItems();
     }

@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Optional, Type, SimpleChanges} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {Logger, LOGGER} from '@anglr/common';
+import {Logger, LOGGER, PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
 import {FormModelBuilder} from '@anglr/common/forms';
 import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
@@ -15,6 +15,25 @@ import {PropertiesControlsModule} from '../../modules';
 import {LayoutEditorPropertyMetadata} from '../../misc/types';
 import {PropertiesControl} from '../../interfaces';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
+import {WidthResizerSADirective} from '../../directives';
+
+const PROPERTIES_EDITOR_STATE = 'PROPERTIES_EDITOR_STATE';
+
+/**
+ * State of properties editor
+ */
+interface PropertiesEditorState
+{
+    /**
+     * Indication whether is properties editor opened
+     */
+    opened: boolean;
+
+    /**
+     * Current width of properties editor
+     */
+    width: number;
+}
 
 /**
  * Properties editor data
@@ -52,6 +71,7 @@ interface PropertiesEditorData
         CommonModule,
         ReactiveFormsModule,
         PropertiesControlsModule,
+        WidthResizerSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -87,11 +107,6 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     //######################### protected properties - template bindings #########################
 
     /**
-     * Indication whether are properties visible
-     */
-    protected visible: boolean = false;
-
-    /**
      * Instance of selected designer component
      */
     protected component: LayoutDesignerSAComponent|null = null;
@@ -111,12 +126,18 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     protected propertiesData: PropertiesEditorData[] = [];
 
+    /**
+     * Instance of properties editor state
+     */
+    protected state: PropertiesEditorState = {opened: false, width: 350};
+
     //######################### constructor #########################
     constructor(protected manager: LayoutEditorMetadataManager,
                 protected metadataExtractor: LayoutEditorMetadataExtractor,
                 protected propertyExtractor: LayoutEditorPropertyMetadataExtractor,
                 protected formModelBuilder: FormModelBuilder,
                 protected changeDetector: ChangeDetectorRef,
+                @Inject(PERMANENT_STORAGE) protected storage: PermanentStorage,
                 @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
                 @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
@@ -129,6 +150,13 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     public async ngOnInit(): Promise<void>
     {
+        const state = this.storage.get<PropertiesEditorState|null>(PROPERTIES_EDITOR_STATE);
+
+        if(state)
+        {
+            this.state = state;
+        }
+
         this.initSubscriptions.add(this.manager.layoutChange.subscribe(() => this.initProperties()));
         this.initSubscriptions.add(this.manager.selectedChange.subscribe(() => this.initProperties()));
 
@@ -173,7 +201,17 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     protected toggleCollapsed(): void
     {
-        this.visible = !this.visible;
+        this.state.opened = !this.state.opened;
+
+        this.storage.set(PROPERTIES_EDITOR_STATE, this.state);
+    }
+
+    protected updateSize(size: number): void
+    {
+        this.state.width -= size;
+
+        this.storage.set(PROPERTIES_EDITOR_STATE, this.state);
+        this.changeDetector.detectChanges();
     }
 
     //######################### protected methods #########################

@@ -38,6 +38,8 @@ export class LayoutComponentsRelationsNodesProvider implements DynamicModuleProv
             return null;
         }
 
+        //TODO: add type for return
+
         const displayName = await this._componentsRegister.getDisplayName(source.name);
         const scope = await this._componentsRegister.getScope(source.name);
 

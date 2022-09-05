@@ -247,6 +247,7 @@ export class RelationsNodeManager implements MetadataStateManager<RelationsNodeM
                 displayName: node.metadata.displayName,
                 relationsOptions: node.metadata.relationsOptions,
                 nodeMetadata: node.metadata.nodeMetadata,
+                scope: node.metadata.scope,
                 outputs: []
             };
 

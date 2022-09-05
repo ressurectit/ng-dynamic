@@ -1,0 +1,17 @@
+<div class="form-group" [formGroup]="form">
+    <label class="control-label">display name</label>
+    <input class="form-control" type="text" formControlName="displayName">
+
+    <label class="control-label">scope</label>
+    <input class="form-control" type="text" formControlName="scope">
+</div>
+
+<div class="flex-row flex-end margin-top-small">
+    <button type="button" class="btn btn-info margin-right-extra-small" [mat-dialog-close]="null">
+        <span>cancel</span>
+    </button>
+
+    <button type="button" class="btn btn-primary" [mat-dialog-close]="form.value">
+        <span>ok</span>
+    </button>
+</div>

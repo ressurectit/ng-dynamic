@@ -5,7 +5,8 @@ import {TooltipModule} from '@anglr/common';
 import {lastValueFrom, Subject} from 'rxjs';
 
 import {RelationsNode} from '../../interfaces';
-import {RelationsNodeHeaderDisplayNameEditorSAComponent} from '../relationsNodeHeaderDisplayNameEditor/relationsNodeHeaderDisplayNameEditor.component';
+import {RelationsNodePropertiesEditorSAComponent} from '../relationsNodePropertiesEditor/relationsNodePropertiesEditor.component';
+import {RelationsNodeProperties, RelationsNodePropertiesEditorData} from '../relationsNodePropertiesEditor/relationsNodePropertiesEditor.interface';
 
 /**
  * Component used for displaying relations node header
@@ -54,20 +55,31 @@ export class RelationsNodeHeaderSAComponent
     //######################### protected methods - template bindings #########################
 
     /**
-     * Opens editation of display name
+     * Opens editation of properties
      */
-    protected async editDisplayName(): Promise<void>
+    protected async editProperties(): Promise<void>
     {
-        const result = await lastValueFrom(this.dialog.open<RelationsNodeHeaderDisplayNameEditorSAComponent, string, string|undefined|null>(RelationsNodeHeaderDisplayNameEditorSAComponent,
+        //TODO: scope configurable
+
+        const result = await lastValueFrom(this.dialog.open<RelationsNodePropertiesEditorSAComponent, RelationsNodePropertiesEditorData, RelationsNodeProperties|undefined|null>(RelationsNodePropertiesEditorSAComponent,
         {
-            title: 'edit display name',
+            title: 'edit properties',
             width: '30vw',
-            data: this.parent?.metadata?.displayName || this.name || this.parent?.metadata?.id || ''
+            data: 
+            {
+                properties: 
+                {
+                    displayName: this.parent?.metadata?.displayName || this.name || this.parent?.metadata?.id || '',
+                    scope: this.parent?.metadata?.scope,
+                },
+                scopeConfigurable: true,
+            }
         }).afterClosed());
 
         if(result && this.parent?.metadata)
         {
-            this.parent.metadata.displayName = result;
+            this.parent.metadata.displayName = result.displayName ?? undefined;
+            this.parent.metadata.scope = result.scope ?? undefined;
 
             this.changeDetector.detectChanges();
         }

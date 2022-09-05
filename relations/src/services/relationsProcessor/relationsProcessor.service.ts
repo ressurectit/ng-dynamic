@@ -51,7 +51,7 @@ export class RelationsProcessor implements OnDestroy
     {
         if(this.parent)
         {
-            return this.parent.ɵRelations;
+            return this.parent.relations;
         }
 
         return this.ɵRelations;
@@ -68,7 +68,7 @@ export class RelationsProcessor implements OnDestroy
     {
         if(this.parent)
         {
-            return this.ɵBackwardRelations;
+            return this.parent.backwardRelations;
         }
 
         return this.ɵBackwardRelations;
@@ -301,6 +301,19 @@ export class RelationsProcessor implements OnDestroy
     {
         const processor = new RelationsProcessor(this.relationsManager, componentManager, injector, this.loader, this.logger);
         processor.scopeId = id;
+
+        for(const componentId in this.relations)
+        {
+            const relationsDef = this.relations[componentId];
+
+            //Same scope initialize
+            if(relationsDef.scope === id && relationsDef.componentType)
+            {
+                const instance = new relationsDef.componentType(injector);
+                componentManager.registerComponent(componentId, instance);
+                processor.updateRelations(componentId);
+            }
+        }
 
         return processor;
     }

@@ -4,7 +4,7 @@ import {DynamicItemLoader} from '@anglr/dynamic';
 import {Dictionary, isBlank, noop, NoopAction} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
-import {RelationsComponent, RelationsComponentMetadata} from '../../interfaces';
+import {RelationsComponent, RelationsComponentMetadata, RelationsComponentType} from '../../interfaces';
 import {RelationsComponentManager} from '../relationsComponentManager/relationsComponentManager.service';
 import {RelationsManager} from '../relationsManager/relationsManager.service';
 import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from './relationsProcessor.interface';
@@ -22,27 +22,71 @@ export class RelationsProcessor implements OnDestroy
     /**
      * Promise used for indication that processor was initialized
      */
-    protected _initialized: Promise<void> = Promise.resolve();
-
-    /**
-     * Resolves initialized
-     */
-    protected _resolveInitialized: NoopAction = noop;
-
-    /**
-     * Subscriptions created during initialization
-     */
-    protected _initSubscriptions: Subscription = new Subscription();
+    protected ɵInitialized: Promise<void> = Promise.resolve();
 
     /**
      * Relations metadata
      */
-    protected _relations: Dictionary<RelationsProcessorComponentData> = {};
+    protected ɵRelations: Dictionary<RelationsProcessorComponentData> = {};
 
     /**
      * Array of backward relations, relations that are used for obtaining data for inputs
      */
-    protected _backwardRelations: Dictionary<RelationsProcessorInputOutputData[]> = {};
+    protected ɵBackwardRelations: Dictionary<RelationsProcessorInputOutputData[]> = {};
+
+    /**
+     * Resolves initialized
+     */
+    protected resolveInitialized: NoopAction = noop;
+
+    /**
+     * Subscriptions created during initialization
+     */
+    protected initSubscriptions: Subscription = new Subscription();
+
+    /**
+     * Gets or sets relations metadata
+     */
+    protected get relations(): Dictionary<RelationsProcessorComponentData>
+    {
+        if(this.parent)
+        {
+            return this.parent.ɵRelations;
+        }
+
+        return this.ɵRelations;
+    }
+    protected set relations(value: Dictionary<RelationsProcessorComponentData>)
+    {
+        this.ɵRelations = value;
+    }
+
+    /**
+     * Gets or sets array of backward relations, relations that are used for obtaining data for inputs
+     */
+    protected get backwardRelations(): Dictionary<RelationsProcessorInputOutputData[]>
+    {
+        if(this.parent)
+        {
+            return this.ɵBackwardRelations;
+        }
+
+        return this.ɵBackwardRelations;
+    }
+    protected set backwardRelations(value: Dictionary<RelationsProcessorInputOutputData[]>)
+    {
+        this.ɵBackwardRelations = value;
+    }
+
+    /**
+     * Instance of parent relations processor
+     */
+    protected parent: RelationsProcessor|null = null;
+
+    /**
+     * Id of scope
+     */
+    protected scopeId: string|null = null;
 
     //######################### public properties #########################
 
@@ -51,17 +95,17 @@ export class RelationsProcessor implements OnDestroy
      */
     public get initialized(): Promise<void>
     {
-        return this._initialized;
+        return this.ɵInitialized;
     }
 
     //######################### constructor #########################
-    constructor(protected _relationsManager: RelationsManager,
-                protected _componentManager: RelationsComponentManager,
+    constructor(protected relationsManager: RelationsManager,
+                protected componentManager: RelationsComponentManager,
                 protected injector: Injector,
-                @Inject(RELATIONS_COMPONENTS_LOADER) protected _loader: DynamicItemLoader<RelationsComponentDef>,
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+                @Inject(RELATIONS_COMPONENTS_LOADER) protected loader: DynamicItemLoader<RelationsComponentDef>,
+                @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
-        this._initSubscriptions.add(this._relationsManager.relationsChange.subscribe(() => this.initializeRelations()));
+        this.initSubscriptions.add(this.relationsManager.relationsChange.subscribe(() => this.initializeRelations()));
 
         this.initializeRelations();
     }
@@ -73,7 +117,7 @@ export class RelationsProcessor implements OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._initSubscriptions.unsubscribe();
+        this.initSubscriptions.unsubscribe();
 
         this.destroyRelations();
     }
@@ -86,16 +130,16 @@ export class RelationsProcessor implements OnDestroy
      */
     public updateRelations(id: string): void
     {
-        this._logger?.debug('RelationsProcessor: Updating relations for {@id}', {id});
+        this.logger?.debug('RelationsProcessor: Updating relations for {@id}', {id});
 
-        const relations: RelationsProcessorComponentData = this._relations[id];
-        const backwardRelations = this._backwardRelations[id];
-        let components = this._componentManager.get(id);
+        const relations: RelationsProcessorComponentData = this.relations[id];
+        const backwardRelations = this.backwardRelations[id];
+        let components = this.componentManager.get(id);
 
         //this component has no relations
         if(!relations || !components)
         {
-            this._logger?.warn('RelationsProcessor: No relations for {@id}', {id});
+            this.logger?.warn('RelationsProcessor: No relations for {@id}', {id});
 
             return;
         }
@@ -124,14 +168,14 @@ export class RelationsProcessor implements OnDestroy
 
             for(const inputOutput of relations.inputOutputs)
             {
-                let inputComponents = this._componentManager.get(inputOutput.inputComponentId);
+                let inputComponents = this.componentManager.get(inputOutput.inputComponentId);
 
                 if(inputComponents && !Array.isArray(inputComponents))
                 {
                     inputComponents = [inputComponents];
                 }
 
-                this._logger?.verbose('RelationsProcessor: processing input outputs {@data} ', {id, inputOutput, inputComponents, components});
+                this.logger?.verbose('RelationsProcessor: processing input outputs {@data} ', {id, inputOutput, inputComponents, components});
 
                 for(const outputComponent of components)
                 {
@@ -140,7 +184,7 @@ export class RelationsProcessor implements OnDestroy
                     //check whether is observable output
                     if(!(outputObservable instanceof Observable))
                     {
-                        this._logger?.warn('RelationsProcessor: Output on component {@data} is not observable', inputOutput);
+                        this.logger?.warn('RelationsProcessor: Output on component {@data} is not observable', inputOutput);
 
                         continue;
                     }
@@ -148,11 +192,11 @@ export class RelationsProcessor implements OnDestroy
                     //set listening for output changes
                     relations.outputsChangeSubscriptions.push(outputObservable.subscribe(() =>
                     {
-                        let inputs = this._componentManager.get(inputOutput.inputComponentId);
+                        let inputs = this.componentManager.get(inputOutput.inputComponentId);
 
                         if(!inputs)
                         {
-                            this._logger?.warn('RelationsProcessor: Missing input components {@data} on output change', inputOutput);
+                            this.logger?.warn('RelationsProcessor: Missing input components {@data} on output change', inputOutput);
 
                             return;
                         }
@@ -170,7 +214,7 @@ export class RelationsProcessor implements OnDestroy
 
                     if(!inputComponents || !Array.isArray(inputComponents))
                     {
-                        this._logger?.warn('RelationsProcessor: Missing input components {@data}', inputOutput);
+                        this.logger?.warn('RelationsProcessor: Missing input components {@data}', inputOutput);
 
                         continue;
                     }
@@ -193,8 +237,8 @@ export class RelationsProcessor implements OnDestroy
      */
     public destroyComponent(id: string): void
     {
-        const metadata: RelationsProcessorComponentData = this._relations[id];
-        const backwardRelations = this._backwardRelations[id];
+        const metadata: RelationsProcessorComponentData = this.relations[id];
+        const backwardRelations = this.backwardRelations[id];
 
         //uninitialize backward relations
         if(backwardRelations)
@@ -223,7 +267,7 @@ export class RelationsProcessor implements OnDestroy
             //destroy auto created components and unregister them
             if(metadata.autoCreated)
             {
-                let components = this._componentManager.get(id);
+                let components = this.componentManager.get(id);
 
                 if(!components)
                 {
@@ -235,7 +279,7 @@ export class RelationsProcessor implements OnDestroy
                     components = [components];
                 }
 
-                this._componentManager.unregisterComponent(id);
+                this.componentManager.unregisterComponent(id);
 
                 for(const cmp of components)
                 {
@@ -243,6 +287,31 @@ export class RelationsProcessor implements OnDestroy
                 }
             }
         }
+    }
+
+    /**
+     * Opens new scope of relations processor
+     * @param id - Id of newly created scope
+     * @param componentManager - Scoped instance of component manager
+     * @param injector - Injector for current scope
+     */
+    public openScope(id: string,
+                     componentManager: RelationsComponentManager,
+                     injector: Injector,): RelationsProcessor
+    {
+        const processor = new RelationsProcessor(this.relationsManager, componentManager, injector, this.loader, this.logger);
+        processor.scopeId = id;
+
+        return processor;
+    }
+
+    /**
+     * Destroyes opened scope
+     * @param id - Id of scope that should be destroyed
+     */
+    public destroyScope(id: string): void
+    {
+
     }
 
     //######################### protected methods #########################
@@ -255,17 +324,17 @@ export class RelationsProcessor implements OnDestroy
         await this.destroyRelations();
         this.setInitializePromise();
 
-        this._logger?.debug('RelationsProcessor: initializing relations');
+        this.logger?.debug('RelationsProcessor: initializing relations');
 
         //empty relations
-        if(!this._relationsManager.relations.length)
+        if(!this.relationsManager.relations.length)
         {
-            this._resolveInitialized();
+            this.resolveInitialized();
 
             return;
         }
 
-        for(const meta of this._relationsManager.relations)
+        for(const meta of this.relationsManager.relations)
         {
             const outputs: RelationsProcessorInputOutputData[] = [];
 
@@ -296,12 +365,12 @@ export class RelationsProcessor implements OnDestroy
 
                     outputs.push(inputOutput);
 
-                    if(!this._backwardRelations[input.id])
+                    if(!this.backwardRelations[input.id])
                     {
-                        this._backwardRelations[input.id] = [];
+                        this.backwardRelations[input.id] = [];
                     }
 
-                    this._backwardRelations[input.id].push(inputOutput);
+                    this.backwardRelations[input.id].push(inputOutput);
                 }
             }
 
@@ -309,7 +378,7 @@ export class RelationsProcessor implements OnDestroy
             await this.initComponent(meta, outputs);
         }
 
-        this._resolveInitialized();
+        this.resolveInitialized();
     }
 
     /**
@@ -318,13 +387,13 @@ export class RelationsProcessor implements OnDestroy
      */
     protected initBackwardRelation(inputOutput: RelationsProcessorInputOutputData): void
     {
-        let outputComponents = this._componentManager.get(inputOutput.outputComponentId);
-        let inputComponents = this._componentManager.get(inputOutput.inputComponentId);
+        let outputComponents = this.componentManager.get(inputOutput.outputComponentId);
+        let inputComponents = this.componentManager.get(inputOutput.inputComponentId);
 
         if((isBlank(outputComponents) || Array.isArray(outputComponents) && !outputComponents.length) ||
            (isBlank(inputComponents) || Array.isArray(inputComponents) && !inputComponents.length))
         {
-            this._logger?.warn('RelationsProcessor: missing metadata for backward relations {@data}', inputOutput);
+            this.logger?.warn('RelationsProcessor: missing metadata for backward relations {@data}', inputOutput);
 
             return;
         }
@@ -392,31 +461,34 @@ export class RelationsProcessor implements OnDestroy
      */
     protected async initComponent(meta: RelationsComponentMetadata, outputs: RelationsProcessorInputOutputData[]): Promise<void>
     {
-        const component = this._componentManager.get(meta.id);
+        const component = this.componentManager.get(meta.id);
 
         if(component)
         {
-            this.initRelation(false, meta, outputs);
+            this.initRelation(false, meta, outputs, null, null);
             this.updateRelations(meta.id);
 
             return;
         }
 
-        const componentMeta = await this._loader.loadItem(meta);
+        const componentMeta = await this.loader.loadItem(meta);
 
         if(!componentMeta)
         {
-            this.initRelation(false, meta, outputs);
+            this.initRelation(false, meta, outputs, null, null);
 
-            this._logger?.warn('RelationsProcessor: Unable to load relations component! {@meta}', {package: meta.package, name: meta.name});
+            this.logger?.warn('RelationsProcessor: Unable to load relations component! {@meta}', {package: meta.package, name: meta.name});
 
             return;
         }
 
-        const instance = new componentMeta.data(this.injector);
-        this._componentManager.registerComponent(meta.id, instance);
+        if(!meta.scope)
+        {
+            const instance = new componentMeta.data(this.injector);
+            this.componentManager.registerComponent(meta.id, instance);
+        }
 
-        this.initRelation(true, meta, outputs);
+        this.initRelation(true, meta, outputs, meta.scope ?? null, meta.scope ? componentMeta.data : null);
         this.updateRelations(meta.id);
     }
 
@@ -424,17 +496,21 @@ export class RelationsProcessor implements OnDestroy
      * Initialize relation for metadata and component
      * @param autoCreated - Indication whether was component auto created or not
      * @param meta - Metadata for relations component
-     * @param outputs - Array of outputs data for relations
+     * @param inputOutputs - Array of outputs data for relations
+     * @param scope - Current scope used for this relations component
+     * @param componentType - Type used for creation of relations component (only for scoped ones)
      */
-    protected initRelation(autoCreated: boolean, meta: RelationsComponentMetadata, outputs: RelationsProcessorInputOutputData[]): void
+    protected initRelation(autoCreated: boolean, meta: RelationsComponentMetadata, inputOutputs: RelationsProcessorInputOutputData[], scope: string|null, componentType: RelationsComponentType|null): void
     {
-        this._relations[meta.id] =
+        this.relations[meta.id] =
         {
             autoCreated,
-            inputOutputs: outputs,
+            inputOutputs,
             outputsChangeSubscriptions: [],
             optionsInitialized: false,
             metadataOptions: meta.relationsOptions,
+            componentType,
+            scope,
         };
     }
 
@@ -470,7 +546,7 @@ export class RelationsProcessor implements OnDestroy
      */
     protected setInitializePromise(): void
     {
-        this._initialized = new Promise(resolve => this._resolveInitialized = resolve);
+        this.ɵInitialized = new Promise(resolve => this.resolveInitialized = resolve);
     }
 
     /**
@@ -478,11 +554,11 @@ export class RelationsProcessor implements OnDestroy
      */
     protected async destroyRelations(): Promise<void>
     {
-        await this._initialized;
+        await this.ɵInitialized;
 
-        Object.keys(this._relations).forEach(id => this.destroyComponent(id));
+        Object.keys(this.relations).forEach(id => this.destroyComponent(id));
 
-        this._relations = {};
-        this._backwardRelations = {};
+        this.relations = {};
+        this.backwardRelations = {};
     }
 }

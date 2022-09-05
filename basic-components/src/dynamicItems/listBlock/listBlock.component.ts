@@ -8,6 +8,7 @@ import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {ListBlockComponentOptions, ListBlockRelationsOptions} from './listBlock.options';
 import {ListBlockLayoutDesignerTypeLoader, ListBlockLayoutMetadataLoader, ListBlockRelationsMetadataLoader} from './listBlock.metadata';
+import {ListBlockScopeRelationsSADirective} from './misc/directives';
 
 /**
  * Component used for displaying list block
@@ -23,14 +24,22 @@ import {ListBlockLayoutDesignerTypeLoader, ListBlockLayoutMetadataLoader, ListBl
         CommonModule,
         LayoutComponentRendererSADirective,
         ScopedRelationsSADirective,
+        ListBlockScopeRelationsSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(ListBlockLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(ListBlockRelationsMetadataLoader)
 @LayoutEditorMetadata(ListBlockLayoutMetadataLoader)
-export class ListBlockSAComponent extends LayoutComponentBase<ListBlockComponentOptions> implements LayoutComponent<ListBlockComponentOptions>, RelationsComponent<ListBlockRelationsOptions>
+export class ListBlockSAComponent<TDatum = any> extends LayoutComponentBase<ListBlockComponentOptions> implements LayoutComponent<ListBlockComponentOptions>, RelationsComponent<ListBlockRelationsOptions>
 {
+    //######################### protected properties - template bindings #########################
+
+    /**
+     * Id of current component
+     */
+    protected id: string = '';
+
     //######################### public properties - implementation of RelationsComponent #########################
 
     /**
@@ -44,5 +53,16 @@ export class ListBlockSAComponent extends LayoutComponentBase<ListBlockComponent
      * Array of data to be rendered in for cycle
      */
     @Input()
-    public data: Array<any> = [];
+    public data: Array<TDatum> = [];
+
+    //######################### public methods #########################
+
+    /**
+     * Sets id of custom component
+     * @param id - Id of custom component
+     */
+    public setId(id: string): void
+    {
+        this.id = id;
+    }
 }

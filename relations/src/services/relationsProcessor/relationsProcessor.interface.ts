@@ -1,5 +1,7 @@
 import {Subscription} from 'rxjs';
 
+import {RelationsComponentType} from '../../interfaces';
+
 /**
  * Metadata for single component`s output for relation manager
  */
@@ -40,6 +42,16 @@ export interface RelationsProcessorComponentData<TOptions = any>
      * Indication whether was relations component automatically created or existing one was used
      */
     autoCreated: boolean;
+
+    /**
+     * Indication whether is this relations component in scope
+     */
+    scope: string|null;
+
+    /**
+     * Type that is used for creating relations component
+     */
+    componentType: RelationsComponentType|null;
 
     /**
      * Definition of all outputs and their connections to inputs

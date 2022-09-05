@@ -1,3 +1,3 @@
-<ng-container *ngFor="let datum of data">
-    <ng-template [layoutComponentRenderer]="options?.template" scopedRelations></ng-template>
+<ng-container *ngFor="let datum of data; let index=index; let first=first; let last=last">
+    <ng-template [layoutComponentRenderer]="options?.template" scopedRelations listBlockScope [datum]="datum" [first]="first" [last]="last" [index]="index" [componentId]="id"></ng-template>
 </ng-container>

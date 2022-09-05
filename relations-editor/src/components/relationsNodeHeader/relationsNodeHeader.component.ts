@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, ChangeDetectorRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TitledDialogService} from '@anglr/common/material';
+import {TooltipModule} from '@anglr/common';
 import {lastValueFrom, Subject} from 'rxjs';
 
 import {RelationsNode} from '../../interfaces';
@@ -18,6 +19,7 @@ import {RelationsNodeHeaderDisplayNameEditorSAComponent} from '../relationsNodeH
     imports:
     [
         CommonModule,
+        TooltipModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

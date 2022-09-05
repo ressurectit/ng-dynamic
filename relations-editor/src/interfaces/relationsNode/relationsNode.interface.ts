@@ -63,12 +63,12 @@ export interface RelationsNodeEditorData
     singleton?: boolean;
 
     /**
-     * Indication whether relations node was already used
-     */
-    used?: boolean;
-
-    /**
      * Display name of relations node
      */
     displayName?: string;
+
+    /**
+     * Current scope of node that is being used
+     */
+    scope?: string;
 }

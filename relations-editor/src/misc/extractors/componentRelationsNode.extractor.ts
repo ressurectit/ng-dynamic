@@ -18,6 +18,11 @@ interface ɵDynamicModuleWithDefault<TData = any> extends DynamicModule
      * Display name of layout component
      */
     displayName?: string;
+
+    /**
+     * Current scope of node that is being used
+     */
+    scope?: string;
 }
 
 /**
@@ -53,5 +58,6 @@ export const componentRelationsNodeExtractor: DynamicModuleDataExtractorFn<Relat
         metaInfo: metadata.metaInfo,
         singleton: true,
         displayName: localModule.displayName,
+        scope: localModule.scope,
     };
 };

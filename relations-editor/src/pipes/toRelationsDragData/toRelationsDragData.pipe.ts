@@ -17,10 +17,11 @@ export class ToRelationsDragDataSAPipe implements PipeTransform
      * @param value - Palette item to be transformed
      * @param id - Unique id to be used for new node
      * @param singleton - Indication whether is new node singleton, can be used only once
+     * @param scope - Current scope that is being used
      */
-    public transform(value: NodesPaletteItem, id: string, singleton: boolean|undefined): RelationsNodeDragData
+    public transform(value: NodesPaletteItem, id: string, singleton: boolean|undefined, scope: string|undefined): RelationsNodeDragData
     {
-        const newId = singleton ? id : `${value.itemSource.name}-${id}`;
+        const newId = singleton ? value.itemSource.name : `${value.itemSource.name}-${id}`;
 
         return {
             metadata:
@@ -29,6 +30,7 @@ export class ToRelationsDragDataSAPipe implements PipeTransform
                 displayName: singleton ? value.metadata.displayName || value.itemSource.name : undefined,
                 package: value.itemSource.package,
                 name: value.itemSource.name,
+                scope,
                 relationsOptions: extend(true, {}, value.metadata.metaInfo?.defaultOptions),
                 outputs: [],
                 nodeMetadata:

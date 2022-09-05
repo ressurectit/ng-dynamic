@@ -1,5 +1,7 @@
 <div class="header-content">{{parent?.metadata?.displayName || name || parent?.metadata?.id}}</div>
 
+<span *ngIf="parent?.metadata?.scope" [tooltip]="parent?.metadata?.scope" class="margin-horizontal-extra-small">&#123;&#125;</span>
+
 <button type="button" class="btn-icon edit-icon" (click)="editDisplayName()">
     <span class="fas fa-pen"></span>
 </button>

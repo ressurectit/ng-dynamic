@@ -26,6 +26,11 @@ export interface LayoutComponentsRegisterType
      * Name of layout component
      */
     name: string;
+
+    /**
+     * Scope of layout component
+     */
+    scope: string|undefined;
 }
 
 /**
@@ -109,6 +114,17 @@ export class LayoutComponentsRegister implements OnDestroy
     }
 
     /**
+     * Gets scope of type by its name
+     * @param name - Name of type that scope should be obtained
+     */
+    public async getScope(name: string): Promise<string|undefined>
+    {
+        await (this.initPromise ??= this.initializeTypes());
+
+        return this.definedTypes[name]?.scope;
+    }
+
+    /**
      * Gets component name of type byt its name
      * @param name - Name of type that component name should be obtained
      */
@@ -149,6 +165,7 @@ export class LayoutComponentsRegister implements OnDestroy
                 type: type.data,
                 displayName: component.metadata.displayName,
                 name: component.metadata.name,
+                scope: component.metadata.scope,
             };
         }
     }

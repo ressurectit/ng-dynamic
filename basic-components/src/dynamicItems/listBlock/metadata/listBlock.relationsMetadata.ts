@@ -1,12 +1,12 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {ForBlockNodeSAComponent} from '../node/forBlockNode.component';
+import {ListBlockNodeSAComponent} from '../node/listBlockNode.component';
 
 /**
- * For block relations metadata
+ * List block relations metadata
  */
-export class ForBlockRelationsEditorMetadata implements RelationsEditorMetadataDescriptor
+export class ListBlockRelationsEditorMetadata implements RelationsEditorMetadataDescriptor
 {
     //######################### public properties - implementation of RelationsEditorMetadataDescriptor #########################
 
@@ -15,15 +15,15 @@ export class ForBlockRelationsEditorMetadata implements RelationsEditorMetadataD
      */
     public metaInfo?: RelationsEditorMetadataInfo =
     {
-        name: 'For',
-        description: 'For block - displays template in array',
+        name: 'List',
+        description: 'List block - displays template in array',
         group: 'Layout',
     };
 
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = ForBlockNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = ListBlockNodeSAComponent;
 
     //######################### constructor #########################
     constructor()

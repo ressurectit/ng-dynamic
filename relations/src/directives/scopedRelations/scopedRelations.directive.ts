@@ -1,4 +1,5 @@
 import {Directive, FactoryProvider, inject} from '@angular/core';
+import {SCOPE_ID} from '@anglr/dynamic';
 
 import {RelationsComponentManager} from '../../services';
 
@@ -14,7 +15,7 @@ import {RelationsComponentManager} from '../../services';
         <FactoryProvider>
         {
             provide: RelationsComponentManager,
-            useFactory: () => inject(RelationsComponentManager, {skipSelf: true}).openScope('12312312')
+            useFactory: () => inject(RelationsComponentManager, {skipSelf: true}).openScope(inject(SCOPE_ID))
         }
     ],
 })

@@ -6,16 +6,16 @@ import {RelationsComponent, ScopedRelationsSADirective} from '@anglr/dynamic/rel
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
-import {ForBlockComponentOptions, ForBlockRelationsOptions} from './forBlock.options';
-import {ForBlockLayoutDesignerTypeLoader, ForBlockLayoutMetadataLoader, ForBlockRelationsMetadataLoader} from './forBlock.metadata';
+import {ListBlockComponentOptions, ListBlockRelationsOptions} from './listBlock.options';
+import {ListBlockLayoutDesignerTypeLoader, ListBlockLayoutMetadataLoader, ListBlockRelationsMetadataLoader} from './listBlock.metadata';
 
 /**
- * Component used for displaying for block
+ * Component used for displaying list block
  */
 @Component(
 {
-    selector: 'for-block',
-    templateUrl: 'forBlock.component.html',
+    selector: 'list-block',
+    templateUrl: 'listBlock.component.html',
     styles: [HostDisplayBlockStyle],
     standalone: true,
     imports:
@@ -26,17 +26,17 @@ import {ForBlockLayoutDesignerTypeLoader, ForBlockLayoutMetadataLoader, ForBlock
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@LayoutEditorDesignerType(ForBlockLayoutDesignerTypeLoader)
-@RelationsEditorMetadata(ForBlockRelationsMetadataLoader)
-@LayoutEditorMetadata(ForBlockLayoutMetadataLoader)
-export class ForBlockSAComponent extends LayoutComponentBase<ForBlockComponentOptions> implements LayoutComponent<ForBlockComponentOptions>, RelationsComponent<ForBlockRelationsOptions>
+@LayoutEditorDesignerType(ListBlockLayoutDesignerTypeLoader)
+@RelationsEditorMetadata(ListBlockRelationsMetadataLoader)
+@LayoutEditorMetadata(ListBlockLayoutMetadataLoader)
+export class ListBlockSAComponent extends LayoutComponentBase<ListBlockComponentOptions> implements LayoutComponent<ListBlockComponentOptions>, RelationsComponent<ListBlockRelationsOptions>
 {
     //######################### public properties - implementation of RelationsComponent #########################
 
     /**
      * @inheritdoc
      */
-    public relationsOptions: ForBlockRelationsOptions|undefined|null;
+    public relationsOptions: ListBlockRelationsOptions|undefined|null;
 
     //######################### public properties - inputs #########################
 

@@ -1,6 +1,6 @@
 import {ComponentRef, Directive, EmbeddedViewRef, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, SkipSelf, ValueProvider, ViewContainerRef} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {addSimpleChange, DynamicItemExtensionType, DynamicItemLoader} from '@anglr/dynamic';
+import {addSimpleChange, DynamicItemExtensionType, DynamicItemLoader, SCOPE_ID} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 
 import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer.options';
@@ -31,12 +31,12 @@ import {LayoutComponentDef} from '../../misc/types';
 })
 export class LayoutComponentRendererSADirective<TComponent extends LayoutComponent<TComponentOptions> = any, TComponentOptions = any> implements OnChanges, OnDestroy
 {
-    //######################### protected fields #########################
+    //######################### protected properties #########################
 
     /**
      * Created component reference
      */
-    protected _componentRef: ComponentRef<TComponent>|null = null;
+    protected ɵComponentRef: ComponentRef<TComponent>|null = null;
 
     //######################### public properties - inputs #########################
 
@@ -79,12 +79,12 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     protected get component(): TComponent|null
     {
-        if(!this._componentRef)
+        if(!this.ɵComponentRef)
         {
             return null;
         }
 
-        return this._componentRef.instance;
+        return this.ɵComponentRef.instance;
     }
 
     //######################### public properties #########################
@@ -94,20 +94,21 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     public get componentRef(): ComponentRef<TComponent>|null
     {
-        return this._componentRef;
+        return this.ɵComponentRef;
     }
 
     //######################### constructor #########################
-    constructor(protected _viewContainerRef: ViewContainerRef,
-                @Inject(LAYOUT_COMPONENTS_LOADER) protected _loader: DynamicItemLoader<LayoutComponentDef>,
-                @Inject(LAYOUT_COMPONENT_CHILD_EXTENSIONS) @Optional() @SkipSelf() protected _childExtensions?: DynamicItemExtensionType[]|null,
-                @Optional() protected _options?: LayoutComponentRendererDirectiveOptions,
-                @Inject(LAYOUT_COMPONENT_TRANSFORM) @Optional() protected _metadataTransformer?: LayoutComponentTransform,
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(protected viewContainerRef: ViewContainerRef,
+                @Inject(LAYOUT_COMPONENTS_LOADER) protected loader: DynamicItemLoader<LayoutComponentDef>,
+                @Inject(LAYOUT_COMPONENT_CHILD_EXTENSIONS) @Optional() @SkipSelf() protected childExtensions?: DynamicItemExtensionType[]|null,
+                @Inject(SCOPE_ID) @Optional() protected scopeId?: string,
+                @Optional() protected options?: LayoutComponentRendererDirectiveOptions,
+                @Inject(LAYOUT_COMPONENT_TRANSFORM) @Optional() protected metadataTransformer?: LayoutComponentTransform,
+                @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
-        if(!this._options || !(this._options instanceof LayoutComponentRendererDirectiveOptions))
+        if(!this.options || !(this.options instanceof LayoutComponentRendererDirectiveOptions))
         {
-            this._options = new LayoutComponentRendererDirectiveOptions();
+            this.options = new LayoutComponentRendererDirectiveOptions();
         }
     }
 
@@ -118,34 +119,34 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
-        this._logger?.debug('LayoutComponentRendererSADirective: rendering component {@id}', {id: this.componentMetadata?.id});
+        this.logger?.debug('LayoutComponentRendererSADirective: rendering component {@id}', {id: this.componentMetadata?.id});
 
         this.ngOnDestroy();
-        this._viewContainerRef.clear();
+        this.viewContainerRef.clear();
 
         // component metadata is present
         if(nameof<LayoutComponentRendererSADirective<TComponent, TComponentOptions>>('componentMetadata') in changes && this.componentMetadata)
         {
-            const injector = this.customInjector ?? this._viewContainerRef.injector;
+            const injector = this.customInjector ?? this.viewContainerRef.injector;
             let componentMetadata = this.componentMetadata;
 
-            if(this._metadataTransformer && !this.disableTransformer)
+            if(this.metadataTransformer && !this.disableTransformer)
             {
-                componentMetadata = this._metadataTransformer(this.componentMetadata, injector);
+                componentMetadata = this.metadataTransformer(this.componentMetadata, injector);
             }
             
-            const layoutComponentType = await this._loader.loadItem(componentMetadata);
+            const layoutComponentType = await this.loader.loadItem(componentMetadata);
 
             if(!layoutComponentType)
             {
-                this._logger?.warn('LayoutComponentRendererSADirective: Unable to find layout component type {@type}', {name: componentMetadata.name, package: componentMetadata.package});
+                this.logger?.warn('LayoutComponentRendererSADirective: Unable to find layout component type {@type}', {name: componentMetadata.name, package: componentMetadata.package});
 
-                switch(this._options?.missingTypeBehavior)
+                switch(this.options?.missingTypeBehavior)
                 {
                     default:
                     //case MissingTypeBehavior.ShowNotFound:
                     {
-                        this._viewContainerRef.createComponent(NotFoundLayoutTypeSAComponent);
+                        this.viewContainerRef.createComponent(NotFoundLayoutTypeSAComponent);
 
                         break;
                     }
@@ -171,18 +172,23 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                 [
                     <ValueProvider>
                     {
+                        provide: SCOPE_ID,
+                        useValue: componentMetadata.scope ?? this.scopeId ?? null,
+                    },
+                    <ValueProvider>
+                    {
                         provide: LAYOUT_COMPONENT_CHILD_EXTENSIONS,
                         useValue: layoutComponentType.childExtensions,
                     }
                 ]
             });
 
-            this._componentRef = this._viewContainerRef.createComponent(layoutComponentType.data,
-                                                                        {
-                                                                            injector: usedInjector,
-                                                                        }) as ComponentRef<TComponent>;
+            this.ɵComponentRef = this.viewContainerRef.createComponent(layoutComponentType.data,
+                                                                       {
+                                                                           injector: usedInjector,
+                                                                       }) as ComponentRef<TComponent>;
 
-            this._logger?.debug('LayoutComponentRendererSADirective: component rendered {@id}', {id: componentMetadata?.id});
+            this.logger?.debug('LayoutComponentRendererSADirective: component rendered {@id}', {id: componentMetadata?.id});
             const component = this.component;
 
             if(component)
@@ -190,28 +196,28 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                 //registers extensions and child extensions
                 component.registerExtensions(
                 [
-                    ...this._childExtensions?.map(itm => new itm(componentMetadata)) ?? [],
+                    ...this.childExtensions?.map(itm => new itm(componentMetadata)) ?? [],
                     ...layoutComponentType?.extensions?.map(itm => new itm(componentMetadata)) ?? [],
                 ]);
 
                 const changes: SimpleChanges = {};
                 addSimpleChange<LayoutComponent>(changes, 'options', componentMetadata.options, component.options, true);
 
-                this._logger?.debug('LayoutComponentRendererSADirective: setting options for component {@id}', {id: componentMetadata?.id});
+                this.logger?.debug('LayoutComponentRendererSADirective: setting options for component {@id}', {id: componentMetadata?.id});
                 component.options = componentMetadata.options;
                 
-                this._logger?.debug('LayoutComponentRendererSADirective: setting changes for component {@id}', {id: componentMetadata?.id});
+                this.logger?.debug('LayoutComponentRendererSADirective: setting changes for component {@id}', {id: componentMetadata?.id});
                 await component.ngOnChanges?.(changes);
 
-                this._logger?.debug('LayoutComponentRendererSADirective: initializing component {@id}', {id: componentMetadata?.id});
+                this.logger?.debug('LayoutComponentRendererSADirective: initializing component {@id}', {id: componentMetadata?.id});
                 await component.ngOnInit?.();
 
-                this._logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {@id}', {id: componentMetadata?.id});
+                this.logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {@id}', {id: componentMetadata?.id});
                 component.invalidateVisuals();
-                this._componentRef?.changeDetectorRef.markForCheck();
+                this.ɵComponentRef?.changeDetectorRef.markForCheck();
 
-                this.componentElementChange.next((this._componentRef?.hostView as EmbeddedViewRef<unknown>).rootNodes[0] as HTMLElement);
-                this.componentChange.next(this._componentRef);
+                this.componentElementChange.next((this.ɵComponentRef?.hostView as EmbeddedViewRef<unknown>).rootNodes[0] as HTMLElement);
+                this.componentChange.next(this.ɵComponentRef);
             }
         }
     }
@@ -223,12 +229,12 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     public ngOnDestroy(): void
     {
-        if(this._componentRef)
+        if(this.ɵComponentRef)
         {
-            this._logger?.debug('LayoutComponentRendererSADirective: destroying component {@id}', {id: this.componentMetadata?.id, designer: this.disableTransformer});
+            this.logger?.debug('LayoutComponentRendererSADirective: destroying component {@id}', {id: this.componentMetadata?.id, designer: this.disableTransformer});
     
-            this._componentRef?.destroy();
-            this._componentRef = null;
+            this.ɵComponentRef?.destroy();
+            this.ɵComponentRef = null;
             this.componentChange.next(null);
             this.componentElementChange.next(null);
         }

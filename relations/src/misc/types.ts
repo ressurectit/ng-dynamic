@@ -1,9 +1,8 @@
-import {Type} from '@angular/core';
 import {DynamicItemDefData} from '@anglr/dynamic';
 
-import {RelationsComponent} from '../interfaces';
+import {RelationsComponentType} from '../interfaces';
 
 /**
  * Relations component definition
  */
-export type RelationsComponentDef = DynamicItemDefData<Type<RelationsComponent>>;
+export type RelationsComponentDef = DynamicItemDefData<RelationsComponentType>;

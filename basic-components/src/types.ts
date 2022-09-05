@@ -1,10 +1,10 @@
 const components = 
 [
     'button',
-    'forBlock',
     'gridPanel',
     'htmlBlock',
     'ifBlock',
+    'listBlock',
     'stackPanel',
     'templateBlock',
     'textBlock',

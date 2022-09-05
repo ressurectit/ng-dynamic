@@ -4,6 +4,8 @@ import {Dictionary} from '@jscrpt/common';
 
 import {RelationsComponent} from '../../interfaces';
 
+//TODO: OPTIMIZE: use cache and destroys it from parents on destroy or unregister
+
 /**
  * Manager used for managing all components used in relations
  */
@@ -82,8 +84,6 @@ export class RelationsComponentManager implements OnDestroy
      */
     public get(id: string): RelationsComponent[]|RelationsComponent|null
     {
-        //TODO: optimize search of scopes
-
         const component = this.components[id];
 
         if(component)
@@ -91,24 +91,14 @@ export class RelationsComponentManager implements OnDestroy
             return component;
         }
 
-        for(const scopeId in this.scopes)
+        const components = this.getChildrenComponents(id);
+
+        if(components)
         {
-            const scope = this.scopes[scopeId];
-
-            if(!scope[0])
-            {
-                return null;
-            }
-
-            const scopedComponent = scope[0].get(id);
-
-            if(scopedComponent)
-            {
-                return scopedComponent;
-            }
+            return components;
         }
 
-        return this.parent?.components[id] ?? null;
+        return this.getParentComponents(id);
     }
 
     /**
@@ -142,5 +132,87 @@ export class RelationsComponentManager implements OnDestroy
         }
 
         delete this.scopes[id];
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Gets children components when scopes are used
+     * @param id - Id of components to be get
+     */
+    protected getChildrenComponents(id: string): RelationsComponent[]|null
+    {
+        const getFromScope = (scopeId: string) =>
+        {
+            const scope = this.scopes[scopeId];
+            const result: RelationsComponent[] = [];
+
+            for(const mngr of scope)
+            {
+                const component = mngr.components[id];
+
+                if(component)
+                {
+                    result.push(component);
+
+                    continue;
+                }
+
+                const components = mngr.getChildrenComponents(id);
+
+                if(Array.isArray(components))
+                {
+                    for(const cmp of components)
+                    {
+                        result.push(cmp);
+                    }
+
+                    continue;
+                }
+
+                return null;
+            }
+
+            if(result.length)
+            {
+                return result;
+            }
+
+            return null;
+        };
+
+
+        for(const scopeId in this.scopes)
+        {
+            const result = getFromScope(scopeId);
+
+            if(result)
+            {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Gets parent components when scopes are used
+     * @param id - Id of component to be get
+     */
+    protected getParentComponents(id: string): RelationsComponent|null
+    {
+        if(!this.parent)
+        {
+            return null;
+        }
+
+        const component = this.parent.components[id] ?? null;
+
+        if(component)
+        {
+            return component;
+        }
+
+        return this.parent.getParentComponents(id);
     }
 }

@@ -11,8 +11,6 @@ import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from
 import {RELATIONS_COMPONENTS_LOADER} from '../../misc/tokens';
 import {RelationsComponentDef} from '../../misc/types';
 
-//TODO: maybe update type for node add injector as parameter
-
 /**
  * Processor that applies relations to registered components
  */

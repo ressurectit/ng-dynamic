@@ -400,6 +400,7 @@ export class DemoData
             relationsOptions: {},
             nodeMetadata: 
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 600,
@@ -429,6 +430,7 @@ export class DemoData
             relationsOptions: {},
             nodeMetadata: 
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 166,
@@ -462,6 +464,7 @@ export class DemoData
             relationsOptions: {},
             nodeMetadata: 
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 1278,
@@ -479,6 +482,7 @@ export class DemoData
             relationsOptions: {},
             nodeMetadata: 
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 388,
@@ -508,6 +512,7 @@ export class DemoData
             relationsOptions: {},
             nodeMetadata: 
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 836,
@@ -541,6 +546,7 @@ export class DemoData
             relationsOptions: {},
             nodeMetadata: 
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 1246,
@@ -574,6 +580,7 @@ export class DemoData
             ],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 30,
@@ -602,6 +609,7 @@ export class DemoData
             ],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 230,
@@ -618,6 +626,7 @@ export class DemoData
             outputs: [],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 430,
@@ -650,6 +659,7 @@ export class DemoData
             ],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 30,
@@ -678,6 +688,7 @@ export class DemoData
             ],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 230,
@@ -706,6 +717,7 @@ export class DemoData
             ],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 430,
@@ -722,6 +734,7 @@ export class DemoData
             outputs: [],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 630,
@@ -742,6 +755,7 @@ export class DemoData
             relationsOptions: {},
             nodeMetadata: 
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 517,
@@ -771,6 +785,7 @@ export class DemoData
             relationsOptions: {},
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 565,
@@ -788,6 +803,7 @@ export class DemoData
             relationsOptions: {},
             nodeMetadata: 
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 89,
@@ -817,6 +833,7 @@ export class DemoData
             relationsOptions: {},
             nodeMetadata: 
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 163,
@@ -862,6 +879,7 @@ export class DemoData
             ],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 30,
@@ -890,6 +908,7 @@ export class DemoData
             ],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 230,
@@ -918,6 +937,7 @@ export class DemoData
             ],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 430,
@@ -934,6 +954,7 @@ export class DemoData
             outputs: [],
             nodeMetadata:
             {
+                scopeConfigurable: true,
                 coordinates: 
                 {
                     x: 630,
@@ -1017,6 +1038,7 @@ export class DemoData
                 ]
             },
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 237,
                     y: 19
@@ -1055,6 +1077,7 @@ export class DemoData
             displayName: 'static-input',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 37,
                     y: 275
@@ -1086,6 +1109,7 @@ export class DemoData
                 template: '{{message}}'
             },
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 551,
                     y: 404
@@ -1113,6 +1137,7 @@ export class DemoData
                 template: '{{message}}'
             },
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 557,
                     y: 574
@@ -1140,6 +1165,7 @@ export class DemoData
                 content: '<ul>\n<li><strong>name</strong> <em>{{name}}</em></li>\n<li><strong>surname</strong> <em>{{surname}}</em></li>\n</ul>'
             },
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 11,
                     y: 419
@@ -1165,6 +1191,7 @@ export class DemoData
             displayName: 'htmlBlock-fjcmywitfmggcczg',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 903,
                     y: 210
@@ -1180,6 +1207,7 @@ export class DemoData
             displayName: 'htmlBlock-lkgbjhhwxcprqazq',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 911,
                     y: 346
@@ -1195,6 +1223,7 @@ export class DemoData
             displayName: 'ifBlock-tmwjofgfbijizdsd',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 907,
                     y: 91
@@ -1589,6 +1618,7 @@ export class DemoData
             displayName: 'negation-qvbqandognyjqdmy',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 841,
                     y: 194
@@ -1618,6 +1648,7 @@ export class DemoData
             displayName: 'sampleSource-fkyadmjjmcpqkrwr',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 34,
                     y: 291
@@ -1651,6 +1682,7 @@ export class DemoData
             displayName: 'static-input',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 37,
                     y: 22
@@ -1689,6 +1721,7 @@ export class DemoData
             displayName: 'static-output',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 1257.4117647058822,
                     y: 254.41176470588235
@@ -1704,6 +1737,7 @@ export class DemoData
             displayName: 'dataTemplate-epbrdoqwxwiidpth',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 453,
                     y: 470
@@ -1731,6 +1765,7 @@ export class DemoData
                 content: '<ul>\n<li>name: <strong>{{name}}</strong></li>\n<li>surname: <strong>{{surname}}</strong></li>\n<li>man: <strong>{{man}}</strong></li>\n<li>address: <em>{{address.city}}</em></li>\n</ul>'
             },
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 53,
                     y: 513
@@ -1756,6 +1791,7 @@ export class DemoData
             displayName: 'toggleButton-mcthrpzgxzjsyfry',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 432,
                     y: 27
@@ -1785,6 +1821,7 @@ export class DemoData
             displayName: 'htmlBlock-hcmxzixcqvdvmhro',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 1172,
                     y: 21
@@ -1800,6 +1837,7 @@ export class DemoData
             displayName: 'htmlBlock-wrbokioxmurhwpfb',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 1254,
                     y: 152
@@ -1815,6 +1853,7 @@ export class DemoData
             displayName: 'toggleButton-uiexplfcokfepzla',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 431,
                     y: 147
@@ -1840,6 +1879,7 @@ export class DemoData
             displayName: 'htmlBlock-dcpbevwptjcapuuo',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 55,
                     y: 189
@@ -1855,6 +1895,7 @@ export class DemoData
             displayName: 'ifBlock-npjsceeegdggbobt',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 842,
                     y: 323
@@ -1870,6 +1911,7 @@ export class DemoData
             displayName: 'dataBlock-ehdywmgygqqixqtw',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 433,
                     y: 325
@@ -1885,6 +1927,7 @@ export class DemoData
             displayName: 'htmlBlock-ggpvvtgijxhbcohp',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 964,
                     y: 471
@@ -1900,6 +1943,7 @@ export class DemoData
             displayName: 'htmlBlock-zechbkcvoryocjsw',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 605,
                     y: 616
@@ -1915,6 +1959,7 @@ export class DemoData
             displayName: 'sampleChange-vdepgebvmexpjbgs',
             relationsOptions: {},
             nodeMetadata: {
+                scopeConfigurable: true,
                 coordinates: {
                     x: 286,
                     y: 634

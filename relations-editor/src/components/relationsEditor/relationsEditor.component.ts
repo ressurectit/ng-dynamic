@@ -123,6 +123,7 @@ export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
         if (event.item.data.metadata.nodeMetadata?.coordinates)
         {
             const coordinates = this.relationCanvas?.getPositionInCanvas(event.dropPoint);
+
             if(coordinates)
             {
                 event.item.data.metadata.nodeMetadata.coordinates.x = coordinates.x;

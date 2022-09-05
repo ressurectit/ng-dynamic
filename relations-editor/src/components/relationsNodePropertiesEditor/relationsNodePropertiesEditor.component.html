@@ -3,7 +3,7 @@
     <input class="form-control" type="text" formControlName="displayName">
 
     <label class="control-label">scope</label>
-    <input class="form-control" type="text" formControlName="scope">
+    <input class="form-control" type="text" formControlName="scope" [readonly]="!data.scopeConfigurable">
 </div>
 
 <div class="flex-row flex-end margin-top-small">

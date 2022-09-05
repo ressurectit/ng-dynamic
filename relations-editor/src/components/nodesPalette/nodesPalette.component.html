@@ -7,12 +7,11 @@
              cdkDropListSortingDisabled
              [cdkDropListConnectedTo]="canvasDropList"
              class="palette-droplist">
-            <nodes-palette-item 
-                [data]="item"
-                class="editor-component mat-elevation-z2"
-                cdkDrag
-                [cdkDragData]="item | toRelationsDragData: newCompnentId: item.metadata.singleton: item.metadata.scope"
-                (cdkDragDropped)="generateNewId()"></nodes-palette-item>
+            <nodes-palette-item [data]="item"
+                                class="editor-component mat-elevation-z2"
+                                cdkDrag
+                                [cdkDragData]="item | toRelationsDragData: newCompnentId: item.metadata.singleton: item.metadata.scope"
+                                (cdkDragDropped)="generateNewId()"></nodes-palette-item>
         </div>
     </ng-container>
 </div>

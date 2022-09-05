@@ -13,6 +13,11 @@ export interface NodeMetadata<TOptions = any>
     coordinates: Coordinates|undefined|null;
 
     /**
+     * Indication whether is scope configurable
+     */
+    scopeConfigurable: boolean|undefined|null;
+
+    /**
      * Options passed to relations node
      */
     options: TOptions|undefined|null;

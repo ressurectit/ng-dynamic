@@ -59,8 +59,6 @@ export class RelationsNodeHeaderSAComponent
      */
     protected async editProperties(): Promise<void>
     {
-        //TODO: scope configurable
-
         const result = await lastValueFrom(this.dialog.open<RelationsNodePropertiesEditorSAComponent, RelationsNodePropertiesEditorData, RelationsNodeProperties|undefined|null>(RelationsNodePropertiesEditorSAComponent,
         {
             title: 'edit properties',
@@ -72,7 +70,7 @@ export class RelationsNodeHeaderSAComponent
                     displayName: this.parent?.metadata?.displayName || this.name || this.parent?.metadata?.id || '',
                     scope: this.parent?.metadata?.scope,
                 },
-                scopeConfigurable: true,
+                scopeConfigurable: this.parent?.metadata?.nodeMetadata?.scopeConfigurable ?? false,
             }
         }).afterClosed());
 

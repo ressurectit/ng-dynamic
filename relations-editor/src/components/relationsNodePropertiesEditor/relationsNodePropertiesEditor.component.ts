@@ -37,7 +37,7 @@ export class RelationsNodePropertiesEditorSAComponent
     protected form: FormGroup<FormModelGroup<RelationsNodeProperties>>;
 
     //######################### constructor #########################
-    constructor(@Inject(TITLED_DIALOG_DATA) data: RelationsNodePropertiesEditorData,
+    constructor(@Inject(TITLED_DIALOG_DATA) protected data: RelationsNodePropertiesEditorData,
                 formModelBuilder: FormModelBuilder,)
     {
         this.form = formModelBuilder.build<RelationsNodeProperties>(new RelationsNodePropertiesModel(data.properties));

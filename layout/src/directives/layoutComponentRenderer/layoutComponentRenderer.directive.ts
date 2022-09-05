@@ -129,6 +129,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
         {
             const injector = this.customInjector ?? this.viewContainerRef.injector;
             let componentMetadata = this.componentMetadata;
+            const scopeId = this.componentMetadata.scope;
 
             if(this.metadataTransformer && !this.disableTransformer)
             {
@@ -173,7 +174,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                     <ValueProvider>
                     {
                         provide: SCOPE_ID,
-                        useValue: componentMetadata.scope ?? this.scopeId ?? null,
+                        useValue: scopeId ?? this.scopeId ?? null,
                     },
                     <ValueProvider>
                     {

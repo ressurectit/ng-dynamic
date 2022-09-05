@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {Logger, LOGGER, PositionModule} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {MetadataHistoryManager} from '@anglr/dynamic';
+import {MetadataHistoryManager, SCOPE_ID} from '@anglr/dynamic';
 import {Func, isPresent} from '@jscrpt/common';
 import {DndModule} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
@@ -164,6 +164,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
                 protected layoutEditorMetadataManager: LayoutEditorMetadataManager,
                 protected iteratorSvc: LayoutComponentsIteratorService,
                 @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
+                @Optional() @Inject(SCOPE_ID) protected scopeId?: string,
                 @Inject(LOGGER) @Optional() logger?: Logger,
                 @SkipSelf() @Optional() protected parent?: LayoutDesignerSAComponent,)
     {
@@ -339,6 +340,8 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         {
             return;
         }
+
+        this.options.typeMetadata.scope = this.scopeId;
 
         if(this.parent?.options)
         {

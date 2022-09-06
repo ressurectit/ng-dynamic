@@ -6,8 +6,6 @@ export * from './ifBlock';
 export * from './listBlock';
 export * from './negation';
 export * from './rest';
-export * from './sampleChange';
-export * from './sampleSource';
 export * from './stackPanel';
 export * from './templateBlock';
 export * from './textBlock';

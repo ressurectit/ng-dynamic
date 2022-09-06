@@ -2,8 +2,6 @@ const relations =
 [
     'negation',
     'rest',
-    'sampleChange',
-    'sampleSource',
     'value',
 ];
 

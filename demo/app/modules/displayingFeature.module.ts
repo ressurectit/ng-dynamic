@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {CommonUtilsModule, CommonLocalizeModule, TooltipModule} from '@anglr/common';
 import {NumeralModule} from '@anglr/common/numeral';
-import {AuthorizationModule} from '@anglr/authentication';
 import {DatePipesModule} from '@anglr/datetime';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -22,7 +21,6 @@ import {TranslateModule} from '@ngx-translate/core';
         TooltipModule,
         TranslateModule,
         DatePipesModule,
-        AuthorizationModule,
     ]
 })
 export class DisplayingFeatureModule

@@ -4,27 +4,27 @@
         <span class="fa" *ngIf="hasChildren" [ngClass]="open ? 'fa-chevron-down' : 'fa-chevron-right'"></span>
     </button>
     <div 
-        [class.selected]="data?.component?.options?.typeMetadata?.id === _manager.selectedComponent"
-        [class.highlighted]="data?.component?.options?.typeMetadata?.id === _manager.highlightedComponent"
-        (mouseover)="highlight($event, data?.component?.options?.typeMetadata?.id)"
-        (click)="_manager.selectComponent(data?.component?.options?.typeMetadata?.id)">{{data?.component?.options?.typeMetadata?.displayName || data?.component?.options?.typeMetadata?.id}}</div>
+        [class.selected]="data?.id === _manager.selectedComponent"
+        [class.highlighted]="data?.id === _manager.highlightedComponent"
+        (mouseover)="highlight($event, data?.id)"
+        (click)="_manager.selectComponent(data?.id)">{{data?.displayName || data?.id}}</div>
 </div>
 
 <div class="node-children" 
         cdkDropList
         
         [cdkDropListEnterPredicate]="_canDrop"
-        [id]="'component-tree-' + data?.component?.options?.typeMetadata?.id"
+        [id]="'component-tree-' + data?.id"
         *ngIf="hasChildren || _canDrop()"
         [class.hidden]="!open"
         connectDropLists
         connectDropListsPrefix="component-tree-">
         <!-- (cdkDropListDropped)="data?.component?.addDescendant($event)" -->
     <div 
-        *ngFor="let child of data?.children"
+        *ngFor="let child of children"
         cdkDrag 
-        [cdkDragData]="{metadata: child.component.options?.typeMetadata, parentId: child.parent?.component?.id}"
-        [cdkDragDisabled]="child.component.dragDisabled"
+        [cdkDragData]="{metadata: child, parentId: data?.id}"
+        [cdkDragDisabled]="false"
         class="node-child">
         <components-tree-item [data]="child"></components-tree-item>
     </div>

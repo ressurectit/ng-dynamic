@@ -2,9 +2,10 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Subscription} from 'rxjs';
 
-import {LayoutEditorMetadataManager, LayoutEditorMetadataManagerComponent} from '../../services';
+import {LayoutEditorMetadataManager} from '../../services';
 import {ComponentTreeNodeTemplateSADirective, ConnectDropListsSADirective} from '../../directives';
 import {ComponentsTreeItemSAComponent} from './item';
 
@@ -42,7 +43,7 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     /**
      * Instance of root component in tree
      */
-    protected root: LayoutEditorMetadataManagerComponent|undefined|null;
+    protected root: LayoutComponentMetadata|undefined|null;
 
     /**
      * Root component tree item
@@ -65,7 +66,7 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     {
         this._initSubscriptions.add(this._manager.layoutChange.subscribe(() =>
         {
-            this.root = this._manager.root;
+            this.root = this._manager.getMetadata();
             this._changeDetector.detectChanges();
         }));
         
@@ -78,7 +79,7 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
         this._initSubscriptions.add(this._manager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
         this._initSubscriptions.add(this._manager.displayNameChange.subscribe(() => this._changeDetector.detectChanges()));
 
-        this.root = this._manager.root;
+        this.root = this._manager.getMetadata();
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -89,17 +90,5 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     public ngOnDestroy(): void
     {
         this._initSubscriptions.unsubscribe();
-    }
-
-    //######################### protected methods - template bindings #########################
-
-    /**
-     * Indicates whether layout component has children
-     * @param node layout component to check
-     * @returns 
-     */
-    protected hasChild(node: LayoutEditorMetadataManagerComponent): boolean
-    {
-        return !!node.children && node.children.length > 0;
     }
 }

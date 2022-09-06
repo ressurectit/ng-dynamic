@@ -2,11 +2,12 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, Inp
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import {Func} from '@jscrpt/common';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {DebounceCall, Func, NoopAction} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {ComponentTreeNodeTemplateSADirective, ConnectDropListsSADirective} from '../../../directives';
-import {LayoutEditorMetadataManager, LayoutEditorMetadataManagerComponent} from '../../../services';
+import {LayoutComponentsIteratorService, LayoutEditorMetadataManager} from '../../../services';
 
 /**
  * Component displaying components tree item
@@ -37,6 +38,16 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     protected _initSubscriptions: Subscription = new Subscription();
 
+    /**
+     * Node children
+     */
+    protected children: LayoutComponentMetadata[] = [];
+
+    /**
+     * Promise used for syncing async operations
+     */
+    protected syncPromise: Promise<void> = Promise.resolve();
+
     //######################### protected fields - template bindings #########################
 
     /**
@@ -46,7 +57,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     protected get hasChildren(): boolean
     {
-        return !!this.data?.children && this.data?.children.length > 0;
+        return !!this.children && this.children.length > 0;
     }
 
     /**
@@ -61,7 +72,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      * Instance component tree item
      */
     @Input()
-    public data: LayoutEditorMetadataManagerComponent|undefined|null;
+    public data: LayoutComponentMetadata|undefined|null;
 
     /**
      * Indication whether node is open
@@ -71,7 +82,8 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
 
     //######################### constructor #########################
     constructor(protected _manager: LayoutEditorMetadataManager,
-                protected _changeDetector: ChangeDetectorRef,)
+                protected _changeDetector: ChangeDetectorRef,
+                protected iteratorSvc: LayoutComponentsIteratorService,)
     {
     }
 
@@ -82,9 +94,9 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._initSubscriptions.add(this._manager.layoutChange.subscribe(() =>
+        this._initSubscriptions.add(this._manager.layoutChange.subscribe(() => 
         {
-            this._changeDetector.detectChanges();
+            this.initChildren();
         }));
         
         this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => 
@@ -94,6 +106,8 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
         
         this._initSubscriptions.add(this._manager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
         this._initSubscriptions.add(this._manager.displayNameChange.subscribe(() => this._changeDetector.detectChanges()));
+
+        this.initChildren();
     }
  
     //######################### public methods - implementation of OnDestroy #########################
@@ -129,7 +143,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
             return true;
         }
 
-        if (this.data?.component?.options?.typeMetadata?.id === nodeId)
+        if (this.data?.id === nodeId)
         {
             return true;
         }
@@ -154,7 +168,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public expandAll(): void
     {
-        this._childrenNodes?.forEach(child => child.expandAll());
+        this._childrenNodes?.forEach((child: ComponentsTreeItemSAComponent) => child.expandAll());
         this.expand();
         this._changeDetector.detectChanges();
     }
@@ -172,9 +186,33 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public collapseAll(): void
     {
-        this._childrenNodes?.forEach(child => child.collapseAll());
+        this._childrenNodes?.forEach((child: ComponentsTreeItemSAComponent) => child.collapseAll());
         this.collapse();
         this._changeDetector.detectChanges();
+    }
+
+    //######################### protected methods #########################
+
+    @DebounceCall(10)
+    protected async initChildren(): Promise<void>
+    {
+        await this.syncPromise;
+        let syncResolve: NoopAction|undefined;
+        this.syncPromise = new Promise(resolve => syncResolve = resolve);
+
+        this.children = [];
+
+        if (this.data)
+        {
+            for await(const child of this.iteratorSvc.getChildrenIteratorFor(this.data))
+            {
+                this.children.push(child.metadata);
+            }
+        }
+        
+        this._changeDetector.detectChanges();
+
+        syncResolve?.();
     }
 
     //######################### protected methods - template bindings #########################
@@ -196,7 +234,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      * Indicataion whether drag data can be dropped into node
      * @returns 
      */
-    protected _canDrop: Func<boolean> = () => this.data?.component?.canDropFn() ?? false;
+    protected _canDrop: Func<boolean> = () => false;
 
     //######################### protected methods - host #########################
 

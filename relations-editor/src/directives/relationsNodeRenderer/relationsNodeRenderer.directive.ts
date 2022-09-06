@@ -8,6 +8,8 @@ import {RelationsNode, RelationsNodeMetadata} from '../../interfaces';
 import {RELATIONS_NODES_LOADER} from '../../misc/tokens';
 import {RelationsNodeDef} from '../../misc/types';
 import {RelationsNodeManager} from '../../services';
+import {RelationsNodeRendererDirectiveOptions} from './relationsNodeRenderer.options';
+import {MissingNodeBehavior} from './relationsNodeRenderer.types';
 
 /**
  * Renderer for dynamic relations node
@@ -79,8 +81,13 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
     constructor(protected viewContainerRef: ViewContainerRef,
                 protected relationsNodeManager: RelationsNodeManager,
                 @Inject(RELATIONS_NODES_LOADER) protected loader: DynamicItemLoader<RelationsNodeDef>,
+                @Optional() protected options?: RelationsNodeRendererDirectiveOptions,
                 @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
+        if(!this.options || !(this.options instanceof RelationsNodeRendererDirectiveOptions))
+        {
+            this.options = new RelationsNodeRendererDirectiveOptions();
+        }
     }
 
     //######################### public methods - implementation of OnChanges #########################
@@ -120,36 +127,42 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
         // component metadata is present
         if(nameof<RelationsNodeRendererSADirective<TComponent, TOptions, TEditorOptions>>('componentMetadata') in changes && this.componentMetadata)
         {
-            const layoutComponentType = await this.loader.loadItem(this.componentMetadata);
+            let layoutComponentType = await this.loader.loadItem(this.componentMetadata);
 
             if(!layoutComponentType)
             {
                 this.logger?.warn('RelationsNodeRendererSADirective: Unable to find relations node type {@type}', {name: this.componentMetadata.name, package: this.componentMetadata.package});
 
-                //TODO: similar handling
+                switch(this.options?.missingNodeBehavior)
+                {
+                    default:
+                    //case MissingNodeBehavior.ShowNotFound:
+                    {
+                        layoutComponentType = await this.loader.loadItem(
+                        {
+                            package: 'basic-components',
+                            name: 'notFound',
+                        });
 
-                // switch(this._options?.missingTypeBehavior)
-                // {
-                //     default:
-                //     //case MissingTypeBehavior.ShowNotFound:
-                //     {
-                //         this._viewContainerRef.createComponent(NotFoundLayoutTypeSAComponent);
+                        if(!layoutComponentType)
+                        {
+                            this.logger?.error('RelationsNodeRendererSADirective: Unable to find not found node!');
 
-                //         break;
-                //     }
-                //     case MissingTypeBehavior.Ignore:
-                //     {
-                //         //do nothing
+                            return;
+                        }
 
-                //         break;
-                //     }
-                //     case MissingTypeBehavior.ThrowError:
-                //     {
-                //         throw new Error(`RelationsNodeRendererSADirective: Unable to find layout component type Name: ${componentMetadata.name} Package: ${componentMetadata.package}`);
-                //     }
-                // }
-
-                return;
+                        break;
+                    }
+                    case MissingNodeBehavior.Ignore:
+                    {
+                        //do nothing
+                        return;
+                    }
+                    case MissingNodeBehavior.ThrowError:
+                    {
+                        throw new Error(`RelationsNodeRendererSADirective: Unable to find relations node type Name: ${this.componentMetadata.name} Package: ${this.componentMetadata.package}`);
+                    }
+                }
             }
 
             this.componentRef = this.viewContainerRef.createComponent(layoutComponentType.data,

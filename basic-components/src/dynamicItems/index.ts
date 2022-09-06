@@ -5,6 +5,7 @@ export * from './htmlBlock';
 export * from './ifBlock';
 export * from './listBlock';
 export * from './negation';
+export * from './notFound';
 export * from './rest';
 export * from './stackPanel';
 export * from './templateBlock';

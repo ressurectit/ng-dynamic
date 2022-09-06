@@ -4,8 +4,6 @@ import {Dictionary} from '@jscrpt/common';
 
 import {RelationsComponent} from '../../interfaces';
 
-//TODO: OPTIMIZE: use cache and destroys it from parents on destroy or unregister
-
 /**
  * Manager used for managing all components used in relations
  */
@@ -29,6 +27,11 @@ export class RelationsComponentManager implements OnDestroy
      */
     protected parent: RelationsComponentManager|null = null;
 
+    /**
+     * Cache containing children scoped components
+     */
+    protected childrenCache: Dictionary<RelationsComponent[]> = {};
+
     //######################### constructor #########################
     constructor(@Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
@@ -41,6 +44,10 @@ export class RelationsComponentManager implements OnDestroy
      */
     public ngOnDestroy(): void
     {
+        for(const componentId in this.components)
+        {
+            this.removeCacheFromHierarchy(componentId);
+        }
     }
 
     //######################### public methods #########################
@@ -59,6 +66,7 @@ export class RelationsComponentManager implements OnDestroy
             return;
         }
 
+        this.removeCacheFromHierarchy(id);
         this.components[id] = component;
     }
 
@@ -75,6 +83,7 @@ export class RelationsComponentManager implements OnDestroy
             return;
         }
 
+        this.removeCacheFromHierarchy(id);
         delete this.components[id];
     }
 
@@ -89,6 +98,11 @@ export class RelationsComponentManager implements OnDestroy
         if(component)
         {
             return component;
+        }
+
+        if(this.childrenCache[id])
+        {
+            return this.childrenCache[id];
         }
 
         const components = this.getChildrenComponents(id);
@@ -135,6 +149,22 @@ export class RelationsComponentManager implements OnDestroy
     }
 
     //######################### protected methods #########################
+
+    /**
+     * Removes cached components from hierarchy
+     * @param id - Id of component which will be removed from cache
+     */
+    protected removeCacheFromHierarchy(id: string): void
+    {
+        //no parent or parent cache does not contains id
+        if(!this.parent || !this.parent.childrenCache[id])
+        {
+            return;
+        }
+
+        delete this.parent.childrenCache[id];
+        this.parent.removeCacheFromHierarchy(id);
+    }
 
     /**
      * Gets children components when scopes are used
@@ -188,6 +218,8 @@ export class RelationsComponentManager implements OnDestroy
 
             if(result)
             {
+                this.childrenCache[id] = result;
+
                 return result;
             }
         }

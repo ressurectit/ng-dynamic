@@ -1,4 +1,4 @@
-import {Subscription} from 'rxjs';
+import {Dictionary} from '@jscrpt/common';
 
 import {RelationsComponentType} from '../../interfaces';
 
@@ -28,9 +28,9 @@ export interface RelationsProcessorInputOutputData
     outputComponentId: string;
 
     /**
-     * Indication whether there was already initial data transfer, for this relation
+     * Indication whether there was already initial data transfer, for relations identified by input component id and output component id
      */
-    initialized: boolean;
+    initialized: Dictionary<boolean>;
 }
 
 /**
@@ -57,16 +57,6 @@ export interface RelationsProcessorComponentData<TOptions = any>
      * Definition of all outputs and their connections to inputs
      */
     inputOutputs?: RelationsProcessorInputOutputData[];
-
-    /**
-     * Array of subscriptions for changes of outputs for component
-     */
-    outputsChangeSubscriptions: Subscription[];
-
-    /**
-     * Indication whether were options initialized for component
-     */
-    optionsInitialized: boolean;
 
     /**
      * Instance of options stored in metadata used for initialization

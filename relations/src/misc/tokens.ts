@@ -22,3 +22,8 @@ export const RELATIONS_COMPONENTS_LOADER: InjectionToken<DynamicItemLoader<Relat
  * Injection token for metadata storage set up for relations
  */
 export const RELATIONS_METADATA_STORAGE: InjectionToken<MetadataStorage> = new InjectionToken<MetadataStorage>('RELATIONS_METADATA_STORAGE');
+
+/**
+ * Injection token for indication whether skip relations process initialization
+ */
+export const RELATIONS_PROCESSOR_SKIP_INIT: InjectionToken<boolean> = new InjectionToken<boolean>('RELATIONS_PROCESSOR_SKIP_INIT');

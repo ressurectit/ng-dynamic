@@ -8,8 +8,8 @@ import {RelationsComponent, RelationsComponentMetadata, RelationsComponentType} 
 import {RelationsComponentManager} from '../relationsComponentManager/relationsComponentManager.service';
 import {RelationsManager} from '../relationsManager/relationsManager.service';
 import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from './relationsProcessor.interface';
-import {RELATIONS_COMPONENTS_LOADER} from '../../misc/tokens';
-import {RelationsComponentDef} from '../../misc/types';
+import {RELATIONS_COMPONENTS_LOADER, RELATIONS_PROCESSOR_SKIP_INIT} from '../../misc/tokens';
+import {RelationsComponentDef, RelationsProcessorComponent} from '../../misc/types';
 
 /**
  * Processor that applies relations to registered components
@@ -103,11 +103,15 @@ export class RelationsProcessor implements OnDestroy
                 protected componentManager: RelationsComponentManager,
                 protected injector: Injector,
                 @Inject(RELATIONS_COMPONENTS_LOADER) protected loader: DynamicItemLoader<RelationsComponentDef>,
-                @Inject(LOGGER) @Optional() protected logger?: Logger,)
+                @Inject(LOGGER) @Optional() protected logger?: Logger,
+                @Inject(RELATIONS_PROCESSOR_SKIP_INIT) @Optional() skipInit?: boolean,)
     {
-        this.initSubscriptions.add(this.relationsManager.relationsChange.subscribe(() => this.initializeRelations()));
-
-        this.initializeRelations();
+        if(!skipInit)
+        {
+            this.initSubscriptions.add(this.relationsManager.relationsChange.subscribe(() => this.initializeRelations()));
+    
+            this.initializeRelations();
+        }
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -162,23 +166,22 @@ export class RelationsProcessor implements OnDestroy
                 components = [components];
             }
 
-            //destroy existing subscriptions if there are any
-            relations.outputsChangeSubscriptions?.forEach(subscription => subscription.unsubscribe());
-            relations.outputsChangeSubscriptions = [];
-
-            for(const inputOutput of relations.inputOutputs)
+            for(const outputComponent of components)
             {
-                let inputComponents = this.componentManager.get(inputOutput.inputComponentId);
+                outputComponent.ɵɵRelationsOutputsChangeSubscriptions?.forEach(subscription => subscription.unsubscribe());
+                outputComponent.ɵɵRelationsOutputsChangeSubscriptions = [];
 
-                if(inputComponents && !Array.isArray(inputComponents))
+                for(const inputOutput of relations.inputOutputs)    
                 {
-                    inputComponents = [inputComponents];
-                }
+                    let inputComponents = this.componentManager.get(inputOutput.inputComponentId);
 
-                this.logger?.verbose('RelationsProcessor: processing input outputs {@data} ', {id, inputOutput, inputComponents, components});
+                    if(inputComponents && !Array.isArray(inputComponents))
+                    {
+                        inputComponents = [inputComponents];
+                    }
+    
+                    this.logger?.verbose('RelationsProcessor: processing input outputs {@data} ', {id, inputOutput, inputComponents, components});
 
-                for(const outputComponent of components)
-                {
                     const outputObservable = (outputComponent as any)[`${inputOutput.outputName}Change`] as Observable<any>;
 
                     //check whether is observable output
@@ -188,9 +191,9 @@ export class RelationsProcessor implements OnDestroy
 
                         continue;
                     }
-
+                    
                     //set listening for output changes
-                    relations.outputsChangeSubscriptions.push(outputObservable.subscribe(() =>
+                    outputComponent.ɵɵRelationsOutputsChangeSubscriptions.push(outputObservable.subscribe(() =>
                     {
                         let inputs = this.componentManager.get(inputOutput.inputComponentId);
 
@@ -221,10 +224,12 @@ export class RelationsProcessor implements OnDestroy
 
                     for(const inputComponent of inputComponents)
                     {
+                        const id = `${inputComponent.ɵɵRelationsComponentId}-${outputComponent.ɵɵRelationsComponentId}`;
+
                         //initialize default value from this to its connections
-                        if(!inputOutput.initialized)
+                        if(!inputOutput.initialized[id])
                         {
-                            inputOutput.initialized = this.transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
+                            inputOutput.initialized[id] = this.transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
                         }
                     }
                 }
@@ -245,22 +250,40 @@ export class RelationsProcessor implements OnDestroy
         {
             for(const relation of backwardRelations)
             {
-                relation.initialized = false;
+                relation.initialized = {};
             }
         }
 
         //destroy relations
         if(metadata)
         {
-            metadata.outputsChangeSubscriptions.forEach(subscription => subscription.unsubscribe());
-            metadata.outputsChangeSubscriptions = [];
-            metadata.optionsInitialized = false;
+            let components = this.componentManager.get(id);
+
+            if(components)
+            {
+                if(!components)
+                {
+                    return;
+                }
+
+                if(!Array.isArray(components))
+                {
+                    components = [components];
+                }
+
+                for(const cmp of components)
+                {
+                    cmp.ɵɵRelationsOutputsChangeSubscriptions?.forEach(subscription => subscription.unsubscribe());
+                    cmp.ɵɵRelationsOutputsChangeSubscriptions = [];
+                    cmp.ɵɵRelationsOptionsInitialized = false;
+                }
+            }
 
             if(metadata.inputOutputs && Array.isArray(metadata.inputOutputs))
             {
                 for(const inputOutput of metadata.inputOutputs)
                 {
-                    inputOutput.initialized = false;
+                    inputOutput.initialized = {};
                 }
             }
 
@@ -299,8 +322,9 @@ export class RelationsProcessor implements OnDestroy
                      componentManager: RelationsComponentManager,
                      injector: Injector,): RelationsProcessor
     {
-        const processor = new RelationsProcessor(this.relationsManager, componentManager, injector, this.loader, this.logger);
+        const processor = new RelationsProcessor(this.relationsManager, componentManager, injector, this.loader, this.logger, true);
         processor.scopeId = id;
+        processor.parent = this;
 
         for(const componentId in this.relations)
         {
@@ -319,12 +343,20 @@ export class RelationsProcessor implements OnDestroy
     }
 
     /**
-     * Destroyes opened scope
-     * @param id - Id of scope that should be destroyed
+     * Destroyes opened scope itself
      */
-    public destroyScope(id: string): void
+    public destroyScope(): void
     {
+        for(const componentId in this.relations)
+        {
+            const relationsDef = this.relations[componentId];
 
+            //Same scope initialize
+            if(relationsDef.scope === this.scopeId)
+            {
+                this.destroyComponent(componentId);
+            }
+        }
     }
 
     //######################### protected methods #########################
@@ -373,7 +405,7 @@ export class RelationsProcessor implements OnDestroy
                         outputComponentId: meta.id,
                         inputName: input.inputName,
                         outputName: output.outputName,
-                        initialized: false,
+                        initialized: {},
                     };
 
                     outputs.push(inputOutput);
@@ -425,9 +457,11 @@ export class RelationsProcessor implements OnDestroy
         {
             for(const outputCmp of outputComponents)
             {
-                if(!inputOutput.initialized)
+                const id = `${inputCmp.ɵɵRelationsComponentId}-${outputCmp.ɵɵRelationsComponentId}`;
+
+                if(!inputOutput.initialized[id])
                 {
-                    inputOutput.initialized = this.transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
+                    inputOutput.initialized[id] = this.transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
                 }
             }
         }
@@ -519,8 +553,6 @@ export class RelationsProcessor implements OnDestroy
         {
             autoCreated,
             inputOutputs,
-            outputsChangeSubscriptions: [],
-            optionsInitialized: false,
             metadataOptions: meta.relationsOptions,
             componentType,
             scope,
@@ -532,25 +564,24 @@ export class RelationsProcessor implements OnDestroy
      * @param components - Components which options should be initialized
      * @param meta - Metadata containing options for initialization
      */
-    protected initOptions(components: RelationsComponent|RelationsComponent[], meta: RelationsProcessorComponentData): void
+    protected initOptions(components: RelationsProcessorComponent|RelationsProcessorComponent[], meta: RelationsProcessorComponentData): void
     {
-        if(meta.optionsInitialized)
-        {
-            return;
-        }
-
-        meta.optionsInitialized = true;
-
         if(Array.isArray(components))
         {
             for(const comp of components)
             {
-                comp.relationsOptions = meta.metadataOptions;
+                if(!comp.ɵɵRelationsOptionsInitialized)
+                {
+                    comp.relationsOptions = meta.metadataOptions;
+                }
             }
         }
         else
         {
-            components.relationsOptions = meta.metadataOptions;
+            if(!components.ɵɵRelationsOptionsInitialized)
+            {
+                components.relationsOptions = meta.metadataOptions;
+            }
         }
     }
 

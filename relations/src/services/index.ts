@@ -1,3 +1,4 @@
+export * from './relationsComponentManager/relationsComponentManager.interface';
 export * from './relationsComponentManager/relationsComponentManager.service';
 export * from './relationsManager/relationsManager.service';
 export * from './relationsProcessor/relationsProcessor.interface';

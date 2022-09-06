@@ -1,8 +1,9 @@
 import {Inject, Injectable, OnDestroy, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {Dictionary} from '@jscrpt/common';
+import {Dictionary, generateId} from '@jscrpt/common';
 
 import {RelationsComponent} from '../../interfaces';
+import {RelationsProcessorComponent} from '../../misc/types';
 
 /**
  * Manager used for managing all components used in relations
@@ -11,6 +12,11 @@ import {RelationsComponent} from '../../interfaces';
 export class RelationsComponentManager implements OnDestroy
 {
     //######################### protected properties #########################
+
+    /**
+     * Id of current scope
+     */
+    protected scopeId: string|null = null;
 
     /**
      * Registered components
@@ -44,9 +50,45 @@ export class RelationsComponentManager implements OnDestroy
      */
     public ngOnDestroy(): void
     {
+        //removes nested scopes first
+        if(this.scopes)
+        {
+            for(const scopeId in this.scopes)
+            {
+                const scope = this.scopes[scopeId];
+
+                if(scope)
+                {
+                    for(const manager of scope)
+                    {
+                        manager.ngOnDestroy();
+                    }
+                }
+
+                delete this.scopes[scopeId];
+            }
+            
+        }
+
         for(const componentId in this.components)
         {
             this.removeCacheFromHierarchy(componentId);
+        }
+
+        //removes self from parent scopes
+        if(this.parent && this.scopeId)
+        {
+            const scope = this.parent.scopes[this.scopeId];
+
+            if(scope)
+            {
+                const index = scope.indexOf(this);
+
+                if(index >= 0)
+                {
+                    scope.splice(index, 1);
+                }
+            }
         }
     }
 
@@ -57,7 +99,7 @@ export class RelationsComponentManager implements OnDestroy
      * @param id - Id of component to be registered
      * @param component - Instance of registered component
      */
-    public registerComponent(id: string, component: RelationsComponent): void
+    public registerComponent(id: string, component: RelationsProcessorComponent): void
     {
         if(this.components[id])
         {
@@ -66,6 +108,7 @@ export class RelationsComponentManager implements OnDestroy
             return;
         }
 
+        component.ɵɵRelationsComponentId ??= generateId(12);
         this.removeCacheFromHierarchy(id);
         this.components[id] = component;
     }
@@ -91,7 +134,7 @@ export class RelationsComponentManager implements OnDestroy
      * Gets instance of component or array of component instances or null
      * @param id - Unique identification of component, or components
      */
-    public get(id: string): RelationsComponent[]|RelationsComponent|null
+    public get(id: string): RelationsProcessorComponent[]|RelationsProcessorComponent|null
     {
         const component = this.components[id];
 
@@ -123,29 +166,11 @@ export class RelationsComponentManager implements OnDestroy
     {
         this.scopes[id] ??= [];
         const scope = new RelationsComponentManager(this.logger);
+        scope.scopeId = id;
         scope.parent = this;
         this.scopes[id].push(scope);
 
         return scope;
-    }
-
-    /**
-     * Destroyes scope by id
-     * @param id - Id of scope to be destroyed
-     */
-    public destroyScope(id: string): void
-    {
-        const scope = this.scopes[id];
-
-        if(scope)
-        {
-            for(const manager of scope)
-            {
-                manager.ngOnDestroy();
-            }
-        }
-
-        delete this.scopes[id];
     }
 
     //######################### protected methods #########################

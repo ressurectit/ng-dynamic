@@ -1,4 +1,4 @@
-import {Directive, FactoryProvider, Inject, inject, Injector, OnDestroy, SkipSelf} from '@angular/core';
+import {Directive, FactoryProvider, Inject, inject, Injector, OnDestroy} from '@angular/core';
 import {SCOPE_ID} from '@anglr/dynamic';
 
 import {RelationsComponentManager, RelationsProcessor} from '../../services';
@@ -27,8 +27,8 @@ import {RelationsComponentManager, RelationsProcessor} from '../../services';
 export class ScopedRelationsSADirective implements OnDestroy
 {
     //######################### constructor #########################
-    constructor(@SkipSelf() protected parentComponentManager: RelationsComponentManager,
-                @SkipSelf() protected parentProcessor: RelationsProcessor,
+    constructor(protected componentManager: RelationsComponentManager,
+                protected relationsProcessor: RelationsProcessor,
                 @Inject(SCOPE_ID) protected scopeId: string,)
     {
     }
@@ -40,7 +40,7 @@ export class ScopedRelationsSADirective implements OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this.parentComponentManager.destroyScope(this.scopeId);
-        this.parentProcessor.destroyScope(this.scopeId);
+        this.componentManager.ngOnDestroy();
+        this.relationsProcessor.destroyScope();
     }
 }

@@ -4,6 +4,8 @@ export * from './gridPanelCell';
 export * from './htmlBlock';
 export * from './ifBlock';
 export * from './listBlock';
+export * from './logicalAnd';
+export * from './logicalOr';
 export * from './negation';
 export * from './notFound';
 export * from './rest';

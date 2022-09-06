@@ -1,5 +1,7 @@
 const relations = 
 [
+    'logicalAnd',
+    'logicalOr',
     'negation',
     'rest',
     'value',

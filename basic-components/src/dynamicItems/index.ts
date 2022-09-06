@@ -1,4 +1,5 @@
 export * from './button';
+export * from './firstNonNull';
 export * from './gridPanel';
 export * from './gridPanelCell';
 export * from './htmlBlock';

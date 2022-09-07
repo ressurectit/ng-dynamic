@@ -18,7 +18,7 @@ export class FormGroupModel extends FormComponentBaseModel implements FormGroupC
     constructor(value: FormGroupComponentOptions|undefined|null)
     {
         super(value);
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        
+        mapValuesToThis.bind(this)(value);
     }
 }

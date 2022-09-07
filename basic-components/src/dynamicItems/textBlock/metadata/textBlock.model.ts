@@ -21,7 +21,6 @@ export class TextBlockModel implements TextBlockComponentOptions
     //######################### constructor #########################
     constructor(value: TextBlockComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

@@ -45,8 +45,7 @@ export class ComponentStylingModel implements ComponentStylingOptions
     //######################### constructor #########################
     constructor(value: ComponentStylingOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
 
         this.margin = new MarginModel(value?.margin);
         this.padding = new PaddingModel(value?.padding);

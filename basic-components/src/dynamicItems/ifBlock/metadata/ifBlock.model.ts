@@ -27,7 +27,6 @@ export class IfBlockModel implements IfBlockComponentOptions
     //######################### constructor #########################
     constructor(value: IfBlockComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

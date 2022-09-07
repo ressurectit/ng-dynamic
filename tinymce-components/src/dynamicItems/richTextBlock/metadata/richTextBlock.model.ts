@@ -17,7 +17,6 @@ export class RichTextBlockModel implements RichTextBlockComponentOptions
     //######################### constructor #########################
     constructor(value: RichTextBlockComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

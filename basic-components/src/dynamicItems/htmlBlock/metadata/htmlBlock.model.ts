@@ -19,7 +19,6 @@ export class HtmlBlockModel implements HtmlBlockComponentOptions
     //######################### constructor #########################
     constructor(value: HtmlBlockComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

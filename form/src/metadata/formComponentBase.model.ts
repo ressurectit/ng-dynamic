@@ -25,7 +25,6 @@ export class FormComponentBaseModel implements FormComponentOptions
     //######################### constructor #########################
     constructor(value: FormComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

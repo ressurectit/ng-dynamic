@@ -45,7 +45,6 @@ export class ToggleButtonModel implements ToggleButtonComponentOptions
     //######################### constructor #########################
     constructor(value: ToggleButtonComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

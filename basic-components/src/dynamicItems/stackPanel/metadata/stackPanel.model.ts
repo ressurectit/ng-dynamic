@@ -36,8 +36,7 @@ export class StackPanelModel implements StackPanelComponentOptions
     //######################### constructor #########################
     constructor(value: StackPanelComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }
 
@@ -59,7 +58,6 @@ export class StackPanelFlexExtensionModel implements StackPanelFlexExtensionOpti
     //######################### constructor #########################
     constructor(value: StackPanelFlexExtensionOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

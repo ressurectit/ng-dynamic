@@ -17,7 +17,6 @@ export class CustomComponentModel implements CustomComponentComponentOptions
     //######################### constructor #########################
     constructor(value: CustomComponentComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

@@ -41,7 +41,6 @@ export class MarginModel implements Margin
     //######################### constructor #########################
     constructor(value: Margin|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

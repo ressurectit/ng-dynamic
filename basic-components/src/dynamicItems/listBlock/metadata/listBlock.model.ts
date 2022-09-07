@@ -18,7 +18,6 @@ export class ListBlockModel implements ListBlockComponentOptions
     //######################### constructor #########################
     constructor(value: ListBlockComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

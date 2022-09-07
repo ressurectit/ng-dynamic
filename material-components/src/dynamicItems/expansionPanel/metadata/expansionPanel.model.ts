@@ -43,7 +43,6 @@ export class MaterialExpansionPanelModel implements MaterialExpansionPanelCompon
     //######################### constructor #########################
     constructor(value: MaterialExpansionPanelComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

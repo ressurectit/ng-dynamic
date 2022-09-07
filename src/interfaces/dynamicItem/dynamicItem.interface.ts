@@ -1,3 +1,5 @@
+import {Invalidatable} from '@jscrpt/common';
+
 import {DynamicItemExtensionType} from '../dynamicItemExtension';
 
 /**
@@ -32,12 +34,6 @@ export interface DynamicItemExtensions
 /**
  * Definition of dynamic item
  */
-export interface DynamicItem
+export interface DynamicItem extends Invalidatable
 {
-    //######################### methods #########################
-
-    /**
-     * Explicitly runs invalidation of content (change detection)
-     */
-    invalidateVisuals(): void;
 }

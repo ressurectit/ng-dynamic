@@ -29,7 +29,6 @@ export class ButtonModel implements ButtonComponentOptions
     //######################### constructor #########################
     constructor(value: ButtonComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

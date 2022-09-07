@@ -21,7 +21,6 @@ export class TemplateBlockModel implements TemplateBlockComponentOptions
     //######################### constructor #########################
     constructor(value: TemplateBlockComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

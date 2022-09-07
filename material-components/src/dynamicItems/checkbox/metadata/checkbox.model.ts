@@ -24,7 +24,6 @@ export class MaterialCheckboxModel extends FormComponentBaseModel implements Mat
     constructor(value: MaterialCheckboxComponentOptions|undefined|null)
     {
         super(value);
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

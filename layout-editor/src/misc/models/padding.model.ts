@@ -41,7 +41,6 @@ export class PaddingModel implements Padding
     //######################### constructor #########################
     constructor(value: Padding|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

@@ -33,7 +33,6 @@ export class RestParamModel implements RestParam<string>
     //######################### constructor #########################
     constructor(value: RestParam|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

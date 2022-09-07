@@ -22,7 +22,6 @@ export class ComponentEndpointModel<TValue = any> implements ComponentEndpointDe
     //######################### constructor #########################
     constructor(value: ComponentEndpointDef|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

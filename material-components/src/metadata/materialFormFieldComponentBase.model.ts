@@ -44,7 +44,6 @@ export class MaterialFormFieldComponentBaseModel extends FormComponentBaseModel 
     constructor(value: MaterialFormFieldComponentOptions|undefined|null)
     {
         super(value);
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

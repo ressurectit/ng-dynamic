@@ -17,7 +17,6 @@ export class DataBlockModel implements DataBlockComponentOptions
     //######################### constructor #########################
     constructor(value: DataBlockComponentOptions|undefined|null)
     {
-        //TODO: remove ! when fixed in common
-        mapValuesToThis.bind(this)(value!);
+        mapValuesToThis.bind(this)(value);
     }
 }

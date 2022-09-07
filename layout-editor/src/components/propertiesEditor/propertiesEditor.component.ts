@@ -5,7 +5,7 @@ import {Logger, LOGGER, PermanentStorage, PERMANENT_STORAGE} from '@anglr/common
 import {FormModelBuilder} from '@anglr/common/forms';
 import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {DebounceCall, Dictionary, extend, isPresent, NoopAction} from '@jscrpt/common';
+import {DebounceCall, Dictionary, extend, isPresent, WithSync} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor} from '../../services';
@@ -88,11 +88,6 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      * Subscription for options form
      */
     protected optionsFormSubscription: Subscription|null = null;
-
-    /**
-     * Promise used for syncing async operations
-     */
-    protected syncPromise: Promise<void> = Promise.resolve();
 
     /**
      * Id of last component that was used for property editation
@@ -220,20 +215,15 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      * Initialize properties for selected component
      */
     @DebounceCall(10)
+    @WithSync()
     protected async initProperties(): Promise<void>
     {
-        await this.syncPromise;
-        let syncResolve: NoopAction|undefined;
-        this.syncPromise = new Promise(resolve => syncResolve = resolve);
-
         if(isPresent(this.manager.selectedComponent))
         {
             const component = this.manager.getComponent(this.manager.selectedComponent);
 
             if(this.lastComponent == component && this.lastComponentId == this.manager.selectedComponent)
             {
-                syncResolve?.();
-
                 return;
             }
             
@@ -255,8 +245,6 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         {
             this.hide();
         }
-
-        syncResolve?.();
     }
 
     /**

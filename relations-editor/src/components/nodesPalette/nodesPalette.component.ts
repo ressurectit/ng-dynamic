@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
-import {DebounceCall, Dictionary, generateId, NoopAction} from '@jscrpt/common';
+import {DebounceCall, Dictionary, generateId, WithSync} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
 import {NodesPaletteItem} from './nodesPalette.interface';
@@ -46,11 +46,6 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      * Array of all available items in palette
      */
     protected allItems: NodesPaletteItem[] = [];
-
-    /**
-     * Promise used for syncing async operations
-     */
-    protected syncPromise: Promise<void> = Promise.resolve();
 
     //######################### protected properties - template bindings #########################
 
@@ -122,12 +117,9 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      * Loads available relations nodes into palette
      */
     @DebounceCall(10)
+    @WithSync()
     protected async loadNodes(): Promise<void>
     {
-        await this.syncPromise;
-        let syncResolve: NoopAction|undefined;
-        this.syncPromise = new Promise(resolve => syncResolve = resolve);
-
         this.allItems = [];
         this.groupedItems = {};
 
@@ -166,8 +158,6 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         }
 
         this._changeDetector.detectChanges();
-
-        syncResolve?.();
     }
 
     //######################### protected methods - template bindings #########################

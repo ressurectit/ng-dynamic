@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {DebounceCall, Func, NoopAction} from '@jscrpt/common';
+import {DebounceCall, Func, WithSync} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {ComponentTreeNodeTemplateSADirective, ConnectDropListsSADirective} from '../../../directives';
@@ -42,11 +42,6 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      * Node children
      */
     protected children: LayoutComponentMetadata[] = [];
-
-    /**
-     * Promise used for syncing async operations
-     */
-    protected syncPromise: Promise<void> = Promise.resolve();
 
     //######################### protected fields - template bindings #########################
 
@@ -194,12 +189,9 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     //######################### protected methods #########################
 
     @DebounceCall(10)
+    @WithSync()
     protected async initChildren(): Promise<void>
     {
-        await this.syncPromise;
-        let syncResolve: NoopAction|undefined;
-        this.syncPromise = new Promise(resolve => syncResolve = resolve);
-
         this.children = [];
 
         if (this.data)
@@ -211,8 +203,6 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
         }
         
         this._changeDetector.detectChanges();
-
-        syncResolve?.();
     }
 
     //######################### protected methods - template bindings #########################

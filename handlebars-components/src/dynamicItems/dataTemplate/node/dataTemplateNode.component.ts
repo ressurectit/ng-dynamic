@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
-import {HandlebarsLanguageModel, CodeEditorDialogData, CodeEditorDialogComponent} from '@anglr/dynamic';
+import {HandlebarsLanguageModel, CodeEditorDialogData, CodeEditorDialogComponent, CodeEditorContent} from '@anglr/dynamic';
 import {isPresent} from '@jscrpt/common';
 import {lastValueFrom} from 'rxjs';
 
@@ -41,7 +41,7 @@ export class DataTemplateNodeSAComponent extends RelationsNodeBase<DataTemplateR
      */
     protected async showCodeEditor(): Promise<void>
     {
-        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, string|null>(CodeEditorDialogComponent,
+        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, CodeEditorContent|null>(CodeEditorDialogComponent,
         {
             title: 'Code editor',
             width: '75vw',
@@ -58,7 +58,7 @@ export class DataTemplateNodeSAComponent extends RelationsNodeBase<DataTemplateR
         {
             if(this.metadata?.relationsOptions)
             {
-                this.metadata.relationsOptions.template = result;
+                this.metadata.relationsOptions.template = result.content;
             }
         }
     }

@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {CodeEditorDialogComponent, CodeEditorDialogData, getJson, JsonLanguageModel} from '@anglr/dynamic';
+import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, getJson, JsonLanguageModel} from '@anglr/dynamic';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {isPresent} from '@jscrpt/common';
@@ -41,7 +41,7 @@ export class ValueNodeSAComponent extends RelationsNodeBase<ValueRelationsOption
     {
         const content = isPresent(this.metadata?.relationsOptions?.value) ? JSON.stringify(this.metadata?.relationsOptions?.value, null, 4) : '';
 
-        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, string|null>(CodeEditorDialogComponent,
+        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, CodeEditorContent|null>(CodeEditorDialogComponent,
         {
             title: 'Code editor',
             width: '75vw',
@@ -61,7 +61,7 @@ export class ValueNodeSAComponent extends RelationsNodeBase<ValueRelationsOption
 
         if(isPresent(result))
         {
-            this.metadata.relationsOptions.value = getJson(result);
+            this.metadata.relationsOptions.value = getJson(result.content);
         }
     }
 }

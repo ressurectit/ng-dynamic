@@ -104,14 +104,14 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
     /**
      * Saves currently opened document
      */
-    public saveContent(): void
+    public async saveContent(): Promise<void>
     {
         if(this.openedFile && this.codeEditor && this.languageModel)
         {
             this.save.emit(
             {
                 content: this.openedFile.getValue(),
-                code: this.languageModel.compiledCode(this.codeEditor)
+                code: await this.languageModel.compiledCode(this.codeEditor)
             });
         }
     }
@@ -148,10 +148,10 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
             {
                 enabled: true
             },
-            // bracketPairColorization: 
-            // {
-            //     enabled: true,
-            // },
+            bracketPairColorization: 
+            {
+                enabled: true,
+            },
             minimap:
             {
                 enabled: true
@@ -163,14 +163,14 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
             this.saveContent();
         });
 
-        this.changeEvent = this.codeEditor.onDidChangeModelContent(() =>
+        this.changeEvent = this.codeEditor.onDidChangeModelContent(async () =>
         {
             if(this.openedFile && this.languageModel && this.codeEditor)
             {
                 this.contentChange.emit(
                 {
                     content: this.openedFile.getValue(),
-                    code: this.languageModel.compiledCode(this.codeEditor)
+                    code: await this.languageModel.compiledCode(this.codeEditor)
                 });
             }
         });
@@ -189,7 +189,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
             return;
         }
 
-        this.openedFile = editor.createModel(this.content, this.languageModel.language, Uri.file(`index.${this.languageModel.extension}`));
+        this.openedFile = editor.createModel((this.content || this.languageModel.initialData) ?? '', this.languageModel.language, Uri.file(`file:///index.${this.languageModel.extension}`));
         this.codeEditor?.setModel(this.openedFile);
     }
 }

@@ -5,6 +5,7 @@ const relations =
     'logicalOr',
     'negation',
     'rest',
+    'transformData',
     'value',
 ];
 

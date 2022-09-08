@@ -1,3 +1,5 @@
+import './typings';
+
 export * from './decorators';
 export * from './interfaces';
 export * from './misc/dynamicItemExtensionBase';

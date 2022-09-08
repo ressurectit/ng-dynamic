@@ -1,0 +1,23 @@
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="transform code"></relations-node-header>
+
+<div class="node-content">
+    <div class="inputs-outputs">
+        <div class="inputs">
+            <div class="input">
+                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="data" [parent]="this"></relation-node-input>
+                <div>data</div>
+            </div>
+        </div>
+
+        <div class="outputs">
+            <div class="output">
+                <div>transformed data</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="transformedData" [parent]="this"></relation-node-output>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="showCodeEditor()">
+        <span>edit</span>
+    </button>
+</div>

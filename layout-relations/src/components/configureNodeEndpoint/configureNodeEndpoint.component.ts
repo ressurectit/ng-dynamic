@@ -3,7 +3,7 @@ import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TitledDialogService, TITLED_DIALOG_DATA} from '@anglr/common/material';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
-import {CodeEditorDialogComponent, CodeEditorDialogData, getJson, JsonLanguageModel} from '@anglr/dynamic';
+import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, getJson, JsonLanguageModel} from '@anglr/dynamic';
 import {extend, isPresent} from '@jscrpt/common';
 import {lastValueFrom} from 'rxjs';
 
@@ -57,7 +57,7 @@ export class ConfigureNodeEndpointSAComponent
     {
         const content = isPresent(this.data.defaultValue) ? JSON.stringify(this.data.defaultValue, null, 4) : '';
 
-        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, string|null>(CodeEditorDialogComponent,
+        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, CodeEditorContent|null>(CodeEditorDialogComponent,
         {
             title: 'Code editor',
             width: '75vw',
@@ -72,7 +72,7 @@ export class ConfigureNodeEndpointSAComponent
 
         if(isPresent(result))
         {
-            this.data.defaultValue = getJson(result);
+            this.data.defaultValue = getJson(result.content);
         }
     }
 }

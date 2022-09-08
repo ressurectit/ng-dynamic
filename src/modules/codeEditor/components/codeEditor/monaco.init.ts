@@ -35,6 +35,7 @@ const options: languages.typescript.CompilerOptions =
     moduleResolution: languages.typescript.ModuleResolutionKind.NodeJs,
     allowNonTsExtensions: true,
     removeComments: true,
+    noEmitOnError: true,
     noImplicitAny: true,
     noImplicitReturns: true,
     noImplicitOverride: true,
@@ -47,6 +48,12 @@ const options: languages.typescript.CompilerOptions =
     newLine: languages.typescript.NewLineKind.LineFeed,
     typeRoots: ['node_modules/@types']
 };
+
+languages.typescript.typescriptDefaults.setDiagnosticsOptions(
+{
+    noSemanticValidation: false,
+    noSyntaxValidation: false,
+});
 
 languages.typescript.typescriptDefaults.setCompilerOptions(options);
 

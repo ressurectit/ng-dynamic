@@ -160,6 +160,7 @@
         "@typescript-eslint/eslint-plugin": "4.33.0",
         "@typescript-eslint/parser": "4.33.0",
         "eslint-plugin-ressurectit": "0.1.0",
+        "raw-loader": "4.0.2",
         "rimraf": "3.0.2",
         "copyfiles": "2.4.1",
         "replace-in-file": "6.3.2",

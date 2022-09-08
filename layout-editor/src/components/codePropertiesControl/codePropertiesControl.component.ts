@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, Type} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {TitledDialogService} from '@anglr/common/material';
-import {LanguageModel, CodeEditorDialogComponent, CodeEditorDialogData} from '@anglr/dynamic';
+import {LanguageModel, CodeEditorDialogComponent, CodeEditorDialogData, CodeEditorContent} from '@anglr/dynamic';
 import {isBlank, isPresent} from '@jscrpt/common';
 import {lastValueFrom} from 'rxjs';
 
@@ -59,7 +59,7 @@ export class BaseCodePropertiesControlSAComponent<TOptions = any> extends Proper
             return;
         }
 
-        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, string|null>(CodeEditorDialogComponent,
+        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, CodeEditorContent|null>(CodeEditorDialogComponent,
         {
             title: 'Code editor',
             width: '75vw',
@@ -78,7 +78,7 @@ export class BaseCodePropertiesControlSAComponent<TOptions = any> extends Proper
 
             if(control instanceof FormControl)
             {
-                control.setValue(result);
+                control.setValue(result.content);
             }
         }
     }

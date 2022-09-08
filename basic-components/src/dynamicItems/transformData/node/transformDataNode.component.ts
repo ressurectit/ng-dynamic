@@ -2,6 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from 
 import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, TypescriptLanguageModel} from '@anglr/dynamic';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
+import {generateId} from '@jscrpt/common';
 import typings from '!!raw-loader?esModule!../transformData.interface';
 import {languages} from 'monaco-editor';
 import {lastValueFrom} from 'rxjs';
@@ -55,18 +56,14 @@ export class TransformDataNodeSAComponent extends RelationsNodeBase<TransformDat
 `import {TransformData} from 'transformData';
 
 /**
- * Class that represents data transformation code
+ * Transformer function that performs transformation
  */
-export default class Transformer implements TransformData
+const transformer: TransformData<any, any> = data =>
 {
-    /**
-     * @inheritdoc
-     */
-    public transformData(data: any)
-    {
-        return data;
-    }
-}
+    return data;
+};
+ 
+export default transformer;
 `),
             }
         }).afterClosed());
@@ -79,5 +76,18 @@ export default class Transformer implements TransformData
         this.metadata.relationsOptions.code = result.code;
         this.metadata.nodeMetadata.options ??= {content: ''};
         this.metadata.nodeMetadata.options.content = result.content;
+    }
+
+    //######################### protected methods - overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override metadataSet(): void
+    {
+        if(this.metadata?.relationsOptions)
+        {
+            this.metadata.relationsOptions.id ??= generateId(12);
+        }
     }
 }

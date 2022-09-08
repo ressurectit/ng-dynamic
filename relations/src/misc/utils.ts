@@ -4,7 +4,7 @@ import {isBlank, isType} from '@jscrpt/common';
 
 import {RelationsComponentDef} from './types';
 import {DEFAULT_RELATIONS_COMPONENTS_PROVIDER, DEFAULT_RELATIONS_COMPONENTS_EXTRACTOR, RELATIONS_COMPONENTS_LOADER_PROVIDER} from './providers';
-import {RelationsComponentManager, RelationsManager, RelationsProcessor} from '../services';
+import {CodeExecutor, RelationsComponentManager, RelationsManager, RelationsProcessor} from '../services';
 
 /**
  * Checks whether data is relations component def
@@ -33,5 +33,6 @@ export function provideRelations(): Provider[]
         RelationsComponentManager,
         RelationsManager,
         RelationsProcessor,
+        CodeExecutor,
     ];
 }

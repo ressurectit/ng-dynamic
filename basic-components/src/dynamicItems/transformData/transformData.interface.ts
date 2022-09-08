@@ -1,11 +1,5 @@
 /**
- * Represents class that supports data transformation
+ * Transforms data to another form of data
+ * @param data - Data to be transformed
  */
-export interface TransformData<TData = any, TResult = any>
-{
-    /**
-     * Transforms data to another form of data
-     * @param data - Data to be transformed
-     */
-    transformData(data: TData): TResult;
-}
+export type TransformData<TData = any, TResult = any> = (data: TData) => TResult;

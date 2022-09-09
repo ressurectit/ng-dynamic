@@ -6,4 +6,4 @@ export type MethodType = 'GET'|'POST'|'PUT'|'PATCH'|'DELETE';
 /**
  * Type of http rest parameter
  */
-export type ParamType = 'BODY'|'PATH'|'QUERY';
+export type ParamType = 'BODY'|'PATH'|'QUERY'|'QUERY OBJECT'|'HEADER';

@@ -1,16 +1,15 @@
 import {Injector, SimpleChanges} from '@angular/core';
-import {HttpClient, HttpEventType, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpEventType, HttpParams, HttpRequest} from '@angular/common/http';
 import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {LOGGER, Logger} from '@anglr/common';
+import {handleHeaderParam, handlePathParam, handleQueryObjectParam, handleQueryParam, mergeQueryObjectParamsWithHttpParams, QueryStringSerializer} from '@anglr/rest';
+import {isEmptyObject, StringDictionary} from '@jscrpt/common';
 import {catchError} from 'rxjs/operators';
 import {EMPTY} from 'rxjs';
 
 import {RestRelationsMetadataLoader} from './rest.metadata';
 import {RestRelationsOptions} from './rest.options';
-import {RestParam} from './misc/interfaces';
-
-//TODO: maybe improve @anglr/rest and use same functionality here
 
 /**
  * Rest relations component
@@ -35,6 +34,11 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
      * Instance of logger
      */
     protected logger: Logger;
+
+    /**
+     * Instance of query string serializer
+     */
+    protected queryStringSerializer: QueryStringSerializer;
 
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -71,6 +75,7 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
     {
         this.http = injector.get(HttpClient);
         this.logger = injector.get(LOGGER);
+        this.queryStringSerializer = injector.get(QueryStringSerializer);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################
@@ -137,19 +142,58 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
             return;
         }   
 
+        let body: any = null;
         let url: string = this.relationsOptions.url;
-        // let body: any = null;
-        const pathParams: RestParam[] = [];
+        const params: StringDictionary = {};
+        const headers: StringDictionary = {};
+        const queryStrings: string[] = [];
 
         if(this.relationsOptions.params && Array.isArray(this.relationsOptions.params))
         {
             for(const param of this.relationsOptions.params)
             {
+                if(!param.name)
+                {
+                    continue;
+                }
+
+                const data =
+                {
+                    index: 0,
+                    key: param.name,
+                    value: param.value,
+                    transformFn: null
+                };
+
                 switch(param.type)
                 {
                     case 'PATH':
                     {
-                        pathParams.push(param);
+                        url = handlePathParam(data, url);
+
+                        break;
+                    }
+                    case 'BODY':
+                    {
+                        body = param.value;
+
+                        break;
+                    }
+                    case 'QUERY':
+                    {
+                        handleQueryParam(data, params);
+
+                        break;
+                    }
+                    case 'QUERY OBJECT':
+                    {
+                        handleQueryObjectParam(data, queryStrings, this.queryStringSerializer);
+
+                        break;
+                    }
+                    case 'HEADER':
+                    {
+                        handleHeaderParam(data, headers);
 
                         break;
                     }
@@ -161,21 +205,42 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
             }
         }
 
-        //TODO: finish
+        let request: HttpRequest<any> = new HttpRequest(this.relationsOptions.method,
+                                                        url,
+                                                        body,
+                                                        {
+                                                            reportProgress: false,
+                                                            responseType: 'json',
+                                                        });
 
-        //process path params
-        for(const pathParam of pathParams)
+        // query params
+        if(!isEmptyObject(params))
         {
-            url = url.replace('{' + pathParam.name + '}', pathParam.value as string);
+            request = request.clone(
+            {
+                setParams: params
+            });
         }
 
-        const request: HttpRequest<any> = new HttpRequest(this.relationsOptions.method,
-                                                          url,
-                                                          null,
-                                                          {
-                                                              reportProgress: false,
-                                                              responseType: 'json',
-                                                          });
+        // header params
+        if(!isEmptyObject(headers))
+        {
+            request = request.clone(
+            {
+                setHeaders: headers
+            });
+        }
+
+        // query object params
+        if(queryStrings.length)
+        {
+            const requestParams: HttpParams = mergeQueryObjectParamsWithHttpParams(queryStrings, request.params);
+
+            request = request.clone(
+            {
+                params: requestParams
+            });
+        }
 
         this.http.request(request)
             .pipe(catchError(error =>

@@ -1,13 +1,17 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, Input, OnInit, OnDestroy, ViewChildren, QueryList} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
-import {DragDropModule} from '@angular/cdk/drag-drop';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {DebounceCall, Func, WithSync} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {DebounceCall, WithSync} from '@jscrpt/common';
+import {DndModule} from '@ng-dnd/core';
+import {Subscription, timer} from 'rxjs';
 
-import {ComponentTreeNodeTemplateSADirective, ConnectDropListsSADirective} from '../../../directives';
-import {LayoutComponentsIteratorService, LayoutEditorMetadataManager} from '../../../services';
+import {DragActiveService, LayoutComponentsIteratorService, LayoutEditorMetadataManager} from '../../../services';
+import {LayoutDndCoreModule} from '../../../modules';
+import {LayoutComponentDragData} from '../../../interfaces';
+import {DesignerDropzoneSADirective} from '../../../directives';
+
+const DRAG_OVER_DELAY = 500;
 
 /**
  * Component displaying components tree item
@@ -23,9 +27,9 @@ import {LayoutComponentsIteratorService, LayoutEditorMetadataManager} from '../.
     [
         CommonModule,
         MatButtonModule,
-        ComponentTreeNodeTemplateSADirective,
-        DragDropModule,
-        ConnectDropListsSADirective,
+        DndModule,
+        LayoutDndCoreModule,
+        DesignerDropzoneSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -43,6 +47,11 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     protected children: LayoutComponentMetadata[] = [];
 
+    /**
+     * Handles drag over events
+     */
+    protected dragOverSubscription?: Subscription|null;
+
     //######################### protected fields - template bindings #########################
 
     /**
@@ -53,6 +62,14 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     protected get hasChildren(): boolean
     {
         return !!this.children && this.children.length > 0;
+    }
+
+    /**
+     * Indication whether drag is disabled
+     */
+    protected get dragDisabled(): boolean
+    {
+        return !this.parentId || !this.data || this._manager.getComponent(this.data.id)?.dragDisabled === true;
     }
 
     /**
@@ -70,6 +87,18 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     public data: LayoutComponentMetadata|undefined|null;
 
     /**
+     * Tree item index
+     */
+    @Input()
+    public index: number = 0;
+
+    /**
+     * Parent identifier
+     */
+    @Input()
+    public parentId: string|undefined|null;
+
+    /**
      * Indication whether node is open
      */
     @Input()
@@ -78,7 +107,9 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     //######################### constructor #########################
     constructor(protected _manager: LayoutEditorMetadataManager,
                 protected _changeDetector: ChangeDetectorRef,
-                protected iteratorSvc: LayoutComponentsIteratorService,)
+                protected _draggingSvc: DragActiveService,
+                protected iteratorSvc: LayoutComponentsIteratorService,
+    )
     {
     }
 
@@ -101,6 +132,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
         
         this._initSubscriptions.add(this._manager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
         this._initSubscriptions.add(this._manager.displayNameChange.subscribe(() => this._changeDetector.detectChanges()));
+        this._initSubscriptions.add(this._manager.draggedOverComponentChange.subscribe(() => this._handleDragOver()));
 
         this.initChildren();
     }
@@ -156,6 +188,18 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
         }
 
         return false;
+    }
+
+    /**
+     * Adds descentant component metadata to this component metadata
+     * @param dragData - Data from drag n drop event
+     */
+    public addDescendant(dragData: LayoutComponentDragData): void
+    {
+        if (this.data)
+        {
+            this._manager.getComponent(this.data.id)?.addDescendant(dragData);
+        }
     }
     
     /**
@@ -221,10 +265,26 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     }
 
     /**
-     * Indicataion whether drag data can be dropped into node
-     * @returns 
+     * Handle event when user is dragging over this components
      */
-    protected _canDrop: Func<boolean> = () => false;
+    protected _handleDragOver(): void
+    {
+        if (this._manager.draggedOverComponent != this.data?.id)
+        {
+            this.dragOverSubscription?.unsubscribe();
+            this.dragOverSubscription = null;
+            return;
+        }
+
+        if (!this.open)
+        {
+            this.dragOverSubscription = timer(DRAG_OVER_DELAY).subscribe(() =>
+            {
+                this.expand();
+                this._changeDetector.detectChanges();
+            });
+        }
+    }
 
     //######################### protected methods - host #########################
 

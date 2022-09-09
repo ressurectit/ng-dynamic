@@ -1,13 +1,12 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
-import {DragDropModule} from '@angular/cdk/drag-drop';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Subscription} from 'rxjs';
 
-import {LayoutEditorMetadataManager} from '../../services';
-import {ComponentTreeNodeTemplateSADirective, ConnectDropListsSADirective} from '../../directives';
+import {DragActiveService, LayoutEditorMetadataManager} from '../../services';
 import {ComponentsTreeItemSAComponent} from './item';
+import {DndBusService} from '../../modules';
 
 /**
  * Component displaying components tree
@@ -22,10 +21,12 @@ import {ComponentsTreeItemSAComponent} from './item';
     [
         CommonModule,
         MatButtonModule,
-        ComponentTreeNodeTemplateSADirective,
-        DragDropModule,
-        ConnectDropListsSADirective,
         ComponentsTreeItemSAComponent,
+    ],
+    providers:
+    [
+        DragActiveService,
+        DndBusService,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

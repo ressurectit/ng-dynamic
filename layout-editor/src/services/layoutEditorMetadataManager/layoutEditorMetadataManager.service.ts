@@ -61,6 +61,16 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     protected _flatTree: LayoutEditorMetadataManagerComponent[]|null = null;
 
+    /**
+     * Id of dragged over component
+     */
+    protected _draggedOverComponent: string|null = null;
+
+    /**
+     * Used for emitting dragged over component changes
+     */
+    protected _draggedOverComponentChange: Subject<void> = new Subject<void>();
+
     //######################### public properties #########################
 
     /**
@@ -77,6 +87,14 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     public get highlightedComponent(): string|null
     {
         return this._highlightedComponent;
+    }
+
+    /**
+     * Gets id of dragged over component
+     */
+    public get draggedOverComponent(): string|null
+    {
+        return this._draggedOverComponent;
     }
 
     /**
@@ -122,6 +140,14 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     public get displayNameChange(): Observable<void>
     {
         return this._displayNameChanges.asObservable();
+    }
+
+    /**
+     * Occurs when dragged over component changes
+     */
+    public get draggedOverComponentChange(): Observable<void>
+    {
+        return this._draggedOverComponentChange.asObservable();
     }
 
     /**
@@ -175,6 +201,32 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     {
         this._highlightedComponent = null;
         this._highlightedChange.next();
+    }
+
+    
+    /**
+     * Mark component as being dragged over
+     * @param id - Id of component that will be marked
+     */
+    public dragOverComponent(id?: string): void
+    {
+        if (id === this._draggedOverComponent)
+        {
+            return;
+        }
+
+        this._draggedOverComponent = id ?? null;
+        this._draggedOverComponentChange.next();
+    }
+
+    /**
+     * Removes indication of component being dragged over
+     * @param id - Id of component that will be marked
+     */
+    public cancelDragOverComponent(): void
+    {
+        this._draggedOverComponent = null;
+        this._draggedOverComponentChange.next();
     }
 
     /**

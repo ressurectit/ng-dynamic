@@ -4,7 +4,6 @@ const relations =
     'logicalAnd',
     'logicalOr',
     'negation',
-    'rest',
     'transformData',
     'value',
 ];

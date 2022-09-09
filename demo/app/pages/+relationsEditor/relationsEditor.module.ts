@@ -5,6 +5,7 @@ import {provideTinyMceRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsRelationsEditor} from '@anglr/dynamic/handlebars-components';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {MetadataStorage, PackageManager} from '@anglr/dynamic';
+import {provideRestRelationsEditor} from '@anglr/dynamic/rest-components';
 
 import {components} from './relationsEditor.routes';
 import {LoadSaveNewSAComponent} from '../../components';
@@ -37,6 +38,7 @@ import {StoreDataService} from '../../services/storeData';
         createStoreDataServiceFactory('RELATIONS_DATA'),
         provideTinyMceRelationsEditor(),
         provideHandlebarsRelationsEditor(),
+        provideRestRelationsEditor(),
         <ClassProvider>
         {
             provide: PackageManager,

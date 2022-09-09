@@ -8,6 +8,7 @@ import {provideCssLayoutRelations} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutRelations} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelations} from '@anglr/dynamic/handlebars-components';
 import {provideLayoutRelations} from '@anglr/dynamic/layout-relations';
+import {provideRestLayoutRelations} from '@anglr/dynamic/rest-components';
 import {MetadataStorage} from '@anglr/dynamic';
 
 import {StoreDataService} from '../../../services/storeData';
@@ -34,6 +35,7 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
         provideCssLayoutRelations(),
         provideTinyMceLayoutRelations(),
         provideHandlebarsLayoutRelations(),
+        provideRestLayoutRelations(),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

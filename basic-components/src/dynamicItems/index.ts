@@ -9,7 +9,6 @@ export * from './logicalAnd';
 export * from './logicalOr';
 export * from './negation';
 export * from './notFound';
-export * from './rest';
 export * from './stackPanel';
 export * from './templateBlock';
 export * from './textBlock';

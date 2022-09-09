@@ -80,6 +80,7 @@
         "@angular/cdk": ">=14.1.0",
         "@angular/material": ">=14.1.0",
         "@anglr/common": ">=14.1.0",
+        "@anglr/rest": ">=12.1.0",
         "rxjs": ">=7.5.6",
         "@jscrpt/common": ">=2.3.0",
         "angular2-hotkeys": "^13.1.0",
@@ -112,7 +113,7 @@
         "@anglr/grid": "9.0.1",
         "@anglr/md-help": "8.0.0",
         "@anglr/notifications": "9.0.0",
-        "@anglr/rest": "12.0.0",
+        "@anglr/rest": "12.1.0",
         "@anglr/select": "11.0.2",
         "@anglr/translate-extensions": "9.0.0",
         "@jscrpt/common": "3.0.0",
@@ -368,6 +369,38 @@
             "es2015": "./es2015/handlebars-components/src/relations.js",
             "node": "./es2015/handlebars-components/src/relations.js",
             "default": "./es2020/handlebars-components/src/relations.js"
+        },
+        "./rest-components": {
+            "types": "./rest-components/src/index.d.ts",
+            "esm2020": "./es2020/rest-components/src/index.js",
+            "es2020": "./es2020/rest-components/src/index.js",
+            "es2015": "./es2015/rest-components/src/index.js",
+            "node": "./es2015/rest-components/src/index.js",
+            "default": "./es2020/rest-components/src/index.js"
+        },
+        "./rest-components/dynamicItems/*/type": {
+            "types": "./rest-components/src/dynamicItems/*/type.d.ts",
+            "esm2020": "./es2020/rest-components/src/dynamicItems/*/type.js",
+            "es2020": "./es2020/rest-components/src/dynamicItems/*/type.js",
+            "es2015": "./es2015/rest-components/src/dynamicItems/*/type.js",
+            "node": "./es2015/rest-components/src/dynamicItems/*/type.js",
+            "default": "./es2020/rest-components/src/dynamicItems/*/type.js"
+        },
+        "./rest-components/types": {
+            "types": "./rest-components/src/types.d.ts",
+            "esm2020": "./es2020/rest-components/src/types.js",
+            "es2020": "./es2020/rest-components/src/types.js",
+            "es2015": "./es2015/rest-components/src/types.js",
+            "node": "./es2015/rest-components/src/types.js",
+            "default": "./es2020/rest-components/src/types.js"
+        },
+        "./rest-components/relations": {
+            "types": "./rest-components/src/relations.d.ts",
+            "esm2020": "./es2020/rest-components/src/relations.js",
+            "es2020": "./es2020/rest-components/src/relations.js",
+            "es2015": "./es2015/rest-components/src/relations.js",
+            "node": "./es2015/rest-components/src/relations.js",
+            "default": "./es2020/rest-components/src/relations.js"
         },
         "./tinymce-components": {
             "types": "./tinymce-components/src/index.d.ts",

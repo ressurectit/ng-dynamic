@@ -1,4 +1,4 @@
-const relations =
+const relations: string[] =
 [
 ];
 

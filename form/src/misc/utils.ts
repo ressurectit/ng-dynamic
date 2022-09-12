@@ -2,7 +2,7 @@ import {Provider} from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup} from '@angular/forms';
 import {provideStaticPackageSource} from '@anglr/dynamic';
 
-import {FORM_COMPONENTS_PROVIDER, FORM_MODULE_TYPES_PROVIDER} from './providers';
+import {FORM_COMPONENTS_PROVIDER, FORM_MODULE_TYPES_PROVIDER, FORM_RELATIONS_COMPONENTS_PROVIDER, FORM_RELATIONS_MODULE_TYPES_PROVIDER, FORM_RELATIONS_NODES_PROVIDER} from './providers';
 import {FormComponentControlType} from './enums';
 
 /**
@@ -16,7 +16,17 @@ export function provideFormLayout(): Provider[]
 }
 
 /**
- * Default providers for form subpackage
+ * Providers for layout form subpackage
+ */
+export function provideFormRelations(): Provider[]
+{
+    return [
+        FORM_RELATIONS_COMPONENTS_PROVIDER,
+    ];
+}
+
+/**
+ * Default providers for form subpackage layout
  */
 export function provideFormLayoutEditor(): Provider[]
 {
@@ -24,6 +34,42 @@ export function provideFormLayoutEditor(): Provider[]
         FORM_COMPONENTS_PROVIDER,
         FORM_MODULE_TYPES_PROVIDER,
         provideStaticPackageSource('form-components'),
+    ];
+}
+
+/**
+ * Default providers for form subpackage relations
+ */
+export function provideFormRelationsEditor(): Provider[]
+{
+    return [
+        FORM_RELATIONS_MODULE_TYPES_PROVIDER,
+        FORM_RELATIONS_NODES_PROVIDER,
+        provideStaticPackageSource('form-components'),
+    ];
+}
+
+ 
+/**
+ * Providers for layout relations editor form subpackage
+ */
+export function provideFormLayoutRelationsEditor(): Provider[]
+{
+    return [
+        ...provideFormRelationsEditor(),
+        ...provideFormLayout(),
+    ];
+}
+
+
+/**
+ * Providers for layout relations form subpackage
+ */
+export function provideFormLayoutRelations(): Provider[]
+{
+    return [
+        ...provideFormLayout(),
+        ...provideFormRelations(),
     ];
 }
 

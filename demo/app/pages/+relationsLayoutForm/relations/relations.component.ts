@@ -5,6 +5,7 @@ import {LayoutManager, provideLayoutRelationsEditor} from '@anglr/dynamic/layout
 import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
 import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
+import {provideFormLayoutRelationsEditor} from '@anglr/dynamic/form';
 import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {BindThis} from '@jscrpt/common';
@@ -34,6 +35,7 @@ import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackag
         provideHandlebarsLayoutRelationsEditor(),
         provideTinyMceLayoutRelationsEditor(),
         provideCssLayoutRelationsEditor(),
+        provideFormLayoutRelationsEditor(),
         <ClassProvider>
         {
             provide: PackageManager,

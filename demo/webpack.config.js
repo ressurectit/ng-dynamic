@@ -166,6 +166,7 @@ export default [function(options, args)
                 "@anglr/dynamic/layout-editor": path.join(dirName, "../layout-editor/src/index.ts"),
                 "@anglr/dynamic/layout-relations": path.join(dirName, "../layout-relations/src/index.ts"),
                 "@anglr/dynamic/form/types": path.join(dirName, "../form/src/types.ts"),
+                "@anglr/dynamic/form/relations": path.join(dirName, "../form/src/relations.ts"),
                 "@anglr/dynamic/form": path.join(dirName, "../form/src"),
                 "@anglr/dynamic/relations": path.join(dirName, "../relations/src/index.ts"),
                 "@anglr/dynamic/relations-editor": path.join(dirName, "../relations-editor/src/index.ts"),

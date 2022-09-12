@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -39,5 +39,29 @@ export class MaterialSelectSAComponent extends FormComponentBase<MaterialSelectC
 {
     //######################### public properties #########################
 
-    public values: any[] = ['foo', 'bar'];
+    protected _values: any[] = [
+        {
+            code: 'foo',
+            value: 'foo value',
+        },
+        {
+            code: 'bar',
+            value: 'bar value',
+        }
+    ];
+
+    //######################### poublic properties - inputs and outputs #########################
+
+    /**
+     * Indication whether form component is disabled
+     */
+    @Input()
+    public set values(value: any[])
+    {
+        this._values = value;
+    }
+    public get values(): any[]
+    {
+        return this._values;
+    }
 }

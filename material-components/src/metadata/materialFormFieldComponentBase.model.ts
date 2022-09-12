@@ -1,28 +1,12 @@
 import {MatFormFieldAppearance} from '@angular/material/form-field';
 import {LayoutPropertyName, LayoutPropertyDescription, LayoutPropertyType, DefaultKnownPropertyTypes, LayoutPropertyValues} from '@anglr/dynamic/layout-editor';
-import {FormComponentBaseModel} from '@anglr/dynamic/form';
+import {FormFieldComponentBaseModel} from '@anglr/dynamic/form';
 import {mapValuesToThis} from '@jscrpt/common';
 
 import {MaterialFormFieldComponentOptions} from '../misc';
 
-export class MaterialFormFieldComponentBaseModel extends FormComponentBaseModel implements MaterialFormFieldComponentOptions
+export class MaterialFormFieldComponentBaseModel extends FormFieldComponentBaseModel implements MaterialFormFieldComponentOptions
 {
-    /**
-     * @inheritdoc
-     */
-    @LayoutPropertyName('Label')
-    @LayoutPropertyDescription('Form label')
-    @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
-    public label: string|undefined|null = null;
-
-    /**
-     * @inheritdoc
-     */
-    @LayoutPropertyName('Placeholder')
-    @LayoutPropertyDescription('Input placeholder')
-    @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
-    public placeholder: string|undefined|null = null;
-
     /**
      * @inheritdoc
      */

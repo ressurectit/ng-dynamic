@@ -1,19 +1,9 @@
 import {MatFormFieldAppearance} from '@angular/material/form-field';
-import {FormComponentOptions} from '@anglr/dynamic/form';
+import {FormFieldComponentOptions} from '@anglr/dynamic/form';
 
-export class MaterialFormFieldComponentOptions extends FormComponentOptions
+export class MaterialFormFieldComponentOptions extends FormFieldComponentOptions
 {
     //######################### properties #########################
-
-    /**
-     * Input label
-     */
-    label: string|undefined|null;
-
-    /**
-     * Input placeholder
-     */
-    placeholder: string|undefined|null;
 
     /**
      * Hint text

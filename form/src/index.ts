@@ -4,6 +4,7 @@ export * from './interfaces';
 export * from './metadata';
 export * from './misc/enums';
 export * from './misc/formComponentBase.options';
+export * from './misc/formFieldBase.options';
 export * from './misc/tokens';
 export * from './misc/utils';
 export * from './pipes';

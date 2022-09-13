@@ -13,13 +13,14 @@
     </div>
 
     <div class="form-group margin-bottom-extra-small">
-        <label class="control-label text-uppercase">value</label>
-        <input type="text" class="form-control" formControlName="value">
-    </div>
-
-    <div class="form-group margin-bottom-extra-small">
         <label class="control-label text-uppercase">name</label>
         <input type="text" class="form-control" formControlName="name">
+    </div>
+
+    <div class="flex-column margin-bottom-extra-small">
+        <button type="button" class="btn btn-primary align-self-center" (click)="showCodeEditor()">
+            <span>value</span>
+        </button>
     </div>
 
     <div class="form-group margin-bottom-extra-small">

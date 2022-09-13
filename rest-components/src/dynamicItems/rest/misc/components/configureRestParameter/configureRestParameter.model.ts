@@ -6,7 +6,7 @@ import {ParamType} from '../../types';
 /**
  * Rest param model
  */
-export class RestParamModel implements RestParam<string>
+export class RestParamModel implements RestParam
 {
     //######################### public properties #########################
 
@@ -23,7 +23,7 @@ export class RestParamModel implements RestParam<string>
     /**
      * @inheritdoc
      */
-    public value: string = '';
+    public value: any;
 
     /**
      * @inheritdoc

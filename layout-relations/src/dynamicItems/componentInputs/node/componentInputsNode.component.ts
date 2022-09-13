@@ -71,6 +71,7 @@ export class ComponentInputsNodeSAComponent extends RelationsNodeBase<ComponentI
         if(await this.configureEndpoint(param))
         {
             this.endpoints.push(param);
+            this.history.getNewState();
         }
     }
 
@@ -85,6 +86,7 @@ export class ComponentInputsNodeSAComponent extends RelationsNodeBase<ComponentI
         if(index >= 0)
         {
             this.endpoints.splice(index, 1);
+            this.history.getNewState();
         }
     }
 
@@ -106,6 +108,10 @@ export class ComponentInputsNodeSAComponent extends RelationsNodeBase<ComponentI
         if(!result)
         {
             extend(endpoint, original);
+        }
+        else
+        {
+            this.history.getNewState();
         }
 
         return result ?? false;

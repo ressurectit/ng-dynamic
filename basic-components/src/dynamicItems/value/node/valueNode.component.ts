@@ -62,6 +62,7 @@ export class ValueNodeSAComponent extends RelationsNodeBase<ValueRelationsOption
         if(isPresent(result))
         {
             this.metadata.relationsOptions.value = getJson(result.content);
+            this.history.getNewState();
         }
     }
 }

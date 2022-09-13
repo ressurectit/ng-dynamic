@@ -53,6 +53,7 @@ export class RichTextSourceNodeSAComponent extends RelationsNodeBase<RichTextSou
             if(this.metadata?.relationsOptions)
             {
                 this.metadata.relationsOptions.content = result;
+                this.history.getNewState();
             }
         }
     }

@@ -76,6 +76,7 @@ export default transformer;
         this.metadata.relationsOptions.code = result.code;
         this.metadata.nodeMetadata.options ??= {content: ''};
         this.metadata.nodeMetadata.options.content = result.content;
+        this.history.getNewState();
     }
 
     //######################### protected methods - overrides #########################

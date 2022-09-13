@@ -79,6 +79,7 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
             if(this.metadata?.relationsOptions)
             {
                 extend(this.metadata.relationsOptions, value);
+                this.history.getNewState();
             }
         });
     }
@@ -101,6 +102,7 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
         if(await this.configureRestParameter(param))
         {
             this.params.push(param);
+            this.history.getNewState();
         }
     }
 
@@ -115,6 +117,7 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
         if(index >= 0)
         {
             this.params.splice(index, 1);
+            this.history.getNewState();
         }
     }
 
@@ -140,6 +143,10 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
         if(!result)
         {
             extend(param, original);
+        }
+        else
+        {
+            this.history.getNewState();
         }
 
         return result ?? false;

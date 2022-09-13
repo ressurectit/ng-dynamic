@@ -1,12 +1,15 @@
-import {Component, ChangeDetectionStrategy, Input, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input, ChangeDetectorRef, Inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TitledDialogService} from '@anglr/common/material';
+import {MetadataHistoryManager} from '@anglr/dynamic';
 import {TooltipModule} from '@anglr/common';
 import {lastValueFrom, Subject} from 'rxjs';
 
-import {RelationsNode} from '../../interfaces';
+import {RelationsNode, RelationsNodeMetadata} from '../../interfaces';
 import {RelationsNodePropertiesEditorSAComponent} from '../relationsNodePropertiesEditor/relationsNodePropertiesEditor.component';
 import {RelationsNodeProperties, RelationsNodePropertiesEditorData} from '../relationsNodePropertiesEditor/relationsNodePropertiesEditor.interface';
+import {ToColorSAPipe} from '../../pipes/toColor/toColor.pipe';
+import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
 
 /**
  * Component used for displaying relations node header
@@ -21,6 +24,7 @@ import {RelationsNodeProperties, RelationsNodePropertiesEditorData} from '../rel
     [
         CommonModule,
         TooltipModule,
+        ToColorSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -48,7 +52,8 @@ export class RelationsNodeHeaderSAComponent
 
     //######################### constructor #########################
     constructor(protected dialog: TitledDialogService,
-                protected changeDetector: ChangeDetectorRef,)
+                protected changeDetector: ChangeDetectorRef,
+                @Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager<RelationsNodeMetadata[]>)
     {
     }
 
@@ -78,6 +83,7 @@ export class RelationsNodeHeaderSAComponent
         {
             this.parent.metadata.displayName = result.displayName ?? undefined;
             this.parent.metadata.scope = result.scope ?? undefined;
+            this.history.getNewState();
 
             this.changeDetector.detectChanges();
         }

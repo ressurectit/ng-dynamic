@@ -37,6 +37,11 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     protected isDragging: boolean = false;
 
     /**
+     * Indication whether user moved node during drag
+     */
+    protected moved: boolean = false;
+
+    /**
      * Last mouse down position
      */
     protected lastMouseDownPosition: Coordinates =
@@ -224,6 +229,7 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     @HostListener('mousedown', ['$event'])
     protected onMouseDown(event: MouseEvent): void
     {
+        this.moved = false;
         this.isDragging = true;
         this.lastMouseDownPosition =
         {
@@ -249,6 +255,8 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     {
         if (this.isDragging)
         {
+            this.moved = true;
+
             this.nodePosition =
             {
                 x: this.lastMouseDownNodePosition.x + (event.clientX - this.lastMouseDownPosition.x) * 1/this.zoomLevel,
@@ -272,7 +280,11 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     {
         if (this.isDragging)
         {
-            this.history.getNewState();
+            if(this.moved)
+            {
+                this.history.getNewState();
+            }
+
             this.isDragging = false;
             event.stopImmediatePropagation();
             event.preventDefault();

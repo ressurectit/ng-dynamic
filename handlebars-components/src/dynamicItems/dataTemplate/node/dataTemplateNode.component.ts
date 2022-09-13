@@ -59,6 +59,7 @@ export class DataTemplateNodeSAComponent extends RelationsNodeBase<DataTemplateR
             if(this.metadata?.relationsOptions)
             {
                 this.metadata.relationsOptions.template = result.content;
+                this.history.getNewState();
             }
         }
     }

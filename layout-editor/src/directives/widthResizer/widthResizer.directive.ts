@@ -1,4 +1,4 @@
-import {Directive, EventEmitter, HostListener, Inject, NgZone, Output} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, HostListener, Inject, NgZone, Output} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {BindThis, isBlank} from '@jscrpt/common';
 
@@ -27,6 +27,7 @@ export class WidthResizerSADirective
 
     //######################### constructor #########################
     constructor(@Inject(DOCUMENT) protected document: Document,
+                protected element: ElementRef<HTMLElement>,
                 protected ngZone: NgZone,)
     {
     }
@@ -45,6 +46,8 @@ export class WidthResizerSADirective
             this.document.addEventListener('mousemove', this.drag);
             this.document.addEventListener('mouseup', this.dragEnd);
         });
+
+        this.element.nativeElement.classList.add('hovering');
 
         event.stopImmediatePropagation();
         event.preventDefault();
@@ -84,6 +87,8 @@ export class WidthResizerSADirective
             this.document.removeEventListener('mousemove', this.drag);
             this.document.removeEventListener('mouseup', this.dragEnd);
         });
+
+        this.element.nativeElement.classList.remove('hovering');
 
         event.stopImmediatePropagation();
         event.preventDefault();

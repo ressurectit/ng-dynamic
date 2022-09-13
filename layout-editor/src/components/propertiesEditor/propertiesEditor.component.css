@@ -30,6 +30,7 @@
     cursor: ew-resize;
 }
 
+.properties-resizer.hovering,
 .properties-resizer:hover
 {
     transition: background-color 400ms 300ms;

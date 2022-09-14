@@ -4,7 +4,7 @@ import {isBlank, isBoolean, isJsObject, isPresent, isString, isType} from '@jscr
 
 import {DEFAULT_RELATIONS_NODES_PROVIDER, DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR, DEFAULT_RELATIONS_NODES_EXTRACTOR, DYNAMIC_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_MODULE_TYPES_LOADER_PROVIDER, RELATIONS_NODES_LOADER_PROVIDER, COMPONENTS_RELATIONS_NODES_EXTRACTOR, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_HISTORY_MANAGER_STATE, RELATIONS_HISTORY_MANAGER_PROVIDER} from './providers';
 import type {RelationsModuleTypes, RelationsNodeDef} from './types';
-import {RelationsNodeManager, StaticComponentsRegister} from '../services';
+import {RelationsNodeManager, ScopeRegister, StaticComponentsRegister} from '../services';
 
 /**
  * Clamps number between two values
@@ -79,6 +79,7 @@ export function provideRelationsEditor(packages: DefaultDynamicPackage[] = ['bas
         RELATIONS_MODULE_TYPES_LOADER_PROVIDER,
         RELATIONS_NODES_LOADER_PROVIDER,
         RelationsNodeManager,
+        ScopeRegister,
         RELATIONS_HISTORY_MANAGER_STATE,
         RELATIONS_HISTORY_MANAGER_PROVIDER,
         ...packages.map(pkg => provideStaticPackageSource(pkg)),

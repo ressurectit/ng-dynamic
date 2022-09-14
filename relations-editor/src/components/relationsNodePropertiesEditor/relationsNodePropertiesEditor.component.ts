@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
@@ -14,10 +15,10 @@ import {RelationsNodePropertiesModel} from './relationsNodePropertiesEditor.mode
 {
     selector: 'relations-node-properties-editor',
     templateUrl: 'relationsNodePropertiesEditor.component.html',
-    // styleUrls: ['relationsNodeHeader.component.scss'],
     standalone: true,
     imports:
     [
+        CommonModule,
         MatDialogModule,
         ReactiveFormsModule,
     ],
@@ -36,10 +37,16 @@ export class RelationsNodePropertiesEditorSAComponent
      */
     protected form: FormGroup<FormModelGroup<RelationsNodeProperties>>;
 
+    /**
+     * Array of available scopes
+     */
+    protected scopes: string[] = [];
+
     //######################### constructor #########################
     constructor(@Inject(TITLED_DIALOG_DATA) protected data: RelationsNodePropertiesEditorData,
                 formModelBuilder: FormModelBuilder,)
     {
         this.form = formModelBuilder.build<RelationsNodeProperties>(new RelationsNodePropertiesModel(data.properties));
+        this.scopes = data.scopeRegister.scopes;
     }
 }

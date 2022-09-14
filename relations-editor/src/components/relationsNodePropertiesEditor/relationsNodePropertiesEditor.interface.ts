@@ -1,3 +1,5 @@
+import {ScopeRegister} from '../../services';
+
 /**
  * Relations node properties that can be edited
  */
@@ -28,4 +30,9 @@ export interface RelationsNodePropertiesEditorData
      * Indication whether scope can be changed
      */
     scopeConfigurable: boolean;
+
+    /**
+     * Instance of scope register
+     */
+    scopeRegister: ScopeRegister;
 }

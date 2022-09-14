@@ -1,12 +1,12 @@
 import {ClassProvider, FactoryProvider, Provider, Type} from '@angular/core';
 import {provideLayout} from '@anglr/dynamic/layout';
 import {provideRelations} from '@anglr/dynamic/relations';
-import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES, StaticComponentsRegister, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER} from '@anglr/dynamic/relations-editor';
+import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES, ScopeRegister as RelationsScopeRegister, StaticComponentsRegister, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER} from '@anglr/dynamic/relations-editor';
 import {LayoutComponentsIteratorService, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {DefaultDynamicPackage, provideStaticPackageSource} from '@anglr/dynamic';
 
 import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER} from './providers';
-import {LayoutComponentsRegister, LayoutManager, CustomComponentsRegister} from '../services';
+import {LayoutComponentsRegister, LayoutManager, CustomComponentsRegister, ScopeRegister} from '../services';
 
 /**
  * Providers for relations subpackage that works with layout metadata
@@ -36,14 +36,22 @@ export function provideLayoutRelationsCustomComponents(): Provider[]
  */
 export function provideLayoutRelationsEditor(packages?: DefaultDynamicPackage[]): Provider[]
 {
+    const relationsProviders = provideRelationsEditor([]);
+    relationsProviders.splice(relationsProviders.indexOf(RelationsScopeRegister), 1);
+
     return [
         ...provideLayoutEditor(false, packages),
-        ...provideRelationsEditor([]),
+        ...relationsProviders,
         LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER,
         LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
         LayoutManager,
         LayoutComponentsRegister,
         LayoutComponentsIteratorService,
+        <ClassProvider>
+        {
+            provide: RelationsScopeRegister,
+            useClass: ScopeRegister,
+        },
         <FactoryProvider>
         {
             provide: REFRESH_PALETTE_OBSERVABLES,

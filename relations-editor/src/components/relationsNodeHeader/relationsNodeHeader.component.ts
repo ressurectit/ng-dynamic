@@ -10,6 +10,7 @@ import {RelationsNodePropertiesEditorSAComponent} from '../relationsNodeProperti
 import {RelationsNodeProperties, RelationsNodePropertiesEditorData} from '../relationsNodePropertiesEditor/relationsNodePropertiesEditor.interface';
 import {ToColorSAPipe} from '../../pipes/toColor/toColor.pipe';
 import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
+import {ScopeRegister} from '../../services';
 
 /**
  * Component used for displaying relations node header
@@ -18,7 +19,6 @@ import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
 {
     selector: 'relations-node-header',
     templateUrl: 'relationsNodeHeader.component.html',
-    // styleUrls: ['relationsNodeHeader.component.scss'],
     standalone: true,
     imports:
     [
@@ -53,6 +53,7 @@ export class RelationsNodeHeaderSAComponent
     //######################### constructor #########################
     constructor(protected dialog: TitledDialogService,
                 protected changeDetector: ChangeDetectorRef,
+                protected scopeRegister: ScopeRegister,
                 @Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager<RelationsNodeMetadata[]>)
     {
     }
@@ -73,9 +74,10 @@ export class RelationsNodeHeaderSAComponent
                 properties: 
                 {
                     displayName: this.parent?.metadata?.displayName || this.name || this.parent?.metadata?.id || '',
-                    scope: this.parent?.metadata?.scope,
+                    scope: this.parent?.metadata?.scope ?? '',
                 },
                 scopeConfigurable: this.parent?.metadata?.nodeMetadata?.scopeConfigurable ?? false,
+                scopeRegister: this.scopeRegister,
             }
         }).afterClosed());
 

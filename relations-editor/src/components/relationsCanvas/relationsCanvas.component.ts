@@ -177,10 +177,12 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
         if (node?.nodeMetadata?.coordinates)
         {
             // this._setZoomLevel(1);
-            this.canvasPosition = {
+            this.canvasPosition = 
+            {
                 x: (-node?.nodeMetadata?.coordinates.x) * this.zoomLevel  + this.boundingBox.width/2,
                 y: (-node?.nodeMetadata?.coordinates.y) * this.zoomLevel  + this.boundingBox.height/2,
             };
+            
             this._changeDetector.detectChanges();
         }
     }

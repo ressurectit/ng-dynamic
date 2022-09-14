@@ -66,7 +66,7 @@ export class NodeRelationPath
             .on('mouseover', () =>
             {
                 this.highlight();
-            })                  
+            })
             .on('mouseout', () =>
             {
                 this.cancelHighlight();
@@ -159,8 +159,8 @@ export class NodeRelationPath
         if(this.end.x <= this.start.x)
         {
             let width = this.start.x - this.end.x;
-            const half = (this.end.y - this.start.y) / 2;
-            
+            const tenth = (this.end.y - this.start.y) / 10;
+
             if(width < 12)
             {
                 width = 12;
@@ -168,11 +168,13 @@ export class NodeRelationPath
 
             width *= 1.3;
 
-            points = 
+            points =
             [
                 [this.start.x, this.start.y],
-                [this.start.x + width, this.start.y + half],
-                [this.end.x - width, this.start.y + half],
+                [this.start.x + 40, this.start.y],
+                [this.start.x + width, this.start.y + tenth],
+                [this.end.x - width, this.start.y + (9 * tenth)],
+                [this.end.x - 40, this.end.y],
                 [this.end.x, this.end.y]
             ];
         }
@@ -182,7 +184,7 @@ export class NodeRelationPath
             const width = this.end.x - this.start.x;
             const third = width / 3;
 
-            points = 
+            points =
             [
                 [this.start.x, this.start.y],
                 [this.start.x + third, this.start.y],

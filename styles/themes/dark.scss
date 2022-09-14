@@ -1,14 +1,25 @@
-$_defaultColors:
+@use 'sass:map';
+@use '../core/functions';
+@use '../core/mixins';
+
+$_darkDefaultTheme:
 (
+    btnPrimary:
+    (
+        background: #6aba4f,
+        foreground: #fff,
+        border: #6aba4f,
+    ),
 );
 
-@function defineTheme($colors: (), $fonts: 'Inter')
+@function defineTheme($colors: (), $font: 'Inter')
 {
-    $result: ();
+    $colors: map.deep-merge($_darkDefaultTheme, $colors);
 
-    @return $result;
+    @return functions.defineTheme($colors, $font);
 }
 
-@mixin buildTheme($dynamicTheme)
+@mixin buildTheme()
 {
+    @include mixins.buildTheme(defineTheme());
 }

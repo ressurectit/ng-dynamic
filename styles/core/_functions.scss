@@ -1,10 +1,11 @@
-$_defaultColors:
-(
-);
+@use 'sass:map';
 
-@function defineTheme($colors, $fonts)
+@use 'theme';
+
+@function defineTheme($colors, $font)
 {
-    $result: ();
+    $result: map.deep-merge(theme.$defaultTheme, $colors);
+    $result: map.set($colors, 'font', $font);
 
     @return $result;
 }

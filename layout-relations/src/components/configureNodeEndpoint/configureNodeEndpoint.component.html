@@ -5,18 +5,18 @@
     </div>
 
     <div class="dynamic-flex-column">
-        <button type="button" class="btn btn-primary dynamic-align-self-center" (click)="showCodeEditor()">
+        <button type="button" class="dynamic-btn dynamic-btn-primary dynamic-align-self-center" (click)="showCodeEditor()">
             <span>default value</span>
         </button>
     </div>
 </div>
 
 <div class="dynamic-flex-row dynamic-flex-end">
-    <button type="button" class="btn btn-info margin-right-extra-small" [mat-dialog-close]="null">
+    <button type="button" class="dynamic-btn btn-info margin-right-extra-small" [mat-dialog-close]="null">
         <span>cancel</span>
     </button>
 
-    <button type="button" class="btn btn-primary" [mat-dialog-close]="true">
+    <button type="button" class="dynamic-btn dynamic-btn-primary" [mat-dialog-close]="true">
         <span>ok</span>
     </button>
 </div>

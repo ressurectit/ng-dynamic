@@ -1,0 +1,30 @@
+@mixin btn
+{
+    .dynamic-btn
+    {
+        letter-spacing: 1px;
+        background-image: none;
+        text-shadow: 0 0;
+        box-shadow: 0 0;
+        text-transform: uppercase;
+        transition: all 350ms;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 4px;
+        padding: 4px 10px;
+        cursor: pointer;
+        white-space: nowrap;
+        font-size: 11px;
+    }
+}
+
+@mixin btn-primary
+{
+    .dynamic-btn-primary
+    {
+        font-family: var(--dynamic-font-family);
+        background-color: var(--dynamic-btn-primary-background);
+        border-color: var(--dynamic-btn-primary-border);
+        color: var(--dynamic-btn-primary-foreground);
+    }
+}

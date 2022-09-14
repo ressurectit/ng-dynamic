@@ -1,3 +1,8 @@
+%hidden
+{
+    display: none;
+}
+
 %flex-row
 {
     display: flex;
@@ -36,14 +41,6 @@
 {
 }
 
-%btn
-{
-}
-
-%btn-primary
-{
-}
-
 %btn-info
 {
 }
@@ -62,4 +59,66 @@
 
 %form-group
 {
+}
+
+@mixin misc
+{
+    .dynamic-hidden
+    {
+        @extend %hidden;
+    }
+
+    .dynamic-flex-row
+    {
+        @extend %flex-row;
+    }
+
+    .dynamic-flex-column
+    {
+        @extend %flex-column;
+    }
+
+    .dynamic-flex-end
+    {
+        @extend %flex-end;
+    }
+
+    .dynamic-flex-1
+    {
+        @extend %flex-1;
+    }
+
+    .dynamic-align-self-center
+    {
+        @extend %align-self-center;
+    }
+
+    .dynamic-align-items-center
+    {
+        @extend %align-items-center;
+    }
+
+    .dynamic-thin-scrollbar
+    {
+    }
+
+    .dynamic-btn-info
+    {
+    }
+
+    .dynamic-btn-icon
+    {
+    }
+
+    .dynamic-control-label
+    {
+    }
+
+    .dynamic-form-control
+    {
+    }
+
+    .dynamic-form-group
+    {
+    }
 }

@@ -47,14 +47,20 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
         {
             if(isPresent(this.lastCssClass))
             {
-                this.element.nativeElement.classList.remove(this.lastCssClass);
+                for(const cssClass of this.lastCssClass.split(' '))
+                {
+                    this.element.nativeElement.classList.remove(cssClass);
+                }
             }
 
             this.lastCssClass = options?.cssClass;
 
             if(options?.cssClass)
             {
-                this.element?.nativeElement.classList.add(options.cssClass);
+                for(const cssClass of options.cssClass.split(' '))
+                {
+                    this.element?.nativeElement.classList.add(cssClass);
+                }
             }
         }
 

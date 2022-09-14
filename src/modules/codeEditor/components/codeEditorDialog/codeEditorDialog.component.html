@@ -1,11 +1,11 @@
 <code-editor #editor style="height: calc(75vh - 32px); width: calc(75vw - 20px);" [content]="data.content" [languageModel]="data.languageModel" (save)="editorContent = $event"></code-editor>
 
 <div class="dynamic-flex-row dynamic-flex-end margin-top-extra-small">
-    <button type="button" class="btn btn-info margin-right-extra-small" type="button" [mat-dialog-close]="null">
+    <button type="button" class="dynamic-btn btn-info margin-right-extra-small" type="button" [mat-dialog-close]="null">
         <span>cancel</span>
     </button>
 
-    <button type="button" class="btn btn-primary" type="button" (click)="saveAndClose(editor)">
+    <button type="button" class="dynamic-btn dynamic-btn-primary" type="button" (click)="saveAndClose(editor)">
         <span>ok</span>
     </button>
 </div>

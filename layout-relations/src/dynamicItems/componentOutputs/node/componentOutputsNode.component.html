@@ -6,7 +6,7 @@
             <div class="input" *ngFor="let endpoint of endpoints">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="endpoint.name" [parent]="this"></relation-node-input>
 
-                <div class="flex-row">
+                <div class="dynamic-flex-row">
                     <div>{{endpoint.name}}</div>
 
                     <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureEndpoint(endpoint)">
@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div class="flex-row">
+            <div class="dynamic-flex-row">
                 <button type="button" class="btn-icon margin-left-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); addEndpoint()">
                     <span class="fas fa-plus"></span>
                 </button>

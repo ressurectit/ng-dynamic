@@ -30,7 +30,7 @@
                     <div class="input" *ngSwitchCase="'BODY'">
                         <relation-node-input *ngIf="param.configurable" [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="param.name" [parent]="this"></relation-node-input>
 
-                        <div class="flex-row">
+                        <div class="dynamic-flex-row">
                             <div>BODY: {{param.name}}</div>
 
                             <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureRestParameter(param)">
@@ -46,7 +46,7 @@
                     <div class="input" *ngSwitchCase="'PATH'">
                         <relation-node-input *ngIf="param.configurable" [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="param.name" [parent]="this"></relation-node-input>
 
-                        <div class="flex-row">
+                        <div class="dynamic-flex-row">
                             <div>PATH: {{param.name}}</div>
 
                             <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
@@ -62,7 +62,7 @@
                     <div class="input" *ngSwitchCase="'QUERY'">
                         <relation-node-input *ngIf="param.configurable" [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="param.name" [parent]="this"></relation-node-input>
 
-                        <div class="flex-row">
+                        <div class="dynamic-flex-row">
                             <div>QUERY: {{param.name}}</div>
 
                             <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
@@ -78,7 +78,7 @@
                     <div class="input" *ngSwitchCase="'QUERY OBJECT'">
                         <relation-node-input *ngIf="param.configurable" [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="param.name" [parent]="this"></relation-node-input>
 
-                        <div class="flex-row">
+                        <div class="dynamic-flex-row">
                             <div>QUERY OBJECT: {{param.name}}</div>
 
                             <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
@@ -94,7 +94,7 @@
                     <div class="input" *ngSwitchCase="'HEADER'">
                         <relation-node-input *ngIf="param.configurable" [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="param.name" [parent]="this"></relation-node-input>
 
-                        <div class="flex-row">
+                        <div class="dynamic-flex-row">
                             <div>HEADER: {{param.name}}</div>
 
                             <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">

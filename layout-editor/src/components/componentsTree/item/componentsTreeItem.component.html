@@ -11,7 +11,7 @@
     <div 
         class="designer-dropzone" 
         [dropTarget]="dndCoreTree.dropzone">
-        <div class="flex align-items-center" [ngClass]="hasChildren ? 'nested-node-tree' : 'node-tree'">
+        <div class="flex dynamic-align-items-center" [ngClass]="hasChildren ? 'nested-node-tree' : 'node-tree'">
             <button type="button" mat-icon-button [disabled]="!hasChildren" (click)="toggle()"
                 [attr.aria-label]="'Toggle'">
                 <span class="fa" *ngIf="hasChildren" [ngClass]="open ? 'fa-chevron-down' : 'fa-chevron-right'"></span>

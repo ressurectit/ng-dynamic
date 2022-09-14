@@ -4,14 +4,14 @@
         <input type="text" class="form-control" formControlName="name">
     </div>
 
-    <div class="flex-column">
-        <button type="button" class="btn btn-primary align-self-center" (click)="showCodeEditor()">
+    <div class="dynamic-flex-column">
+        <button type="button" class="btn btn-primary dynamic-align-self-center" (click)="showCodeEditor()">
             <span>default value</span>
         </button>
     </div>
 </div>
 
-<div class="flex-row flex-end">
+<div class="dynamic-flex-row dynamic-flex-end">
     <button type="button" class="btn btn-info margin-right-extra-small" [mat-dialog-close]="null">
         <span>cancel</span>
     </button>

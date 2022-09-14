@@ -1,4 +1,4 @@
-<div class="flex-row">
+<div class="dynamic-flex-row">
     <button type="button" class="btn-icon margin-right-extra-small" (click)="detailVisible = !detailVisible">
         <span class="fas" [class.fa-plus]="!detailVisible" [class.fa-minus]="detailVisible"></span>
     </button>
@@ -7,8 +7,8 @@
 </div>
 
 <div *ngIf="detailVisible">
-    <div class="flex-row">
-        <select class="form-control flex-1" #avPkgs>
+    <div class="dynamic-flex-row">
+        <select class="form-control dynamic-flex-1" #avPkgs>
             <option *ngFor="let package of availablePackages" [value]="package">{{package}}</option>
         </select>
 
@@ -17,8 +17,8 @@
         </button>
     </div>
 
-    <div class="flex-row align-items-center margin-top-small" *ngFor="let package of usedPackages">
-        <div class="flex-1">{{package}}</div>
+    <div class="dynamic-flex-row dynamic-align-items-center margin-top-small" *ngFor="let package of usedPackages">
+        <div class="dynamic-flex-1">{{package}}</div>
 
         <button type="button" class="btn-icon margin-left-extra-small" (click)="removePackage(package)">
             <span class="fas fa-times"></span>

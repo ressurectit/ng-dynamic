@@ -1,4 +1,4 @@
-<div class="flex-row margin-top-big flex-1">
+<div class="dynamic-flex-row margin-top-big dynamic-flex-1">
     <mat-tab-group>
         <mat-tab label="Hierarchy">
             <components-tree></components-tree>
@@ -10,7 +10,7 @@
         </mat-tab>
     </mat-tab-group>
 
-    <div class="flex-1 layout-content thin-scrollbar">
+    <div class="dynamic-flex-1 layout-content thin-scrollbar">
         <ng-container [layoutComponentRenderer]="metadata"></ng-container>
     </div>
 

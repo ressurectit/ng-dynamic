@@ -1,65 +1,65 @@
-.dynamic-flex-row
+%flex-row
 {
     display: flex;
     flex-direction: row;
 }
 
-.dynamic-flex-column
+%flex-column
 {
     display: flex;
     flex-direction: column;
 }
 
-.dynamic-flex-end
+%flex-end
 {
     justify-content: flex-end;
 }
 
-.dynamic-flex-1
+%flex-1
 {
     flex: 1;
     min-width: 0;
     min-height: 0;
 }
 
-.dynamic-align-self-center
+%align-self-center
 {
     align-self: center;
 }
 
-.dynamic-align-items-center
+%align-items-center
 {
     align-items: center;
 }
 
-.dynamic-thin-scrollbar
+%thin-scrollbar
 {
 }
 
-.dynamic-btn
+%btn
 {
 }
 
-.dynamic-btn-primary
+%btn-primary
 {
 }
 
-.dynamic-btn-info
+%btn-info
 {
 }
 
-.dynamic-btn-icon
+%btn-icon
 {
 }
 
-.dynamic-control-label
+%control-label
 {
 }
 
-.dynamic-form-control
+%form-control
 {
 }
 
-.dynamic-form-group
+%form-group
 {
 }

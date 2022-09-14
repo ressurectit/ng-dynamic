@@ -1,17 +1,17 @@
 <div>Padding</div>
 
 <div>
-    <div class="flex-row align-items-center margin-bottom-extra-small">
+    <div class="dynamic-flex-row dynamic-align-items-center margin-bottom-extra-small">
         <span class="fas fa-arrow-left"></span>
         <input-size [control]="_padding?.controls?.left | asFormControl"></input-size>
         <span class="fas fa-arrow-right margin-left-big"></span>
         <input-size [control]="_padding?.controls?.right | asFormControl"></input-size>
     </div>
 
-    <div class="flex-row align-items-center">
+    <div class="dynamic-flex-row dynamic-align-items-center">
         <span class="fas fa-arrow-up"></span>
-        <input-size class="align-self-center" [control]="_padding?.controls?.top | asFormControl"></input-size>
+        <input-size class="dynamic-align-self-center" [control]="_padding?.controls?.top | asFormControl"></input-size>
         <span class="fas fa-arrow-down margin-left-big"></span>
-        <input-size class="align-self-center" [control]="_padding?.controls?.bottom | asFormControl"></input-size>
+        <input-size class="dynamic-align-self-center" [control]="_padding?.controls?.bottom | asFormControl"></input-size>
     </div>
 </div>

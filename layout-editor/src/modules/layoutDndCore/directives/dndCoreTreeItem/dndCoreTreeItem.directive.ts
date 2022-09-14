@@ -1,4 +1,4 @@
-import {Directive, ElementRef, EventEmitter, ExistingProvider, forwardRef, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {BindThis, isBlank, isPresent} from '@jscrpt/common';
@@ -8,8 +8,6 @@ import {filter, Subscription} from 'rxjs';
 import {LayoutComponentDragData} from '../../../../interfaces';
 import {DragActiveService, LayoutEditorMetadataManager} from '../../../../services';
 import {DndBusService, DropPlaceholderPreview} from '../../services';
-import {DragPreviewRegistrator} from '../../interfaces';
-import {DRAG_PREVIEW_REGISTRATOR} from '../../misc/tokens';
 import {LayoutDragItem, LayoutDropResult} from '../dndCoreDesigner/dndCoreDesigner.interface';
 
 /**
@@ -19,16 +17,8 @@ import {LayoutDragItem, LayoutDropResult} from '../dndCoreDesigner/dndCoreDesign
 {
     selector: '[dndCoreTreeItem]',
     exportAs: 'dndCoreTreeItem',
-    providers:
-    [
-        <ExistingProvider>
-        {
-            provide: DRAG_PREVIEW_REGISTRATOR,
-            useExisting: forwardRef(() => DndCoreTreeItemDirective),
-        }
-    ]
 })
-export class DndCoreTreeItemDirective implements OnInit, OnDestroy, DragPreviewRegistrator
+export class DndCoreTreeItemDirective implements OnInit, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -339,16 +329,6 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy, DragPreviewR
 
         this.containerConnection?.unsubscribe();
         this.containerConnection = null;
-    }
-
-    //######################### public methods - implementation of DragPreviewRegistrator #########################
-
-    /**
-     * @inheritdoc
-     */
-    public registerPreviewElement(element: HTMLElement): Subscription
-    {
-        return this.drag.connectDragPreview(element, {offsetX: 0, offsetY: 0});
     }
 
     //######################### protected methods #########################

@@ -1,4 +1,4 @@
-import {ContentChild, Directive, ElementRef, EventEmitter, ExistingProvider, forwardRef, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
+import {ContentChild, Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {BindThis, isBlank, isPresent} from '@jscrpt/common';
@@ -9,8 +9,6 @@ import {LayoutComponentDragData} from '../../../../interfaces';
 import {DragActiveService, LayoutEditorMetadataManager} from '../../../../services';
 import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
-import {DragPreviewRegistrator} from '../../interfaces';
-import {DRAG_PREVIEW_REGISTRATOR} from '../../misc/tokens';
 // import {registerDropzoneOverlay} from '../../misc/utils';
 
 //TODO: go over all items up to find out whether can be dropped
@@ -22,16 +20,8 @@ import {DRAG_PREVIEW_REGISTRATOR} from '../../misc/tokens';
 {
     selector: '[dndCoreDesigner]',
     exportAs: 'dndCoreDesigner',
-    providers:
-    [
-        <ExistingProvider>
-        {
-            provide: DRAG_PREVIEW_REGISTRATOR,
-            useExisting: forwardRef(() => DndCoreDesignerDirective),
-        }
-    ]
 })
-export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewRegistrator
+export class DndCoreDesignerDirective implements OnInit, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -383,16 +373,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy, DragPreviewR
 
         this.containerConnection?.unsubscribe();
         this.containerConnection = null;
-    }
-
-    //######################### public methods - implementation of DragPreviewRegistrator #########################
-
-    /**
-     * @inheritdoc
-     */
-    public registerPreviewElement(element: HTMLElement): Subscription
-    {
-        return this.drag.connectDragPreview(element, {offsetX: 0, offsetY: 0});
     }
 
     //######################### protected methods #########################

@@ -1,8 +1,4 @@
-import {Directive, EmbeddedViewRef, Inject, NgZone, OnDestroy, OnInit, Optional, TemplateRef, ViewContainerRef} from '@angular/core';
-import {Subscription} from 'rxjs';
-
-import {DragPreviewRegistrator} from '../../interfaces';
-import {DRAG_PREVIEW_REGISTRATOR} from '../../misc/tokens';
+import {Directive, EmbeddedViewRef, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
 
 /**
  * Directive that marks attached element as html 5 drag preview
@@ -25,22 +21,10 @@ export class DndCorePreviewDirective implements OnInit, OnDestroy
      */
     protected element: HTMLElement|undefined|null;
 
-    /**
-     * Instance of connection to DOM for drag preview
-     */
-    protected placeholderConnection: Subscription|undefined|null;
-
     //######################### constructor #########################
     constructor(protected template: TemplateRef<void>,
-                protected viewContainer: ViewContainerRef,
-                protected ngZone: NgZone,
-                @Inject(DRAG_PREVIEW_REGISTRATOR) @Optional() protected dragPreviewRegistrator?: DragPreviewRegistrator,)
+                protected viewContainer: ViewContainerRef,)
     {
-        if(!this.dragPreviewRegistrator)
-        {
-            //TODO: write this error into documentation
-            throw new Error('Unable to use DndCorePreviewDirective, becuase there is no drag preview registrator!');
-        }
     }
 
     //######################### public methods - implementation of OnInit #########################
@@ -57,14 +41,6 @@ export class DndCorePreviewDirective implements OnInit, OnDestroy
         {
             document.body.append(this.element);
         }
-
-        this.ngZone.runOutsideAngular(() =>
-        {
-            if(this.element)
-            {
-                this.placeholderConnection = this.dragPreviewRegistrator?.registerPreviewElement(this.element);
-            }
-        });
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -79,8 +55,5 @@ export class DndCorePreviewDirective implements OnInit, OnDestroy
 
         this.templateRef?.destroy();
         this.templateRef = null;
-
-        this.placeholderConnection?.unsubscribe();
-        this.placeholderConnection = null;
     }
 }

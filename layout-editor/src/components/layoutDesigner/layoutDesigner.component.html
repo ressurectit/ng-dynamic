@@ -5,6 +5,7 @@
      [dropzoneElement]="layoutDropzone"
      [dragDisabled]="dragDisabled"
      [dragSource]="dndCore.drag"
+     [noHTML5Preview]="true"
      (dropMetadata)="addDescendant($event)"
      [copyDesignerStyles]="renderedType"
      (mouseleave)="hideOverlay($event)"
@@ -19,7 +20,7 @@
          [horizontal]="parent?.horizontal ?? false"
          [dropTarget]="dndCore.dropzone"
          [isDropZone]="canDrop">
-        <layout-editor-drag-preview class="mat-elevation-z4" *dndCorePreview [editorMetadata]="editorMetadata" [layoutMetadata]="renderedType"></layout-editor-drag-preview>
+        <!-- <layout-editor-drag-preview class="mat-elevation-z4" *dndCorePreview [editorMetadata]="editorMetadata" [layoutMetadata]="renderedType"></layout-editor-drag-preview> -->
         <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 
         <ng-container *ngIf="highlighted || selected">

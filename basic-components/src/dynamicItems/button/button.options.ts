@@ -14,4 +14,9 @@ export interface ButtonComponentOptions
      * Indication whether is button disabled
      */
     disabled: boolean|undefined|null;
+
+    /**
+     * Css class applied to button element itself
+     */
+    buttonCssClass: string|undefined|null;
 }

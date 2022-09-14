@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
@@ -18,6 +19,10 @@ import {ToggleButtonLayoutMetadataLoader, ToggleButtonRelationsMetadataLoader} f
     templateUrl: 'toggleButton.component.html',
     styles: [HostDisplayBlockStyle],
     standalone: true,
+    imports:
+    [
+        CommonModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(ToggleButtonRelationsMetadataLoader)

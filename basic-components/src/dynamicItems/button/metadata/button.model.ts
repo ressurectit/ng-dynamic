@@ -25,6 +25,14 @@ export class ButtonModel implements ButtonComponentOptions
     @LayoutPropertyDescription('Indication whether is button disabled')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('inputBoolean')
     public disabled: boolean|undefined|null = false;
+
+    /**
+     * @inheritdoc
+     */
+    @LayoutPropertyName('Button css class')
+    @LayoutPropertyDescription('Css class applied to button element itself')
+    @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
+    public buttonCssClass: string|undefined|null = null;
     
     //######################### constructor #########################
     constructor(value: ButtonComponentOptions|undefined|null)

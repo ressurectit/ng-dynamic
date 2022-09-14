@@ -6,6 +6,5 @@ export * from './layoutDesigner/layoutDesigner.component';
 export * from './layoutDesigner/layoutDesigner.options';
 export * from './layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 export * from './layoutEditor/layoutEditor.component';
-export * from './layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 export * from './layoutEditorDragPreview/layoutEditorDragPreview.component';
 export * from './propertiesEditor/propertiesEditor.component';

@@ -20,7 +20,7 @@
 
 @mixin btn-primary
 {
-    .dynamic-btn-primary
+    .dynamic-btn.dynamic-btn-primary
     {
         font-family: var(--dynamic-font-family);
         background-color: var(--dynamic-btn-primary-background);

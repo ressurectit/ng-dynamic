@@ -12,11 +12,20 @@
     --dynamic-btn-primary-border: #{map.get(map.get($theme, btnPrimary), 'border')};;
 }
 
-@mixin buildTheme($theme)
+@mixin buildThemeColors($theme)
 {
     @include theme($theme);
-    
+}
+
+@mixin buildThemeCss
+{
     @include misc.misc;
     @include buttons.btn;
     @include buttons.btn-primary;
+}
+
+@mixin buildTheme($theme)
+{
+    @include buildThemeColors($theme);
+    @include buildThemeCss;
 }

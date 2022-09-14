@@ -24,4 +24,9 @@ export interface ToggleButtonComponentOptions
      * Indication whether is toggle button disabled
      */
     disabled: boolean|undefined|null;
+
+    /**
+     * Css class applied to button element itself
+     */
+    buttonCssClass: string|undefined|null;
 }

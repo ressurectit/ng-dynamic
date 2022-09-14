@@ -19,7 +19,6 @@
          [horizontal]="parent?.horizontal ?? false"
          [dropTarget]="dndCore.dropzone"
          [isDropZone]="canDrop">
-        <!-- <layout-editor-drag-placeholder class="mat-elevation-z6" *cdkDragPlaceholder></layout-editor-drag-placeholder> -->
         <layout-editor-drag-preview class="mat-elevation-z4" *dndCorePreview [editorMetadata]="editorMetadata" [layoutMetadata]="renderedType"></layout-editor-drag-preview>
         <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
 

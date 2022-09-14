@@ -49,7 +49,10 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
             {
                 for(const cssClass of this.lastCssClass.split(' '))
                 {
-                    this.element.nativeElement.classList.remove(cssClass);
+                    if(cssClass)
+                    {
+                        this.element.nativeElement.classList.remove(cssClass);
+                    }
                 }
             }
 
@@ -59,7 +62,10 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
             {
                 for(const cssClass of options.cssClass.split(' '))
                 {
-                    this.element?.nativeElement.classList.add(cssClass);
+                    if(cssClass)
+                    {
+                        this.element?.nativeElement.classList.add(cssClass);
+                    }
                 }
             }
         }

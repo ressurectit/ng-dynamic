@@ -27,7 +27,7 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
 
     //############## PACKAGES ##############
 
-    @include dynamic.buildTheme($dynamicTheme);
+    @include dynamic.buildThemeColors($dynamicTheme);
     @include meta.load-css('../../../../node_modules/@anglr/datetime/src/#{$datetimeTheme}');
     @include meta.load-css("../../../../node_modules/@anglr/common/styles/positions/#{$tooltipTheme}");
 

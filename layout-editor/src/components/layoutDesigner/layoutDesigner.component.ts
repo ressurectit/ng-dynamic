@@ -12,7 +12,6 @@ import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {BodyRenderSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
 import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
-import {LayoutEditorDragPlaceholderSAComponent} from '../layoutEditorDragPlaceholder/layoutEditorDragPlaceholder.component';
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
@@ -34,7 +33,6 @@ import {LayoutComponentDragData} from '../../interfaces';
         CommonModule,
         PositionModule,
         LayoutEditorDragPreviewSAComponent,
-        LayoutEditorDragPlaceholderSAComponent,
         LayoutDesignerOverlayForSAComponent,
         DesignerMinDimensionSADirective,
         CopyDesignerStylesSADirective,

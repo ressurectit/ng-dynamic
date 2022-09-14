@@ -33,7 +33,7 @@ export class ToggleButtonLayoutEditorMetadata implements LayoutEditorMetadataDes
                     modelType: ToggleButtonModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor<ToggleButtonModel>(['onText', 'offText', 'state', 'disabled']),
+                        genericPropertiesControlFor<ToggleButtonModel>(['buttonCssClass', 'onText', 'offText', 'state', 'disabled']),
                     ],
                 },
             ],
@@ -44,6 +44,7 @@ export class ToggleButtonLayoutEditorMetadata implements LayoutEditorMetadataDes
             offText: 'Off',
             state: true,
             disabled: false,
+            buttonCssClass: 'btn btn-primary',
         }
     };
 

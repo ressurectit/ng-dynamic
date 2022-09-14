@@ -6,10 +6,12 @@
 @use '../mixins';
 @use '../themes';
 
+@use '@anglr/dynamic/styles' as dynamic;
 @use '../../../../node_modules/@anglr/common/styles/dark-colors-vars';
 @use '../../../../node_modules/@anglr/common/styles/light-colors-vars';
 
 $themeName: null !default;
+$dynamicTheme: null !default;
 $tooltipTheme: 'dark' !default;
 $datetimeTheme: 'default' !default;
 $multiButtonTheme: 'light' !default;
@@ -25,6 +27,7 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
 
     //############## PACKAGES ##############
 
+    @include dynamic.buildTheme($dynamicTheme);
     @include meta.load-css('../../../../node_modules/@anglr/datetime/src/#{$datetimeTheme}');
     @include meta.load-css("../../../../node_modules/@anglr/common/styles/positions/#{$tooltipTheme}");
 

@@ -1,0 +1,14 @@
+$_defaultColors:
+(
+);
+
+@function defineTheme($colors: (), $fonts: 'Inter')
+{
+    $result: ();
+
+    @return $result;
+}
+
+@mixin buildTheme($dynamicTheme)
+{
+}

@@ -178,6 +178,12 @@
         "./package.json": {
             "default": "./package.json"
         },
+        "./styles": {
+            "sass": "./styles/index.scss"
+        },
+        "./styles/themes/*": {
+            "sass": "./styles/themes/*.scss"
+        },
         ".": {
             "types": "./src/index.d.ts",
             "esm2020": "./es2020/src/index.js",

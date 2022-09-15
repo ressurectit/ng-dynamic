@@ -11,7 +11,8 @@ import {ComponentsTreeSAComponent} from '../componentsTree/componentsTree.compon
 import {PropertiesEditorSAComponent} from '../propertiesEditor/propertiesEditor.component';
 import {LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '../../misc/providers';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
-import {DndBusService} from '../../modules';
+import {DndBusService, LayoutDndCoreModule} from '../../modules';
+import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 
 /**
  * Component that represents layout editor with palette, tree and properties
@@ -33,6 +34,8 @@ import {DndBusService} from '../../modules';
         ComponentsTreeSAComponent,
         ComponentsPaletteSAComponent,
         PropertiesEditorSAComponent,
+        LayoutDndCoreModule,
+        LayoutEditorDragPreviewSAComponent,
         LayoutComponentRendererSADirective,
         PackageManagerModule,
         MatTabsModule,

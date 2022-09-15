@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 
+import {DndCorePreviewComponent} from '../components';
 import {DndCoreDesignerDirective, DndCorePaletteItemDirective, DndCorePreviewTemplateDirective, DndCoreTreeItemDirective} from '../directives';
 
 /**
@@ -9,6 +10,7 @@ import {DndCoreDesignerDirective, DndCorePaletteItemDirective, DndCorePreviewTem
 {
     declarations:
     [
+        DndCorePreviewComponent,
         DndCoreDesignerDirective,
         DndCorePaletteItemDirective,
         DndCorePreviewTemplateDirective,
@@ -16,6 +18,7 @@ import {DndCoreDesignerDirective, DndCorePaletteItemDirective, DndCorePreviewTem
     ],
     exports:
     [
+        DndCorePreviewComponent,
         DndCoreDesignerDirective,
         DndCorePaletteItemDirective,
         DndCorePreviewTemplateDirective,

@@ -1,8 +1,6 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
-import {LayoutEditorMetadataDescriptor} from '../../decorators';
-
 /**
  * Component used for displaying layout editor drag preview
  */
@@ -17,12 +15,6 @@ import {LayoutEditorMetadataDescriptor} from '../../decorators';
 export class LayoutEditorDragPreviewSAComponent
 {
     //######################### public properties - inputs #########################
-
-    /**
-     * Layout editor metadata for dragged component
-     */
-    @Input()
-    public editorMetadata?: LayoutEditorMetadataDescriptor|null;
 
     /**
      * Layout metadata for dragged component

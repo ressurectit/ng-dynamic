@@ -1,4 +1,4 @@
-import {ContentChild, Directive, ElementRef, EmbeddedViewRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output, TemplateRef, ViewContainerRef} from '@angular/core';
+import {ContentChild, Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {BindThis, isBlank, isPresent} from '@jscrpt/common';
@@ -9,10 +9,7 @@ import {LayoutComponentDragData} from '../../../../interfaces';
 import {DragActiveService, LayoutEditorMetadataManager} from '../../../../services';
 import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
-import {DndCorePreviewTemplateDirective} from '../dndCorePreviewTemplate/dndCorePreviewTemplate.directive';
 // import {registerDropzoneOverlay} from '../../misc/utils';
-
-//TODO: go over all items up to find out whether can be dropped
 
 /**
  * Directive used for initializing and handling dnd core functionality for layout designer
@@ -76,16 +73,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     protected componentElement: HTMLElement|undefined|null;
 
     /**
-     * Instance of view for drag preview
-     */
-    protected dragPreviewView: EmbeddedViewRef<void>|undefined|null;
-
-    /**
-     * Instance of html element for drag preview
-     */
-    protected dragPreviewElement: HTMLElement|undefined|null;
-
-    /**
      * Element that represents placeholder preview
      */
     protected placeholderPreviewElement: HTMLElement|undefined|null;
@@ -100,7 +87,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                                                                                                       {
                                                                                                           const item = monitor.getItem();
                                                                                                           let index = this.bus.dropPlaceholderPreviewIndex;
-                                                                                                  
+
                                                                                                           if(item && isPresent(item.dragData.index) && isPresent(index))
                                                                                                           {
                                                                                                               //same parent and higher index
@@ -184,12 +171,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
      */
     @ContentChild(LayoutComponentRendererSADirective, {static: true})
     protected layoutComponentRendererDirective?: LayoutComponentRendererSADirective;
-
-    /**
-     * Instance of dnd core preview template
-     */
-    @ContentChild(DndCorePreviewTemplateDirective, {static: true, read: TemplateRef<void>})
-    protected dndCorePreviewTemplate?: TemplateRef<void>;
 
     //######################### public properties #########################
 
@@ -317,7 +298,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                 protected bus: DndBusService,
                 protected zone: NgZone,
                 protected injector: Injector,
-                protected viewContainer: ViewContainerRef,
                 @Inject(DOCUMENT) protected document: Document,)
     {
         this.connectDropToContainer();
@@ -339,34 +319,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
         {
             throw new Error('DndCoreDesignerDirective: missing drag data!');
         }
-
-        this.initSubscriptions.add(this.dnd
-                                       .dragLayer<LayoutDragItem>(this.initSubscriptions)
-                                       .listen(monitor => ({
-                                                               dragging: monitor.isDragging(),
-                                                               id: monitor.getItem()?.dragData.metadata?.id,
-                                                               coordinates: monitor.getClientOffset()
-                                                           }))
-                                       .subscribe(itm =>
-                                        {
-                                           if(itm.id === this.metadata.id)
-                                           {
-                                               this.dragPreviewElement ??= this.renderDragPreview();
-
-                                               if(this.dragPreviewElement)
-                                               {
-                                                   this.dragPreviewElement.style.position = 'fixed';
-                                                   this.dragPreviewElement.style.top = `${itm.coordinates?.y}px`;
-                                                   this.dragPreviewElement.style.left = `${itm.coordinates?.x}px`;
-                                                   this.dragPreviewElement.style.zIndex = '21312';
-                                               }
-                                           }
-
-                                           if(!itm.dragging)
-                                           {
-                                               this.removeDragPreview();
-                                           }
-                                       }));
 
         this.initSubscriptions.add(this.layoutComponentRendererDirective?.componentElementChange.subscribe(element =>
         {
@@ -437,7 +389,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
 
         //else get index from descendant
         const [canDropAncestor, ancestorId, id] = this.canDropAncestors();
-        
+
         //this should not happen
         if(!canDropAncestor || isBlank(ancestorId))
         {
@@ -476,7 +428,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
             const rect = element.children[0].getBoundingClientRect();
             const position = this.horizontal ? rect.x : rect.y;
             const half = (this.horizontal ? rect.width : rect.height) / 2;
-            
+
             return position + half;
         };
 
@@ -487,7 +439,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
 
         let index = 0;
         const offset = monitor.getClientOffset();
-        
+
         if(!offset)
         {
             return [null, null];
@@ -644,32 +596,5 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
         {
             return this.canDropAncestors(component.parent.component.id);
         }
-    }
-
-    /**
-     * Renders drag preview and returns html element
-     */
-    protected renderDragPreview(): HTMLElement|null
-    {
-        if(!this.dndCorePreviewTemplate)
-        {
-            return null;
-        }
-
-        this.dragPreviewView = this.viewContainer.createEmbeddedView(this.dndCorePreviewTemplate);
-        this.dragPreviewElement = this.dragPreviewView.rootNodes[0];
-
-        return this.dragPreviewElement ?? null;
-    }
-
-    /**
-     * Removes rendered drag preview
-     */
-    protected removeDragPreview(): void
-    {
-        this.dragPreviewElement?.remove();
-        this.dragPreviewView?.destroy();
-        this.dragPreviewElement = null;
-        this.dragPreviewView = null;
     }
 }

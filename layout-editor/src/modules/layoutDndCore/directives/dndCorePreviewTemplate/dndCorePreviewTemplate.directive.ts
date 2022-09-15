@@ -1,4 +1,6 @@
-import {Directive, TemplateRef} from '@angular/core';
+import {Directive, Input, TemplateRef} from '@angular/core';
+
+import {DndCorePreviewTemplateContext} from './dndCorePreviewTemplate.context';
 
 /**
  * Directive that marks attached element as html 5 drag preview template
@@ -9,8 +11,26 @@ import {Directive, TemplateRef} from '@angular/core';
 })
 export class DndCorePreviewTemplateDirective
 {
+    //######################### public properties - inputs #########################
+
+    /**
+     * Type of drag data
+     */
+    @Input('dndCorePreviewTemplateType')
+    public type: string|undefined|null;
+
     //######################### constructor #########################
-    constructor(public template: TemplateRef<void>,)
+    constructor(public template: TemplateRef<DndCorePreviewTemplateContext>,)
     {
+    }
+
+    //######################### ng language server #########################
+    
+    /**
+     * Allows typechecking for template
+     */
+    static ngTemplateContextGuard(_dir: DndCorePreviewTemplateDirective, ctx: unknown): ctx is DndCorePreviewTemplateContext
+    {
+        return true;
     }
 }

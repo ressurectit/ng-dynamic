@@ -1,10 +1,12 @@
+import {LayoutDragItem} from '../dndCoreDesigner/dndCoreDesigner.interface';
+
 /**
- * Context passed to file template
+ * Context passed to dnd core preview template
  */
-export interface FileTemplateContext
+export interface DndCorePreviewTemplateContext
 {
     /**
-     * Instance of selected file or null if none is selected
+     * Instance of layout drag data
      */
-    $implicit: File|null;
+    $implicit: LayoutDragItem;
 }

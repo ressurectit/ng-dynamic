@@ -18,9 +18,6 @@ import {LayoutEditorMetadataExtractor} from '../../services';
     templateUrl: 'codePropertiesControl.component.html',
     styleUrls: ['codePropertiesControl.component.css'],
     standalone: true,
-    imports:
-    [
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseCodePropertiesControlSAComponent<TOptions = any> extends PropertiesControlBase<TOptions> implements PropertiesControl<TOptions>

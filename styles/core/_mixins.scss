@@ -38,6 +38,7 @@
 @mixin buildThemeCss
 {
     @include misc.misc;
+    @include misc.generate-margin-padding('margin', (none: 0, extra-small: 4px, small: 10px, medium: 15px, big: 20px));
     @include misc.thin-scrollbar('--dynamic-thin-scrollbar');
     @include misc.overrides;
     @include global.dropzone-overlay;

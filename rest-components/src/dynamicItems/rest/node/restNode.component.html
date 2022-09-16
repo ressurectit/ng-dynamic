@@ -1,12 +1,12 @@
 <relations-node-header [parent]="this" [destroySubject]="destroySubject" name="rest"></relations-node-header>
 
 <div class="node-content" [formGroup]="form">
-    <div class="dynamic-form-group margin-bottom-extra-small">
+    <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
         <label class="dynamic-control-label dynamic-text-uppercase">url</label>
         <input type="text" class="dynamic-form-control" formControlName="url">
     </div>
     
-    <div class="dynamic-form-group margin-bottom-extra-small">
+    <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
         <label class="dynamic-control-label dynamic-text-uppercase">method</label>
         
         <select class="dynamic-form-control" formControlName="method">
@@ -18,7 +18,7 @@
         </select>
     </div>
 
-    <div class="dynamic-form-group margin-bottom-extra-small">
+    <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
         <label class="dynamic-control-label dynamic-text-uppercase">run immediately</label>
         <input type="checkbox" class="dynamic-form-control" formControlName="runImmediately">
     </div>
@@ -33,7 +33,7 @@
                         <div class="dynamic-flex-row">
                             <div>BODY: {{param.name}}</div>
 
-                            <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureRestParameter(param)">
+                            <button type="button" class="btn-icon dynamic-margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
@@ -49,7 +49,7 @@
                         <div class="dynamic-flex-row">
                             <div>PATH: {{param.name}}</div>
 
-                            <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                            <button type="button" class="btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
@@ -65,7 +65,7 @@
                         <div class="dynamic-flex-row">
                             <div>QUERY: {{param.name}}</div>
 
-                            <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                            <button type="button" class="btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
@@ -81,7 +81,7 @@
                         <div class="dynamic-flex-row">
                             <div>QUERY OBJECT: {{param.name}}</div>
 
-                            <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                            <button type="button" class="btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
@@ -97,7 +97,7 @@
                         <div class="dynamic-flex-row">
                             <div>HEADER: {{param.name}}</div>
 
-                            <button type="button" class="btn-icon margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                            <button type="button" class="btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 

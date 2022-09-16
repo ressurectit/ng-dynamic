@@ -207,3 +207,46 @@
         background-color: transparent;
     }
 }
+
+@mixin generate-margin-padding($type, $sizes)
+{
+    @each $sizeType, $size in $sizes
+    {
+        .dynamic-#{$type}-#{$sizeType}
+        {
+            #{$type}: $size;
+        }
+
+        .dynamic-#{$type}-right-#{$sizeType}
+        {
+            #{$type}-right: $size;
+        }
+
+        .dynamic-#{$type}-left-#{$sizeType}
+        {
+            #{$type}-left: $size;
+        }
+
+        .dynamic-#{$type}-top-#{$sizeType}
+        {
+            #{$type}-top: $size;
+        }
+
+        .dynamic-#{$type}-bottom-#{$sizeType}
+        {
+            #{$type}-bottom: $size;
+        }
+
+        .dynamic-#{$type}-horizontal-#{$sizeType}
+        {
+            #{$type}-left: $size;
+            #{$type}-right: $size;
+        }
+
+        .dynamic-#{$type}-vertical-#{$sizeType}
+        {
+            #{$type}-top: $size;
+            #{$type}-bottom: $size;
+        }
+    }
+}

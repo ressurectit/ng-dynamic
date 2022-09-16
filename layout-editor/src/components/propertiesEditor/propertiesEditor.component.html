@@ -17,13 +17,13 @@
         <ng-container *ngIf="component">
             <div class="static-properties">
                 <div class="properties-form-group">
-                    <label class="properties-dynamic-control-label">type</label>
+                    <label class="properties-control-label">type</label>
                     <div class="properties-form-static">{{metadata?.metaInfo?.name ?? component.options?.typeMetadata?.name}}</div>
 
-                    <label class="properties-dynamic-control-label">id</label>
+                    <label class="properties-control-label">id</label>
                     <div class="properties-form-static">{{component.options?.typeMetadata?.id}}</div>
 
-                    <label class="properties-dynamic-control-label">display name</label>
+                    <label class="properties-control-label">display name</label>
                     <input class="properties-form-control" type="text" [formControl]="displayName">
                 </div>
             </div>

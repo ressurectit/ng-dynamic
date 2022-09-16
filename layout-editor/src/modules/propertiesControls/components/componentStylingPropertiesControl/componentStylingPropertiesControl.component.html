@@ -1,5 +1,5 @@
 <div class="properties-form-group">
-    <label class="properties-dynamic-control-label">{{propertiesMetadata?.cssClass?.name ?? 'cssClass'}} <span *ngIf="propertiesMetadata?.cssClass?.description" class="fas fa-info-circle" [tooltip]="propertiesMetadata?.cssClass?.description"></span></label>
+    <label class="properties-control-label">{{propertiesMetadata?.cssClass?.name ?? 'cssClass'}} <span *ngIf="propertiesMetadata?.cssClass?.description" class="fas fa-info-circle" [tooltip]="propertiesMetadata?.cssClass?.description"></span></label>
     <input-string [control]="form?.controls?.cssClass | asRequired"></input-string>
 </div>
 

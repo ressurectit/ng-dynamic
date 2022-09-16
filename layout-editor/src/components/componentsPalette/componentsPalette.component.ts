@@ -18,7 +18,6 @@ import {LayoutDndCoreModule} from '../../modules';
 {
     selector: 'components-palette',
     templateUrl: 'componentsPalette.component.html',
-    styleUrls: ['componentsPalette.component.css'],
     standalone: true,
     imports:
     [

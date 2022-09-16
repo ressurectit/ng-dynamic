@@ -25,7 +25,6 @@ import {LayoutComponentDragData} from '../../interfaces';
 {
     selector: 'layout-designer-component',
     templateUrl: 'layoutDesigner.component.html',
-    styleUrls: ['layoutDesigner.component.css'],
     standalone: true,
     imports:
     [

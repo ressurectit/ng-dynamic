@@ -1,17 +1,29 @@
 $defaultTheme:
 (
-    btnPrimary:
-    (
-        background: #6aba4f,
-        foreground: #fff,
-        border: #6aba4f,
-    ),
     scrollbar: #a8a8a8,
     dragPlaceholder: #0096cc81,
     dropzoneOverlay:
     (
         background: #3333331c,
     ),
+    designerOverlayTitle:
+    (
+        background: #009dd8,
+        foreground: #fff,
+    ),
+    designerOverlayRemove:
+    (
+        background: #009dd8,
+        foreground: #fff,
+    ),
+
+    btnPrimary:
+    (
+        background: #6aba4f,
+        foreground: #fff,
+        border: #6aba4f,
+    ),
+
     layoutDesignerComponent: 
     (
         dragged:
@@ -19,6 +31,14 @@ $defaultTheme:
             background: #bbb,
             shadow1: #00000021,
             shadow2: #00000038,
+        ),
+        designerOverlayBorder:
+        (
+            border: #009dd8,
+        ),
+        designerDropzoneDragActive:
+        (
+            border: #0000004d,
         ),
     ),
     propertiesEditor:
@@ -47,5 +67,19 @@ $defaultTheme:
             iconForegroundHover: #6aba4f,
             iconForegroundActive: #5dab43,
         )
-    )
+    ),
+    componentsPalette:
+    (
+        editorComponent:
+        (
+            border: #F0F0F0,
+            background: #FAFAFA,
+        ),
+    ),
+    componentsTree:
+    (
+        background: #fafafa,
+        border: #ccc,
+    ),
+
 );

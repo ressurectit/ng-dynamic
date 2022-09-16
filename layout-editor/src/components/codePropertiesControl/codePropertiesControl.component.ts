@@ -16,7 +16,6 @@ import {LayoutEditorMetadataExtractor} from '../../services';
 {
     selector: 'base-code-properties-control',
     templateUrl: 'codePropertiesControl.component.html',
-    styleUrls: ['codePropertiesControl.component.css'],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -92,7 +91,6 @@ export function codePropertiesControlFor<TModel>(property: Extract<keyof TModel,
     {
         selector: 'code-properties-control',
         templateUrl: 'codePropertiesControl.component.html',
-        styleUrls: ['codePropertiesControl.component.css'],
         standalone: true,
         imports:
         [

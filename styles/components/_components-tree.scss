@@ -1,0 +1,9 @@
+@mixin css
+{
+    components-tree
+    {
+        display: block;
+        background-color: var(--dynamic-components-tree-background);
+        border-right: 1px solid var(--dynamic-components-tree-border);
+    }
+}

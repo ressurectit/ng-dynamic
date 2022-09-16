@@ -15,7 +15,6 @@ import {DndBusService} from '../../modules';
 {
     selector: 'components-tree',
     templateUrl: 'componentsTree.component.html',
-    styleUrls: ['componentsTree.component.css'],
     standalone: true,
     imports:
     [

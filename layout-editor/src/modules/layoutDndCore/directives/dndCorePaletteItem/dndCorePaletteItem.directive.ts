@@ -8,6 +8,25 @@ import {DragActiveService} from '../../../../services';
 import {DndBusService} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from '../dndCoreDesigner/dndCoreDesigner.interface';
 
+// import { getEmptyImage } from 'react-dnd-html5-backend';
+// we don't want to depend on the backend, so here that is, copied
+/** @ignore */
+let emptyImage: HTMLImageElement;
+/**
+ * Returns a 0x0 empty GIF for use as a drag preview.
+ * @ignore
+ */
+function getEmptyImage()
+{
+    if (!emptyImage) 
+    {
+        emptyImage = new Image();
+        emptyImage.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    }
+
+    return emptyImage;
+}
+
 /**
  * Directive used for initializing and handling dnd core functionality for layout component palette item
  */
@@ -28,6 +47,11 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
      * Subscription for palette item connection to DOM
      */
     protected itemConnection: Subscription|undefined|null;
+
+    /**
+     * Subscription for drag preview
+     */
+    protected dragPreviewConnection: Subscription|undefined|null;
 
     /**
      * Drag source used for dragging palette item
@@ -131,6 +155,9 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
 
         this.itemConnection?.unsubscribe();
         this.itemConnection = null;
+
+        this.dragPreviewConnection?.unsubscribe();
+        this.dragPreviewConnection = null;
     }
 
     //######################### protected methods #########################
@@ -144,6 +171,7 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
         {
             this.itemConnection?.unsubscribe();
             this.itemConnection = this.drag.connectDragSource(this.paletteItemElement.nativeElement, {dropEffect: 'copy'});
+            this.dragPreviewConnection = this.drag.connectDragPreview(getEmptyImage());
         });
     }
 }

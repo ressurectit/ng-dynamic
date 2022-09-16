@@ -1,8 +1,13 @@
 @use 'sass:meta';
 @use 'sass:map';
 
-@use 'misc';
 @use 'buttons';
+@use 'global';
+@use 'misc';
+@use '../components/components-tree-item' as componentsTreeItem;
+@use '../components/layout-designer-component' as layoutDesignerComponent;
+@use '../components/properties-editor' as propertiesEditor;
+@use '../components/relations-canvas' as relationsCanvas;
 
 @mixin theme($theme)
 {
@@ -21,10 +26,15 @@
 @mixin buildThemeCss
 {
     @include misc.misc;
-    @include buttons.btn;
-    @include buttons.btn-primary;
     @include misc.thin-scrollbar('--dynamic-thin-scrollbar');
     @include misc.overrides;
+    @include global.dropzone-overlay;
+    @include buttons.btn;
+    @include buttons.btn-primary;
+    @include componentsTreeItem.css;
+    @include layoutDesignerComponent.css;
+    @include propertiesEditor.css;
+    @include relationsCanvas.css;
 }
 
 @mixin buildTheme($theme)

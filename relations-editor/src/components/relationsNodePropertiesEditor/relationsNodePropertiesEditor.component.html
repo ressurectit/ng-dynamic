@@ -1,11 +1,11 @@
-<div class="form-group" [formGroup]="form">
-    <label class="control-label">display name</label>
-    <input class="form-control" type="text" formControlName="displayName">
+<div class="dynamic-form-group" [formGroup]="form">
+    <label class="dynamic-control-label">display name</label>
+    <input class="dynamic-form-control" type="text" formControlName="displayName">
 
-    <label class="control-label">scope</label>
-    <input class="form-control" type="text" formControlName="scope" [readonly]="true" *ngIf="!data.scopeConfigurable">
+    <label class="dynamic-control-label">scope</label>
+    <input class="dynamic-form-control" type="text" formControlName="scope" [readonly]="true" *ngIf="!data.scopeConfigurable">
 
-    <select class="form-control" formControlName="scope" *ngIf="data.scopeConfigurable">
+    <select class="dynamic-form-control" formControlName="scope" *ngIf="data.scopeConfigurable">
         <option value="">---</option>
         <option *ngFor="let scope of scopes" [value]="scope">{{scope}}</option>
     </select>

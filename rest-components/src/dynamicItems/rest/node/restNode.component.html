@@ -1,15 +1,15 @@
 <relations-node-header [parent]="this" [destroySubject]="destroySubject" name="rest"></relations-node-header>
 
 <div class="node-content" [formGroup]="form">
-    <div class="form-group margin-bottom-extra-small">
-        <label class="control-label text-uppercase">url</label>
-        <input type="text" class="form-control" formControlName="url">
+    <div class="dynamic-form-group margin-bottom-extra-small">
+        <label class="dynamic-control-label dynamic-text-uppercase">url</label>
+        <input type="text" class="dynamic-form-control" formControlName="url">
     </div>
     
-    <div class="form-group margin-bottom-extra-small">
-        <label class="control-label text-uppercase">method</label>
+    <div class="dynamic-form-group margin-bottom-extra-small">
+        <label class="dynamic-control-label dynamic-text-uppercase">method</label>
         
-        <select class="form-control" formControlName="method">
+        <select class="dynamic-form-control" formControlName="method">
             <option value="GET">GET</option>
             <option value="POST">POST</option>
             <option value="PUT">PUT</option>
@@ -18,9 +18,9 @@
         </select>
     </div>
 
-    <div class="form-group margin-bottom-extra-small">
-        <label class="control-label text-uppercase">run immediately</label>
-        <input type="checkbox" class="form-control" formControlName="runImmediately">
+    <div class="dynamic-form-group margin-bottom-extra-small">
+        <label class="dynamic-control-label dynamic-text-uppercase">run immediately</label>
+        <input type="checkbox" class="dynamic-form-control" formControlName="runImmediately">
     </div>
 
     <div class="inputs-outputs">

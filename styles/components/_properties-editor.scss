@@ -1,0 +1,47 @@
+@mixin css
+{
+    properties-editor
+    {
+        .properties-form-group
+        {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            grid-template-rows: auto;
+            column-gap: 6px;
+            row-gap: 8px;
+            margin-bottom: 8px;
+
+            .properties-control-label
+            {
+                font-weight: 500;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                text-transform: lowercase;
+                font-variant: small-caps;
+                letter-spacing: 1px;
+            }
+
+            .properties-form-static
+            {
+                font-weight: bold;
+            }
+
+            .properties-form-control
+            {
+                border-radius: 4px;
+                border-style: solid;
+                border-width: 1px;
+                box-shadow: none;
+                font-size: 12px;
+                padding: 3px;
+                padding-left: 7px;
+                width: 100%;
+                font-family: "Inter";
+                color: #555555;
+                border-color: #cccccc;
+                background-color: #fafafa;
+            }
+        }
+    }
+}

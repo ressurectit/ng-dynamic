@@ -3,6 +3,16 @@
     display: none;
 }
 
+%bold
+{
+    font-weight: bold;
+}
+
+%semi-bold
+{
+    font-weight: 500;
+}
+
 %flex-row
 {
     display: flex;
@@ -37,7 +47,17 @@
     align-items: center;
 }
 
-%thin-scrollbar
+%text-uppercase
+{
+    text-transform: uppercase;
+}
+
+%text-spread
+{
+    letter-spacing: 1px;
+}
+
+%text-small-caps
 {
 }
 
@@ -61,11 +81,25 @@
 {
 }
 
+%small-text
+{
+}
+
 @mixin misc
 {
     .dynamic-hidden
     {
         @extend %hidden;
+    }
+
+    .dynamic-bold
+    {
+        @extend %bold;
+    }
+
+    .dynamic-semi-bold
+    {
+        @extend %semi-bold;
     }
 
     .dynamic-flex-row
@@ -96,6 +130,21 @@
     .dynamic-align-items-center
     {
         @extend %align-items-center;
+    }
+
+    .dynamic-text-uppercase
+    {
+        @extend %text-uppercase;
+    }
+
+    .dynamic-text-spread
+    {
+        @extend %text-spread;
+    }
+
+    .dynamic-text-small-caps
+    {
+        @extend %text-small-caps;
     }
 
     .dynamic-btn-info

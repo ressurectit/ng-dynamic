@@ -29,7 +29,7 @@ export class DndCorePreviewTemplateDirective
     /**
      * Allows typechecking for template
      */
-    static ngTemplateContextGuard(_dir: DndCorePreviewTemplateDirective, ctx: unknown): ctx is DndCorePreviewTemplateContext
+    static ngTemplateContextGuard(_dir: DndCorePreviewTemplateDirective, _ctx: unknown): _ctx is DndCorePreviewTemplateContext
     {
         return true;
     }

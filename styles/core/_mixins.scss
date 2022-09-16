@@ -9,18 +9,17 @@
 @use '../components/properties-editor' as propertiesEditor;
 @use '../components/relations-canvas' as relationsCanvas;
 
-@mixin theme($theme)
+@mixin buildThemeColors($theme)
 {
     --dynamic-font-family: #{map.get($theme, 'font')};
     --dynamic-btn-primary-background: #{map.get(map.get($theme, 'btnPrimary'), 'background')};
     --dynamic-btn-primary-foreground: #{map.get(map.get($theme, 'btnPrimary'), 'foreground')};
     --dynamic-btn-primary-border: #{map.get(map.get($theme, 'btnPrimary'), 'border')};;
     --dynamic-thin-scrollbar: #{map.get($theme, 'scrollbar')};
-}
-
-@mixin buildThemeColors($theme)
-{
-    @include theme($theme);
+    --dynamic-drag-placeholder: #{map.get($theme, 'dragPlaceholder')};
+    --dynamic-layout-designer-component-dragged-background: #{map.get(map.get($theme, 'layoutDesignerComponent'), 'draggedBackground')};
+    --dynamic-layout-designer-component-dragged-shadow1: #{map.get(map.get($theme, 'layoutDesignerComponent'), 'draggedShadow1')};
+    --dynamic-layout-designer-component-dragged-shadow2: #{map.get(map.get($theme, 'layoutDesignerComponent'), 'draggedShadow2')};
 }
 
 @mixin buildThemeCss

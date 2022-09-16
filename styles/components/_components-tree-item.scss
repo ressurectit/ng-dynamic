@@ -1,15 +1,12 @@
+@use '../core/misc';
+
 @mixin css
 {
     components-tree-item
     {
         .drag-placeholder
         {
-            background: #0096cc81;
-            border-color: #0096cc81;
-            border-width: 3px;
-            border-style: solid;
-            border-radius: 4px;
-            transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+            @extend %drag-placeholder;
         }
     }
 }

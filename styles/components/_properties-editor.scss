@@ -37,10 +37,10 @@
                 padding: 3px;
                 padding-left: 7px;
                 width: 100%;
-                font-family: "Inter";
-                color: #555555;
-                border-color: #cccccc;
-                background-color: #fafafa;
+                font-family: var(--dynamic-font-family);
+                color: var(--dynamic-properties-editor-properties-form-control-foreground);
+                border-color: var(--dynamic-properties-editor-properties-form-control-border);
+                background-color: var(--dynamic-properties-editor-properties-form-control-background);
             }
         }
     }

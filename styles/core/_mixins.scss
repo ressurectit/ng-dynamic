@@ -17,9 +17,22 @@
     --dynamic-btn-primary-border: #{map.get(map.get($theme, 'btnPrimary'), 'border')};;
     --dynamic-thin-scrollbar: #{map.get($theme, 'scrollbar')};
     --dynamic-drag-placeholder: #{map.get($theme, 'dragPlaceholder')};
-    --dynamic-layout-designer-component-dragged-background: #{map.get(map.get($theme, 'layoutDesignerComponent'), 'draggedBackground')};
-    --dynamic-layout-designer-component-dragged-shadow1: #{map.get(map.get($theme, 'layoutDesignerComponent'), 'draggedShadow1')};
-    --dynamic-layout-designer-component-dragged-shadow2: #{map.get(map.get($theme, 'layoutDesignerComponent'), 'draggedShadow2')};
+    --dynamic-dropzone-overlay-background: #{map.get(map.get($theme, 'dropzoneOverlay'), 'background')};
+    --dynamic-layout-designer-component-dragged-background: #{map.get(map.get(map.get($theme, 'layoutDesignerComponent'), 'dragged'), 'background')};
+    --dynamic-layout-designer-component-dragged-shadow1: #{map.get(map.get(map.get($theme, 'layoutDesignerComponent'), 'dragged'), 'shadow1')};
+    --dynamic-layout-designer-component-dragged-shadow2: #{map.get(map.get(map.get($theme, 'layoutDesignerComponent'), 'dragged'), 'shadow2')};
+    --dynamic-properties-editor-properties-form-control-foreground: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesFormControl'), 'foreground')};
+    --dynamic-properties-editor-properties-form-control-border: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesFormControl'), 'border')};
+    --dynamic-properties-editor-properties-form-control-background: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesFormControl'), 'background')};
+    --dynamic-relations-canvas-relations-node-shadow1: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'shadow1')};
+    --dynamic-relations-canvas-relations-node-shadow2: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'shadow2')};
+    --dynamic-relations-canvas-relations-node-shadow3: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'shadow3')};
+    --dynamic-relations-canvas-relations-node-content-background: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'contentBackground')};
+    --dynamic-relations-canvas-relations-node-header-background: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNodeHeader'), 'background')};
+    --dynamic-relations-canvas-relations-node-header-foreground: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNodeHeader'), 'foreground')};
+    --dynamic-relations-canvas-relations-node-header-icon-foreground: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNodeHeader'), 'iconForeground')};
+    --dynamic-relations-canvas-relations-node-header-icon-foreground-hover: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNodeHeader'), 'iconForegroundHover')};
+    --dynamic-relations-canvas-relations-node-header-icon-foreground-active: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNodeHeader'), 'iconForegroundActive')};
 }
 
 @mixin buildThemeCss

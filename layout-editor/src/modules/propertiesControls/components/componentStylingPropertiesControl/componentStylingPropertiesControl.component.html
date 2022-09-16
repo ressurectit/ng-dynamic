@@ -1,7 +1,7 @@
-<div class="properties-dynamic-form-group">
+<div class="properties-form-group">
     <label class="properties-dynamic-control-label">{{propertiesMetadata?.cssClass?.name ?? 'cssClass'}} <span *ngIf="propertiesMetadata?.cssClass?.description" class="fas fa-info-circle" [tooltip]="propertiesMetadata?.cssClass?.description"></span></label>
     <input-string [control]="form?.controls?.cssClass | asRequired"></input-string>
 </div>
 
-<margin-control class="properties-dynamic-form-group" [form]="form" [propertiesMetadata]="propertiesMetadata"></margin-control>
-<padding-control class="properties-dynamic-form-group" [form]="form" [propertiesMetadata]="propertiesMetadata"></padding-control>
+<margin-control class="properties-form-group" [form]="form" [propertiesMetadata]="propertiesMetadata"></margin-control>
+<padding-control class="properties-form-group" [form]="form" [propertiesMetadata]="propertiesMetadata"></padding-control>

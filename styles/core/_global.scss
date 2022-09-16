@@ -4,8 +4,7 @@
 {
     .dropzone-overlay
     {
-        // TODO: move color to prop
-        background-color: #3333331c;
+        background-color: var(--dynamic-dropzone-overlay-background);
         position: absolute;
         pointer-events: none;
     

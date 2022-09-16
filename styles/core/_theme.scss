@@ -8,10 +8,44 @@ $defaultTheme:
     ),
     scrollbar: #a8a8a8,
     dragPlaceholder: #0096cc81,
+    dropzoneOverlay:
+    (
+        background: #3333331c,
+    ),
     layoutDesignerComponent: 
     (
-        draggedBackground: #bbb,
-        draggedShadow1: #00000021,
-        draggedShadow2: #00000038,
+        dragged:
+        (
+            background: #bbb,
+            shadow1: #00000021,
+            shadow2: #00000038,
+        ),
     ),
+    propertiesEditor:
+    (
+        propertiesFormControl:
+        (
+            foreground: #555555,
+            border: #cccccc,
+            background: #fafafa,
+        ),
+    ),
+    relationsCanvas:
+    (
+        relationsNode:
+        (
+            shadow1: #0000004d,
+            shadow2: #0000003d,
+            shadow3: #00000038,
+            contentBackground: #fff,
+        ),
+        relationsNodeHeader:
+        (
+            background: #4d4d4d,
+            foreground: #fff,
+            iconForeground: #eae8e8,
+            iconForegroundHover: #6aba4f,
+            iconForegroundActive: #5dab43,
+        )
+    )
 );

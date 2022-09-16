@@ -98,10 +98,6 @@
         @extend %align-items-center;
     }
 
-    .dynamic-thin-scrollbar
-    {
-    }
-
     .dynamic-btn-info
     {
     }
@@ -120,5 +116,35 @@
 
     .dynamic-form-group
     {
+    }
+}
+
+@mixin overrides
+{
+    //############## MAT TABS ##############
+
+    .mat-tab-body-content
+    {
+        @extend .dynamic-thin-scrollbar;
+    }
+}
+
+@mixin thin-scrollbar($thinScrollbarColorVar)
+{
+    .dynamic-thin-scrollbar
+    {
+        scrollbar-width: thin;
+        scrollbar-color: var(#{$thinScrollbarColorVar}) transparent;
+    }
+
+    .dynamic-thin-scrollbar::-webkit-scrollbar-thumb
+    {
+        background-color: var(#{$thinScrollbarColorVar});
+    }
+    
+    .dynamic-thin-scrollbar::-webkit-scrollbar
+    {
+        width: 6px;
+        background-color: transparent;
     }
 }

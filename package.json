@@ -113,7 +113,7 @@
         "@anglr/grid": "9.0.1",
         "@anglr/md-help": "8.0.0",
         "@anglr/notifications": "9.0.0",
-        "@anglr/rest": "12.1.0",
+        "@anglr/rest": "12.1.1",
         "@anglr/select": "11.0.2",
         "@anglr/translate-extensions": "9.0.0",
         "@jscrpt/common": "3.0.0",

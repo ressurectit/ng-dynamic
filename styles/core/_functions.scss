@@ -4,8 +4,8 @@
 
 @function defineTheme($colors, $font)
 {
-    $result: map.deep-merge(theme.$defaultTheme, $colors);
-    $result: map.set($colors, 'font', $font);
+    $theme: map.deep-merge(theme.$defaultTheme, $colors);
+    $theme: map.set($theme, 'font', $font);
 
-    @return $result;
+    @return $theme;
 }

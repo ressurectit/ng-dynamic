@@ -10,6 +10,7 @@ $_darkDefaultTheme:
         foreground: #fff,
         border: #6aba4f,
     ),
+    scrollbar: #a8a8a8,
 );
 
 @function defineTheme($colors: (), $font: 'Inter')

@@ -37,13 +37,6 @@
         border-radius: vars.$borderRadius;
     }
 
-    //############## MAT TABS ##############
-
-    .mat-tab-body-content
-    {
-        @extend .thin-scrollbar;
-    }
-
     //############## TITLED DIALOG ##############
 
     titled-dialog,

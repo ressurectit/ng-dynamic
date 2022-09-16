@@ -29,7 +29,7 @@
             </div>
 
 
-            <div class="thin-scrollbar properties-controls">
+            <div class="dynamic-thin-scrollbar properties-controls">
                 <ng-container *ngFor="let props of propertiesData">
                     <ng-container *ngFor="let propertiesCtrl of props.controls">
                         <ng-container [propertiesControl]="propertiesCtrl" [form]="props.form" [propertiesMetadata]="props.metadata"></ng-container>

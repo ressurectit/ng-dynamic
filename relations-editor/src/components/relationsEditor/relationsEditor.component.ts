@@ -17,7 +17,6 @@ import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
 {
     selector: 'relations-editor',
     templateUrl: 'relationsEditor.component.html',
-    // styleUrls: ['relationsEditor.component.css'],
     styles: [HostDisplayFlexStyle],
     standalone: true,
     imports:

@@ -84,6 +84,7 @@
 
 %small-text
 {
+    font-size: 0.9em;
 }
 
 %drag-placeholder
@@ -94,6 +95,23 @@
     border-style: solid;
     border-radius: 4px;
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+%relation-node-endpoint
+{
+    display: block;
+    width: 1.45em;
+    height: 1.45em;
+    border-width: .5em;
+    border-style: solid;
+    border-radius: 50%;
+    background-color: var(--dynamic-relation-node-endpoint-background);
+    cursor: crosshair;
+
+    &.highlighted
+    {
+        box-shadow: 0 0 8px 2px var(--dynamic-relation-node-endpoint-highlighted-shadow);
+    }
 }
 
 @mixin misc
@@ -176,6 +194,11 @@
 
     .dynamic-form-group
     {
+    }
+
+    .dynamic-small-text
+    {
+        @extend %small-text;
     }
 }
 

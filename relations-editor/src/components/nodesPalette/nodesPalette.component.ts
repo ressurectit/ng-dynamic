@@ -20,7 +20,6 @@ import {NodesPaletteItemSAComponent} from './item/nodesPaletteItem.component';
 {
     selector: 'nodes-palette',
     templateUrl: 'nodesPalette.component.html',
-    styleUrls: ['nodesPalette.component.css'],
     standalone: true,
     imports:
     [

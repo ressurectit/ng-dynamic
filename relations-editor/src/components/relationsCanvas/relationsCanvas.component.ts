@@ -34,7 +34,6 @@ const SCALE_FACTOR_MAX = 2;
 {
     selector: 'relations-canvas',
     templateUrl: 'relationsCanvas.component.html',
-    styleUrls: ['relationsCanvas.component.css'],
     standalone: true,
     imports:
     [

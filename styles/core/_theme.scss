@@ -69,6 +69,9 @@ $defaultTheme:
     ),
     relationsCanvas:
     (
+        background: #e5e5f7,
+        backgroundGradient1: #444cf7,
+        backgroundGradient2: #e5e5f7,
         relationsNode:
         (
             shadow1: #0000004d,
@@ -83,7 +86,7 @@ $defaultTheme:
             iconForeground: #eae8e8,
             iconForegroundHover: #6aba4f,
             iconForegroundActive: #5dab43,
-        )
+        ),
     ),
     componentsPalette:
     (
@@ -108,5 +111,20 @@ $defaultTheme:
     (
         background: #eee,
     ),
-
+    nodesPalette:
+    (
+        editorComponent:
+        (
+            border: #F0F0F0,
+            background: #FAFAFA,
+        ),
+    ),
+    relationNodeEndpoint:
+    (
+        background: #fff,
+        highlighted:
+        (
+            shadow: #48B8B8,
+        ),
+    ),
 );

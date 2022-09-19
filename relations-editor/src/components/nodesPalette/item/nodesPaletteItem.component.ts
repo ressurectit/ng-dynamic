@@ -15,7 +15,6 @@ import {NodesPaletteItem} from '../nodesPalette.interface';
 {
     selector: 'nodes-palette-item',
     templateUrl: 'nodesPaletteItem.component.html',
-    styleUrls: ['nodesPaletteItem.component.css'],
     standalone: true,
     imports:
     [

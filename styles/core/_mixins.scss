@@ -12,7 +12,11 @@
 @use '../components/layout-designer-overlay-for' as layoutDesignerOverlayFor;
 @use '../components/layout-editor-drag-preview' as layoutEditorDragPreview;
 @use '../components/layout-editor' as layoutEditor;
+@use '../components/nodes-palette-item' as nodesPaletteItem;
+@use '../components/nodes-palette' as nodesPalette;
 @use '../components/properties-editor' as propertiesEditor;
+@use '../components/relation-node-input' as relationsNodeInput;
+@use '../components/relation-node-output' as relationsNodeOutput;
 @use '../components/relations-canvas' as relationsCanvas;
 
 @mixin buildThemeColors($theme)
@@ -37,6 +41,9 @@
     --dynamic-properties-editor-resize-hover-background: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'resizerHover'), 'background')};
     --dynamic-properties-editor-properties-header-background: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesHeader'), 'background')};
     --dynamic-properties-editor-properties-toolbar-background: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesToolbar'), 'background')};
+    --dynamic-relations-canvas-background: #{map.get(map.get($theme, 'relationsCanvas'), 'background')};
+    --dynamic-relations-canvas-background-gradient1: #{map.get(map.get($theme, 'relationsCanvas'), 'backgroundGradient1')};
+    --dynamic-relations-canvas-background-gradient2: #{map.get(map.get($theme, 'relationsCanvas'), 'backgroundGradient2')};
     --dynamic-relations-canvas-relations-node-shadow1: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'shadow1')};
     --dynamic-relations-canvas-relations-node-shadow2: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'shadow2')};
     --dynamic-relations-canvas-relations-node-shadow3: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'shadow3')};
@@ -58,6 +65,10 @@
     --dynamic-layout-designer-overlay-for-padding-background: #{map.get(map.get($theme, 'layoutDesignerOverlayFor'), 'paddingBackground')};
     --dynamic-layout-designer-overlay-for-border-background: #{map.get(map.get($theme, 'layoutDesignerOverlayFor'), 'borderBackground')};
     --dynamic-layout-editor-drag-preview-background: #{map.get(map.get($theme, 'layoutEditorDragPreview'), 'background')};
+    --dynamic-nodes-palette-editor-component-border: #{map.get(map.get(map.get($theme, 'nodesPalette'), 'editorComponent'), 'border')};
+    --dynamic-nodes-palette-editor-component-background: #{map.get(map.get(map.get($theme, 'nodesPalette'), 'editorComponent'), 'background')};
+    --dynamic-relation-node-endpoint-background: #{map.get(map.get($theme, 'relationNodeEndpoint'), 'background')};
+    --dynamic-relation-node-endpoint-highlighted-shadow: #{map.get(map.get(map.get($theme, 'relationNodeEndpoint'), 'highlighted'), 'shadow')};
 }
 
 @mixin buildThemeCss
@@ -77,7 +88,11 @@
     @include layoutDesignerOverlayFor.css;
     @include layoutEditorDragPreview.css;
     @include layoutEditor.css;
+    @include nodesPaletteItem.css;
+    @include nodesPalette.css;
     @include propertiesEditor.css;
+    @include relationsNodeInput.css;
+    @include relationsNodeOutput.css;
     @include relationsCanvas.css;
 }
 

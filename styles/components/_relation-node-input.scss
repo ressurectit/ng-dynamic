@@ -1,0 +1,9 @@
+@use '../core/misc';
+
+@mixin css
+{
+    relation-node-input
+    {
+        @extend %relation-node-endpoint;
+    }
+}

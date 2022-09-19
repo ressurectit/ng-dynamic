@@ -14,7 +14,6 @@ import {INVALIDATE_DROP} from '../../misc/constants';
 {
     selector: 'relation-node-input',
     template: '',
-    styleUrls: ['relationsNodeInput.component.css'],
     standalone: true,
     imports:
     [

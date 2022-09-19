@@ -3,6 +3,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {MaterialExpansionPanelComponentOptions} from './expansionPanel.options';
 import {MaterialExpansionPanelLayoutMetadataLoader} from './expansionPanel.metadata';
@@ -14,7 +15,7 @@ import {MaterialExpansionPanelLayoutMetadataLoader} from './expansionPanel.metad
 {
     selector: 'material-expansion-panel',
     templateUrl: 'expansionPanel.component.html',
-    styleUrls: ['expansionPanel.component.css'],
+    styles: [HostDisplayBlockStyle],
     standalone: true,
     imports:
     [

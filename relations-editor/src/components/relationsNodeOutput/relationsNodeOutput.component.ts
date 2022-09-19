@@ -13,7 +13,6 @@ import {INVALIDATE_DROP} from '../../misc/constants';
 {
     selector: 'relation-node-output',
     template: '',
-    styleUrls: ['relationsNodeOutput.component.css'],
     standalone: true,
     imports:
     [

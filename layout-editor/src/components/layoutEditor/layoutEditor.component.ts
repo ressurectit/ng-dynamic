@@ -21,7 +21,6 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
 {
     selector: 'layout-editor',
     templateUrl: 'layoutEditor.component.html',
-    styleUrls: ['layoutEditor.component.css'],
     styles: [HostDisplayFlexStyle],
     providers:
     [

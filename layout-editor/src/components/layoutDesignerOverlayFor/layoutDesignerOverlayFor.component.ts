@@ -8,7 +8,6 @@ import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 {
     selector: '[layoutDesignerOverlayFor]',
     templateUrl: 'layoutDesignerOverlayFor.component.html',
-    styleUrls: ['layoutDesignerOverlayFor.component.css'],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

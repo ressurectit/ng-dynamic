@@ -49,6 +49,23 @@ $defaultTheme:
             border: #cccccc,
             background: #fafafa,
         ),
+        propertiesMain:
+        (
+            border: #bbb,
+            background: #F5F5F5,
+        ),
+        resizerHover:
+        (
+            background: #00a2ddc0,
+        ),
+        propertiesHeader:
+        (
+            background: #bbb,
+        ),
+        propertiesToolbar:
+        (
+            background: #ddd,
+        ),
     ),
     relationsCanvas:
     (
@@ -80,6 +97,16 @@ $defaultTheme:
     (
         background: #fafafa,
         border: #ccc,
+    ),
+    layoutDesignerOverlayFor:
+    (
+        marginBackground: #d0ff0060,
+        paddingBackground: #613eff60,
+        borderBackground: #0011ff62,
+    ),
+    layoutEditorDragPreview:
+    (
+        background: #eee,
     ),
 
 );

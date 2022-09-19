@@ -63,7 +63,6 @@ interface PropertiesEditorData
 {
     selector: 'properties-editor',
     templateUrl: 'propertiesEditor.component.html',
-    styleUrls: ['propertiesEditor.component.css'],
     providers: [FormModelBuilder],
     standalone: true,
     imports:

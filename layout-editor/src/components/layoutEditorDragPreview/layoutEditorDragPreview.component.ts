@@ -8,7 +8,6 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 {
     selector: 'layout-editor-drag-preview',
     templateUrl: 'layoutEditorDragPreview.component.html',
-    styleUrls: ['layoutEditorDragPreview.component.css'],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })

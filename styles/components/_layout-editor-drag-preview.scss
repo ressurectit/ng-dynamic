@@ -1,0 +1,10 @@
+@mixin css
+{
+    layout-editor-drag-preview
+    {
+        display: block;
+        background-color: var(--dynamic-layout-editor-drag-preview-background);
+        border-radius: 6px;
+        padding: 3px 8px;
+    }
+}

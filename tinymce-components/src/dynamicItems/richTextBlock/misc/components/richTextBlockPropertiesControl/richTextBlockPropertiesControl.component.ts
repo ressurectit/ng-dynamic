@@ -15,7 +15,6 @@ import {RichTextBlockComponentOptions} from '../../../richTextBlock.options';
 {
     selector: 'rich-text-block-properties-control',
     templateUrl: 'richTextBlockPropertiesControl.component.html',
-    styleUrls: ['richTextBlockPropertiesControl.component.css'],
     standalone: true,
     imports:
     [

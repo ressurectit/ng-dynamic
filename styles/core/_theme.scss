@@ -101,6 +101,17 @@ $defaultTheme:
         background: #fafafa,
         border: #ccc,
     ),
+    componentsTreeItem:
+    (
+        highlighted:
+        (
+            textShadow: #666,
+        ),
+        selected:
+        (
+            textShadow: #009cd7,
+        ),
+    ),
     layoutDesignerOverlayFor:
     (
         marginBackground: #d0ff0060,

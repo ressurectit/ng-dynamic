@@ -22,6 +22,7 @@
 @use '../components/relation-node-input' as relationsNodeInput;
 @use '../components/relation-node-output' as relationsNodeOutput;
 @use '../components/relations-canvas' as relationsCanvas;
+@use '../components/rich-text-block-properties-control' as richTextBlockPropertiesControl;
 
 @mixin buildThemeColors($theme)
 {
@@ -61,6 +62,8 @@
     --dynamic-components-palette-editor-component-background: #{map.get(map.get(map.get($theme, 'componentsPalette'), 'editorComponent'), 'background')};
     --dynamic-components-tree-background: #{map.get(map.get($theme, 'componentsTree'), 'background')};
     --dynamic-components-tree-border: #{map.get(map.get($theme, 'componentsTree'), 'border')};
+    --dynamic-components-tree-item-highlighted-text-shadow: #{map.get(map.get(map.get($theme, 'componentsTreeItem'), 'highlighted'), 'textShadow')};
+    --dynamic-components-tree-item-selected-text-shadow: #{map.get(map.get(map.get($theme, 'componentsTreeItem'), 'selected'), 'textShadow')};
     --dynamic-designer-overlay-title-background: #{map.get(map.get($theme, 'designerOverlayTitle'), 'background')};
     --dynamic-designer-overlay-title-foreground: #{map.get(map.get($theme, 'designerOverlayTitle'), 'foreground')};
     --dynamic-designer-overlay-remove-background: #{map.get(map.get($theme, 'designerOverlayRemove'), 'background')};
@@ -104,6 +107,7 @@
     @include relationsNodeInput.css;
     @include relationsNodeOutput.css;
     @include relationsCanvas.css;
+    @include richTextBlockPropertiesControl.css;
 }
 
 @mixin buildTheme($theme)

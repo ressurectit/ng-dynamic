@@ -21,7 +21,6 @@ const DRAG_OVER_DELAY = 500;
     selector: 'components-tree-item',
     exportAs: 'componentsTreeItem',
     templateUrl: 'componentsTreeItem.component.html',
-    styleUrls: ['componentsTreeItem.component.css'],
     standalone: true,
     imports:
     [

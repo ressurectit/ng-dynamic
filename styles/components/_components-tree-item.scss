@@ -4,6 +4,30 @@
 {
     components-tree-item
     {
+        display: block;
+
+        .highlighted
+        {
+            text-shadow: 0 0 2px var(--dynamic-components-tree-item-highlighted-text-shadow);
+        }
+
+        .selected
+        {
+            text-shadow: 0 0 2px var(--dynamic-components-tree-item-selected-text-shadow);
+        }
+
+        .node-tree,
+        .nested-node-tree
+        {
+            min-height: 48px;
+        }
+
+        .node-children 
+        {
+            padding-left: 40px;
+            min-height: 10px;
+        }
+
         .drag-placeholder
         {
             @extend %drag-placeholder;

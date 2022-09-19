@@ -13,7 +13,6 @@ import {applyGridCoordinates} from './gridPanelCell.utils';
 {
     selector: 'grid-panel-cell',
     templateUrl: 'gridPanelCell.component.html',
-    styleUrls: ['gridPanelCell.component.css'],
     standalone: true,
     imports:
     [

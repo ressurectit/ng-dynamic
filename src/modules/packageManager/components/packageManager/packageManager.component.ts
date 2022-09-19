@@ -11,7 +11,6 @@ import {PackageManager} from '../../../../services';
 {
     selector: 'package-manager',
     templateUrl: 'packageManager.component.html',
-    styleUrls: ['packageManager.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PackageManagerComponent implements OnInit

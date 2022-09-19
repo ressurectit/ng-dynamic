@@ -8,7 +8,6 @@ import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent} from '
 {
     selector: 'not-found-node',
     templateUrl: 'notFoundNode.component.html',
-    styleUrls: ['notFoundNode.component.css'],
     standalone: true,
     imports:
     [

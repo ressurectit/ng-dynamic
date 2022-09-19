@@ -1,0 +1,16 @@
+@mixin css
+{
+    package-manager
+    {
+        display: flex;
+        flex-direction: column;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--dynamic-package-manager-border);
+
+        .pm-header
+        {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    }
+}

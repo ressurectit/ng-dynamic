@@ -1,0 +1,15 @@
+@mixin css
+{
+    not-found-node
+    {
+        .not-found
+        {
+            align-self: center;
+            font-size: 1.6em;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: var(--dynamic-not-found-node-text-foreground);
+            font-weight: bold;
+        }
+    }
+}

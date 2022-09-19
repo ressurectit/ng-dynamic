@@ -13,7 +13,6 @@ import {monacoInit} from './monaco.init';
 {
     selector: 'code-editor',
     template: '',
-    styleUrls: ['codeEditor.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges

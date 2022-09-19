@@ -4,16 +4,20 @@
 @use 'buttons';
 @use 'global';
 @use 'misc';
+@use '../components/code-editor' as codeEditor;
 @use '../components/code-properties-control' as codePropertiesControl;
 @use '../components/components-palette' as componentsPalette;
 @use '../components/components-tree-item' as componentsTreeItem;
 @use '../components/components-tree' as componentsTree;
+@use '../components/grid-panel' as gridPanel;
 @use '../components/layout-designer-component' as layoutDesignerComponent;
 @use '../components/layout-designer-overlay-for' as layoutDesignerOverlayFor;
 @use '../components/layout-editor-drag-preview' as layoutEditorDragPreview;
 @use '../components/layout-editor' as layoutEditor;
 @use '../components/nodes-palette-item' as nodesPaletteItem;
 @use '../components/nodes-palette' as nodesPalette;
+@use '../components/not-found-node' as notFoundNode;
+@use '../components/package-manager' as packageManager;
 @use '../components/properties-editor' as propertiesEditor;
 @use '../components/relation-node-input' as relationsNodeInput;
 @use '../components/relation-node-output' as relationsNodeOutput;
@@ -69,6 +73,8 @@
     --dynamic-nodes-palette-editor-component-background: #{map.get(map.get(map.get($theme, 'nodesPalette'), 'editorComponent'), 'background')};
     --dynamic-relation-node-endpoint-background: #{map.get(map.get($theme, 'relationNodeEndpoint'), 'background')};
     --dynamic-relation-node-endpoint-highlighted-shadow: #{map.get(map.get(map.get($theme, 'relationNodeEndpoint'), 'highlighted'), 'shadow')};
+    --dynamic-package-manager-border: #{map.get(map.get($theme, 'packageManager'), 'border')};
+    --dynamic-not-found-node-text-foreground: #{map.get(map.get(map.get($theme, 'notFoundNode'), 'text'), 'foreground')};
 }
 
 @mixin buildThemeCss
@@ -80,16 +86,20 @@
     @include global.dropzone-overlay;
     @include buttons.btn;
     @include buttons.btn-primary;
+    @include codeEditor.css;
     @include codePropertiesControl.css;
     @include componentsPalette.css;
     @include componentsTreeItem.css;
     @include componentsTree.css;
+    @include gridPanel.css;
     @include layoutDesignerComponent.css;
     @include layoutDesignerOverlayFor.css;
     @include layoutEditorDragPreview.css;
     @include layoutEditor.css;
     @include nodesPaletteItem.css;
     @include nodesPalette.css;
+    @include notFoundNode.css;
+    @include packageManager.css;
     @include propertiesEditor.css;
     @include relationsNodeInput.css;
     @include relationsNodeOutput.css;

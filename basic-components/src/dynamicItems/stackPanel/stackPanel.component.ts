@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {HostDisplayFlexStyle} from '@anglr/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
@@ -13,7 +14,7 @@ import {StackPanelLayoutMetadataLoader} from './stackPanel.metadata';
 {
     selector: 'stack-panel',
     templateUrl: 'stackPanel.component.html',
-    styleUrls: ['stackPanel.component.css'],
+    styles: [HostDisplayFlexStyle],
     standalone: true,
     imports:
     [

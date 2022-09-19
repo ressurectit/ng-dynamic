@@ -14,7 +14,6 @@ import {GridPanelLayoutMetadataLoader} from './gridPanel.metadata';
 {
     selector: 'grid-panel',
     templateUrl: 'gridPanel.component.html',
-    styleUrls: ['gridPanel.component.css'],
     standalone: true,
     imports:
     [

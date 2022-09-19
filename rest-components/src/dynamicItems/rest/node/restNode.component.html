@@ -33,11 +33,11 @@
                         <div class="dynamic-flex-row">
                             <div>BODY: {{param.name}}</div>
 
-                            <button type="button" class="btn-icon dynamic-margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureRestParameter(param)">
+                            <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
-                            <button type="button" class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
+                            <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
                                 <span class="fas fa-times"></span>
                             </button>
                         </div>
@@ -49,11 +49,11 @@
                         <div class="dynamic-flex-row">
                             <div>PATH: {{param.name}}</div>
 
-                            <button type="button" class="btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                            <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
-                            <button type="button" class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
+                            <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
                                 <span class="fas fa-times"></span>
                             </button>
                         </div>
@@ -65,11 +65,11 @@
                         <div class="dynamic-flex-row">
                             <div>QUERY: {{param.name}}</div>
 
-                            <button type="button" class="btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                            <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
-                            <button type="button" class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
+                            <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
                                 <span class="fas fa-times"></span>
                             </button>
                         </div>
@@ -81,11 +81,11 @@
                         <div class="dynamic-flex-row">
                             <div>QUERY OBJECT: {{param.name}}</div>
 
-                            <button type="button" class="btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                            <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
-                            <button type="button" class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
+                            <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
                                 <span class="fas fa-times"></span>
                             </button>
                         </div>
@@ -97,11 +97,11 @@
                         <div class="dynamic-flex-row">
                             <div>HEADER: {{param.name}}</div>
 
-                            <button type="button" class="btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
+                            <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="configureRestParameter(param)">
                                 <span class="fas fa-cog"></span>
                             </button>
 
-                            <button type="button" class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
+                            <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeParam(param)">
                                 <span class="fas fa-times"></span>
                             </button>
                         </div>
@@ -109,7 +109,7 @@
                 </ng-container>
             </ng-container>
 
-            <button type="button" class="btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); addParam()">
+            <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); addParam()">
                 <span class="fas fa-plus"></span>
             </button>
         </div>

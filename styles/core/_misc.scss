@@ -62,20 +62,25 @@
     font-variant-caps: small-caps;
 }
 
-%btn-info
-{
-}
-
-%btn-icon
-{
-}
-
 %control-label
 {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 %form-control
 {
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: none;
+    font-size: 12px;
+    padding: 3px;
+    padding-left: 3px;
+    padding-left: 7px;
+    width: 100%;
+    font-family: var(--dynamic-font-family);
 }
 
 %form-group
@@ -176,24 +181,26 @@
         @extend %text-small-caps;
     }
 
-    .dynamic-btn-info
-    {
-    }
-
-    .dynamic-btn-icon
-    {
-    }
-
     .dynamic-control-label
     {
+        @extend %control-label;
     }
 
-    .dynamic-form-control
+    .dynamic-form-control:not(ng-select):not(date-time-selector)
     {
+        @extend %form-control;
+    }
+
+    .dynamic-form-control:not(ng-select):not(date-time-selector)
+    {
+        color: var(--dynamic-form-control-foreground);
+        border-color: var(--dynamic-form-control-border);
+        background-color: var(--dynamic-form-control-background);
     }
 
     .dynamic-form-group
     {
+        @extend %form-group;
     }
 
     .dynamic-small-text

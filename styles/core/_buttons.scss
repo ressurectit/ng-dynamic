@@ -28,3 +28,29 @@
         color: var(--dynamic-btn-primary-foreground);
     }
 }
+
+@mixin btn-info
+{
+    .dynamic-btn.dynamic-btn-info
+    {
+        font-family: var(--dynamic-font-family);
+        background-color: var(--dynamic-btn-info-background);
+        border-color: var(--dynamic-btn-info-border);
+        color: var(--dynamic-btn-info-foreground);
+    }
+}
+
+@mixin btn-icon
+{
+    .dynamic-btn-icon
+    {
+        border: none;
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        color: var(--dynamic-btn-icon-foreground);
+    }
+}

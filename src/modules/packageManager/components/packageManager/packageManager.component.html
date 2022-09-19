@@ -1,5 +1,5 @@
 <div class="dynamic-flex-row">
-    <button type="button" class="btn-icon dynamic-margin-right-extra-small" (click)="detailVisible = !detailVisible">
+    <button type="button" class="dynamic-btn-icon dynamic-margin-right-extra-small" (click)="detailVisible = !detailVisible">
         <span class="fas" [class.fa-plus]="!detailVisible" [class.fa-minus]="detailVisible"></span>
     </button>
 
@@ -12,7 +12,7 @@
             <option *ngFor="let package of availablePackages" [value]="package">{{package}}</option>
         </select>
 
-        <button type="button" class="btn-icon dynamic-margin-left-extra-small" (click)="addPackage(availablePackages[avPkgs.selectedIndex])">
+        <button type="button" class="dynamic-btn-icon dynamic-margin-left-extra-small" (click)="addPackage(availablePackages[avPkgs.selectedIndex])">
             <span class="fas fa-plus"></span>
         </button>
     </div>
@@ -20,7 +20,7 @@
     <div class="dynamic-flex-row dynamic-align-items-center dynamic-margin-top-small" *ngFor="let package of usedPackages">
         <div class="dynamic-flex-1">{{package}}</div>
 
-        <button type="button" class="btn-icon dynamic-margin-left-extra-small" (click)="removePackage(package)">
+        <button type="button" class="dynamic-btn-icon dynamic-margin-left-extra-small" (click)="removePackage(package)">
             <span class="fas fa-times"></span>
         </button>
     </div>

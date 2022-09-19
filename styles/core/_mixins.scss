@@ -29,7 +29,14 @@
     --dynamic-font-family: #{map.get($theme, 'font')};
     --dynamic-btn-primary-background: #{map.get(map.get($theme, 'btnPrimary'), 'background')};
     --dynamic-btn-primary-foreground: #{map.get(map.get($theme, 'btnPrimary'), 'foreground')};
-    --dynamic-btn-primary-border: #{map.get(map.get($theme, 'btnPrimary'), 'border')};;
+    --dynamic-btn-primary-border: #{map.get(map.get($theme, 'btnPrimary'), 'border')};
+    --dynamic-btn-info-background: #{map.get(map.get($theme, 'btnInfo'), 'background')};
+    --dynamic-btn-info-foreground: #{map.get(map.get($theme, 'btnInfo'), 'foreground')};
+    --dynamic-btn-info-border: #{map.get(map.get($theme, 'btnInfo'), 'border')};
+    --dynamic-btn-icon-foreground: #{map.get(map.get($theme, 'btnIcon'), 'foreground')};
+    --dynamic-form-control-foreground: #{map.get(map.get($theme, 'formControl'), 'foreground')};
+    --dynamic-form-control-background: #{map.get(map.get($theme, 'formControl'), 'background')};
+    --dynamic-form-control-border: #{map.get(map.get($theme, 'formControl'), 'border')};
     --dynamic-thin-scrollbar: #{map.get($theme, 'scrollbar')};
     --dynamic-drag-placeholder: #{map.get($theme, 'dragPlaceholder')};
     --dynamic-dropzone-overlay-background: #{map.get(map.get($theme, 'dropzoneOverlay'), 'background')};
@@ -89,6 +96,8 @@
     @include global.dropzone-overlay;
     @include buttons.btn;
     @include buttons.btn-primary;
+    @include buttons.btn-info;
+    @include buttons.btn-icon;
     @include codeEditor.css;
     @include codePropertiesControl.css;
     @include componentsPalette.css;

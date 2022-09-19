@@ -1,5 +1,5 @@
 <div *ngIf="!state.opened" class="properties-toolbar">
-    <button type="button" class="btn-icon props-buttons" (click)="toggleCollapsed()">
+    <button type="button" class="dynamic-btn-icon props-buttons" (click)="toggleCollapsed()">
         <span class="text-vertical">properties</span>
     </button>
 </div>
@@ -9,7 +9,7 @@
         <div class="header">
             <div class="header-title">properties</div>
 
-            <button type="button" class="btn-icon" (click)="toggleCollapsed()">
+            <button type="button" class="dynamic-btn-icon" (click)="toggleCollapsed()">
                 <span class="fas fa-times"></span>
             </button>
         </div>

@@ -87,6 +87,12 @@
 {
 }
 
+%text-vertical
+{
+    writing-mode: vertical-rl;
+    text-orientation: sideways;
+}
+
 %small-text
 {
     font-size: 0.9em;
@@ -189,10 +195,7 @@
     .dynamic-form-control:not(ng-select):not(date-time-selector)
     {
         @extend %form-control;
-    }
 
-    .dynamic-form-control:not(ng-select):not(date-time-selector)
-    {
         color: var(--dynamic-form-control-foreground);
         border-color: var(--dynamic-form-control-border);
         background-color: var(--dynamic-form-control-background);
@@ -201,6 +204,11 @@
     .dynamic-form-group
     {
         @extend %form-group;
+    }
+
+    .dynamic-text-vertical
+    {
+        @extend %text-vertical;
     }
 
     .dynamic-small-text

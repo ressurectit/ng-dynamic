@@ -11,6 +11,7 @@ export * from './logicalOr';
 export * from './negation';
 export * from './notFound';
 export * from './stackPanel';
+export * from './syncValues';
 export * from './templateBlock';
 export * from './textBlock';
 export * from './toggleButton';

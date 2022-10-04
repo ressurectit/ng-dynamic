@@ -1,5 +1,6 @@
 const relations = 
 [
+    'debounceValue',
     'firstNonNull',
     'logicalAnd',
     'logicalOr',

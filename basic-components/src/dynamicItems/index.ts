@@ -1,4 +1,5 @@
 export * from './button';
+export * from './debounceValue';
 export * from './firstNonNull';
 export * from './gridPanel';
 export * from './gridPanelCell';

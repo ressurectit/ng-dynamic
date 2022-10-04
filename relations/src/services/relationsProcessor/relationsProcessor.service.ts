@@ -7,9 +7,10 @@ import {Observable, Subscription} from 'rxjs';
 import {RelationsComponent, RelationsComponentMetadata, RelationsComponentType} from '../../interfaces';
 import {RelationsComponentManager} from '../relationsComponentManager/relationsComponentManager.service';
 import {RelationsManager} from '../relationsManager/relationsManager.service';
-import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from './relationsProcessor.interface';
+import {RelationsDataTransferInstruction, RelationsProcessorComponentData, RelationsProcessorInputOutputData} from './relationsProcessor.interface';
 import {RELATIONS_COMPONENTS_LOADER, RELATIONS_PROCESSOR_SKIP_INIT} from '../../misc/tokens';
 import {RelationsComponentDef, RelationsProcessorComponent} from '../../misc/types';
+import {RelationsDataTransferInstructionImpl} from './relationsDataTransferInstruction';
 
 /**
  * Processor that applies relations to registered components
@@ -109,13 +110,13 @@ export class RelationsProcessor implements OnDestroy
         if(!skipInit)
         {
             this.initSubscriptions.add(this.relationsManager.relationsChange.subscribe(() => this.initializeRelations()));
-    
+
             this.initializeRelations();
         }
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -125,7 +126,7 @@ export class RelationsProcessor implements OnDestroy
 
         this.destroyRelations();
     }
-    
+
     //######################### public methods #########################
 
     /**
@@ -171,7 +172,7 @@ export class RelationsProcessor implements OnDestroy
                 outputComponent.ɵɵRelationsOutputsChangeSubscriptions?.forEach(subscription => subscription.unsubscribe());
                 outputComponent.ɵɵRelationsOutputsChangeSubscriptions = [];
 
-                for(const inputOutput of relations.inputOutputs)    
+                for(const inputOutput of relations.inputOutputs)
                 {
                     let inputComponents = this.componentManager.get(inputOutput.inputComponentId);
 
@@ -179,7 +180,7 @@ export class RelationsProcessor implements OnDestroy
                     {
                         inputComponents = [inputComponents];
                     }
-    
+
                     this.logger?.verbose('RelationsProcessor: processing input outputs {@data} ', {id, inputOutput, inputComponents, components});
 
                     const outputObservable = (outputComponent as any)[`${inputOutput.outputName}Change`] as Observable<any>;
@@ -191,7 +192,7 @@ export class RelationsProcessor implements OnDestroy
 
                         continue;
                     }
-                    
+
                     //set listening for output changes
                     outputComponent.ɵɵRelationsOutputsChangeSubscriptions.push(outputObservable.subscribe(() =>
                     {
@@ -236,7 +237,7 @@ export class RelationsProcessor implements OnDestroy
             }
         }
     }
-    
+
     /**
      * Method used for destroying component
      */
@@ -359,6 +360,164 @@ export class RelationsProcessor implements OnDestroy
         }
     }
 
+    /**
+     * Transfers data for specified component using its output relations, all data are transfered in single change set per component
+     * @param id - Id of component whose outputs relations should be applied to transfer data
+     * @param delayed - Indication whether delay data transfer and only generate instructions, if true returns dictionary with data transfer instructions per components
+     */
+    public transferOutputsData(id: string, delayed: true): Dictionary<RelationsDataTransferInstruction>
+    public transferOutputsData(id: string, delayed: false): null
+    public transferOutputsData(id: string, delayed: boolean = false): null|Dictionary<RelationsDataTransferInstruction>
+    {
+        const transfers: Dictionary<RelationsDataTransferInstructionImpl> = {};
+        const relations: RelationsProcessorComponentData = this.relations[id];
+        let components = this.componentManager.get(id);
+
+        if(!relations || !components)
+        {
+            this.logger?.warn('RelationsProcessor: No relations for {@id}', {id});
+
+            return delayed ? transfers : null;
+        }
+
+        if(relations?.inputOutputs)
+        {
+            if(!Array.isArray(components))
+            {
+                components = [components];
+            }
+
+            //for each component containing outputs
+            for(const outputComponent of components)
+            {
+                //for each relation
+                for(const inputOutput of relations.inputOutputs)
+                {
+                    let inputComponents = this.componentManager.get(inputOutput.inputComponentId);
+
+                    if(inputComponents && !Array.isArray(inputComponents))
+                    {
+                        inputComponents = [inputComponents];
+                    }
+
+                    if(!inputComponents || !Array.isArray(inputComponents))
+                    {
+                        this.logger?.warn('RelationsProcessor: Missing input components {@data}', inputOutput);
+
+                        continue;
+                    }
+
+                    transfers[inputOutput.inputComponentId] ??= new RelationsDataTransferInstructionImpl(inputComponents);
+
+                    //for each input component
+                    for(const inputComponent of inputComponents)
+                    {
+                        if(!outputComponent || !inputComponent)
+                        {
+                            continue;
+                        }
+
+                        const previousValue = (inputComponent as any)[inputOutput.inputName];
+                        const currentValue = (outputComponent as any)[inputOutput.outputName];
+
+                        transfers[inputOutput.inputComponentId].changes[inputOutput.inputName] =
+                        {
+                            previousValue,
+                            currentValue,
+                            firstChange: false,
+                            isFirstChange: () => false,
+                        };
+                    }
+                }
+            }
+
+            if(!delayed)
+            {
+                //transfers data
+                for(const key in transfers)
+                {
+                    const transfer = transfers[key];
+
+                    transfer.applyChanges();
+                }
+            }
+        }
+
+        return delayed ? transfers : null;
+    }
+
+    /**
+     * Transfers data for specified component using its inputs relations, all data are transfered in single change
+     * @param id - Id of component whose inputs relations should be applied to transfer data
+     * @param delayed - Indication whether delay data transfer and only generate instructions, if true returns transfer instructions
+     */
+    public transferInputsData(id: string, delayed: true): RelationsDataTransferInstruction
+    public transferInputsData(id: string, delayed: false): null
+    public transferInputsData(id: string, delayed: boolean = false): null|RelationsDataTransferInstruction
+    {
+        const backwardRelations = this.backwardRelations[id];
+        const inputComponent = this.componentManager.get(id);
+
+        if(!backwardRelations)
+        {
+            this.logger?.warn('RelationsProcessor: No backward relations for {@id}', {id});
+
+            return delayed ? new RelationsDataTransferInstructionImpl([]) : null;
+        }
+
+        if(!inputComponent)
+        {
+            this.logger?.warn('RelationsProcessor: Missing input components for {@id}', {id});
+
+            return delayed ? new RelationsDataTransferInstructionImpl([]) : null;
+        }
+
+        if(Array.isArray(inputComponent))
+        {
+            this.logger?.error('RelationsProcessor: Only one component must be available for id {@id}', {id});
+
+            return delayed ? new RelationsDataTransferInstructionImpl([]) : null;
+        }
+
+        const transfer: RelationsDataTransferInstructionImpl = new RelationsDataTransferInstructionImpl([inputComponent]);
+
+        //for each backward relation
+        for(const backwardRelation of backwardRelations)
+        {
+            const outputComponent = this.componentManager.get(backwardRelation.outputComponentId);
+
+            if((Array.isArray(outputComponent)))
+            {
+                this.logger?.error('RelationsProcessor: Only one output component must be available for id {@id}', {id});
+
+                continue;
+            }
+
+            if(!outputComponent || !inputComponent)
+            {
+                continue;
+            }
+
+            const previousValue = (inputComponent as any)[backwardRelation.inputName];
+            const currentValue = (outputComponent as any)[backwardRelation.outputName];
+
+            transfer.changes[backwardRelation.inputName] =
+            {
+                previousValue,
+                currentValue,
+                firstChange: false,
+                isFirstChange: () => false,
+            };
+        }
+
+        if(!delayed)
+        {
+            transfer.applyChanges();
+        }
+
+        return delayed ? transfer : null;
+    }
+
     //######################### protected methods #########################
 
     /**
@@ -399,7 +558,7 @@ export class RelationsProcessor implements OnDestroy
 
                 for(const input of output.inputs)
                 {
-                    const inputOutput: RelationsProcessorInputOutputData = 
+                    const inputOutput: RelationsProcessorInputOutputData =
                     {
                         inputComponentId: input.id,
                         outputComponentId: meta.id,
@@ -487,7 +646,7 @@ export class RelationsProcessor implements OnDestroy
         (target as any)[targetProperty] = (source as any)[sourceProperty];
         const changes: SimpleChanges = {};
 
-        changes[targetProperty] = 
+        changes[targetProperty] =
         {
             previousValue,
             currentValue,
@@ -502,7 +661,7 @@ export class RelationsProcessor implements OnDestroy
     }
 
     /**
-     * Initialize relation component 
+     * Initialize relation component
      * @param meta - Metadata for relations component
      * @param outputs - Array of outputs data for relations component
      */

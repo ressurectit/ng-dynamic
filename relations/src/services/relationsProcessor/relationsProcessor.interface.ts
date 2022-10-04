@@ -1,6 +1,23 @@
+import {SimpleChanges} from '@angular/core';
 import {Dictionary} from '@jscrpt/common';
 
 import {RelationsComponentType} from '../../interfaces';
+
+/**
+ * Instruction containing data/changes that are needed for data transfer
+ */
+export interface RelationsDataTransferInstruction
+{
+    /**
+     * Changes that are coming into component
+     */
+    readonly changes: SimpleChanges;
+
+    /**
+     * Target that should be triggered with changes
+     */
+    applyChanges(): void;
+}
 
 /**
  * Metadata for single component`s output for relation manager

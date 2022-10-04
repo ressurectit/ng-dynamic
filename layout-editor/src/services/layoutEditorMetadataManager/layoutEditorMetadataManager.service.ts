@@ -1,9 +1,9 @@
-import {Inject, Injectable, Optional} from '@angular/core';
+import {Inject, Injectable, OnDestroy, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {MetadataStateManager} from '@anglr/dynamic';
-import {Dictionary, isBlank} from '@jscrpt/common';
-import {Observable, Subject} from 'rxjs';
+import {EditorHotkeys, MetadataStateManager} from '@anglr/dynamic';
+import {Dictionary, extend, generateId, isBlank} from '@jscrpt/common';
+import {Observable, Subject, Subscription} from 'rxjs';
 
 import type {LayoutDesignerSAComponent} from '../../components';
 import {LayoutEditorMetadataManagerComponent} from './layoutEditorMetadataManager.interface';
@@ -12,19 +12,29 @@ import {LayoutEditorMetadataManagerComponent} from './layoutEditorMetadataManage
  * Class used for handling layout metadata
  */
 @Injectable()
-export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutComponentMetadata>
+export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutComponentMetadata>, OnDestroy
 {
     //######################### protected fields #########################
 
     /**
+     * Subscriptions created during initialization
+     */
+    protected initSubscriptions: Subscription = new Subscription();
+
+    /**
+     * Clipboard for layout metadata copy/paste/cut operations
+     */
+    protected metadataClipboard: LayoutComponentMetadata|undefined|null;
+
+    /**
      * Array of all registered layout designer components
      */
-    protected _components: Dictionary<LayoutEditorMetadataManagerComponent> = {};
+    protected components: Dictionary<LayoutEditorMetadataManagerComponent> = {};
 
     /**
      * Id of root component
      */
-    protected _rootComponentId: string|null = null;
+    protected rootComponentId: string|null = null;
 
     /**
      * Id of selected component
@@ -39,7 +49,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     /**
      * Used for emitting layout changes
      */
-    protected _layoutChange: Subject<void> = new Subject<void>();
+    protected layoutChangeSubject: Subject<void> = new Subject<void>();
 
     /**
      * Used for emitting selected component changes
@@ -102,12 +112,12 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public get root(): LayoutEditorMetadataManagerComponent|undefined|null
     {
-        if(isBlank(this._rootComponentId))
+        if(isBlank(this.rootComponentId))
         {
             return null;
         }
 
-        return this._components[this._rootComponentId];
+        return this.components[this.rootComponentId];
     }
 
     /**
@@ -115,7 +125,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public get layoutChange(): Observable<void>
     {
-        return this._layoutChange.asObservable();
+        return this.layoutChangeSubject.asObservable();
     }
 
     /**
@@ -159,8 +169,104 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     }
 
     //######################### constructor #########################
-    constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(protected _editorHotkeys: EditorHotkeys,
+                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
+        this.initSubscriptions.add(this._editorHotkeys.delete.subscribe(() => 
+        {
+            if(!this.selectedComponent)
+            {
+                return;
+            }
+
+            const component = this.components[this.selectedComponent];
+
+            if(!component?.parent)
+            {
+                return;
+            }
+
+            component.parent.component.removeDescendant(this.selectedComponent);
+            component.parent.component.invalidateVisuals();
+        }));
+
+        this.initSubscriptions.add(this._editorHotkeys.copy.subscribe(() =>
+        {
+            if(!this.selectedComponent)
+            {
+                return;
+            }
+
+            const component = this.components[this.selectedComponent];
+            this.metadataClipboard = component.component.options?.typeMetadata;
+        }));
+
+        this.initSubscriptions.add(this._editorHotkeys.cut.subscribe(() =>
+        {
+            if(!this.selectedComponent)
+            {
+                return;
+            }
+
+            const component = this.components[this.selectedComponent];
+
+            if(!component?.parent)
+            {
+                return;
+            }
+
+            this.metadataClipboard = component.component.options?.typeMetadata;
+            component.parent.component.removeDescendant(this.selectedComponent);
+            component.parent.component.invalidateVisuals();
+        }));
+
+        this.initSubscriptions.add(this._editorHotkeys.paste.subscribe(() =>
+        {
+            if(!this.selectedComponent || !this.metadataClipboard)
+            {
+                return;
+            }
+
+            const component = this.components[this.selectedComponent];
+            const newId = `${this.metadataClipboard.name}-${generateId(12)}`;
+
+            if(component.component.canDrop)
+            {
+                component.component.addDescendant(
+                {
+                    index: 0,
+                    metadata: extend({}, this.metadataClipboard, 
+                    {
+                        id: newId,
+                        displayName: newId,
+                    }),
+                    parentId: null,
+                });
+            }
+            else if(component.parent?.component.canDrop)
+            {
+                component.parent.component.addDescendant(
+                {
+                    index: component.component.index + 1,
+                    metadata: extend({}, this.metadataClipboard, 
+                    {
+                        id: newId,
+                        displayName: newId,
+                    }),
+                    parentId: null,
+                });
+            }
+        }));
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy(): void
+    {
+        this.initSubscriptions.unsubscribe();
     }
 
     //######################### public methods #########################
@@ -239,18 +345,18 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     {
         if(isBlank(parentId))
         {
-            this._rootComponentId = id;
+            this.rootComponentId = id;
         }
 
         //already exists
-        if(this._components[id])
+        if(this.components[id])
         {
             this._logger?.error(`LayoutEditorMetadataManager: Component with id ${id} is already registered!`);
 
             return false;
         }
 
-        const parent = parentId ? this._components[parentId] : null;
+        const parent = parentId ? this.components[parentId] : null;
         const componentItem: LayoutEditorMetadataManagerComponent = 
         {
             component,
@@ -258,7 +364,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
             children: []
         };
 
-        this._components[id] = componentItem;
+        this.components[id] = componentItem;
         
         //insert into parent at the end
         if(parent)
@@ -267,7 +373,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         }
 
         this._flatTree = null;
-        this._layoutChange.next();
+        this.layoutChangeSubject.next();
 
         this._logger?.debug('LayoutEditorMetadataManager: Registering component {@id}', id);
 
@@ -280,7 +386,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public getComponent(id: string): LayoutDesignerSAComponent|null
     {
-        return this._components[id]?.component ?? null;
+        return this.components[id]?.component ?? null;
     }
 
     /**
@@ -289,7 +395,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public getParent(id: string): LayoutDesignerSAComponent|null
     {
-        return this._components[id]?.parent?.component ?? null;
+        return this.components[id]?.parent?.component ?? null;
     }
 
     /**
@@ -298,7 +404,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public getIndex(id: string): number|null
     {
-        const item = this._components[id];
+        const item = this.components[id];
 
         if(!item || !item.parent)
         {
@@ -314,7 +420,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public getComponentDef(id: string): LayoutEditorMetadataManagerComponent|null
     {
-        return this._components[id] ?? null;
+        return this.components[id] ?? null;
     }
 
     /**
@@ -323,8 +429,8 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public unregisterLayoutDesignerComponent(id: string): void
     {
-        const componentItem = this._components[id];
-        delete this._components[id];
+        const componentItem = this.components[id];
+        delete this.components[id];
         
         //unregister from parent
         if(componentItem?.parent)
@@ -333,13 +439,13 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
             componentItem.parent.children.splice(index, 1);
         }
 
-        if(id === this._rootComponentId)
+        if(id === this.rootComponentId)
         {
-            this._rootComponentId = null;
+            this.rootComponentId = null;
         }
 
         this._flatTree = null;
-        this._layoutChange.next();
+        this.layoutChangeSubject.next();
 
         this._logger?.debug('LayoutEditorMetadataManager: Unregistering component {@id}', id);
     }
@@ -357,12 +463,12 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public getMetadata(): LayoutComponentMetadata|null
     {
-        if(isBlank(this._rootComponentId) || !this._components[this._rootComponentId])
+        if(isBlank(this.rootComponentId) || !this.components[this.rootComponentId])
         {
             return null;
         }
 
-        return this._components[this._rootComponentId].component.options?.typeMetadata ?? null;
+        return this.components[this.rootComponentId].component.options?.typeMetadata ?? null;
     }
 
     //######################### protected methods #########################
@@ -372,12 +478,12 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     protected _buildFlatTree(): LayoutEditorMetadataManagerComponent[]
     {
-        if(isBlank(this._rootComponentId))
+        if(isBlank(this.rootComponentId))
         {
             return [];
         }
 
-        const component = this._components[this._rootComponentId];
+        const component = this.components[this.rootComponentId];
 
         if(!component)
         {

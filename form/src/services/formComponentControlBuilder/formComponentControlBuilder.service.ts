@@ -31,7 +31,6 @@ export class FormComponentControlBuilder
             if (controlName)
             {
                 const control = this._getControlForMetadata(iteratorItem.metadata);
-                console.log(iteratorItem.parent, control);
                 this._getActiveGroup(iteratorItem.parent, activeGroup).addControl(controlName, control);
 
                 if (control instanceof FormGroup)

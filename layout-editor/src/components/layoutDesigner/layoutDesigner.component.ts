@@ -193,7 +193,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Adds descentant component metadata to this component metadata
      * @param dragData - Data from drag n drop event
      */
-    // public addDescendant(dragData: CdkDragDrop<LayoutComponentDragData, LayoutComponentDragData, LayoutComponentDragData>): void
     public addDescendant(dragData: LayoutComponentDragData): void
     {
         if(!this.options)
@@ -227,13 +226,11 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.history.getNewState();
     }
 
-    //######################### protected methods #########################
-
     /**
      * Removes descendant metadata from this component metadata
      * @param id - Id of descendant to be removed
      */
-    protected removeDescendant(id: string): void
+    public removeDescendant(id: string): void
     {
         if(!this.options)
         {

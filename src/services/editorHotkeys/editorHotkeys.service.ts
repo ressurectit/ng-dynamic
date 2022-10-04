@@ -22,14 +22,29 @@ export class EditorHotkeys
     protected redoSubject: Subject<void> = new Subject<void>();
 
     /**
-     * Subject used for emitting new
-     */
-    protected newSubject: Subject<void> = new Subject<void>();
-
-    /**
      * Subject used for emitting save
      */
     protected saveSubject: Subject<void> = new Subject<void>();
+
+    /**
+     * Subject used for emitting copy
+     */
+    protected copySubject: Subject<void> = new Subject<void>();
+
+    /**
+     * Subject used for emitting paste
+     */
+    protected pasteSubject: Subject<void> = new Subject<void>();
+
+    /**
+     * Subject used for emitting cut
+     */
+    protected cutSubject: Subject<void> = new Subject<void>();
+
+    /**
+     * Subject used for emitting delete
+     */
+    protected deleteSubject: Subject<void> = new Subject<void>();
 
     //######################### public properties #########################
 
@@ -50,19 +65,43 @@ export class EditorHotkeys
     }
 
     /**
-     * Occurs on new shortcut
-     */
-    public get new(): Observable<void>
-    {
-        return this.newSubject.asObservable();
-    }
-
-    /**
      * Occurs on save shortcut
      */
     public get save(): Observable<void>
     {
         return this.saveSubject.asObservable();
+    }
+    
+    /**
+     * Occurs on copy shortcut
+     */
+    public get copy(): Observable<void>
+    {
+        return this.copySubject.asObservable();
+    }
+
+    /**
+     * Occurs on cut shortcut
+     */
+    public get cut(): Observable<void>
+    {
+        return this.cutSubject.asObservable();
+    }
+
+    /**
+     * Occurs on paste shortcut
+     */
+    public get paste(): Observable<void>
+    {
+        return this.pasteSubject.asObservable();
+    }
+
+    /**
+     * Occurs on delete shortcut
+     */
+    public get delete(): Observable<void>
+    {
+        return this.deleteSubject.asObservable();
     }
 
     //######################### constructor #########################
@@ -108,11 +147,32 @@ export class EditorHotkeys
             return false;
         }, ['INPUT', 'TEXTAREA'], 'Emits redo event'));
 
-        this.hotkeys.hotkeys.add(new Hotkey('ctrl+n', () =>
+        this.hotkeys.hotkeys.add(new Hotkey('del', () =>
         {
-            this.newSubject.next();
+            this.deleteSubject.next();
 
             return false;
-        }, ['INPUT', 'TEXTAREA'], 'Emits new event'));
+        }, ['INPUT', 'TEXTAREA'], 'Emits delete event'));
+
+        this.hotkeys.hotkeys.add(new Hotkey('ctrl+c', () =>
+        {
+            this.copySubject.next();
+
+            return false;
+        }, ['INPUT', 'TEXTAREA'], 'Emits copy event'));
+
+        this.hotkeys.hotkeys.add(new Hotkey('ctrl+v', () =>
+        {
+            this.pasteSubject.next();
+
+            return false;
+        }, ['INPUT', 'TEXTAREA'], 'Emits paste event'));
+
+        this.hotkeys.hotkeys.add(new Hotkey('ctrl+x', () =>
+        {
+            this.cutSubject.next();
+
+            return false;
+        }, ['INPUT', 'TEXTAREA'], 'Emits cut event'));
     }
 }

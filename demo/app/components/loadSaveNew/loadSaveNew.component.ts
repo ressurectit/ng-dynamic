@@ -105,7 +105,6 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
         if(this._hotkeys)
         {
             this.initSubscriptions.add(this._hotkeys.save.subscribe(() => this._save()));
-            this.initSubscriptions.add(this._hotkeys.new.subscribe(() => this._new()));
         }
 
         if(this.history)

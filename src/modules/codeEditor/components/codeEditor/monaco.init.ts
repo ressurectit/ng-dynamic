@@ -1,4 +1,15 @@
+import {globalDefine, isBlank} from '@jscrpt/common';
 import {languages} from 'monaco-editor';
+
+declare let ngDynamicMonacoPath: string;
+
+globalDefine(global =>
+{
+    if(isBlank(global.ngDynamicMonacoPath))
+    {
+        global.ngDynamicMonacoPath = 'dist';
+    }
+});
 
 (self as any).MonacoEnvironment = 
 {
@@ -6,25 +17,25 @@ import {languages} from 'monaco-editor';
     {
         if (label === 'json')
         {
-            return 'dist/json.worker.js';
+            return `${ngDynamicMonacoPath}/json.worker.js`;
         }
         
         if (label === 'css' || label === 'scss' || label === 'less')
         {
-            return 'dist/css.worker.js';
+            return `${ngDynamicMonacoPath}/css.worker.js`;
         }
 
         if (label === 'html' || label == 'handlebars')
         {
-            return 'dist/html.worker.js';
+            return `${ngDynamicMonacoPath}/html.worker.js`;
         }
 
         if (label === 'typescript' || label === 'javascript')
         {
-            return 'dist/ts.worker.js';
+            return `${ngDynamicMonacoPath}/ts.worker.js`;
         }
 
-        return 'dist/editor.worker.js';
+        return `${ngDynamicMonacoPath}/editor.worker.js`;
     }
 };
 

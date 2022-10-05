@@ -344,14 +344,6 @@
             "node": "./es2015/css-components/src/dynamicItems/*/type.js",
             "default": "./es2020/css-components/src/dynamicItems/*/type.js"
         },
-        "./css-components/types": {
-            "types": "./css-components/src/types.d.ts",
-            "esm2020": "./es2020/css-components/src/types.js",
-            "es2020": "./es2020/css-components/src/types.js",
-            "es2015": "./es2015/css-components/src/types.js",
-            "node": "./es2015/css-components/src/types.js",
-            "default": "./es2020/css-components/src/types.js"
-        },
         "./handlebars-components": {
             "types": "./handlebars-components/src/index.d.ts",
             "esm2020": "./es2020/handlebars-components/src/index.js",
@@ -367,22 +359,6 @@
             "es2015": "./es2015/handlebars-components/src/dynamicItems/*/type.js",
             "node": "./es2015/handlebars-components/src/dynamicItems/*/type.js",
             "default": "./es2020/handlebars-components/src/dynamicItems/*/type.js"
-        },
-        "./handlebars-components/types": {
-            "types": "./handlebars-components/src/types.d.ts",
-            "esm2020": "./es2020/handlebars-components/src/types.js",
-            "es2020": "./es2020/handlebars-components/src/types.js",
-            "es2015": "./es2015/handlebars-components/src/types.js",
-            "node": "./es2015/handlebars-components/src/types.js",
-            "default": "./es2020/handlebars-components/src/types.js"
-        },
-        "./handlebars-components/relations": {
-            "types": "./handlebars-components/src/relations.d.ts",
-            "esm2020": "./es2020/handlebars-components/src/relations.js",
-            "es2020": "./es2020/handlebars-components/src/relations.js",
-            "es2015": "./es2015/handlebars-components/src/relations.js",
-            "node": "./es2015/handlebars-components/src/relations.js",
-            "default": "./es2020/handlebars-components/src/relations.js"
         },
         "./rest-components": {
             "types": "./rest-components/src/index.d.ts",
@@ -400,22 +376,6 @@
             "node": "./es2015/rest-components/src/dynamicItems/*/type.js",
             "default": "./es2020/rest-components/src/dynamicItems/*/type.js"
         },
-        "./rest-components/types": {
-            "types": "./rest-components/src/types.d.ts",
-            "esm2020": "./es2020/rest-components/src/types.js",
-            "es2020": "./es2020/rest-components/src/types.js",
-            "es2015": "./es2015/rest-components/src/types.js",
-            "node": "./es2015/rest-components/src/types.js",
-            "default": "./es2020/rest-components/src/types.js"
-        },
-        "./rest-components/relations": {
-            "types": "./rest-components/src/relations.d.ts",
-            "esm2020": "./es2020/rest-components/src/relations.js",
-            "es2020": "./es2020/rest-components/src/relations.js",
-            "es2015": "./es2015/rest-components/src/relations.js",
-            "node": "./es2015/rest-components/src/relations.js",
-            "default": "./es2020/rest-components/src/relations.js"
-        },
         "./tinymce-components": {
             "types": "./tinymce-components/src/index.d.ts",
             "esm2020": "./es2020/tinymce-components/src/index.js",
@@ -432,21 +392,8 @@
             "node": "./es2015/tinymce-components/src/dynamicItems/*/type.js",
             "default": "./es2020/tinymce-components/src/dynamicItems/*/type.js"
         },
-        "./tinymce-components/types": {
-            "types": "./tinymce-components/src/types.d.ts",
-            "esm2020": "./es2020/tinymce-components/src/types.js",
-            "es2020": "./es2020/tinymce-components/src/types.js",
-            "es2015": "./es2015/tinymce-components/src/types.js",
-            "node": "./es2015/tinymce-components/src/types.js",
-            "default": "./es2020/tinymce-components/src/types.js"
-        },
-        "./tinymce-components/relations": {
-            "types": "./tinymce-components/src/relations.d.ts",
-            "esm2020": "./es2020/tinymce-components/src/relations.js",
-            "es2020": "./es2020/tinymce-components/src/relations.js",
-            "es2015": "./es2015/tinymce-components/src/relations.js",
-            "node": "./es2015/tinymce-components/src/relations.js",
-            "default": "./es2020/tinymce-components/src/relations.js"
+        "./typings/transformData": {
+            "default": "./basic-components/src/dynamicItems/transformData/transformData.interface.ts"
         }
     }
 }

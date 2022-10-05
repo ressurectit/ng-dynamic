@@ -28,7 +28,7 @@ export class TinyMceDynamicModuleItemsProvider implements DynamicModuleProvider
                 {
                     this._logger?.debug('TinyMceDynamicModuleItemsProvider: trying to get item {@item}', {name: source.name, package: source.package});
 
-                    const dynamicItemModule = await import(`@anglr/dynamic/tinymce-components/dynamicItems/${source.name}/type`);
+                    const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type`);
 
                     return dynamicItemModule;
                 }

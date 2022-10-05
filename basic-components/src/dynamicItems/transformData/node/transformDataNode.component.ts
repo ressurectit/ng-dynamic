@@ -3,7 +3,7 @@ import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, Type
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {generateId} from '@jscrpt/common';
-import typings from '!!raw-loader?esModule!../transformData.interface';
+import typings from '!!raw-loader?esModule!@anglr/dynamic/typings/transformData';
 import {languages} from 'monaco-editor';
 import {lastValueFrom} from 'rxjs';
 

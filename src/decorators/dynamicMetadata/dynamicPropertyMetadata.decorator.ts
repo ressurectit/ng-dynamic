@@ -1,6 +1,14 @@
-import {Dictionary, extend, noop} from '@jscrpt/common';
+import {Dictionary, extend, globalDefine, isBlank, noop} from '@jscrpt/common';
 
 declare let ngDesignerMetadata: boolean;
+
+globalDefine(global =>
+{
+    if(isBlank(global.ngDesignerMetadata))
+    {
+        global.ngDesignerMetadata = true;
+    }
+});
 
 /**
  * Sets dynamic metadata to for property

@@ -179,18 +179,11 @@ export default [function(options, args)
                 "@anglr/dynamic/material-components/relations": path.join(dirName, "../material-components/src/relations.ts"),
                 "@anglr/dynamic/material-components/types": path.join(dirName, "../material-components/src/types.ts"),
                 "@anglr/dynamic/material-components": path.join(dirName, "../material-components/src"),
-                "@anglr/dynamic/css-components/relations": path.join(dirName, "../css-components/src/relations.ts"),
-                "@anglr/dynamic/css-components/types": path.join(dirName, "../css-components/src/types.ts"),
                 "@anglr/dynamic/css-components": path.join(dirName, "../css-components/src"),
-                "@anglr/dynamic/handlebars-components/relations": path.join(dirName, "../handlebars-components/src/relations.ts"),
-                "@anglr/dynamic/handlebars-components/types": path.join(dirName, "../handlebars-components/src/types.ts"),
                 "@anglr/dynamic/handlebars-components": path.join(dirName, "../handlebars-components/src"),
-                "@anglr/dynamic/rest-components/relations": path.join(dirName, "../rest-components/src/relations.ts"),
-                "@anglr/dynamic/rest-components/types": path.join(dirName, "../rest-components/src/types.ts"),
                 "@anglr/dynamic/rest-components": path.join(dirName, "../rest-components/src"),
-                "@anglr/dynamic/tinymce-components/relations": path.join(dirName, "../tinymce-components/src/relations.ts"),
-                "@anglr/dynamic/tinymce-components/types": path.join(dirName, "../tinymce-components/src/types.ts"),
                 "@anglr/dynamic/tinymce-components": path.join(dirName, "../tinymce-components/src"),
+                "@anglr/dynamic/typings/transformData": path.join(dirName, "../basic-components/src/dynamicItems/transformData/transformData.interface.ts"),
                 "@anglr/dynamic": path.join(dirName, "../src/index.ts"),
                 "app": path.join(dirName, "app")
             },
@@ -286,18 +279,6 @@ export default [function(options, args)
                     include:
                     [
                         path.join(dirName, 'packages'),
-                        path.join(dirName, '../basic-components'),
-                        path.join(dirName, '../css-components'),
-                        path.join(dirName, '../form'),
-                        path.join(dirName, '../handlebars-components'),
-                        path.join(dirName, '../layout'),
-                        path.join(dirName, '../layout-editor'),
-                        path.join(dirName, '../layout-relations'),
-                        path.join(dirName, '../material-components'),
-                        path.join(dirName, '../relations'),
-                        path.join(dirName, '../relations-editor'),
-                        path.join(dirName, '../src'),
-                        path.join(dirName, '../tinymce-components'),
                     ]
                 },
                 {
@@ -307,18 +288,6 @@ export default [function(options, args)
                     [
                         path.join(dirName, 'app'),
                         path.join(dirName, 'packages'),
-                        path.join(dirName, '../basic-components'),
-                        path.join(dirName, '../css-components'),
-                        path.join(dirName, '../form'),
-                        path.join(dirName, '../handlebars-components'),
-                        path.join(dirName, '../layout'),
-                        path.join(dirName, '../layout-editor'),
-                        path.join(dirName, '../layout-relations'),
-                        path.join(dirName, '../material-components'),
-                        path.join(dirName, '../relations'),
-                        path.join(dirName, '../relations-editor'),
-                        path.join(dirName, '../src'),
-                        path.join(dirName, '../tinymce-components'),
                     ]
                 },
                 {
@@ -361,7 +330,8 @@ export default [function(options, args)
                 jsDevMode: !prod,
                 ...prod ? {ngDevMode: false} : {},
                 ngI18nClosureMode: false,
-                designerMetadata: true,
+                ngDesignerMetadata: true,
+                ngDynamicMonacoPath: JSON.stringify('dist'),
             }),
             new MiniCssExtractPlugin(
             {

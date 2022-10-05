@@ -27,7 +27,7 @@ export class HandlebarsDynamicModuleRelationsProvider implements DynamicModulePr
             switch(source.package)
             {
                 case 'handlebars-components':
-                    return await import('@anglr/dynamic/handlebars-components/relations');
+                    return await import('../../relations');
                 default:
                     return null;
             }

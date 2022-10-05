@@ -27,7 +27,7 @@ export class TinyMceDynamicModuleTypesProvider implements DynamicModuleProvider
             switch(source.package)
             {
                 case 'tinymce-components':
-                    return await import('@anglr/dynamic/tinymce-components/types');
+                    return await import('../../types');
                 default:
                     return null;
             }

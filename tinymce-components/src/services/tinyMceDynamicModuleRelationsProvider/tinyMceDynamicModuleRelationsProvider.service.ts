@@ -27,7 +27,7 @@ export class TinyMceDynamicModuleRelationsProvider implements DynamicModuleProvi
             switch(source.package)
             {
                 case 'tinymce-components':
-                    return await import('@anglr/dynamic/tinymce-components/relations');
+                    return await import('../../relations');
                 default:
                     return null;
             }

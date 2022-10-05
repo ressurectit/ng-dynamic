@@ -27,7 +27,7 @@ export class RestDynamicModuleRelationsProvider implements DynamicModuleProvider
             switch(source.package)
             {
                 case 'rest-components':
-                    return await import('@anglr/dynamic/rest-components/relations');
+                    return await import('../../relations');
                 default:
                     return null;
             }

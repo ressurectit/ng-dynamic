@@ -27,7 +27,7 @@ export class HandlebarsDynamicModuleTypesProvider implements DynamicModuleProvid
             switch(source.package)
             {
                 case 'handlebars-components':
-                    return await import('@anglr/dynamic/handlebars-components/types');
+                    return await import('../../types');
                 default:
                     return null;
             }

@@ -27,7 +27,7 @@ export class CssDynamicModuleTypesProvider implements DynamicModuleProvider
             switch(source.package)
             {
                 case 'css-components':
-                    return await import('@anglr/dynamic/css-components/types');
+                    return await import('../../types');
                 default:
                     return null;
             }

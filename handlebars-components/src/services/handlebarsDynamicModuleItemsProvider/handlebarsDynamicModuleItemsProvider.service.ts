@@ -28,7 +28,7 @@ export class HandlebarsDynamicModuleItemsProvider implements DynamicModuleProvid
                 {
                     this._logger?.debug('HandlebarsDynamicModuleItemsProvider: trying to get item {@item}', {name: source.name, package: source.package});
 
-                    const dynamicItemModule = await import(`@anglr/dynamic/handlebars-components/dynamicItems/${source.name}/type`);
+                    const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type`);
 
                     return dynamicItemModule;
                 }

@@ -1,6 +1,16 @@
+import {globalDefine, isBlank} from '@jscrpt/common';
+
 import {DynamicMetadataLoader} from './dynamicMetadata.interface';
 
 declare let ngDesignerMetadata: boolean;
+
+globalDefine(global =>
+{
+    if(isBlank(global.ngDesignerMetadata))
+    {
+        global.ngDesignerMetadata = true;
+    }
+});
 
 //TODO: rework also with symbol
 

@@ -28,7 +28,7 @@ export class RestDynamicModuleItemsProvider implements DynamicModuleProvider
                 {
                     this._logger?.debug('RestDynamicModuleItemsProvider: trying to get item {@item}', {name: source.name, package: source.package});
 
-                    const dynamicItemModule = await import(`@anglr/dynamic/rest-components/dynamicItems/${source.name}/type`);
+                    const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type`);
 
                     return dynamicItemModule;
                 }

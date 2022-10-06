@@ -27,7 +27,7 @@ export class FormDynamicModuleTypesProvider implements DynamicModuleProvider
             switch(source.package)
             {
                 case 'form-components':
-                    return await import('@anglr/dynamic/form/types');
+                    return await import('../../types');
                 default:
                     return null;
             }

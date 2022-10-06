@@ -208,30 +208,6 @@
             "node": "./es2015/form/src/index.js",
             "default": "./es2020/form/src/index.js"
         },
-        "./form/dynamicItems/*/type": {
-            "types": "./form/src/dynamicItems/*/type.d.ts",
-            "esm2020": "./es2020/form/src/dynamicItems/*/type.js",
-            "es2020": "./es2020/form/src/dynamicItems/*/type.js",
-            "es2015": "./es2015/form/src/dynamicItems/*/type.js",
-            "node": "./es2015/form/src/dynamicItems/*/type.js",
-            "default": "./es2020/form/src/dynamicItems/*/type.js"
-        },
-        "./form/types": {
-            "types": "./form/src/types.d.ts",
-            "esm2020": "./es2020/form/src/types.js",
-            "es2020": "./es2020/form/src/types.js",
-            "es2015": "./es2015/form/src/types.js",
-            "node": "./es2015/form/src/types.js",
-            "default": "./es2020/form/src/types.js"
-        },
-        "./form/relations": {
-            "types": "./form/src/relations.d.ts",
-            "esm2020": "./es2020/form/src/relations.js",
-            "es2020": "./es2020/form/src/relations.js",
-            "es2015": "./es2015/form/src/relations.js",
-            "node": "./es2015/form/src/relations.js",
-            "default": "./es2020/form/src/relations.js"
-        },
         "./relations": {
             "types": "./relations/src/index.d.ts",
             "esm2020": "./es2020/relations/src/index.js",
@@ -272,14 +248,6 @@
             "node": "./es2015/basic-components/src/index.js",
             "default": "./es2020/basic-components/src/index.js"
         },
-        "./basic-components/dynamicItems/*/type": {
-            "types": "./basic-components/src/dynamicItems/*/type.d.ts",
-            "esm2020": "./es2020/basic-components/src/dynamicItems/*/type.js",
-            "es2020": "./es2020/basic-components/src/dynamicItems/*/type.js",
-            "es2015": "./es2015/basic-components/src/dynamicItems/*/type.js",
-            "node": "./es2015/basic-components/src/dynamicItems/*/type.js",
-            "default": "./es2020/basic-components/src/dynamicItems/*/type.js"
-        },
         "./material-components": {
             "types": "./material-components/src/index.d.ts",
             "esm2020": "./es2020/material-components/src/index.js",
@@ -287,14 +255,6 @@
             "es2015": "./es2015/material-components/src/index.js",
             "node": "./es2015/material-components/src/index.js",
             "default": "./es2020/material-components/src/index.js"
-        },
-        "./material-components/dynamicItems/*/type": {
-            "types": "./material-components/src/dynamicItems/*/type.d.ts",
-            "esm2020": "./es2020/material-components/src/dynamicItems/*/type.js",
-            "es2020": "./es2020/material-components/src/dynamicItems/*/type.js",
-            "es2015": "./es2015/material-components/src/dynamicItems/*/type.js",
-            "node": "./es2015/material-components/src/dynamicItems/*/type.js",
-            "default": "./es2020/material-components/src/dynamicItems/*/type.js"
         },
         "./css-components": {
             "types": "./css-components/src/index.d.ts",
@@ -304,14 +264,6 @@
             "node": "./es2015/css-components/src/index.js",
             "default": "./es2020/css-components/src/index.js"
         },
-        "./css-components/dynamicItems/*/type": {
-            "types": "./css-components/src/dynamicItems/*/type.d.ts",
-            "esm2020": "./es2020/css-components/src/dynamicItems/*/type.js",
-            "es2020": "./es2020/css-components/src/dynamicItems/*/type.js",
-            "es2015": "./es2015/css-components/src/dynamicItems/*/type.js",
-            "node": "./es2015/css-components/src/dynamicItems/*/type.js",
-            "default": "./es2020/css-components/src/dynamicItems/*/type.js"
-        },
         "./handlebars-components": {
             "types": "./handlebars-components/src/index.d.ts",
             "esm2020": "./es2020/handlebars-components/src/index.js",
@@ -319,14 +271,6 @@
             "es2015": "./es2015/handlebars-components/src/index.js",
             "node": "./es2015/handlebars-components/src/index.js",
             "default": "./es2020/handlebars-components/src/index.js"
-        },
-        "./handlebars-components/dynamicItems/*/type": {
-            "types": "./handlebars-components/src/dynamicItems/*/type.d.ts",
-            "esm2020": "./es2020/handlebars-components/src/dynamicItems/*/type.js",
-            "es2020": "./es2020/handlebars-components/src/dynamicItems/*/type.js",
-            "es2015": "./es2015/handlebars-components/src/dynamicItems/*/type.js",
-            "node": "./es2015/handlebars-components/src/dynamicItems/*/type.js",
-            "default": "./es2020/handlebars-components/src/dynamicItems/*/type.js"
         },
         "./rest-components": {
             "types": "./rest-components/src/index.d.ts",
@@ -336,14 +280,6 @@
             "node": "./es2015/rest-components/src/index.js",
             "default": "./es2020/rest-components/src/index.js"
         },
-        "./rest-components/dynamicItems/*/type": {
-            "types": "./rest-components/src/dynamicItems/*/type.d.ts",
-            "esm2020": "./es2020/rest-components/src/dynamicItems/*/type.js",
-            "es2020": "./es2020/rest-components/src/dynamicItems/*/type.js",
-            "es2015": "./es2015/rest-components/src/dynamicItems/*/type.js",
-            "node": "./es2015/rest-components/src/dynamicItems/*/type.js",
-            "default": "./es2020/rest-components/src/dynamicItems/*/type.js"
-        },
         "./tinymce-components": {
             "types": "./tinymce-components/src/index.d.ts",
             "esm2020": "./es2020/tinymce-components/src/index.js",
@@ -351,14 +287,6 @@
             "es2015": "./es2015/tinymce-components/src/index.js",
             "node": "./es2015/tinymce-components/src/index.js",
             "default": "./es2020/tinymce-components/src/index.js"
-        },
-        "./tinymce-components/dynamicItems/*/type": {
-            "types": "./tinymce-components/src/dynamicItems/*/type.d.ts",
-            "esm2020": "./es2020/tinymce-components/src/dynamicItems/*/type.js",
-            "es2020": "./es2020/tinymce-components/src/dynamicItems/*/type.js",
-            "es2015": "./es2015/tinymce-components/src/dynamicItems/*/type.js",
-            "node": "./es2015/tinymce-components/src/dynamicItems/*/type.js",
-            "default": "./es2020/tinymce-components/src/dynamicItems/*/type.js"
         },
         "./typings/transformData": {
             "default": "./basic-components/src/dynamicItems/transformData/transformData.interface.d.ts"

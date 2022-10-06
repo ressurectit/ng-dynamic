@@ -27,7 +27,7 @@ export class FormDynamicModuleRelationsProvider implements DynamicModuleProvider
             switch(source.package)
             {
                 case 'form-components':
-                    return await import('@anglr/dynamic/form/relations');
+                    return await import('../../relations');
                 default:
                     return null;
             }

@@ -4,6 +4,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {ModuleRoutes} from '@anglr/common/router';
 import {NgSelectModule} from '@anglr/select';
 import {DynamicLayoutModule, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
+import {provideBasicLayout} from '@anglr/dynamic/basic-components';
+import {provideMaterialLayout} from '@anglr/dynamic/material-components';
 import {provideCssLayout} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayout} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayout} from '@anglr/dynamic/handlebars-components';
@@ -40,6 +42,8 @@ import {StoreDataService} from '../../services/storeData';
             deps: [StoreDataService]
         },
         createStoreDataServiceFactory('LAYOUT_DATA'),
+        provideBasicLayout(),
+        provideMaterialLayout(),
         provideCssLayout(),
         provideTinyMceLayout(),
         provideHandlebarsLayout(),

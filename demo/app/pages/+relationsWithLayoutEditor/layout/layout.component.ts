@@ -2,11 +2,12 @@ import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inje
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
 import {LAYOUT_HISTORY_MANAGER, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
-import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
+import {provideBasicLayoutEditor, StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
+import {provideMaterialLayoutEditor} from '@anglr/dynamic/material-components';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
@@ -31,6 +32,8 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
             deps: [StoreDataService]
         },
         provideLayoutEditor(),
+        provideBasicLayoutEditor(),
+        provideMaterialLayoutEditor(),
         provideCssLayoutEditor(),
         provideTinyMceLayoutEditor(),
         provideHandlebarsLayoutEditor(),

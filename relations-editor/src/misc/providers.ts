@@ -1,21 +1,11 @@
 import {ClassProvider, ExistingProvider, FactoryProvider, inject, Optional} from '@angular/core';
-import {DefaultDynamicModuleItemsProvider, defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
+import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
 import {LOGGER, Logger} from '@anglr/common';
 
 import {RELATIONS_HISTORY_MANAGER, RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
 import {componentRelationsNodeExtractor, relationsNodeExtractor} from './extractors';
-import {StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider, DefaultDynamicModuleRelationsProvider, RelationsNodeManager} from '../services';
+import {StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider, RelationsNodeManager} from '../services';
 import {isRelationsModuleTypes, isRelationsNodeDef} from './utils';
-
-/**
- * Provider for default package relations nodes provider
- */
-export const DEFAULT_RELATIONS_NODES_PROVIDER: ClassProvider =
-{
-    provide: RELATIONS_NODES_PROVIDERS,
-    useClass: DefaultDynamicModuleItemsProvider,
-    multi: true
-};
 
 /**
  * Provider for static components relations nodes provider
@@ -24,16 +14,6 @@ export const STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
 {
     provide: RELATIONS_NODES_PROVIDERS,
     useClass: StaticComponentsRelationsNodesProvider,
-    multi: true
-};
-
-/**
- * Provider for default dynamic relations types provider
- */
-export const DYNAMIC_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
-{
-    provide: RELATIONS_MODULE_TYPES_PROVIDERS,
-    useClass: DefaultDynamicModuleRelationsProvider,
     multi: true
 };
 

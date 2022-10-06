@@ -3,7 +3,7 @@ import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
 import {isBlank, isPresent, isType} from '@jscrpt/common';
 
 import {LayoutComponentDef} from './types';
-import {DEFAULT_LAYOUT_COMPONENTS_PROVIDER, DEFAULT_LAYOUT_COMPONENTS_EXTRACTOR, LAYOUT_COMPONENTS_LOADER_PROVIDER} from './providers';
+import {DEFAULT_LAYOUT_COMPONENTS_EXTRACTOR, LAYOUT_COMPONENTS_LOADER_PROVIDER} from './providers';
 
 /**
  * Checks whether data is layout component def
@@ -37,7 +37,6 @@ export function provideLayout(): Provider[]
 {
     return [
         LAYOUT_COMPONENTS_LOADER_PROVIDER,
-        DEFAULT_LAYOUT_COMPONENTS_PROVIDER,
         DEFAULT_LAYOUT_COMPONENTS_EXTRACTOR,
     ];
 }

@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {provideRelations, RelationsManager} from '@anglr/dynamic/relations';
+import {provideBasicRelations} from '@anglr/dynamic/basic-components';
 import {provideTinyMceRelations} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsRelations} from '@anglr/dynamic/handlebars-components';
 
@@ -19,6 +20,7 @@ import {DemoData} from '../../../services/demoData';
     providers:
     [
         provideRelations(),
+        provideBasicRelations(),
         provideTinyMceRelations(),
         provideHandlebarsRelations(),
     ],

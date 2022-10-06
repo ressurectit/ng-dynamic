@@ -3,7 +3,7 @@ import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, M
 import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
 import {LOGGER, Logger} from '@anglr/common';
 
-import {DefaultDynamicModuleTypesProvider, LayoutDesignerDynamicModuleItemsProvider, LayoutEditorMetadataManager} from '../services';
+import {LayoutDesignerDynamicModuleItemsProvider, LayoutEditorMetadataManager} from '../services';
 import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_HISTORY_MANAGER, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
 import {layoutDesignerComponentTransform} from './transforms/layoutDesignerComponentTransform';
 import {LayoutPropertyMetadata} from './types';
@@ -44,16 +44,6 @@ export const LAYOUT_DESIGNER_COMPONENT_TRANSFORM: ValueProvider =
 {
     provide: LAYOUT_COMPONENT_TRANSFORM,
     useValue: layoutDesignerComponentTransform
-};
-
-/**
- * Provider for default dynamic layout module types provider
- */
-export const DYNAMIC_LAYOUT_MODULE_TYPES_PROVIDER: ClassProvider =
-{
-    provide: LAYOUT_MODULE_TYPES_PROVIDERS,
-    useClass: DefaultDynamicModuleTypesProvider,
-    multi: true
 };
 
 /**

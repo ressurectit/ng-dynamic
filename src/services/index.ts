@@ -1,4 +1,3 @@
-export * from './defaultDynamicModuleItemsProvider/defaultDynamicModuleItemsProvider.service';
 export * from './editorHotkeys/editorHotkeys.service';
 export * from './dynamicItemLoader/dynamicItemLoader.interface';
 export * from './dynamicItemLoader/dynamicItemLoader.service';

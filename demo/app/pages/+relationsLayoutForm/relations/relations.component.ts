@@ -8,6 +8,8 @@ import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
 import {provideFormLayoutRelationsEditor} from '@anglr/dynamic/form';
 import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
+import {provideMaterialLayoutRelationsEditor} from '@anglr/dynamic/material-components';
+import {provideBasicLayoutRelationsEditor} from '@anglr/dynamic/basic-components';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
@@ -32,6 +34,8 @@ import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackag
             deps: [StoreDataService]
         },
         provideLayoutRelationsEditor(),
+        provideBasicLayoutRelationsEditor(),
+        provideMaterialLayoutRelationsEditor(),
         provideHandlebarsLayoutRelationsEditor(),
         provideTinyMceLayoutRelationsEditor(),
         provideCssLayoutRelationsEditor(),

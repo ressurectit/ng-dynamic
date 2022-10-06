@@ -25,10 +25,6 @@ export const routesOptions: ModuleRoutesOptions =
             pathMatch: 'full'
         },
         {
-            path: '',
-            loadChildren: () => import('../pages/+default/default.module').then(({DefaultModule}) => DefaultModule)
-        },
-        {
             path: 'layout',
             loadChildren: () => import('../pages/+layout/layout.module').then(({LayoutModule}) => LayoutModule)
         },

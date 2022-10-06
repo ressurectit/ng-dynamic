@@ -4,6 +4,7 @@ import {provideRelationsEditorWithStatic, RelationsNodeManager, RelationsNodeMet
 import {provideTinyMceRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsRelationsEditor} from '@anglr/dynamic/handlebars-components';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
+import {provideBasicRelationsEditor} from '@anglr/dynamic/basic-components';
 import {EditorHotkeys, MetadataStorage, PackageManager} from '@anglr/dynamic';
 
 import {DemoData} from '../../../services/demoData';
@@ -27,6 +28,7 @@ import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackag
         },
         provideRelationsEditorWithStatic(StaticComponentsRegister),
         provideTinyMceRelationsEditor(),
+        provideBasicRelationsEditor(),
         provideHandlebarsRelationsEditor(),
         <ClassProvider>
         {

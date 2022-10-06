@@ -1,6 +1,8 @@
 import {ClassProvider, FactoryProvider, NgModule} from '@angular/core';
 import {ModuleRoutes} from '@anglr/common/router';
 import {DynamicLayoutEditorModule} from '@anglr/dynamic/layout-editor';
+import {provideBasicLayoutEditor} from '@anglr/dynamic/basic-components';
+import {provideMaterialLayoutEditor} from '@anglr/dynamic/material-components';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
@@ -37,6 +39,8 @@ import {StoreDataService} from '../../services/storeData';
             deps: [StoreDataService]
         },
         createStoreDataServiceFactory('LAYOUT_DATA'),
+        provideBasicLayoutEditor(),
+        provideMaterialLayoutEditor(),
         provideCssLayoutEditor(),
         provideTinyMceLayoutEditor(),
         provideHandlebarsLayoutEditor(),

@@ -1,8 +1,8 @@
 import {ClassProvider, Provider, Type} from '@angular/core';
-import {DefaultDynamicPackage, DynamicItemLoaderValidatorFn, provideStaticPackageSource} from '@anglr/dynamic';
+import {DynamicItemLoaderValidatorFn, provideStaticPackageSource} from '@anglr/dynamic';
 import {isBlank, isBoolean, isJsObject, isPresent, isString, isType} from '@jscrpt/common';
 
-import {DEFAULT_RELATIONS_NODES_PROVIDER, DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR, DEFAULT_RELATIONS_NODES_EXTRACTOR, DYNAMIC_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_MODULE_TYPES_LOADER_PROVIDER, RELATIONS_NODES_LOADER_PROVIDER, COMPONENTS_RELATIONS_NODES_EXTRACTOR, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_HISTORY_MANAGER_STATE, RELATIONS_HISTORY_MANAGER_PROVIDER} from './providers';
+import {DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR, DEFAULT_RELATIONS_NODES_EXTRACTOR, RELATIONS_MODULE_TYPES_LOADER_PROVIDER, RELATIONS_NODES_LOADER_PROVIDER, COMPONENTS_RELATIONS_NODES_EXTRACTOR, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_HISTORY_MANAGER_STATE, RELATIONS_HISTORY_MANAGER_PROVIDER} from './providers';
 import type {RelationsModuleTypes, RelationsNodeDef} from './types';
 import {RelationsNodeManager, ScopeRegister, StaticComponentsRegister} from '../services';
 
@@ -66,13 +66,10 @@ export const isRelationsNodeDef: DynamicItemLoaderValidatorFn<RelationsNodeDef> 
 
 /**
  * Default providers for relations editor subpackage
- * @param packages - Array of default packages to be used, if omitted all built-in packages are used
  */
-export function provideRelationsEditor(packages: DefaultDynamicPackage[] = ['basic-components', 'material-components']): Provider[]
+export function provideRelationsEditor(): Provider[]
 {
     return [
-        DEFAULT_RELATIONS_NODES_PROVIDER,
-        DYNAMIC_RELATIONS_MODULE_TYPES_PROVIDER,
         DEFAULT_RELATIONS_NODES_EXTRACTOR,
         COMPONENTS_RELATIONS_NODES_EXTRACTOR,
         DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR,
@@ -82,19 +79,17 @@ export function provideRelationsEditor(packages: DefaultDynamicPackage[] = ['bas
         ScopeRegister,
         RELATIONS_HISTORY_MANAGER_STATE,
         RELATIONS_HISTORY_MANAGER_PROVIDER,
-        ...packages.map(pkg => provideStaticPackageSource(pkg)),
     ];
 }
 
 /**
  * Providers for relations editor subpackage, with support of static components
  * @param staticRegister - Type that represents implementation of static components register
- * @param packages - Array of default packages to be used, if omitted all built-in packages are used
  */
-export function provideRelationsEditorWithStatic(staticRegister: Type<StaticComponentsRegister>, packages?: DefaultDynamicPackage[]): Provider[]
+export function provideRelationsEditorWithStatic(staticRegister: Type<StaticComponentsRegister>): Provider[]
 {
     return [
-        ...provideRelationsEditor(packages),
+        ...provideRelationsEditor(),
         STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
         STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
         <ClassProvider>

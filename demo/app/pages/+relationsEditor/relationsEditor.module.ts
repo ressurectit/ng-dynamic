@@ -5,6 +5,8 @@ import {provideTinyMceRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsRelationsEditor} from '@anglr/dynamic/handlebars-components';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {MetadataStorage, PackageManager} from '@anglr/dynamic';
+import {provideBasicRelationsEditor} from '@anglr/dynamic/basic-components';
+import {provideMaterialRelationsEditor} from '@anglr/dynamic/material-components';
 import {provideRestRelationsEditor} from '@anglr/dynamic/rest-components';
 
 import {components} from './relationsEditor.routes';
@@ -36,6 +38,8 @@ import {StoreDataService} from '../../services/storeData';
             deps: [StoreDataService]
         },
         createStoreDataServiceFactory('RELATIONS_DATA'),
+        provideBasicRelationsEditor(),
+        provideMaterialRelationsEditor(),
         provideTinyMceRelationsEditor(),
         provideHandlebarsRelationsEditor(),
         provideRestRelationsEditor(),

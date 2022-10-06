@@ -6,6 +6,8 @@ import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-compon
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
 import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
 import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
+import {provideBasicLayoutRelationsEditor} from '@anglr/dynamic/basic-components';
+import {provideMaterialLayoutRelationsEditor} from '@anglr/dynamic/material-components';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {provideRestLayoutRelationsEditor} from '@anglr/dynamic/rest-components';
 import {BindThis} from '@jscrpt/common';
@@ -33,7 +35,9 @@ import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponen
             useFactory: (store: StoreDataService<LayoutRelationsMetadata>) => new MetadataStorage<RelationsNodeMetadata[]>(id => store.getData(id)?.relations),
             deps: [StoreDataService]
         },
+        provideBasicLayoutRelationsEditor(),
         provideHandlebarsLayoutRelationsEditor(),
+        provideMaterialLayoutRelationsEditor(),
         provideRestLayoutRelationsEditor(),
         provideTinyMceLayoutRelationsEditor(),
         provideCssLayoutRelationsEditor(),

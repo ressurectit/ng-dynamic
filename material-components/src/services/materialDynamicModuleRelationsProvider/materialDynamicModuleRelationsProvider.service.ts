@@ -3,10 +3,10 @@ import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
 
 /**
- * Default dynamic module relations types provider, for built-in types
+ * Dynamic module relations types provider, for material types
  */
 @Injectable()
-export class DefaultDynamicModuleRelationsProvider implements DynamicModuleProvider
+export class MaterialDynamicModuleRelationsProvider implements DynamicModuleProvider
 {
     //######################### constructor #########################
     constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -22,21 +22,19 @@ export class DefaultDynamicModuleRelationsProvider implements DynamicModuleProvi
     {
         try
         {
-            this._logger?.debug('DefaultDynamicModuleRelationsProvider: trying to get relations types for module {@module}', {moduleName: source.package});
+            this._logger?.debug('MaterialDynamicModuleRelationsProvider: trying to get relations types for module {@module}', {moduleName: source.package});
 
             switch(source.package)
             {
-                case 'basic-components':
-                    return await import('@anglr/dynamic/basic-components/relations');
                 case 'material-components':
-                    return await import('@anglr/dynamic/material-components/relations');
+                    return await import('../../relations');
                 default:
                     return null;
             }
         }
         catch(e)
         {
-            this._logger?.debug('DefaultDynamicModuleRelationsProvider: module {@module} was not found, reason: ' + e, {moduleName: source.package});
+            this._logger?.debug('MaterialDynamicModuleRelationsProvider: module {@module} was not found, reason: ' + e, {moduleName: source.package});
         }
 
         return null;

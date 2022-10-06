@@ -9,6 +9,8 @@ import {provideTinyMceLayoutRelations} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelations} from '@anglr/dynamic/handlebars-components';
 import {provideLayoutRelations} from '@anglr/dynamic/layout-relations';
 import {provideRestLayoutRelations} from '@anglr/dynamic/rest-components';
+import {provideBasicLayoutRelations} from '@anglr/dynamic/basic-components';
+import {provideMaterialLayoutRelations} from '@anglr/dynamic/material-components';
 import {MetadataStorage} from '@anglr/dynamic';
 
 import {StoreDataService} from '../../../services/storeData';
@@ -32,6 +34,8 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
             deps: [StoreDataService]
         },
         provideLayoutRelations(),
+        provideBasicLayoutRelations(),
+        provideMaterialLayoutRelations(),
         provideCssLayoutRelations(),
         provideTinyMceLayoutRelations(),
         provideHandlebarsLayoutRelations(),

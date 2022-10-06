@@ -3,7 +3,7 @@ import {provideLayout} from '@anglr/dynamic/layout';
 import {provideRelations} from '@anglr/dynamic/relations';
 import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES, ScopeRegister as RelationsScopeRegister, StaticComponentsRegister, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER} from '@anglr/dynamic/relations-editor';
 import {LayoutComponentsIteratorService, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
-import {DefaultDynamicPackage, provideStaticPackageSource} from '@anglr/dynamic';
+import {provideStaticPackageSource} from '@anglr/dynamic';
 
 import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER} from './providers';
 import {LayoutComponentsRegister, LayoutManager, CustomComponentsRegister, ScopeRegister} from '../services';
@@ -32,15 +32,14 @@ export function provideLayoutRelationsCustomComponents(): Provider[]
 
 /**
  * Providers for relations editor subpackage that works with layout metadata
- * @param packages - Array of default packages to be used, if omitted all built-in packages are used
  */
-export function provideLayoutRelationsEditor(packages?: DefaultDynamicPackage[]): Provider[]
+export function provideLayoutRelationsEditor(): Provider[]
 {
-    const relationsProviders = provideRelationsEditor([]);
+    const relationsProviders = provideRelationsEditor();
     relationsProviders.splice(relationsProviders.indexOf(RelationsScopeRegister), 1);
 
     return [
-        ...provideLayoutEditor(false, packages),
+        ...provideLayoutEditor(false),
         ...relationsProviders,
         LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER,
         LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
@@ -114,12 +113,11 @@ export function provideEditorLayoutCustomComponents(layoutRelationsEditorProvide
 /**
  * Providers for relations editor subpackage, that works with layout metadata, with support of static components
  * @param staticRegister - Type that represents implementation of static components register
- * @param packages - Array of default packages to be used, if omitted all built-in packages are used
  */
-export function provideLayoutRelationsEditorWithStatic(staticRegister: Type<StaticComponentsRegister>, packages?: DefaultDynamicPackage[]): Provider[]
+export function provideLayoutRelationsEditorWithStatic(staticRegister: Type<StaticComponentsRegister>): Provider[]
 {
     return [
-        ...provideLayoutRelationsEditor(packages),
+        ...provideLayoutRelationsEditor(),
         STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
         STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
         <ClassProvider>

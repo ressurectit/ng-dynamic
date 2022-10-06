@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject, SimpleChanges} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, SimpleChanges, Injector} from '@angular/core';
 import {MetadataStorage} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -95,6 +95,14 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
      * @inheritdoc
      */
     public relationsOptions: CustomComponentRelationsOptions|undefined|null;
+
+    /**
+     * Injector for custom component
+     */
+    public get customComponentInjector(): Injector
+    {
+        return this.injector;
+    }
 
     //######################### public methods #########################
 

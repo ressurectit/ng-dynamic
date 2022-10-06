@@ -1,13 +1,13 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
-import {Action2Rest, Action3Rest, Func1Rest} from '@jscrpt/common';
+import {Action2, Action3, Func1} from '@jscrpt/common';
 
 import {PlaceholderContainerComponentOptions} from '../placeholderContainer.options';
 
 /**
  * Placeholder container layout metadata
  */
-export class PlaceholderContainerLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<PlaceholderContainerComponentOptions, [string]>
+export class PlaceholderContainerLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<PlaceholderContainerComponentOptions>
 {
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
@@ -25,26 +25,27 @@ export class PlaceholderContainerLayoutEditorMetadata implements LayoutEditorMet
     /**
      * @inheritdoc
      */
-    public addDescendant?: Action3Rest<LayoutComponentMetadata, PlaceholderContainerComponentOptions, number, [string]> = (metadata, options, _, id) =>
+    public addDescendant?: Action3<LayoutComponentMetadata, PlaceholderContainerComponentOptions, number> = (metadata, options) =>
     {
-        options.placeholderContainers ??= {};
-        options.placeholderContainers[id] = metadata;
+        options.content = metadata;
     };
 
     /**
      * @inheritdoc
      */
-    public canDropMetadata?: Func1Rest<boolean, PlaceholderContainerComponentOptions|undefined|null, [string]> = (options, id) => !options?.placeholderContainers?.[id];
+    public canDropMetadata?: Func1<boolean, PlaceholderContainerComponentOptions|undefined|null> = options => !options?.content;
 
     /**
      * @inheritdoc
      */
-    public removeDescendant?: Action2Rest<string, PlaceholderContainerComponentOptions, [string]> = (_, options, id) =>
+    public getDescendants?: Func1<LayoutComponentMetadata[], PlaceholderContainerComponentOptions|undefined|null> = options => options?.content ? [options?.content] : [];
+
+    /**
+     * @inheritdoc
+     */
+    public removeDescendant?: Action2<string, PlaceholderContainerComponentOptions> = (_, options) =>
     {
-        if(options.placeholderContainers?.[id])
-        {
-            delete options.placeholderContainers[id];
-        }
+        options.content = null;
     }
 
     //######################### constructor #########################

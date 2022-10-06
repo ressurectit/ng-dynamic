@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
@@ -43,11 +43,6 @@ export class PlaceholderSAComponent extends LayoutComponentBase<PlaceholderCompo
      */
     protected inCustomComponent: boolean = !!this.parentCustomComponent;
 
-    /**
-     * Instance of metadata to be displayed
-     */
-    protected metadata: LayoutComponentMetadata|undefined|null = null;
-
     //######################### public properties #########################
 
     /**
@@ -63,27 +58,5 @@ export class PlaceholderSAComponent extends LayoutComponentBase<PlaceholderCompo
     public setId(id: string): void
     {
         this.id = id;
-    }
-
-    //######################### protected methods - overrides #########################
-
-    /**
-     * @inheritdoc
-     */
-    protected override afterInit(): void
-    {
-        if(this.inCustomComponent)
-        {
-            const containerId = `placeholderContainer-${this.parentCustomComponent?.id}-${this.id}`;
-
-            this.metadata =
-            {
-                id: containerId,
-                name: 'placeholderContainer',
-                package: 'custom-components',
-                displayName: containerId,
-                options: this.parentCustomComponent?.options,
-            };
-        }
     }
 }

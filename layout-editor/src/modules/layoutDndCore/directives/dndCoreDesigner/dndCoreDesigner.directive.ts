@@ -161,7 +161,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
             return this.componentElement;
         }
 
-        return component.editorMetadata.getChildrenContainer(this.componentElement, '') ?? this.componentElement;
+        return component.editorMetadata.getChildrenContainer(this.componentElement) ?? this.componentElement;
     }
 
     //######################### protected properties - children #########################

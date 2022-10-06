@@ -1,11 +1,10 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {PlaceholderContainerComponentOptions} from './placeholderContainer.options';
-import {PlaceholderContainerLayoutDesignerTypeLoader, PlaceholderContainerLayoutMetadataLoader} from './placeholderContainer.metadata';
-import {ComponentWithId} from '../../interfaces';
+import {PlaceholderContainerLayoutMetadataLoader} from './placeholderContainer.metadata';
 
 /**
  * Component used for displaying placeholder container
@@ -22,24 +21,7 @@ import {ComponentWithId} from '../../interfaces';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@LayoutEditorDesignerType(PlaceholderContainerLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(PlaceholderContainerLayoutMetadataLoader)
-export class PlaceholderContainerSAComponent extends LayoutComponentBase<PlaceholderContainerComponentOptions> implements LayoutComponent<PlaceholderContainerComponentOptions>, ComponentWithId
+export class PlaceholderContainerSAComponent extends LayoutComponentBase<PlaceholderContainerComponentOptions> implements LayoutComponent<PlaceholderContainerComponentOptions>
 {
-    //######################### protected properties #########################
-
-    /**
-     * @inheritdoc
-     */
-    public id: string = '';
-
-    //######################### public methods #########################
-
-    /**
-     * @inheritdoc
-     */
-    public setId(id: string): void
-    {
-        this.id = id;
-    }
 }

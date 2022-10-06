@@ -35,11 +35,20 @@ export class CustomComponentsDynamicModuleTypesProvider implements DynamicModule
 
         if(!types.length)
         {
-            return null;
+            return {
+                default: 
+                [
+                    'placeholder',
+                ]
+            };
         }
 
         return {
-            default: types
+            default: 
+            [
+                ...types,
+                'placeholder',
+            ]
         };
     }
 }

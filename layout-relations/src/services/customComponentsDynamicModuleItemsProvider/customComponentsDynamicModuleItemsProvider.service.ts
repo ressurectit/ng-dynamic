@@ -30,6 +30,14 @@ export class CustomComponentsDynamicModuleItemsProvider implements DynamicModule
 
         switch(source.name)
         {
+            case 'placeholder':
+            {
+                return await import('../../dynamicItems/placeholder/type');
+            }
+            case 'placeholderContainer':
+            {
+                return await import('../../dynamicItems/placeholderContainer/type');
+            }
             case 'componentInputs':
             {
                 return await import('../../dynamicItems/componentInputs/type');

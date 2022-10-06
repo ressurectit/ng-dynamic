@@ -1,6 +1,6 @@
 import {Type} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {Action, Dictionary, Func} from '@jscrpt/common';
+import {Action2Rest, Action3Rest, Dictionary, Func1Rest} from '@jscrpt/common';
 
 import {PropertiesControl, PropertyTypeControl} from '../../interfaces';
 
@@ -88,7 +88,7 @@ export interface LayoutEditorMetadataInfo<TOptions = any>
 /**
  * Class that represents layout editor metadata
  */
-export interface LayoutEditorMetadataDescriptor<TOptions = any>
+export interface LayoutEditorMetadataDescriptor<TOptions = any, TAdditionalData extends Array<unknown> = []>
 {
     /**
      * Meta information about layout component
@@ -101,45 +101,45 @@ export interface LayoutEditorMetadataDescriptor<TOptions = any>
      * @param options - Options that should be extended with new descendant metadata
      * @param index - Index where should be new item added
      */
-    readonly addDescendant?: Action<[LayoutComponentMetadata, TOptions, number]>;
+    readonly addDescendant?: Action3Rest<LayoutComponentMetadata, TOptions, number, TAdditionalData>;
 
     /**
      * Applies designer styles that are required to be applied to drag n drop div
      * @param options - Options containing styles to be applied
      * @param styles - Css object storing html element styles
      */
-    readonly applyDesignerStyles?: Action<[TOptions|null|undefined, CSSStyleDeclaration]>;
+    readonly applyDesignerStyles?: Action2Rest<TOptions|null|undefined, CSSStyleDeclaration, TAdditionalData>;
     
     /**
      * Tests whether component can accept new metadata to be dropped in, or not (whether child, children can be added)
      * @param options - Options that holds information whether another metadata can be dropped into options metadata
      */
-    readonly canDropMetadata?: Func<boolean, [TOptions|undefined|null]>;
+    readonly canDropMetadata?: Func1Rest<boolean, TOptions|undefined|null, TAdditionalData>;
 
     /**
      * Gets children container element for this components element
      * @param componentsElement - Element of component that contains children container element
      */
-    readonly getChildrenContainer?: Func<Element|null, [Element]>;
+    readonly getChildrenContainer?: Func1Rest<Element|null, Element, TAdditionalData>;
 
     /**
      * Gets all descendants layout metadata for this layout component metadata
      * @param options - Options that contains descendants of layout component metadata
      */
-    readonly getDescendants?: Func<LayoutComponentMetadata[], [TOptions|undefined|null]>;
+    readonly getDescendants?: Func1Rest<LayoutComponentMetadata[], TOptions|undefined|null, TAdditionalData>;
 
     /**
      * Tests whether component has horizontal drop
      * @param options - Options that holds information whether horizontal drop is enabled for this component
      */
-    readonly isHorizontalDrop?: Func<boolean, [TOptions|undefined|null]>;
+    readonly isHorizontalDrop?: Func1Rest<boolean, TOptions|undefined|null, TAdditionalData>;
 
     /**
      * Removes descendant metadata from component options
      * @param id - Id of component metadata to be removed
      * @param options - Options that should be updated by removing descendant metadata
      */
-    readonly removeDescendant?: Action<[string, TOptions]>;
+    readonly removeDescendant?: Action2Rest<string, TOptions, TAdditionalData>;
 }
 
 /**

@@ -18,6 +18,7 @@
 @use '../components/nodes-palette' as nodesPalette;
 @use '../components/not-found-node' as notFoundNode;
 @use '../components/package-manager' as packageManager;
+@use '../components/placeholder' as placeholder;
 @use '../components/properties-editor' as propertiesEditor;
 @use '../components/relation-node-input' as relationsNodeInput;
 @use '../components/relation-node-output' as relationsNodeOutput;
@@ -85,6 +86,8 @@
     --dynamic-relation-node-endpoint-highlighted-shadow: #{map.get(map.get(map.get($theme, 'relationNodeEndpoint'), 'highlighted'), 'shadow')};
     --dynamic-package-manager-border: #{map.get(map.get($theme, 'packageManager'), 'border')};
     --dynamic-not-found-node-text-foreground: #{map.get(map.get(map.get($theme, 'notFoundNode'), 'text'), 'foreground')};
+    --dynamic-placeholder-foreground: #{map.get(map.get($theme, 'placeholder'), 'foreground')};
+    --dynamic-placeholder-background: #{map.get(map.get($theme, 'placeholder'), 'background')};
 }
 
 @mixin buildThemeCss
@@ -112,6 +115,7 @@
     @include nodesPalette.css;
     @include notFoundNode.css;
     @include packageManager.css;
+    @include placeholder.css;
     @include propertiesEditor.css;
     @include relationsNodeInput.css;
     @include relationsNodeOutput.css;

@@ -88,7 +88,7 @@ export interface LayoutEditorMetadataInfo<TOptions = any>
 /**
  * Class that represents layout editor metadata
  */
-export interface LayoutEditorMetadataDescriptor<TOptions = any, TAdditionalData extends Array<unknown> = []>
+export interface LayoutEditorMetadataDescriptor<TOptions = any, TAdditionalData extends Array<unknown> = any>
 {
     /**
      * Meta information about layout component

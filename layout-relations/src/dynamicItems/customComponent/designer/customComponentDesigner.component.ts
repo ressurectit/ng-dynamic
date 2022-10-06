@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ValueProvider, ExistingProvider} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererSADirective, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -27,6 +27,11 @@ import {CustomComponentComponentOptions} from '../customComponent.options';
             provide: LAYOUT_COMPONENT_TRANSFORM,
             useValue: null
         },
+        <ExistingProvider>
+        {
+            provide: CustomComponentSAComponent,
+            useExisting: CustomComponentDesignerSAComponent,
+        }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

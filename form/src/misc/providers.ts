@@ -2,9 +2,9 @@ import {ClassProvider} from '@angular/core';
 import {LAYOUT_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/layout';
 import {LAYOUT_MODULE_TYPES_PROVIDERS} from '@anglr/dynamic/layout-editor';
 import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS} from '@anglr/dynamic/relations-editor';
+import {RELATIONS_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/relations';
 
 import {FormDynamicModuleItemsProvider, FormDynamicModuleRelationsProvider, FormDynamicModuleTypesProvider} from '../services';
-import {RELATIONS_COMPONENTS_MODULE_PROVIDERS} from '../../../relations/src';
 
 
 /**

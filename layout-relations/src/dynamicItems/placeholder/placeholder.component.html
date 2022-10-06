@@ -1,1 +1,3 @@
-<!-- <ng-container [layoutComponentRenderer]="metadata"></ng-container> -->
+<ng-container *ngIf="inCustomComponent">
+    <ng-container [layoutComponentRenderer]="metadata"></ng-container>
+</ng-container>

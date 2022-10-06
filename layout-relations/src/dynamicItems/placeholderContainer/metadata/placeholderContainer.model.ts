@@ -1,15 +1,9 @@
-import {mapValuesToThis} from '@jscrpt/common';
-
+import {CustomComponentModel} from '../../customComponent/metadata/customComponent.model';
 import {PlaceholderContainerComponentOptions} from '../placeholderContainer.options';
 
 /**
  * Placeholder container model for properties editor
  */
-export class PlaceholderContainerModel implements PlaceholderContainerComponentOptions
+export class PlaceholderContainerModel extends CustomComponentModel implements PlaceholderContainerComponentOptions
 {
-    //######################### constructor #########################
-    constructor(value: PlaceholderContainerComponentOptions|undefined|null)
-    {
-        mapValuesToThis.bind(this)(value);
-    }
 }

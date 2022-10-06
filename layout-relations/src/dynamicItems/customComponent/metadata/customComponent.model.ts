@@ -1,4 +1,5 @@
-import {mapValuesToThis} from '@jscrpt/common';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {Dictionary, mapValuesToThis} from '@jscrpt/common';
 
 import {CustomComponentComponentOptions} from '../customComponent.options';
 
@@ -13,6 +14,11 @@ export class CustomComponentModel implements CustomComponentComponentOptions
      * @inheritdoc
      */
     public name: string = '';
+
+    /**
+     * @inheritdoc
+     */
+    public placeholderContainers: Dictionary<LayoutComponentMetadata>|undefined|null;
 
     //######################### constructor #########################
     constructor(value: CustomComponentComponentOptions|undefined|null)

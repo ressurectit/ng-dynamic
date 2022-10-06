@@ -5,6 +5,8 @@ import {HostDisplayBlockStyle} from '@anglr/common';
 import {PlaceholderContainerSAComponent} from '../placeholderContainer.component';
 import {PlaceholderContainerComponentOptions} from '../placeholderContainer.options';
 
+//TODO: is this required? remove if not
+
 /**
  * Component used for displaying placeholder container designer
  */

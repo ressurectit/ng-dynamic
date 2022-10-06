@@ -7,11 +7,12 @@ import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/rel
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {PromiseOr} from '@jscrpt/common';
 
-import {CustomComponentComponentOptions} from './customComponent.options';
+import {CustomComponentComponentOptions, CustomComponentRelationsOptions} from './customComponent.options';
 import {CustomComponentLayoutDesignerTypeLoader, CustomComponentLayoutMetadataLoader, CustomComponentRelationsMetadataLoader} from './customComponent.metadata';
 import {ComponentInputsRelations} from '../componentInputs/componentInputs.relations';
 import {ComponentOutputsRelations} from '../componentOutputs/componentOutputs.relations';
 import {getInputs, getOutputs} from './customComponent.utils';
+import {ComponentWithId} from '../../interfaces';
 
 /**
  * Component used for displaying custom component
@@ -37,14 +38,9 @@ import {getInputs, getOutputs} from './customComponent.utils';
 @LayoutEditorDesignerType(CustomComponentLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(CustomComponentRelationsMetadataLoader)
 @LayoutEditorMetadata(CustomComponentLayoutMetadataLoader)
-export class CustomComponentSAComponent extends LayoutComponentBase<CustomComponentComponentOptions> implements LayoutComponent<CustomComponentComponentOptions>, RelationsComponent
+export class CustomComponentSAComponent extends LayoutComponentBase<CustomComponentComponentOptions> implements LayoutComponent<CustomComponentComponentOptions>, RelationsComponent<CustomComponentRelationsOptions>, ComponentWithId
 {
     //######################### protected properties #########################
-
-    /**
-     * Id of custom component
-     */
-    protected id: string = '';
 
     /**
      * Storage for layout metadata
@@ -93,7 +89,12 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
     /**
      * @inheritdoc
      */
-    public relationsOptions: any;
+    public id: string = '';
+
+    /**
+     * @inheritdoc
+     */
+    public relationsOptions: CustomComponentRelationsOptions|undefined|null;
 
     //######################### public methods #########################
 
@@ -106,8 +107,7 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
     }
 
     /**
-     * Sets id of custom component
-     * @param id - Id of custom component
+     * @inheritdoc
      */
     public setId(id: string): void
     {

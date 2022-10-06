@@ -2,7 +2,10 @@
 {
     placeholder-designer
     {
-        background-image: repeating-linear-gradient(-45deg, var(--dynamic-placeholder-background), var(--dynamic-placeholder-background) 10px, var(--dynamic-placeholder-foreground) 12px, var(--dynamic-placeholder-foreground) 12px);
-        height: 26px;
+        >div.placeholder
+        {
+            background-image: repeating-linear-gradient(-45deg, var(--dynamic-placeholder-background), var(--dynamic-placeholder-background) 10px, var(--dynamic-placeholder-foreground) 12px, var(--dynamic-placeholder-foreground) 12px);
+            height: 26px;
+        }
     }
 }

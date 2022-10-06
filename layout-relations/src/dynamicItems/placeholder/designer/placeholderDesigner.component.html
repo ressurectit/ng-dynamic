@@ -1,0 +1,5 @@
+<div class="placeholder" *ngIf="!inCustomComponent; else container"></div>
+
+<ng-template #container>
+    <ng-container [layoutComponentRenderer]="metadata"></ng-container>
+</ng-template>

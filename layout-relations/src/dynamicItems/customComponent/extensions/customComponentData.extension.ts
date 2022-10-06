@@ -17,7 +17,6 @@ export class CustomComponentDataExtension extends DynamicItemExtensionBase<Custo
     {
         if(this.instance)
         {
-            this.instance.setId(this.metadata.id);
             await this.instance.processCustomComponentData(this.metadata.name);
         }
     }

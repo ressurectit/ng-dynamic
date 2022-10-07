@@ -10,6 +10,7 @@ import {provideBasicLayoutRelationsEditor} from '@anglr/dynamic/basic-components
 import {provideMaterialLayoutRelationsEditor} from '@anglr/dynamic/material-components';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {provideRestLayoutRelationsEditor} from '@anglr/dynamic/rest-components';
+import {provideFormLayoutRelationsEditor} from '@anglr/dynamic/form';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
@@ -35,6 +36,7 @@ import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponen
             useFactory: (store: StoreDataService<LayoutRelationsMetadata>) => new MetadataStorage<RelationsNodeMetadata[]>(id => store.getData(id)?.relations),
             deps: [StoreDataService]
         },
+        provideFormLayoutRelationsEditor(),
         provideBasicLayoutRelationsEditor(),
         provideHandlebarsLayoutRelationsEditor(),
         provideMaterialLayoutRelationsEditor(),

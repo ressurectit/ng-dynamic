@@ -12,6 +12,7 @@ import {provideHandlebarsLayoutRelations} from '@anglr/dynamic/handlebars-compon
 import {provideMaterialLayoutRelations} from '@anglr/dynamic/material-components';
 import {provideBasicLayoutRelations} from '@anglr/dynamic/basic-components';
 import {provideRestLayoutRelations} from '@anglr/dynamic/rest-components';
+import {provideFormLayoutRelations} from '@anglr/dynamic/form';
 import {MetadataStorage} from '@anglr/dynamic';
 
 import {StoreDataService} from '../../../services/storeData';
@@ -39,6 +40,7 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
             deps: [StoreDataService]
         },
         provideLayoutRelationsCustomComponents(),
+        provideFormLayoutRelations(),
         provideBasicLayoutRelations(),
         provideMaterialLayoutRelations(),
         provideCssLayoutRelations(),

@@ -2,11 +2,11 @@ import {Injector, SimpleChanges} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams, HttpRequest} from '@angular/common/http';
 import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
-import {LOGGER, Logger} from '@anglr/common';
+import {LOGGER, Logger, ProgressIndicatorService} from '@anglr/common';
 import {handleHeaderParam, handlePathParam, handleQueryObjectParam, handleQueryParam, mergeQueryObjectParamsWithHttpParams, QueryStringSerializer} from '@anglr/rest';
 import {isEmptyObject, StringDictionary} from '@jscrpt/common';
 import {catchError} from 'rxjs/operators';
-import {EMPTY} from 'rxjs';
+import {EMPTY, Subscription} from 'rxjs';
 
 import {RestRelationsMetadataLoader} from './rest.metadata';
 import {RestRelationsOptions} from './rest.options';
@@ -39,6 +39,16 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
      * Instance of query string serializer
      */
     protected queryStringSerializer: QueryStringSerializer;
+
+    /**
+     * Subscription for running request
+     */
+    protected runningRequestSubscription: Subscription|undefined|null;
+
+    /**
+     * Service used for handling progress indicator
+     */
+    protected progressIndicator: ProgressIndicatorService;
 
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -76,10 +86,11 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
         this.http = injector.get(HttpClient);
         this.logger = injector.get(LOGGER);
         this.queryStringSerializer = injector.get(QueryStringSerializer);
+        this.progressIndicator = injector.get(ProgressIndicatorService);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################
-    
+
     /**
      * @inheritdoc
      */
@@ -133,6 +144,12 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
      */
     protected makeRequest(): void
     {
+        if(this.runningRequestSubscription)
+        {
+            this.runningRequestSubscription.unsubscribe();
+            this.progressIndicator.hideProgress();
+        }
+
         if(!this.relationsOptions ||
            !this.relationsOptions.method ||
            !this.relationsOptions.url)
@@ -140,7 +157,7 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
             this.logger.warn('RestRelations: missing options for craeting http request {@data}', this.relationsOptions);
 
             return;
-        }   
+        }
 
         let body: any = null;
         let url: string = this.relationsOptions.url;
@@ -242,7 +259,7 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
             });
         }
 
-        this.http.request(request)
+        this.runningRequestSubscription = this.http.request(request)
             .pipe(catchError(error =>
             {
                 //TODO: proper handling

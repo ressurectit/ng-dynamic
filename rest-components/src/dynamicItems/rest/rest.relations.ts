@@ -4,12 +4,14 @@ import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {LOGGER, Logger, ProgressIndicatorService} from '@anglr/common';
 import {handleHeaderParam, handlePathParam, handleQueryObjectParam, handleQueryParam, mergeQueryObjectParamsWithHttpParams, QueryStringSerializer} from '@anglr/rest';
-import {isEmptyObject, StringDictionary} from '@jscrpt/common';
+import {isBlank, isEmptyObject, StringDictionary} from '@jscrpt/common';
 import {catchError} from 'rxjs/operators';
 import {EMPTY, Subscription} from 'rxjs';
 
 import {RestRelationsMetadataLoader} from './rest.metadata';
 import {RestRelationsOptions} from './rest.options';
+
+//TODO: add required to rest param
 
 /**
  * Rest relations component
@@ -49,6 +51,11 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
      * Service used for handling progress indicator
      */
     protected progressIndicator: ProgressIndicatorService;
+
+    /**
+     * Indication whether there is null or undefined required param
+     */
+    protected emptyParam: boolean[] = [];
 
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -117,8 +124,11 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
         {
             if(this.relationsOptions.params && Array.isArray(this.relationsOptions.params))
             {
-                for(const param of this.relationsOptions.params)
+                for(const index in this.relationsOptions.params)
                 {
+                    const param = this.relationsOptions.params[index];
+                    this.emptyParam.push(true);
+
                     if(param.configurable && param.name)
                     {
                         Object.defineProperty(this,
@@ -126,7 +136,12 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
                                               {
                                                   configurable: true,
                                                   enumerable: true,
-                                                  set: value => param.value = value
+                                                  set: value =>
+                                                  {
+                                                      param.value = value;
+
+                                                      this.emptyParam[index] = isBlank(value);
+                                                  }
                                               });
                     }
                 }
@@ -144,6 +159,12 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
      */
     protected makeRequest(): void
     {
+        //on empty param
+        if(this.emptyParam.find(itm => itm))
+        {
+            return;
+        }
+
         if(this.runningRequestSubscription)
         {
             this.runningRequestSubscription.unsubscribe();

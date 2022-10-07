@@ -159,6 +159,25 @@ export class RelationsComponentManager implements OnDestroy
     }
 
     /**
+     * Gets id of relations component, for this manager
+     * @param component - Component which id should be found
+     */
+    public getId(component: RelationsComponent): string|null
+    {
+        for(const id in this.components)
+        {
+            const comp = this.components[id];
+
+            if(comp === component)
+            {
+                return id;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Opens new scope for relations component manager
      * @param id - Id of newly created scope
      */

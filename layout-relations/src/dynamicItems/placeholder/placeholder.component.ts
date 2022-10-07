@@ -1,7 +1,8 @@
-import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, FactoryProvider, InjectFlags} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {PlaceholderComponentOptions} from './placeholder.options';
@@ -22,6 +23,39 @@ import {CustomComponentSAComponent} from '../customComponent/customComponent.com
     [
         CommonModule,
         LayoutComponentRendererSADirective,
+    ],
+    providers:
+    [
+        <FactoryProvider>
+        {
+            provide: RelationsComponentManager,
+            useFactory: () =>
+            {
+                const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
+
+                return owningCustomComponent?.customComponentInjector.get(RelationsComponentManager, null, InjectFlags.SkipSelf|InjectFlags.Optional);
+            },
+        },
+        <FactoryProvider>
+        {
+            provide: RelationsManager,
+            useFactory: () =>
+            {
+                const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
+
+                return owningCustomComponent?.customComponentInjector.get(RelationsManager, null, InjectFlags.SkipSelf|InjectFlags.Optional);
+            },
+        },
+        <FactoryProvider>
+        {
+            provide: RelationsProcessor,
+            useFactory: () =>
+            {
+                const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
+
+                return owningCustomComponent?.customComponentInjector.get(RelationsProcessor, null, InjectFlags.SkipSelf|InjectFlags.Optional);
+            },
+        },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

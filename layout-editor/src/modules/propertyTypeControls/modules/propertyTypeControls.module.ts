@@ -4,7 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {CastPipesModule} from '@anglr/common';
 import {NumberInputModule} from '@anglr/common/forms';
 
-import {InputBooleanComponent, InputNumberComponent, InputSizeComponent, InputStringComponent, SelectValueComponent} from '../components';
+import {InputBooleanComponent, InputNumberComponent, InputSizeComponent, InputStringComponent, SelectValueComponent, TextareaComponent} from '../components';
 import {PropertyTypeControlRendererDirective} from '../directives';
 
 /**
@@ -21,6 +21,7 @@ import {PropertyTypeControlRendererDirective} from '../directives';
     ],
     declarations:
     [
+        TextareaComponent,
         InputStringComponent,
         InputBooleanComponent,
         InputNumberComponent,
@@ -30,6 +31,7 @@ import {PropertyTypeControlRendererDirective} from '../directives';
     ],
     exports:
     [
+        TextareaComponent,
         InputStringComponent,
         InputBooleanComponent,
         InputNumberComponent,

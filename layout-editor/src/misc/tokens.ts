@@ -9,6 +9,7 @@ import {LayoutModuleTypes} from '../components/componentsPalette/componentsPalet
 import {InputStringComponent} from '../modules/propertyTypeControls/components/inputString/inputString.component';
 import {InputBooleanComponent} from '../modules/propertyTypeControls/components/inputBoolean/inputBoolean.component';
 import {SelectValueComponent} from '../modules/propertyTypeControls/components/selectValue/selectValue.component';
+import {TextareaComponent} from '../modules/propertyTypeControls/components/textarea/textarea.component';
 
 /**
  * Injection token containing symbols to properties storing layout editor property metadata
@@ -27,6 +28,7 @@ export const LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS: InjectionToken<Dictionary<Typ
                                                                                                                                                                                  'inputString': InputStringComponent,
                                                                                                                                                                                  'inputBoolean': InputBooleanComponent,
                                                                                                                                                                                  'selectValue': SelectValueComponent,
+                                                                                                                                                                                 'textarea': TextareaComponent,
                                                                                                                                                                              };
                                                                                                                                                                          }
                                                                                                                                                                      });

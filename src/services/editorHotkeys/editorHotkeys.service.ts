@@ -152,27 +152,27 @@ export class EditorHotkeys
             this.deleteSubject.next();
 
             return false;
-        }, ['INPUT', 'TEXTAREA'], 'Emits delete event'));
+        }, [], 'Emits delete event'));
 
         this.hotkeys.hotkeys.add(new Hotkey('ctrl+c', () =>
         {
             this.copySubject.next();
 
             return false;
-        }, ['INPUT', 'TEXTAREA'], 'Emits copy event'));
+        }, [], 'Emits copy event'));
 
         this.hotkeys.hotkeys.add(new Hotkey('ctrl+v', () =>
         {
             this.pasteSubject.next();
 
             return false;
-        }, ['INPUT', 'TEXTAREA'], 'Emits paste event'));
+        }, [], 'Emits paste event'));
 
         this.hotkeys.hotkeys.add(new Hotkey('ctrl+x', () =>
         {
             this.cutSubject.next();
 
             return false;
-        }, ['INPUT', 'TEXTAREA'], 'Emits cut event'));
+        }, [], 'Emits cut event'));
     }
 }

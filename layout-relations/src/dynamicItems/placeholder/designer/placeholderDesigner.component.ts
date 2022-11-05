@@ -34,12 +34,51 @@ import {CustomComponentSAComponent} from '../../customComponent/customComponent.
 
                 return isDesignTime ? layoutDesignerComponentTransform : null;
             }
-        }
+        },
+        <FactoryProvider>
+        {
+            provide: CustomComponentSAComponent,
+            useFactory: () =>
+            {
+                let customComponentOwner = inject(CustomComponentSAComponent, {optional: true, skipSelf: true});
+
+                while(customComponentOwner)
+                {
+                    const isDesignTime = !!customComponentOwner.customComponentInjector.get(LAYOUT_COMPONENT_TRANSFORM, null, InjectFlags.Optional|InjectFlags.SkipSelf);
+
+                    if(isDesignTime)
+                    {
+                        return customComponentOwner;
+                    }
+
+                    customComponentOwner = customComponentOwner.customComponentInjector.get(CustomComponentSAComponent, null, InjectFlags.Optional|InjectFlags.SkipSelf);
+                }
+
+                return null;
+            },
+        },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlaceholderDesignerSAComponent extends PlaceholderSAComponent implements LayoutComponent<PlaceholderComponentOptions>
 {
+    //######################### protected properties #########################
+
+    /**
+     * Instance of parent placeholder if it exists
+     */
+    protected parentPlaceholder: PlaceholderDesignerSAComponent|undefined|null = inject(PlaceholderDesignerSAComponent, {optional: true, skipSelf: true});
+
+    //######################### protected properties - template bindings #########################
+
+    /**
+     * Gets indication whether display placeholder or container
+     */
+    protected get showPlaceholder(): boolean
+    {
+        return !this.inCustomComponent || !!this.parentPlaceholder && !!this.parentPlaceholder?.injector.get(LAYOUT_COMPONENT_TRANSFORM);
+    }
+
     //######################### protected methods - overrides #########################
 
     /**
@@ -47,7 +86,7 @@ export class PlaceholderDesignerSAComponent extends PlaceholderSAComponent imple
      */
     protected override afterInit(): void
     {
-        if(this.inCustomComponent)
+        if(!this.showPlaceholder)
         {
             const customComponentOptions = this.parentCustomComponent?.options;
 

@@ -1,4 +1,4 @@
-<div class="placeholder" *ngIf="!inCustomComponent; else container"></div>
+<div class="placeholder" *ngIf="showPlaceholder; else container"></div>
 
 <ng-template #container>
     <ng-container [layoutComponentRenderer]="parentCustomComponent?.options?.placeholderContainers?.[id]"></ng-container>

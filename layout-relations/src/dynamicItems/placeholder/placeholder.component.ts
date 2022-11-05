@@ -1,5 +1,4 @@
 import {Component, ChangeDetectionStrategy, inject, FactoryProvider, InjectFlags} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
@@ -21,7 +20,6 @@ import {CustomComponentSAComponent} from '../customComponent/customComponent.com
     standalone: true,
     imports:
     [
-        CommonModule,
         LayoutComponentRendererSADirective,
     ],
     providers:

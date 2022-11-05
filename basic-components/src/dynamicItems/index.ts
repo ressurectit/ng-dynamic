@@ -1,3 +1,4 @@
+export * from './block';
 export * from './button';
 export * from './debounceValue';
 export * from './firstNonNull';

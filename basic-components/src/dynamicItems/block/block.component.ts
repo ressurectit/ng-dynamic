@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {HostDisplayBlockStyle} from '@anglr/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
@@ -10,8 +11,9 @@ import {BlockLayoutMetadataLoader} from './block.metadata';
  */
 @Component(
 {
-    selector: 'div',
+    selector: 'block',
     templateUrl: 'block.component.html',
+    styles: [HostDisplayBlockStyle],
     standalone: true,
     imports:
     [

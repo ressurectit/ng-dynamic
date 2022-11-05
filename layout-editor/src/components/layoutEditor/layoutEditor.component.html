@@ -5,8 +5,8 @@
         </mat-tab>
 
         <mat-tab label="Palette">
-            <package-manager></package-manager>
-            <components-palette></components-palette>
+            <package-manager *ngIf="!(packages | isPresent)"></package-manager>
+            <components-palette [packages]="packages" [whiteList]="whiteList" [blackList]="blackList"></components-palette>
         </mat-tab>
     </mat-tab-group>
 

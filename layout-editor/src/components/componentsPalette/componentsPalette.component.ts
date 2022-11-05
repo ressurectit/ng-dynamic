@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
-import {Dictionary} from '@jscrpt/common';
+import {DebounceCall, Dictionary, nameof, WithSync} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor} from '../../services';
@@ -27,9 +27,9 @@ import {LayoutDndCoreModule} from '../../modules';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
+export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestroy
 {
-    //######################### protected fields #########################
+    //######################### protected properties #########################
 
     /**
      * Subscriptions created during initialization
@@ -40,6 +40,19 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      * Array of all available items in palette
      */
     protected allItems: ComponentsPaletteItem[] = [];
+
+    /**
+     * Gets array of used packages
+     */
+    protected get usedPackages(): string[]
+    {
+        return this.packages ?? this.packageManager.usedPackages;
+    }
+
+    /**
+     * Array of whitelisted packages
+     */
+    protected whiteListedPackages: string[] = [];
 
     //######################### protected properties - template bindings #########################
 
@@ -52,6 +65,26 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
      * Used for refreshing pipe value
      */
     protected refreshPipe: boolean = false;
+
+    //######################### public properties - inputs #########################
+
+    /**
+     * Array of packages that should be used, if specified, package manager is ignored
+     */
+    @Input()
+    public packages: string[]|undefined|null;
+
+    /**
+     * Array of dynamic items sources which should be whitelisted, if this is used, package which is whitelisted will override black list and only components from whitelist will be available
+     */
+    @Input()
+    public whiteList: DynamicItemSource[]|undefined|null;
+
+    /**
+     * Array of dynamic items sources which should be blacklisted, components used in this list will not be available, only if overriden by whitelist
+     */
+    @Input()
+    public blackList: DynamicItemSource[]|undefined|null;
 
     //######################### constructor #########################
     constructor(@Inject(LAYOUT_MODULE_TYPES_LOADER) protected moduleTypesLoader: DynamicItemLoader<LayoutModuleTypes>,
@@ -83,6 +116,40 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
         await this.initItems();
     }
 
+    //######################### public methods - implementation of OnChanges #########################
+    
+    /**
+     * Called when input value changes
+     */
+    public async ngOnChanges(changes: SimpleChanges): Promise<void>
+    {
+        if(nameof<ComponentsPaletteSAComponent>('whiteList') in changes)
+        {
+            this.whiteListedPackages = [];
+
+            if(Array.isArray(this.whiteList))
+            {
+                for(const source of this.whiteList)
+                {
+                    //package already whitelisted
+                    if(this.whiteListedPackages.find(itm => itm == source.package))
+                    {
+                        continue;
+                    }
+
+                    this.whiteListedPackages.push(source.package);
+                }
+            }
+        }
+
+        if(nameof<ComponentsPaletteSAComponent>('whiteList') in changes ||
+           nameof<ComponentsPaletteSAComponent>('blackList') in changes ||
+           nameof<ComponentsPaletteSAComponent>('packages') in changes)
+        {
+            await this.initItems();
+        }
+    }
+
     //######################### public methods - implementation of OnDestroy #########################
 
     /**
@@ -98,17 +165,34 @@ export class ComponentsPaletteSAComponent implements OnInit, OnDestroy
     /**
      * Initialize items in palette
      */
+    @DebounceCall(10)
+    @WithSync()
     protected async initItems(): Promise<void>
     {
         this.groupedItems = {};
         this.allItems = [];
 
-        for (const packageName of this.packageManager.usedPackages)
+        for (const packageName of this.usedPackages)
         {
             const types = (await this.moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
 
             for(const type of types)
             {
+                //package is whitelisted
+                if(this.whiteListedPackages.find(itm => packageName == itm))
+                {
+                    //item is not whitelisted
+                    if(!this.whiteList?.find(itm => itm.package == packageName && itm.name == type))
+                    {
+                        continue;
+                    }
+                }
+                //item is blacklisted
+                else if(this.blackList?.find(itm => itm.package == packageName && itm.name == type))
+                {
+                    continue;
+                }
+                
                 const itemSource: DynamicItemSource = {package: packageName, name: type};
                 const metadata = await this.metadataExtractor.extractMetadata(itemSource);
 

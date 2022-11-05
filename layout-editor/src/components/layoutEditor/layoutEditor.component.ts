@@ -1,8 +1,9 @@
 import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnChanges, SimpleChanges, Inject, OnInit, ChangeDetectorRef, Optional} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {HostDisplayFlexStyle} from '@anglr/common';
-import {EditorHotkeys, MetadataHistoryManager, PackageManagerModule} from '@anglr/dynamic';
+import {CommonUtilsModule, HostDisplayFlexStyle} from '@anglr/common';
+import {EditorHotkeys, MetadataHistoryManager, PackageManagerModule, DynamicItemSource} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -38,6 +39,8 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
         LayoutComponentRendererSADirective,
         PackageManagerModule,
         MatTabsModule,
+        CommonModule,
+        CommonUtilsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -57,6 +60,24 @@ export class LayoutEditorSAComponent implements OnDestroy, OnChanges, OnInit
      */
     @Input()
     public metadata: LayoutComponentMetadata|undefined|null = null;
+
+    /**
+     * Array of packages that should be used, if specified, package manager is not displayed
+     */
+    @Input()
+    public packages: string[]|undefined|null;
+
+    /**
+     * Array of dynamic items sources which should be whitelisted, if this is used, package which is whitelisted will override black list and only components from whitelist will be available
+     */
+    @Input()
+    public whiteList: DynamicItemSource[]|undefined|null;
+
+    /**
+     * Array of dynamic items sources which should be blacklisted, components used in this list will not be available, only if overriden by whitelist
+     */
+    @Input()
+    public blackList: DynamicItemSource[]|undefined|null;
 
     //######################### constructor #########################
     constructor(@Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,

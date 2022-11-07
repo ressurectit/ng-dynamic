@@ -1,11 +1,11 @@
 import {Component, ChangeDetectionStrategy, inject, SimpleChanges, Injector} from '@angular/core';
 import {MetadataStorage} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
-import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {LayoutComponentsIteratorService, LayoutEditorDesignerType, LayoutEditorMetadata, LayoutEditorMetadataExtractor} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent, RelationsComponentManager, RelationsManager, RelationsProcessor, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {PromiseOr} from '@jscrpt/common';
+import {extend, PromiseOr} from '@jscrpt/common';
 
 import {CustomComponentComponentOptions, CustomComponentRelationsOptions} from './customComponent.options';
 import {CustomComponentLayoutDesignerTypeLoader, CustomComponentLayoutMetadataLoader, CustomComponentRelationsMetadataLoader} from './customComponent.metadata';
@@ -32,6 +32,8 @@ import {ComponentWithId} from '../../interfaces';
         RelationsComponentManager,
         RelationsManager,
         RelationsProcessor,
+        LayoutComponentsIteratorService,
+        LayoutEditorMetadataExtractor,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -66,6 +68,11 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
      * Parent relations component manager
      */
     protected parentComponentManager: RelationsComponentManager|null = inject(RelationsComponentManager, {skipSelf: true, optional: true});
+
+    /**
+     * Service used for obtaining iterators that goes over all components in metadata
+     */
+    protected layoutMetadataIterator: LayoutComponentsIteratorService = inject(LayoutComponentsIteratorService);
 
     /**
      * Instance of inputs relations if it exists
@@ -136,6 +143,21 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
 
         //get layout metadata and displays layout
         this.metadata = await this.layoutMetadataStorage.getMetadata(this.options.name);
+
+        if(this.metadata)
+        {
+            const iterator = this.layoutMetadataIterator.getIteratorFor(this.metadata);
+
+            for await(const itm of iterator)
+            {
+                const overrideOpts = this.options.contentOptions?.[itm.metadata.id];
+
+                if(overrideOpts)
+                {
+                    extend(itm.metadata.options, overrideOpts);
+                }
+            }
+        }
 
         let relations: RelationsNodeMetadata[]|null = null;
 

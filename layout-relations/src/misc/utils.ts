@@ -1,12 +1,15 @@
-import {ClassProvider, FactoryProvider, Provider, Type} from '@angular/core';
-import {provideLayout} from '@anglr/dynamic/layout';
+import {ClassProvider, FactoryProvider, Injector, Provider, Type} from '@angular/core';
+import {LayoutComponentMetadata, provideLayout} from '@anglr/dynamic/layout';
 import {provideRelations} from '@anglr/dynamic/relations';
 import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES, ScopeRegister as RelationsScopeRegister, StaticComponentsRegister, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER} from '@anglr/dynamic/relations-editor';
-import {LayoutComponentsIteratorService, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
-import {provideStaticPackageSource} from '@anglr/dynamic';
+import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
+import {MetadataStorage, provideStaticPackageSource} from '@anglr/dynamic';
+import {LOGGER} from '@anglr/common';
+import {Dictionary} from '@jscrpt/common';
 
 import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER} from './providers';
 import {LayoutComponentsRegister, LayoutManager, CustomComponentsRegister, ScopeRegister} from '../services';
+import {ContentComponentData} from '../dynamicItems/customComponent/misc';
 
 /**
  * Providers for relations subpackage that works with layout metadata
@@ -127,4 +130,51 @@ export function provideLayoutRelationsEditorWithStatic(staticRegister: Type<Stat
         },
         provideStaticPackageSource('static-components'),
     ];
+}
+
+/**
+ * Gets custom component metadata info
+ * @param name - Name of component which metadata are obtained
+ * @param injector - Instance of injector used for obtaining required services
+ */
+export async function getCustomComponentMeta(name: string, injector: Injector): Promise<{contentMetadata: Dictionary<ContentComponentData>, metadata: LayoutComponentMetadata|undefined|null}|null>
+{
+    const layoutMetadataStorage: MetadataStorage<LayoutComponentMetadata> = injector.get(MetadataStorage);
+    const customComponentMetadata = await layoutMetadataStorage.getMetadata(name);
+    const logger = injector.get(LOGGER);
+
+    if(!customComponentMetadata)
+    {
+        logger.warn('ContentOptionsPropertiesControlSAComponent: missing layout metadata for custom component!');
+
+        return null;
+    }
+
+    const layoutMetadataIterator = injector.get(LayoutComponentsIteratorService);
+    const iterator = layoutMetadataIterator.getIteratorFor(customComponentMetadata);
+    const metadataExtractor = injector.get(LayoutEditorMetadataExtractor);
+    const customComponentContentMetadata: Dictionary<ContentComponentData> = {};
+
+    for await(const component of iterator)
+    {
+        const metadata = await metadataExtractor.extractMetadata(component.metadata);
+
+        if(!metadata)
+        {
+            logger.warn('ContentOptionsPropertiesControlSAComponent: missing metadata for component!');
+
+            continue;
+        }
+
+        customComponentContentMetadata[component.metadata.id] =
+        {
+            metadata: component.metadata,
+            editorMetadata: metadata,
+        };
+    }
+
+    return {
+        contentMetadata: customComponentContentMetadata,
+        metadata: customComponentMetadata,
+    };
 }

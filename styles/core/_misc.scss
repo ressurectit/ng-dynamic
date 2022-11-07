@@ -98,6 +98,16 @@
     font-size: 0.9em;
 }
 
+%medium-text
+{
+    font-size: 1.1em;
+}
+
+%large-text
+{
+    font-size: 1.25em;
+}
+
 %drag-placeholder
 {
     background: var(--dynamic-drag-placeholder);
@@ -214,6 +224,16 @@
     .dynamic-small-text
     {
         @extend %small-text;
+    }
+
+    .dynamic-medium-text
+    {
+        @extend %medium-text;
+    }
+
+    .dynamic-large-text
+    {
+        @extend %large-text;
     }
 }
 

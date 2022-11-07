@@ -3,6 +3,8 @@ import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, Layou
 import {Func1} from '@jscrpt/common';
 
 import {CustomComponentComponentOptions} from '../customComponent.options';
+import {ContentOptionsPropertiesControlSAComponent} from '../misc';
+import {CustomComponentModel} from './customComponent.model';
 
 /**
  * Custom component layout metadata
@@ -26,6 +28,13 @@ export class CustomComponentLayoutEditorMetadata implements LayoutEditorMetadata
                     propertiesControls: 
                     [
                         ComponentStylingPropertiesControlComponent,
+                    ],
+                },
+                {
+                    modelType: CustomComponentModel,
+                    propertiesControls: 
+                    [
+                        ContentOptionsPropertiesControlSAComponent,
                     ],
                 },
             ]

@@ -335,7 +335,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
             {
                 if(this.component?.options?.typeMetadata)
                 {
-                    extend(true, this.component.options.typeMetadata.options, data);
+                    extend(this.component.options.typeMetadata.options, data);
     
                     const changes: SimpleChanges = {};
                     addSimpleChange<LayoutComponent>(changes, 'options', this.component.options, this.component.options);

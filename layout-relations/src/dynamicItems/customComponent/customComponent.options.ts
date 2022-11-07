@@ -15,6 +15,16 @@ export interface CustomComponentComponentOptions
      * Represents layout metadata for all placeholders used within custom component
      */
     placeholderContainers: Dictionary<LayoutComponentMetadata>|undefined|null;
+
+    /**
+     * Static options for content components
+     */
+    contentOptions: Dictionary<unknown>;
+
+    /**
+     * Represents components that have custom options and what properties are set
+     */
+    usedComponents: Dictionary<string[]>;
 }
 
 /**

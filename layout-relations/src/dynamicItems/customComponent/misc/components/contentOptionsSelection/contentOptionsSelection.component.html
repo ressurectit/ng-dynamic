@@ -1,0 +1,39 @@
+<div class="dynamic-margin-bottom-small dynamic-flex-row">
+    <div class="dynamic-flex-1 dynamic-margin-right-small">
+        <label class="dynamic-control-label">Component</label>
+
+        <select class="dynamic-form-control" [formControl]="component">
+            <option *ngFor="let dataKeyValue of data?.customComponentContentMetadata | keyvalue" [value]="dataKeyValue.key">{{dataKeyValue.value.metadata.displayName}}</option>
+        </select>
+    </div>
+
+    <a class="dynamic-btn-icon dynamic-margin-left-small dynamic-large-text" (click)="addComponent()">
+        <span class="fas fa-plus"></span>
+    </a>
+</div>
+
+<div>
+    <div *ngFor="let component of usedComponents | keyvalue" class="dynamic-margin-bottom-small">
+        <div class="dynamic-bold dynamic-flex-row ">
+            <span class="dynamic-margin-right-small">{{data.customComponentContentMetadata[component.key].metadata.displayName}}</span>
+            
+            <a class="dynamic-btn-icon" (click)="removeComponent(component.key)">
+                <span class="fas fa-times"></span>
+            </a>
+        </div>
+        
+        <div *ngFor="let propsMeta of data.customComponentContentMetadata[component.key].editorMetadata.metaInfo?.optionsMetadata?.propertiesMetadata">
+            <label><input type="checkbox" [checked]="propsMeta.modelType | modelSelected: usedComponents[component.key]" (change)="toggleSelected(component.key, propsMeta.modelType)"> {{propsMeta.modelType.name}}</label>
+        </div>
+    </div>
+</div>
+
+<div class="dynamic-flex-row dynamic-flex-end">
+    <button type="button" class="dynamic-btn dynamic-btn-info dynamic-margin-right-extra-small" [mat-dialog-close]="undefined">
+        <span>cancel</span>
+    </button>
+
+    <button type="button" class="dynamic-btn dynamic-btn-primary" [mat-dialog-close]="usedComponents">
+        <span>ok</span>
+    </button>
+</div>

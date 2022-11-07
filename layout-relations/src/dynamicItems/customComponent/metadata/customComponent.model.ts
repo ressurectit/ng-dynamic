@@ -20,6 +20,16 @@ export class CustomComponentModel implements CustomComponentComponentOptions
      */
     public placeholderContainers: Dictionary<LayoutComponentMetadata>|undefined|null;
 
+    /**
+     * @inheritdoc
+     */
+    public contentOptions: Dictionary<unknown> = {};
+
+    /**
+     * @inheritdoc
+     */
+    public usedComponents: Dictionary<string[]> = {};
+
     //######################### constructor #########################
     constructor(value: CustomComponentComponentOptions|undefined|null)
     {

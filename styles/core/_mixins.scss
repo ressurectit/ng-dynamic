@@ -9,6 +9,7 @@
 @use '../components/components-palette' as componentsPalette;
 @use '../components/components-tree-item' as componentsTreeItem;
 @use '../components/components-tree' as componentsTree;
+@use '../components/content-options' as contentOptions;
 @use '../components/grid-panel' as gridPanel;
 @use '../components/layout-designer-component' as layoutDesignerComponent;
 @use '../components/layout-designer-overlay-for' as layoutDesignerOverlayFor;
@@ -106,6 +107,7 @@
     @include componentsPalette.css;
     @include componentsTreeItem.css;
     @include componentsTree.css;
+    @include contentOptions.css;
     @include gridPanel.css;
     @include layoutDesignerComponent.css;
     @include layoutDesignerOverlayFor.css;

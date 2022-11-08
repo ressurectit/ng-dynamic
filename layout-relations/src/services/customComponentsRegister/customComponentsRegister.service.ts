@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
 import {PromiseOr} from '@jscrpt/common';
 
+import {CustomComponentConfiguration} from './customComponentsRegister.interface';
+
 /**
  * Register that contains registered custom components
  */
 @Injectable()
-export class CustomComponentsRegister
+export class CustomComponentsRegister<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration>
 {
     //######################### public methods #########################
 
@@ -15,5 +17,14 @@ export class CustomComponentsRegister
     public getRegisteredComponents(): PromiseOr<string[]>
     {
         return [];
+    }
+
+    /**
+     * Gets configuration for custom component by its name
+     * @param _name - Name of template of custom component for which configuration will be returned
+     */
+    public getConfigurationForComponent(_name: string): TConfig|undefined|null
+    {
+        return null;
     }
 }

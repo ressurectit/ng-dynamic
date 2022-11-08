@@ -1,5 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-import {CustomComponentsRegister} from '@anglr/dynamic/layout-relations';
+import {CustomComponentConfiguration, CustomComponentsRegister} from '@anglr/dynamic/layout-relations';
 import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
 import {Observable, Subject} from 'rxjs';
 
@@ -9,7 +9,7 @@ const CUSTOM_COMPONENTS = 'CUSTOM_COMPONENTS';
  * Demo custom components register
  */
 @Injectable()
-export class DemoCustomComponentsRegister extends CustomComponentsRegister
+export class DemoCustomComponentsRegister<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration> extends CustomComponentsRegister<TConfig>
 {
     //######################### private fields #########################
     
@@ -45,7 +45,6 @@ export class DemoCustomComponentsRegister extends CustomComponentsRegister
         const customComponents = this.getRegisteredComponents();
         const index = customComponents.indexOf(name);
 
-
         if(index >= 0)
         {
             customComponents.splice(index, 1);
@@ -59,13 +58,32 @@ export class DemoCustomComponentsRegister extends CustomComponentsRegister
         this._registeredChange.next();
     }
 
+    /**
+     * Sets configuration for custom component
+     * @param name - Name of template for which custom config will be set
+     * @param config - Config to be set
+     */
+    public setConfiguration(name: string, config: TConfig): void
+    {
+
+    }
+
     //######################### public methods - overrides #########################
 
     /**
-     * Gets registered components
+     * @inheritdoc
      */
     public override getRegisteredComponents(): string[]
     {
         return this._store.get<string[]|null>(CUSTOM_COMPONENTS) ?? [];
+        // return Object.keys(this._store.get<Dictionary<TConfig>|null>(CUSTOM_COMPONENTS) ?? {});
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override getConfigurationForComponent(_name: string): TConfig|undefined|null
+    {
+        return null;
     }
 }

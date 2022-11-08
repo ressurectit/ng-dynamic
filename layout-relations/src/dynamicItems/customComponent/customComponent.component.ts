@@ -14,6 +14,8 @@ import {ComponentOutputsRelations} from '../componentOutputs/componentOutputs.re
 import {getInputs, getOutputs} from './customComponent.utils';
 import {ComponentWithId} from '../../interfaces';
 
+//TODO: think of extending this to create configurable custom component, which requires layout editor!
+
 /**
  * Component used for displaying custom component
  */

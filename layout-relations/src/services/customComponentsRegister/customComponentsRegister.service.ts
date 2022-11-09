@@ -27,4 +27,13 @@ export class CustomComponentsRegister<TConfig extends CustomComponentConfigurati
     {
         return null;
     }
+
+    /**
+     * Sets configuration for custom component by its name
+     * @param _name - Name of template of custom component for which configuration will be set
+     * @param _config - Value of configuration to be set
+     */
+    public setConfigurationForComponent(_name: string, _config: TConfig): PromiseOr<void>
+    {
+    }
 }

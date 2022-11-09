@@ -86,6 +86,13 @@
         font-size: 0.9em;
     }
 
+    //############## TOOLTIP ##############
+
+    tooltip-popup
+    {
+        z-index: 23456;
+    }
+
     //############## DIALOG ##############
 
     mat-dialog-container

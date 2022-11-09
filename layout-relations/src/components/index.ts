@@ -1,4 +1,4 @@
 export * from './configureNodeEndpoint/configureNodeEndpoint.component';
 export * from './configureNodeEndpoint/configureNodeEndpoint.model';
-export * from './contentOptionsSelection/contentOptionsSelection.component';
-export * from './contentOptionsSelection/contentOptionsSelection.interface';
+export * from './customComponentOptions/customComponentOptions.component';
+export * from './customComponentOptions/customComponentOptions.interface';

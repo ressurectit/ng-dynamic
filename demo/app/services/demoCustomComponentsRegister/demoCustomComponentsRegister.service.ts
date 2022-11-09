@@ -4,7 +4,7 @@ import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
-const CUSTOM_COMPONENTS = 'CUSTOM_COMPONENTS';
+const CUSTOM_COMPONENTS = 'DEMO_CUSTOM_COMPONENTS';
 
 /**
  * Demo custom components register
@@ -58,23 +58,6 @@ export class DemoCustomComponentsRegister<TConfig extends CustomComponentConfigu
         this._registeredChange.next();
     }
 
-    /**
-     * Sets configuration for custom component
-     * @param name - Name of template for which custom config will be set
-     * @param config - Config to be set
-     */
-    public setConfiguration(name: string, config: TConfig): void
-    {
-        const customComponents = this._store.get<Dictionary<TConfig>|null>(CUSTOM_COMPONENTS);
-
-        if(!customComponents[name])
-        {
-            return;
-        }
-
-        customComponents[name] = config;
-    }
-
     //######################### public methods - overrides #########################
 
     /**
@@ -88,8 +71,33 @@ export class DemoCustomComponentsRegister<TConfig extends CustomComponentConfigu
     /**
      * @inheritdoc
      */
-    public override getConfigurationForComponent(_name: string): TConfig|undefined|null
+    public override getConfigurationForComponent(name: string): TConfig|undefined|null
     {
-        return null;
+        const customComponents = this._store.get<Dictionary<TConfig>|null>(CUSTOM_COMPONENTS) ?? {};
+
+        if(!customComponents[name])
+        {
+            return null;
+        }
+
+        return customComponents[name];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public override setConfigurationForComponent(name: string, config: TConfig): void
+    {
+        const customComponents = this._store.get<Dictionary<TConfig>|null>(CUSTOM_COMPONENTS) ?? {};
+
+        if(!customComponents[name])
+        {
+            return;
+        }
+
+        customComponents[name] = config;
+        
+        this._store.set(CUSTOM_COMPONENTS, customComponents);
+        this._registeredChange.next();
     }
 }

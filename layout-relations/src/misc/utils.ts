@@ -1,5 +1,5 @@
 import {ClassProvider, FactoryProvider, Injector, Provider, Type} from '@angular/core';
-import {LayoutComponentMetadata, provideLayout} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE, provideLayout} from '@anglr/dynamic/layout';
 import {provideRelations} from '@anglr/dynamic/relations';
 import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES, ScopeRegister as RelationsScopeRegister, StaticComponentsRegister, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER} from '@anglr/dynamic/relations-editor';
 import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
@@ -139,7 +139,7 @@ export function provideLayoutRelationsEditorWithStatic(staticRegister: Type<Stat
  */
 export async function getCustomComponentMeta(name: string, injector: Injector): Promise<{contentMetadata: Dictionary<ContentComponentData>, metadata: LayoutComponentMetadata|undefined|null}|null>
 {
-    const layoutMetadataStorage: MetadataStorage<LayoutComponentMetadata> = injector.get(MetadataStorage);
+    const layoutMetadataStorage: MetadataStorage<LayoutComponentMetadata> = injector.get(LAYOUT_METADATA_STORAGE);
     const customComponentMetadata = await layoutMetadataStorage.getMetadata(name);
     const logger = injector.get(LOGGER);
 

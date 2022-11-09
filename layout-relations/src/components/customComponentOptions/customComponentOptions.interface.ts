@@ -2,6 +2,8 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataDescriptor, LayoutEditorPropertyMetadataExtractor} from '@anglr/dynamic/layout-editor';
 import {Dictionary} from '@jscrpt/common';
 
+import {CustomComponentConfiguration} from '../../services';
+
 /**
  * Data that are stored for content component
  */
@@ -19,9 +21,9 @@ export interface ContentComponentData
 }
 
 /**
- * Data that are passed to content options selection dialog
+ * Data that are passed to custom component options dialog
  */
-export interface ContentOptionsSelectionData
+export interface CustomComponentOptionsData<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration>
 {
     /**
      * Metadata for each component in custom component
@@ -29,9 +31,9 @@ export interface ContentOptionsSelectionData
     customComponentContentMetadata: Dictionary<ContentComponentData|undefined|null>;
 
     /**
-     * Array of used components and their model names
+     * Current value of configuration
      */
-    usedProperties: Dictionary<Dictionary<string[]>>;
+    configuration: TConfig;
 
     /**
      * Instance of property metadata extractor for models

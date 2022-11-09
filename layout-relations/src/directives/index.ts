@@ -1,1 +1,1 @@
-export * from './showContentOptionsSelection/showContentOptionsSelection.directive';
+export * from './showCustomComponentOptions/showCustomComponentOptions.directive';

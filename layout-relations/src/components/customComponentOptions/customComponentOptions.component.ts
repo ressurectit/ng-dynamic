@@ -1,22 +1,24 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {DialogRef} from '@angular/cdk/dialog';
 import {CommonModule} from '@angular/common';
 import {MatDialogModule} from '@angular/material/dialog';
+import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
 import {TooltipModule} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 
-import {ContentOptionsSelectionData} from './contentOptionsSelection.interface';
+import {CustomComponentOptionsData} from './customComponentOptions.interface';
 import {GetModelSAPipe, PropertySelectedSAPipe, PropertiesMetadataSAPipe} from '../../pipes';
+import {CustomComponentConfiguration} from '../../services';
 
 /**
- * Component used for displaying selection of components and their options to be editable
+ * Component used for displaying and editation of custom component options
  */
 @Component(
 {
-    selector: 'content-options-selection',
-    templateUrl: 'contentOptionsSelection.component.html',
+    selector: 'custom-component-options',
+    templateUrl: 'customComponentOptions.component.html',
     standalone: true,
     imports:
     [
@@ -28,9 +30,10 @@ import {GetModelSAPipe, PropertySelectedSAPipe, PropertiesMetadataSAPipe} from '
         PropertiesMetadataSAPipe,
         TooltipModule,
     ],
+    providers: [FormModelBuilder],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContentOptionsSelectionSAComponent
+export class CustomComponentOptionsSAComponent<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration>
 {
     //######################### protected properties - template bindings #########################
 
@@ -38,6 +41,11 @@ export class ContentOptionsSelectionSAComponent
      * Instance of form control that is used for selection of component
      */
     protected component: FormControl<string> = new FormControl();
+
+    /**
+     * Form for name and description of custom component
+     */
+    protected nameDescriptionForm: FormGroup<FormModelGroup<CustomComponentConfiguration>>;
 
     /**
      * Array of used properties for components and their models
@@ -55,22 +63,24 @@ export class ContentOptionsSelectionSAComponent
     protected contentComponents: string[] = [];
 
     //######################### constructor #########################
-    constructor(@Inject(TITLED_DIALOG_DATA) protected data: ContentOptionsSelectionData,
-                protected dialog: DialogRef<ContentOptionsSelectionSAComponent, Dictionary<string[]>>,)
+    constructor(@Inject(TITLED_DIALOG_DATA) protected data: CustomComponentOptionsData,
+                protected dialog: DialogRef<CustomComponentOptionsSAComponent<TConfig>, TConfig>,
+                formModelBuilder: FormModelBuilder,)
     {
         this.contentComponents = Object.keys(data.customComponentContentMetadata);
+        this.nameDescriptionForm = formModelBuilder.build<CustomComponentConfiguration>({displayName: '', description: '',});
 
-        for(const id in this.data.usedProperties)
+        for(const id in this.data.configuration.configurableProperties)
         {
-            const models = this.data.usedProperties[id];
+            const models = this.data.configuration.configurableProperties[id];
 
-            this.availableProperties[id] ??= {};
+            this.usedProperties[id] ??= {};
 
             for(const modelName in models)
             {
                 const properties = models[modelName];
 
-                this.availableProperties[id][modelName] = [...properties];
+                this.usedProperties[id][modelName] = [...properties];
             }
         }
 

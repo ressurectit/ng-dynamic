@@ -1,19 +1,16 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Injector} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {FormModelBuilder} from '@anglr/common/forms';
-import {LOGGER, Logger} from '@anglr/common';
-import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorPropertyMetadataExtractor, LayoutPropertiesModelType, PropertiesControl, PropertiesControlBase, PropertiesControlsModule} from '@anglr/dynamic/layout-editor';
-import {TitledDialogService} from '@anglr/common/material';
-import {MetadataStorage} from '@anglr/dynamic';
-import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
+import {LayoutPropertiesModelType, PropertiesControl, PropertiesControlBase, PropertiesControlsModule} from '@anglr/dynamic/layout-editor';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Dictionary, extend} from '@jscrpt/common';
-import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {CustomComponentComponentOptions} from '../../../customComponent.options';
 import {GetControlsSAPipe} from '../../pipes/getControls/getControls.pipe';
-import {ContentComponentData, ContentOptionsSelectionData, ContentOptionsSelectionSAComponent} from '../../../../../components';
+import {ContentComponentData} from '../../../../../components';
 import {GetModelSAPipe, PropertiesMetadataSAPipe} from '../../../../../pipes';
+import {getCustomComponentMeta} from '../../../../../misc/utils';
 
 /**
  * Component used for displaying editation of content options
@@ -42,34 +39,9 @@ export class ContentOptionsPropertiesControlSAComponent extends PropertiesContro
     //######################### protected properties #########################
 
     /**
-     * Instance of titled dialog service
+     * Instance of injector for this component
      */
-    protected dialogSvc: TitledDialogService = inject(TitledDialogService);
-
-    /**
-     * Storage for layout metadata
-     */
-    protected layoutMetadataStorage: MetadataStorage<LayoutComponentMetadata> = inject(LAYOUT_METADATA_STORAGE);
-
-    /**
-     * Service used for obtaining iterators that goes over all components in metadata
-     */
-    protected layoutMetadataIterator: LayoutComponentsIteratorService = inject(LayoutComponentsIteratorService);
-
-    /**
-     * Extractor for obtaining layout metadata for components
-     */
-    protected metadataExtractor: LayoutEditorMetadataExtractor = inject(LayoutEditorMetadataExtractor);
-
-    /**
-     * Property metadata extractor for models
-     */
-    protected propsMetadataExtractor: LayoutEditorPropertyMetadataExtractor = inject(LayoutEditorPropertyMetadataExtractor);
-
-    /**
-     * Instance of logger used for logging
-     */
-    protected logger: Logger = inject(LOGGER);
+    protected injector: Injector = inject(Injector);
 
     /**
      * Form model builder
@@ -109,37 +81,19 @@ export class ContentOptionsPropertiesControlSAComponent extends PropertiesContro
         }
 
         const options: Partial<CustomComponentComponentOptions> = this.form.value;
+        
         const name = options.name ?? '';
-        this.usedComponents = options.usedComponents ?? {};
+        const result = (await getCustomComponentMeta(name, this.injector));
 
-        this.customComponentMetadata = await this.layoutMetadataStorage.getMetadata(name);
-
-        if(!this.customComponentMetadata)
+        if(!result)
         {
-            this.logger.warn('ContentOptionsPropertiesControlSAComponent: missing layout metadata for custom component!');
-
             return;
         }
 
-        const iterator = this.layoutMetadataIterator.getIteratorFor(this.customComponentMetadata);
+        this.customComponentContentMetadata = result.contentMetadata;
+        this.customComponentMetadata = result.metadata;
 
-        for await(const component of iterator)
-        {
-            const metadata = await this.metadataExtractor.extractMetadata(component.metadata);
-
-            if(!metadata)
-            {
-                this.logger.warn('ContentOptionsPropertiesControlSAComponent: missing metadata for component!');
-
-                continue;
-            }
-
-            this.customComponentContentMetadata[component.metadata.id] =
-            {
-                metadata: component.metadata,
-                editorMetadata: metadata,
-            };
-        }
+        this.usedComponents = options.usedComponents ?? {};
 
         for(const id in this.usedComponents)
         {
@@ -151,36 +105,6 @@ export class ContentOptionsPropertiesControlSAComponent extends PropertiesContro
         }
 
         this.initForms();
-    }
-
-    //######################### protected methods - template bindings #########################
-
-    /**
-     * Opens dialog for options selection
-     */
-    protected async showOptionsSelection(): Promise<void>
-    {
-        const result = await lastValueFrom(this.dialogSvc.open<ContentOptionsSelectionSAComponent, ContentOptionsSelectionData, Dictionary<string[]>|undefined|null>(ContentOptionsSelectionSAComponent,
-        {
-            title: 'content options selection',
-            width: '75vw',
-            data:
-            {
-                customComponentContentMetadata: this.customComponentContentMetadata,
-                usedProperties: {},
-                propsMetadataExtractor: this.propsMetadataExtractor,
-            }
-        }).afterClosed());
-
-        if(result)
-        {
-            this.usedComponents = result;
-            this.form?.controls.usedComponents.setValue(result);
-
-            this.initForms();
-
-            this._changeDetector.detectChanges();
-        }
     }
 
     //######################### protected methods #########################

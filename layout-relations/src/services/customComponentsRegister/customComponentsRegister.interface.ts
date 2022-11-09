@@ -6,9 +6,9 @@ import {Dictionary} from '@jscrpt/common';
 export interface CustomComponentConfiguration
 {
     /**
-     * Definition of components and their properties
+     * Definition of properties for components and models which are configurable
      */
-    configurableComponents?: Dictionary<string[]>;
+    configurableProperties?: Dictionary<Dictionary<string[]>>;
 
     /**
      * Display name of custom component

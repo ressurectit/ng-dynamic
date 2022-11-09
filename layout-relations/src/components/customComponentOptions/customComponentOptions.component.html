@@ -1,6 +1,6 @@
 <div class="dynamic-margin-bottom-small dynamic-flex-row">
     <div class="dynamic-flex-1 dynamic-margin-right-small">
-        <label class="dynamic-control-label">Available components</label>
+        <label class="dynamic-control-label">Available content components</label>
 
         <select class="dynamic-form-control" [formControl]="component">
             <option *ngFor="let component of contentComponents" [value]="component">{{data.customComponentContentMetadata[component]?.metadata?.displayName}}</option>
@@ -39,7 +39,7 @@
         <span>cancel</span>
     </button>
 
-    <button type="button" class="dynamic-btn dynamic-btn-primary" [mat-dialog-close]="usedProperties">
+    <button type="button" class="dynamic-btn dynamic-btn-primary" [mat-dialog-close]="{configurableProperties: usedProperties, displayName: '', description: ''}">
         <span>ok</span>
     </button>
 </div>

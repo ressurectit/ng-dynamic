@@ -4,6 +4,7 @@ import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgSelectModule} from '@anglr/select';
 import {EditorHotkeys, MetadataHistoryManager, MetadataStateManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
+import {ShowCustomComponentOptionsSADirective} from '@anglr/dynamic/layout-relations';
 import {extend, Func} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -24,6 +25,7 @@ import {DemoCustomComponentsRegister} from '../../services/demoCustomComponentsR
         ReactiveFormsModule,
         NgSelectModule,
         CommonModule,
+        ShowCustomComponentOptionsSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -38,11 +38,6 @@ export class PlaceholderContainerLayoutEditorMetadata implements LayoutEditorMet
     /**
      * @inheritdoc
      */
-    public getDescendants?: Func1<LayoutComponentMetadata[], PlaceholderContainerComponentOptions|undefined|null> = options => options?.content ? [options?.content] : [];
-
-    /**
-     * @inheritdoc
-     */
     public removeDescendant?: Action2<string, PlaceholderContainerComponentOptions> = (_, options) =>
     {
         options.content = null;

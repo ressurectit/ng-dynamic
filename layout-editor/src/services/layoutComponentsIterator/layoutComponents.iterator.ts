@@ -1,9 +1,10 @@
+import {Inject} from '@angular/core';
 import {Logger} from '@anglr/common';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {DynamicItemLoader} from '@anglr/dynamic';
+import {LayoutComponentDef, LayoutComponentMetadata, LAYOUT_COMPONENTS_LOADER} from '@anglr/dynamic/layout';
 import {Action} from '@jscrpt/common';
 
-import {LayoutEditorMetadataDescriptor} from '../../decorators';
-import {LayoutEditorMetadataExtractor} from '../layoutEditorMetadataExtractor/layoutEditorMetadataExtractor.service';
+import {getDescendantsGetter} from '../../decorators';
 import {LayoutComponentsIteratorItem} from './layoutComponentsIterator.interface';
 
 //TODO: make action commented type
@@ -18,17 +19,17 @@ export class LayoutComponentsIterator<TOptions = any>
     /**
      * Array of layout component iterator items, flattened layout structure
      */
-    protected _items: LayoutComponentsIteratorItem[] = [];
+    protected items: LayoutComponentsIteratorItem[] = [];
 
     /**
      * Indication whether was iterator initialized
      */
-    protected _initialized: boolean = false;
+    protected initialized: boolean = false;
 
     /**
      * Initialization promise
      */
-    protected _initPromise: Promise<void>|null = null;
+    protected initPromise: Promise<void>|null = null;
 
     //######################### public properties #########################
 
@@ -38,8 +39,8 @@ export class LayoutComponentsIterator<TOptions = any>
     public [Symbol.asyncIterator](): AsyncIterator<LayoutComponentsIteratorItem>
     {
         let x = 0;
-        const initPromise = this._initPromise ??= this._getInitPromise();
-        const items = this._items;
+        const initPromise = this.initPromise ??= this.getInitPromise();
+        const items = this.items;
 
         return {
             async next() 
@@ -63,9 +64,9 @@ export class LayoutComponentsIterator<TOptions = any>
     }
 
     //######################### constructor #########################
-    constructor(protected _layoutMetadata: LayoutComponentMetadata<TOptions>,
-                protected _extractor: LayoutEditorMetadataExtractor,
-                protected _logger?: Logger,)
+    constructor(protected layoutMetadata: LayoutComponentMetadata<TOptions>,
+                @Inject(LAYOUT_COMPONENTS_LOADER) protected loader: DynamicItemLoader<LayoutComponentDef>,
+                protected logger?: Logger,)
     {
     }
 
@@ -77,9 +78,9 @@ export class LayoutComponentsIterator<TOptions = any>
      */
     public async forEach(callback: Action<[LayoutComponentMetadata, LayoutComponentsIteratorItem|undefined|null, number, number]>): Promise<void>
     {
-        await (this._initPromise ??= this._getInitPromise());
+        await (this.initPromise ??= this.getInitPromise());
 
-        for(const item of this._items)
+        for(const item of this.items)
         {
             callback(item.metadata, item.parent, item.levelIndex, item.level);
         }
@@ -90,9 +91,9 @@ export class LayoutComponentsIterator<TOptions = any>
     /**
      * Gets components in layout components metadata hierarchy
      */
-    protected async _getComponents(): Promise<void>
+    protected async getComponents(): Promise<void>
     {
-        await this._getComponent(this._layoutMetadata, null, 0, 0);
+        await this.getComponent(this.layoutMetadata, null, 0, 0);
     }
 
     /**
@@ -102,7 +103,7 @@ export class LayoutComponentsIterator<TOptions = any>
      * @param levelIndex - Index of layout component in current level
      * @param level - Current level of nexted components, 0 is root component
      */
-    protected async _getComponent(metadata: LayoutComponentMetadata<TOptions>, parent: LayoutComponentsIteratorItem|undefined|null, levelIndex: number, level: number): Promise<void>
+    protected async getComponent(metadata: LayoutComponentMetadata<TOptions>, parent: LayoutComponentsIteratorItem|undefined|null, levelIndex: number, level: number): Promise<void>
     {
         const iteratorItem : LayoutComponentsIteratorItem = {
             metadata,
@@ -110,41 +111,44 @@ export class LayoutComponentsIterator<TOptions = any>
             levelIndex,
             level
         };
-        this._items.push(iteratorItem);
+        
+        this.items.push(iteratorItem);
 
-        const meta = await this._extractor.extractMetadata(metadata) as LayoutEditorMetadataDescriptor<TOptions>;
+        const def = await this.loader.loadItem(metadata);
 
-        if(!meta)
+        if(!def)
         {
-            this._logger?.debug('LayoutComponentsIterator: failed to get metadata for iterator! {@data}', {package: metadata.package, name: metadata.name});
+            this.logger?.debug('LayoutComponentsIterator: failed to get dynamic component type for iterator! {@data}', {package: metadata.package, name: metadata.name});
 
             return;
         }
+
+        const getDescendants = getDescendantsGetter(def.data);
 
         //component does not have children
-        if(!meta.getDescendants)
+        if(!getDescendants)
         {
             return;
         }
 
-        const childrenMeta = meta.getDescendants(metadata.options);
+        const childrenMeta = getDescendants(metadata.options);
 
         for(let x = 0; x < childrenMeta.length; x++)
         {
-            await this._getComponent(childrenMeta[x], iteratorItem, x, level + 1);
+            await this.getComponent(childrenMeta[x], iteratorItem, x, level + 1);
         }
     }
 
     /**
      * Gets initialization promise
      */
-    protected async _getInitPromise(): Promise<void>
+    protected async getInitPromise(): Promise<void>
     {
-        if(!this._initialized)
+        if(!this.initialized)
         {
-            this._initialized = true;
+            this.initialized = true;
 
-            await this._getComponents();
+            await this.getComponents();
         }
     }
 }

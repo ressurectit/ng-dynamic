@@ -1,6 +1,4 @@
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
-import {Func1} from '@jscrpt/common';
 
 import {CustomComponentComponentOptions} from '../customComponent.options';
 import {ContentOptionsPropertiesControlSAComponent} from '../misc';
@@ -42,29 +40,6 @@ export class CustomComponentLayoutEditorMetadata implements LayoutEditorMetadata
         defaultOptions:
         {
         }
-    };
-
-    /**
-     * @inheritdoc
-     */
-    public getDescendants: Func1<LayoutComponentMetadata[], CustomComponentComponentOptions|undefined|null> = options => 
-    {
-        if(!options?.placeholderContainers)
-        {
-            return [];
-        }
-
-        const result: LayoutComponentMetadata[] = [];
-
-        for(const key in options.placeholderContainers)
-        {
-            if(options.placeholderContainers[key])
-            {
-                result.push(options.placeholderContainers[key]);
-            }
-        }
-
-        return result;
     };
 
     //######################### constructor #########################

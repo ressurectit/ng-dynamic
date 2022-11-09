@@ -1,6 +1,7 @@
 import {Inject, Injectable} from '@angular/core';
 import {CustomComponentConfiguration, CustomComponentsRegister} from '@anglr/dynamic/layout-relations';
 import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
+import {Dictionary} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
 const CUSTOM_COMPONENTS = 'CUSTOM_COMPONENTS';
@@ -42,16 +43,15 @@ export class DemoCustomComponentsRegister<TConfig extends CustomComponentConfigu
      */
     public toggleRegisteredComponent(name: string): void
     {
-        const customComponents = this.getRegisteredComponents();
-        const index = customComponents.indexOf(name);
+        const customComponents = this._store.get<Dictionary<TConfig>|null>(CUSTOM_COMPONENTS);
 
-        if(index >= 0)
+        if(customComponents[name])
         {
-            customComponents.splice(index, 1);
+            delete customComponents[name];
         }
         else
         {
-            customComponents.push(name);
+            customComponents[name] = {} as TConfig;
         }
 
         this._store.set(CUSTOM_COMPONENTS, customComponents);
@@ -65,7 +65,14 @@ export class DemoCustomComponentsRegister<TConfig extends CustomComponentConfigu
      */
     public setConfiguration(name: string, config: TConfig): void
     {
+        const customComponents = this._store.get<Dictionary<TConfig>|null>(CUSTOM_COMPONENTS);
 
+        if(!customComponents[name])
+        {
+            return;
+        }
+
+        customComponents[name] = config;
     }
 
     //######################### public methods - overrides #########################
@@ -75,8 +82,7 @@ export class DemoCustomComponentsRegister<TConfig extends CustomComponentConfigu
      */
     public override getRegisteredComponents(): string[]
     {
-        return this._store.get<string[]|null>(CUSTOM_COMPONENTS) ?? [];
-        // return Object.keys(this._store.get<Dictionary<TConfig>|null>(CUSTOM_COMPONENTS) ?? {});
+        return Object.keys(this._store.get<Dictionary<TConfig>|null>(CUSTOM_COMPONENTS) ?? {});
     }
 
     /**

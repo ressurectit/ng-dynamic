@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, inject, SimpleChanges, Injector} from '@angular/core';
 import {MetadataStorage} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
-import {LayoutComponentsIteratorService, LayoutEditorDesignerType, LayoutEditorMetadata, LayoutEditorMetadataExtractor} from '@anglr/dynamic/layout-editor';
+import {DescendantsGetter, LayoutComponentsIteratorService, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent, RelationsComponentManager, RelationsManager, RelationsProcessor, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -13,8 +13,6 @@ import {ComponentInputsRelations} from '../componentInputs/componentInputs.relat
 import {ComponentOutputsRelations} from '../componentOutputs/componentOutputs.relations';
 import {getInputs, getOutputs} from './customComponent.utils';
 import {ComponentWithId} from '../../interfaces';
-
-//TODO: think of extending this to create configurable custom component, which requires layout editor!
 
 /**
  * Component used for displaying custom component
@@ -35,9 +33,27 @@ import {ComponentWithId} from '../../interfaces';
         RelationsManager,
         RelationsProcessor,
         LayoutComponentsIteratorService,
-        LayoutEditorMetadataExtractor,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
+})
+@DescendantsGetter<CustomComponentComponentOptions>(options => 
+{
+    if(!options?.placeholderContainers)
+    {
+        return [];
+    }
+
+    const result: LayoutComponentMetadata[] = [];
+
+    for(const key in options.placeholderContainers)
+    {
+        if(options.placeholderContainers[key])
+        {
+            result.push(options.placeholderContainers[key]);
+        }
+    }
+
+    return result;
 })
 @LayoutEditorDesignerType(CustomComponentLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(CustomComponentRelationsMetadataLoader)

@@ -1,3 +1,4 @@
+export * from './descendantsGetter/descendantsGetter.decorator';
 export * from './layoutEditorDesignerType/layoutEditorDesignerType.decorator';
 export * from './layoutEditorDesignerType/layoutEditorDesignerType.interface';
 export * from './layoutEditorMetadata/layoutEditorMetadata.decorator';

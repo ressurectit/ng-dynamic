@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Injector, ValueProvider} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {PromiseOr} from '@jscrpt/common';
 
 import {FormGroupLayoutMetadataLoader} from './formGroup.metadata';
@@ -25,6 +25,7 @@ import {FormComponentBase} from '../../components';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@DescendantsGetter<FormGroupComponentOptions>(options => options?.children ?? [])
 @LayoutEditorMetadata(FormGroupLayoutMetadataLoader)
 export class FormGroupSAComponent extends FormComponentBase<FormGroupComponentOptions> implements LayoutComponent<FormGroupComponentOptions>
 {

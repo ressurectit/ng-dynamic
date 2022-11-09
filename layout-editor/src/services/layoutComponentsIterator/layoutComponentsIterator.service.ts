@@ -1,9 +1,9 @@
 import {Inject, Injectable, Optional} from '@angular/core';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {DynamicItemLoader} from '@anglr/dynamic';
+import {LayoutComponentDef, LayoutComponentMetadata, LAYOUT_COMPONENTS_LOADER} from '@anglr/dynamic/layout';
 import {Logger, LOGGER} from '@anglr/common';
 
 import {LayoutComponentsIterator} from './layoutComponents.iterator';
-import {LayoutEditorMetadataExtractor} from '../layoutEditorMetadataExtractor/layoutEditorMetadataExtractor.service';
 import {LayoutComponentsChildrenIterator} from './layoutComponentsChildren.iterator';
 
 /**
@@ -13,7 +13,7 @@ import {LayoutComponentsChildrenIterator} from './layoutComponentsChildren.itera
 export class LayoutComponentsIteratorService
 {
     //######################### constructor #########################
-    constructor(protected extractor: LayoutEditorMetadataExtractor,
+    constructor(@Inject(LAYOUT_COMPONENTS_LOADER) protected loader: DynamicItemLoader<LayoutComponentDef>,
                 @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
     }
@@ -26,7 +26,7 @@ export class LayoutComponentsIteratorService
      */
     public getIteratorFor(layoutMetadata: LayoutComponentMetadata): LayoutComponentsIterator
     {
-        return new LayoutComponentsIterator(layoutMetadata, this.extractor, this.logger);
+        return new LayoutComponentsIterator(layoutMetadata, this.loader, this.logger);
     }
     
     /**
@@ -35,6 +35,6 @@ export class LayoutComponentsIteratorService
      */
     public getChildrenIteratorFor(layoutMetadata: LayoutComponentMetadata): LayoutComponentsChildrenIterator
     {
-        return new LayoutComponentsChildrenIterator(layoutMetadata, this.extractor, this.logger);
+        return new LayoutComponentsChildrenIterator(layoutMetadata, this.loader, this.logger);
     }
 }

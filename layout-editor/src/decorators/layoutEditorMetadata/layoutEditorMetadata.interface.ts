@@ -123,12 +123,6 @@ export interface LayoutEditorMetadataDescriptor<TOptions = any>
     readonly getChildrenContainer?: Func1<Element|null, Element>;
 
     /**
-     * Gets all descendants layout metadata for this layout component metadata
-     * @param options - Options that contains descendants of layout component metadata
-     */
-    readonly getDescendants?: Func1<LayoutComponentMetadata[], TOptions|undefined|null>;
-
-    /**
      * Tests whether component has horizontal drop
      * @param options - Options that holds information whether horizontal drop is enabled for this component
      */

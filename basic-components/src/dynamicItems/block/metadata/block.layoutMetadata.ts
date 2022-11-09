@@ -50,11 +50,6 @@ export class BlockLayoutEditorMetadata implements LayoutEditorMetadataDescriptor
     /**
      * @inheritdoc
      */
-    public getDescendants?: Func<LayoutComponentMetadata[], [BlockComponentOptions|undefined|null]> = options => options?.content ? [options?.content] : [];
-
-    /**
-     * @inheritdoc
-     */
     public removeDescendant?: Action<[string, BlockComponentOptions]> = (_, options) =>
     {
         options.content = null;

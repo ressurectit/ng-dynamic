@@ -56,11 +56,6 @@ export class IfBlockLayoutEditorMetadata implements LayoutEditorMetadataDescript
     /**
      * @inheritdoc
      */
-    public getDescendants?: Func<LayoutComponentMetadata[], [IfBlockComponentOptions|undefined|null]> = options => options?.content ? [options?.content] : [];
-
-    /**
-     * @inheritdoc
-     */
     public removeDescendant?: Action<[string, IfBlockComponentOptions]> = (_, options) =>
     {
         options.content = null;

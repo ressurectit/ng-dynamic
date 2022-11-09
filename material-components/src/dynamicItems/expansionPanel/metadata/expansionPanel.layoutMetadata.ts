@@ -69,11 +69,6 @@ export class MaterialExpansionPanelLayoutEditorMetadata implements LayoutEditorM
     /**
      * @inheritdoc
      */
-    public getDescendants?: Func<LayoutComponentMetadata[], [MaterialExpansionPanelComponentOptions|undefined|null]> = options => options?.children ?? [];
-
-    /**
-     * @inheritdoc
-     */
     public removeDescendant?: Action<[string, MaterialExpansionPanelComponentOptions]> = (id, options) =>
     {
         options.children ??= [];

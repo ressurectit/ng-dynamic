@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, Injector, Inject, Optional} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle, Logger, LOGGER} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
 import prefixer  from 'postcss-prefix-selector';
@@ -31,6 +31,7 @@ import {StyleBlockLayoutMetadataLoader} from './styleBlock.metadata';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@DescendantsGetter<StyleBlockComponentOptions>(options => options?.content ? [options?.content] : [])
 @LayoutEditorMetadata(StyleBlockLayoutMetadataLoader)
 export class StyleBlockSAComponent extends LayoutComponentBase<StyleBlockComponentOptions> implements LayoutComponent<StyleBlockComponentOptions>
 {

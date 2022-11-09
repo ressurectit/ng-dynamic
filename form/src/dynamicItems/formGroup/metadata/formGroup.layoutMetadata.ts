@@ -64,11 +64,6 @@ export class FormGroupLayoutEditorMetadata implements LayoutEditorMetadataDescri
     /**
      * @inheritdoc
      */
-    public getDescendants?: Func<LayoutComponentMetadata[], [FormGroupComponentOptions|undefined|null]> = options => options?.children ?? [];
-
-    /**
-     * @inheritdoc
-     */
     public removeDescendant?: Action<[string, FormGroupComponentOptions]> = (id, options) =>
     {
         options.children ??= [];

@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
 import {GridPanelCellComponentOptions} from './gridPanelCell.options';
 import {GridPanelCellLayoutMetadataLoader} from './gridPanelCell.metadata';
@@ -20,6 +20,7 @@ import {applyGridCoordinates} from './gridPanelCell.utils';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@DescendantsGetter<GridPanelCellComponentOptions>(options => options?.component ? [options.component] : [])
 @LayoutEditorMetadata(GridPanelCellLayoutMetadataLoader)
 export class GridPanelCellSAComponent extends LayoutComponentBase<GridPanelCellComponentOptions> implements LayoutComponent<GridPanelCellComponentOptions>
 {

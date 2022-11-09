@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HostDisplayFlexStyle} from '@anglr/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
 import {StackPanelComponentOptions} from './stackPanel.options';
 import {StackPanelLayoutMetadataLoader} from './stackPanel.metadata';
@@ -23,6 +23,7 @@ import {StackPanelLayoutMetadataLoader} from './stackPanel.metadata';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@DescendantsGetter<StackPanelComponentOptions>(options => options?.children ?? [])
 @LayoutEditorMetadata(StackPanelLayoutMetadataLoader)
 export class StackPanelSAComponent extends LayoutComponentBase<StackPanelComponentOptions> implements LayoutComponent<StackPanelComponentOptions>
 {

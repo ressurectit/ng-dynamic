@@ -1,6 +1,4 @@
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {Func} from '@jscrpt/common';
 
 import {GridPanelComponentOptions} from '../gridPanel.options';
 
@@ -20,11 +18,6 @@ export class GridPanelLayoutEditorMetadata implements LayoutEditorMetadataDescri
         description: 'Layout component with rows, and columns',
         group: 'Layout',
     };
-
-    /**
-     * @inheritdoc
-     */
-    public getDescendants?: Func<LayoutComponentMetadata[], [GridPanelComponentOptions|undefined|null]> = options => options?.cells ?? [];
 
     //######################### constructor #########################
     constructor()

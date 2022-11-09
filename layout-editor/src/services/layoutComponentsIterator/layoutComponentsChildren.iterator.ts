@@ -1,8 +1,9 @@
+import {Inject} from '@angular/core';
 import {Logger} from '@anglr/common';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {DynamicItemLoader} from '@anglr/dynamic';
+import {LayoutComponentDef, LayoutComponentMetadata, LAYOUT_COMPONENTS_LOADER} from '@anglr/dynamic/layout';
 
-import {LayoutEditorMetadataDescriptor} from '../../decorators';
-import {LayoutEditorMetadataExtractor} from '../layoutEditorMetadataExtractor/layoutEditorMetadataExtractor.service';
+import {getDescendantsGetter} from '../../decorators';
 import {LayoutComponentsChildrenIteratorItem} from './layoutComponentsIterator.interface';
 
 /**
@@ -61,7 +62,7 @@ export class LayoutComponentsChildrenIterator<TOptions = any>
 
     //######################### constructor #########################
     constructor(protected layoutMetadata: LayoutComponentMetadata<TOptions>,
-                protected extractor: LayoutEditorMetadataExtractor,
+                @Inject(LAYOUT_COMPONENTS_LOADER) protected loader: DynamicItemLoader<LayoutComponentDef>,
                 protected logger?: Logger,)
     {
     }
@@ -82,22 +83,24 @@ export class LayoutComponentsChildrenIterator<TOptions = any>
      */
     protected async getComponent(metadata: LayoutComponentMetadata<TOptions>): Promise<void>
     {
-        const meta = await this.extractor.extractMetadata(metadata) as LayoutEditorMetadataDescriptor<TOptions>;
+        const def = await this.loader.loadItem(metadata);
 
-        if(!meta)
+        if(!def)
         {
-            this.logger?.debug('LayoutComponentsChildrenIterator: failed to get metadata for children iterator! {@data}', {package: metadata.package, name: metadata.name});
+            this.logger?.debug('LayoutComponentsChildrenIterator: failed to get dynamic component type for children iterator! {@data}', {package: metadata.package, name: metadata.name});
 
             return;
         }
+
+        const getDescendants = getDescendantsGetter(def.data);
 
         //component does not have children
-        if(!meta.getDescendants)
+        if(!getDescendants)
         {
             return;
         }
 
-        const childrenMeta = meta.getDescendants(metadata.options);
+        const childrenMeta = getDescendants(metadata.options);
 
         for(let x = 0; x < childrenMeta.length; x++)
         {

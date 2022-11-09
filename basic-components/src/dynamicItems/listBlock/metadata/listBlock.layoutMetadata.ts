@@ -50,11 +50,6 @@ export class ListBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
     /**
      * @inheritdoc
      */
-    public getDescendants?: Func<LayoutComponentMetadata[], [ListBlockComponentOptions|undefined|null]> = options => options?.template ? [options?.template] : [];
-
-    /**
-     * @inheritdoc
-     */
     public removeDescendant?: Action<[string, ListBlockComponentOptions]> = (_, options) =>
     {
         options.template = null;

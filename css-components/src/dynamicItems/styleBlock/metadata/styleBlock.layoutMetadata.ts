@@ -53,11 +53,6 @@ export class StyleBlockLayoutEditorMetadata implements LayoutEditorMetadataDescr
     /**
      * @inheritdoc
      */
-    public getDescendants?: Func<LayoutComponentMetadata[], [StyleBlockComponentOptions|undefined|null]> = options => options?.content ? [options?.content] : [];
-
-    /**
-     * @inheritdoc
-     */
     public removeDescendant?: Action<[string, StyleBlockComponentOptions]> = (_, options) =>
     {
         options.content = null;

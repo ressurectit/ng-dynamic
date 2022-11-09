@@ -4,5 +4,11 @@
     {
         display: flex;
         flex-direction: column;
+
+        .component-separator
+        {
+            border-bottom: 1px solid var(--dynamic-content-options-border);
+            margin-bottom: 10px;
+        }
     }
 }

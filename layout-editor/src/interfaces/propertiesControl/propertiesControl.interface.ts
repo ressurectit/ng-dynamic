@@ -7,6 +7,7 @@ import {LayoutEditorPropertyMetadata} from '../../misc/types';
 import {LayoutPropertyTypeData} from '../../decorators';
 
 //TODO: also rework for ngOnInit
+//TODO: allow specifying usedProperties, to filter out some properties
 
 /**
  * Defines control that will handle displaying of properties/options of component

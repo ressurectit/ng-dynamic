@@ -20,11 +20,6 @@ export interface CustomComponentComponentOptions
      * Static options for content components
      */
     contentOptions: Dictionary<unknown>;
-
-    /**
-     * Represents components that have custom options and what properties are set
-     */
-    usedComponents: Dictionary<string[]>;
 }
 
 /**

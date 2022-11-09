@@ -89,6 +89,7 @@
     --dynamic-not-found-node-text-foreground: #{map.get(map.get(map.get($theme, 'notFoundNode'), 'text'), 'foreground')};
     --dynamic-placeholder-foreground: #{map.get(map.get($theme, 'placeholder'), 'foreground')};
     --dynamic-placeholder-background: #{map.get(map.get($theme, 'placeholder'), 'background')};
+    --dynamic-content-options-border: #{map.get(map.get($theme, 'contentOptions'), 'border')};
 }
 
 @mixin buildThemeCss

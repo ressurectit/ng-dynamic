@@ -14,4 +14,9 @@ export interface CustomComponentConfiguration
      * Display name of custom component
      */
     displayName?: string;
+
+    /**
+     * Description for custom component
+     */
+    description?: string;
 }

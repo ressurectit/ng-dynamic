@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform, Type} from '@angular/core';
 import {PropertiesControl} from '@anglr/dynamic/layout-editor';
 
-import {ContentComponentData} from '../../components/contentOptionsSelection/contentOptionsSelection.interface';
+import {ContentComponentData} from '../../../../../components';
 
 /**
  * Gets properties controls that are used for setting model value

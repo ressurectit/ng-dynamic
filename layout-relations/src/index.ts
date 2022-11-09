@@ -1,4 +1,5 @@
 export * from './components';
+export * from './directives';
 export * from './dynamicItems';
 export * from './interfaces';
 export * from './misc/extensions';
@@ -6,4 +7,5 @@ export * from './misc/providers';
 export * from './misc/tokens';
 export * from './misc/utils';
 export * from './modules';
+export * from './pipes';
 export * from './services';

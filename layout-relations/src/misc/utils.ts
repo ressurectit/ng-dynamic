@@ -9,7 +9,7 @@ import {Dictionary} from '@jscrpt/common';
 
 import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER} from './providers';
 import {LayoutComponentsRegister, LayoutManager, CustomComponentsRegister, ScopeRegister} from '../services';
-import {ContentComponentData} from '../dynamicItems/customComponent/misc';
+import {ContentComponentData} from '../components';
 
 /**
  * Providers for relations subpackage that works with layout metadata

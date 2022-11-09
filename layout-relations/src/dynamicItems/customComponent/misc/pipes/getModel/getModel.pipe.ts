@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {LayoutPropertiesModelType} from '@anglr/dynamic/layout-editor';
 
-import {ContentComponentData} from '../../components/contentOptionsSelection/contentOptionsSelection.interface';
+import {ContentComponentData} from '../../../../../components';
 
 /**
  * Gets properties model using its name

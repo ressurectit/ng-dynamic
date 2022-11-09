@@ -11,11 +11,10 @@ import {Dictionary, extend} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {CustomComponentComponentOptions} from '../../../customComponent.options';
-import {ContentOptionsSelectionSAComponent} from '../contentOptionsSelection/contentOptionsSelection.component';
-import {ContentComponentData, ContentOptionsSelectionData} from '../contentOptionsSelection/contentOptionsSelection.interface';
 import {GetControlsSAPipe} from '../../pipes/getControls/getControls.pipe';
 import {PropertiesMetadataSAPipe} from '../../pipes/propertiesMetadata/propertiesMetadata.pipe';
 import {GetModelSAPipe} from '../../pipes/getModel/getModel.pipe';
+import {ContentComponentData, ContentOptionsSelectionData, ContentOptionsSelectionSAComponent} from '../../../../../components';
 
 /**
  * Component used for displaying editation of content options

@@ -8,7 +8,7 @@ import {LayoutPropertiesModelType} from '@anglr/dynamic/layout-editor';
 import {Dictionary} from '@jscrpt/common';
 
 import {ContentOptionsSelectionData} from './contentOptionsSelection.interface';
-import {ModelSelectedSAPipe} from '../../pipes/modelSelected/modelSelected.pipe';
+import {ModelSelectedSAPipe} from '../../pipes';
 
 /**
  * Component used for displaying selection of components and their options to be editable

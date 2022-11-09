@@ -43,7 +43,7 @@ export class DemoCustomComponentsRegister<TConfig extends CustomComponentConfigu
      */
     public toggleRegisteredComponent(name: string): void
     {
-        const customComponents = this._store.get<Dictionary<TConfig>|null>(CUSTOM_COMPONENTS);
+        const customComponents = this._store.get<Dictionary<TConfig>|null>(CUSTOM_COMPONENTS) ?? {};
 
         if(customComponents[name])
         {

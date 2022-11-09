@@ -4,11 +4,11 @@ import {DialogRef} from '@angular/cdk/dialog';
 import {CommonModule} from '@angular/common';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
-import {LayoutPropertiesModelType} from '@anglr/dynamic/layout-editor';
+import {TooltipModule} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 
 import {ContentOptionsSelectionData} from './contentOptionsSelection.interface';
-import {ModelSelectedSAPipe} from '../../pipes';
+import {GetModelSAPipe, PropertySelectedSAPipe, PropertiesMetadataSAPipe} from '../../pipes';
 
 /**
  * Component used for displaying selection of components and their options to be editable
@@ -23,7 +23,10 @@ import {ModelSelectedSAPipe} from '../../pipes';
         CommonModule,
         MatDialogModule,
         ReactiveFormsModule,
-        ModelSelectedSAPipe,
+        PropertySelectedSAPipe,
+        GetModelSAPipe,
+        PropertiesMetadataSAPipe,
+        TooltipModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -37,19 +40,71 @@ export class ContentOptionsSelectionSAComponent
     protected component: FormControl<string> = new FormControl();
 
     /**
-     * Array of used components and their model names
+     * Array of used properties for components and their models
      */
-    protected usedComponents: Dictionary<string[]> = {};
+    protected usedProperties: Dictionary<Dictionary<string[]>> = {};
+
+    /**
+     * Array of available properties for components and their models
+     */
+    protected availableProperties: Dictionary<Dictionary<string[]>> = {};
+
+    /**
+     * Array of content components that are available
+     */
+    protected contentComponents: string[] = [];
 
     //######################### constructor #########################
     constructor(@Inject(TITLED_DIALOG_DATA) protected data: ContentOptionsSelectionData,
                 protected dialog: DialogRef<ContentOptionsSelectionSAComponent, Dictionary<string[]>>,)
     {
-        for(const id in this.data.usedComponents)
-        {
-            const models = this.data.usedComponents[id];
+        this.contentComponents = Object.keys(data.customComponentContentMetadata);
 
-            this.usedComponents[id] = [...models];
+        for(const id in this.data.usedProperties)
+        {
+            const models = this.data.usedProperties[id];
+
+            this.availableProperties[id] ??= {};
+
+            for(const modelName in models)
+            {
+                const properties = models[modelName];
+
+                this.availableProperties[id][modelName] = [...properties];
+            }
+        }
+
+        const usedComponents = Object.keys(this.usedProperties);
+        this.contentComponents = this.contentComponents.filter(itm => usedComponents.indexOf(itm) < 0);
+
+        for(const id in data.customComponentContentMetadata)
+        {
+            const meta = data.customComponentContentMetadata[id];
+
+            if(!meta?.editorMetadata.metaInfo?.optionsMetadata?.propertiesMetadata)
+            {
+                continue;
+            }
+
+            for(const propMeta of meta.editorMetadata.metaInfo.optionsMetadata.propertiesMetadata)
+            {
+                const model = new propMeta.modelType(undefined);
+
+                if(!Object.keys(model).length)
+                {
+                    continue;
+                }
+
+                const modelName = propMeta.modelType.name;
+
+                this.availableProperties[id] ??= {};
+                this.availableProperties[id][modelName] ??= [];
+
+                for(const prop in model)
+                {
+                    this.availableProperties[id][modelName].push(prop);
+                }
+            }
         }
     }
 
@@ -65,7 +120,14 @@ export class ContentOptionsSelectionSAComponent
             return;
         }
 
-        this.usedComponents[this.component.value] = [];
+        this.usedProperties[this.component.value] = {};
+        const index = this.contentComponents.indexOf(this.component.value);
+
+        if(index >= 0)
+        {
+            this.contentComponents.splice(index, 1);
+            this.component.setValue(this.contentComponents[0] ?? null);
+        }
     }
 
     /**
@@ -74,33 +136,41 @@ export class ContentOptionsSelectionSAComponent
      */
     protected removeComponent(id: string): void
     {
-        delete this.usedComponents[id];
+        delete this.usedProperties[id];
+        this.contentComponents.push(id);
+
+        if(this.contentComponents.length == 1)
+        {
+            this.component.setValue(this.contentComponents[0]);
+        }
     }
 
     /**
-     * Toggle selected model in component
+     * Toggle selected property in component in model
      * @param id - Id of component to be edited
-     * @param type - Type to be added to component
+     * @param modelName - Name of model to be edited
+     * @param propertyName - Name of property to be toggled
      */
-    protected toggleSelected(id: string, type: LayoutPropertiesModelType): void
+    protected toggleSelected(id: string, modelName: string, propertyName: string): void
     {
-        this.usedComponents[id] ??= [];
+        this.usedProperties[id] ??= {};
+        this.usedProperties[id][modelName] ??= [];
 
-        const index = this.usedComponents[id].indexOf(type.name);
+        const index = this.usedProperties[id][modelName].indexOf(propertyName);
 
         //remove
         if(index >= 0)
         {
-            this.usedComponents[id].splice(index, 1);
-            this.usedComponents[id] = [...this.usedComponents[id]];
+            this.usedProperties[id][modelName].splice(index, 1);
+            this.usedProperties[id][modelName] = [...this.usedProperties[id][modelName]];
         }
         //add
         else
         {
-            this.usedComponents[id] =
+            this.usedProperties[id][modelName] =
             [
-                ...this.usedComponents[id],
-                type.name,
+                ...this.usedProperties[id][modelName],
+                propertyName,
             ];
         }
     }

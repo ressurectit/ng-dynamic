@@ -1,9 +1,9 @@
 <div class="dynamic-margin-bottom-small dynamic-flex-row">
     <div class="dynamic-flex-1 dynamic-margin-right-small">
-        <label class="dynamic-control-label">Component</label>
+        <label class="dynamic-control-label">Available components</label>
 
         <select class="dynamic-form-control" [formControl]="component">
-            <option *ngFor="let dataKeyValue of data?.customComponentContentMetadata | keyvalue" [value]="dataKeyValue.key">{{dataKeyValue.value.metadata.displayName}}</option>
+            <option *ngFor="let component of contentComponents" [value]="component">{{data.customComponentContentMetadata[component]?.metadata?.displayName}}</option>
         </select>
     </div>
 
@@ -13,18 +13,24 @@
 </div>
 
 <div>
-    <div *ngFor="let component of usedComponents | keyvalue" class="dynamic-margin-bottom-small">
+    <div *ngFor="let component of usedProperties | keyvalue" class="dynamic-margin-bottom-small">
         <div class="dynamic-bold dynamic-flex-row ">
-            <span class="dynamic-margin-right-small">{{data.customComponentContentMetadata[component.key].metadata.displayName}}</span>
+            <span class="dynamic-margin-right-small">{{data.customComponentContentMetadata[component.key]?.metadata?.displayName}}</span>
             
             <a class="dynamic-btn-icon" (click)="removeComponent(component.key)">
                 <span class="fas fa-times"></span>
             </a>
         </div>
         
-        <div *ngFor="let propsMeta of data.customComponentContentMetadata[component.key].editorMetadata.metaInfo?.optionsMetadata?.propertiesMetadata">
-            <label><input type="checkbox" [checked]="propsMeta.modelType | modelSelected: usedComponents[component.key]" (change)="toggleSelected(component.key, propsMeta.modelType)"> {{propsMeta.modelType.name}}</label>
-        </div>
+        <ng-container *ngFor="let modelProps of availableProperties[component.key] | keyvalue">
+            <div *ngFor="let prop of modelProps.value">
+                <label>
+                    <input type="checkbox" (change)="toggleSelected(component.key, modelProps.key, prop)" [checked]="usedProperties | propertySelected: component.key: modelProps.key: prop">
+                    <span>{{(modelProps.key | getModel: data.customComponentContentMetadata[component.key] | propertiesMetadata: data.propsMetadataExtractor)?.[prop]?.name ?? prop}}</span>
+                    <span class="fas fa-info-circle dynamic-margin-left-extra-small" *ngIf="(modelProps.key | getModel: data.customComponentContentMetadata[component.key] | propertiesMetadata: data.propsMetadataExtractor)?.[prop]?.description as description" [tooltip]="description" ></span>
+                </label>
+            </div>
+        </ng-container>
     </div>
 </div>
 
@@ -33,7 +39,7 @@
         <span>cancel</span>
     </button>
 
-    <button type="button" class="dynamic-btn dynamic-btn-primary" [mat-dialog-close]="usedComponents">
+    <button type="button" class="dynamic-btn dynamic-btn-primary" [mat-dialog-close]="usedProperties">
         <span>ok</span>
     </button>
 </div>

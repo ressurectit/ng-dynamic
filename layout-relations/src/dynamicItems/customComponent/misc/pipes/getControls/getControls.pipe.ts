@@ -14,7 +14,7 @@ export class GetControlsSAPipe implements PipeTransform
      * @param value - Name of model class
      * @param metadata - Metadata containing properties controls for model
      */
-    public transform(value: string, metadata: ContentComponentData|undefined,): Type<PropertiesControl>[]
+    public transform(value: string, metadata: ContentComponentData|undefined|null,): Type<PropertiesControl>[]
     {
         return metadata?.editorMetadata.metaInfo?.optionsMetadata?.propertiesMetadata?.find(itm => itm.modelType.name == value)?.propertiesControls ?? [];
     }

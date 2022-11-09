@@ -1,4 +1,4 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import {Optional, Pipe, PipeTransform} from '@angular/core';
 import {LayoutEditorPropertyMetadata, LayoutEditorPropertyMetadataExtractor, LayoutPropertiesModelType} from '@anglr/dynamic/layout-editor';
 import {Dictionary} from '@jscrpt/common';
 
@@ -9,7 +9,7 @@ import {Dictionary} from '@jscrpt/common';
 export class PropertiesMetadataSAPipe implements PipeTransform
 {
     //######################### constructor #########################
-    constructor(protected propertyExtractor: LayoutEditorPropertyMetadataExtractor,)
+    constructor(@Optional() protected propertyExtractor?: LayoutEditorPropertyMetadataExtractor,)
     {
     }
 
@@ -18,12 +18,20 @@ export class PropertiesMetadataSAPipe implements PipeTransform
     /**
      * Gets properties metadata for for model type
      * @param value - Type of properties model
+     * @param propertyExtractor - Extractor used for obtaining metadata for model
      */
-    public transform(value: LayoutPropertiesModelType|null): Dictionary<LayoutEditorPropertyMetadata>|null
+    public transform(value: LayoutPropertiesModelType|null, propertyExtractor?: LayoutEditorPropertyMetadataExtractor): Dictionary<LayoutEditorPropertyMetadata>|null
     {
         if(!value)
         {
             return null;
+        }
+
+        this.propertyExtractor ??= propertyExtractor;
+
+        if(!this.propertyExtractor)
+        {
+            throw new Error('Please provide LayoutEditorPropertyMetadataExtractor for propertiesMetadata pipe!');
         }
 
         return this.propertyExtractor.extract(value);

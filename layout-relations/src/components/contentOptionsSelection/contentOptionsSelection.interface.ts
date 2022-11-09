@@ -1,5 +1,5 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';
+import {LayoutEditorMetadataDescriptor, LayoutEditorPropertyMetadataExtractor} from '@anglr/dynamic/layout-editor';
 import {Dictionary} from '@jscrpt/common';
 
 /**
@@ -26,10 +26,15 @@ export interface ContentOptionsSelectionData
     /**
      * Metadata for each component in custom component
      */
-    customComponentContentMetadata: Dictionary<ContentComponentData>;
+    customComponentContentMetadata: Dictionary<ContentComponentData|undefined|null>;
 
     /**
      * Array of used components and their model names
      */
-    usedComponents: Dictionary<string[]>;
+    usedProperties: Dictionary<Dictionary<string[]>>;
+
+    /**
+     * Instance of property metadata extractor for models
+     */
+    propsMetadataExtractor: LayoutEditorPropertyMetadataExtractor;
 }

@@ -3,7 +3,7 @@ import {FormGroup} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {FormModelBuilder} from '@anglr/common/forms';
 import {LOGGER, Logger} from '@anglr/common';
-import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutPropertiesModelType, PropertiesControl, PropertiesControlBase, PropertiesControlsModule} from '@anglr/dynamic/layout-editor';
+import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorPropertyMetadataExtractor, LayoutPropertiesModelType, PropertiesControl, PropertiesControlBase, PropertiesControlsModule} from '@anglr/dynamic/layout-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {MetadataStorage} from '@anglr/dynamic';
 import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
@@ -12,9 +12,8 @@ import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {CustomComponentComponentOptions} from '../../../customComponent.options';
 import {GetControlsSAPipe} from '../../pipes/getControls/getControls.pipe';
-import {PropertiesMetadataSAPipe} from '../../pipes/propertiesMetadata/propertiesMetadata.pipe';
-import {GetModelSAPipe} from '../../pipes/getModel/getModel.pipe';
 import {ContentComponentData, ContentOptionsSelectionData, ContentOptionsSelectionSAComponent} from '../../../../../components';
+import {GetModelSAPipe, PropertiesMetadataSAPipe} from '../../../../../pipes';
 
 /**
  * Component used for displaying editation of content options
@@ -27,9 +26,9 @@ import {ContentComponentData, ContentOptionsSelectionData, ContentOptionsSelecti
     imports:
     [
         CommonModule,
+        PropertiesControlsModule,
         GetControlsSAPipe,
         GetModelSAPipe,
-        PropertiesControlsModule,
         PropertiesMetadataSAPipe,
     ],
     providers:
@@ -63,6 +62,11 @@ export class ContentOptionsPropertiesControlSAComponent extends PropertiesContro
     protected metadataExtractor: LayoutEditorMetadataExtractor = inject(LayoutEditorMetadataExtractor);
 
     /**
+     * Property metadata extractor for models
+     */
+    protected propsMetadataExtractor: LayoutEditorPropertyMetadataExtractor = inject(LayoutEditorPropertyMetadataExtractor);
+
+    /**
      * Instance of logger used for logging
      */
     protected logger: Logger = inject(LOGGER);
@@ -75,7 +79,7 @@ export class ContentOptionsPropertiesControlSAComponent extends PropertiesContro
     /**
      * Metadata for each component in custom component
      */
-    protected customComponentContentMetadata: Dictionary<ContentComponentData> = {};
+    protected customComponentContentMetadata: Dictionary<ContentComponentData|undefined|null> = {};
 
     /**
      * Custom component layout metadata
@@ -163,7 +167,8 @@ export class ContentOptionsPropertiesControlSAComponent extends PropertiesContro
             data:
             {
                 customComponentContentMetadata: this.customComponentContentMetadata,
-                usedComponents: this.usedComponents,
+                usedProperties: {},
+                propsMetadataExtractor: this.propsMetadataExtractor,
             }
         }).afterClosed());
 

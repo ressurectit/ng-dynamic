@@ -21,8 +21,8 @@ export class MaterialFormFieldComponentBaseModel extends FormFieldComponentBaseM
     @LayoutPropertyName('Appereance')
     @LayoutPropertyDescription('Input appereance')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('selectValue')
-    @LayoutPropertyValues<string>(['standard', 'legacy', 'fill', 'outline'])
-    public appearance: MatFormFieldAppearance = 'standard';
+    @LayoutPropertyValues<string>(['fill', 'outline'])
+    public appearance: MatFormFieldAppearance = 'outline';
 
     //######################### constructor #########################
     constructor(value: MaterialFormFieldComponentOptions|undefined|null)

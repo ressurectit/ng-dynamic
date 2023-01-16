@@ -8,3 +8,4 @@ export * from './layoutEditorMetadataExtractor/layoutEditorMetadataExtractor.ser
 export * from './layoutEditorMetadataManager/layoutEditorMetadataManager.service';
 export * from './layoutEditorMetadataManager/layoutEditorMetadataManager.interface';
 export * from './layoutEditorPropertyMetadataExtractor/layoutEditorPropertyMetadataExtractor.service';
+export * from './liveEvents/liveEvents.service';

@@ -1,5 +1,8 @@
 import {Component, ChangeDetectionStrategy, ElementRef, EmbeddedViewRef, OnInit, OnDestroy, Input, ChangeDetectorRef} from '@angular/core';
 import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {Subscription} from 'rxjs';
+
+import {LiveEventService} from '../../services';
 
 /**
  * Component displaying layout designer layout overlay
@@ -18,14 +21,19 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
     /**
      * Instance of mutation observer
      */
-    protected _observer?: MutationObserver;
+    protected observer?: MutationObserver;
+
+    /**
+     * Subscriptions created during initialization
+     */
+    protected initSubscriptions: Subscription = new Subscription();
 
     //######################### protected properties - template bindings #########################
 
     /**
      * Instance of element that is monitored
      */
-    protected _htmlElement: HTMLElement|undefined;
+    protected htmlElement: HTMLElement|undefined;
 
     //######################### public properties - inputs #########################
 
@@ -36,8 +44,9 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
     public layoutComponentRendererDirective?: LayoutComponentRendererSADirective;
 
     //######################### constructor #########################
-    constructor(protected _element: ElementRef<HTMLElement>,
-                protected _changeDetector: ChangeDetectorRef,)
+    constructor(protected element: ElementRef<HTMLElement>,
+                protected changeDetector: ChangeDetectorRef,
+                protected liveEvents: LiveEventService,)
     {
     }
 
@@ -48,15 +57,18 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._observer = new MutationObserver(() => this._changeDetector.detectChanges());
+        this.observer = new MutationObserver(() => this.changeDetector.detectChanges());
 
-        //TODO: make this working
-        this._htmlElement = (this.layoutComponentRendererDirective?.componentRef?.hostView as EmbeddedViewRef<any>)?.rootNodes?.[0];
+        //TODO: make this working, use existing html element
+        this.htmlElement = (this.layoutComponentRendererDirective?.componentRef?.hostView as EmbeddedViewRef<any>)?.rootNodes?.[0];
 
-        if(this._htmlElement)
+        if(this.htmlElement)
         {
-            this._observer?.observe(this._htmlElement, {attributeFilter: ['style']});
+            this.observer?.observe(this.htmlElement, {attributeFilter: ['style']});
         }
+
+        this.initSubscriptions.add(this.liveEvents.enabledChange.subscribe(() => this.toggleLiveEvents()));
+        this.toggleLiveEvents();
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -66,6 +78,23 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._observer?.disconnect();
+        this.observer?.disconnect();
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Toggles live events for element
+     */
+    protected toggleLiveEvents(): void
+    {
+        if(this.liveEvents.enabled)
+        {
+            this.element.nativeElement.style.pointerEvents = 'none';
+        }
+        else
+        {
+            this.element.nativeElement.style.pointerEvents = 'all';
+        }
     }
 }

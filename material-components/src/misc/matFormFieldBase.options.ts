@@ -13,5 +13,5 @@ export class MaterialFormFieldComponentOptions extends FormFieldComponentOptions
     /**
      * Input appearance
      */
-    appearance: MatFormFieldAppearance = 'standard';
+    appearance: MatFormFieldAppearance = 'outline';
 }

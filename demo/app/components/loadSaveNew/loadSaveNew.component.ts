@@ -1,10 +1,12 @@
 import {Component, ChangeDetectionStrategy, Input, OnInit, EventEmitter, Output, OnDestroy, Inject, Optional, ChangeDetectorRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgSelectModule} from '@anglr/select';
 import {EditorHotkeys, MetadataHistoryManager, MetadataStateManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
 import {ShowCustomComponentOptionsSADirective} from '@anglr/dynamic/layout-relations';
+import {LiveEventService} from '@anglr/dynamic/layout-editor';
 import {extend, Func} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -26,6 +28,7 @@ import {DemoCustomComponentsRegister} from '../../services/demoCustomComponentsR
         NgSelectModule,
         CommonModule,
         ShowCustomComponentOptionsSADirective,
+        MatSlideToggleModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -75,6 +78,8 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
                 private _route: ActivatedRoute,
                 @Inject(METADATA_STATE_MANAGER) private _metaManager: MetadataStateManager<TMetadata>,
                 private _changeDetector: ChangeDetectorRef,
+                protected liveEvents: LiveEventService,
+
                 @Optional() private _customComponentsRegister?: DemoCustomComponentsRegister,
                 @Optional() private _hotkeys?: EditorHotkeys,)
     {

@@ -1,6 +1,6 @@
-import {Component, ChangeDetectionStrategy, FactoryProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, FactoryProvider, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererSADirective, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {PlaceholderSAComponent} from '../placeholder.component';
@@ -24,39 +24,11 @@ import {ComponentWithId} from '../../../interfaces';
     ],
     providers:
     [
-        // <FactoryProvider>
-        // {
-        //     provide: LAYOUT_COMPONENT_TRANSFORM,
-        //     useFactory: () =>
-        //     {
-        //         const customComponentOwner = inject(CustomComponentSAComponent, {optional: true});
-        //         const isDesignTime = !!customComponentOwner?.customComponentInjector.get(LAYOUT_COMPONENT_TRANSFORM, null, {optional: true, skipSelf: true});
-
-        //         return isDesignTime ? layoutDesignerComponentTransform : null;
-        //     }
-        // },
-        // <FactoryProvider>
-        // {
-        //     provide: CustomComponentSAComponent,
-        //     useFactory: () =>
-        //     {
-        //         let customComponentOwner = inject(CustomComponentSAComponent, {optional: true, skipSelf: true});
-
-        //         while(customComponentOwner)
-        //         {
-        //             const isDesignTime = !!customComponentOwner.customComponentInjector.get(LAYOUT_COMPONENT_TRANSFORM, null, {optional: true, skipSelf: true});
-
-        //             if(isDesignTime)
-        //             {
-        //                 return customComponentOwner;
-        //             }
-
-        //             customComponentOwner = customComponentOwner.customComponentInjector.get(CustomComponentSAComponent, null, {optional: true, skipSelf: true});
-        //         }
-
-        //         return null;
-        //     },
-        // },
+        <FactoryProvider>
+        {
+            provide: LAYOUT_COMPONENT_TRANSFORM,
+            useFactory: () => inject(PlaceholderHandler).layoutDesignerComponentTransform,
+        },
         <FactoryProvider>
         {
             provide: PlaceholderHandler,
@@ -77,30 +49,10 @@ export class PlaceholderDesignerSAComponent extends PlaceholderSAComponent imple
      */
     protected override afterInit(): void
     {
-        // if(!this.showPlaceholder)
-        // {
-        //     const customComponentOptions = this.parentCustomComponent?.options;
-
-        //     if(!customComponentOptions)
-        //     {
-        //         return;
-        //     }
-
-        //     //placeholder container metadata does not exists yet
-        //     if(!customComponentOptions.placeholderContainers?.[this.id])
-        //     {
-        //         const containerId = `placeholderContainer-${this.parentCustomComponent?.id}-${this.id}`;
-
-        //         customComponentOptions.placeholderContainers ??= {};
-        //         customComponentOptions.placeholderContainers[this.id] =
-        //         {
-        //             id: containerId,
-        //             name: 'placeholderContainer',
-        //             package: 'custom-components',
-        //             displayName: containerId,
-        //             options: {},
-        //         };
-        //     }
-        // }
+        //only when displaying container
+        if(this.placeholderHandler.placeholderContainer)
+        {
+            this.placeholderHandler.initOptions();
+        }
     }
 }

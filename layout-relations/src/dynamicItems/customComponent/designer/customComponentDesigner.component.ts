@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ValueProvider, ExistingProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ValueProvider, ExistingProvider, FactoryProvider, inject} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererSADirective, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -6,6 +6,7 @@ import {PromiseOr} from '@jscrpt/common';
 
 import {CustomComponentSAComponent} from '../customComponent.component';
 import {CustomComponentComponentOptions} from '../customComponent.options';
+import {PlaceholderHandler} from '../../../services';
 
 /**
  * Component used for displaying custom component designer
@@ -31,7 +32,16 @@ import {CustomComponentComponentOptions} from '../customComponent.options';
         {
             provide: CustomComponentSAComponent,
             useExisting: CustomComponentDesignerSAComponent,
-        }
+        },
+        <FactoryProvider>
+        {
+            provide: PlaceholderHandler,
+            useFactory: () =>
+            {
+
+                return new PlaceholderHandler(CustomComponentSAComponent, inject(CustomComponentSAComponent));
+            }
+        },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

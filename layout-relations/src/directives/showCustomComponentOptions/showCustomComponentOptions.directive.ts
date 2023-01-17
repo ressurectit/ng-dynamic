@@ -1,4 +1,4 @@
-import {Directive, HostListener, Injector, Input, OnChanges, OnInit} from '@angular/core';
+import {Directive, ElementRef, HostListener, Injector, Input, OnChanges, OnInit} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {TitledDialogService} from '@anglr/common/material';
 import {LayoutEditorPropertyMetadataExtractor} from '@anglr/dynamic/layout-editor';
@@ -43,7 +43,8 @@ export class ShowCustomComponentOptionsSADirective<TConfig extends CustomCompone
     constructor(protected injector: Injector,
                 protected dialogSvc: TitledDialogService,
                 protected customComponentsRegister: CustomComponentsRegister<TConfig>,
-                protected propsMetadataExtractor: LayoutEditorPropertyMetadataExtractor,)
+                protected propsMetadataExtractor: LayoutEditorPropertyMetadataExtractor,
+                protected element: ElementRef<HTMLButtonElement>,)
     {
     }
 
@@ -77,7 +78,7 @@ export class ShowCustomComponentOptionsSADirective<TConfig extends CustomCompone
      */
     public async ngOnInit(): Promise<void>
     {
-        if(!this.name)
+        if(!this.name && !this.element.nativeElement.disabled)
         {
             throw new Error('Please provide name of custom component for its options');
         }

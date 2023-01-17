@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject, SimpleChanges, Injector} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, SimpleChanges, FactoryProvider} from '@angular/core';
 import {MetadataStorage} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutComponentsIteratorService, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -13,6 +13,7 @@ import {ComponentInputsRelations} from '../componentInputs/componentInputs.relat
 import {ComponentOutputsRelations} from '../componentOutputs/componentOutputs.relations';
 import {getInputs, getOutputs} from './customComponent.utils';
 import {ComponentWithId} from '../../interfaces';
+import {PlaceholderHandler} from '../../services/placeholderHandler/placeholderHandler.service';
 
 /**
  * Component used for displaying custom component
@@ -33,6 +34,14 @@ import {ComponentWithId} from '../../interfaces';
         RelationsManager,
         RelationsProcessor,
         LayoutComponentsIteratorService,
+        <FactoryProvider>
+        {
+            provide: PlaceholderHandler,
+            useFactory: () =>
+            {
+                return new PlaceholderHandler(CustomComponentSAComponent, inject(CustomComponentSAComponent));
+            }
+        },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -121,14 +130,6 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
      */
     public relationsOptions: CustomComponentRelationsOptions|undefined|null;
 
-    /**
-     * Injector for custom component
-     */
-    public get customComponentInjector(): Injector
-    {
-        return this.injector;
-    }
-
     //######################### public methods #########################
 
     /**
@@ -170,6 +171,7 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
             {
                 const overrideOpts = this.options.contentOptions?.[itm.metadata.id];
 
+                //overide options of internal components for custom component from outside
                 if(overrideOpts)
                 {
                     extend(itm.metadata.options, overrideOpts);

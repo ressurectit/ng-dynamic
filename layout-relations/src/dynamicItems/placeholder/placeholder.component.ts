@@ -1,13 +1,14 @@
-import {Component, ChangeDetectionStrategy, inject, FactoryProvider, InjectFlags} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, FactoryProvider} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {PlaceholderComponentOptions} from './placeholder.options';
 import {PlaceholderLayoutDesignerTypeLoader, PlaceholderLayoutMetadataLoader} from './placeholder.metadata';
 import {ComponentWithId} from '../../interfaces';
-import {CustomComponentSAComponent} from '../customComponent/customComponent.component';
+import {PlaceholderHandler} from '../../services';
+import {PlaceholderContainerComponentOptions} from '../placeholderContainer';
+import {ContainerMetadataSAPipe} from './misc/pipes';
 
 /**
  * Component used for displaying placeholder
@@ -21,38 +22,47 @@ import {CustomComponentSAComponent} from '../customComponent/customComponent.com
     imports:
     [
         LayoutComponentRendererSADirective,
+        ContainerMetadataSAPipe,
     ],
     providers:
     [
+        // <FactoryProvider>
+        // {
+        //     provide: RelationsComponentManager,
+        //     useFactory: () =>
+        //     {
+        //         const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
+
+        //         return owningCustomComponent?.customComponentInjector.get(RelationsComponentManager, null, InjectFlags.SkipSelf|InjectFlags.Optional);
+        //     },
+        // },
+        // <FactoryProvider>
+        // {
+        //     provide: RelationsManager,
+        //     useFactory: () =>
+        //     {
+        //         const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
+
+        //         return owningCustomComponent?.customComponentInjector.get(RelationsManager, null, InjectFlags.SkipSelf|InjectFlags.Optional);
+        //     },
+        // },
+        // <FactoryProvider>
+        // {
+        //     provide: RelationsProcessor,
+        //     useFactory: () =>
+        //     {
+        //         const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
+
+        //         return owningCustomComponent?.customComponentInjector.get(RelationsProcessor, null, InjectFlags.SkipSelf|InjectFlags.Optional);
+        //     },
+        // },
         <FactoryProvider>
         {
-            provide: RelationsComponentManager,
+            provide: PlaceholderHandler,
             useFactory: () =>
             {
-                const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
-
-                return owningCustomComponent?.customComponentInjector.get(RelationsComponentManager, null, InjectFlags.SkipSelf|InjectFlags.Optional);
-            },
-        },
-        <FactoryProvider>
-        {
-            provide: RelationsManager,
-            useFactory: () =>
-            {
-                const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
-
-                return owningCustomComponent?.customComponentInjector.get(RelationsManager, null, InjectFlags.SkipSelf|InjectFlags.Optional);
-            },
-        },
-        <FactoryProvider>
-        {
-            provide: RelationsProcessor,
-            useFactory: () =>
-            {
-                const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
-
-                return owningCustomComponent?.customComponentInjector.get(RelationsProcessor, null, InjectFlags.SkipSelf|InjectFlags.Optional);
-            },
+                return new PlaceholderHandler(PlaceholderSAComponent);
+            }
         },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -64,16 +74,9 @@ export class PlaceholderSAComponent extends LayoutComponentBase<PlaceholderCompo
     //######################### protected properties #########################
 
     /**
-     * Instance of parent custom component
+     * Handler used for working with placeholder
      */
-    protected parentCustomComponent: CustomComponentSAComponent|null = inject(CustomComponentSAComponent, {optional: true});
-
-    //######################### protected properties - template bindings #########################
-
-    /**
-     * Indication whether is used in custom component
-     */
-    protected inCustomComponent: boolean = !!this.parentCustomComponent;
+    protected placeholderHandler: PlaceholderHandler<PlaceholderContainerComponentOptions> = inject(PlaceholderHandler);
 
     //######################### public properties #########################
 

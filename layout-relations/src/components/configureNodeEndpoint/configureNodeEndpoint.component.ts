@@ -9,6 +9,7 @@ import {lastValueFrom} from 'rxjs';
 
 import {ComponentEndpointDef} from '../../interfaces';
 import {ComponentEndpointModel} from './configureNodeEndpoint.model';
+import {ConfigureNodeEndpointData} from './configureNodeEndpoint.interface';
 
 /**
  * Component used for configuring node endpoint
@@ -39,7 +40,7 @@ export class ConfigureNodeEndpointSAComponent
     protected form: FormGroup<FormModelGroup<ComponentEndpointDef>>;
 
     //######################### constructor #########################
-    constructor(@Inject(TITLED_DIALOG_DATA) protected data: ComponentEndpointDef,
+    constructor(@Inject(TITLED_DIALOG_DATA) protected data: ConfigureNodeEndpointData,
                 protected dialog: TitledDialogService,
                 formModelBuilder: FormModelBuilder,)
     {

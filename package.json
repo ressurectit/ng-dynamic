@@ -290,6 +290,9 @@
         },
         "./typings/transformData": {
             "default": "./basic-components/src/dynamicItems/transformData/transformData.interface.d.ts"
+        },
+        "./typings/state": {
+            "default": "./basic-components/src/dynamicItems/state/state.interface.d.ts"
         }
     }
 }

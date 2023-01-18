@@ -5,6 +5,7 @@ const relations =
     'logicalAnd',
     'logicalOr',
     'negation',
+    'state',
     'syncValues',
     'transformData',
     'value',

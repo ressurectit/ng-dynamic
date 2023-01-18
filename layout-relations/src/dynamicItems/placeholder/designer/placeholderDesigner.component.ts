@@ -50,7 +50,7 @@ export class PlaceholderDesignerSAComponent extends PlaceholderSAComponent imple
     protected override afterInit(): void
     {
         //only when displaying container
-        if(this.placeholderHandler.placeholderContainer)
+        if(this.placeholderHandler.placeholderContainer && this.placeholderHandler.designMode)
         {
             this.placeholderHandler.initOptions();
         }

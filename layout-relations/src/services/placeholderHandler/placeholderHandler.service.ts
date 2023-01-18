@@ -51,16 +51,6 @@ export class PlaceholderHandler<TOptions = unknown>
     }
 
     /**
-     * Gets indication whether is attached component in design mode
-     */
-    protected get designMode(): boolean
-    {
-        return (this.ɵdesignMode ??= this.ɵisPlaceholder ? 
-            !!this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {optional: true}) :
-            !!this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true,}));
-    }
-
-    /**
      * Gets indication whether is this handler attached to custom component
      */
     protected get isCustomComponent(): boolean
@@ -126,13 +116,15 @@ export class PlaceholderHandler<TOptions = unknown>
         return this.ɵparent;
     }
 
-    public parentCustomComponentDesignMode: boolean = false;
-
-    public parentPlaceholderDesignMode: boolean = false;
-
-    public ancestorCustomComponentDesignMode: boolean = false;
-
-    public ancestorPlaceholderDesignMode: boolean = false;
+    /**
+     * Gets indication whether is attached component in design mode
+     */
+    public get designMode(): boolean
+    {
+        return (this.ɵdesignMode ??= this.ɵisPlaceholder ? 
+            !!this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {optional: true}) :
+            !!this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true,}));
+    }
 
     /**
      * Gets indication whether display placeholder container or just placeholder
@@ -152,7 +144,6 @@ export class PlaceholderHandler<TOptions = unknown>
 
         //current or parent custom component transform
         const result = transform ??
-            this.nearestCustomComponent?.injector?.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true}) ??
             this.findRelatedCustomComponentHandler()?.injector?.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true}) ??
             null;
 

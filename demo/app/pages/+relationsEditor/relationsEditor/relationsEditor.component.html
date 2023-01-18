@@ -1,5 +1,5 @@
 <div class="flex-row">
-    <load-save-new [store]="_store" [getMetadataCallback]="_getMetadata" routePath="/relationsEditor" (metadataChange)="_metadata = ($any($event) ?? emptyMetadata)" [history]="history"></load-save-new>
+    <load-save-new [store]="_store" [getMetadataCallback]="_getMetadata" [layoutControls]="false" routePath="/relationsEditor" (metadataChange)="_metadata = ($any($event) ?? emptyMetadata)" [history]="history"></load-save-new>
 
     <button class="btn btn-primary" type="button" (click)="_loadDemo()">
         <span>demo</span>

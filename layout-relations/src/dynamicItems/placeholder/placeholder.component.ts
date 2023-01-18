@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, inject, FactoryProvider} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {PlaceholderComponentOptions} from './placeholder.options';
@@ -26,36 +27,21 @@ import {ContainerMetadataSAPipe} from './misc/pipes';
     ],
     providers:
     [
-        // <FactoryProvider>
-        // {
-        //     provide: RelationsComponentManager,
-        //     useFactory: () =>
-        //     {
-        //         const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
-
-        //         return owningCustomComponent?.customComponentInjector.get(RelationsComponentManager, null, InjectFlags.SkipSelf|InjectFlags.Optional);
-        //     },
-        // },
-        // <FactoryProvider>
-        // {
-        //     provide: RelationsManager,
-        //     useFactory: () =>
-        //     {
-        //         const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
-
-        //         return owningCustomComponent?.customComponentInjector.get(RelationsManager, null, InjectFlags.SkipSelf|InjectFlags.Optional);
-        //     },
-        // },
-        // <FactoryProvider>
-        // {
-        //     provide: RelationsProcessor,
-        //     useFactory: () =>
-        //     {
-        //         const owningCustomComponent = inject(CustomComponentSAComponent, {optional: true});
-
-        //         return owningCustomComponent?.customComponentInjector.get(RelationsProcessor, null, InjectFlags.SkipSelf|InjectFlags.Optional);
-        //     },
-        // },
+        <FactoryProvider>
+        {
+            provide: RelationsComponentManager,
+            useFactory: () => inject(PlaceholderHandler).relationsComponentManager,
+        },
+        <FactoryProvider>
+        {
+            provide: RelationsManager,
+            useFactory: () => inject(PlaceholderHandler).relationsManager,
+        },
+        <FactoryProvider>
+        {
+            provide: RelationsProcessor,
+            useFactory: () => inject(PlaceholderHandler).relationsProcessor,
+        },
         <FactoryProvider>
         {
             provide: PlaceholderHandler,

@@ -1,5 +1,6 @@
 import {inject, Injector, Type} from '@angular/core';
 import {LayoutComponentMetadata, LayoutComponentTransform, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
+import {RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {LOGGER, Logger} from '@anglr/common';
 
 import type {CustomComponentSAComponent} from '../../dynamicItems/customComponent/customComponent.component';
@@ -150,6 +151,30 @@ export class PlaceholderHandler<TOptions = unknown>
         return result;
     }
 
+    /**
+     * Relations component manager instance that is used for placeholders
+     */
+    public get relationsComponentManager(): RelationsComponentManager|null
+    {
+        return this.getParentCustomComponentHandler()?.injector.get(RelationsComponentManager, undefined, {skipSelf: true}) ?? null;
+    }
+
+    /**
+     * Relations processor instance that is used for placeholders
+     */
+    public get relationsProcessor(): RelationsProcessor|null
+    {
+        return this.getParentCustomComponentHandler()?.injector.get(RelationsProcessor, undefined, {skipSelf: true}) ?? null;
+    }
+
+    /**
+     * Relations manager instance that is used for placeholders
+     */
+    public get relationsManager(): RelationsManager|null
+    {
+        return this.getParentCustomComponentHandler()?.injector.get(RelationsManager, undefined, {skipSelf: true}) ?? null;
+    }
+
     //######################### constructor #########################
     constructor(protected componentWithIdType: Type<ComponentWithId>,
                 protected customComponent?: CustomComponentSAComponent,)
@@ -266,6 +291,39 @@ export class PlaceholderHandler<TOptions = unknown>
             }
         }
         while((handler = handler.parent));
+
+        return null;
+    }
+
+    /**
+     * Gets handler, which is attached to custom component which owns this placeholder container
+     */
+    protected getParentCustomComponentHandler(): PlaceholderHandler<TOptions>|null
+    {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        let handler: PlaceholderHandler<TOptions> = this;
+
+        if(!handler.parent)
+        {
+            throw new Error('PlaceholderHandler: parent must be present to work with relations!');
+        }
+
+        do
+        {
+            //skip placeholder
+            if(handler.isPlaceholder)
+            {
+                continue;
+            }
+
+            if(handler.customComponent?.options?.placeholderContainers?.[this.id])
+            {
+                return handler;
+            }
+        }
+        while((handler = handler.parent));
+
+        this.logger.error('PlaceholderHandler: unable to find owning custom component for {@id}', this.id);
 
         return null;
     }

@@ -68,6 +68,9 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
     @Input()
     public componentMarking: boolean = false;
 
+    @Input()
+    public layoutControls: boolean = true;
+
     //######################### public properties - outputs #########################
 
     @Output()

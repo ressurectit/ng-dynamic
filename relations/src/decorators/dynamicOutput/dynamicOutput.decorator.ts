@@ -1,6 +1,6 @@
 import {Subject} from 'rxjs';
 
-import {defineSkipInitProp} from '../../misc/utils';
+import {defineAssignedProp, defineSkipInitProp} from '../../misc/utils';
 
 /**
  * Creates dynamic output for property
@@ -38,6 +38,7 @@ export function DynamicOutput(options?: {skipInit?: boolean;}): PropertyDecorato
                                   set: function(value:any)
                                   {
                                       this[`ɵ${prop}`] = value;
+                                      defineAssignedProp(this, prop);
                                       this[`${prop}Change`].next();
                                   }
                               });

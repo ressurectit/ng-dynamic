@@ -1,6 +1,7 @@
 import {Injector, SimpleChanges} from '@angular/core';
-import {defineSkipInitProp, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {defineAssignedProp, defineSkipInitProp, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
+import {Dictionary} from '@jscrpt/common';
 import {Subject} from 'rxjs';
 
 import {ComponentInputsRelationsMetadataLoader} from './componentInputs.metadata';
@@ -100,8 +101,15 @@ export class ComponentInputsRelations implements RelationsComponent<ComponentInp
             Object.defineProperty(this,
                                   input.name,
                                   {
-                                      value: input.defaultValue,
-                                      writable: true,
+                                      get: function()
+                                      {
+                                          return this[`ɵ${input.name}`];
+                                      },
+                                      set: function(value: any)
+                                      {
+                                          this[`ɵ${input.name}`] = value;
+                                          defineAssignedProp(this, input.name);
+                                      }
                                   });
 
             Object.defineProperty(this,
@@ -109,6 +117,12 @@ export class ComponentInputsRelations implements RelationsComponent<ComponentInp
                                   {
                                       value: new Subject()
                                   });
+
+            //sets initial value
+            if(input.defaultValue !== undefined)
+            {
+                (this as Dictionary)[input.name] = input.defaultValue;
+            }
             
             if(input.skipInit)
             {

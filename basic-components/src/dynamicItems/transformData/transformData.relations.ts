@@ -53,7 +53,7 @@ export class TransformDataRelations<TData = any, TTransformedData = any> impleme
     /**
      * Transformed data
      */
-    @DynamicOutput({skipInit: true})
+    @DynamicOutput()
     public transformedData: TTransformedData|undefined|null;
 
     //######################### constructor #########################

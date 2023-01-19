@@ -1,5 +1,5 @@
 import {Injector, SimpleChanges} from '@angular/core';
-import {defineSkipInitProp, PureRelationsComponent, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {defineAssignedProp, defineSkipInitProp, PureRelationsComponent, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, VoidObject} from '@anglr/dynamic/relations-editor';
 import {isPresent, nameof} from '@jscrpt/common';
 import {NEVER} from 'rxjs';
@@ -119,18 +119,20 @@ export class SyncValuesRelations implements RelationsComponent<SyncValuesRelatio
                     Object.defineProperty(this,
                                           property,
                                           {
-                                              configurable: true,
-                                              enumerable: true,
-                                              writable: true,
-                                              value: null,
+                                              get: function()
+                                              {
+                                                  return this[`ɵ${property}`];
+                                              },
+                                              set: function(value:any)
+                                              {
+                                                  this[`ɵ${property}`] = value;
+                                                  defineAssignedProp(this, property);
+                                              }
                                           });
 
                     Object.defineProperty(this,
                                           `${property}Change`,
                                           {
-                                              configurable: true,
-                                              enumerable: true,
-                                              writable: true,
                                               value: NEVER,
                                           });
                                           

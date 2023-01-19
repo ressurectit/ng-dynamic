@@ -55,7 +55,7 @@ export class StateRelations<TState = unknown> implements RelationsComponent<Stat
     /**
      * Data that represents current state
      */
-    @DynamicOutput({skipInit: true})
+    @DynamicOutput()
     public state: TState|undefined|null;
 
     //######################### constructor #########################

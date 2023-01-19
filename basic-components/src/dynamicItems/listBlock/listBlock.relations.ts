@@ -21,25 +21,25 @@ export class ListBlockRelations<TDatum = any> implements RelationsComponent<List
     /**
      * Instance of datum assigned to this item in list
      */
-    @DynamicOutput({skipInit: true})
+    @DynamicOutput()
     public datum: TDatum|null = null;
 
     /**
      * Index of assigned datum to this item in list
      */
-    @DynamicOutput({skipInit: true})
+    @DynamicOutput()
     public index: number = 0;
 
     /**
      * Indication whether is this first item in list
      */
-    @DynamicOutput({skipInit: true})
+    @DynamicOutput()
     public first: boolean = false;
 
     /**
      * Indication whether is this last item in list
      */
-    @DynamicOutput({skipInit: true})
+    @DynamicOutput()
     public last: boolean = false;
 
     /**

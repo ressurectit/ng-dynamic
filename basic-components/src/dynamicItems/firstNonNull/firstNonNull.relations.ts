@@ -25,20 +25,20 @@ export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRel
     /**
      * First data to be cheched
      */
-    public data1: any = null;
+    public data1: unknown;
 
     /**
      * Next data to be checked
      */
-    public data2: any = null;
+    public data2: unknown;
 
     //######################### public properties - dynamic outputs #########################
 
     /**
      * Resulting data
      */
-    @DynamicOutput({skipInit: true})
-    public data: any = null;
+    @DynamicOutput()
+    public data: unknown;
 
     //######################### public methods - implementation of RelationsComponent #########################
     

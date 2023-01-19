@@ -65,7 +65,7 @@ export class ComponentInputsNodeSAComponent extends RelationsNodeBase<ComponentI
         {
             name: '',
             defaultValue: null,
-            skipInit: true,
+            skipInit: false,
             allowSkipInit: true,
         };
 

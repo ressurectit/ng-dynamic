@@ -78,14 +78,14 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
     /**
      * Success output for rest result
      */
-    @DynamicOutput({skipInit: true})
-    public success: any = {test: true};
+    @DynamicOutput()
+    public success: unknown;
 
     /**
      * Error output for rest result
      */
-    @DynamicOutput({skipInit: true})
-    public error: any = null;
+    @DynamicOutput()
+    public error: unknown;
 
     //######################### constructor #########################
     constructor(injector: Injector,)

@@ -22,9 +22,9 @@ export class DebounceValueRelations<TValue = any> implements RelationsComponent<
     protected valueChange: Subject<void> = new Subject<void>();
 
     /**
-     * Indication that initial data transfer should be skipped
+     * Indication that initial value was already assigned
      */
-    protected valueSkipInit: boolean = true;
+    protected valueAssigned: boolean = false;
 
     /**
      * Reference number to timeout instance
@@ -73,7 +73,11 @@ export class DebounceValueRelations<TValue = any> implements RelationsComponent<
 
             this.ngZone.runOutsideAngular(() =>
             {
-                this.timeout = setTimeout(() => this.valueChange.next(), this.relationsOptions?.delay ?? 0) as any;
+                this.timeout = setTimeout(() =>
+                {
+                    this.valueAssigned = true;
+                    this.valueChange.next();
+                }, this.relationsOptions?.delay ?? 0) as any;
             });
         }
     }

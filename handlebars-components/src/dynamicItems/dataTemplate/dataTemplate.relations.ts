@@ -64,8 +64,8 @@ export class DataTemplateRelations implements RelationsComponent<DataTemplateRel
     /**
      * Output of template compilation
      */
-    @DynamicOutput({skipInit: true})
-    public output: string = '';
+    @DynamicOutput()
+    public output: string|undefined|null;
 
     //######################### public methods - implementation of RelationsComponent #########################
     

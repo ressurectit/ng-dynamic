@@ -1,6 +1,7 @@
 import {Injector, SimpleChanges} from '@angular/core';
-import {defineSkipInitProp, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {defineAssignedProp, defineSkipInitProp, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
+import {Dictionary} from '@jscrpt/common';
 import {Subject} from 'rxjs';
 
 import {ComponentOutputsRelationsMetadataLoader} from './componentOutputs.metadata';
@@ -105,8 +106,15 @@ export class ComponentOutputsRelations implements RelationsComponent<ComponentOu
             Object.defineProperty(this.customComponent,
                                   output.name,
                                   {
-                                      value: output.defaultValue,
-                                      writable: true,
+                                      get: function()
+                                      {
+                                          return this[`ɵ${output.name}`];
+                                      },
+                                      set: function(value: any)
+                                      {
+                                          this[`ɵ${output.name}`] = value;
+                                          defineAssignedProp(this, output.name);
+                                      }
                                   });
 
             Object.defineProperty(this.customComponent,
@@ -114,6 +122,12 @@ export class ComponentOutputsRelations implements RelationsComponent<ComponentOu
                                   {
                                       value: new Subject()
                                   });
+
+            //sets initial value
+            if(output.defaultValue !== undefined)
+            {
+                (this as Dictionary)[output.name] = output.defaultValue;
+            }
 
             if(output.skipInit)
             {

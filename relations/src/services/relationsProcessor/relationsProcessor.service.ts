@@ -11,6 +11,7 @@ import {RelationsDataTransferInstruction, RelationsProcessorComponentData, Relat
 import {RELATIONS_COMPONENTS_LOADER, RELATIONS_PROCESSOR_SKIP_INIT} from '../../misc/tokens';
 import {RelationsComponentDef, RelationsProcessorComponent} from '../../misc/types';
 import {RelationsDataTransferInstructionImpl} from './relationsDataTransferInstruction';
+import {isAssigned, isSkipInit} from '../../misc/utils';
 
 /**
  * Processor that applies relations to registered components
@@ -227,8 +228,8 @@ export class RelationsProcessor implements OnDestroy
                     {
                         const id = `${inputComponent.ɵɵRelationsComponentId}-${outputComponent.ɵɵRelationsComponentId}`;
 
-                        //initialize default value from this to its connections
-                        if(!(outputComponent as unknown as Dictionary<boolean>)[`${inputOutput.outputName}SkipInit`] && !inputOutput.initialized[id])
+                        //init data transfer only if not marked as skip init and was not initialized and was already at least once assigned
+                        if(!isSkipInit(outputComponent, inputOutput.outputName) && !inputOutput.initialized[id] && isAssigned(outputComponent, inputOutput.outputName))
                         {
                             inputOutput.initialized[id] = this.transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
                         }
@@ -618,7 +619,8 @@ export class RelationsProcessor implements OnDestroy
             {
                 const id = `${inputCmp.ɵɵRelationsComponentId}-${outputCmp.ɵɵRelationsComponentId}`;
 
-                if(!(outputCmp as unknown as Dictionary<boolean>)[`${inputOutput.outputName}SkipInit`] && !inputOutput.initialized[id])
+                //init data transfer only if not marked as skip init and was not initialized and was already at least once assigned
+                if(!isSkipInit(outputCmp, inputOutput.outputName) && !inputOutput.initialized[id] && isAssigned(outputCmp, inputOutput.outputName))
                 {
                     inputOutput.initialized[id] = this.transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
                 }

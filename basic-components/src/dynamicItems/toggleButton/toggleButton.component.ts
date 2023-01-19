@@ -49,7 +49,7 @@ export class ToggleButtonSAComponent extends LayoutComponentBase<ToggleButtonCom
     /**
      * Output used for emitting on/off state of toggle button
      */
-    @DynamicOutput()
+    @DynamicOutput({skipInit: true})
     public toggle: boolean|null = null;
 
     //######################### protected - overrides #########################

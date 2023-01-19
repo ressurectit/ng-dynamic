@@ -1,5 +1,5 @@
 import {Injector, SimpleChanges} from '@angular/core';
-import {RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {defineSkipInitProp, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {Subject} from 'rxjs';
 
@@ -109,6 +109,11 @@ export class ComponentInputsRelations implements RelationsComponent<ComponentInp
                                   {
                                       value: new Subject()
                                   });
+            
+            if(input.skipInit)
+            {
+                defineSkipInitProp(this, input.name);
+            }
         }
 
         this.componentManager.registerComponent(this.id, this);

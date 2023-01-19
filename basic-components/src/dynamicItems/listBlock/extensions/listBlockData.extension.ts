@@ -3,6 +3,8 @@ import {DynamicItemExtension, DynamicItemExtensionBase} from '@anglr/dynamic';
 import {ListBlockSAComponent} from '../listBlock.component';
 import {ListBlockDataExtensionOptions} from '../listBlockExtensions.options';
 
+//TODO: id use id setter extension
+
 /**
  * Extension that sets custom component data to instance
  */

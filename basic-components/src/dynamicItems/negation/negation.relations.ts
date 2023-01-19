@@ -31,7 +31,7 @@ export class NegationRelations implements RelationsComponent
     /**
      * Negated condition value
      */
-    @DynamicOutput()
+    @DynamicOutput({skipInit: true})
     public negatedCondition: boolean = true;
 
     //######################### public methods - implementation of RelationsComponent #########################

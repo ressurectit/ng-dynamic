@@ -22,6 +22,11 @@ export class DebounceValueRelations<TValue = any> implements RelationsComponent<
     protected valueChange: Subject<void> = new Subject<void>();
 
     /**
+     * Indication that initial data transfer should be skipped
+     */
+    protected valueSkipInit: boolean = true;
+
+    /**
      * Reference number to timeout instance
      */
     protected timeout: number|null = null;

@@ -37,7 +37,7 @@ export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRel
     /**
      * Resulting data
      */
-    @DynamicOutput()
+    @DynamicOutput({skipInit: true})
     public data: any = null;
 
     //######################### public methods - implementation of RelationsComponent #########################
@@ -47,18 +47,16 @@ export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRel
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<FirstNonNullRelations>('data1') in changes && this.data1)
+        if(nameof<FirstNonNullRelations>('data1') in changes || nameof<FirstNonNullRelations>('data2') in changes)
         {
-            this.data = this.data1;
-
-            return;
-        }
-
-        if(nameof<FirstNonNullRelations>('data2') in changes && this.data2)
-        {
-            this.data = this.data2;
-
-            return;
+            if(this.data1)
+            {
+                this.data = this.data1;
+            }
+            else if(this.data2)
+            {
+                this.data = this.data2;
+            }
         }
     }
 

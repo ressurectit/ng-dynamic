@@ -37,7 +37,7 @@ export class LogicalAndRelations implements RelationsComponent<LogicalAndRelatio
     /**
      * Logical and result value
      */
-    @DynamicOutput()
+    @DynamicOutput({skipInit: true})
     public result: boolean = true;
 
     //######################### public methods - implementation of RelationsComponent #########################

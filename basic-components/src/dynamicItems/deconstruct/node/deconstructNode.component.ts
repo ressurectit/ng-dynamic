@@ -5,21 +5,17 @@ import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, Relatio
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
 import {TitledDialogService} from '@anglr/common/material';
 import {generateId} from '@jscrpt/common';
-import typings from '!!raw-loader?esModule!@anglr/dynamic/typings/state';
-import {languages} from 'monaco-editor';
 import {lastValueFrom} from 'rxjs';
 
-import {StateRelationsEditorOptions, StateRelationsInputFunctionData, StateRelationsOptions} from '../state.options';
-
-languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modules/@types/state/index.d.ts');
+import {DeconstructRelationsInputFunctionData, DeconstructRelationsOptions} from '../deconstruct.options';
 
 /**
- * Relations node component for state
+ * Relations node component for deconstruct
  */
 @Component(
 {
-    selector: 'state-node',
-    templateUrl: 'stateNode.component.html',
+    selector: 'deconstruct-node',
+    templateUrl: 'deconstructNode.component.html',
     standalone: true,
     imports:
     [
@@ -30,7 +26,7 @@ languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modul
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOptions, StateRelationsEditorOptions> implements RelationsNode<StateRelationsOptions, StateRelationsEditorOptions>
+export class DeconstructNodeSAComponent extends RelationsNodeBase<DeconstructRelationsOptions> implements RelationsNode<DeconstructRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 
@@ -67,7 +63,7 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
      */
     protected async addInputFunc(): Promise<void>
     {
-        const inputFunc: StateRelationsInputFunctionData = 
+        const inputFunc: DeconstructRelationsInputFunctionData = 
         {
             id: generateId(12),
             code: null,

@@ -1,9 +1,11 @@
 const relations = 
 [
     'debounceValue',
+    'deconstruct',
     'firstNonNull',
     'logicalAnd',
     'logicalOr',
+    'merge',
     'negation',
     'state',
     'syncValues',

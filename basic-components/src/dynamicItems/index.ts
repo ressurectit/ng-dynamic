@@ -1,6 +1,7 @@
 export * from './block';
 export * from './button';
 export * from './debounceValue';
+export * from './deconstruct';
 export * from './firstNonNull';
 export * from './gridPanel';
 export * from './gridPanelCell';
@@ -9,6 +10,7 @@ export * from './ifBlock';
 export * from './listBlock';
 export * from './logicalAnd';
 export * from './logicalOr';
+export * from './merge';
 export * from './negation';
 export * from './notFound';
 export * from './stackPanel';

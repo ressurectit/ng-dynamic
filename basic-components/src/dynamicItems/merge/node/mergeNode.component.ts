@@ -5,21 +5,17 @@ import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, Relatio
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
 import {TitledDialogService} from '@anglr/common/material';
 import {generateId} from '@jscrpt/common';
-import typings from '!!raw-loader?esModule!@anglr/dynamic/typings/state';
-import {languages} from 'monaco-editor';
 import {lastValueFrom} from 'rxjs';
 
-import {StateRelationsEditorOptions, StateRelationsInputFunctionData, StateRelationsOptions} from '../state.options';
-
-languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modules/@types/state/index.d.ts');
+import {MergeRelationsOptions} from '../merge.options';
 
 /**
- * Relations node component for state
+ * Relations node component for merge
  */
 @Component(
 {
-    selector: 'state-node',
-    templateUrl: 'stateNode.component.html',
+    selector: 'merge-node',
+    templateUrl: 'mergeNode.component.html',
     standalone: true,
     imports:
     [
@@ -30,7 +26,7 @@ languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modul
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOptions, StateRelationsEditorOptions> implements RelationsNode<StateRelationsOptions, StateRelationsEditorOptions>
+export class MergeNodeSAComponent extends RelationsNodeBase<MergeRelationsOptions> implements RelationsNode<MergeRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 

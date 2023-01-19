@@ -1,0 +1,1 @@
+export * from './deconstruct.options';

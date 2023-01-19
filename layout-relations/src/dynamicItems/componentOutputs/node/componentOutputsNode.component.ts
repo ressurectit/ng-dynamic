@@ -6,8 +6,7 @@ import {extend} from '@jscrpt/common';
 import {lastValueFrom} from 'rxjs';
 
 import {ComponentOutputsRelationsOptions} from '../componentOutputs.options';
-import {ConfigureNodeEndpointSAComponent} from '../../../components';
-import {ComponentEndpointDef} from '../../../interfaces';
+import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '../../../components';
 
 /**
  * Relations node component for component outputs
@@ -32,7 +31,7 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
     /**
      * Gets component outputs
      */
-    protected get endpoints(): ComponentEndpointDef[]
+    protected get endpoints(): ConfigureNodeEndpointData[]
     {
         if(!this.metadata)
         {
@@ -62,10 +61,12 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
      */
     protected async addEndpoint(): Promise<void>
     {
-        const param: ComponentEndpointDef = 
+        const param: ConfigureNodeEndpointData = 
         {
             name: '',
             defaultValue: null,
+            skipInit: true,
+            allowSkipInit: true,
         };
 
         if(await this.configureEndpoint(param))
@@ -79,7 +80,7 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
      * Removes endpoint
      * @param endpoint - Endpoint to be removed
      */
-    protected removeEndpoint(endpoint: ComponentEndpointDef): void
+    protected removeEndpoint(endpoint: ConfigureNodeEndpointData): void
     {
         const index = this.endpoints.indexOf(endpoint);
 
@@ -94,11 +95,11 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
      * Configures endpoint
      * @param endpoint - Endpoint to be configured
      */
-    protected async configureEndpoint(endpoint: ComponentEndpointDef): Promise<boolean>
+    protected async configureEndpoint(endpoint: ConfigureNodeEndpointData): Promise<boolean>
     {
         const original = JSON.parse(JSON.stringify(endpoint));
         
-        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ComponentEndpointDef, true|undefined|null>(ConfigureNodeEndpointSAComponent,
+        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
         {
             title: 'configure component output',
             width: '60vw',

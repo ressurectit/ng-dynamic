@@ -1,9 +1,14 @@
 import {Subject} from 'rxjs';
 
+import {defineSkipInitProp} from '../../misc/utils';
+
 /**
  * Creates dynamic output for property
+ * @param options - Options that allows configure dynamic output
+ * 
+ * `skipInit` - Means that there will be no initial data transfer for this output
  */
-export function DynamicOutput(): PropertyDecorator
+export function DynamicOutput(options?: {skipInit?: boolean;}): PropertyDecorator
 {
     return function(target: any, propertyKey: string|symbol)
     {
@@ -36,5 +41,10 @@ export function DynamicOutput(): PropertyDecorator
                                       this[`${prop}Change`].next();
                                   }
                               });
+
+        if(options?.skipInit)
+        {
+            defineSkipInitProp(target, prop);
+        }
     };
 }

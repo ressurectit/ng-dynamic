@@ -12,4 +12,9 @@ export interface ComponentEndpointDef<TValue = any>
      * Default value for endpoint, if not connected
      */
     defaultValue: TValue|undefined|null;
+
+    /**
+     * Indication whether skip init data transfer for relations
+     */
+    skipInit: boolean;
 }

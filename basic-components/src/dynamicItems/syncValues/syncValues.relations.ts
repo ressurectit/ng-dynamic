@@ -1,5 +1,5 @@
 import {Injector, SimpleChanges} from '@angular/core';
-import {PureRelationsComponent, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {defineSkipInitProp, PureRelationsComponent, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, VoidObject} from '@anglr/dynamic/relations-editor';
 import {isPresent, nameof} from '@jscrpt/common';
 import {NEVER} from 'rxjs';
@@ -133,6 +133,9 @@ export class SyncValuesRelations implements RelationsComponent<SyncValuesRelatio
                                               writable: true,
                                               value: NEVER,
                                           });
+                                          
+                    //TODO: make this configurable
+                    defineSkipInitProp(this, property);
                 }
             }
         }

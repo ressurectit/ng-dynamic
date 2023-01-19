@@ -18,6 +18,11 @@ export class ComponentEndpointModel<TValue = any> implements ComponentEndpointDe
      * @inheritdoc
      */
     public name: string = '';
+
+    /**
+     * @inheritdoc
+     */
+    public skipInit: boolean = false;
     
     //######################### constructor #########################
     constructor(value: ComponentEndpointDef|undefined|null)

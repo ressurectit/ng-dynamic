@@ -5,13 +5,13 @@ import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {FormComponentControlBuilder, FORM_COMPONENT_CONTROL, provideFormLayout} from '@anglr/dynamic/form';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor} from '@anglr/dynamic/layout-editor';
+import {provideLayoutRelations} from '@anglr/dynamic/layout-relations';
+import {RelationsManager} from '@anglr/dynamic/relations';
 import {provideBasicLayout} from '@anglr/dynamic/basic-components';
 import {provideMaterialLayout} from '@anglr/dynamic/material-components';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
-import {RelationsManager} from '../../../../../relations/src';
-import {provideLayoutRelations} from '../../../../../layout-relations/src';
 
 /**
  * Form preview component

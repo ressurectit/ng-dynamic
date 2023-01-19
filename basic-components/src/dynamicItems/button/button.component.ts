@@ -49,7 +49,7 @@ export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOption
     /**
      * Output used for emitting new void object value when clicked
      */
-    @DynamicOutput()
+    @DynamicOutput({skipInit: true})
     public click: VoidObject = {};
 
     //######################### protected - overrides #########################

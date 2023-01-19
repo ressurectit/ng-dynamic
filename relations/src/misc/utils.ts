@@ -35,3 +35,17 @@ export function provideRelations(): Provider[]
         CodeExecutor,
     ];
 }
+
+/**
+ * Defines skip initial data transfer for relations for specified property
+ * @param object - Object which will have this new property defined
+ * @param name - Name of property to be defined
+ */
+export function defineSkipInitProp<TObj>(object: TObj, name: string): void
+{
+    Object.defineProperty(object,
+                          `${name}SkipInit`,
+                          {
+                              value: true,
+                          });
+}

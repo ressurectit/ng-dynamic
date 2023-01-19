@@ -4,13 +4,15 @@
         <input type="text" class="dynamic-form-control" formControlName="name">
     </div>
 
-    <ng-container *ngIf="!data.onlyName">
-        <div class="dynamic-flex-column">
-            <button type="button" class="dynamic-btn dynamic-btn-primary dynamic-align-self-center" (click)="showCodeEditor()">
-                <span>default value</span>
-            </button>
-        </div>
-    </ng-container>
+    <div class="dynamic-form-group dynamic-margin-bottom-extra-small" *ngIf="data.allowSkipInit">
+        <label class="dynamic-control-label dynamic-text-uppercase"><input type="checkbox" formControlName="skipInit"> skip init </label>
+    </div>
+
+    <div class="dynamic-flex-column dynamic-margin-bottom-extra-small" *ngIf="!data.noDefaultValue">
+        <button type="button" class="dynamic-btn dynamic-btn-primary dynamic-align-self-center" (click)="showCodeEditor()">
+            <span>default value</span>
+        </button>
+    </div>
 </div>
 
 <div class="dynamic-flex-row dynamic-flex-end">

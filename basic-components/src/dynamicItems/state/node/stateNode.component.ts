@@ -77,7 +77,8 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
         {
             name: `inputFunc${this.inputFunctions.length + 1}`,
             defaultValue: null,
-            onlyName: true,
+            noDefaultValue: true,
+            skipInit: false,
         };
 
         if(await this.configureEndpoint(name))
@@ -133,7 +134,8 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
         {
             name,
             defaultValue: null,
-            onlyName: true,
+            noDefaultValue: true,
+            skipInit: false,
         });
 
         this.changeDetector.detectChanges();

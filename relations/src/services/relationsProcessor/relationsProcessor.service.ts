@@ -228,7 +228,7 @@ export class RelationsProcessor implements OnDestroy
                         const id = `${inputComponent.ɵɵRelationsComponentId}-${outputComponent.ɵɵRelationsComponentId}`;
 
                         //initialize default value from this to its connections
-                        if(!inputOutput.initialized[id])
+                        if(!(outputComponent as unknown as Dictionary<boolean>)[`${inputOutput.outputName}SkipInit`] && !inputOutput.initialized[id])
                         {
                             inputOutput.initialized[id] = this.transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
                         }
@@ -618,7 +618,7 @@ export class RelationsProcessor implements OnDestroy
             {
                 const id = `${inputCmp.ɵɵRelationsComponentId}-${outputCmp.ɵɵRelationsComponentId}`;
 
-                if(!inputOutput.initialized[id])
+                if(!(outputCmp as unknown as Dictionary<boolean>)[`${inputOutput.outputName}SkipInit`] && !inputOutput.initialized[id])
                 {
                     inputOutput.initialized[id] = this.transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
                 }

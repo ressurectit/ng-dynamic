@@ -1,11 +1,11 @@
-import {Injector, SimpleChanges} from '@angular/core';
+import {Injector, Input, SimpleChanges} from '@angular/core';
 import {CodeExecutor, DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
-// import {nameof} from '@jscrpt/common';
+import {nameof} from '@jscrpt/common';
 
 import {StateRelationsMetadataLoader} from './state.metadata';
 import {StateRelationsOptions} from './state.options';
-import {StatefullClass} from './state.interface';
+import {StatefullClass, InputFunction} from './state.interface';
 
 /**
  * State relations component
@@ -38,7 +38,17 @@ export class StateRelations<TState = unknown> implements RelationsComponent<Stat
     public set relationsOptions(value: StateRelationsOptions|undefined|null)
     {
         this.ɵRelationsOptions = value;
+
+        this.initialize();
     }
+
+    //######################### public properties - inputs #########################
+
+    /**
+     * Initial state value that is set
+     */
+    @Input()
+    public initState: TState|undefined|null;
 
     //######################### public properties - outputs #########################
 
@@ -58,31 +68,12 @@ export class StateRelations<TState = unknown> implements RelationsComponent<Stat
     /**
      * Called when input value changes
      */
-    public async ngOnChanges(changes: SimpleChanges): Promise<void>
+    public ngOnChanges(changes: SimpleChanges): void
     {
-        // if(nameof<StateRelations>('data') in changes)
-        // {
-        //     if(!this.relationsOptions)
-        //     {
-        //         return;
-        //     }
-
-        //     const transformer = await this.codeExecutor.loadData<TransformData>(this.relationsOptions.id, this.relationsOptions.code);
-
-        //     if(!transformer)
-        //     {
-        //         return;
-        //     }
-
-        //     try
-        //     {
-        //         this.transformedData = transformer(this.data);
-        //     }
-        //     catch(e)
-        //     {
-        //         console.error(e);
-        //     }
-        // }
+        if(nameof<StateRelations>('initState') in changes)
+        {
+            this.state = this.initState;
+        }
     }
 
     //######################### public properties - dynamic outputs #########################
@@ -92,5 +83,57 @@ export class StateRelations<TState = unknown> implements RelationsComponent<Stat
      */
     public invalidateVisuals(): void
     {
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Initialize rest relations
+     */
+    protected initialize(): void
+    {
+        if(this.relationsOptions)
+        {
+            if(this.relationsOptions.inputFunctions)
+            {
+                for(const name in this.relationsOptions.inputFunctions)
+                {
+                    const inputFuncData = this.relationsOptions.inputFunctions[name];
+
+                    if(inputFuncData.code)
+                    {
+                        Object.defineProperty(this,
+                                              name,
+                                              {
+                                                  configurable: true,
+                                                  enumerable: true,
+                                                  set: async value =>
+                                                  {
+                                                      if(!inputFuncData.code)
+                                                      {
+                                                          return;
+                                                      }
+
+                                                      const inputFunc = await this.codeExecutor.loadData<InputFunction>(inputFuncData.id, inputFuncData.code);
+  
+                                                      if(!inputFunc)
+                                                      {
+                                                          return;
+                                                      }
+                                          
+                                                      try
+                                                      {
+                                                          inputFunc.bind(this)(value);
+                                                      }
+                                                      catch(e)
+                                                      {
+                                                          console.error(e);
+                                                      }
+                                                  }
+                                              });
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TitledDialogService, TITLED_DIALOG_DATA} from '@anglr/common/material';
@@ -23,6 +24,7 @@ import {ConfigureNodeEndpointData} from './configureNodeEndpoint.interface';
     [
         ReactiveFormsModule,
         MatDialogModule,
+        CommonModule,
     ],
     providers:
     [

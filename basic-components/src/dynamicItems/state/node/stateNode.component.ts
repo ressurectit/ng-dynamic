@@ -124,6 +124,22 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
     }
 
     /**
+     * Renames input func
+     * @param name - Allows renaming of input func
+     */
+    protected async rename(name: string): Promise<void>
+    {
+        await this.configureEndpoint(
+        {
+            name,
+            defaultValue: null,
+            onlyName: true,
+        });
+
+        this.changeDetector.detectChanges();
+    }
+
+    /**
      * Configures endpoint
      * @param endpoint - Endpoint to be configured
      */
@@ -133,7 +149,7 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
         
         const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
         {
-            title: 'configure input endpoint',
+            title: 'configure input function',
             width: '60vw',
             data: copy,
         }).afterClosed());
@@ -141,7 +157,7 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
         //rename
         if(result)
         {
-            if(this.metadata?.relationsOptions?.inputFunctions?.[endpoint.name] && this.metadata.nodeMetadata?.options?.contents?.[endpoint.name])
+            if(this.metadata?.relationsOptions?.inputFunctions?.[endpoint.name] && (this.metadata.nodeMetadata?.options?.contents?.[endpoint.name] === '' || this.metadata.nodeMetadata?.options?.contents?.[endpoint.name]))
             {
                 this.metadata.relationsOptions.inputFunctions[copy.name] = this.metadata.relationsOptions.inputFunctions[endpoint.name];
                 delete this.metadata.relationsOptions.inputFunctions[endpoint.name];

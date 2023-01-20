@@ -1,44 +1,35 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="state"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="deconstruct"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
             <div class="input">
-                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="initState" [parent]="this"></relation-node-input>
-                <div>init state</div>
-            </div>
-
-            <div class="input" *ngFor="let inputFunc of inputFunctions">
-                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="inputFunc" [parent]="this"></relation-node-input>
-
-                <div class="dynamic-flex-row">
-                    <div>{{inputFunc}}</div>
-
-                    <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); rename(inputFunc)">
-                        <span class="fas fa-pen"></span>
-                    </button>
-
-                    <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); showCodeEditor(inputFunc)">
-                        <span class="fas fa-code"></span>
-                    </button>
-
-                    <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeInputFunc(inputFunc)">
-                        <span class="fas fa-times"></span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="dynamic-flex-row">
-                <button type="button" class="dynamic-btn-icon dynamic-margin-left-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); addInputFunc()">
-                    <span class="fas fa-plus"></span>
-                </button>
+                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="object" [parent]="this"></relation-node-input>
+                <div>object</div>
             </div>
         </div>
 
         <div class="outputs">
-            <div class="output">
-                <div>state</div>
-                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="state" [parent]="this"></relation-node-output>
+            <div class="output" *ngFor="let property of properties">
+                <div class="dynamic-flex-row">
+                    <div>{{property.name}}</div>
+
+                    <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); configureEndpoint(property)">
+                        <span class="fas fa-pen"></span>
+                    </button>
+
+                    <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeProperty(property.name)">
+                        <span class="fas fa-times"></span>
+                    </button>
+                </div>
+
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="property.name" [parent]="this"></relation-node-output>
+            </div>
+
+            <div class="dynamic-flex-row dynamic-flex-end">
+                <button type="button" class="dynamic-btn-icon dynamic-margin-left-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); addProperty()">
+                    <span class="fas fa-plus"></span>
+                </button>
             </div>
         </div>
     </div>

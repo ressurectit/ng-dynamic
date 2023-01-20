@@ -1,10 +1,8 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, TypescriptLanguageModel} from '@anglr/dynamic';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
 import {TitledDialogService} from '@anglr/common/material';
-import {generateId} from '@jscrpt/common';
 import {lastValueFrom} from 'rxjs';
 
 import {MergeRelationsOptions} from '../merge.options';
@@ -31,9 +29,9 @@ export class MergeNodeSAComponent extends RelationsNodeBase<MergeRelationsOption
     //######################### protected properties - template bindings #########################
 
     /**
-     * Gets added input function names
+     * Gets added properties names
      */
-    protected get inputFunctions(): string[]
+    protected get properties(): string[]
     {
         if(!this.metadata)
         {
@@ -42,10 +40,10 @@ export class MergeNodeSAComponent extends RelationsNodeBase<MergeRelationsOption
 
         this.metadata.relationsOptions ??= 
         {
-        inputFunctions: {},
+            properties: []
         };
 
-        return Object.keys(this.metadata.relationsOptions.inputFunctions ?? {});
+        return this.metadata.relationsOptions.properties ?? [];
     }
 
     //######################### constructor #########################
@@ -59,167 +57,84 @@ export class MergeNodeSAComponent extends RelationsNodeBase<MergeRelationsOption
     //######################### protected methods - template bindings #########################
 
     /**
-     * Adds new input function
+     * Adds new property
      */
-    protected async addInputFunc(): Promise<void>
+    protected async addProperty(): Promise<void>
     {
-        const inputFunc: StateRelationsInputFunctionData = 
+        await this.configureEndpoint(`prop${this.properties.length + 1}`);
+    }
+
+    /**
+     * Removes property
+     * @param name - Name of property to be removed
+     */
+    protected removeProperty(name: string): void
+    {
+        let index: number;
+
+        if(this.metadata?.relationsOptions?.properties?.length && (index = this.metadata.relationsOptions.properties.indexOf(name)) >= 0)
         {
-            id: generateId(12),
-            code: null,
-        };
-
-        const name: ConfigureNodeEndpointData =
-        {
-            name: `inputFunc${this.inputFunctions.length + 1}`,
-            defaultValue: null,
-            noDefaultValue: true,
-            skipInit: false,
-        };
-
-        if(await this.configureEndpoint(name))
-        {
-            if(!this.metadata?.relationsOptions || !this.metadata.nodeMetadata)
-            {
-                return;
-            }
-
-            this.metadata.relationsOptions.inputFunctions ??= {};
-            this.metadata.relationsOptions.inputFunctions[name.name] = inputFunc;
-
-            this.metadata.nodeMetadata.options ??= 
-            {
-                contents: {}
-            };
-
-            if(this.metadata.nodeMetadata.options.contents)
-            {
-                this.metadata.nodeMetadata.options.contents[name.name] = '';
-            }
+            this.metadata.relationsOptions.properties.splice(index, 1);
 
             this.history.getNewState();
         }
     }
 
     /**
-     * Removes input function
-     * @param name - Name of input function to be removed
-     */
-    protected removeInputFunc(name: string): void
-    {
-        if(this.metadata?.relationsOptions?.inputFunctions && name in this.metadata.relationsOptions.inputFunctions)
-        {
-            delete this.metadata.relationsOptions.inputFunctions[name];
-
-            if(this.metadata.nodeMetadata?.options?.contents)
-            {
-                delete this.metadata.nodeMetadata.options.contents[name];
-            }
-
-            this.history.getNewState();
-        }
-    }
-
-    /**
-     * Renames input func
-     * @param name - Allows renaming of input func
+     * Renames property
+     * @param name - Allows renaming of property
      */
     protected async rename(name: string): Promise<void>
     {
-        await this.configureEndpoint(
-        {
-            name,
-            defaultValue: null,
-            noDefaultValue: true,
-            skipInit: false,
-        });
+        await this.configureEndpoint(name);
 
         this.changeDetector.detectChanges();
     }
 
+    //######################### protected methods #########################
+
     /**
      * Configures endpoint
-     * @param endpoint - Endpoint to be configured
+     * @param name - Name to be configured
      */
-    protected async configureEndpoint(endpoint: ConfigureNodeEndpointData): Promise<boolean>
+    protected async configureEndpoint(name: string): Promise<boolean>
     {
-        const copy = JSON.parse(JSON.stringify(endpoint));
-        
+        const editName: ConfigureNodeEndpointData =
+        {
+            name,
+            defaultValue: undefined,
+            noDefaultValue: true,
+            skipInit: false,
+        };
+
         const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
         {
-            title: 'configure input function',
+            title: 'configure property',
             width: '60vw',
-            data: copy,
+            data: editName,
         }).afterClosed());
 
         //rename
-        if(result)
+        if(result && this.metadata?.relationsOptions)
         {
-            if(this.metadata?.relationsOptions?.inputFunctions?.[endpoint.name] && (this.metadata.nodeMetadata?.options?.contents?.[endpoint.name] === '' || this.metadata.nodeMetadata?.options?.contents?.[endpoint.name]))
+            let index;
+
+            //rename
+            if(this.metadata.relationsOptions.properties?.length && (index = this.metadata.relationsOptions.properties.indexOf(name)) >= 0)
             {
-                this.metadata.relationsOptions.inputFunctions[copy.name] = this.metadata.relationsOptions.inputFunctions[endpoint.name];
-                delete this.metadata.relationsOptions.inputFunctions[endpoint.name];
-    
-                this.metadata.nodeMetadata.options.contents[copy.name] = this.metadata.nodeMetadata.options.contents[endpoint.name];
-                delete this.metadata.nodeMetadata.options.contents[endpoint.name];
-    
-                this.history.getNewState();
+                this.metadata.relationsOptions.properties.splice(index, 1);
+                this.metadata.relationsOptions.properties.splice(index, 0, editName.name);
             }
+            //add
             else
             {
-                endpoint.name = copy.name;
+                this.metadata.relationsOptions.properties ??= [];
+                this.metadata.relationsOptions.properties.push(editName.name);
             }
+
+            this.history.getNewState();
         }
 
         return result ?? false;
-    }
-
-    /**
-     * Shows code editor
-     * @param name - Name of input func
-     */
-    protected async showCodeEditor(name: string): Promise<void>
-    {
-        const result = await lastValueFrom(this.dialog.open<CodeEditorDialogComponent, CodeEditorDialogData, CodeEditorContent|null>(CodeEditorDialogComponent,
-        {
-            title: 'Code editor',
-            width: '75vw',
-            height: '75vh',
-            data: 
-            {
-                content: this.metadata?.nodeMetadata?.options?.contents?.[name] ?? '',
-                languageModel: TypescriptLanguageModel(
-`import {InputFunction} from 'state';
-
-/**
- * Input function that handles incoming data and can change state
- */
-const inputFunc: InputFunction<any, any> = function(_data)
-{
-};
-
-export default inputFunc;
-
-`),
-            }
-        }).afterClosed());
-
-        if(!this.metadata?.relationsOptions || !result || !this.metadata.nodeMetadata)
-        {
-            return;
-        }
-
-        this.metadata.relationsOptions.inputFunctions ??= {};
-        this.metadata.nodeMetadata.options ??= 
-        {
-            contents: {}
-        };
-
-        this.metadata.nodeMetadata.options.contents ??= {};
-
-        this.metadata.relationsOptions.inputFunctions[name].code = result.code;
-        this.metadata.nodeMetadata.options.contents[name] = result.content;
-
-        this.history.getNewState();
     }
 }

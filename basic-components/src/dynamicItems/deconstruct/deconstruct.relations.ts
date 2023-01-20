@@ -1,7 +1,8 @@
 import {Injector, Input, SimpleChanges} from '@angular/core';
-import {CodeExecutor, DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
+import {defineAssignedProp, defineSkipInitProp, PureRelationsComponent, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
-import {nameof} from '@jscrpt/common';
+import {Dictionary, isPresent, nameof} from '@jscrpt/common';
+import {Subject} from 'rxjs';
 
 import {DeconstructRelationsMetadataLoader} from './deconstruct.metadata';
 import {DeconstructRelationsOptions} from './deconstruct.options';
@@ -11,7 +12,7 @@ import {DeconstructRelationsOptions} from './deconstruct.options';
  */
 @PureRelationsComponent()
 @RelationsEditorMetadata(DeconstructRelationsMetadataLoader)
-export class DeconstructRelations<TState = unknown> implements RelationsComponent<DeconstructRelationsOptions>
+export class DeconstructRelations<TObj extends Dictionary = Dictionary> implements RelationsComponent<DeconstructRelationsOptions>
 {
     //######################### protected properties #########################
 
@@ -21,9 +22,14 @@ export class DeconstructRelations<TState = unknown> implements RelationsComponen
     protected ɵRelationsOptions: DeconstructRelationsOptions|undefined|null;
 
     /**
-     * Code executor used for execution o
+     * Current relations processor instance
      */
-    protected codeExecutor: CodeExecutor = this.injector.get(CodeExecutor);
+    protected relationsProcessor: RelationsProcessor;
+
+    /**
+     * Current relations component manager instance
+     */
+    protected relationsComponentManager: RelationsComponentManager;
 
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -47,19 +53,13 @@ export class DeconstructRelations<TState = unknown> implements RelationsComponen
      * Initial state value that is set
      */
     @Input()
-    public initState: TState|undefined|null;
-
-    //######################### public properties - outputs #########################
-
-    /**
-     * Data that represents current state
-     */
-    @DynamicOutput()
-    public state: TState|undefined|null;
+    public object: TObj|undefined|null;
 
     //######################### constructor #########################
-    constructor(protected injector: Injector,)
+    constructor(injector: Injector,)
     {
+        this.relationsProcessor = injector.get(RelationsProcessor);
+        this.relationsComponentManager = injector.get(RelationsComponentManager);
     }
 
     //######################### public methods - implementation of OnChanges #########################
@@ -69,9 +69,24 @@ export class DeconstructRelations<TState = unknown> implements RelationsComponen
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<DeconstructRelations>('initState') in changes)
+        if(nameof<DeconstructRelations>('object') in changes)
         {
-            this.state = this.initState;
+            if(this.relationsOptions?.properties.length)
+            {
+                for(const property of this.relationsOptions.properties)
+                {
+                    const thisDictionary = this as Dictionary;
+
+                    thisDictionary[property.name] = this.object?.[property.name];
+                }
+            }
+
+            const id = this.relationsComponentManager.getId(this);
+
+            if(isPresent(id))
+            {
+                this.relationsProcessor.transferOutputsData(id, false);
+            }
         }
     }
 
@@ -91,48 +106,49 @@ export class DeconstructRelations<TState = unknown> implements RelationsComponen
      */
     protected initialize(): void
     {
-        // if(this.relationsOptions)
-        // {
-        //     if(this.relationsOptions.inputFunctions)
-        //     {
-        //         for(const name in this.relationsOptions.inputFunctions)
-        //         {
-        //             const inputFuncData = this.relationsOptions.inputFunctions[name];
+        if(this.relationsOptions)
+        {
+            if(this.relationsOptions.properties.length)
+            {
+                for(const property of this.relationsOptions.properties)
+                {
+                    if(property.name)
+                    {
+                        Object.defineProperty(this,
+                                              property.name,
+                                              {
+                                                  get: function()
+                                                  {
+                                                      return this[`ɵ${property.name}`];
+                                                  },
+                                                  set: function(value)
+                                                  {
+                                                      this[`ɵ${property.name}`] = value;
+                                                      defineAssignedProp(this, property.name);
+                                                  }
+                                              });
 
-        //             if(inputFuncData.code)
-        //             {
-        //                 Object.defineProperty(this,
-        //                                       name,
-        //                                       {
-        //                                           configurable: true,
-        //                                           enumerable: true,
-        //                                           set: async value =>
-        //                                           {
-        //                                               if(!inputFuncData.code)
-        //                                               {
-        //                                                   return;
-        //                                               }
+                        Object.defineProperty(this,
+                                              `${property.name}Change`,
+                                              {
+                                                  get: function()
+                                                  {
+                                                      if(!this[`ɵ${property.name}Change`])
+                                                      {
+                                                          this[`ɵ${property.name}Change`] = new Subject<void>();
+                                                      }
 
-        //                                               const inputFunc = await this.codeExecutor.loadData<InputFunction>(inputFuncData.id, inputFuncData.code);
-  
-        //                                               if(!inputFunc)
-        //                                               {
-        //                                                   return;
-        //                                               }
-                                          
-        //                                               try
-        //                                               {
-        //                                                   inputFunc.bind(this)(value);
-        //                                               }
-        //                                               catch(e)
-        //                                               {
-        //                                                   console.error(e);
-        //                                               }
-        //                                           }
-        //                                       });
-        //             }
-        //         }
-        //     }
-        // }
+                                                      return this[`ɵ${property.name}Change`];
+                                                  }
+                                              });
+
+                        if(property.skipInit)
+                        {
+                            defineSkipInitProp(this, property.name);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

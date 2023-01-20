@@ -1,7 +1,7 @@
-import {Injector, Input, SimpleChanges} from '@angular/core';
-import {CodeExecutor, DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
+import {Injector} from '@angular/core';
+import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
-import {nameof} from '@jscrpt/common';
+import {Dictionary} from '@jscrpt/common';
 
 import {MergeRelationsMetadataLoader} from './merge.metadata';
 import {MergeRelationsOptions} from './merge.options';
@@ -11,7 +11,7 @@ import {MergeRelationsOptions} from './merge.options';
  */
 @PureRelationsComponent()
 @RelationsEditorMetadata(MergeRelationsMetadataLoader)
-export class MergeRelations<TState = unknown> implements RelationsComponent<MergeRelationsOptions>
+export class MergeRelations<TObj = unknown> implements RelationsComponent<MergeRelationsOptions>
 {
     //######################### protected properties #########################
 
@@ -19,11 +19,6 @@ export class MergeRelations<TState = unknown> implements RelationsComponent<Merg
      * Options used in this relations component
      */
     protected ɵRelationsOptions: MergeRelationsOptions|undefined|null;
-
-    /**
-     * Code executor used for execution o
-     */
-    protected codeExecutor: CodeExecutor = this.injector.get(CodeExecutor);
 
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -41,38 +36,17 @@ export class MergeRelations<TState = unknown> implements RelationsComponent<Merg
         this.initialize();
     }
 
-    //######################### public properties - inputs #########################
-
-    /**
-     * Initial state value that is set
-     */
-    @Input()
-    public initState: TState|undefined|null;
-
     //######################### public properties - outputs #########################
 
     /**
-     * Data that represents current state
+     * Merged result object
      */
     @DynamicOutput()
-    public state: TState|undefined|null;
+    public mergedObject: TObj|undefined|null;
 
     //######################### constructor #########################
     constructor(protected injector: Injector,)
     {
-    }
-
-    //######################### public methods - implementation of OnChanges #########################
-    
-    /**
-     * Called when input value changes
-     */
-    public ngOnChanges(changes: SimpleChanges): void
-    {
-        if(nameof<MergeRelations>('initState') in changes)
-        {
-            this.state = this.initState;
-        }
     }
 
     //######################### public properties - dynamic outputs #########################
@@ -91,48 +65,26 @@ export class MergeRelations<TState = unknown> implements RelationsComponent<Merg
      */
     protected initialize(): void
     {
-        // if(this.relationsOptions)
-        // {
-        //     if(this.relationsOptions.inputFunctions)
-        //     {
-        //         for(const name in this.relationsOptions.inputFunctions)
-        //         {
-        //             const inputFuncData = this.relationsOptions.inputFunctions[name];
-
-        //             if(inputFuncData.code)
-        //             {
-        //                 Object.defineProperty(this,
-        //                                       name,
-        //                                       {
-        //                                           configurable: true,
-        //                                           enumerable: true,
-        //                                           set: async value =>
-        //                                           {
-        //                                               if(!inputFuncData.code)
-        //                                               {
-        //                                                   return;
-        //                                               }
-
-        //                                               const inputFunc = await this.codeExecutor.loadData<InputFunction>(inputFuncData.id, inputFuncData.code);
-  
-        //                                               if(!inputFunc)
-        //                                               {
-        //                                                   return;
-        //                                               }
-                                          
-        //                                               try
-        //                                               {
-        //                                                   inputFunc.bind(this)(value);
-        //                                               }
-        //                                               catch(e)
-        //                                               {
-        //                                                   console.error(e);
-        //                                               }
-        //                                           }
-        //                                       });
-        //             }
-        //         }
-        //     }
-        // }
+        if(this.relationsOptions)
+        {
+            if(this.relationsOptions.properties.length)
+            {
+                for(const name in this.relationsOptions.properties)
+                {
+                    if(name)
+                    {
+                        Object.defineProperty(this,
+                                              name,
+                                              {
+                                                  set: value =>
+                                                  {
+                                                      this.mergedObject ??= {} as TObj;
+                                                      (this.mergedObject as Dictionary)[name] = value;
+                                                  }
+                                              });
+                    }
+                }
+            }
+        }
     }
 }

@@ -4,7 +4,7 @@ import {Dictionary, isBlank, isType} from '@jscrpt/common';
 
 import {RelationsComponentDef} from './types';
 import {DEFAULT_RELATIONS_COMPONENTS_EXTRACTOR, RELATIONS_COMPONENTS_LOADER_PROVIDER} from './providers';
-import {CodeExecutor, RelationsComponentManager, RelationsManager, RelationsProcessor} from '../services';
+import {CodeExecutor, RelationsChangeDetector, RelationsComponentManager, RelationsManager, RelationsProcessor} from '../services';
 
 //TODO: skip init as constant
 //TODO: assigned as constant
@@ -35,6 +35,7 @@ export function provideRelations(): Provider[]
         RelationsComponentManager,
         RelationsManager,
         RelationsProcessor,
+        RelationsChangeDetector,
         CodeExecutor,
     ];
 }

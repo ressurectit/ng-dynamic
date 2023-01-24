@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, inject, FactoryProvider} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {RelationsChangeDetector, RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {PlaceholderComponentOptions} from './placeholder.options';
@@ -41,6 +41,11 @@ import {ContainerMetadataSAPipe} from './misc/pipes';
         {
             provide: RelationsProcessor,
             useFactory: () => inject(PlaceholderHandler).relationsProcessor,
+        },
+        <FactoryProvider>
+        {
+            provide: RelationsChangeDetector,
+            useFactory: () => inject(PlaceholderHandler).relationsChangeDetector,
         },
         <FactoryProvider>
         {

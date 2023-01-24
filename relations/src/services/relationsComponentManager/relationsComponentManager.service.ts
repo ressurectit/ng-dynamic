@@ -1,4 +1,4 @@
-import {Inject, Injectable, OnDestroy, Optional} from '@angular/core';
+import {inject, Inject, Injectable, Injector, OnDestroy, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {Dictionary, generateId} from '@jscrpt/common';
 
@@ -37,6 +37,11 @@ export class RelationsComponentManager implements OnDestroy
      * Cache containing children scoped components
      */
     protected childrenCache: Dictionary<RelationsComponent[]> = {};
+
+    /**
+     * Injector for angular DI
+     */
+    protected injector: Injector = inject(Injector);
 
     //######################### constructor #########################
     constructor(@Inject(LOGGER) @Optional() protected logger?: Logger,)
@@ -111,6 +116,7 @@ export class RelationsComponentManager implements OnDestroy
         component.ɵɵRelationsComponentId ??= generateId(12);
         this.removeCacheFromHierarchy(id);
         this.components[id] = component;
+        component.ɵɵinjector = this.injector;
     }
 
     /**

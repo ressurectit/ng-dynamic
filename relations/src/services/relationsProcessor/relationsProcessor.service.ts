@@ -1,4 +1,4 @@
-import {Inject, Injectable, Injector, OnDestroy, Optional, SimpleChanges} from '@angular/core';
+import {inject, Inject, Injectable, Injector, OnDestroy, Optional, SimpleChanges} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {Dictionary, isBlank, noop, NoopAction} from '@jscrpt/common';
@@ -12,6 +12,7 @@ import {RELATIONS_COMPONENTS_LOADER, RELATIONS_PROCESSOR_SKIP_INIT} from '../../
 import {RelationsComponentDef, RelationsProcessorComponent} from '../../misc/types';
 import {RelationsDataTransferInstructionImpl} from './relationsDataTransferInstruction';
 import {isAssigned, isSkipInit} from '../../misc/utils';
+import {RelationsChangeDetector} from '../relationsChangeDetector/relationsChangeDetector.service';
 
 /**
  * Processor that applies relations to registered components
@@ -89,6 +90,11 @@ export class RelationsProcessor implements OnDestroy
      * Id of scope
      */
     protected scopeId: string|null = null;
+
+    /**
+     * Injected relations change detector
+     */
+    protected relationsChangeDetector: RelationsChangeDetector = inject(RelationsChangeDetector);
 
     //######################### public properties #########################
 
@@ -583,6 +589,7 @@ export class RelationsProcessor implements OnDestroy
             await this.initComponent(meta, outputs);
         }
 
+        this.relationsChangeDetector.initialize(this.relations);
         this.resolveInitialized();
     }
 

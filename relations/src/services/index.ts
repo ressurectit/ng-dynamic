@@ -1,4 +1,7 @@
 export * from './codeExecutor/codeExecutor.service';
+export * from './relationsChangeDetector/relationsChangeDetector.interface';
+export * from './relationsChangeDetector/relationsChangeDetector.options';
+export * from './relationsChangeDetector/relationsChangeDetector.service';
 export * from './relationsComponentManager/relationsComponentManager.interface';
 export * from './relationsComponentManager/relationsComponentManager.service';
 export * from './relationsManager/relationsManager.service';

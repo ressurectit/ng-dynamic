@@ -20,4 +20,5 @@ export * from './templateBlock';
 export * from './textBlock';
 export * from './toggleButton';
 export * from './transformData';
+export * from './trigger';
 export * from './value';

@@ -10,6 +10,7 @@ const relations =
     'state',
     'syncValues',
     'transformData',
+    'trigger',
     'value',
 ];
 

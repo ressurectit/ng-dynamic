@@ -1,32 +1,31 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
+import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {extend} from '@jscrpt/common';
 import {lastValueFrom} from 'rxjs';
 
-import {ComponentOutputsRelationsOptions} from '../componentOutputs.options';
-import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '../../../components';
-
-//TODO: create mixin
+import {TriggerRelationsOptions} from '../trigger.options';
 
 /**
- * Relations node component for component outputs
+ * Trigger node component for negation
  */
 @Component(
 {
-    selector: 'component-outputs-node',
-    templateUrl: 'componentOutputsNode.component.html',
+    selector: 'trigger-node',
+    templateUrl: 'triggerNode.component.html',
     standalone: true,
     imports:
     [
         CommonModule,
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
+        RelationNodeOutputSAComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<ComponentOutputsRelationsOptions> implements RelationsNode<ComponentOutputsRelationsOptions>
+export class TriggerNodeSAComponent extends RelationsNodeBase<TriggerRelationsOptions> implements RelationsNode<TriggerRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 
@@ -42,10 +41,10 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
 
         this.metadata.relationsOptions ??= 
         {
-            outputs: []
+            endpoints: []
         };
 
-        return (this.metadata.relationsOptions.outputs ??= []);
+        return (this.metadata.relationsOptions.endpoints ??= []);
     }
 
     //######################### constructor #########################
@@ -67,7 +66,7 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
         {
             name: '',
             defaultValue: null,
-            skipInit: false,
+            skipInit: true,
             allowSkipInit: true,
         };
 
@@ -103,7 +102,7 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
         
         const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
         {
-            title: 'configure component output',
+            title: 'configure endpoint',
             width: '60vw',
             data: endpoint
         }).afterClosed());

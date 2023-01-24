@@ -69,7 +69,7 @@ export class MergeRelations<TObj = unknown> implements RelationsComponent<MergeR
         {
             if(this.relationsOptions.properties.length)
             {
-                for(const name in this.relationsOptions.properties)
+                for(const name of this.relationsOptions.properties)
                 {
                     if(name)
                     {
@@ -80,6 +80,7 @@ export class MergeRelations<TObj = unknown> implements RelationsComponent<MergeR
                                                   {
                                                       this.mergedObject ??= {} as TObj;
                                                       (this.mergedObject as Dictionary)[name] = value;
+                                                      this.mergedObject = {...this.mergedObject};
                                                   }
                                               });
                     }

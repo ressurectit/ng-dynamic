@@ -1,5 +1,5 @@
 import {Logger} from '@anglr/common';
-import {Dictionary, extend, isEmptyObject} from '@jscrpt/common';
+import {extend, isEmptyObject} from '@jscrpt/common';
 
 import {DynamicModule} from '../../interfaces';
 import {DynamicModuleDataExtractorFn} from './dynamicModuleDataExtractor.interface';
@@ -7,7 +7,7 @@ import {DynamicModuleDataExtractorFn} from './dynamicModuleDataExtractor.interfa
 /**
  * Extractor used for extracting dynamic data from dynamic module
  */
-export class DynamicModuleDataExtractor<TData extends Dictionary<any> = any>
+export class DynamicModuleDataExtractor<TData = any>
 {
     //######################### constructor #########################
 

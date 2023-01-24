@@ -41,7 +41,7 @@ export class ValueRelations<TValue = any> implements RelationsComponent<ValueRel
      * Value of value node
      */
     @DynamicOutput()
-    public value: TValue|null = null;
+    public value: TValue|undefined|null;
 
     /**
      * @inheritdoc

@@ -1,8 +1,8 @@
 import {Injector, NgZone, SimpleChanges} from '@angular/core';
-import {PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
+import {PureRelationsComponent, RelationsChangeDetector, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {isPresent, nameof} from '@jscrpt/common';
-import {Subject} from 'rxjs';
+import {NEVER, Observable} from 'rxjs';
 
 import {DebounceValueRelationsMetadataLoader} from './debounceValue.metadata';
 import {DebounceValueRelationsOptions} from './debounceValue.options';
@@ -19,7 +19,7 @@ export class DebounceValueRelations<TValue = any> implements RelationsComponent<
     /**
      * Subject used for emitting change in value
      */
-    protected valueChange: Subject<void> = new Subject<void>();
+    protected valueChange: Observable<void> = NEVER;
 
     /**
      * Indication that initial value was already assigned
@@ -35,6 +35,11 @@ export class DebounceValueRelations<TValue = any> implements RelationsComponent<
      * Instance of ng zone
      */
     protected ngZone: NgZone;
+
+    /**
+     * Current relations change detector
+     */
+    protected relationsChangeDetector: RelationsChangeDetector;
 
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -54,6 +59,7 @@ export class DebounceValueRelations<TValue = any> implements RelationsComponent<
     constructor(injector: Injector,)
     {
         this.ngZone = injector.get(NgZone);
+        this.relationsChangeDetector = injector.get(RelationsChangeDetector);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################
@@ -76,8 +82,13 @@ export class DebounceValueRelations<TValue = any> implements RelationsComponent<
                 this.timeout = setTimeout(() =>
                 {
                     this.valueAssigned = true;
-                    this.valueChange.next();
-                }, this.relationsOptions?.delay ?? 0) as any;
+                    
+                    this.relationsChangeDetector.markForCheck(
+                    {
+                        componentId: this,
+                        outputName: nameof<DebounceValueRelations>('value'),
+                    });
+                }, this.relationsOptions?.delay ?? 0) as unknown as number;
             });
         }
     }

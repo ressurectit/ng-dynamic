@@ -1,8 +1,8 @@
 import {Injector, Input, SimpleChanges} from '@angular/core';
-import {defineAssignedProp, defineSkipInitProp, PureRelationsComponent, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {defineAssignedProp, defineSkipInitProp, PureRelationsComponent, RelationsChangeDetector, RelationsComponent, RelationsComponentManager} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {Dictionary, isPresent, nameof} from '@jscrpt/common';
-import {Subject} from 'rxjs';
+import {NEVER} from 'rxjs';
 
 import {DeconstructRelationsMetadataLoader} from './deconstruct.metadata';
 import {DeconstructRelationsOptions} from './deconstruct.options';
@@ -22,9 +22,9 @@ export class DeconstructRelations<TObj extends Dictionary = Dictionary> implemen
     protected ɵRelationsOptions: DeconstructRelationsOptions|undefined|null;
 
     /**
-     * Current relations processor instance
+     * Current relations change detector instance
      */
-    protected relationsProcessor: RelationsProcessor;
+    protected relationsChangeDetector: RelationsChangeDetector;
 
     /**
      * Current relations component manager instance
@@ -58,7 +58,7 @@ export class DeconstructRelations<TObj extends Dictionary = Dictionary> implemen
     //######################### constructor #########################
     constructor(injector: Injector,)
     {
-        this.relationsProcessor = injector.get(RelationsProcessor);
+        this.relationsChangeDetector = injector.get(RelationsChangeDetector);
         this.relationsComponentManager = injector.get(RelationsComponentManager);
     }
 
@@ -73,19 +73,23 @@ export class DeconstructRelations<TObj extends Dictionary = Dictionary> implemen
         {
             if(this.relationsOptions?.properties.length)
             {
+                const id = this.relationsComponentManager.getId(this);
+
                 for(const property of this.relationsOptions.properties)
                 {
                     const thisDictionary = this as Dictionary;
 
                     thisDictionary[property.name] = this.object?.[property.name];
+
+                    if(isPresent(id))
+                    {
+                        this.relationsChangeDetector.markForCheck(
+                        {
+                            componentId: id,
+                            outputName: property.name,
+                        });
+                    }
                 }
-            }
-
-            const id = this.relationsComponentManager.getId(this);
-
-            if(isPresent(id))
-            {
-                this.relationsProcessor.transferOutputsData(id, false);
             }
         }
     }
@@ -131,15 +135,7 @@ export class DeconstructRelations<TObj extends Dictionary = Dictionary> implemen
                         Object.defineProperty(this,
                                               `${property.name}Change`,
                                               {
-                                                  get: function()
-                                                  {
-                                                      if(!this[`ɵ${property.name}Change`])
-                                                      {
-                                                          this[`ɵ${property.name}Change`] = new Subject<void>();
-                                                      }
-
-                                                      return this[`ɵ${property.name}Change`];
-                                                  }
+                                                  value: NEVER,
                                               });
 
                         if(property.skipInit)

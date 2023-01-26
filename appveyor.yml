@@ -14,7 +14,7 @@ init:
       "//registry.npmjs.org/:_authToken=$env:npm_auth_token`n" | out-file "$env:userprofile\.npmrc" -Encoding ASCII
 
 cache:
-  - node_modules
+  # - node_modules
 
 install:
   - cmd: npm install --loglevel error

@@ -17,6 +17,7 @@ cache:
   - node_modules
 
 install:
+  - cmd: npm run clean:all
   - cmd: npm install --loglevel error
   - cmd: npm run clean
 

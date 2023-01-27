@@ -3,9 +3,9 @@ import {LOGGER, Logger} from '@anglr/common';
 import {BindThis, Dictionary, isEmptyObject, isString} from '@jscrpt/common';
 
 import {RelationsComponentManager} from '../relationsComponentManager/relationsComponentManager.service';
-import {RelationsProcessorComponentData} from '../relationsProcessor/relationsProcessor.interface';
+import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from '../relationsProcessor/relationsProcessor.interface';
 import {RelationsProcessor} from '../relationsProcessor/relationsProcessor.service';
-import {MarkForCheckId} from './relationsChangeDetector.interface';
+import {MarkForCheckId, RelationsChange} from './relationsChangeDetector.interface';
 import {RelationsChangeDetectorOptions} from './relationsChangeDetector.options';
 
 /**
@@ -43,9 +43,9 @@ export class RelationsChangeDetector
     }
 
     /**
-     * Objects storing components and theirs outputs and related input components
+     * Objects storing components and theirs outputs and related input components def
      */
-    protected ɵoutputsComponents: Dictionary<Dictionary<string[]>> = {};
+    protected ɵoutputsComponents: Dictionary<Dictionary<RelationsProcessorInputOutputData[]>> = {};
 
     /**
      * Instance of parent relations change detector
@@ -55,7 +55,7 @@ export class RelationsChangeDetector
     /**
      * Objects storing components and theirs outputs and related input components
      */
-    protected get outputsComponents(): Dictionary<Dictionary<string[]>>
+    protected get outputsComponents(): Dictionary<Dictionary<RelationsProcessorInputOutputData[]>>
     {
         if(isEmptyObject(this.ɵoutputsComponents) && this.parent)
         {
@@ -78,12 +78,12 @@ export class RelationsChangeDetector
     /**
      * Array of input component ids that should be checked in first run
      */
-    protected firstRunIds: string[] = [];
+    protected firstRunIds: RelationsChange[] = [];
 
     /**
      * Array of input component ids that should be checked in second run
      */
-    protected secondRunIds: string[] = [];
+    protected secondRunIds: RelationsChange[] = [];
 
     /**
      * Indication whether is check running
@@ -125,13 +125,27 @@ export class RelationsChangeDetector
 
         for(const inputComponent of inputComponents)
         {
+            const item = ids.find(itm => itm.id == inputComponent.inputComponentId);
+
+            //not exists yet
+            if(!item)
+            {
+                ids.push(
+                {
+                    id: inputComponent.inputComponentId,
+                    inputs: [inputComponent.inputName],
+                });
+
+                continue;
+            }
+
             //already exists
-            if(ids.indexOf(inputComponent) >= 0)
+            if(item.inputs.indexOf(inputComponent.inputName) >= 0)
             {
                 continue;
             }
 
-            ids.push(inputComponent);
+            item.inputs.push(inputComponent.inputName);
         }
 
         //schedule check
@@ -163,7 +177,7 @@ export class RelationsChangeDetector
             for(const inputOutput of relationsDef.inputOutputs)
             {
                 this.ɵoutputsComponents[componentId][inputOutput.outputName] ??= [];
-                this.ɵoutputsComponents[componentId][inputOutput.outputName].push(inputOutput.inputComponentId);
+                this.ɵoutputsComponents[componentId][inputOutput.outputName].push(inputOutput);
             }
         }
     }
@@ -180,7 +194,18 @@ export class RelationsChangeDetector
 
         for(const id of this.firstRunIds)
         {
-            this.relationsProcessor.transferInputsData(id, false);
+            const changes = this.relationsProcessor.transferInputsData(id.id, true);
+            const allInputs = Object.keys(changes.changes);
+
+            //TODO: maybe move into relations processor
+            for(const inputName of allInputs)
+            {
+                //remove non existing change
+                if(!(inputName in id.inputs))
+                {
+                    delete changes.changes[inputName];
+                }
+            }
         }
 
         if(this.options.detectionInSingleRun)

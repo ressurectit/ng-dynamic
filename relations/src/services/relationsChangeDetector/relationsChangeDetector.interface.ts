@@ -28,3 +28,19 @@ export interface MarkForCheckId
      */
     outputName: string;
 }
+
+/**
+ * Information about change that is going to happen
+ */
+export interface RelationsChange
+{
+    /**
+     * Id of component which inputs has changed
+     */
+    id: string;
+
+    /**
+     * Array of inputs that has changed
+     */
+    inputs: string[];
+}

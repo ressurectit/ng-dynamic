@@ -741,6 +741,7 @@ export class RelationsProcessor implements OnDestroy
                 if(!comp.ɵɵRelationsOptionsInitialized)
                 {
                     comp.relationsOptions = meta.metadataOptions;
+                    comp.ɵɵRelationsOptionsInitialized = true;
                 }
             }
         }
@@ -749,6 +750,7 @@ export class RelationsProcessor implements OnDestroy
             if(!components.ɵɵRelationsOptionsInitialized)
             {
                 components.relationsOptions = meta.metadataOptions;
+                components.ɵɵRelationsOptionsInitialized = true;
             }
         }
     }

@@ -43,7 +43,7 @@ export class RelationsChangeDetector
     }
 
     /**
-     * Objects storing components and theirs outputs and related input components def
+     * Objects storing components and theirs outputs and related output input relations
      */
     protected ɵoutputsComponents: Dictionary<Dictionary<RelationsProcessorInputOutputData[]>> = {};
 
@@ -53,7 +53,7 @@ export class RelationsChangeDetector
     protected parent: RelationsChangeDetector|undefined|null = inject(RelationsChangeDetector, {optional: true, skipSelf: true,});
 
     /**
-     * Objects storing components and theirs outputs and related input components
+     * Objects storing components and theirs outputs and related output input relations
      */
     protected get outputsComponents(): Dictionary<Dictionary<RelationsProcessorInputOutputData[]>>
     {
@@ -76,14 +76,14 @@ export class RelationsChangeDetector
     protected timeout: number|undefined|null;
 
     /**
-     * Array of input component ids that should be checked in first run
+     * Array of changes that should be checked and transfered in first run
      */
-    protected firstRunIds: RelationsChange[] = [];
+    protected firstRunChanges: RelationsChange[] = [];
 
     /**
-     * Array of input component ids that should be checked in second run
+     * Array of changes that should be checked and transfered in second run
      */
-    protected secondRunIds: RelationsChange[] = [];
+    protected secondRunChanges: RelationsChange[] = [];
 
     /**
      * Indication whether is check running
@@ -120,32 +120,32 @@ export class RelationsChangeDetector
             return;
         }
 
-        const inputComponents = this.outputsComponents[componentId]?.[id.outputName] ?? [];
-        const ids = this.checkRunning && !this.options.detectionInSingleRun ? this.secondRunIds : this.firstRunIds;
+        const relationDefs = this.outputsComponents[componentId]?.[id.outputName] ?? [];
+        const changes = this.checkRunning && !this.options.detectionInSingleRun ? this.secondRunChanges : this.firstRunChanges;
 
-        for(const inputComponent of inputComponents)
+        for(const relationDef of relationDefs)
         {
-            const item = ids.find(itm => itm.id == inputComponent.inputComponentId);
+            const relation = changes.find(itm => itm.id == relationDef.inputComponentId);
 
             //not exists yet
-            if(!item)
+            if(!relation)
             {
-                ids.push(
+                changes.push(
                 {
-                    id: inputComponent.inputComponentId,
-                    inputs: [inputComponent.inputName],
+                    id: relationDef.inputComponentId,
+                    inputs: [relationDef.inputName],
                 });
 
                 continue;
             }
 
             //already exists
-            if(item.inputs.indexOf(inputComponent.inputName) >= 0)
+            if(relation.inputs.indexOf(relationDef.inputName) >= 0)
             {
                 continue;
             }
 
-            item.inputs.push(inputComponent.inputName);
+            relation.inputs.push(relationDef.inputName);
         }
 
         //schedule check
@@ -192,30 +192,29 @@ export class RelationsChangeDetector
     {
         this.checkRunning = true;
 
-        for(const id of this.firstRunIds)
+        for(const change of this.firstRunChanges)
         {
-            const changes = this.relationsProcessor.transferInputsData(id.id, true);
-            const allInputs = Object.keys(changes.changes);
+            const transfer = this.relationsProcessor.transferInputsData(change.id, true);
+            const allInputs = Object.keys(transfer.changes);
 
-            //TODO: maybe move into relations processor
             for(const inputName of allInputs)
             {
                 //remove non existing change
-                if(!(inputName in id.inputs))
+                if(change.inputs.indexOf(inputName) < 0)
                 {
-                    delete changes.changes[inputName];
+                    delete transfer.changes[inputName];
                 }
             }
         }
 
         if(this.options.detectionInSingleRun)
         {
-            this.firstRunIds = [];
+            this.firstRunChanges = [];
         }
         else
         {
-            this.firstRunIds = this.secondRunIds;
-            this.secondRunIds = [];
+            this.firstRunChanges = this.secondRunChanges;
+            this.secondRunChanges = [];
         }
 
         this.checkRunning = false;

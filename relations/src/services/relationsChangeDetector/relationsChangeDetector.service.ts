@@ -205,6 +205,8 @@ export class RelationsChangeDetector
                     delete transfer.changes[inputName];
                 }
             }
+
+            transfer.applyChanges();
         }
 
         if(this.options.detectionInSingleRun)

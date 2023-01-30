@@ -17,6 +17,11 @@ export class RelationsChangeDetector
     //######################### protected properties #########################
 
     /**
+     * Array of mark for check ids that were called before initialization
+     */
+    protected markedBeforeInit: MarkForCheckId[] = [];
+
+    /**
      * Instance of relations processor for handling relations
      */
     protected ɵrelationsProcessor: RelationsProcessor|undefined|null;
@@ -123,6 +128,14 @@ export class RelationsChangeDetector
         const relationDefs = this.outputsComponents[componentId]?.[id.outputName] ?? [];
         const changes = this.checkRunning && !this.options.detectionInSingleRun ? this.secondRunChanges : this.firstRunChanges;
 
+        //TODO: think of better solution, cache mark when not initialized
+        if(!relationDefs.length)
+        {
+            this.markedBeforeInit.push(id);
+
+            return;
+        }
+
         for(const relationDef of relationDefs)
         {
             const relation = changes.find(itm => itm.id == relationDef.inputComponentId);
@@ -179,6 +192,14 @@ export class RelationsChangeDetector
                 this.ɵoutputsComponents[componentId][inputOutput.outputName] ??= [];
                 this.ɵoutputsComponents[componentId][inputOutput.outputName].push(inputOutput);
             }
+        }
+
+        const ids = [...this.markedBeforeInit];
+        this.markedBeforeInit = [];
+
+        for(const markForCheckId of ids)
+        {
+            this.markForCheck(markForCheckId);
         }
     }
 

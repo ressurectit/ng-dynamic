@@ -125,6 +125,8 @@ export class RelationsChangeDetector
             return;
         }
 
+        this.logger.debug('RelationsChangeDetector: marking for check {@id}', {componentId, outputName: id.outputName});
+
         const relationDefs = this.outputsComponents[componentId]?.[id.outputName] ?? [];
         const changes = this.checkRunning && !this.options.detectionInSingleRun ? this.secondRunChanges : this.firstRunChanges;
 
@@ -174,6 +176,8 @@ export class RelationsChangeDetector
      */
     public initialize(relations: Dictionary<RelationsProcessorComponentData>): void
     {
+        this.logger.debug('RelationsChangeDetector: initializing {@relations}', relations);
+
         this.ɵoutputsComponents = {};
 
         for(const componentId in relations)
@@ -211,21 +215,13 @@ export class RelationsChangeDetector
     @BindThis
     protected runCheck(): void
     {
+        this.logger.debug('RelationsChangeDetector: running check');
+
         this.checkRunning = true;
 
         for(const change of this.firstRunChanges)
         {
-            const transfer = this.relationsProcessor.transferInputsData(change.id, true);
-            const allInputs = Object.keys(transfer.changes);
-
-            for(const inputName of allInputs)
-            {
-                //remove non existing change
-                if(change.inputs.indexOf(inputName) < 0)
-                {
-                    delete transfer.changes[inputName];
-                }
-            }
+            const transfer = this.relationsProcessor.transferInputsData(change.id, true, change.inputs);
 
             transfer.applyChanges();
         }

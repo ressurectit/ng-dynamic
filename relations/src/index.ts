@@ -1,3 +1,5 @@
+import './init.debugger';
+
 export * from './decorators';
 export * from './directives';
 export * from './extensions';

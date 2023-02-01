@@ -326,6 +326,7 @@ export default [function(options, args)
                 ...prod ? {ngDevMode: false} : {},
                 ngI18nClosureMode: false,
                 ngDesignerMetadata: true,
+                ngRelationsDebugger: true,
                 ngDynamicMonacoPath: JSON.stringify('dist'),
             }),
             new MiniCssExtractPlugin(

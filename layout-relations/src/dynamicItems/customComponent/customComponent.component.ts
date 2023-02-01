@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, inject, SimpleChanges, FactoryProvid
 import {MetadataStorage} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutComponentsIteratorService, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {RelationsChangeDetector, RelationsComponent, RelationsComponentManager, RelationsManager, RelationsProcessor, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
+import {provideRelationsDebugger, RelationsChangeDetector, RelationsComponent, RelationsComponentManager, RelationsManager, RelationsProcessor, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {extend, PromiseOr} from '@jscrpt/common';
@@ -34,6 +34,7 @@ import {PlaceholderHandler} from '../../services/placeholderHandler/placeholderH
         RelationsManager,
         RelationsProcessor,
         RelationsChangeDetector,
+        ...provideRelationsDebugger(),
         LayoutComponentsIteratorService,
         <FactoryProvider>
         {

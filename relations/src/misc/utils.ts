@@ -4,7 +4,7 @@ import {Dictionary, isBlank, isType} from '@jscrpt/common';
 
 import {RelationsComponentDef} from './types';
 import {DEFAULT_RELATIONS_COMPONENTS_EXTRACTOR, RELATIONS_COMPONENTS_LOADER_PROVIDER} from './providers';
-import {CodeExecutor, RelationsChangeDetector, RelationsComponentManager, RelationsManager, RelationsProcessor} from '../services';
+import {CodeExecutor, RelationsChangeDetector, RelationsComponentManager, RelationsDebugger, RelationsManager, RelationsProcessor} from '../services';
 
 //TODO: skip init as constant
 //TODO: assigned as constant
@@ -25,6 +25,14 @@ export const isRelationsComponentDef: DynamicItemLoaderValidatorFn<RelationsComp
 };
 
 /**
+ * Provides relations debugger
+ */
+export function provideRelationsDebugger(): Provider[]
+{
+    return ngRelationsDebugger ? [RelationsDebugger]: [];
+}
+
+/**
  * Default providers for relations subpackage
  */
 export function provideRelations(): Provider[]
@@ -36,6 +44,7 @@ export function provideRelations(): Provider[]
         RelationsManager,
         RelationsProcessor,
         RelationsChangeDetector,
+        ...provideRelationsDebugger(),
         CodeExecutor,
     ];
 }

@@ -4,6 +4,7 @@ import {Dictionary, generateId} from '@jscrpt/common';
 
 import {RelationsComponent} from '../../interfaces';
 import {RelationsProcessorComponent} from '../../misc/types';
+import {RelationsDebugger} from '../relationsDebugger/relationsDebugger.service';
 
 /**
  * Manager used for managing all components used in relations
@@ -44,7 +45,8 @@ export class RelationsComponentManager implements OnDestroy
     protected injector: Injector = inject(Injector);
 
     //######################### constructor #########################
-    constructor(@Inject(LOGGER) @Optional() protected logger?: Logger,)
+    constructor(@Inject(LOGGER) @Optional() protected logger?: Logger,
+                @Optional() protected relationsDebugger?: RelationsDebugger,)
     {
     }
 
@@ -117,6 +119,11 @@ export class RelationsComponentManager implements OnDestroy
         this.removeCacheFromHierarchy(id);
         this.components[id] = component;
         component.ɵɵinjector = this.injector;
+
+        if(ngRelationsDebugger)
+        {
+            this.relationsDebugger?.registerComponent(id, component);
+        }
     }
 
     /**
@@ -133,7 +140,13 @@ export class RelationsComponentManager implements OnDestroy
         }
 
         this.removeCacheFromHierarchy(id);
+        const component = this.components[id];
         delete this.components[id];
+
+        if(ngRelationsDebugger)
+        {
+            this.relationsDebugger?.unregisterComponent(id, component);
+        }
     }
 
     /**

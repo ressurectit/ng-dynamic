@@ -1,6 +1,6 @@
 import {inject, Injector, Type} from '@angular/core';
 import {LayoutComponentMetadata, LayoutComponentTransform, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
-import {RelationsChangeDetector, RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {RelationsChangeDetector, RelationsComponentManager, RelationsDebugger, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {LOGGER, Logger} from '@anglr/common';
 
 import type {CustomComponentSAComponent} from '../../dynamicItems/customComponent/customComponent.component';
@@ -173,6 +173,14 @@ export class PlaceholderHandler<TOptions = unknown>
     public get relationsChangeDetector(): RelationsChangeDetector|null
     {
         return this.getParentCustomComponentHandler()?.injector.get(RelationsChangeDetector, undefined, {skipSelf: true}) ?? null;
+    }
+
+    /**
+     * Relations debugger instance that is used for placeholders
+     */
+    public get relationsDebugger(): RelationsDebugger|null
+    {
+        return this.getParentCustomComponentHandler()?.injector.get(RelationsDebugger, undefined, {skipSelf: true}) ?? null;
     }
 
     /**

@@ -4,6 +4,8 @@ export * from './relationsChangeDetector/relationsChangeDetector.options';
 export * from './relationsChangeDetector/relationsChangeDetector.service';
 export * from './relationsComponentManager/relationsComponentManager.interface';
 export * from './relationsComponentManager/relationsComponentManager.service';
+export * from './relationsDebugger/relationsDebugger.interface';
+export * from './relationsDebugger/relationsDebugger.service';
 export * from './relationsManager/relationsManager.service';
 export * from './relationsProcessor/relationsDataTransferInstruction';
 export * from './relationsProcessor/relationsProcessor.interface';

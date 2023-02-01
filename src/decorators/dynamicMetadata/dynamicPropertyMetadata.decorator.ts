@@ -1,6 +1,6 @@
 import {Dictionary, extend, globalDefine, isBlank, noop} from '@jscrpt/common';
 
-declare let ngDesignerMetadata: boolean;
+declare const ngDesignerMetadata: boolean;
 
 globalDefine(global =>
 {

@@ -1,4 +1,4 @@
-import {inject, Inject, Injectable, Injector, OnDestroy, Optional, SimpleChanges} from '@angular/core';
+import {inject, Inject, Injectable, Injector, OnDestroy, Optional} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {Dictionary, isBlank, noop, NoopAction} from '@jscrpt/common';
@@ -13,6 +13,7 @@ import {RelationsComponentDef, RelationsProcessorComponent} from '../../misc/typ
 import {RelationsDataTransferInstructionImpl} from './relationsDataTransferInstruction';
 import {isAssigned, isSkipInit} from '../../misc/utils';
 import {RelationsChangeDetector} from '../relationsChangeDetector/relationsChangeDetector.service';
+import {RelationsDebugger} from '../relationsDebugger/relationsDebugger.service';
 
 /**
  * Processor that applies relations to registered components
@@ -95,6 +96,11 @@ export class RelationsProcessor implements OnDestroy
      * Injected relations change detector
      */
     protected relationsChangeDetector: RelationsChangeDetector = inject(RelationsChangeDetector);
+
+    /**
+     * Instance of relations debugger
+     */
+    protected relationsDebugger: RelationsDebugger|undefined|null = inject(RelationsDebugger, {optional: true});
 
     //######################### public properties #########################
 
@@ -219,7 +225,7 @@ export class RelationsProcessor implements OnDestroy
 
                         for(const input of inputs)
                         {
-                            this.transferData(outputComponent, inputOutput.outputName, input, inputOutput.inputName, false);
+                            this.transferData(outputComponent, input, inputOutput, false);
                         }
                     }));
 
@@ -237,7 +243,7 @@ export class RelationsProcessor implements OnDestroy
                         //init data transfer only if not marked as skip init and was not initialized and was already at least once assigned
                         if(!isSkipInit(outputComponent, inputOutput.outputName) && !inputOutput.initialized[id] && isAssigned(outputComponent, inputOutput.outputName))
                         {
-                            inputOutput.initialized[id] = this.transferData(outputComponent, inputOutput.outputName, inputComponent, inputOutput.inputName, true);
+                            inputOutput.initialized[id] = this.transferData(outputComponent, inputComponent, inputOutput, true);
                         }
                     }
                 }
@@ -427,13 +433,26 @@ export class RelationsProcessor implements OnDestroy
                         const previousValue = (inputComponent as any)[inputOutput.inputName];
                         const currentValue = (outputComponent as any)[inputOutput.outputName];
 
-                        transfers[inputOutput.inputComponentId].changes[inputOutput.inputName] =
+                        const change = transfers[inputOutput.inputComponentId].changes[inputOutput.inputName] =
                         {
                             previousValue,
                             currentValue,
                             firstChange: false,
                             isFirstChange: () => false,
                         };
+
+                        if(ngRelationsDebugger)
+                        {
+                            this.relationsDebugger?.transferData(transfers[inputOutput.inputComponentId],
+                            {
+                                change,
+                                inputComponentId: inputOutput.inputComponentId,
+                                outputComponentId: inputOutput.outputComponentId,
+                                outputName: inputOutput.outputName,
+                                inputName: inputOutput.inputName,
+                                scope: this.scopeId,
+                            });
+                        }
                     }
                 }
             }
@@ -459,8 +478,33 @@ export class RelationsProcessor implements OnDestroy
      * @param delayed - Indication whether delay data transfer and only generate instructions, if true returns transfer instructions
      */
     public transferInputsData(id: string, delayed: true): RelationsDataTransferInstruction
+    /**
+     * Transfers data for specified component using its inputs relations, all data are transfered in single change
+     * @param id - Id of component whose inputs relations should be applied to transfer data
+     * @param delayed - Indication whether delay data transfer and only generate instructions, if true returns transfer instructions
+     */
     public transferInputsData(id: string, delayed: false): null
-    public transferInputsData(id: string, delayed: boolean = false): null|RelationsDataTransferInstruction
+    /**
+     * Transfers data for specified component using its inputs relations, all data are transfered in single change
+     * @param id - Id of component whose inputs relations should be applied to transfer data
+     * @param delayed - Indication whether delay data transfer and only generate instructions, if true returns transfer instructions
+     * @param inputs - Optional array of inputs that should be displayed
+     */
+    public transferInputsData(id: string, delayed: true, inputs: string[]): RelationsDataTransferInstruction
+    /**
+     * Transfers data for specified component using its inputs relations, all data are transfered in single change
+     * @param id - Id of component whose inputs relations should be applied to transfer data
+     * @param delayed - Indication whether delay data transfer and only generate instructions, if true returns transfer instructions
+     * @param inputs - Optional array of inputs that should be displayed
+     */
+    public transferInputsData(id: string, delayed: false, inputs: string[]): null
+    /**
+     * Transfers data for specified component using its inputs relations, all data are transfered in single change
+     * @param id - Id of component whose inputs relations should be applied to transfer data
+     * @param delayed - Indication whether delay data transfer and only generate instructions, if true returns transfer instructions
+     * @param inputs - Optional array of inputs that should be displayed
+     */
+    public transferInputsData(id: string, delayed: boolean = false, inputs?: string[]): null|RelationsDataTransferInstruction
     {
         const backwardRelations = this.backwardRelations[id];
         const inputComponent = this.componentManager.get(id);
@@ -491,6 +535,12 @@ export class RelationsProcessor implements OnDestroy
         //for each backward relation
         for(const backwardRelation of backwardRelations)
         {
+            //skip if input does not exists and inputs are specified
+            if(inputs && inputs.indexOf(backwardRelation.inputName) < 0)
+            {
+                continue;
+            }
+
             const outputComponent = this.componentManager.get(backwardRelation.outputComponentId);
 
             if((Array.isArray(outputComponent)))
@@ -508,13 +558,26 @@ export class RelationsProcessor implements OnDestroy
             const previousValue = (inputComponent as any)[backwardRelation.inputName];
             const currentValue = (outputComponent as any)[backwardRelation.outputName];
 
-            transfer.changes[backwardRelation.inputName] =
+            const change = transfer.changes[backwardRelation.inputName] =
             {
                 previousValue,
                 currentValue,
                 firstChange: false,
                 isFirstChange: () => false,
             };
+
+            if(ngRelationsDebugger)
+            {
+                this.relationsDebugger?.transferData(transfer,
+                {
+                    change,
+                    inputComponentId: backwardRelation.inputComponentId,
+                    outputComponentId: backwardRelation.outputComponentId,
+                    outputName: backwardRelation.outputName,
+                    inputName: backwardRelation.inputName,
+                    scope: this.scopeId,
+                });
+            }
         }
 
         if(!delayed)
@@ -590,6 +653,12 @@ export class RelationsProcessor implements OnDestroy
         }
 
         this.relationsChangeDetector.initialize(this.relations);
+        
+        if(ngRelationsDebugger)
+        {
+            this.relationsDebugger?.initialize(this.relations, this.backwardRelations);
+        }
+
         this.resolveInitialized();
     }
 
@@ -629,7 +698,7 @@ export class RelationsProcessor implements OnDestroy
                 //init data transfer only if not marked as skip init and was not initialized and was already at least once assigned
                 if(!isSkipInit(outputCmp, inputOutput.outputName) && !inputOutput.initialized[id] && isAssigned(outputCmp, inputOutput.outputName))
                 {
-                    inputOutput.initialized[id] = this.transferData(outputCmp, inputOutput.outputName, inputCmp, inputOutput.inputName, true);
+                    inputOutput.initialized[id] = this.transferData(outputCmp, inputCmp, inputOutput, true);
                 }
             }
         }
@@ -637,25 +706,23 @@ export class RelationsProcessor implements OnDestroy
 
     /**
      * Transfers data from source property to target property
-     * @param source Instance of source object containing source property with data
-     * @param sourceProperty Name of source property with data that are transfered
-     * @param target Instance of target object containing target property for data
-     * @param targetProperty Name of target property which will be filled with data
-     * @param initial Indication whether is transfer of data initial, or on event
+     * @param source - Instance of source object containing source property with data
+     * @param target - Instance of target object containing target property for data
+     * @param sourceTarget - Definition of source target names and ids
+     * @param initial - Indication whether is transfer of data initial, or on event
      */
-    protected transferData(source: RelationsComponent, sourceProperty: string, target: RelationsComponent, targetProperty: string, initial: boolean): boolean
+    protected transferData(source: RelationsComponent, target: RelationsComponent, sourceTarget: RelationsProcessorInputOutputData, initial: boolean): boolean
     {
         if(!source || !target)
         {
             return false;
         }
 
-        const previousValue = (target as any)[targetProperty];
-        const currentValue = (source as any)[sourceProperty];
-        (target as any)[targetProperty] = (source as any)[sourceProperty];
-        const changes: SimpleChanges = {};
+        const previousValue = (target as any)[sourceTarget.inputName];
+        const currentValue = (source as any)[sourceTarget.outputName];
+        const transfer = new RelationsDataTransferInstructionImpl([target]);
 
-        changes[targetProperty] =
+        const change = transfer.changes[sourceTarget.inputName] =
         {
             previousValue,
             currentValue,
@@ -663,8 +730,20 @@ export class RelationsProcessor implements OnDestroy
             isFirstChange: () => initial
         };
 
-        target.ngOnChanges?.(changes);
-        target.invalidateVisuals();
+        if(ngRelationsDebugger)
+        {
+            this.relationsDebugger?.transferData(transfer,
+            {
+                change,
+                inputComponentId: sourceTarget.inputComponentId,
+                inputName: sourceTarget.inputName,
+                outputComponentId: sourceTarget.outputComponentId,
+                outputName: sourceTarget.outputName,
+                scope: this.scopeId,
+            });
+        }
+
+        transfer.applyChanges();
 
         return true;
     }

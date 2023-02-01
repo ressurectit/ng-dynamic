@@ -2,7 +2,7 @@ import {globalDefine, isBlank} from '@jscrpt/common';
 
 import {DynamicMetadataLoader} from './dynamicMetadata.interface';
 
-declare let ngDesignerMetadata: boolean;
+declare const ngDesignerMetadata: boolean;
 
 globalDefine(global =>
 {

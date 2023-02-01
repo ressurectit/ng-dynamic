@@ -6,6 +6,8 @@ import {RelationsOutput} from '../../interfaces';
 import {NodeRelationPath} from '../../misc/nodeRelationPath';
 import {INVALIDATE_DROP} from '../../misc/constants';
 
+//TODO: optimize window events, do not register for all time
+
 /**
  * Component used to display relation node output
  */

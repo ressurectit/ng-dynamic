@@ -1,6 +1,6 @@
 import {Inject, Injectable, Injector, Optional} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {Dictionary, generateId, nameof} from '@jscrpt/common';
+import {Dictionary, extend, generateId, nameof} from '@jscrpt/common';
 
 import {RelationsProcessorComponent} from '../../misc/types';
 import {RelationsComponentStateDebugInfo, RelationsDataTransferDebugInfo, RelationsDataTransferIdDebugInfo, RelationsOutputDebugInfo, RelationsStepDebugInfo} from './relationsDebugger.interface';
@@ -40,9 +40,9 @@ export class RelationsDebugger
     protected ɵrelationsComponentManager: RelationsComponentManager|undefined|null;
 
     /**
-     * Registered components by id and their internal ids
+     * Registered components by id and their internal ids for each step
      */
-    protected components: Dictionary<string[]> = {};
+    protected components: Dictionary<string[]>[] = [];
 
     /**
      * Array of steps recorded by debugger
@@ -132,15 +132,20 @@ export class RelationsDebugger
      */
     public registerComponent(id: string, component: RelationsProcessorComponent): void
     {
-        if(this.components[id] && this.components[id].indexOf(component.ɵɵRelationsComponentId ?? '') >= 0)
+        let components = this.getCurrentComponents();
+
+        if(components[id] && components[id].indexOf(component.ɵɵRelationsComponentId ?? '') >= 0)
         {
             this.logger?.warn('RelationsDebugger: component "{@id}" has already been registered', `${id}--${component.ɵɵRelationsComponentId}`);
 
             return;
         }
 
-        this.components[id] ??= [];
-        this.components[id].push(component.ɵɵRelationsComponentId ?? '');
+        this.components.push(extend(true, {}, components));
+        components = this.getCurrentComponents();
+
+        components[id] ??= [];
+        components[id].push(component.ɵɵRelationsComponentId ?? '');
 
         //update component for debugging info
         if(!Reflect.getOwnPropertyDescriptor(component, COMPONENT_DEBUGGER_PROPERTY))
@@ -244,19 +249,23 @@ export class RelationsDebugger
     public unregisterComponent(id: string, component: RelationsProcessorComponent): void
     {
         let index: number;
+        let components = this.getCurrentComponents();
 
-        if(!this.components[id] || (index = this.components[id].indexOf(component.ɵɵRelationsComponentId ?? '')) < 0)
+        if(!components[id] || (index = components[id].indexOf(component.ɵɵRelationsComponentId ?? '')) < 0)
         {
             this.logger?.warn('RelationsDebugger: component "{@id}" does not exists!', `${id}--${component.ɵɵRelationsComponentId}`);
 
             return;
         }
 
-        this.components[id].splice(index, 1);
+        this.components.push(extend(true, {}, components));
+        components = this.getCurrentComponents();
 
-        if(!this.components[id].length)
+        components[id].splice(index, 1);
+
+        if(!components[id].length)
         {
-            delete this.components[id];
+            delete components[id];
         }
 
         //update component for debugging info
@@ -271,7 +280,7 @@ export class RelationsDebugger
             timestamp: Date.now(),
             componentRegistration: null,
             componentState: null,
-            componentUnregistration: 
+            componentUnregistration:
             {
                 componentId: id,
                 componentInternalId: component.ɵɵRelationsComponentId ?? '',
@@ -335,6 +344,19 @@ export class RelationsDebugger
                 }
             }
         }).bind(transfer);
+    }
+
+    /**
+     * Gets currently registered components
+     */
+    public getCurrentComponents(): Dictionary<string[]>
+    {
+        if(!this.components.length)
+        {
+            return {};
+        }
+
+        return this.components[this.components.length - 1];
     }
 
     /**

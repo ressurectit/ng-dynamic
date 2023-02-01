@@ -238,6 +238,14 @@
             "node": "./es2015/relations-editor/src/index.js",
             "default": "./es2020/relations-editor/src/index.js"
         },
+        "./relations-debugger": {
+            "types": "./relations-debugger/src/index.d.ts",
+            "esm2020": "./es2020/relations-debugger/src/index.js",
+            "es2020": "./es2020/relations-debugger/src/index.js",
+            "es2015": "./es2015/relations-debugger/src/index.js",
+            "node": "./es2015/relations-debugger/src/index.js",
+            "default": "./es2020/relations-debugger/src/index.js"
+        },
         "./basic-components": {
             "types": "./basic-components/src/index.d.ts",
             "esm2020": "./es2020/basic-components/src/index.js",

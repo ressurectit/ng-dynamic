@@ -171,6 +171,7 @@ export default [function(options, args)
                 "@anglr/dynamic/form": path.join(dirName, "../form/src"),
                 "@anglr/dynamic/relations": path.join(dirName, "../relations/src"),
                 "@anglr/dynamic/relations-editor": path.join(dirName, "../relations-editor/src"),
+                "@anglr/dynamic/relations-debugger": path.join(dirName, "../relations-debugger/src"),
                 "@anglr/dynamic/basic-components": path.join(dirName, "../basic-components/src"),
                 "@anglr/dynamic/material-components": path.join(dirName, "../material-components/src"),
                 "@anglr/dynamic/css-components": path.join(dirName, "../css-components/src"),

@@ -31,6 +31,7 @@
             "@anglr/dynamic/form": ["../form/src/index.ts"],
             "@anglr/dynamic/relations": ["../relations/src/index.ts"],
             "@anglr/dynamic/relations-editor": ["../relations-editor/src/index.ts"],
+            "@anglr/dynamic/relations-debugger": ["../relations-debugger/src/index.ts"],
             "@anglr/dynamic/basic-components": ["../basic-components/src/index.ts"],
             "@anglr/dynamic/material-components": ["../material-components/src/index.ts"],
             "@anglr/dynamic/css-components": ["../css-components/src/index.ts"],

@@ -1,10 +1,11 @@
-import {Provider} from '@angular/core';
+import {inject, Provider} from '@angular/core';
 import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
 import {Dictionary, isBlank, isType} from '@jscrpt/common';
 
 import {RelationsComponentDef} from './types';
 import {DEFAULT_RELATIONS_COMPONENTS_EXTRACTOR, RELATIONS_COMPONENTS_LOADER_PROVIDER} from './providers';
 import {CodeExecutor, RelationsChangeDetector, RelationsComponentManager, RelationsDebugger, RelationsManager, RelationsProcessor} from '../services';
+import {RELATIONS_DEBUGGER_TYPE} from './tokens';
 
 //TODO: skip init as constant
 //TODO: assigned as constant
@@ -29,7 +30,24 @@ export const isRelationsComponentDef: DynamicItemLoaderValidatorFn<RelationsComp
  */
 export function provideRelationsDebugger(): Provider[]
 {
-    return ngRelationsDebugger ? [RelationsDebugger]: [];
+    return ngRelationsDebugger ?
+        [
+            {
+                provide: RelationsDebugger,
+                useFactory: () =>
+                {
+                    const relationsDebuggerType = inject(RELATIONS_DEBUGGER_TYPE, {optional: true});
+
+                    if(!relationsDebuggerType)
+                    {
+                        throw new Error('Please provide RelationsDebugger implementation type! Use "provideRelationsDebuggerImplementation() from @anglr/dynamic/relations-debugger"');
+                    }
+
+                    return new relationsDebuggerType();
+                },
+            }
+        ] :
+        [];
 }
 
 /**

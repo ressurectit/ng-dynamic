@@ -17,6 +17,7 @@ import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES} from '@anglr/rest';
 import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
+import {provideRelationsDebuggerImplementation} from '@anglr/dynamic/relations-debugger';
 import {isString, isJsObject} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
 import {sk} from 'date-fns/locale';
@@ -359,4 +360,8 @@ export const providers: Provider[] =
             404: [handle404Func, error => new RestNotFoundError(error.errors)]
         },
     },
+
+    //######################### DYNAMIC CONFIG #########################
+
+    provideRelationsDebuggerImplementation(),
 ];

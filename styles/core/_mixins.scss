@@ -24,6 +24,7 @@
 @use '../components/relation-node-input' as relationsNodeInput;
 @use '../components/relation-node-output' as relationsNodeOutput;
 @use '../components/relations-canvas' as relationsCanvas;
+@use '../components/relations-debugger-visualizer' as relationsDebuggerVisualizer;
 @use '../components/rich-text-block-properties-control' as richTextBlockPropertiesControl;
 
 @mixin buildThemeColors($theme)
@@ -90,14 +91,12 @@
     --dynamic-placeholder-foreground: #{map.get(map.get($theme, 'placeholder'), 'foreground')};
     --dynamic-placeholder-background: #{map.get(map.get($theme, 'placeholder'), 'background')};
     --dynamic-content-options-border: #{map.get(map.get($theme, 'contentOptions'), 'border')};
+    --dynamic-relations-debugger-visualizer-foreground: #{map.get(map.get($theme, 'relationsDebuggerVisualizer'), 'foreground')};
+    --dynamic-relations-debugger-visualizer-background: #{map.get(map.get($theme, 'relationsDebuggerVisualizer'), 'background')};
 }
 
 @mixin buildThemeCss
 {
-    @include misc.misc;
-    @include misc.generate-margin-padding('margin', (none: 0, extra-small: 4px, small: 10px, medium: 15px, big: 20px));
-    @include misc.thin-scrollbar('--dynamic-thin-scrollbar');
-    @include misc.overrides;
     @include global.dropzone-overlay;
     @include buttons.btn;
     @include buttons.btn-primary;
@@ -123,7 +122,13 @@
     @include relationsNodeInput.css;
     @include relationsNodeOutput.css;
     @include relationsCanvas.css;
+    @include relationsDebuggerVisualizer.css;
     @include richTextBlockPropertiesControl.css;
+
+    @include misc.misc;
+    @include misc.generate-margin-padding('margin', (none: 0, extra-small: 4px, small: 10px, medium: 15px, big: 20px));
+    @include misc.thin-scrollbar('--dynamic-thin-scrollbar');
+    @include misc.overrides;
 }
 
 @mixin buildTheme($theme)

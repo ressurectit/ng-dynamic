@@ -47,6 +47,11 @@
     align-items: center;
 }
 
+%justify-content-center
+{
+    justify-content: center;
+}
+
 %text-uppercase
 {
     text-transform: uppercase;
@@ -180,6 +185,11 @@
     .dynamic-align-items-center
     {
         @extend %align-items-center;
+    }
+
+    .dynamic-justify-content-center
+    {
+        @extend %justify-content-center;
     }
 
     .dynamic-text-uppercase

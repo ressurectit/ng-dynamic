@@ -1,6 +1,8 @@
 import {Directive, EmbeddedViewRef, Inject, OnDestroy, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 
+//TODO: remove and use one from common
+
 /**
  * Renders element into body directly at the end
  */

@@ -1,0 +1,30 @@
+<div class="dynamic-flex-row dynamic-margin-bottom-small">
+    <div class="dynamic-flex-row dynamic-flex-1 dynamic-justify-content-center">
+        <div>
+            <a class="dynamic-btn-icon dynamic-margin-horizontal-extra-small">
+                <span class="fas fa-backward-step"></span>
+            </a>
+
+            <a class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="togglePlay()">
+                <span class="fas" [class.fa-play]="!playing" [class.fa-pause]="playing"></span>
+            </a>
+
+            <a class="dynamic-btn-icon dynamic-margin-horizontal-extra-small">
+                <span class="fas fa-forward-step"></span>
+            </a>
+
+            <a class="dynamic-btn-icon dynamic-margin-horizontal-extra-small">
+                <span class="fas fa-forward-fast"></span>
+            </a>
+        </div>
+    </div>
+
+    <a class="dynamic-btn-icon dynamic-large-text dynamic-margin-right-extra-small" (click)="close.emit()">
+        <span class="fas fa-times"></span>
+    </a>
+</div>
+
+<div class="dynamic-flex-row dynamic-flex-1">
+    <relations-canvas class="dynamic-flex-1"></relations-canvas>
+    <!-- <relations-canvas [nodeDefinitions]="metadata" class="dynamic-flex-1" cdkDropList (cdkDropListDropped)="addNode($event)"></relations-canvas> -->
+</div>

@@ -2,6 +2,8 @@
     <a class="margin-horizontal-small" [routerLink]="['/relationsComplex/layout', _available.value]">layout</a>
     <a class="margin-horizontal-small" [routerLink]="['/relationsComplex/relations', _available.value]">relations</a>
 
+    <a class="margin-horizontal-small" href="#" showRelationsDebugger>debug</a>
+
     <ng-select [formControl]="_available" class="flex-1">
         <ng-option *ngFor="let val of _availableNames" [value]="val" [text]="val"></ng-option>
     </ng-select>

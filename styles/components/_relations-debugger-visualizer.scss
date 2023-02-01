@@ -1,0 +1,15 @@
+@mixin css
+{
+    relations-debugger-visualizer
+    {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: var(--dynamic-relations-debugger-visualizer-background);
+        color: var(--dynamic-relations-debugger-visualizer-foreground);
+    }
+}

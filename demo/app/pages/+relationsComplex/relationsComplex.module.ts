@@ -7,6 +7,7 @@ import {DebugDataCopyClickModule} from '@anglr/common/material';
 import {NgSelectModule} from '@anglr/select';
 import {GoBackModule} from '@anglr/common';
 import {DynamicLayoutRelationsEditorModule} from '@anglr/dynamic/layout-relations';
+import {ShowRelationsDebuggerSADirective} from '@anglr/dynamic/relations-debugger';
 
 import {components} from './relationsComplex.routes';
 import {LoadSaveNewSAComponent} from '../../components';
@@ -30,6 +31,7 @@ import {StaticInputSAComponent, StaticOutputSAComponent} from './misc';
         LoadSaveNewSAComponent,
         StaticInputSAComponent,
         StaticOutputSAComponent,
+        ShowRelationsDebuggerSADirective,
     ],
     declarations:
     [

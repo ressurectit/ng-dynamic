@@ -21,22 +21,35 @@
 </div>
 
 <div class="debugger-node-overlay" tooltip [tooltipOptions]="tooltipOptions">
-    <div *tooltipTemplate>
+    <div *tooltipTemplate class="relations-debugger-node-detail dynamic-thin-scrollbar">
+        <div class="dynamic-bold">{{this.metadata?.id}}</div>
+
         <div *ngFor="let stat of state">
             <div class="dynamic-semi-bold">#{{stat.componentInternalId}}</div>
-            <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-top-small dynamic-margin-bottom-small">inputs</div>
 
-            <div *ngFor="let input of stat.inputs | keyvalue">
-                <div>{{input.key}}: {{input.value | json}}</div>
-            </div>
+            <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-top-small dynamic-margin-bottom-extra-small">relations options</div>
 
-            <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-top-small dynamic-margin-bottom-small">outputs</div>
+            <div class="formatted-json">{{metadata?.relationsOptions | jsonFormatted}}</div>
 
-            <div *ngFor="let output of stat.outputs | keyvalue">
-                <div class="dynamic-semi-bold">{{output.key}}:</div>
-                <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">assigned:</span> {{output.value.assigned}}</div>
-                <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">skipInit:</span> {{output.value.skipInit}}</div>
-                <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">value:</span> <div style="white-space: pre-wrap;">{{output.value.value | json}}</div></div>
+            <div class="inputs-outputs-grid">
+                <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-bottom-extra-small">inputs</div>
+                <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-bottom-extra-small">outputs</div>
+
+                <div>
+                    <div *ngFor="let input of stat.inputs | keyvalue" class="dynamic-margin-bottom-extra-small">
+                        <div class="dynamic-semi-bold">{{input.key}}:</div>
+                        <div class="formatted-json">{{input.value | jsonFormatted}}</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div *ngFor="let output of stat.outputs | keyvalue" class="dynamic-margin-bottom-extra-small">
+                        <div class="dynamic-semi-bold">{{output.key}}:</div>
+                        <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">assigned:</span> {{output.value.assigned}}</div>
+                        <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">skipInit:</span> {{output.value.skipInit}}</div>
+                        <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">value:</span> <div style="white-space: pre-wrap;">{{output.value.value | jsonFormatted}}</div></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

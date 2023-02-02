@@ -5,6 +5,8 @@ import {RelationsComponentEndpoints, RelationsComponentStateDebugInfo, Relations
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
 import {Subscription} from 'rxjs';
 
+import {JsonFormattedSAPipe} from '../../../pipes';
+
 /**
  * Relations node component for debugger node
  */
@@ -19,6 +21,7 @@ import {Subscription} from 'rxjs';
         TooltipModule,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
+        JsonFormattedSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -69,6 +72,7 @@ export class DebuggerNodeSAComponent extends RelationsNodeBase implements Relati
             offset: 'None',
         },
         allowSelection: true,
+        tooltipCssClass: 'relations-debugger-tooltip',
     };
 
     //######################### public methods - overrides #########################

@@ -5,6 +5,7 @@ import {RelationsNodeManager} from '@anglr/dynamic/relations-editor';
 import {isPresent, nameof} from '@jscrpt/common';
 
 import {MetadataHistoryManagerDebug} from '../../services';
+import {StepNameSAPipe} from '../../pipes';
 
 /**
  * Component used for visualization of relations debugger data
@@ -17,6 +18,7 @@ import {MetadataHistoryManagerDebug} from '../../services';
     imports:
     [
         RelationsCanvasSAComponent,
+        StepNameSAPipe,
     ],
     providers:
     [

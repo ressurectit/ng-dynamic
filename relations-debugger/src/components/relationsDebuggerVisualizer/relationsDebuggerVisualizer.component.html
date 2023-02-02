@@ -1,5 +1,8 @@
 <div class="dynamic-flex-row dynamic-margin-bottom-small">
-    <div>{{currentStep?.timestamp}}</div>
+    <div class="dynamic-flex-row">
+        <div class="dynamic-margin-right-small">{{currentStep?.timestamp}}</div>
+        <div class="dynamic-margin-right-small">{{currentStep | stepName}}</div>
+    </div>
 
     <div class="dynamic-flex-row dynamic-flex-1 dynamic-justify-content-center">
         <div>

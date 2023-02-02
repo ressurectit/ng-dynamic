@@ -5,6 +5,8 @@ import {Dictionary, extend, generateId, nameof} from '@jscrpt/common';
 
 const COMPONENT_DEBUGGER_PROPERTY = 'COMPONENT_DEBUGGER_PROPERTY';
 
+//TODO: maybe reset steps on change of init
+
 /**
  * Definition of component endpoints
  */
@@ -43,6 +45,11 @@ export class RelationsDebuggerImpl extends RelationsDebugger
      * Instance of relations component manager
      */
     protected ɵrelationsComponentManager: RelationsComponentManager|undefined|null;
+
+    /**
+     * Current step index for previewing of data
+     */
+    protected currentStepIndex: number = 0;
 
     /**
      * Registered components by id and their internal ids for each step
@@ -127,7 +134,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
      */
     public registerComponent(id: string, component: RelationsProcessorComponent): void
     {
-        let components = this.getCurrentComponents();
+        let components = this.getLastComponents();
 
         if(components[id] && components[id].indexOf(component.ɵɵRelationsComponentId ?? '') >= 0)
         {
@@ -137,7 +144,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
         }
 
         this.components.push(extend(true, {}, components));
-        components = this.getCurrentComponents();
+        components = this.getLastComponents();
 
         components[id] ??= [];
         components[id].push(component.ɵɵRelationsComponentId ?? '');
@@ -232,7 +239,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
             componentUnregistration: null,
             dataTransfer: null,
             componentRelationsOptions: null,
-            previousStep: this.getLastStep(),
+            previousStep: this.getLastStepData(),
         });
     }
 
@@ -242,7 +249,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
     public unregisterComponent(id: string, component: RelationsProcessorComponent): void
     {
         let index: number;
-        let components = this.getCurrentComponents();
+        let components = this.getLastComponents();
 
         if(!components[id] || (index = components[id].indexOf(component.ɵɵRelationsComponentId ?? '')) < 0)
         {
@@ -252,7 +259,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
         }
 
         this.components.push(extend(true, {}, components));
-        components = this.getCurrentComponents();
+        components = this.getLastComponents();
 
         components[id].splice(index, 1);
 
@@ -280,7 +287,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
             },
             dataTransfer: null,
             componentRelationsOptions: null,
-            previousStep: this.getLastStep(),
+            previousStep: this.getLastStepData(),
         });
     }
 
@@ -296,6 +303,9 @@ export class RelationsDebuggerImpl extends RelationsDebugger
         transfer.applyChanges = (() =>
         {
             applyChangesOriginal.call(transfer);
+
+            const components = this.getLastComponents();
+            this.components.push(extend(true, {}, components));
 
             this.steps.push(
             {
@@ -314,13 +324,13 @@ export class RelationsDebuggerImpl extends RelationsDebugger
                     ɵuniqueId: transfer.ɵuniqueId ?? '',
                 },
                 componentRelationsOptions: null,
-                previousStep: this.getLastStep(),
+                previousStep: this.getLastStepData(),
             });
 
             this.readComponentState(options.inputComponentId);
             this.readComponentState(options.outputComponentId);
 
-            const step = this.getLastStep();
+            const step = this.getLastStepData();
 
             if(!step)
             {
@@ -347,7 +357,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
             return {};
         }
 
-        return this.components[this.components.length - 1];
+        return this.components[this.currentStepIndex];
     }
 
     /**
@@ -355,7 +365,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
      */
     public getComponentState(id: string): RelationsComponentStateDebugInfo[]
     {
-        let step = this.getLastStep();
+        let step: RelationsStepDebugInfo|undefined|null = this.getCurrentStep();
 
         if(!step)
         {
@@ -379,7 +389,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
      */
     public getComponentRelationsOptions(id: string): unknown
     {
-        let step = this.getLastStep();
+        let step: RelationsStepDebugInfo|undefined|null = this.getCurrentStep();
 
         if(!step)
         {
@@ -396,6 +406,90 @@ export class RelationsDebuggerImpl extends RelationsDebugger
         while((step = step.previousStep));
 
         return undefined;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public getLastStep(): RelationsStepDebugInfo|null
+    {
+        if(!this.steps.length || (this.steps.length - 1) == this.currentStepIndex)
+        {
+            return null;
+        }
+
+        this.currentStepIndex = this.steps.length - 1;
+
+        return this.steps[this.currentStepIndex];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public getFirstStep(): RelationsStepDebugInfo|null
+    {
+        if(!this.steps.length || this.currentStepIndex == 0)
+        {
+            return null;
+        }
+
+        this.currentStepIndex = 0;
+
+        return this.steps[this.currentStepIndex];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public getNextStep(): RelationsStepDebugInfo|null
+    {
+        if(!this.steps.length || (this.steps.length - 1) == this.currentStepIndex)
+        {
+            return null;
+        }
+
+        this.currentStepIndex++;
+
+        return this.steps[this.currentStepIndex];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public getPreviousStep(): RelationsStepDebugInfo|null
+    {
+        if(!this.steps.length || this.currentStepIndex == 0)
+        {
+            return null;
+        }
+
+        this.currentStepIndex--;
+
+        return this.steps[this.currentStepIndex];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public getCurrentStep(): RelationsStepDebugInfo|null
+    {
+        if(!this.steps.length)
+        {
+            return null;
+        }
+
+        return this.steps[this.currentStepIndex];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public clearSteps(): void
+    {
+        this.currentStepIndex = 0;
+
+        this.steps = [];
+        this.components = [];
     }
 
     //######################### protected methods #########################
@@ -481,7 +575,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
             };
         });
 
-        const step = this.getLastStep();
+        const step = this.getLastStepData();
 
         if(!step)
         {
@@ -499,7 +593,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
      */
     protected setComponentRelationsOptions(id: string, relationsOptions: unknown): void
     {
-        const step = this.getLastStep();
+        const step = this.getLastStepData();
 
         if(!step)
         {
@@ -513,8 +607,21 @@ export class RelationsDebuggerImpl extends RelationsDebugger
     /**
      * Gets last step
      */
-    protected getLastStep(): RelationsStepDebugInfo|undefined|null
+    protected getLastStepData(): RelationsStepDebugInfo|undefined|null
     {
         return this.steps.length > 0 ? this.steps[this.steps.length - 1] : null;
+    }
+
+    /**
+     * Gets last components
+     */
+    protected getLastComponents(): Dictionary<string[]>
+    {
+        if(!this.components.length)
+        {
+            return {};
+        }
+
+        return this.components[this.components.length - 1];
     }
 }

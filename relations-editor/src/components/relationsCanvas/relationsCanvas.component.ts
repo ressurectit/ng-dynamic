@@ -28,7 +28,7 @@ const SCALE_FACTOR_MIN = 0.2;
 const SCALE_FACTOR_MAX = 2;
 
 /**
- * Component used as designer component wrapper for layout component
+ * Component used as designer component wrapper for relations component
  */
 @Component(
 {
@@ -124,7 +124,7 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
     //######################### public properties - inputs #########################
 
     /**
-     * Sample data to render
+     * Node definition data to render
      */
     @Input()
     public nodeDefinitions: RelationsNodeMetadata[] = [];

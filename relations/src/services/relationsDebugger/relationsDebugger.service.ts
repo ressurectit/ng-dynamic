@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Dictionary} from '@jscrpt/common';
 
 import {RelationsProcessorComponent} from '../../misc/types';
-import {RelationsComponentStateDebugInfo, RelationsDataTransferDebugInfo, RelationsDataTransferIdDebugInfo} from './relationsDebugger.interface';
+import {RelationsComponentStateDebugInfo, RelationsDataTransferDebugInfo, RelationsDataTransferIdDebugInfo, RelationsStepDebugInfo} from './relationsDebugger.interface';
 import {RelationsDataTransferInstructionImpl} from '../relationsProcessor/relationsDataTransferInstruction';
 import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from '../relationsProcessor/relationsProcessor.interface';
 
@@ -58,4 +58,34 @@ export abstract class RelationsDebugger
      * @param id - Id of component whose relations options are going to be read
      */
     public abstract getComponentRelationsOptions(id: string): unknown;
+
+    /**
+     * Gets last step or null if is already on last step
+     */
+    public abstract getLastStep(): RelationsStepDebugInfo|null;
+
+    /**
+     * Gets first step or null if is already on first step
+     */
+    public abstract getFirstStep(): RelationsStepDebugInfo|null;
+
+    /**
+     * Gets next step or null if is already on last step
+     */
+    public abstract getNextStep(): RelationsStepDebugInfo|null;
+
+    /**
+     * Gets previous step or null if is already on first step
+     */
+    public abstract getPreviousStep(): RelationsStepDebugInfo|null;
+
+    /**
+     * Gets current step or null if there are no steps
+     */
+    public abstract getCurrentStep(): RelationsStepDebugInfo|null;
+
+    /**
+     * Clears all recorded steps
+     */
+    public abstract clearSteps(): void;
 }

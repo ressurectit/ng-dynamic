@@ -56,19 +56,21 @@ export class PreviewComponent implements OnInit, OnDestroy
 {
     //######################### protected properties - template bindings #########################
 
-    protected _available: FormControl = new FormControl('');
+    protected available: FormControl = new FormControl('');
 
-    protected _metadata: LayoutComponentMetadata = null;
+    protected metadata: LayoutComponentMetadata = null;
+
+    protected relations: RelationsNodeMetadata[] = [];
 
     protected selectedMetadata: LayoutRelationsMetadata|null = null;
 
-    protected _availableNames: string[] = [];
+    protected availableNames: string[] = [];
 
     //######################### constructor #########################
-    constructor(private _store: StoreDataService<LayoutRelationsMetadata>,
-                private _router: Router,
-                private _relationsManager: RelationsManager,
-                private _route: ActivatedRoute,)
+    constructor(private store: StoreDataService<LayoutRelationsMetadata>,
+                private router: Router,
+                private relationsManager: RelationsManager,
+                private route: ActivatedRoute,)
     {
     }
 
@@ -79,26 +81,27 @@ export class PreviewComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._availableNames = this._store.getStored();
+        this.availableNames = this.store.getStored();
 
-        this._route.params.subscribe(({id}) =>
+        this.route.params.subscribe(({id}) =>
         {
             if(id)
             {
-                this._available.setValue(id);
-                const meta = this.selectedMetadata = this._store.getData(id);
-                this._metadata = meta?.layout;
-                this._relationsManager.setRelations(meta.relations ?? []);
+                this.available.setValue(id);
+                const meta = this.selectedMetadata = this.store.getData(id);
+                this.metadata = meta?.layout;
+                this.relations = meta?.relations ?? [];
+                this.relationsManager.setRelations(meta.relations ?? []);
             }
             else
             {
                 this.selectedMetadata = null;
-                this._relationsManager.setRelations([]);
+                this.relationsManager.setRelations([]);
             }
 
-            this._available.valueChanges.subscribe(val =>
+            this.available.valueChanges.subscribe(val =>
             {
-                this._router.navigate(['/relationsComplex/preview', val], {skipLocationChange: false, replaceUrl: true});
+                this.router.navigate(['/relationsComplex/preview', val], {skipLocationChange: false, replaceUrl: true});
             });
         });
     }

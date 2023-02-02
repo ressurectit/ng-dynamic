@@ -1,0 +1,43 @@
+<div class="relations-node-header">
+    <div class="header-content" tooltip="id: {{metadata?.id}}">{{metadata?.name}}</div>
+</div>
+
+<div class="node-content">
+    <div class="inputs-outputs">
+        <div class="inputs">
+            <div class="input" *ngFor="let input of componentDef?.inputs">
+                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="input" [parent]="this"></relation-node-input>
+                <div>{{input}}</div>
+            </div>
+        </div>
+
+        <div class="outputs">
+            <div class="output" *ngFor="let output of componentDef?.outputs">
+                <div>{{output}}</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="output" [parent]="this"></relation-node-output>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="debugger-node-overlay" tooltip [tooltipOptions]="tooltipOptions">
+    <div *tooltipTemplate>
+        <div *ngFor="let stat of state">
+            <div class="dynamic-semi-bold">#{{stat.componentInternalId}}</div>
+            <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-top-small dynamic-margin-bottom-small">inputs</div>
+
+            <div *ngFor="let input of stat.inputs | keyvalue">
+                <div>{{input.key}}: {{input.value | json}}</div>
+            </div>
+
+            <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-top-small dynamic-margin-bottom-small">outputs</div>
+
+            <div *ngFor="let output of stat.outputs | keyvalue">
+                <div class="dynamic-semi-bold">{{output.key}}:</div>
+                <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">assigned:</span> {{output.value.assigned}}</div>
+                <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">skipInit:</span> {{output.value.skipInit}}</div>
+                <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">value:</span> <div style="white-space: pre-wrap;">{{output.value.value | json}}</div></div>
+            </div>
+        </div>
+    </div>
+</div>

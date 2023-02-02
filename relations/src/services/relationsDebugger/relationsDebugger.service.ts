@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Dictionary} from '@jscrpt/common';
+import {Observable} from 'rxjs';
 
 import {RelationsProcessorComponent} from '../../misc/types';
-import {RelationsComponentStateDebugInfo, RelationsDataTransferDebugInfo, RelationsDataTransferIdDebugInfo, RelationsStepDebugInfo} from './relationsDebugger.interface';
+import {RelationsComponentEndpoints, RelationsComponentStateDebugInfo, RelationsDataTransferDebugInfo, RelationsDataTransferIdDebugInfo, RelationsStepDebugInfo} from './relationsDebugger.interface';
 import {RelationsDataTransferInstructionImpl} from '../relationsProcessor/relationsDataTransferInstruction';
 import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from '../relationsProcessor/relationsProcessor.interface';
 
@@ -12,6 +13,13 @@ import {RelationsProcessorComponentData, RelationsProcessorInputOutputData} from
 @Injectable()
 export abstract class RelationsDebugger
 {
+    //######################### public properties #########################
+
+    /**
+     * Occurs when current step index changes
+     */
+    public abstract get stepChange(): Observable<void>;
+
     //######################### public methods #########################
 
     /**
@@ -46,6 +54,12 @@ export abstract class RelationsDebugger
      * Gets currently registered components
      */
     public abstract getCurrentComponents(): Dictionary<string[]>;
+
+    /**
+     * Gets component definition
+     * @param id - Id of component which definition will be obtained
+     */
+    public abstract getComponentDef(id: string): RelationsComponentEndpoints|null;
 
     /**
      * Gets component state

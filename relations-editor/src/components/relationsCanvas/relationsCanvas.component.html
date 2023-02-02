@@ -2,7 +2,7 @@
     <svg class="relations-wrapper">
         <g #relationsGroup></g>
     </svg>
-    
+
     <ng-container *ngFor="let nodeDefinition of nodeDefinitions">
         <ng-container [relationsNodeRenderer]="nodeDefinition" [zoomLevel]="zoomLevel" (destroy)="destroyNode($event)"></ng-container>
     </ng-container>

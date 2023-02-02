@@ -1,27 +1,12 @@
 import {inject, Injectable, Injector} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
-import {RelationsComponentManager, RelationsComponentStateDebugInfo, RelationsDataTransferDebugInfo, RelationsDataTransferIdDebugInfo, RelationsDataTransferInstructionImpl, RelationsDebugger, RelationsOutputDebugInfo, RelationsProcessorComponent, RelationsProcessorComponentData, RelationsProcessorInputOutputData, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
+import {RelationsComponentEndpoints, RelationsComponentManager, RelationsComponentStateDebugInfo, RelationsDataTransferDebugInfo, RelationsDataTransferIdDebugInfo, RelationsDataTransferInstructionImpl, RelationsDebugger, RelationsOutputDebugInfo, RelationsProcessorComponent, RelationsProcessorComponentData, RelationsProcessorInputOutputData, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
 import {Dictionary, extend, generateId, nameof} from '@jscrpt/common';
+import {Observable, Subject} from 'rxjs';
 
 const COMPONENT_DEBUGGER_PROPERTY = 'COMPONENT_DEBUGGER_PROPERTY';
 
 //TODO: maybe reset steps on change of init
-
-/**
- * Definition of component endpoints
- */
-interface RelationsComponentEndpoints
-{
-    /**
-     * Array of input names
-     */
-    inputs: string[];
-
-    /**
-     * Array of output names
-     */
-    outputs: string[]
-}
 
 /**
  * Service used for debugging relations
@@ -45,6 +30,11 @@ export class RelationsDebuggerImpl extends RelationsDebugger
      * Instance of relations component manager
      */
     protected ɵrelationsComponentManager: RelationsComponentManager|undefined|null;
+
+    /**
+     * Used for emitting changes in current step index
+     */
+    protected stepChangeSubject: Subject<void> = new Subject<void>();
 
     /**
      * Current step index for previewing of data
@@ -72,6 +62,16 @@ export class RelationsDebuggerImpl extends RelationsDebugger
     protected get relationsComponentManager(): RelationsComponentManager
     {
         return (this.ɵrelationsComponentManager ??= this.injector.get(RelationsComponentManager));
+    }
+
+    //######################### public properties #########################
+
+    /**
+     * Occurs when current step index changes
+     */
+    public get stepChange(): Observable<void>
+    {
+        return this.stepChangeSubject.asObservable();
     }
 
     //######################### public methods #########################
@@ -361,6 +361,15 @@ export class RelationsDebuggerImpl extends RelationsDebugger
     }
 
     /**
+     * Gets component definition
+     * @param id - Id of component which definition will be obtained
+     */
+    public getComponentDef(id: string): RelationsComponentEndpoints|null
+    {
+        return this.componentDefs[id] ?? null;
+    }
+
+    /**
      * @inheritdoc
      */
     public getComponentState(id: string): RelationsComponentStateDebugInfo[]
@@ -419,6 +428,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
         }
 
         this.currentStepIndex = this.steps.length - 1;
+        this.stepChangeSubject.next();
 
         return this.steps[this.currentStepIndex];
     }
@@ -434,6 +444,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
         }
 
         this.currentStepIndex = 0;
+        this.stepChangeSubject.next();
 
         return this.steps[this.currentStepIndex];
     }
@@ -449,6 +460,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
         }
 
         this.currentStepIndex++;
+        this.stepChangeSubject.next();
 
         return this.steps[this.currentStepIndex];
     }
@@ -464,6 +476,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
         }
 
         this.currentStepIndex--;
+        this.stepChangeSubject.next();
 
         return this.steps[this.currentStepIndex];
     }
@@ -487,6 +500,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
     public clearSteps(): void
     {
         this.currentStepIndex = 0;
+        this.stepChangeSubject.next();
 
         this.steps = [];
         this.components = [];

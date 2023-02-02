@@ -1,11 +1,10 @@
-import {Component, ChangeDetectionStrategy, EventEmitter, Output, ClassProvider, Input, OnChanges, SimpleChanges, ChangeDetectorRef} from '@angular/core';
-import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER} from '@anglr/dynamic/relations-editor';
+import {Component, ChangeDetectionStrategy, EventEmitter, Output, ClassProvider, Input, OnChanges, SimpleChanges, ChangeDetectorRef, OnInit} from '@angular/core';
+import {RelationsCanvasSAComponent, RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER} from '@anglr/dynamic/relations-editor';
 import {RelationsDebugger, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
 import {RelationsNodeManager} from '@anglr/dynamic/relations-editor';
 import {isPresent, nameof} from '@jscrpt/common';
 
 import {MetadataHistoryManagerDebug} from '../../services';
-import {RelationsCanvasDebugSAComponent} from '../relationsCanvasDebug/relationsCanvasDebug.component';
 
 /**
  * Component used for visualization of relations debugger data
@@ -17,7 +16,7 @@ import {RelationsCanvasDebugSAComponent} from '../relationsCanvasDebug/relations
     standalone: true,
     imports:
     [
-        RelationsCanvasDebugSAComponent,
+        RelationsCanvasSAComponent,
     ],
     providers:
     [
@@ -30,7 +29,7 @@ import {RelationsCanvasDebugSAComponent} from '../relationsCanvasDebug/relations
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationsDebuggerVisualizerSAComponent implements OnChanges
+export class RelationsDebuggerVisualizerSAComponent implements OnInit, OnChanges
 {
     //######################### protected properties #########################
 
@@ -84,6 +83,18 @@ export class RelationsDebuggerVisualizerSAComponent implements OnChanges
     {
     }
 
+    //######################### public methods - implementation of OnInit #########################
+    
+    /**
+     * Initialize component
+     */
+    public ngOnInit(): void
+    {
+        const step = this.relationsDebugger.getCurrentStep();
+
+        this.renderStep(step);
+    }
+
     //######################### public methods - implementation of OnChanges #########################
     
     /**
@@ -93,7 +104,7 @@ export class RelationsDebuggerVisualizerSAComponent implements OnChanges
     {
         if(nameof<RelationsDebuggerVisualizerSAComponent>('relationsDefinition') in changes)
         {
-            this.updateNodeDefinitionForStep();
+            this.renderStep(this.currentStep);
         }
     }
 
@@ -180,17 +191,23 @@ export class RelationsDebuggerVisualizerSAComponent implements OnChanges
     {
         const components = this.relationsDebugger.getCurrentComponents();
 
-        this.nodeDefinitions = this.relationsDefinition.filter(itm => components[itm.id]);
+        this.nodeDefinitions = this.relationsDefinition
+            .filter(itm => components[itm.id])
+            .map(itm =>
+            {
+                return {
+                    ...itm,
+                    package: 'relations-debugger',
+                };
+            });
         console.log(this.nodeDefinitions);
-
-        this.changeDetector.detectChanges();
     }
 
     /**
      * Renders current step
      * @param step - Step to be rendered
      */
-    protected renderStep(step: RelationsStepDebugInfo | null): void
+    protected renderStep(step: RelationsStepDebugInfo|undefined|null): void
     {
         if(!step)
         {
@@ -208,5 +225,7 @@ export class RelationsDebuggerVisualizerSAComponent implements OnChanges
     {
         this.updateNodeDefinitionForStep();
         this.currentStep = step;
+
+        this.changeDetector.detectChanges();
     }
 }

@@ -2,6 +2,22 @@ import {SimpleChange} from '@angular/core';
 import {Dictionary} from '@jscrpt/common';
 
 /**
+ * Definition of component endpoints
+ */
+export interface RelationsComponentEndpoints
+{
+    /**
+     * Array of input names
+     */
+    inputs: string[];
+
+    /**
+     * Array of output names
+     */
+    outputs: string[]
+}
+
+/**
  * Adds unique id to transfer
  */
 export interface RelationsDataTransferIdDebugInfo

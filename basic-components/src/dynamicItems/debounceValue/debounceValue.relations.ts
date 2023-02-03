@@ -1,5 +1,5 @@
 import {Injector, NgZone, SimpleChanges} from '@angular/core';
-import {PureRelationsComponent, RelationsChangeDetector, RelationsComponent} from '@anglr/dynamic/relations';
+import {DebugData, PureRelationsComponent, RelationsChangeDetector, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {isPresent, nameof} from '@jscrpt/common';
 import {NEVER, Observable} from 'rxjs';
@@ -10,6 +10,13 @@ import {DebounceValueRelationsOptions} from './debounceValue.options';
 /**
  * Debounce value relations component
  */
+@DebugData(
+{
+    inputs: 
+    [
+        nameof<DebounceValueRelations>('value'),
+    ],
+})
 @PureRelationsComponent()
 @RelationsEditorMetadata(DebounceValueRelationsMetadataLoader)
 export class DebounceValueRelations<TValue = any> implements RelationsComponent<DebounceValueRelationsOptions>

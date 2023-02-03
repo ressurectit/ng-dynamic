@@ -2,10 +2,10 @@ import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
+import {DebugData, DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, VoidObject} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {PromiseOr} from '@jscrpt/common';
+import {nameof, PromiseOr} from '@jscrpt/common';
 
 import {ButtonComponentOptions} from './button.options';
 import {ButtonLayoutMetadataLoader, ButtonRelationsMetadataLoader} from './button.metadata';
@@ -24,6 +24,17 @@ import {ButtonLayoutMetadataLoader, ButtonRelationsMetadataLoader} from './butto
         CommonModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
+})
+@DebugData(
+{
+    inputs:
+    [
+        nameof<ButtonSAComponent>('disabled'),
+    ],
+    outputs:
+    [
+        nameof<ButtonSAComponent>('click'),
+    ],
 })
 @RelationsEditorMetadata(ButtonRelationsMetadataLoader)
 @LayoutEditorMetadata(ButtonLayoutMetadataLoader)

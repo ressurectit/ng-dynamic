@@ -2,9 +2,10 @@ import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {RelationsComponent, ScopedRelationsSADirective} from '@anglr/dynamic/relations';
+import {DebugData, RelationsComponent, ScopedRelationsSADirective} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
+import {nameof} from '@jscrpt/common';
 
 import {ListBlockComponentOptions, ListBlockRelationsOptions} from './listBlock.options';
 import {ListBlockLayoutDesignerTypeLoader, ListBlockLayoutMetadataLoader, ListBlockRelationsMetadataLoader} from './listBlock.metadata';
@@ -27,6 +28,13 @@ import {ListBlockScopeRelationsSADirective} from './misc/directives';
         ListBlockScopeRelationsSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
+})
+@DebugData(
+{
+    inputs: 
+    [
+        nameof<ListBlockSAComponent>('data'),
+    ],
 })
 @DescendantsGetter<ListBlockComponentOptions>(options => options?.template ? [options?.template] : [])
 @LayoutEditorDesignerType(ListBlockLayoutDesignerTypeLoader)

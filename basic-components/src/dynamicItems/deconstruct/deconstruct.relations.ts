@@ -1,5 +1,5 @@
 import {Injector, Input, SimpleChanges} from '@angular/core';
-import {defineAssignedProp, defineSkipInitProp, PureRelationsComponent, RelationsChangeDetector, RelationsComponent, RelationsComponentManager} from '@anglr/dynamic/relations';
+import {DebugData, defineAssignedProp, defineSkipInitProp, PureRelationsComponent, RelationsChangeDetector, RelationsComponent, RelationsComponentManager} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {Dictionary, isPresent, nameof} from '@jscrpt/common';
 import {NEVER} from 'rxjs';
@@ -10,6 +10,28 @@ import {DeconstructRelationsOptions} from './deconstruct.options';
 /**
  * Deconstruct relations component
  */
+@DebugData(
+{
+    inputs: 
+    [
+        nameof<DeconstructRelations>('object'),
+    ],
+    dynamicEndpointsGetter: function(obj: DeconstructRelations)
+    {
+        if(!obj.ɵRelationsOptions)
+        {
+            return {
+                inputs: [],
+                outputs: [],
+            };
+        }
+
+        return {
+            inputs: [],
+            outputs: obj.ɵRelationsOptions.properties?.map(itm => itm.name) ?? [],
+        };
+    }
+})
 @PureRelationsComponent()
 @RelationsEditorMetadata(DeconstructRelationsMetadataLoader)
 export class DeconstructRelations<TObj extends Dictionary = Dictionary> implements RelationsComponent<DeconstructRelationsOptions>

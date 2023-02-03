@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, SimpleChanges} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {RelationsComponent} from '@anglr/dynamic/relations';
+import {DebugData, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {nameof} from '@jscrpt/common';
@@ -19,6 +19,13 @@ import {HtmlBlockLayoutMetadataLoader, HtmlBlockRelationsMetadataLoader} from '.
     styles: [HostDisplayBlockStyle],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
+})
+@DebugData(
+{
+    inputs: 
+    [
+        nameof<HtmlBlockSAComponent>('content'),
+    ],
 })
 @RelationsEditorMetadata(HtmlBlockRelationsMetadataLoader)
 @LayoutEditorMetadata(HtmlBlockLayoutMetadataLoader)

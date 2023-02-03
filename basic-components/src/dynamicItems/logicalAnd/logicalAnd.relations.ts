@@ -1,5 +1,5 @@
 import {SimpleChanges} from '@angular/core';
-import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
+import {DebugData, DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {nameof} from '@jscrpt/common';
 
@@ -9,6 +9,18 @@ import {LogicalAndRelationsOptions} from './logicalAnd.options';
 /**
  * Logical and relations component
  */
+@DebugData(
+{
+    inputs: 
+    [
+        nameof<LogicalAndRelations>('cond1'),
+        nameof<LogicalAndRelations>('cond2'),
+    ],
+    outputs: 
+    [
+        nameof<LogicalAndRelations>('result'),
+    ],
+})
 @PureRelationsComponent()
 @RelationsEditorMetadata(LogicalAndRelationsMetadataLoader)
 export class LogicalAndRelations implements RelationsComponent<LogicalAndRelationsOptions>

@@ -1,6 +1,6 @@
 import {inject, Injectable, Injector} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
-import {RelationsComponentEndpoints, RelationsComponentManager, RelationsComponentStateDebugInfo, RelationsDataTransferDebugInfo, RelationsDataTransferIdDebugInfo, RelationsDataTransferInstructionImpl, RelationsDebugger, RelationsOutputDebugInfo, RelationsProcessorComponent, RelationsProcessorComponentData, RelationsProcessorInputOutputData, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
+import {getDebugData, RelationsComponentEndpoints, RelationsComponentManager, RelationsComponentStateDebugInfo, RelationsDataTransferDebugInfo, RelationsDataTransferIdDebugInfo, RelationsDataTransferInstructionImpl, RelationsDebugger, RelationsOutputDebugInfo, RelationsProcessorComponent, RelationsProcessorComponentData, RelationsProcessorInputOutputData, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
 import {Dictionary, extend, generateId, nameof} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
@@ -81,31 +81,10 @@ export class RelationsDebuggerImpl extends RelationsDebugger
      */
     public initialize(relations: Dictionary<RelationsProcessorComponentData>, backwardRelations: Dictionary<RelationsProcessorInputOutputData[]>): void
     {
-        this.componentDefs = {};
-
         const addInputOutput = (inputOutput: RelationsProcessorInputOutputData) =>
         {
-            this.componentDefs[inputOutput.outputComponentId] ??=
-            {
-                inputs: [],
-                outputs: [],
-            };
-
-            if(this.componentDefs[inputOutput.outputComponentId].outputs.indexOf(inputOutput.outputName) < 0)
-            {
-                this.componentDefs[inputOutput.outputComponentId].outputs.push(inputOutput.outputName);
-            }
-
-            this.componentDefs[inputOutput.inputComponentId] ??=
-            {
-                inputs: [],
-                outputs: [],
-            };
-
-            if(this.componentDefs[inputOutput.inputComponentId].inputs.indexOf(inputOutput.inputName) < 0)
-            {
-                this.componentDefs[inputOutput.inputComponentId].inputs.push(inputOutput.inputName);
-            }
+            this.addOutputDef(inputOutput.outputComponentId, inputOutput.outputName);
+            this.addInputDef(inputOutput.inputComponentId, inputOutput.inputName);
         };
 
         for(const id in relations)
@@ -134,6 +113,8 @@ export class RelationsDebuggerImpl extends RelationsDebugger
      */
     public registerComponent(id: string, component: RelationsProcessorComponent): void
     {
+        this.tryToGetEndpoints(id, component);
+
         let components = this.getLastComponents();
 
         if(components[id] && components[id].indexOf(component.ɵɵRelationsComponentId ?? '') >= 0)
@@ -200,6 +181,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
                                            {
                                                setter.call(this, value);
 
+                                               $this.tryToGetEndpoints(id, component);
                                                $this.readComponentState(id);
                                                $this.setComponentRelationsOptions(id, value);
                                            }
@@ -220,6 +202,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
                                            {
                                                this['ɵrelationsOptions'] = value;
 
+                                               $this.tryToGetEndpoints(id, component);
                                                $this.readComponentState(id);
                                                $this.setComponentRelationsOptions(id, value);
                                            }
@@ -637,5 +620,89 @@ export class RelationsDebuggerImpl extends RelationsDebugger
         }
 
         return this.components[this.components.length - 1];
+    }
+
+    /**
+     * Tries to get endpoints for component
+     * @param id - Id of component whose endpoints are going to be obtained
+     * @param component - Component which endpoints are going to be obtained
+     */
+    protected async tryToGetEndpoints(id: string, component: RelationsProcessorComponent): Promise<void>
+    {
+        const debugData = getDebugData((Reflect.getPrototypeOf(component) as Object).constructor);
+
+        if(!debugData)
+        {
+            return;
+        }
+
+        if(debugData.inputs)
+        {
+            for(const input of debugData.inputs)
+            {
+                this.addInputDef(id, input);
+            }
+        }
+
+        if(debugData.outputs)
+        {
+            for(const output of debugData.outputs)
+            {
+                this.addOutputDef(id, output);
+            }
+        }
+
+        if(debugData.dynamicEndpointsGetter)
+        {
+            const inputsOutputsDef = await debugData.dynamicEndpointsGetter(component, component.ɵɵinjector ?? this.injector);
+
+            for(const input of inputsOutputsDef.inputs)
+            {
+                this.addInputDef(id, input);
+            }
+
+            for(const output of inputsOutputsDef.outputs)
+            {
+                this.addOutputDef(id, output);
+            }
+        }
+    }
+
+    /**
+     * Adds input for component def
+     * @param id - Id of component whose input definition will be added
+     * @param input - Input name to be added
+     */
+    protected addInputDef(id: string, input: string): void
+    {
+        this.componentDefs[id] ??= 
+        {
+            inputs: [],
+            outputs: [],
+        };
+
+        if(this.componentDefs[id].inputs.indexOf(input) < 0)
+        {
+            this.componentDefs[id].inputs.push(input);
+        }
+    }
+
+    /**
+     * Adds output for component def
+     * @param id - Id of component whose output definition will be added
+     * @param output - Output name to be added
+     */
+    protected addOutputDef(id: string, output: string): void
+    {
+        this.componentDefs[id] ??= 
+        {
+            inputs: [],
+            outputs: [],
+        };
+
+        if(this.componentDefs[id].outputs.indexOf(output) < 0)
+        {
+            this.componentDefs[id].outputs.push(output);
+        }
     }
 }

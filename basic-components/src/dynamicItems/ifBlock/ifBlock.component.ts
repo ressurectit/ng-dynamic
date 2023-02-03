@@ -2,9 +2,10 @@ import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {RelationsComponent} from '@anglr/dynamic/relations';
+import {DebugData, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
+import {nameof} from '@jscrpt/common';
 
 import {IfBlockComponentOptions} from './ifBlock.options';
 import {IfBlockLayoutDesignerTypeLoader, IfBlockLayoutMetadataLoader, IfBlockRelationsMetadataLoader} from './ifBlock.metadata';
@@ -24,6 +25,13 @@ import {IfBlockLayoutDesignerTypeLoader, IfBlockLayoutMetadataLoader, IfBlockRel
         LayoutComponentRendererSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
+})
+@DebugData(
+{
+    inputs: 
+    [
+        nameof<IfBlockSAComponent>('condition'),
+    ],
 })
 @DescendantsGetter<IfBlockComponentOptions>(options => options?.content ? [options?.content] : [])
 @LayoutEditorDesignerType(IfBlockLayoutDesignerTypeLoader)

@@ -2,10 +2,10 @@ import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
+import {DebugData, DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {PromiseOr} from '@jscrpt/common';
+import {nameof, PromiseOr} from '@jscrpt/common';
 
 import {ToggleButtonComponentOptions} from './toggleButton.options';
 import {ToggleButtonLayoutMetadataLoader, ToggleButtonRelationsMetadataLoader} from './toggleButton.metadata';
@@ -24,6 +24,17 @@ import {ToggleButtonLayoutMetadataLoader, ToggleButtonRelationsMetadataLoader} f
         CommonModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
+})
+@DebugData(
+{
+    inputs: 
+    [
+        nameof<ToggleButtonSAComponent>('disabled'),
+    ],
+    outputs:
+    [
+        nameof<ToggleButtonSAComponent>('toggle'),
+    ],
 })
 @RelationsEditorMetadata(ToggleButtonRelationsMetadataLoader)
 @LayoutEditorMetadata(ToggleButtonLayoutMetadataLoader)

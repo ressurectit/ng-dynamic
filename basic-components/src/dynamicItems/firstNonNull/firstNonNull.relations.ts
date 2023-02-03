@@ -1,5 +1,5 @@
 import {SimpleChanges} from '@angular/core';
-import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
+import {DebugData, DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {nameof} from '@jscrpt/common';
 
@@ -9,6 +9,18 @@ import {FirstNonNullRelationsOptions} from './firstNonNull.options';
 /**
  * First non null relations component
  */
+@DebugData(
+{
+    inputs: 
+    [
+        nameof<FirstNonNullRelations>('data1'),
+        nameof<FirstNonNullRelations>('data2'),
+    ],
+    outputs: 
+    [
+        nameof<FirstNonNullRelations>('data'),
+    ],
+})
 @PureRelationsComponent()
 @RelationsEditorMetadata(FirstNonNullRelationsMetadataLoader)
 export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRelationsOptions>

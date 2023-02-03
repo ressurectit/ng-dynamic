@@ -1,11 +1,22 @@
 import {Directive} from '@angular/core';
-import {DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
+import {DebugData, DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
+import {nameof} from '@jscrpt/common';
 
 import {ListBlockRelationsOptions} from './listBlock.options';
 
 /**
  * List block scoped relations component
  */
+@DebugData(
+{
+    outputs: 
+    [
+        nameof<ListBlockRelations>('datum'),
+        nameof<ListBlockRelations>('index'),
+        nameof<ListBlockRelations>('first'),
+        nameof<ListBlockRelations>('last'),
+    ],
+})
 @Directive()
 export class ListBlockRelations<TDatum = any> implements RelationsComponent<ListBlockRelationsOptions>
 {

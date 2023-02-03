@@ -113,6 +113,9 @@ export class DebuggerNodeSAComponent extends RelationsNodeBase implements Relati
 
     //######################### protected methods #########################
 
+    /**
+     * Reads node data for current step
+     */
     protected readNodesData(): void
     {
         if(!this.metadata)
@@ -120,8 +123,19 @@ export class DebuggerNodeSAComponent extends RelationsNodeBase implements Relati
             return;
         }
 
+        const components = this.relationsDebugger.getCurrentComponents();
+
+        //unregistered
+        if(!components[this.metadata.id])
+        {
+            this.element.nativeElement.classList.add('unregistered');
+
+            return;
+        }
+
+        this.element.nativeElement.classList.remove('unregistered');
         this.step = this.relationsDebugger.getCurrentStep();
         this.state = this.relationsDebugger.getComponentState(this.metadata.id);
-        this.components = this.relationsDebugger.getCurrentComponents()[this.metadata.id] ?? [];
+        this.components = components[this.metadata.id] ?? [];
     }
 }

@@ -191,10 +191,7 @@ export class RelationsDebuggerVisualizerSAComponent implements OnInit, OnChanges
      */
     protected updateNodeDefinitionForStep(): void
     {
-        const components = this.relationsDebugger.getCurrentComponents();
-
         this.nodeDefinitions = this.relationsDefinition
-            .filter(itm => components[itm.id])
             .map(itm =>
             {
                 return {
@@ -202,7 +199,6 @@ export class RelationsDebuggerVisualizerSAComponent implements OnInit, OnChanges
                     package: 'relations-debugger',
                 };
             });
-        console.log(this.nodeDefinitions);
     }
 
     /**

@@ -94,6 +94,16 @@ $defaultTheme:
             shadow2: #0000003d,
             shadow3: #00000038,
             contentBackground: #fff,
+            registrationStep:
+            (
+                shadow1: #33ff004d,
+                shadow2: #33ff003d,
+                shadow3: #33ff0038,
+            ),
+            dataTransferStep:
+            (
+                border: #2cc800,
+            ),
         ),
         relationsNodeHeader:
         (
@@ -177,6 +187,14 @@ $defaultTheme:
     relationsDebuggerVisualizer:
     (
         foreground: #222,
-        background: #f5f5f5
+        background: #f5f5f5,
+    ),
+    relationsDebuggerTooltip:
+    (
+        foreground: #222,
+        background: #f5f5f5,
+        shadow1: #0003,
+        shadow2: #00000024,
+        shadow3: #0000001f,
     ),
 );

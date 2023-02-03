@@ -36,13 +36,18 @@
                 opacity: 0.3;
             }
 
+            &.registration-step
+            {
+                animation: 1s linear infinite alternate flash-registered-step;
+            }
+
             relations-node-header,
             .relations-node-header,
             .node-content
             {
                 padding: .5rem;
             }
-            
+
             .inputs
             {
                 margin-right: 10px;
@@ -104,7 +109,7 @@
                     flex: 1;
                     min-width: 0;
                     min-height: 0;
-                    
+
                     &:first-letter
                     {
                         text-transform: uppercase;
@@ -140,7 +145,7 @@
                     margin-right: 4px;
                 }
             }
-            
+
             .node-content
             {
                 background-color: var(--dynamic-relations-canvas-relations-node-content-background);
@@ -148,12 +153,21 @@
                 display: flex;
                 flex-direction: column;
             }
-            
+
             .inputs-outputs
             {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
+
+                .transfer-endpoint
+                {
+                    relation-node-input,
+                    relation-node-output
+                    {
+                        animation: 1s linear infinite alternate flash-endpoint;
+                    }
+                }
             }
 
             .debugger-node-overlay
@@ -198,8 +212,36 @@
 
     tooltip-popup.relations-debugger-tooltip
     {
-        background-color: #f5f5f5 !important;
-        box-shadow: 0 2px 4px -1px #0003,0 4px 5px #00000024,0 1px 10px #0000001f !important;
-        color: #222 !important;
+        background-color: var(--dynamic-relations-debugger-tooltip-background) !important;
+        box-shadow: 0 2px 4px -1px var(--dynamic-relations-debugger-tooltip-shadow1),0 4px 5px var(--dynamic-relations-debugger-tooltip-shadow2),0 1px 10px var(--dynamic-relations-debugger-tooltip-shadow3) !important;
+        color: var(--dynamic-relations-debugger-tooltip-foreground) !important;
+    }
+
+    @keyframes flash-registered-step
+    {
+        from
+        {
+            -webkit-box-shadow: 0px 5px 5px -3px var(--dynamic-relations-canvas-relations-node-shadow1),0px 8px 10px 1px var(--dynamic-relations-canvas-relations-node-shadow2),0px 3px 14px 2px var(--dynamic-relations-canvas-relations-node-shadow3);
+            -moz-box-shadow: 0px 5px 5px -3px var(--dynamic-relations-canvas-relations-node-shadow1),0px 8px 10px 1px var(--dynamic-relations-canvas-relations-node-shadow2),0px 3px 14px 2px var(--dynamic-relations-canvas-relations-node-shadow3);
+            box-shadow: 0px 5px 5px -3px var(--dynamic-relations-canvas-relations-node-shadow1),0px 8px 10px 1px var(--dynamic-relations-canvas-relations-node-shadow2),0px 3px 14px 2px var(--dynamic-relations-canvas-relations-node-shadow3);
+        }
+        to
+        {
+            -webkit-box-shadow: 0px 5px 5px -3px var(--dynamic-relations-canvas-relations-node-registration-step-shadow1),0px 8px 10px 1px var(--dynamic-relations-canvas-relations-node-registration-step-shadow2),0px 3px 14px 2px var(--dynamic-relations-canvas-relations-node-registration-step-shadow3);
+            -moz-box-shadow: 0px 5px 5px -3px var(--dynamic-relations-canvas-relations-node-registration-step-shadow1),0px 8px 10px 1px var(--dynamic-relations-canvas-relations-node-registration-step-shadow2),0px 3px 14px 2px var(--dynamic-relations-canvas-relations-node-registration-step-shadow3);
+            box-shadow: 0px 5px 5px -3px var(--dynamic-relations-canvas-relations-node-registration-step-shadow1),0px 8px 10px 1px var(--dynamic-relations-canvas-relations-node-registration-step-shadow2),0px 3px 14px 2px var(--dynamic-relations-canvas-relations-node-registration-step-shadow3);
+        }
+    }
+
+    @keyframes flash-endpoint
+    {
+        from
+        {
+            border-color: var(--dynamic-relations-debugger-visualizer-foreground);
+        }
+        to
+        {
+            border-color: var(--dynamic-relations-canvas-relations-node-data-transfer-step-border);
+        }
     }
 }

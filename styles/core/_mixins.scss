@@ -68,6 +68,10 @@
     --dynamic-relations-canvas-relations-node-header-icon-foreground: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNodeHeader'), 'iconForeground')};
     --dynamic-relations-canvas-relations-node-header-icon-foreground-hover: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNodeHeader'), 'iconForegroundHover')};
     --dynamic-relations-canvas-relations-node-header-icon-foreground-active: #{map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNodeHeader'), 'iconForegroundActive')};
+    --dynamic-relations-canvas-relations-node-registration-step-shadow1: #{map.get(map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'registrationStep'), 'shadow1')};
+    --dynamic-relations-canvas-relations-node-registration-step-shadow2: #{map.get(map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'registrationStep'), 'shadow2')};
+    --dynamic-relations-canvas-relations-node-registration-step-shadow3: #{map.get(map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'registrationStep'), 'shadow3')};
+    --dynamic-relations-canvas-relations-node-data-transfer-step-border: #{map.get(map.get(map.get(map.get($theme, 'relationsCanvas'), 'relationsNode'), 'dataTransferStep'), 'border')};
     --dynamic-components-palette-editor-component-border: #{map.get(map.get(map.get($theme, 'componentsPalette'), 'editorComponent'), 'border')};
     --dynamic-components-palette-editor-component-background: #{map.get(map.get(map.get($theme, 'componentsPalette'), 'editorComponent'), 'background')};
     --dynamic-components-tree-background: #{map.get(map.get($theme, 'componentsTree'), 'background')};
@@ -93,6 +97,11 @@
     --dynamic-content-options-border: #{map.get(map.get($theme, 'contentOptions'), 'border')};
     --dynamic-relations-debugger-visualizer-foreground: #{map.get(map.get($theme, 'relationsDebuggerVisualizer'), 'foreground')};
     --dynamic-relations-debugger-visualizer-background: #{map.get(map.get($theme, 'relationsDebuggerVisualizer'), 'background')};
+    --dynamic-relations-debugger-tooltip-foreground: #{map.get(map.get($theme, 'relationsDebuggerTooltip'), 'foreground')};
+    --dynamic-relations-debugger-tooltip-background: #{map.get(map.get($theme, 'relationsDebuggerTooltip'), 'background')};
+    --dynamic-relations-debugger-tooltip-shadow1: #{map.get(map.get($theme, 'relationsDebuggerTooltip'), 'shadow1')};
+    --dynamic-relations-debugger-tooltip-shadow2: #{map.get(map.get($theme, 'relationsDebuggerTooltip'), 'shadow2')};
+    --dynamic-relations-debugger-tooltip-shadow3: #{map.get(map.get($theme, 'relationsDebuggerTooltip'), 'shadow3')};
 }
 
 @mixin buildThemeCss

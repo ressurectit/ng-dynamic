@@ -42,6 +42,21 @@ export class DebuggerNodeSAComponent extends RelationsNodeBase implements Relati
     //######################### protected properties - template bindings #########################
 
     /**
+     * Indication whether was this relations component already registered
+     */
+    protected registered: boolean = false;
+
+    /**
+     * Name of input that is currently part of data transfer
+     */
+    protected transferInput: string|undefined|null;
+
+    /**
+     * Name of output that is currently part of data transfer
+     */
+    protected transferOutput: string|undefined|null;
+
+    /**
      * Instance of component definition
      */
     protected componentDef: RelationsComponentEndpoints|undefined|null;
@@ -76,7 +91,7 @@ export class DebuggerNodeSAComponent extends RelationsNodeBase implements Relati
     };
 
     //######################### public methods - overrides #########################
-    
+
     /**
      * @inheritdoc
      */
@@ -129,12 +144,45 @@ export class DebuggerNodeSAComponent extends RelationsNodeBase implements Relati
         if(!components[this.metadata.id])
         {
             this.element.nativeElement.classList.add('unregistered');
+            this.registered = false;
 
             return;
         }
 
+        this.registered = true;
         this.element.nativeElement.classList.remove('unregistered');
         this.step = this.relationsDebugger.getCurrentStep();
+
+        //registration step
+        if(this.step?.componentRegistration?.componentId == this.metadata.id)
+        {
+            this.element.nativeElement.classList.add('registration-step');
+        }
+        else
+        {
+            this.element.nativeElement.classList.remove('registration-step');
+        }
+
+        //input transfer data step
+        if(this.step?.dataTransfer?.inputComponentId == this.metadata.id)
+        {
+            this.transferInput = this.step.dataTransfer.inputName;
+        }
+        else
+        {
+            this.transferInput = null;
+        }
+
+        //output transfer data step
+        if(this.step?.dataTransfer?.outputComponentId == this.metadata.id)
+        {
+            this.transferOutput = this.step.dataTransfer.outputName;
+        }
+        else
+        {
+            this.transferOutput = null;
+        }
+
         this.state = this.relationsDebugger.getComponentState(this.metadata.id);
         this.components = components[this.metadata.id] ?? [];
     }

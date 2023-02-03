@@ -3,16 +3,16 @@
 </div>
 
 <div class="node-content">
-    <div class="inputs-outputs">
+    <div class="inputs-outputs" *ngIf="registered">
         <div class="inputs">
-            <div class="input" *ngFor="let input of componentDef?.inputs">
+            <div class="input" [class.transfer-endpoint]="transferInput == input" *ngFor="let input of componentDef?.inputs">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="input" [parent]="this"></relation-node-input>
                 <div>{{input}}</div>
             </div>
         </div>
 
         <div class="outputs">
-            <div class="output" *ngFor="let output of componentDef?.outputs">
+            <div class="output" [class.transfer-endpoint]="transferOutput == output" *ngFor="let output of componentDef?.outputs">
                 <div>{{output}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="output" [parent]="this"></relation-node-output>
             </div>

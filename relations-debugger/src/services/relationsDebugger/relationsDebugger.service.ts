@@ -627,7 +627,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
      * @param id - Id of component whose endpoints are going to be obtained
      * @param component - Component which endpoints are going to be obtained
      */
-    protected async tryToGetEndpoints(id: string, component: RelationsProcessorComponent): Promise<void>
+    protected tryToGetEndpoints(id: string, component: RelationsProcessorComponent): void
     {
         const debugData = getDebugData((Reflect.getPrototypeOf(component) as Object).constructor);
 
@@ -654,7 +654,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
 
         if(debugData.dynamicEndpointsGetter)
         {
-            const inputsOutputsDef = await debugData.dynamicEndpointsGetter(component, component.ɵɵinjector ?? this.injector);
+            const inputsOutputsDef = debugData.dynamicEndpointsGetter(component, component.ɵɵinjector ?? this.injector);
 
             for(const input of inputsOutputsDef.inputs)
             {

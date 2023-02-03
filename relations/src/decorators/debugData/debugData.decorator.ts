@@ -1,5 +1,5 @@
 import {Injector} from '@angular/core';
-import {Func2, PromiseOr} from '@jscrpt/common';
+import {Func2} from '@jscrpt/common';
 
 import {RelationsComponentEndpoints} from '../../services/relationsDebugger/relationsDebugger.interface';
 
@@ -16,7 +16,7 @@ export interface RelationsDebugData<TRelations = unknown> extends Partial<Relati
     /**
      * Function used for obtaining dynamic 
      */
-    dynamicEndpointsGetter?: Func2<PromiseOr<RelationsComponentEndpoints>, TRelations, Injector>;
+    dynamicEndpointsGetter?: Func2<RelationsComponentEndpoints, TRelations, Injector>;
 }
 
 /**

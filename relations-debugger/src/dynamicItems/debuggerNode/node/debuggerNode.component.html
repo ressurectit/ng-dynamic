@@ -44,10 +44,13 @@
 
                 <div>
                     <div *ngFor="let output of stat.outputs | keyvalue" class="dynamic-margin-bottom-extra-small">
-                        <div class="dynamic-semi-bold">{{output.key}}:</div>
-                        <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">assigned:</span> {{output.value.assigned}}</div>
-                        <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">skipInit:</span> {{output.value.skipInit}}</div>
-                        <div class="dynamic-margin-left-small"><span class="dynamic-semi-bold">value:</span> <div style="white-space: pre-wrap;">{{output.value.value | jsonFormatted}}</div></div>
+                        <div class="dynamic-semi-bold dynamic-flex-row dynamic-align-items-center">
+                            <div>{{output.key}}:</div>
+                            <div tooltip="skip init" class="dynamic-margin-left-extra-small fas fa-forward" [class.inactive-flag]="!output.value.skipInit"></div>
+                            <div tooltip="assigned" class="dynamic-margin-left-extra-small fas fa-check-to-slot" [class.inactive-flag]="!output.value.assigned"></div>
+                        </div>
+
+                        <div class="formatted-json">{{output.value.value | jsonFormatted}}</div>
                     </div>
                 </div>
             </div>

@@ -63,7 +63,7 @@ export class RelationsDebuggerVisualizerSAComponent implements OnInit, OnChanges
      * Delay between steps during automatic play
      */
     @Input()
-    public playDelay: number = 2500;
+    public playDelay: number = 1500;
 
     /**
      * Definition of relations and their nodes, used for rendering canvas

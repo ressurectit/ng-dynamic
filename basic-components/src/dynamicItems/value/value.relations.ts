@@ -1,5 +1,6 @@
-import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
+import {DebugData, DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
+import {nameof} from '@jscrpt/common';
 
 import {ValueRelationsMetadataLoader} from './value.metadata';
 import {ValueRelationsOptions} from './value.options';
@@ -9,6 +10,13 @@ import {ValueRelationsOptions} from './value.options';
 /**
  * Value relations component
  */
+@DebugData(
+{
+    outputs: 
+    [
+        nameof<ValueRelations>('value'),
+    ],
+})
 @PureRelationsComponent()
 @RelationsEditorMetadata(ValueRelationsMetadataLoader)
 export class ValueRelations<TValue = any> implements RelationsComponent<ValueRelationsOptions<TValue>>

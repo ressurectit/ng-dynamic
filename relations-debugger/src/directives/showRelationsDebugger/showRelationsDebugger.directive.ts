@@ -43,7 +43,7 @@ export class ShowRelationsDebuggerSADirective implements OnDestroy, OnChanges
      * Delay between steps during automatic play
      */
     @Input()
-    public playDelay: number = 2500;
+    public playDelay: number = 1500;
 
     //######################### constructor #########################
     constructor(@Inject(POSITION) protected position: Position,

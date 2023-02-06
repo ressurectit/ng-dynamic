@@ -2,7 +2,8 @@
 
 @mixin css
 {
-    relation-node-output
+    relation-node-output,
+    relation-node-output-debug
     {
         @extend %relation-node-endpoint;
     }

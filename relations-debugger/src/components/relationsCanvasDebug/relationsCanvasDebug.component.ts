@@ -1,6 +1,9 @@
-import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ExistingProvider, forwardRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RelationsCanvasSAComponent, RelationsNodeMetadata, RelationsNodeRendererSADirective} from '@anglr/dynamic/relations-editor';
+import {NodeRelationPath, RelationsCanvasSAComponent, RelationsNodeRendererSADirective} from '@anglr/dynamic/relations-editor';
+import {select} from 'd3';
+
+import {NodeRelationPathDebug} from '../../misc/nodeRelationPathDebug';
 
 /**
  * Component used as designer component wrapper for relations component in debugging
@@ -15,15 +18,25 @@ import {RelationsCanvasSAComponent, RelationsNodeMetadata, RelationsNodeRenderer
         CommonModule,
         RelationsNodeRendererSADirective,
     ],
+    providers:
+    [
+        <ExistingProvider>
+        {
+            provide: RelationsCanvasSAComponent,
+            useExisting: forwardRef(() => RelationsCanvasDebugSAComponent),
+        }
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationsCanvasDebugSAComponent extends RelationsCanvasSAComponent
 {
-    //######################### public properties - inputs #########################
+    //######################### public methods - overrides #########################
 
     /**
-     * @inheritdoc
+     * Creates node relation path
      */
-    @Input()
-    public override nodeDefinitions: RelationsNodeMetadata[] = [];
+    public override createRelation(): NodeRelationPath
+    {
+        return new NodeRelationPathDebug(select(this.relationsGroup?.nativeElement), this.relationManager, this.history, null, null);
+    }
 }

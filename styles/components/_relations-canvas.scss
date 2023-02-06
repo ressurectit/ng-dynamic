@@ -1,3 +1,8 @@
+%formatted-json
+{
+    white-space: pre-wrap;
+}
+
 @mixin css
 {
     relations-canvas,
@@ -163,7 +168,9 @@
                 .transfer-endpoint
                 {
                     relation-node-input,
-                    relation-node-output
+                    relation-node-input-debug,
+                    relation-node-output,
+                    relation-node-output-debug
                     {
                         animation: 1s linear infinite alternate flash-endpoint;
                     }
@@ -204,12 +211,27 @@
 
         .formatted-json
         {
-            white-space: pre-wrap;
+            @extend %formatted-json;
         }
 
         .inactive-flag
         {
             opacity: 0.2;
+        }
+    }
+
+    .endpoint-transfer-detail
+    {
+        position: absolute;
+        padding: 4px;
+        border-radius: 8px;
+        background-color: var(--dynamic-relations-debugger-tooltip-background);
+        box-shadow: 0 2px 4px -1px var(--dynamic-relations-debugger-tooltip-shadow1),0 4px 5px var(--dynamic-relations-debugger-tooltip-shadow2),0 1px 10px var(--dynamic-relations-debugger-tooltip-shadow3);
+        color: var(--dynamic-relations-debugger-tooltip-foreground);
+
+        .formatted-json
+        {
+            @extend %formatted-json;
         }
     }
 

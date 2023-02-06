@@ -16,23 +16,23 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnI
     /**
      * Node relation
      */
-    protected _relation: NodeRelationPath|null|undefined;
+    protected relation: NodeRelationPath|null|undefined;
 
     /**
      * Indication whether component is dragging
      */
-    protected _isDragging: boolean = false;
+    protected isDragging: boolean = false;
 
     /**
      * Indication whether node endpoint is highlighted
      */
     @HostBinding('class.highlighted')
-    protected _isHighlighted: boolean = false;
+    protected isHighlighted: boolean = false;
 
     /**
      * Last mouse down position
      */
-    protected _lastMouseDownPosition: Coordinates = 
+    protected lastMouseDownPosition: Coordinates = 
     {
         x: 0,
         y: 0
@@ -79,9 +79,9 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnI
     public parent: RelationsNode|undefined|null;
 
     //######################### constructor #########################
-    constructor(protected _element: ElementRef<HTMLElement>,
-                protected _relationManager: RelationsNodeManager,
-                protected _canvas: RelationsCanvasSAComponent,)
+    constructor(protected element: ElementRef<HTMLElement>,
+                protected relationManager: RelationsNodeManager,
+                protected canvas: RelationsCanvasSAComponent,)
     {
     }
 
@@ -106,8 +106,8 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnI
     public getCoordinates(): Coordinates
     {
         return {
-            x: this.parentCoordiantes.x + this._element.nativeElement.offsetLeft + this._element.nativeElement.offsetWidth/2,
-            y: this.parentCoordiantes.y + this._element.nativeElement.offsetTop + this._element.nativeElement.offsetHeight/2
+            x: this.parentCoordiantes.x + this.element.nativeElement.offsetLeft + this.element.nativeElement.offsetWidth/2,
+            y: this.parentCoordiantes.y + this.element.nativeElement.offsetTop + this.element.nativeElement.offsetHeight/2
         };
     }
 
@@ -116,7 +116,7 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnI
      */
     public highlight(): void
     {
-        this._isHighlighted = true;
+        this.isHighlighted = true;
     }
 
     /**
@@ -124,7 +124,7 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnI
      */
     public cancelHighlight(): void
     {
-        this._isHighlighted = false;
+        this.isHighlighted = false;
     }
 
     /**

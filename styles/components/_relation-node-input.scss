@@ -2,7 +2,8 @@
 
 @mixin css
 {
-    relation-node-input
+    relation-node-input,
+    relation-node-input-debug
     {
         @extend %relation-node-endpoint;
     }

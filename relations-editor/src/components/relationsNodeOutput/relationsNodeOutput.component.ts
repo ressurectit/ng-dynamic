@@ -1,5 +1,4 @@
 import {Component, ChangeDetectionStrategy, HostListener, OnDestroy} from '@angular/core';
-import {CommonModule} from '@angular/common';
 
 import {RelationNodeEndpointBase} from '../relationsNodeEndpointBase';
 import {RelationsOutput} from '../../interfaces';
@@ -16,10 +15,6 @@ import {INVALIDATE_DROP} from '../../misc/constants';
     selector: 'relation-node-output',
     template: '',
     standalone: true,
-    imports:
-    [
-        CommonModule,
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase implements RelationsOutput, OnDestroy
@@ -29,7 +24,7 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
     /**
      * Relations
      */
-    protected _relations: NodeRelationPath[] = [];
+    protected ɵrelations: NodeRelationPath[] = [];
 
     //######################### public properties - implementation of RelationsOutput #########################
 
@@ -38,7 +33,7 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
      */
     public get relations(): NodeRelationPath[]
     {
-        return this._relations;
+        return this.ɵrelations;
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -48,9 +43,9 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
      */
     public ngOnDestroy(): void
     {
-        if(this._relations)
+        if(this.ɵrelations)
         {
-            const relations = [...this._relations];
+            const relations = [...this.ɵrelations];
 
             for(const relation of relations)
             {
@@ -66,22 +61,22 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
      */
     public startRelation(): NodeRelationPath
     {
-        const relation = this._canvas.createRelation();
+        const relation = this.canvas.createRelation();
 
         relation.start = this.getCoordinates();
         relation.output = this;
 
         relation.destroying.subscribe(() =>
         {
-            const index = this._relations.indexOf(relation);
+            const index = this.ɵrelations.indexOf(relation);
 
             if(index >= 0)
             {
-                this._relations.splice(index, 1);
+                this.ɵrelations.splice(index, 1);
             }
         });
 
-        this._relations.push(relation);
+        this.ɵrelations.push(relation);
 
         return relation;
     }
@@ -93,12 +88,12 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
      */
     public updateRelation(): void
     {
-        if (!this._relations)
+        if (!this.ɵrelations)
         {
             return;
         }
 
-        for (const relation of this._relations)
+        for (const relation of this.ɵrelations)
         {
             relation.start = this.getCoordinates();
             relation.invalidateVisuals();
@@ -117,14 +112,14 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
         event.stopImmediatePropagation();
         event.preventDefault();
 
-        this._isDragging = true;
-        this._lastMouseDownPosition =
+        this.isDragging = true;
+        this.lastMouseDownPosition =
         {
             x: event.clientX,
             y: event.clientY
         };
 
-        this._relation = this.startRelation();
+        this.relation = this.startRelation();
     }
 
     /**
@@ -134,7 +129,7 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
     @HostListener('mouseenter', ['$event'])
     protected _onMouseEnter(_: MouseEvent): void
     {
-        this._relations?.forEach(relation => relation?.highlight());
+        this.ɵrelations?.forEach(relation => relation?.highlight());
     }
 
     /**
@@ -144,7 +139,7 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
     @HostListener('mouseleave', ['$event'])
     protected _onMouseLeave(_: MouseEvent): void
     {
-        this._relations?.forEach(relation => relation?.cancelHighlight());
+        this.ɵrelations?.forEach(relation => relation?.cancelHighlight());
     }
 
     /**
@@ -154,20 +149,20 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
     @HostListener('window:mousemove', ['$event'])
     protected _onMouseMove(event: DragEvent): void
     {
-        if (this._isDragging)
+        if (this.isDragging)
         {
             event.stopImmediatePropagation();
             event.preventDefault();
 
-            if (this._relation)
+            if (this.relation)
             {
-                this._relation.end =
+                this.relation.end =
                 {
-                    x: this.getCoordinates().x + (event.clientX - this._lastMouseDownPosition.x) * 1/this.zoomLevel,
-                    y: this.getCoordinates().y + (event.clientY - this._lastMouseDownPosition.y) * 1/this.zoomLevel
+                    x: this.getCoordinates().x + (event.clientX - this.lastMouseDownPosition.x) * 1/this.zoomLevel,
+                    y: this.getCoordinates().y + (event.clientY - this.lastMouseDownPosition.y) * 1/this.zoomLevel
                 };
 
-                this._relation.invalidateVisuals();
+                this.relation.invalidateVisuals();
             }
         }
     }
@@ -179,13 +174,13 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
     @HostListener('window:mouseup', ['$event'])
     protected _onMouseUp(event: DragEvent): void
     {
-        if (this._isDragging)
+        if (this.isDragging)
         {
-            this._isDragging = false;
+            this.isDragging = false;
             event.stopImmediatePropagation();
             event.preventDefault();
 
-            this._relation?.invalidateVisuals(INVALIDATE_DROP);
+            this.relation?.invalidateVisuals(INVALIDATE_DROP);
         }
     }
 }

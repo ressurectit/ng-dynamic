@@ -19,17 +19,17 @@ export class NodeRelationPath
     /**
      * Subject used for emitting destroying event
      */
-    protected _destroyingSubject: Subject<void> = new Subject<void>();
+    protected destroyingSubject: Subject<void> = new Subject<void>();
 
     /**
      * Object that represents rendered path
      */
-    protected _path: Selection<SVGPathElement, {}, null, undefined>;
+    protected path: Selection<SVGPathElement, {}, null, undefined>;
 
     /**
      * Line generator for generating lines
      */
-    protected _lineGenerator: Line<[number, number]>;
+    protected lineGenerator: Line<[number, number]>;
 
     //######################### public properties #########################
 
@@ -48,18 +48,18 @@ export class NodeRelationPath
      */
     public get destroying(): Observable<void>
     {
-        return this._destroyingSubject.asObservable();
+        return this.destroyingSubject.asObservable();
     }
 
     //######################### constructor #########################
 
-    constructor(protected _parentGroup: Selection<BaseType, {}, null, undefined>,
-                protected _relationManager: RelationsNodeManager,
+    constructor(protected parentGroup: Selection<BaseType, {}, null, undefined>,
+                protected relationManager: RelationsNodeManager,
                 protected history: MetadataHistoryManager<RelationsNodeMetadata[]>,
                 public start: Coordinates|null,
                 public end: Coordinates|null)
     {
-        this._path = this._parentGroup.append('path')
+        this.path = this.parentGroup.append('path')
             .attr('fill', 'transparent')
             .attr('stroke', '#48B8B8')
             .attr('stroke-width', STROKE_WIDTH)
@@ -72,7 +72,7 @@ export class NodeRelationPath
                 this.cancelHighlight();
             });
 
-        this._lineGenerator = line()
+        this.lineGenerator = line()
             .curve(curveBundle.beta(0.75));
     }
 
@@ -83,8 +83,8 @@ export class NodeRelationPath
      */
     public destroy(): void
     {
-        this._path?.remove();
-        this._destroyingSubject.next();
+        this.path?.remove();
+        this.destroyingSubject.next();
     }
 
     /**
@@ -92,7 +92,7 @@ export class NodeRelationPath
      */
     public highlight(): void
     {
-        this._path.attr('stroke-width', HIGHLIGHT_STROKE_WIDTH);
+        this.path.attr('stroke-width', HIGHLIGHT_STROKE_WIDTH);
         this.input?.highlight();
         this.output?.highlight();
     }
@@ -102,7 +102,7 @@ export class NodeRelationPath
      */
     public cancelHighlight(): void
     {
-        this._path.attr('stroke-width', STROKE_WIDTH);
+        this.path.attr('stroke-width', STROKE_WIDTH);
         this.input?.cancelHighlight();
         this.output?.cancelHighlight();
     }
@@ -115,8 +115,8 @@ export class NodeRelationPath
     {
         if(propertyName == INVALIDATE_DROP)
         {
-            const activeInput = this._relationManager.getActiveInput();
-            this._relationManager.setActiveInput(null);
+            const activeInput = this.relationManager.getActiveInput();
+            this.relationManager.setActiveInput(null);
 
             //drop not on input
             if(!activeInput)
@@ -193,6 +193,6 @@ export class NodeRelationPath
             ];
         }
 
-        this._path.attr('d', this._lineGenerator(points));
+        this.path.attr('d', this.lineGenerator(points));
     }
 }

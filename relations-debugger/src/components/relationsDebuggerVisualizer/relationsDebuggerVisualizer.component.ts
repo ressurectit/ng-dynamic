@@ -1,11 +1,12 @@
 import {Component, ChangeDetectionStrategy, EventEmitter, Output, ClassProvider, Input, OnChanges, SimpleChanges, ChangeDetectorRef, OnInit} from '@angular/core';
-import {RelationsCanvasSAComponent, RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER} from '@anglr/dynamic/relations-editor';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER} from '@anglr/dynamic/relations-editor';
 import {RelationsDebugger, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
 import {RelationsNodeManager} from '@anglr/dynamic/relations-editor';
 import {isPresent, nameof} from '@jscrpt/common';
 
 import {MetadataHistoryManagerDebug} from '../../services';
 import {StepNameSAPipe} from '../../pipes';
+import {RelationsCanvasDebugSAComponent} from '../relationsCanvasDebug/relationsCanvasDebug.component';
 
 /**
  * Component used for visualization of relations debugger data
@@ -17,7 +18,7 @@ import {StepNameSAPipe} from '../../pipes';
     standalone: true,
     imports:
     [
-        RelationsCanvasSAComponent,
+        RelationsCanvasDebugSAComponent,
         StepNameSAPipe,
     ],
     providers:

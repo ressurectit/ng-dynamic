@@ -1,5 +1,4 @@
 import {Component, ChangeDetectionStrategy, HostListener, OnDestroy} from '@angular/core';
-import {CommonModule} from '@angular/common';
 
 import {RelationNodeEndpointBase} from '../relationsNodeEndpointBase';
 import {RelationsInput} from '../../interfaces';
@@ -15,10 +14,6 @@ import {INVALIDATE_DROP} from '../../misc/constants';
     selector: 'relation-node-input',
     template: '',
     standalone: true,
-    imports:
-    [
-        CommonModule,
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationNodeInputSAComponent extends RelationNodeEndpointBase implements RelationsInput, OnDestroy
@@ -37,9 +32,9 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
      */
     public ngOnDestroy(): void
     {
-        if(this._relation)
+        if(this.relation)
         {
-            this._relation.destroy();
+            this.relation.destroy();
         }
     }
 
@@ -50,19 +45,19 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
      */
     public addRelation(relation: NodeRelationPath): boolean
     {
-        if (this._relation)
+        if (this.relation)
         {
             //Same relation
-            if (this._relation.start?.x === relation.start?.x &&
-                this._relation.start?.y === relation.start?.y)
+            if (this.relation.start?.x === relation.start?.x &&
+                this.relation.start?.y === relation.start?.y)
             {
                 return false;
             }
 
-            this._relation.destroy();
+            this.relation.destroy();
         }
 
-        this._relation = relation;
+        this.relation = relation;
         
         return true;
     }
@@ -85,14 +80,14 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
      */
     public updateRelation(): void
     {
-        if (!this._relation)
+        if (!this.relation)
         {
             return;
         }
 
-        this._relation.end = this.getCoordinates();
-        this._relation.input = this;
-        this._relation.invalidateVisuals();
+        this.relation.end = this.getCoordinates();
+        this.relation.input = this;
+        this.relation.invalidateVisuals();
     }
 
     //######################### protected methods - host listeners #########################
@@ -106,10 +101,10 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
     {
         if (event.buttons === MouseButton.LEFT)
         {
-            this._relationManager.setActiveInput(this);
+            this.relationManager.setActiveInput(this);
         }
 
-        this._relation?.highlight();
+        this.relation?.highlight();
     }
 
     /**
@@ -121,10 +116,10 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
     {
         if (event.buttons === MouseButton.LEFT)
         {
-            this._relationManager.setActiveInput(null);
+            this.relationManager.setActiveInput(null);
         }
 
-        this._relation?.cancelHighlight();
+        this.relation?.cancelHighlight();
     }
 
     /**
@@ -137,15 +132,15 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
         event.stopImmediatePropagation();
         event.preventDefault();
 
-        this._lastMouseDownPosition =
+        this.lastMouseDownPosition =
         {
             x: event.clientX,
             y: event.clientY
         };
 
-        this._tempRelation = this._relation;
-        this._relation = null;
-        this._isDragging = true;
+        this._tempRelation = this.relation;
+        this.relation = null;
+        this.isDragging = true;
     }
 
     /**
@@ -155,7 +150,7 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
     @HostListener('window:mousemove', ['$event'])
     protected _onMouseMove(event: MouseEvent): void
     {
-        if (this._isDragging)
+        if (this.isDragging)
         {
             event.stopImmediatePropagation();
             event.preventDefault();
@@ -164,8 +159,8 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
             {
                 this._tempRelation.end =
                 {
-                    x: this.getCoordinates().x + (event.clientX - this._lastMouseDownPosition?.x) * 1/this.zoomLevel,
-                    y: this.getCoordinates().y + (event.clientY - this._lastMouseDownPosition?.y) * 1/this.zoomLevel
+                    x: this.getCoordinates().x + (event.clientX - this.lastMouseDownPosition?.x) * 1/this.zoomLevel,
+                    y: this.getCoordinates().y + (event.clientY - this.lastMouseDownPosition?.y) * 1/this.zoomLevel
                 };
     
                 this._tempRelation.invalidateVisuals();
@@ -180,9 +175,9 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
     @HostListener('window:mouseup', ['$event'])
     protected _onMouseUp(event: MouseEvent): void
     {
-        if (this._isDragging)
+        if (this.isDragging)
         {
-            this._isDragging = false;
+            this.isDragging = false;
             event.stopImmediatePropagation();
             event.preventDefault();
             this._tempRelation?.invalidateVisuals(INVALIDATE_DROP);

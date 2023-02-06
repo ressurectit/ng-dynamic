@@ -1,11 +1,12 @@
 import {Component, ChangeDetectionStrategy, inject, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {PositionPlacement, TooltipModule, TooltipOptions} from '@anglr/common';
+import {BodyRenderSADirective, PositionModule, PositionPlacement, TooltipModule, TooltipOptions} from '@anglr/common';
 import {RelationsComponentEndpoints, RelationsComponentStateDebugInfo, RelationsDebugger, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase} from '@anglr/dynamic/relations-editor';
 import {Subscription} from 'rxjs';
 
 import {JsonFormattedSAPipe} from '../../../pipes';
+import {RelationNodeInputDebugSAComponent, RelationNodeOutputDebugSAComponent} from '../../../components';
 
 /**
  * Relations node component for debugger node
@@ -19,9 +20,11 @@ import {JsonFormattedSAPipe} from '../../../pipes';
     [
         CommonModule,
         TooltipModule,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationNodeInputDebugSAComponent,
+        RelationNodeOutputDebugSAComponent,
         JsonFormattedSAPipe,
+        PositionModule,
+        BodyRenderSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

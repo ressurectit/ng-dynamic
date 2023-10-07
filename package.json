@@ -136,7 +136,7 @@
         "d3": "7.8.1",
         "monaco-editor": "0.33.0",
         "@tinymce/tinymce-angular": "6.0.1",
-        "postcss": "8.4.21",
+        "postcss": "8.4.31",
         "postcss-prefix-selector": "1.16.0",
         "handlebars": "4.7.7",
         "marked": "2.1.3",

@@ -25,12 +25,30 @@ import {LogicalAndRelationsOptions} from './logicalAnd.options';
 @RelationsEditorMetadata(LogicalAndRelationsMetadataLoader)
 export class LogicalAndRelations implements RelationsComponent<LogicalAndRelationsOptions>
 {
+    //######################### protected properties #########################
+
+    /**
+     * Options used in this relations component
+     */
+    protected ɵRelationsOptions: LogicalAndRelationsOptions|undefined|null;
+
     //######################### public properties - implementation of RelationsComponent #########################
 
     /**
      * @inheritdoc
      */
-    public relationsOptions: LogicalAndRelationsOptions|undefined|null;
+    public get relationsOptions(): LogicalAndRelationsOptions|undefined|null
+    {
+        return this.ɵRelationsOptions;
+    }
+    public set relationsOptions(value: LogicalAndRelationsOptions|undefined|null)
+    {
+        this.ɵRelationsOptions = value;
+
+        this.initialize();
+    }
+
+    //######################### protected methods #########################
 
     //######################### public properties - inputs #########################
     
@@ -44,13 +62,18 @@ export class LogicalAndRelations implements RelationsComponent<LogicalAndRelatio
      */
     public cond2: boolean = false;
 
+    /**
+     * Dynamic conditions used in logical and operation
+     */
+    public dynamicConditions: {[key: string]: boolean} = {};
+
     //######################### public properties - dynamic outputs #########################
 
     /**
      * Logical and result value
      */
     @DynamicOutput()
-    public result: boolean|undefined|null;
+    public result: boolean|undefined|null = false;
 
     //######################### public methods - implementation of RelationsComponent #########################
     
@@ -62,7 +85,7 @@ export class LogicalAndRelations implements RelationsComponent<LogicalAndRelatio
         if(nameof<LogicalAndRelations>('cond1') in changes ||
            nameof<LogicalAndRelations>('cond2') in changes)
         {
-            this.result = this.cond1 && this.cond2;
+            this.evaluateResult();
         }
     }
 
@@ -71,5 +94,55 @@ export class LogicalAndRelations implements RelationsComponent<LogicalAndRelatio
      */
     public invalidateVisuals(): void
     {
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Initialize logical and relations
+     */
+    protected initialize(): void
+    {
+        if(this.relationsOptions)
+        {
+            if(this.relationsOptions.properties.length)
+            {
+                for(const name of this.relationsOptions.properties)
+                {
+                    if(name)
+                    {
+                        Object.defineProperty(this,
+                                              name,
+                                              {
+                                                  set: function(value)
+                                                  {
+                                                      this.dynamicConditions[name] = value;
+                                                      this.evaluateResult();
+                                                  }
+                                              });
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Evaluates conditions result
+     */
+    protected evaluateResult(): void
+    {
+        if (this.relationsOptions?.properties.length)
+        {
+            for (const name of this.relationsOptions.properties)
+            {
+                if (!this.dynamicConditions[name])
+                {
+                    this.result = false;
+                    return;
+                }
+            }
+        }
+
+        this.result = this.cond1 && this.cond2;
     }
 }

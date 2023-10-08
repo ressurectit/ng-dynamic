@@ -1,0 +1,24 @@
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="Power"></relations-node-header>
+
+<div class="node-content" [formGroup]="form">
+    <div class="inputs-outputs">
+        <div class="inputs">
+            <div class="input">
+                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="input" [parent]="this"></relation-node-input>
+                <div>input</div>
+            </div>
+        </div>
+
+        <div class="outputs">
+            <div class="output">
+                <div>result</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="result" [parent]="this"></relation-node-output>
+            </div>
+        </div>
+    </div>
+
+    <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
+        <label class="dynamic-control-label dynamic-text-uppercase">Exponent</label>
+        <input type="text" class="dynamic-form-control" formControlName="exponent" number required>
+    </div>
+</div>

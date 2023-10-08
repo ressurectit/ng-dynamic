@@ -8,6 +8,7 @@ import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
 import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {provideBasicLayoutRelationsEditor} from '@anglr/dynamic/basic-components';
 import {provideMaterialLayoutRelationsEditor} from '@anglr/dynamic/material-components';
+import {provideMathLayoutRelationsEditor} from '@anglr/dynamic/math-components';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {provideRestLayoutRelationsEditor} from '@anglr/dynamic/rest-components';
 import {provideFormLayoutRelationsEditor} from '@anglr/dynamic/form';
@@ -43,6 +44,7 @@ import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponen
         provideRestLayoutRelationsEditor(),
         provideTinyMceLayoutRelationsEditor(),
         provideCssLayoutRelationsEditor(),
+        provideMathLayoutRelationsEditor(),
         provideEditorRelationsCustomComponents(provideLayoutRelationsEditorWithStatic(ComplexStaticRegister), DemoCustomComponentsRegister),
         <ClassProvider>
         {

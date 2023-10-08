@@ -50,7 +50,11 @@
         "doc:generate:basic-components": "rimraf docs/content/api/ng-dynamic-basic-components && npm run doc:json:basic-components && npm run doc:md:basic-components && npm run doc:api:basic-components",
         "doc:json:basic-components": "api-extractor run --local --verbose -c basic-components/api-extractor.json",
         "doc:md:basic-components": "api-documenter markdown -i basic-components/temp -o docs/content/api/ng-dynamic-basic-components",
-        "doc:api:basic-components": "copyfiles -u 2 basic-components/temp/dynamic-basic-components.api.md docs/content/api/ng-dynamic-basic-components && rimraf basic-components/temp"
+        "doc:api:basic-components": "copyfiles -u 2 basic-components/temp/dynamic-basic-components.api.md docs/content/api/ng-dynamic-basic-components && rimraf basic-components/temp",
+        "doc:generate:math-components": "rimraf docs/content/api/ng-dynamic-math-components && npm run doc:json:math-components && npm run doc:md:math-components && npm run doc:api:math-components",
+        "doc:json:math-components": "api-extractor run --local --verbose -c math-components/api-extractor.json",
+        "doc:md:math-components": "api-documenter markdown -i math-components/temp -o docs/content/api/ng-dynamic-math-components",
+        "doc:api:math-components": "copyfiles -u 2 math-components/temp/dynamic-math-components.api.md docs/content/api/ng-dynamic-math-components && rimraf math-components/temp"
     },
     "engines": {
         "node": "^14.15.0 || >=16.10.0",
@@ -293,6 +297,14 @@
             "es2015": "./es2015/tinymce-components/src/index.js",
             "node": "./es2015/tinymce-components/src/index.js",
             "default": "./es2020/tinymce-components/src/index.js"
+        },
+        "./math-components": {
+            "types": "./math-components/src/index.d.ts",
+            "esm2020": "./es2020/math-components/src/index.js",
+            "es2020": "./es2020/math-components/src/index.js",
+            "es2015": "./es2015/math-components/src/index.js",
+            "node": "./es2015/math-components/src/index.js",
+            "default": "./es2020/math-components/src/index.js"
         },
         "./typings/transformData": {
             "default": "./basic-components/src/dynamicItems/transformData/transformData.interface.d.ts"

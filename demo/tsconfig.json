@@ -36,6 +36,7 @@
             "@anglr/dynamic/handlebars-components": ["../handlebars-components/src/index.ts"],
             "@anglr/dynamic/rest-components": ["../rest-components/src/index.ts"],
             "@anglr/dynamic/tinymce-components": ["../tinymce-components/src/index.ts"],
+            "@anglr/dynamic/math-components": ["../math-components/src/index.ts"],
             "@anglr/dynamic": ["../src/index.ts"],
         },
         "lib":
@@ -67,6 +68,7 @@
         "../handlebars-components/**/*.ts",
         "../rest-components/**/*.ts",
         "../tinymce-components/**/*.ts",
+        "../math-components/**/*.ts",
         "../form/**/*.ts",
     ],
     "exclude":

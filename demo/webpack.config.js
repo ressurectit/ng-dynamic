@@ -178,6 +178,7 @@ export default [function(options, args)
                 "@anglr/dynamic/handlebars-components": path.join(dirName, "../handlebars-components/src"),
                 "@anglr/dynamic/rest-components": path.join(dirName, "../rest-components/src"),
                 "@anglr/dynamic/tinymce-components": path.join(dirName, "../tinymce-components/src"),
+                "@anglr/dynamic/math-components": path.join(dirName, "../math-components/src"),
                 "@anglr/dynamic/typings/transformData": path.join(dirName, "../basic-components/src/dynamicItems/transformData/transformData.interface.ts"),
                 "@anglr/dynamic/typings/state": path.join(dirName, "../basic-components/src/dynamicItems/state/state.interface.ts"),
                 "@anglr/dynamic": path.join(dirName, "../src/index.ts"),

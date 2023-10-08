@@ -10,6 +10,7 @@ import {provideCssLayoutRelations} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutRelations} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelations} from '@anglr/dynamic/handlebars-components';
 import {provideMaterialLayoutRelations} from '@anglr/dynamic/material-components';
+import {provideMathLayoutRelations} from '@anglr/dynamic/math-components';
 import {provideBasicLayoutRelations} from '@anglr/dynamic/basic-components';
 import {provideRestLayoutRelations} from '@anglr/dynamic/rest-components';
 import {provideFormLayoutRelations} from '@anglr/dynamic/form';
@@ -47,6 +48,7 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
         provideTinyMceLayoutRelations(),
         provideHandlebarsLayoutRelations(),
         provideRestLayoutRelations(),
+        provideMathLayoutRelations(),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

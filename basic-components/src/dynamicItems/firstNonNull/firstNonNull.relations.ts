@@ -25,12 +25,28 @@ import {FirstNonNullRelationsOptions} from './firstNonNull.options';
 @RelationsEditorMetadata(FirstNonNullRelationsMetadataLoader)
 export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRelationsOptions>
 {
+    //######################### protected properties #########################
+
+    /**
+     * Options used in this relations component
+     */
+    protected ɵRelationsOptions: FirstNonNullRelationsOptions|undefined|null;
+
     //######################### public properties - implementation of RelationsComponent #########################
 
     /**
      * @inheritdoc
      */
-    public relationsOptions: FirstNonNullRelationsOptions|undefined|null;
+    public get relationsOptions(): FirstNonNullRelationsOptions|undefined|null
+    {
+        return this.ɵRelationsOptions;
+    }
+    public set relationsOptions(value: FirstNonNullRelationsOptions|undefined|null)
+    {
+        this.ɵRelationsOptions = value;
+
+        this.initialize();
+    }
 
     //######################### public properties - inputs #########################
     
@@ -43,6 +59,11 @@ export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRel
      * Next data to be checked
      */
     public data2: unknown;
+
+    /**
+     * Dynamic data values to be checked
+     */
+    public dynamicData: {[key: string]: unknown} = {};
 
     //######################### public properties - dynamic outputs #########################
 
@@ -61,14 +82,7 @@ export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRel
     {
         if(nameof<FirstNonNullRelations>('data1') in changes || nameof<FirstNonNullRelations>('data2') in changes)
         {
-            if(this.data1)
-            {
-                this.data = this.data1;
-            }
-            else if(this.data2)
-            {
-                this.data = this.data2;
-            }
+            this.evaluateResult();
         }
     }
 
@@ -77,5 +91,63 @@ export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRel
      */
     public invalidateVisuals(): void
     {
+    }
+
+    /**
+     * Initialize logical and relations
+     */
+    protected initialize(): void
+    {
+        if(this.relationsOptions)
+        {
+            if(this.relationsOptions.properties.length)
+            {
+                for(const name of this.relationsOptions.properties)
+                {
+                    if(name)
+                    {
+                        Object.defineProperty(this,
+                                              name,
+                                              {
+                                                  set: function(value)
+                                                  {
+                                                      this.dynamicData[name] = value;
+                                                      this.evaluateResult();
+                                                  }
+                                              });
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Evaluates conditions result
+     */
+    protected evaluateResult(): void
+    {
+        if(this.data1)
+        {
+            this.data = this.data1;
+            return;
+        }
+        
+        if(this.data2)
+        {
+            this.data = this.data2;
+            return;
+        }
+
+        if (this.relationsOptions?.properties.length)
+        {
+            for (const name of this.relationsOptions.properties)
+            {
+                if (this.dynamicData[name])
+                {
+                    this.data = this.dynamicData[name];
+                    return;
+                }
+            }
+        }
     }
 }

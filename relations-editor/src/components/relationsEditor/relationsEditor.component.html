@@ -1,7 +1,7 @@
 <div class="dynamic-flex-row dynamic-flex-1">
     <div class="overflow-vertical-scroll dynamic-thin-scrollbar">
         <package-manager></package-manager>
-        <nodes-palette [canvasDropList]="dropList" style="width: 250px;"></nodes-palette>
+        <nodes-palette [canvasDropList]="dropList" [packages]="packages" [whiteList]="whiteList" [blackList]="blackList" style="width: 250px;"></nodes-palette>
     </div>
 
     <relations-canvas #dropList="cdkDropList" [nodeDefinitions]="metadata" class="dynamic-flex-1" cdkDropList (cdkDropListDropped)="addNode($event)"></relations-canvas>

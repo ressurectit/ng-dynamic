@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnInit, Inject, ChangeDetectorRef, OnChanges, SimpleChanges, ViewChild, Optional} from '@angular/core';
 import {CdkDragDrop, DragDropModule} from '@angular/cdk/drag-drop';
 import {HostDisplayFlexStyle} from '@anglr/common';
-import {EditorHotkeys, MetadataHistoryManager, PackageManagerModule} from '@anglr/dynamic';
+import {DynamicItemSource, EditorHotkeys, MetadataHistoryManager, PackageManagerModule} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -53,6 +53,24 @@ export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
      */
     @Input()
     public metadata: RelationsNodeMetadata[] = [];
+
+    /**
+     * Array of packages that should be used, if specified, package manager is not displayed
+     */
+    @Input()
+    public packages: string[]|undefined|null;
+
+    /**
+     * Array of dynamic items sources which should be whitelisted, if this is used, package which is whitelisted will override black list and only components from whitelist will be available
+     */
+    @Input()
+    public whiteList: DynamicItemSource[]|undefined|null;
+
+    /**
+     * Array of dynamic items sources which should be blacklisted, components used in this list will not be available, only if overriden by whitelist
+     */
+    @Input()
+    public blackList: DynamicItemSource[]|undefined|null;
 
     //######################### constructor #########################
     constructor(@Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager<RelationsNodeMetadata[]>,

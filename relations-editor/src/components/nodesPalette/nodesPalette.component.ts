@@ -1,9 +1,9 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, SimpleChanges} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
-import {DebounceCall, Dictionary, generateId, WithSync} from '@jscrpt/common';
+import {DebounceCall, Dictionary, generateId, nameof, WithSync} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
 import {NodesPaletteItem} from './nodesPalette.interface';
@@ -46,6 +46,14 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      */
     protected allItems: NodesPaletteItem[] = [];
 
+    /**
+     * Gets array of used packages
+     */
+    protected get usedPackages(): string[]
+    {
+        return this.packages ?? this.packageManager.usedPackages;
+    }
+
     //######################### protected properties - template bindings #########################
 
     /**
@@ -63,6 +71,11 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      */
     protected isDragOverPalette: boolean = false;
 
+    /**
+     * Array of whitelisted packages
+     */
+    protected whiteListedPackages: string[] = [];
+
     //######################### public properties - inputs #########################
 
     /**
@@ -70,6 +83,24 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      */
     @Input()
     public canvasDropList!: CdkDropList;
+
+    /**
+     * Array of packages that should be used, if specified, package manager is ignored
+     */
+    @Input()
+    public packages: string[]|undefined|null;
+
+    /**
+     * Array of dynamic items sources which should be whitelisted, if this is used, package which is whitelisted will override black list and only components from whitelist will be available
+     */
+    @Input()
+    public whiteList: DynamicItemSource[]|undefined|null;
+
+    /**
+     * Array of dynamic items sources which should be blacklisted, components used in this list will not be available, only if overriden by whitelist
+     */
+    @Input()
+    public blackList: DynamicItemSource[]|undefined|null;
 
     //######################### constructor #########################
     constructor(@Inject(RELATIONS_MODULE_TYPES_LOADER) protected _moduleTypesLoader: DynamicItemLoader<RelationsModuleTypes>,
@@ -102,6 +133,40 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         await this.loadNodes();
     }
 
+    //######################### public methods - implementation of OnChanges #########################
+    
+    /**
+     * Called when input value changes
+     */
+    public async ngOnChanges(changes: SimpleChanges): Promise<void>
+    {
+        if(nameof<NodesPaletteSAComponent>('whiteList') in changes)
+        {
+            this.whiteListedPackages = [];
+
+            if(Array.isArray(this.whiteList))
+            {
+                for(const source of this.whiteList)
+                {
+                    //package already whitelisted
+                    if(this.whiteListedPackages.find(itm => itm == source.package))
+                    {
+                        continue;
+                    }
+
+                    this.whiteListedPackages.push(source.package);
+                }
+            }
+        }
+
+        if(nameof<NodesPaletteSAComponent>('whiteList') in changes ||
+           nameof<NodesPaletteSAComponent>('blackList') in changes ||
+           nameof<NodesPaletteSAComponent>('packages') in changes)
+        {
+            await this.loadNodes();
+        }
+    }
+
     //######################### public methods - implementation of OnDestroy #########################
     
     /**
@@ -122,12 +187,27 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
         this.allItems = [];
         this.groupedItems = {};
 
-        for (const packageName of this.packageManager.usedPackages)
+        for (const packageName of this.usedPackages)
         {
             const types = (await this._moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
 
             for(const type of types)
             {
+                //package is whitelisted
+                if(this.whiteListedPackages.find(itm => packageName == itm))
+                {
+                    //item is not whitelisted
+                    if(!this.whiteList?.find(itm => itm.package == packageName && itm.name == type))
+                    {
+                        continue;
+                    }
+                }
+                //item is blacklisted
+                else if(this.blackList?.find(itm => itm.package == packageName && itm.name == type))
+                {
+                    continue;
+                }
+
                 const itemSource: DynamicItemSource = {package: packageName, name: type};
                 const metadata = await this._nodesLoader.loadItem(itemSource);
     

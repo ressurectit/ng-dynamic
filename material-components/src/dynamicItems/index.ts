@@ -7,3 +7,4 @@ export * from './select';
 export * from './textarea';
 export * from './textField';
 export * from './expansionPanel';
+export * from './tabGroup';

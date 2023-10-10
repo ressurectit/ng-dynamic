@@ -1,0 +1,5 @@
+<mat-tab-group [mat-stretch-tabs]="false">
+    <mat-tab #tabComponent="matTab" [label]="tab.title" *ngFor="let tab of options?.tabs; let i = index;" [labelClass]="tabComponent.disabled ? 'hidden': ''" [bodyClass]="tabComponent.disabled ? 'hidden': ''">
+        <ng-template [layoutComponentRenderer]="tab.content" (layoutComponentRendererComponentChange)="onTabComponentChange($event, i)"></ng-template>
+    </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,16 @@
+<div class="properties-form-group">
+    <div>Tabs</div>
+    <div>
+        <div class="dynamic-flex-row" *ngFor="let tabControl of tabsControls; let i = index" [formGroup]="tabControl">
+            <div>{{i+1}}.</div>
+            <input class="properties-form-control dynamic-flex-1" type="text" formControlName="title">
+            <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); removeTab(i)">
+                <span class="fas fa-times"></span>
+            </button>
+        </div>
+        
+        <button type="button" class="dynamic-btn dynamic-btn-primary dynamic-margin-vertical-small" (click)="addTab()">
+            <span>Add tab</span>
+        </button>
+    </div>
+</div>

@@ -9,6 +9,7 @@ const components =
     'textarea',
     'textField',
     'expansionPanel',
+    'tabGroup',
 ];
 
 export default components;

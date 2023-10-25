@@ -32,6 +32,27 @@ export interface DynamicItemExtensions
 }
 
 /**
+ * Definition of dynamic item editor data
+ */
+export interface DynamicItemEditorData
+{
+    /**
+     * Display name of custom component
+     */
+    displayName?: string;
+
+    /**
+     * Description for custom component
+     */
+    description?: string;
+
+    /**
+     * Group of custom component
+     */
+    group?: string;
+}
+
+/**
  * Definition of dynamic item
  */
 export interface DynamicItem extends Invalidatable

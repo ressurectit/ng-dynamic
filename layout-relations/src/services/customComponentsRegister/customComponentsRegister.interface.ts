@@ -16,7 +16,12 @@ export interface CustomComponentConfiguration
     displayName?: string;
 
     /**
-     * Description for custom component
+     * Description of custom component
      */
     description?: string;
+
+    /**
+     * Group of custom component
+     */
+    group?: string;
 }

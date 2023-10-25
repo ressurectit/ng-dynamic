@@ -2,6 +2,8 @@ import {Inject, Injectable, Optional} from '@angular/core';
 import {DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
 
+import {CustomComponentsRegister} from '../customComponentsRegister/customComponentsRegister.service';
+
 /**
  * Dynamic module items provider for custom components module items
  */
@@ -9,7 +11,8 @@ import {Logger, LOGGER} from '@anglr/common';
 export class CustomComponentsDynamicModuleItemsProvider implements DynamicModuleProvider
 {
     //######################### constructor #########################
-    constructor(@Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(private _customComponentRegister: CustomComponentsRegister,
+                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
     {
     }
 
@@ -48,7 +51,15 @@ export class CustomComponentsDynamicModuleItemsProvider implements DynamicModule
             }
             default:
             {
-                return await import('../../dynamicItems/customComponent/type');
+                const customComponent = await import('../../dynamicItems/customComponent/type');
+                const customComponentConfiguration = this._customComponentRegister.getConfigurationForComponent(source.name);
+                return {
+                    default: customComponent.default,
+                    extensions: customComponent.extensions,
+                    displayName: customComponentConfiguration?.displayName,
+                    description: customComponentConfiguration?.description,
+                    group: customComponentConfiguration?.group,
+                };
             }
         }
     }

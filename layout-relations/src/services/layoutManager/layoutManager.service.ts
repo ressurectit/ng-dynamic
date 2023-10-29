@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Observable, Subject} from 'rxjs';
 import isEqual from 'lodash-es/isEqual';
+import {cloneDeep} from 'lodash-es';
 
 /**
  * Manager of layout metadata
@@ -47,13 +48,12 @@ export class LayoutManager
      */
     public setLayout(layout: LayoutComponentMetadata|null): void
     {
-        console.log('setting layout', this._layout, layout, isEqual(this._layout, layout));
         if(isEqual(this._layout, layout))
         {
             return;
         }
     
-        this._layout = layout;
+        this._layout = cloneDeep(layout);
         this._layoutChange.next();
     }
 }

@@ -22,7 +22,7 @@ export class HandlebarsDynamicModuleTypesProvider implements DynamicModuleProvid
     {
         try
         {
-            this._logger?.debug('HandlebarsDynamicModuleTypesProvider: trying to get types for module {@module}', {moduleName: source.package});
+            this._logger?.debug('HandlebarsDynamicModuleTypesProvider: trying to get types for module {{@module}}', {module: {moduleName: source.package}});
 
             switch(source.package)
             {
@@ -34,7 +34,7 @@ export class HandlebarsDynamicModuleTypesProvider implements DynamicModuleProvid
         }
         catch(e)
         {
-            this._logger?.debug('HandlebarsDynamicModuleTypesProvider: module {@module} was not found, reason: ' + e, {moduleName: source.package});
+            this._logger?.debug('HandlebarsDynamicModuleTypesProvider: module {{@module}} was not found, reason: ' + e, {module: {moduleName: source.package}});
         }
 
         return null;

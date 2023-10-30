@@ -375,7 +375,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         this._flatTree = null;
         this.layoutChangeSubject.next();
 
-        this._logger?.debug('LayoutEditorMetadataManager: Registering component {@id}', id);
+        this._logger?.debug('LayoutEditorMetadataManager: Registering component {{@id}}', {id: id});
 
         return true;
     }
@@ -447,7 +447,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         this._flatTree = null;
         this.layoutChangeSubject.next();
 
-        this._logger?.debug('LayoutEditorMetadataManager: Unregistering component {@id}', id);
+        this._logger?.debug('LayoutEditorMetadataManager: Unregistering component {{@id}}', {id: id});
     }
 
     /**

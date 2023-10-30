@@ -1,4 +1,7 @@
-export type LogLevelString = 'off'|'fatal'|'error'|'warning'|'information'|'debug'|'verbose'|string;
+import {LogLevel} from '@anglr/common';
+import {StringDictionary} from '@jscrpt/common';
+
+import defaultConfig from '../config/config.json';
 
 /**
  * Language definition
@@ -26,12 +29,17 @@ export interface SettingsConfiguration
     /**
      * Indication that missing translation debugging should be enabled
      */
-    debugTranslations: boolean;
+    debugTranslations?: boolean;
+
+    /**
+     * Base url that is used for accessing REST api
+     */
+    apiBaseUrl: string;
 
     /**
      * Object hodling default headers that are send with rest requests
      */
-    defaultApiHeaders: { [key: string]: string };
+    defaultApiHeaders: StringDictionary;
 
     /**
      * Array of available themes
@@ -42,6 +50,11 @@ export interface SettingsConfiguration
      * Available languages for application
      */
     languages: LanguageDef[];
+
+    /**
+     * Indication whether disable mock logger
+     */
+    disableMockLogger?: boolean;
 }
 
 export interface SettingsGeneral
@@ -75,7 +88,7 @@ export interface SettingsLogging
     /**
      * Minimal log level for console sink
      */
-    consoleLogLevel: LogLevelString;
+    consoleLogLevel: keyof typeof LogLevel|string;
 }
 
 /**
@@ -86,24 +99,22 @@ export interface Configuration
     /**
      * Static configuration for application
      */
-    configuration?: SettingsConfiguration;
+    configuration: SettingsConfiguration;
 
     /**
      * General settings
      */
-    general?: SettingsGeneral;
+    general: SettingsGeneral;
 
     /**
      * Debug settings, used for debugging purposes
      */
-    debug?: SettingsDebug;
+    debug: SettingsDebug;
 
     /**
      * Logging setting, allows to configure logger sinks
      */
-    logging?: SettingsLogging;
+    logging: SettingsLogging;
 }
 
-export const config: Configuration = 
-{
-};
+export const config: Configuration = defaultConfig;

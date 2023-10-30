@@ -3,24 +3,41 @@ import './dependencies';
 import './dependencies.browser';
 import 'zone.js';
 import './hacks';
-import {platformBrowser} from '@angular/platform-browser';
-import {NgModuleRef, enableProdMode} from '@angular/core';
-import {runWhenModuleStable} from '@anglr/common';
+import {EnvironmentProviders, FactoryProvider, Provider, enableProdMode, importProvidersFrom} from '@angular/core';
+import {provideAnimations} from '@angular/platform-browser/animations';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {runWhenAppStable} from '@anglr/common';
+import {AnglrExceptionHandlerOptions} from '@anglr/error-handling';
 import {RestTransferStateService} from '@anglr/rest';
 import {simpleNotification} from '@jscrpt/common';
+import {HotkeyModule} from 'angular2-hotkeys';
 
+import {AppSAComponent} from './boot/app.component';
 import {config} from './config';
-import {BrowserAppModule} from './boot/browser-app.module';
+import {appProviders} from './boot/app.providers';
 
 if(isProduction)
 {
     enableProdMode();
 }
 
-const platform = platformBrowser();
+const providers: (Provider|EnvironmentProviders)[] =
+[
+    ...appProviders,
+    provideAnimations(),
+    <FactoryProvider>
+    {
+        provide: AnglrExceptionHandlerOptions,
+        useFactory: () => new AnglrExceptionHandlerOptions(config.configuration.debug, false)
+    },
+    importProvidersFrom(HotkeyModule.forRoot(
+    {
+        cheatSheetCloseEsc: true
+    })),
+];
 
-runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<any>) =>
+runWhenAppStable(bootstrapApplication(AppSAComponent, {providers}), appRef =>
 {
-    moduleRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
-    jsDevMode && simpleNotification(jsDevMode && import.meta.webpackHot);
+    appRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
+    jsDevMode && simpleNotification(jsDevMode && !!import.meta.webpackHot);
 }, config.configuration.debug);

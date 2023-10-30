@@ -263,7 +263,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
             if(!this.metadata)
             {
-                this.logger?.error('PropertiesEditorSAComponent: unable to get metadata {@source}', {package: this.component.options?.typeMetadata.package, name: this.component.options?.typeMetadata.name});
+                this.logger?.error('PropertiesEditorSAComponent: unable to get metadata {{@source}}', {source: {package: this.component.options?.typeMetadata.package, name: this.component.options?.typeMetadata.name}});
 
                 this.hide();
             }

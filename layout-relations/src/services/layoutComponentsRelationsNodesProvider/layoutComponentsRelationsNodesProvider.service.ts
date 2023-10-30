@@ -29,7 +29,7 @@ export class LayoutComponentsRelationsNodesProvider implements DynamicModuleProv
             return null;
         }
 
-        this._logger?.debug('LayoutComponentsRelationsNodesProvider: trying to get node {@item}', {name: source.name, package: source.package});
+        this._logger?.debug('LayoutComponentsRelationsNodesProvider: trying to get node {{@item}}', {item: {name: source.name, package: source.package}});
 
         const type = await this._componentsRegister.getType(source.name);
         

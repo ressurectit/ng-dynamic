@@ -119,7 +119,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
 
         if(components[id] && components[id].indexOf(component.ɵɵRelationsComponentId ?? '') >= 0)
         {
-            this.logger?.warn('RelationsDebugger: component "{@id}" has already been registered', `${id}--${component.ɵɵRelationsComponentId}`);
+            this.logger?.warn('RelationsDebugger: component "{{@id}}" has already been registered', {id: `${id}--${component.ɵɵRelationsComponentId}`});
 
             return;
         }
@@ -236,7 +236,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
 
         if(!components[id] || (index = components[id].indexOf(component.ɵɵRelationsComponentId ?? '')) < 0)
         {
-            this.logger?.warn('RelationsDebugger: component "{@id}" does not exists!', `${id}--${component.ɵɵRelationsComponentId}`);
+            this.logger?.warn('RelationsDebugger: component "{{@id}}" does not exists!', {id: `${id}--${component.ɵɵRelationsComponentId}`});
 
             return;
         }
@@ -501,7 +501,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
 
         if(!components)
         {
-            this.logger?.warn('RelationsDebugger: unable to find component with id {@id}', id);
+            this.logger?.warn('RelationsDebugger: unable to find component with id {{@id}}', {id});
 
             return;
         }
@@ -529,7 +529,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
                     }
                     catch(e)
                     {
-                        this.logger?.warn(`RelationsDebugger: failed reading input '${input}', {@error}`, e);
+                        this.logger?.warn(`RelationsDebugger: failed reading input '${input}', {{@error}}`, {error: e});
 
                         inputs[input] = undefined;
                     }
@@ -552,7 +552,7 @@ export class RelationsDebuggerImpl extends RelationsDebugger
                     }
                     catch(e)
                     {
-                        this.logger?.warn(`RelationsDebugger: failed reading output '${output}', {@error}`, e);
+                        this.logger?.warn(`RelationsDebugger: failed reading output '${output}', {{@error}}`, {error: e});
 
                         outputs[output] =
                         {

@@ -22,7 +22,7 @@ export class BasicDynamicModuleRelationsProvider implements DynamicModuleProvide
     {
         try
         {
-            this._logger?.debug('BasicDynamicModuleRelationsProvider: trying to get relations types for module {@module}', {moduleName: source.package});
+            this._logger?.debug('BasicDynamicModuleRelationsProvider: trying to get relations types for module {{@module}}', {module: {moduleName: source.package}});
 
             switch(source.package)
             {
@@ -34,7 +34,7 @@ export class BasicDynamicModuleRelationsProvider implements DynamicModuleProvide
         }
         catch(e)
         {
-            this._logger?.debug('BasicDynamicModuleRelationsProvider: module {@module} was not found, reason: ' + e, {moduleName: source.package});
+            this._logger?.debug('BasicDynamicModuleRelationsProvider: module {{@module}} was not found, reason: ' + e, {module: {moduleName: source.package}});
         }
 
         return null;

@@ -4,7 +4,7 @@ import {TitledDialogService} from '@anglr/common/material';
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {extend} from '@jscrpt/common';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {TriggerRelationsOptions} from '../trigger.options';
 

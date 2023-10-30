@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy, Injector, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Logger, LOGGER, PositionModule} from '@anglr/common';
+import {Logger, LOGGER, PositionToSADirective} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {MetadataHistoryManager, SCOPE_ID} from '@anglr/dynamic';
@@ -28,9 +28,8 @@ import {LayoutComponentDragData} from '../../interfaces';
     standalone: true,
     imports:
     [
-        //TODO: cleanup
         CommonModule,
-        PositionModule,
+        PositionToSADirective,
         LayoutEditorDragPreviewSAComponent,
         LayoutDesignerOverlayForSAComponent,
         DesignerMinDimensionSADirective,
@@ -169,7 +168,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public override ngOnDestroy(): void
     {
-        this.logger?.debug('LayoutDesignerSAComponent: Destroying component {@data}', {id: this.options?.typeMetadata.id});
+        this.logger?.debug('LayoutDesignerSAComponent: Destroying component {{@data}}', {data: {id: this.options?.typeMetadata.id}});
 
         this.initSubscriptions.unsubscribe();
 
@@ -195,7 +194,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         const parentId = dragData.parentId;
-        this.logger?.debug('LayoutDesignerSAComponent: Adding descendant {@data}', {id: dragData.metadata?.id, parent: this.options.typeMetadata.id});
+        this.logger?.debug('LayoutDesignerSAComponent: Adding descendant {{@data}}', {data: {id: dragData.metadata?.id, parent: this.options.typeMetadata.id}});
 
         if(!dragData.metadata)
         {
@@ -231,7 +230,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        this.logger?.debug('LayoutDesignerSAComponent: Removing descendant {@data}', {id: this.options.typeMetadata.id, child: id});
+        this.logger?.debug('LayoutDesignerSAComponent: Removing descendant {{@data}}', {data: {id: this.options.typeMetadata.id, child: id}});
 
         this.editorMetadata?.removeDescendant?.(id, this.options.typeMetadata.options);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
@@ -248,7 +247,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected showOverlay(event: Event): void
     {
-        this.logger?.verbose('LayoutDesignerComponent: Showing overlay for {@type}', {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id});
+        this.logger?.verbose('LayoutDesignerComponent: Showing overlay for {{@type}}', {type: {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id}});
 
         event.preventDefault();
         event.stopPropagation();
@@ -267,7 +266,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        this.logger?.verbose('LayoutDesignerComponent: Hiding overlay for {@type}', {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id});
+        this.logger?.verbose('LayoutDesignerComponent: Hiding overlay for {{@type}}', {type: {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id}});
 
         event.preventDefault();
         event.stopPropagation();

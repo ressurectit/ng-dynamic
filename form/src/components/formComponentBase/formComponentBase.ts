@@ -173,7 +173,7 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions, T
 
         if (!control)
         {
-            this.logger?.warn('FormComponentBase: Unable to find control with name {@name}', {name: controlName});
+            this.logger?.warn('FormComponentBase: Unable to find control with name {{@name}}', {name: controlName});
 
             control = getControlForType(defaultControlType, initValue);
         }

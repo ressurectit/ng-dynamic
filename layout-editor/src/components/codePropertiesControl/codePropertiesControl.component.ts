@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {TitledDialogService} from '@anglr/common/material';
 import {LanguageModel, CodeEditorDialogComponent, CodeEditorDialogData, CodeEditorContent} from '@anglr/dynamic';
 import {isBlank, isPresent} from '@jscrpt/common';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {PropertiesControl} from '../../interfaces';
 import {PropertiesControlBase} from '../../modules';

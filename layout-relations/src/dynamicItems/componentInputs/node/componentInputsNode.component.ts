@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {extend} from '@jscrpt/common';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {ComponentInputsRelationsOptions} from '../componentInputs.options';
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '../../../components';

@@ -3,7 +3,7 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
 import {TitledDialogService} from '@anglr/common/material';
 import {HandlebarsLanguageModel, CodeEditorDialogData, CodeEditorDialogComponent, CodeEditorContent} from '@anglr/dynamic';
 import {isPresent} from '@jscrpt/common';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {DataTemplateRelationsOptions} from '../dataTemplate.options';
 

@@ -125,7 +125,7 @@ export class RelationsChangeDetector
             return;
         }
 
-        this.logger.debug('RelationsChangeDetector: marking for check {@id}', {componentId, outputName: id.outputName});
+        this.logger.debug('RelationsChangeDetector: marking for check {{@id}}', {id: {componentId, outputName: id.outputName}});
 
         const relationDefs = this.outputsComponents[componentId]?.[id.outputName] ?? [];
         const changes = this.checkRunning && !this.options.detectionInSingleRun ? this.secondRunChanges : this.firstRunChanges;
@@ -176,7 +176,7 @@ export class RelationsChangeDetector
      */
     public initialize(relations: Dictionary<RelationsProcessorComponentData>): void
     {
-        this.logger.debug('RelationsChangeDetector: initializing {@relations}', relations);
+        this.logger.debug('RelationsChangeDetector: initializing {{@relations}}', {relations: relations});
 
         this.ɵoutputsComponents = {};
 

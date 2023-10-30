@@ -3,6 +3,7 @@
     {
         "debug": true,
         "debugTranslations": false,
+        "apiBaseUrl": "api/",
         "defaultApiHeaders": 
         {
             "Accept": "application/json"
@@ -22,7 +23,8 @@
                 "lang": "sk",
                 "name": "Slovenčina"
             }
-        ]
+        ],
+        "disableMockLogger": false
     },
     "general":
     {

@@ -213,7 +213,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
     
                 if(!metadata)
                 {
-                    this._logger?.warn('NodesPaletteSAComponent: Failed to obtain layout editor metadata {@source}', itemSource);
+                    this._logger?.warn('NodesPaletteSAComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
                 }
                 else
                 {

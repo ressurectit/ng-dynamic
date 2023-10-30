@@ -1,42 +1,89 @@
-import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider} from '@angular/core';
-import {LocalPermanentStorageService} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS} from '@anglr/common';
-import {ConsoleSinkConfigService} from '@anglr/common/structured-log';
+import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
+import {provideClientHydration} from '@angular/platform-browser';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {provideRouter, withComponentInputBinding, withHashLocation} from '@angular/router';
+import {MatDialogModule} from '@angular/material/dialog';
+import {AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@anglr/authentication';
+import {LocalPermanentStorage} from '@anglr/common/store';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError} from '@anglr/error-handling';
 import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, METADATA_SELECTOR_TYPE, METADATA_SELECTOR_OPTIONS, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, GRID_INITIALIZER_TYPE, GRID_INITIALIZER_OPTIONS, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent} from '@anglr/grid';
-import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
+import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, GRID_INITIALIZER_TYPE, GRID_INITIALIZER_OPTIONS, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent} from '@anglr/grid';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
-import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions} from '@anglr/common/material';
-import {FLOATING_UI_POSITION} from '@anglr/common/floating-ui';
+import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService} from '@anglr/common/material';
+import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
 import {MD_HELP_NOTIFICATIONS, RenderMarkdownConfig, RENDER_MARKDOWN_CONFIG} from '@anglr/md-help/web';
 import {ClientErrorHandlingMiddleware, HttpClientErrorCustomHandlerDef, HTTP_CLIENT_ERROR_CUSTOM_HANDLER, REST_ERROR_HANDLING_MIDDLEWARE_ORDER} from '@anglr/error-handling/rest';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
+import {provideGlobalNotifications} from '@anglr/notifications';
 import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
-import {LoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES} from '@anglr/rest';
+import {ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES} from '@anglr/rest';
 import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
 import {provideRelationsDebuggerImplementation} from '@anglr/dynamic/relations-debugger';
 import {isString, isJsObject} from '@jscrpt/common';
-import {LogEventLevel} from 'structured-log';
+import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {DndModule} from '@ng-dnd/core';
 import {sk} from 'date-fns/locale';
+import {HTML5Backend} from 'react-dnd-html5-backend';
 
+import {routes} from './app.component.routes';
+import {config} from '../config';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
 import {NOTHING_SELECTED} from '../misc/constants';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
+import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
+import {ReportMissingTranslationService} from '../services/missingTranslation';
 
 /**
  * Array of providers that are used in app module
  */
-export const providers: Provider[] =
+export const appProviders: (Provider|EnvironmentProviders)[] =
 [
+    //######################### ROUTER #########################
+    provideRouter(routes,
+                  withComponentInputBinding(),
+                  withHashLocation()),
+
+    //######################### CLIENT HYDRATION #########################
+    provideClientHydration(),
+
+    //######################### HTTP CLIENT #########################
+    provideHttpClient(withInterceptorsFromDi(),),
+
+    //######################### ZONE #########################
+    provideZoneChangeDetection({eventCoalescing: true, runCoalescing: true}),
+
+    //######################### TRANSLATIONS #########################
+    importProvidersFrom(TranslateModule.forRoot(
+        {
+            loader: <ClassProvider>
+        {
+            provide: TranslateLoader, 
+            useClass: WebpackTranslateLoaderService
+        },
+            ...config.configuration.debugTranslations ? 
+                {
+                    missingTranslationHandler:
+                {
+                    provide: MissingTranslationHandler,
+                    useClass: ReportMissingTranslationService
+                }
+                } : 
+                {
+                },
+            useDefaultLang: !config.configuration.debugTranslations
+        })),
+
     //######################### HTTP INTERCEPTORS #########################
     HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER,
     SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER,
     HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER,
     NO_CONNECTION_INTERCEPTOR_PROVIDER,
+    SUPPRESS_AUTH_INTERCEPTOR_PROVIDER,
+    AUTH_INTERCEPTOR_PROVIDER,
     PROGRESS_INTERCEPTOR_PROVIDER,
 
     //######################### NO CONNECTION INTERCEPTOR OPTIONS #########################
@@ -73,9 +120,9 @@ export const providers: Provider[] =
         {
             texts:
             {
-                loading: 'Loading data ...',
-                noData: 'No data for requested parameters',
-                notLoaded: 'Data have not been loaded yet'
+                loading: 'Nahrávam dáta ...',
+                noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
+                notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
             }
         }
     },
@@ -91,19 +138,6 @@ export const providers: Provider[] =
         {
             itemsPerPageValues: [15, 30, 60],
             initialItemsPerPage: 15
-        }
-    },
-    <ValueProvider>
-    {
-        provide: METADATA_SELECTOR_TYPE,
-        useValue: DialogMetadataSelectorComponent
-    },
-    <ValueProvider>
-    {
-        provide: METADATA_SELECTOR_OPTIONS,
-        useValue: <DialogMetadataSelectorOptions>
-        {
-            showButtonVisible: false
         }
     },
     <ValueProvider>
@@ -141,7 +175,7 @@ export const providers: Provider[] =
     <ValueProvider>
     {
         provide: NORMAL_STATE_OPTIONS,
-        useValue: <NormalStateOptions<any>>
+        useValue: <NormalStateOptions>
         {
             texts:
             {
@@ -151,6 +185,7 @@ export const providers: Provider[] =
     },
 
     //######################### STRING LOCALIZATION #########################
+    //TODO
     <ClassProvider>
     {
         provide: STRING_LOCALIZATION,
@@ -158,51 +193,48 @@ export const providers: Provider[] =
     },
 
     //######################### PERMANENT STORAGE #########################
+    //TODO
     <ClassProvider>
     {
         provide: PERMANENT_STORAGE,
-        useClass: LocalPermanentStorageService
+        useClass: LocalPermanentStorage
     },
 
     //######################### LOGGER #########################
-    <FactoryProvider>
-    {
-        provide: ConsoleSinkConfigService,
-        useFactory: (settingsSvc: SettingsService) =>
-        {
-            return new ConsoleSinkConfigService(null, LogEventLevel[settingsSvc?.settingsLogging?.consoleLogLevel]);
-        },
-        deps: [SettingsService]
-    },
+    provideLoggerConfig(config => config
+        .writeTo(cfg => cfg.writeTo(ConsoleComponentSink)
+            .minimumLevel(() =>
+            {
+                const settings = inject(SettingsService);
+
+                return () => LogLevel[settings.settingsLogging.consoleLogLevel as keyof typeof LogLevel];
+            }))
+        .writeTo(DeveloperConsoleSink)
+        .enrichWith(LogLevelEnricher)
+        .enrichWith(TimestampEnricher)
+        .minimumLevel(LogLevel.Verbose)
+        .messageTemplate('{{timestamp}} [{{logLevel}}] {{messageLog}}')),
+
+    //######################### SETTINGS STORAGE #########################
     <ClassProvider>
     {
         provide: SETTINGS_STORAGE,
         useClass: LocalSettingsStorage
     },
-    ...isProduction ? 
-        [] :
-        [
-            // <FactoryProvider>
-            // {
-            //     provide: LOGGER_SINKS,
-            //     useFactory: () => new ConsoleSink(),
-            //     multi: true
-            // }
-        ],
 
     //######################### DEBUG DATA #########################
     <FactoryProvider>
     {
         provide: DebugDataEnabledService,
-        useFactory: (settingsSvc: SettingsService) =>
+        useFactory: () =>
         {
+            const settingsSvc: SettingsService = inject(SettingsService);
             const debugDataEnabled = new DebugDataEnabledService();
 
             debugDataEnabled.setEnabled(settingsSvc.settingsDebugging?.debugData);
 
             return debugDataEnabled;
         },
-        deps: [SettingsService]
     },
 
     //######################### DATE API #########################
@@ -223,7 +255,6 @@ export const providers: Provider[] =
     },
 
     //######################### VALIDATION ERRORS #########################
-
     <ValueProvider>
     {
         provide: VALIDATION_ERROR_MESSAGES,
@@ -251,6 +282,7 @@ export const providers: Provider[] =
     },
 
     //######################### NOTIFICATIONS #########################
+    provideGlobalNotifications(),
     DEFAULT_NOTIFICATIONS,
     <ExistingProvider>
     {
@@ -269,7 +301,8 @@ export const providers: Provider[] =
     },
 
     //######################### TITLED DIALOG #########################
-
+    importProvidersFrom(MatDialogModule),
+    TitledDialogService,
     <ValueProvider>
     {
         provide: TitledDialogServiceOptions,
@@ -289,7 +322,7 @@ export const providers: Provider[] =
     },
 
     //######################### POSITION #########################
-    FLOATING_UI_POSITION,
+    providePosition(FloatingUiDomPosition),
 
     //######################### MARKDOWN #########################
     <ValueProvider>
@@ -310,7 +343,6 @@ export const providers: Provider[] =
         provide: REST_METHOD_MIDDLEWARES,
         useValue:
         [
-            LoggerMiddleware,
             ResponseTypeMiddleware,
             ReportProgressMiddleware,
             ClientErrorHandlingMiddleware,
@@ -357,11 +389,12 @@ export const providers: Provider[] =
         provide: HTTP_CLIENT_ERROR_CUSTOM_HANDLER,
         useValue: <Record<number, HttpClientErrorCustomHandlerDef>>
         {
-            404: [handle404Func, error => new RestNotFoundError(error.errors)]
+            404: [handle404Func, error => new RestNotFoundError(error.errors)],
         },
     },
-
-    //######################### DYNAMIC CONFIG #########################
-
     provideRelationsDebuggerImplementation(),
+    importProvidersFrom(DndModule.forRoot(
+        {
+            backend: HTML5Backend
+        })),
 ];

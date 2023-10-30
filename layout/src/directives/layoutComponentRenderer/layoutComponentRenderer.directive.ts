@@ -119,7 +119,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
      */
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
-        this.logger?.debug('LayoutComponentRendererSADirective: rendering component {@id}', {id: this.componentMetadata?.id});
+        this.logger?.debug('LayoutComponentRendererSADirective: rendering component {{@id}}', {id: this.componentMetadata?.id});
 
         this.ngOnDestroy();
         this.viewContainerRef.clear();
@@ -140,7 +140,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
 
             if(!layoutComponentType)
             {
-                this.logger?.warn('LayoutComponentRendererSADirective: Unable to find layout component type {@type}', {name: componentMetadata.name, package: componentMetadata.package});
+                this.logger?.warn('LayoutComponentRendererSADirective: Unable to find layout component type {{@type}}', {type: {name: componentMetadata.name, package: componentMetadata.package}});
 
                 switch(this.options?.missingTypeBehavior)
                 {
@@ -189,7 +189,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                                                                            injector: usedInjector,
                                                                        }) as ComponentRef<TComponent>;
 
-            this.logger?.debug('LayoutComponentRendererSADirective: component rendered {@id}', {id: componentMetadata?.id});
+            this.logger?.debug('LayoutComponentRendererSADirective: component rendered {{@id}}', {id: componentMetadata?.id});
             const component = this.component;
 
             if(component)
@@ -204,16 +204,16 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                 const changes: SimpleChanges = {};
                 addSimpleChange<LayoutComponent>(changes, 'options', componentMetadata.options, component.options, true);
 
-                this.logger?.debug('LayoutComponentRendererSADirective: setting options for component {@id}', {id: componentMetadata?.id});
+                this.logger?.debug('LayoutComponentRendererSADirective: setting options for component {{@id}}', {id: componentMetadata?.id});
                 component.options = componentMetadata.options;
                 
-                this.logger?.debug('LayoutComponentRendererSADirective: setting changes for component {@id}', {id: componentMetadata?.id});
+                this.logger?.debug('LayoutComponentRendererSADirective: setting changes for component {{@id}}', {id: componentMetadata?.id});
                 await component.ngOnChanges?.(changes);
 
-                this.logger?.debug('LayoutComponentRendererSADirective: initializing component {@id}', {id: componentMetadata?.id});
+                this.logger?.debug('LayoutComponentRendererSADirective: initializing component {{@id}}', {id: componentMetadata?.id});
                 await component.ngOnInit?.();
 
-                this.logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {@id}', {id: componentMetadata?.id});
+                this.logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {{@id}}', {id: componentMetadata?.id});
                 component.invalidateVisuals();
                 this.ɵComponentRef?.changeDetectorRef.markForCheck();
 
@@ -232,7 +232,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
     {
         if(this.ɵComponentRef)
         {
-            this.logger?.debug('LayoutComponentRendererSADirective: destroying component {@id}', {id: this.componentMetadata?.id, designer: this.disableTransformer});
+            this.logger?.debug('LayoutComponentRendererSADirective: destroying component {{@id}}', {id: this.componentMetadata?.id, designer: this.disableTransformer});
     
             this.ɵComponentRef?.destroy();
             this.ɵComponentRef = null;

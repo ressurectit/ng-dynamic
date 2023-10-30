@@ -3,7 +3,7 @@ import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, getJ
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {isPresent} from '@jscrpt/common';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {ValueRelationsOptions} from '../value.options';
 

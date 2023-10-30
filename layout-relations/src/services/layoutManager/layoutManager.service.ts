@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Observable, Subject} from 'rxjs';
 import isEqual from 'lodash-es/isEqual';
-import {cloneDeep} from 'lodash-es';
 
 /**
  * Manager of layout metadata
@@ -53,7 +52,7 @@ export class LayoutManager
             return;
         }
     
-        this._layout = cloneDeep(layout);
+        this._layout = layout;
         this._layoutChange.next();
     }
 }

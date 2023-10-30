@@ -5,7 +5,7 @@ import {RouterModule} from '@angular/router';
 import {ModuleRoutes} from '@anglr/common/router';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
 import {NgSelectModule} from '@anglr/select';
-import {GoBackModule} from '@anglr/common';
+import {GoBackSADirective} from '@anglr/common';
 import {DynamicLayoutRelationsEditorModule} from '@anglr/dynamic/layout-relations';
 import {ShowRelationsDebuggerSADirective} from '@anglr/dynamic/relations-debugger';
 
@@ -25,7 +25,7 @@ import {StaticInputSAComponent, StaticOutputSAComponent} from './misc';
         ReactiveFormsModule,
         RouterModule,
         NgSelectModule,
-        GoBackModule,
+        GoBackSADirective,
         DynamicLayoutRelationsEditorModule,
         DebugDataCopyClickModule,
         LoadSaveNewSAComponent,

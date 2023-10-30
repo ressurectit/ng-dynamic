@@ -5,7 +5,7 @@ import {TitledDialogService} from '@anglr/common/material';
 import {generateId} from '@jscrpt/common';
 import typings from '!!raw-loader?esModule!@anglr/dynamic/typings/transformData';
 import {languages} from 'monaco-editor';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {TransformDataRelationsEditorOptions, TransformDataRelationsOptions} from '../transformData.options';
 

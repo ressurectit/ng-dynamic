@@ -1,33 +1,47 @@
 import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Inject, OnInit} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
-import {RouterOutlet} from '@angular/router';
-import {LOGGER, Logger} from '@anglr/common';
-import {consoleAnimationTrigger} from '@anglr/common/structured-log';
-import {AppHotkeysService} from '@anglr/common/hotkeys';
+import {CommonModule, DOCUMENT} from '@angular/common';
+import {RouterModule, RouterOutlet} from '@angular/router';
+import {ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
+import {AppHotkeysService, HotkeysCheatsheetSAComponent} from '@anglr/common/hotkeys';
 import {fadeInOutTrigger} from '@anglr/animations';
+import {InternalServerErrorModule} from '@anglr/error-handling';
+import {NotificationsGlobalModule} from '@anglr/notifications';
 import {nameof} from '@jscrpt/common';
 import {TranslateService} from '@ngx-translate/core';
-import {Hotkey} from 'angular2-hotkeys';
 import {Subscription} from 'rxjs';
+import {Hotkey} from 'angular2-hotkeys';
 
 import {loaderTrigger, routeAnimationTrigger} from './app.component.animations';
 import {SettingsService} from '../services/settings';
 import {SettingsGeneral, SettingsDebug} from '../config';
 import version from '../../config/version.json';
+import {MenuModule} from '../modules';
 
 /**
  * Application entry component
  */
 @Component(
-{
+    {
     selector: 'app',
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.scss'],
+    standalone: true,
+    imports:
+    [
+        CommonModule,
+        RouterModule,
+        InternalServerErrorModule,
+        ProgressIndicatorModule,
+        NotificationsGlobalModule,
+        MenuModule,
+        ConsoleSAComponent,
+        HotkeysCheatsheetSAComponent,
+    ],
     animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger, loaderTrigger],
     providers: [AppHotkeysService],
     changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class AppComponent implements OnInit, AfterViewInit, OnDestroy
+    })
+export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
 {
     //######################### private fields #########################
     

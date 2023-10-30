@@ -2,7 +2,7 @@ import {FactoryProvider, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import {GoBackModule} from '@anglr/common';
+import {GoBackSADirective} from '@anglr/common';
 import {ModuleRoutes} from '@anglr/common/router';
 import {MetadataStorage} from '@anglr/dynamic';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
@@ -27,7 +27,7 @@ import {LoadSaveNewSAComponent} from '../../components';
         NgSelectModule,
         LayoutComponentRendererSADirective,
         RouterModule,
-        GoBackModule,
+        GoBackSADirective,
         DynamicLayoutRelationsEditorModule,
         DebugDataCopyClickModule,
         LoadSaveNewSAComponent,

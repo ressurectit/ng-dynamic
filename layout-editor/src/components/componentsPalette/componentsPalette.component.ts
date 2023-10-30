@@ -198,7 +198,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
 
                 if(!metadata)
                 {
-                    this.logger?.warn('ComponentsPaletteSAComponent: Failed to obtain layout editor metadata {@source}', itemSource);
+                    this.logger?.warn('ComponentsPaletteSAComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
                 }
                 else
                 {

@@ -29,7 +29,7 @@ export class StaticComponentsRelationsTypesProvider implements DynamicModuleProv
             return null;
         }
 
-        this._logger?.debug('StaticComponentsRelationsTypesProvider: trying to get relations types {@item}', {name: source.name, package: source.package});
+        this._logger?.debug('StaticComponentsRelationsTypesProvider: trying to get relations types {{@item}}', {item: {name: source.name, package: source.package}});
 
         const types = this._componentsRegister.types;
 

@@ -25,7 +25,7 @@ export class FormComponentControlSAPipe implements PipeTransform
 
         if (!control)
         {
-            this._logger?.warn('FormComponentControlSAPipe: Unable to find control with name {@name}', {name: controlName});
+            this._logger?.warn('FormComponentControlSAPipe: Unable to find control with name {{@name}}', {name: controlName});
         }
 
         return control ?? getControlForType(defaultControlType, defaultValue);

@@ -119,7 +119,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
             return;
         }
 
-        this.logger?.debug('RelationsNodeRendererSADirective: rendering node {@id}', {id: this.componentMetadata?.id});
+        this.logger?.debug('RelationsNodeRendererSADirective: rendering node {{@id}}', {id: this.componentMetadata?.id});
 
         this.ngOnDestroy();
         this.viewContainerRef.clear();
@@ -131,7 +131,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
 
             if(!layoutComponentType)
             {
-                this.logger?.warn('RelationsNodeRendererSADirective: Unable to find relations node type {@type}', {name: this.componentMetadata.name, package: this.componentMetadata.package});
+                this.logger?.warn('RelationsNodeRendererSADirective: Unable to find relations node type {{@type}}', {type: {name: this.componentMetadata.name, package: this.componentMetadata.package}});
 
                 switch(this.options?.missingNodeBehavior)
                 {
@@ -170,7 +170,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
                                                                           injector: this.viewContainerRef.injector,
                                                                       }) as ComponentRef<TComponent>;
 
-            this.logger?.debug('RelationsNodeRendererSADirective: node rendered {@id}', {id: this.componentMetadata?.id});
+            this.logger?.debug('RelationsNodeRendererSADirective: node rendered {{@id}}', {id: this.componentMetadata?.id});
 
             if(this.component)
             {
@@ -178,7 +178,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
 
                 this.destroySubscription = node.destroy.subscribe(() => this.ngOnDestroy());
 
-                this.logger?.debug('RelationsNodeRendererSADirective: initializing node with metadata {@id}', {id: this.componentMetadata?.id});
+                this.logger?.debug('RelationsNodeRendererSADirective: initializing node with metadata {{@id}}', {id: this.componentMetadata?.id});
                 node.metadata = this.componentMetadata;
                 node.zoomLevel = this.zoomLevel;
 
@@ -190,7 +190,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
                 node.ngOnChanges(chngs);
                 await node.initialize();
 
-                this.logger?.debug('RelationsNodeRendererSADirective: invalidating node visuals {@id}', {id: this.componentMetadata?.id});
+                this.logger?.debug('RelationsNodeRendererSADirective: invalidating node visuals {{@id}}', {id: this.componentMetadata?.id});
                 node.invalidateVisuals();
                 this.componentRef.changeDetectorRef.markForCheck();
 
@@ -212,7 +212,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
 
         if(this.componentRef)
         {
-            this.logger?.debug('RelationsNodeRendererSADirective: destroying node {@id}', {id: this.componentMetadata?.id});
+            this.logger?.debug('RelationsNodeRendererSADirective: destroying node {{@id}}', {id: this.componentMetadata?.id});
     
             if(this.component)
             {

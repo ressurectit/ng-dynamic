@@ -339,7 +339,7 @@ export class PlaceholderHandler<TOptions = unknown>
         }
         while((handler = handler.parent));
 
-        this.logger.error('PlaceholderHandler: unable to find owning custom component for {@id}', this.id);
+        this.logger.error('PlaceholderHandler: unable to find owning custom component for {{@id}}', {id: this.id});
 
         return null;
     }

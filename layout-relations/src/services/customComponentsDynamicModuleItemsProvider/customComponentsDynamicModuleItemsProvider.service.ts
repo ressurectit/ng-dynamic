@@ -29,7 +29,7 @@ export class CustomComponentsDynamicModuleItemsProvider implements DynamicModule
             return null;
         }
 
-        this._logger?.debug('CustomComponentsDynamicModuleItemsProvider: trying to get node {@item}', {name: source.name, package: source.package});
+        this._logger?.debug('CustomComponentsDynamicModuleItemsProvider: trying to get node {{@item}}', {item: {name: source.name, package: source.package}});
 
         switch(source.name)
         {

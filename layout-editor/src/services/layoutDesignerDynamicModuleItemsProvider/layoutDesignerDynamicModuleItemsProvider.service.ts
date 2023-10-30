@@ -28,7 +28,7 @@ export class LayoutDesignerDynamicModuleItemsProvider implements DynamicModulePr
 
         try
         {
-            this._logger?.debug('LayoutDesignerDynamicModuleItemsProvider: trying to get item {@item}', {name: source.name, package: source.package});
+            this._logger?.debug('LayoutDesignerDynamicModuleItemsProvider: trying to get item {{@item}}', {item: {name: source.name, package: source.package}});
 
             if(source.name == 'layout-designer')
             {
@@ -37,10 +37,10 @@ export class LayoutDesignerDynamicModuleItemsProvider implements DynamicModulePr
         }
         catch(e)
         {
-            this._logger?.warn('LayoutDesignerDynamicModuleItemsProvider: item {@item} was not found, reason:' + e, {name: source.name, package: source.package});
+            this._logger?.warn('LayoutDesignerDynamicModuleItemsProvider: item {{@item}} was not found, reason:' + e, {item: {name: source.name, package: source.package}});
         }
 
-        this._logger?.debug('LayoutDesignerDynamicModuleItemsProvider: item {@item} was not found', {name: source.name, package: source.package});
+        this._logger?.debug('LayoutDesignerDynamicModuleItemsProvider: item {{@item}} was not found', {item: {name: source.name, package: source.package}});
 
         return null;
     }

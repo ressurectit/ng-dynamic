@@ -14,7 +14,6 @@
     //############## PACKAGES ##############
 
     @include dynamic.buildThemeCss;
-    @include meta.load-css('../../../node_modules/@anglr/common/styles/light');
 
     //############## BLOCKS ##############
     

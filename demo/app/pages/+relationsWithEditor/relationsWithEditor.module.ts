@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {GoBackModule} from '@anglr/common';
+import {GoBackSADirective} from '@anglr/common';
 import {ModuleRoutes} from '@anglr/common/router';
 import {DynamicRelationsModule} from '@anglr/dynamic/relations';
 import {DynamicRelationsEditorModule} from '@anglr/dynamic/relations-editor';
@@ -17,7 +17,7 @@ import {createStoreDataServiceFactory} from '../../misc/factories';
     imports:
     [
         RouterModule,
-        GoBackModule,
+        GoBackSADirective,
         DynamicRelationsModule,
         DynamicRelationsEditorModule,
         RelationsSampleClickSAComponent,

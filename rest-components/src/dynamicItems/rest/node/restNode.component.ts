@@ -5,7 +5,7 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
 import {TitledDialogService} from '@anglr/common/material';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 import {extend} from '@jscrpt/common';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {ConfigureRestParameterData, ConfigureRestParameterSAComponent} from '../misc/components';
 import {RestRelationsOptions} from '../rest.options';

@@ -175,7 +175,7 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
            !this.relationsOptions.method ||
            !this.relationsOptions.url)
         {
-            this.logger.warn('RestRelations: missing options for craeting http request {@data}', this.relationsOptions);
+            this.logger.warn('RestRelations: missing options for craeting http request {{@data}}', {data: this.relationsOptions});
 
             return;
         }

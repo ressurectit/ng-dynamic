@@ -7,7 +7,7 @@ import {TitledDialogService} from '@anglr/common/material';
 import {generateId} from '@jscrpt/common';
 import typings from '!!raw-loader?esModule!@anglr/dynamic/typings/state';
 import {languages} from 'monaco-editor';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {StateRelationsEditorOptions, StateRelationsInputFunctionData, StateRelationsOptions} from '../state.options';
 

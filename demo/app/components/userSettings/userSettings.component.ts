@@ -1,7 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormGroup, FormBuilder} from '@angular/forms';
-import {DebugDataEnabledService} from '@anglr/common';
-import {ConsoleSinkConfigService} from '@anglr/common/structured-log';
+import {DebugDataEnabledService, LogLevel} from '@anglr/common';
 import {ValueNamePair} from '@jscrpt/common';
 import {LogEventLevel} from 'structured-log';
 
@@ -102,7 +101,6 @@ export class UserSettingsSAComponent
     //######################### constructors #########################
     constructor(settingsSvc: SettingsService,
                 formBuilder: FormBuilder,
-                consoleConfig: ConsoleSinkConfigService,
                 debugDataEnabled: DebugDataEnabledService)
     {
         const settings = settingsSvc.settings;
@@ -142,14 +140,12 @@ export class UserSettingsSAComponent
 
             settingsSvc.setDebuggingSettings(debugSettings);
         });
-        
+
         this.loggingSettingsForm.valueChanges.subscribe((loggingSettings: SettingsLoggingEnum) =>
         {
-            consoleConfig.restrictToLevel = +loggingSettings.consoleLogLevel;
-
             settingsSvc.setLoggingSettings(
             {
-                consoleLogLevel: LogEventLevel[+loggingSettings.consoleLogLevel],
+                consoleLogLevel: LogLevel[+loggingSettings.consoleLogLevel],
             });
         });
     }

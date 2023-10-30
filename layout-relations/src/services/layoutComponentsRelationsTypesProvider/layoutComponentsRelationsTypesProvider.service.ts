@@ -31,7 +31,7 @@ export class LayoutComponentsRelationsTypesProvider implements DynamicModuleProv
             return null;
         }
 
-        this._logger?.debug('LayoutComponentsRelationsTypesProvider: trying to get relations types {@item}', {name: source.name, package: source.package});
+        this._logger?.debug('LayoutComponentsRelationsTypesProvider: trying to get relations types {{@item}}', {item: {name: source.name, package: source.package}});
 
         const types = await this._componentsRegister.types;
 

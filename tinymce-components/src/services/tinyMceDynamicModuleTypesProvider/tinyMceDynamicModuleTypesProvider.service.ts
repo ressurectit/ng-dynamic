@@ -22,7 +22,7 @@ export class TinyMceDynamicModuleTypesProvider implements DynamicModuleProvider
     {
         try
         {
-            this._logger?.debug('TinyMceDynamicModuleTypesProvider: trying to get types for module {@module}', {moduleName: source.package});
+            this._logger?.debug('TinyMceDynamicModuleTypesProvider: trying to get types for module {{@module}}', {module: {moduleName: source.package}});
 
             switch(source.package)
             {
@@ -34,7 +34,7 @@ export class TinyMceDynamicModuleTypesProvider implements DynamicModuleProvider
         }
         catch(e)
         {
-            this._logger?.debug('TinyMceDynamicModuleTypesProvider: module {@module} was not found, reason: ' + e, {moduleName: source.package});
+            this._logger?.debug('TinyMceDynamicModuleTypesProvider: module {{@module}} was not found, reason: ' + e, {module: {moduleName: source.package}});
         }
 
         return null;

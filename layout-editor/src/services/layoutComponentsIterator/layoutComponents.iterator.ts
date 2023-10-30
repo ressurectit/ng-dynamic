@@ -118,7 +118,7 @@ export class LayoutComponentsIterator<TOptions = any>
 
         if(!def)
         {
-            this.logger?.debug('LayoutComponentsIterator: failed to get dynamic component type for iterator! {@data}', {package: metadata.package, name: metadata.name});
+            this.logger?.debug('LayoutComponentsIterator: failed to get dynamic component type for iterator! {{@data}}', {data: {package: metadata.package, name: metadata.name}});
 
             return;
         }

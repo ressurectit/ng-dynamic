@@ -75,7 +75,8 @@ export class StyleBlockSAComponent extends LayoutComponentBase<StyleBlockCompone
                 prefixer(
                 {
                     prefix: `style-block#${this.id}`,
-                })(root);
+                })(root as any);
+                //TODO check postcss and remove any
             });
     }
 

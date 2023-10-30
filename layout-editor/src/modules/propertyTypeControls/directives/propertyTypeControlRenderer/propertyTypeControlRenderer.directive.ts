@@ -57,7 +57,7 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
     public async ngOnChanges(): Promise<void>
     {
         const typeName = this.typeName ?? 'inputString';
-        this._logger?.debug('PropertyTypeControlRendererDirective: rendering property type control {@type}', {type: typeName});
+        this._logger?.debug('PropertyTypeControlRendererDirective: rendering property type control {{@type}}', {type: typeName});
 
         this.ngOnDestroy();
         this._viewContainerRef.clear();
@@ -70,7 +70,7 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
 
             if(!type)
             {
-                this._logger?.error('PropertyTypeControlRendererDirective: unable to find property type control {@type}', {type: typeName});
+                this._logger?.error('PropertyTypeControlRendererDirective: unable to find property type control {{@type}}', {type: typeName});
 
                 throw new Error(`unable to find property type control ${typeName}`);
             }
@@ -101,7 +101,7 @@ export class PropertyTypeControlRendererDirective<TComponent extends PropertyTyp
     {
         if(this._componentRef)
         {
-            this._logger?.debug('PropertyTypeControlRendererDirective: destroying property type control {@type}', {type: this.typeName ?? 'inputString'});
+            this._logger?.debug('PropertyTypeControlRendererDirective: destroying property type control {{@type}}', {type: this.typeName ?? 'inputString'});
     
             this._componentRef?.destroy();
             this._componentRef = null;

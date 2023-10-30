@@ -26,7 +26,7 @@ export class CustomComponentsDynamicModuleRelationsProvider implements DynamicMo
             return null;
         }
 
-        this._logger?.debug('CustomComponentsDynamicModuleRelationsProvider: trying to get relations types {@item}', {name: source.name, package: source.package});
+        this._logger?.debug('CustomComponentsDynamicModuleRelationsProvider: trying to get relations types {{@item}}', {item: {name: source.name, package: source.package}});
 
         return {
             default: [

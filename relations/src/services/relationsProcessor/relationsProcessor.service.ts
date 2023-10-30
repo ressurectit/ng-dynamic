@@ -148,7 +148,7 @@ export class RelationsProcessor implements OnDestroy
      */
     public updateRelations(id: string): void
     {
-        this.logger?.debug('RelationsProcessor: Updating relations for {@id}', {id});
+        this.logger?.debug('RelationsProcessor: Updating relations for {{@id}}', {id});
 
         const relations: RelationsProcessorComponentData = this.relations[id];
         const backwardRelations = this.backwardRelations[id];
@@ -157,7 +157,7 @@ export class RelationsProcessor implements OnDestroy
         //this component has no relations
         if(!relations || !components)
         {
-            this.logger?.warn('RelationsProcessor: No relations for {@id}', {id});
+            this.logger?.warn('RelationsProcessor: No relations for {{@id}}', {id});
 
             return;
         }
@@ -194,14 +194,15 @@ export class RelationsProcessor implements OnDestroy
                         inputComponents = [inputComponents];
                     }
 
-                    this.logger?.verbose('RelationsProcessor: processing input outputs {@data} ', {id, inputOutput, inputComponents, components});
+                    //TODO revise log output
+                    this.logger?.verbose('RelationsProcessor: processing input outputs {{@data}} ', {data: {id, inputOutput}});
 
                     const outputObservable = (outputComponent as any)[`${inputOutput.outputName}Change`] as Observable<any>;
 
                     //check whether is observable output
                     if(!(outputObservable instanceof Observable))
                     {
-                        this.logger?.warn('RelationsProcessor: Output on component {@data} is not observable', inputOutput);
+                        this.logger?.warn('RelationsProcessor: Output on component {{@data}} is not observable', {data: inputOutput});
 
                         continue;
                     }
@@ -213,7 +214,7 @@ export class RelationsProcessor implements OnDestroy
 
                         if(!inputs)
                         {
-                            this.logger?.warn('RelationsProcessor: Missing input components {@data} on output change', inputOutput);
+                            this.logger?.warn('RelationsProcessor: Missing input components {{@data}} on output change', {data: inputOutput});
 
                             return;
                         }
@@ -231,7 +232,7 @@ export class RelationsProcessor implements OnDestroy
 
                     if(!inputComponents || !Array.isArray(inputComponents))
                     {
-                        this.logger?.warn('RelationsProcessor: Missing input components {@data}', inputOutput);
+                        this.logger?.warn('RelationsProcessor: Missing input components {{@data}}', {data: inputOutput});
 
                         continue;
                     }
@@ -388,7 +389,7 @@ export class RelationsProcessor implements OnDestroy
 
         if(!relations || !components)
         {
-            this.logger?.warn('RelationsProcessor: No relations for {@id}', {id});
+            this.logger?.warn('RelationsProcessor: No relations for {{@id}}', {id});
 
             return delayed ? transfers : null;
         }
@@ -415,7 +416,7 @@ export class RelationsProcessor implements OnDestroy
 
                     if(!inputComponents || !Array.isArray(inputComponents))
                     {
-                        this.logger?.warn('RelationsProcessor: Missing input components {@data}', inputOutput);
+                        this.logger?.warn('RelationsProcessor: Missing input components {{@data}}', {data: inputOutput});
 
                         continue;
                     }
@@ -511,21 +512,21 @@ export class RelationsProcessor implements OnDestroy
 
         if(!backwardRelations)
         {
-            this.logger?.warn('RelationsProcessor: No backward relations for {@id}', {id});
+            this.logger?.warn('RelationsProcessor: No backward relations for {{@id}}', {id});
 
             return delayed ? new RelationsDataTransferInstructionImpl([]) : null;
         }
 
         if(!inputComponent)
         {
-            this.logger?.warn('RelationsProcessor: Missing input components for {@id}', {id});
+            this.logger?.warn('RelationsProcessor: Missing input components for {{@id}}', {id});
 
             return delayed ? new RelationsDataTransferInstructionImpl([]) : null;
         }
 
         if(Array.isArray(inputComponent))
         {
-            this.logger?.error('RelationsProcessor: Only one component must be available for id {@id}', {id});
+            this.logger?.error('RelationsProcessor: Only one component must be available for id {{@id}}', {id});
 
             return delayed ? new RelationsDataTransferInstructionImpl([]) : null;
         }
@@ -545,7 +546,7 @@ export class RelationsProcessor implements OnDestroy
 
             if((Array.isArray(outputComponent)))
             {
-                this.logger?.error('RelationsProcessor: Only one output component must be available for id {@id}', {id});
+                this.logger?.error('RelationsProcessor: Only one output component must be available for id {{@id}}', {id});
 
                 continue;
             }
@@ -674,7 +675,7 @@ export class RelationsProcessor implements OnDestroy
         if((isBlank(outputComponents) || Array.isArray(outputComponents) && !outputComponents.length) ||
            (isBlank(inputComponents) || Array.isArray(inputComponents) && !inputComponents.length))
         {
-            this.logger?.warn('RelationsProcessor: missing metadata for backward relations {@data}', inputOutput);
+            this.logger?.warn('RelationsProcessor: missing metadata for backward relations {{@data}}', {data: inputOutput});
 
             return;
         }
@@ -771,7 +772,7 @@ export class RelationsProcessor implements OnDestroy
         {
             this.initRelation(false, meta, outputs, null, null);
 
-            this.logger?.warn('RelationsProcessor: Unable to load relations component! {@meta}', {package: meta.package, name: meta.name});
+            this.logger?.warn('RelationsProcessor: Unable to load relations component! {{@meta}}', {meta: {package: meta.package, name: meta.name}});
 
             return;
         }

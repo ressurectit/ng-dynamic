@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 import {TitledDialogService} from '@anglr/common/material';
 import {LayoutEditorMetadataExtractor, PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
 import {isPresent} from '@jscrpt/common';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {RichTextBlockEditorDialogSAComponent} from '../richTextBlockEditorDialog/richTextBlockEditorDialog.component';
 import {RichTextBlockComponentOptions} from '../../../richTextBlock.options';

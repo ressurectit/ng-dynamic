@@ -57,7 +57,7 @@ export class PropertiesControlRendererDirective<TComponent extends PropertiesCon
      */
     public async ngOnChanges(): Promise<void>
     {
-        this._logger?.debug('PropertiesControlRendererDirective: rendering properties control {@type}', {type: this.type?.name});
+        this._logger?.debug('PropertiesControlRendererDirective: rendering properties control {{@type}}', {type: this.type?.name});
 
         this.ngOnDestroy();
         this._viewContainerRef.clear();
@@ -93,7 +93,7 @@ export class PropertiesControlRendererDirective<TComponent extends PropertiesCon
     {
         if(this._componentRef)
         {
-            this._logger?.debug('PropertiesControlRendererDirective: destroying properties control {@type}', {type: this.type?.name});
+            this._logger?.debug('PropertiesControlRendererDirective: destroying properties control {{@type}}', {type: this.type?.name});
     
             this._componentRef?.destroy();
             this._componentRef = null;

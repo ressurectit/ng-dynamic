@@ -26,7 +26,7 @@ export class CssDynamicModuleItemsProvider implements DynamicModuleProvider
             {
                 try
                 {
-                    this._logger?.debug('CssDynamicModuleItemsProvider: trying to get item {@item}', {name: source.name, package: source.package});
+                    this._logger?.debug('CssDynamicModuleItemsProvider: trying to get item {{@item}}', {item: {name: source.name, package: source.package}});
 
                     const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type`);
 
@@ -34,7 +34,7 @@ export class CssDynamicModuleItemsProvider implements DynamicModuleProvider
                 }
                 catch(e)
                 {
-                    this._logger?.debug('CssDynamicModuleItemsProvider: item {@item} was not found, reason: ' + e, {name: source.name, package: source.package});
+                    this._logger?.debug('CssDynamicModuleItemsProvider: item {{@item}} was not found, reason: ' + e, {item: {name: source.name, package: source.package}});
                 }
 
                 break;

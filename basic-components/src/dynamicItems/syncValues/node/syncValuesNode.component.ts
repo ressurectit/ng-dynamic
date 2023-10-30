@@ -5,7 +5,7 @@ import {TitledDialogService} from '@anglr/common/material';
 import {FormModelBuilder, FormModelGroup, NumberInputModule} from '@anglr/common/forms';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {extend, isPresent} from '@jscrpt/common';
-import {lastValueFrom} from 'rxjs';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {SyncValuesRelationsOptions} from '../syncValues.options';
 import {SyncValuesRelationsOptionsModel} from './syncValuesNode.model';

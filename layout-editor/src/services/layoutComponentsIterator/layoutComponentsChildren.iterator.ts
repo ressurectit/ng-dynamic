@@ -87,7 +87,7 @@ export class LayoutComponentsChildrenIterator<TOptions = any>
 
         if(!def)
         {
-            this.logger?.debug('LayoutComponentsChildrenIterator: failed to get dynamic component type for children iterator! {@data}', {package: metadata.package, name: metadata.name});
+            this.logger?.debug('LayoutComponentsChildrenIterator: failed to get dynamic component type for children iterator! {{@data}}', {data: {package: metadata.package, name: metadata.name}});
 
             return;
         }

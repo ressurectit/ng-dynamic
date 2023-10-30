@@ -29,7 +29,7 @@ export class CustomComponentsDynamicModuleTypesProvider implements DynamicModule
             return null;
         }
 
-        this._logger?.debug('CustomComponentsDynamicModuleTypesProvider: trying to get relations types {@item}', {name: source.name, package: source.package});
+        this._logger?.debug('CustomComponentsDynamicModuleTypesProvider: trying to get relations types {{@item}}', {item: {name: source.name, package: source.package}});
 
         const types = await this._componentsRegister.getRegisteredComponents();
 

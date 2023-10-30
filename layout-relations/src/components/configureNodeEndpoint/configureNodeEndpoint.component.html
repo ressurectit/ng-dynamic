@@ -1,26 +1,26 @@
 <div [formGroup]="form">
     <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
-        <label class="dynamic-control-label dynamic-text-uppercase">name</label>
+        <label class="dynamic-control-label dynamic-text-uppercase">{{'name'|firstUppercaseLocalize}}</label>
         <input type="text" class="dynamic-form-control" formControlName="name">
     </div>
 
     <div class="dynamic-form-group dynamic-margin-bottom-extra-small" *ngIf="data.allowSkipInit">
-        <label class="dynamic-control-label dynamic-text-uppercase"><input type="checkbox" formControlName="skipInit"> skip init </label>
+        <label class="dynamic-control-label dynamic-text-uppercase"><input type="checkbox" formControlName="skipInit"> {{'skip init'|firstUppercaseLocalize}} </label>
     </div>
 
     <div class="dynamic-flex-column dynamic-margin-bottom-extra-small" *ngIf="!data.noDefaultValue">
         <button type="button" class="dynamic-btn dynamic-btn-primary dynamic-align-self-center" (click)="showCodeEditor()">
-            <span>default value</span>
+            <span>{{'default value'|firstUppercaseLocalize}}</span>
         </button>
     </div>
 </div>
 
 <div class="dynamic-flex-row dynamic-flex-end">
     <button type="button" class="dynamic-btn dynamic-btn-info dynamic-margin-right-extra-small" [mat-dialog-close]="null">
-        <span>cancel</span>
+        <span>{{'cancel'|firstUppercaseLocalize}}</span>
     </button>
 
     <button type="button" class="dynamic-btn dynamic-btn-primary" [mat-dialog-close]="true">
-        <span>ok</span>
+        <span>{{'ok'|firstUppercaseLocalize}}</span>
     </button>
 </div>

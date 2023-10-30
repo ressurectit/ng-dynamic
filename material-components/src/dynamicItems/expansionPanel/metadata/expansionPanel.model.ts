@@ -31,7 +31,7 @@ export class MaterialExpansionPanelModel implements MaterialExpansionPanelCompon
      * @inheritdoc
      */
     @LayoutPropertyName('Description')
-    @LayoutPropertyDescription('Text to be displayed as ddescription title')
+    @LayoutPropertyDescription('Text to be displayed as description title')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
     public description: string|undefined|null = null;
 

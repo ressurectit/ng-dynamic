@@ -1,21 +1,21 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="match"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'match'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="value" [parent]="this"></relation-node-input>
-                <div>value</div>
+                <div>{{'value'|firstUppercaseLocalize}}</div>
             </div>
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="valueToMatch" [parent]="this"></relation-node-input>
-                <div>value to match</div>
+                <div>{{'value to match'|firstUppercaseLocalize}}</div>
             </div>
         </div>
 
         <div class="outputs">
             <div class="output">
-                <div>result</div>
+                <div>{{'result'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="result" [parent]="this"></relation-node-output>
             </div>
         </div>

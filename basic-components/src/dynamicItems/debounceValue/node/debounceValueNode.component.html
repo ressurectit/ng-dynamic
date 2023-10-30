@@ -1,8 +1,8 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="debounce value"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'debounce value'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="dynamic-form-group dynamic-margin-bottom-extra-small dynamic-margin-bottom-small">
-        <label class="dynamic-control-label dynamic-text-uppercase">debounce time</label>
+        <label class="dynamic-control-label dynamic-text-uppercase">{{'debounce time'|firstUppercaseLocalize}}</label>
         <input type="text" class="dynamic-form-control" [formControl]="debounceTime" number required>
     </div>
 
@@ -10,13 +10,13 @@
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="value" [parent]="this"></relation-node-input>
-                <div>value</div>
+                <div>{{'value'|firstUppercaseLocalize}}</div>
             </div>
         </div>
 
         <div class="outputs">
             <div class="output">
-                <div>value</div>
+                <div>{{'value'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="value" [parent]="this"></relation-node-output>
             </div>
         </div>

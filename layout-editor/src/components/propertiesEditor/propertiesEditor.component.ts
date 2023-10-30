@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Optional, Type, SimpleChanges} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {Logger, LOGGER, PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
+import {Logger, LOGGER, PermanentStorage, PERMANENT_STORAGE, FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {FormModelBuilder} from '@anglr/common/forms';
 import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
@@ -71,6 +71,7 @@ interface PropertiesEditorData
         ReactiveFormsModule,
         PropertiesControlsModule,
         WidthResizerSADirective,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

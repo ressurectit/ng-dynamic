@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
-import {Logger, LOGGER} from '@anglr/common';
+import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, nameof, WithSync} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
@@ -24,6 +24,7 @@ import {LayoutDndCoreModule} from '../../modules';
         CommonModule,
         LayoutDndCoreModule,
         ToLayoutDragDataSAPipe,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

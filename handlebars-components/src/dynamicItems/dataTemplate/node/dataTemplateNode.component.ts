@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {HandlebarsLanguageModel, CodeEditorDialogData, CodeEditorDialogComponent, CodeEditorContent} from '@anglr/dynamic';
@@ -21,6 +22,7 @@ import {DataTemplateRelationsOptions} from '../dataTemplate.options';
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

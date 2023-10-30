@@ -1,8 +1,8 @@
 <div class="dynamic-form-group" [formGroup]="form">
-    <label class="dynamic-control-label">display name</label>
+    <label class="dynamic-control-label">{{'display name'|firstUppercaseLocalize}}</label>
     <input class="dynamic-form-control" type="text" formControlName="displayName">
 
-    <label class="dynamic-control-label">scope</label>
+    <label class="dynamic-control-label">{{'scope'|firstUppercaseLocalize}}</label>
     <input class="dynamic-form-control" type="text" formControlName="scope" [readonly]="true" *ngIf="!data.scopeConfigurable">
 
     <select class="dynamic-form-control" formControlName="scope" *ngIf="data.scopeConfigurable">
@@ -13,10 +13,10 @@
 
 <div class="dynamic-flex-row dynamic-flex-end dynamic-margin-top-small">
     <button type="button" class="dynamic-btn dynamic-btn-info dynamic-margin-right-extra-small" [mat-dialog-close]="null">
-        <span>cancel</span>
+        <span>{{'cancel'|firstUppercaseLocalize}}</span>
     </button>
 
     <button type="button" class="dynamic-btn dynamic-btn-primary" [mat-dialog-close]="form.value">
-        <span>ok</span>
+        <span>{{'ok'|firstUppercaseLocalize}}</span>
     </button>
 </div>

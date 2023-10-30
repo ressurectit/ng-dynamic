@@ -2,6 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {Subscription} from 'rxjs';
 
 import {DragActiveService, LayoutEditorMetadataManager} from '../../services';
@@ -21,6 +22,7 @@ import {DndBusService} from '../../modules';
         CommonModule,
         MatButtonModule,
         ComponentsTreeItemSAComponent,
+        FirstUppercaseLocalizeSAPipe,
     ],
     providers:
     [

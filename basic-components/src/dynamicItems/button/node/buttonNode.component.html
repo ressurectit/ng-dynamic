@@ -5,13 +5,13 @@
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="disabled" [parent]="this"></relation-node-input>
-                <div>disabled</div>
+                <div>{{'disabled'|firstUppercaseLocalize}}</div>
             </div>
         </div>
 
         <div class="outputs">
             <div class="output">
-                <div>click</div>
+                <div>{{'click'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="click" [parent]="this"></relation-node-output>
             </div>
         </div>

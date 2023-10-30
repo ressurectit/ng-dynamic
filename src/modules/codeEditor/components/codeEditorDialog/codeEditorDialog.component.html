@@ -2,10 +2,10 @@
 
 <div class="dynamic-flex-row dynamic-flex-end dynamic-margin-top-extra-small">
     <button type="button" class="dynamic-btn dynamic-btn-info dynamic-margin-right-extra-small" type="button" [mat-dialog-close]="null">
-        <span>cancel</span>
+        <span>{{'cancel'|firstUppercaseLocalize}}</span>
     </button>
 
     <button type="button" class="dynamic-btn dynamic-btn-primary" type="button" (click)="saveAndClose(editor)">
-        <span>ok</span>
+        <span>{{'ok'|firstUppercaseLocalize}}</span>
     </button>
 </div>

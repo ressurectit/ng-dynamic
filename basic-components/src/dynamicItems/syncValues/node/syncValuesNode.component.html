@@ -1,17 +1,17 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="sync values"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'sync values'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content" [formGroup]="form">
     <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
-        <label class="dynamic-control-label dynamic-text-uppercase">sync on</label>
+        <label class="dynamic-control-label dynamic-text-uppercase">{{'sync on'|firstUppercaseLocalize}}</label>
         
         <select class="dynamic-form-control" formControlName="triggerSync">
-            <option [ngValue]="false">idle</option>
-            <option [ngValue]="true">trigger</option>
+            <option [ngValue]="false">{{'idle'|firstUppercaseLocalize}}</option>
+            <option [ngValue]="true">{{'trigger'|firstUppercaseLocalize}}</option>
         </select>
     </div>
 
     <div class="dynamic-form-group dynamic-margin-bottom-extra-small" *ngIf="!metadata?.relationsOptions?.triggerSync">
-        <label class="dynamic-control-label dynamic-text-uppercase">idle timeout</label>
+        <label class="dynamic-control-label dynamic-text-uppercase">{{'idle timeout'|firstUppercaseLocalize}}</label>
         <input type="text" class="dynamic-form-control" formControlName="idleTimeout" number required>
     </div>
 
@@ -38,7 +38,7 @@
 
             <div class="input" *ngIf="metadata?.relationsOptions?.triggerSync">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="trigger" [parent]="this"></relation-node-input>
-                <div>trigger</div>
+                <div>{{'trigger'|firstUppercaseLocalize}}</div>
             </div>
         </div>
 

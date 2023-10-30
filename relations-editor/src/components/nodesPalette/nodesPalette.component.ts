@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, O
 import {CommonModule} from '@angular/common';
 import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
-import {Logger, LOGGER} from '@anglr/common';
+import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, generateId, nameof, WithSync} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
@@ -29,6 +29,7 @@ import {NodesPaletteItemSAComponent} from './item/nodesPaletteItem.component';
         // LayoutEditorDragPlaceholderSAComponent,
         ToRelationsDragDataSAPipe,
         NodesPaletteItemSAComponent,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

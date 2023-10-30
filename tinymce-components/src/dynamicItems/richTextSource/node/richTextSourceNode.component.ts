@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {isPresent} from '@jscrpt/common';
@@ -20,6 +21,7 @@ import {RichTextBlockEditorDialogSAComponent} from '../../richTextBlock/misc/com
     [
         RelationsNodeHeaderSAComponent,
         RelationNodeOutputSAComponent,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

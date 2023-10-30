@@ -1,4 +1,4 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="merge"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'merge'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
@@ -7,7 +7,7 @@
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="property" [parent]="this"></relation-node-input>
 
                 <div class="dynamic-flex-row">
-                    <div>{{property}}</div>
+                    <div>{{property|firstUppercaseLocalize}}</div>
 
                     <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); rename(property)">
                         <span class="fas fa-pen"></span>
@@ -28,7 +28,7 @@
 
         <div class="outputs">
             <div class="output">
-                <div>merged object</div>
+                <div>{{'merged object'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="mergedObject" [parent]="this"></relation-node-output>
             </div>
         </div>

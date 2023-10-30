@@ -1,11 +1,11 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="state"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'state'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="initState" [parent]="this"></relation-node-input>
-                <div>init state</div>
+                <div>{{'init state'|firstUppercaseLocalize}}</div>
             </div>
 
             <div class="input" *ngFor="let inputFunc of inputFunctions">
@@ -37,7 +37,7 @@
 
         <div class="outputs">
             <div class="output">
-                <div>state</div>
+                <div>{{'state'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="state" [parent]="this"></relation-node-output>
             </div>
         </div>

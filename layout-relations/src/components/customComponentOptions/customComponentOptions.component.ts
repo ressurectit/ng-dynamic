@@ -5,7 +5,7 @@ import {CommonModule} from '@angular/common';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
-import {TooltipModule} from '@anglr/common';
+import {FirstUppercaseLocalizeSAPipe, TooltipModule} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 
 import {CustomComponentOptionsData} from './customComponentOptions.interface';
@@ -29,6 +29,7 @@ import {CustomComponentConfiguration} from '../../services';
         GetModelSAPipe,
         PropertiesMetadataSAPipe,
         TooltipModule,
+        FirstUppercaseLocalizeSAPipe,
     ],
     providers: [FormModelBuilder],
     changeDetection: ChangeDetectionStrategy.OnPush

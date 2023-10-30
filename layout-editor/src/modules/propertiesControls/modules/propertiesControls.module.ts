@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CastPipesModule, TooltipModule} from '@anglr/common';
+import {CastPipesModule, FirstUppercaseLocalizeSAPipe, TooltipModule} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 
 import {ComponentStylingPropertiesControlComponent, DefaultGenericPropertiesControlComponent, MarginControlComponent, PaddingControlComponent} from '../components';
@@ -19,6 +19,7 @@ import {PropertiesControlRendererDirective} from '../directives';
         PropertyTypeControlsModule,
         FormPipesModule,
         CastPipesModule,
+        FirstUppercaseLocalizeSAPipe,
     ],
     declarations:
     [

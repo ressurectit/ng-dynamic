@@ -4,10 +4,11 @@ import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, Type
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
 import {TitledDialogService} from '@anglr/common/material';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 import typings from '!!raw-loader?esModule!@anglr/dynamic/typings/state';
 import {languages} from 'monaco-editor';
-import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {StateRelationsEditorOptions, StateRelationsInputFunctionData, StateRelationsOptions} from '../state.options';
 
@@ -27,6 +28,7 @@ languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modul
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
         CommonModule,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

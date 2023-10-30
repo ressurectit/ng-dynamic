@@ -1,13 +1,13 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="rest"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'rest'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content" [formGroup]="form">
     <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
-        <label class="dynamic-control-label dynamic-text-uppercase">url</label>
+        <label class="dynamic-control-label dynamic-text-uppercase">{{'url'|firstUppercaseLocalize}}</label>
         <input type="text" class="dynamic-form-control" formControlName="url">
     </div>
     
     <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
-        <label class="dynamic-control-label dynamic-text-uppercase">method</label>
+        <label class="dynamic-control-label dynamic-text-uppercase">{{'method'|firstUppercaseLocalize}}</label>
         
         <select class="dynamic-form-control" formControlName="method">
             <option value="GET">GET</option>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
-        <label class="dynamic-control-label dynamic-text-uppercase">run immediately</label>
+        <label class="dynamic-control-label dynamic-text-uppercase">{{'run immediately'|firstUppercaseLocalize}}</label>
         <input type="checkbox" class="dynamic-form-control" formControlName="runImmediately">
     </div>
 
@@ -116,12 +116,12 @@
 
         <div class="outputs">
             <div class="output">
-                <div>success</div>
+                <div>{{'success'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="success" [parent]="this"></relation-node-output>
             </div>
 
             <div class="output">
-                <div>error</div>
+                <div>{{'error'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="error" [parent]="this"></relation-node-output>
             </div>
         </div>

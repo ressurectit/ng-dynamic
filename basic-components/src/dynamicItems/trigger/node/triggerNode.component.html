@@ -1,11 +1,11 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="trigger"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'trigger'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="trigger" [parent]="this"></relation-node-input>
-                <div>trigger</div>
+                <div>{{'trigger'|firstUppercaseLocalize}}</div>
             </div>
 
             <div class="input" *ngFor="let endpoint of endpoints">

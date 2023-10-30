@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
@@ -12,6 +13,7 @@ import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent} from '
     imports:
     [
         RelationsNodeHeaderSAComponent,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

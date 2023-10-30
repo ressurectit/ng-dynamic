@@ -1,4 +1,4 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="value"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'value'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
@@ -7,13 +7,13 @@
 
         <div class="outputs">
             <div class="output">
-                <div>value</div>
+                <div>{{'value'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="value" [parent]="this"></relation-node-output>
             </div>
         </div>
     </div>
 
     <button type="button" class="dynamic-btn dynamic-btn-primary" (click)="showCodeEditor()">
-        <span>edit</span>
+        <span>{{'edit'|firstUppercaseLocalize}}</span>
     </button>
 </div>

@@ -1,23 +1,23 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="logical OR"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'logical OR'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="cond1" [parent]="this"></relation-node-input>
-                <div>cond1</div>
+                <div>{{'cond1'|firstUppercaseLocalize}}</div>
             </div>
 
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="cond2" [parent]="this"></relation-node-input>
-                <div>cond2</div>
+                <div>{{'cond2'|firstUppercaseLocalize}}</div>
             </div>
 
             <div class="input" *ngFor="let property of properties">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="property" [parent]="this"></relation-node-input>
 
                 <div class="dynamic-flex-row">
-                    <div>{{property}}</div>
+                    <div>{{property|firstUppercaseLocalize}}</div>
 
                     <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeProperty(property)">
                         <span class="fas fa-times"></span>
@@ -34,7 +34,7 @@
 
         <div class="outputs">
             <div class="output">
-                <div>result</div>
+                <div>{{'result'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="result" [parent]="this"></relation-node-output>
             </div>
         </div>

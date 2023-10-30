@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {MatDialogModule} from '@angular/material/dialog';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 
 import {CodeEditorComponent, CodeEditorDialogComponent} from '../components';
 
@@ -11,6 +12,7 @@ import {CodeEditorComponent, CodeEditorDialogComponent} from '../components';
     imports:
     [
         MatDialogModule,
+        FirstUppercaseLocalizeSAPipe
     ],
     declarations:
     [

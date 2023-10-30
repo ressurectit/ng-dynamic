@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {LayoutEditorMetadataExtractor, PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
 import {generateId} from '@jscrpt/common';
@@ -19,6 +20,7 @@ import {MaterialTabGroupComponentOptions} from '../../../tabGroup.options';
     [
         CommonModule,
         ReactiveFormsModule,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

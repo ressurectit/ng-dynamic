@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 import {extend} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
@@ -28,6 +29,7 @@ import {RestRelationsOptionsModel} from './restNode.model';
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
+        FirstUppercaseLocalizeSAPipe
     ],
     providers:
     [

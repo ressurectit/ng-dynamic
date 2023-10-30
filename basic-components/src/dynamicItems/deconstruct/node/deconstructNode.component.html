@@ -1,11 +1,11 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="deconstruct"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'deconstruct'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="object" [parent]="this"></relation-node-input>
-                <div>object</div>
+                <div>{{'object'|firstUppercaseLocalize}}</div>
             </div>
         </div>
 

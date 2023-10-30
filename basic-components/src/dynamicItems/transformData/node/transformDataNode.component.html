@@ -1,23 +1,23 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="transform data"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'transform data'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="data" [parent]="this"></relation-node-input>
-                <div>data</div>
+                <div>{{'data'|firstUppercaseLocalize}}</div>
             </div>
         </div>
 
         <div class="outputs">
             <div class="output">
-                <div>transformed data</div>
+                <div>{{'transformed data'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="transformedData" [parent]="this"></relation-node-output>
             </div>
         </div>
     </div>
 
     <button type="button" class="dynamic-btn dynamic-btn-primary" (click)="showCodeEditor()">
-        <span>code</span>
+        <span>{{'code'|firstUppercaseLocalize}}</span>
     </button>
 </div>

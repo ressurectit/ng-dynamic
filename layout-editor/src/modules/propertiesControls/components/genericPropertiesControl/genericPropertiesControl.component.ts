@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, Type} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {TooltipModule} from '@anglr/common';
+import {FirstUppercaseLocalizeSAPipe, TooltipModule} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 
 import {PropertiesControl} from '../../../../interfaces';
@@ -44,6 +44,7 @@ export function genericPropertiesControlFor<TModel>(properties: (Extract<keyof T
             TooltipModule,
             PropertyTypeControlsModule,
             FormPipesModule,
+            FirstUppercaseLocalizeSAPipe,
         ],
         changeDetection: ChangeDetectionStrategy.OnPush
     })

@@ -2,6 +2,7 @@ import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {TitledDialogService, TITLED_DIALOG_DATA} from '@anglr/common/material';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, getJson, JsonLanguageModel} from '@anglr/dynamic';
@@ -25,6 +26,7 @@ import {ConfigureNodeEndpointData} from './configureNodeEndpoint.interface';
         ReactiveFormsModule,
         MatDialogModule,
         CommonModule,
+        FirstUppercaseLocalizeSAPipe,
     ],
     providers:
     [

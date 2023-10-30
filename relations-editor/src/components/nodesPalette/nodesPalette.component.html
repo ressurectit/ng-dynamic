@@ -1,6 +1,6 @@
 <div class="dynamic-flex-column">
     <ng-container *ngFor="let groupKeyValue of groupedItems | keyvalue">
-        <div class="dynamic-text-spread dynamic-text-small-caps dynamic-margin-left-extra-small dynamic-margin-horizontal-small dynamic-bold">{{groupKeyValue.key}}&nbsp;</div>
+        <div class="dynamic-text-spread dynamic-text-small-caps dynamic-margin-left-extra-small dynamic-margin-horizontal-small dynamic-bold">{{groupKeyValue.key|firstUppercaseLocalize}}&nbsp;</div>
 
         <div *ngFor="let item of groupKeyValue.value"
              cdkDropList

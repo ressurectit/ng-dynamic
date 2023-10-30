@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MathSubtractNodeSAComponent} from '../node/subtractNode..component';
+import {MathSubtractNodeSAComponent} from '../node/subtractNode.component';
 
 /**
  * Math subtract relations metadata

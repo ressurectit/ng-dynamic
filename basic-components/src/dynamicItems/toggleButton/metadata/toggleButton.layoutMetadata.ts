@@ -16,7 +16,7 @@ export class ToggleButtonLayoutEditorMetadata implements LayoutEditorMetadataDes
     public metaInfo?: LayoutEditorMetadataInfo<ToggleButtonComponentOptions> =
     {
         name: 'Toggle button',
-        description: 'Toggle button',
+        description: 'Button that switches between two states',
         group: 'Buttons',
         optionsMetadata:
         {

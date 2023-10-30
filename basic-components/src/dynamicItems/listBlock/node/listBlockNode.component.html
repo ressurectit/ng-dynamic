@@ -5,28 +5,28 @@
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="data" [parent]="this"></relation-node-input>
-                <div>data</div>
+                <div>{{'data'|firstUppercaseLocalize}}</div>
             </div>
         </div>
     
         <div class="outputs">
             <div class="output">
-                <div>datum</div>
+                <div>{{'datum'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="datum" [parent]="this"></relation-node-output>
             </div>
 
             <div class="output">
-                <div>index</div>
+                <div>{{'index'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="index" [parent]="this"></relation-node-output>
             </div>
 
             <div class="output">
-                <div>first</div>
+                <div>{{'first'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="first" [parent]="this"></relation-node-output>
             </div>
 
             <div class="output">
-                <div>last</div>
+                <div>{{'last'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="last" [parent]="this"></relation-node-output>
             </div>
         </div>

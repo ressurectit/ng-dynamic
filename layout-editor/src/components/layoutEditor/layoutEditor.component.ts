@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnChanges, SimpleC
 import {CommonModule} from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {CommonUtilsModule, HostDisplayFlexStyle} from '@anglr/common';
+import {CastPipesModule, CommonUtilsModule, FirstUppercaseLocalizeSAPipe, HostDisplayFlexStyle} from '@anglr/common';
 import {EditorHotkeys, MetadataHistoryManager, PackageManagerModule, DynamicItemSource} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
@@ -41,6 +41,8 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
         MatTabsModule,
         CommonModule,
         CommonUtilsModule,
+        FirstUppercaseLocalizeSAPipe,
+        CastPipesModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

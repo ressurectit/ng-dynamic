@@ -1,23 +1,23 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="first non null"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'first non null'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="data1" [parent]="this"></relation-node-input>
-                <div>data1</div>
+                <div>{{'data1'|firstUppercaseLocalize}}</div>
             </div>
 
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="data2" [parent]="this"></relation-node-input>
-                <div>data2</div>
+                <div>{{'data2'|firstUppercaseLocalize}}</div>
             </div>
 
             <div class="input" *ngFor="let property of properties">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="property" [parent]="this"></relation-node-input>
 
                 <div class="dynamic-flex-row">
-                    <div>{{property}}</div>
+                    <div>{{property|firstUppercaseLocalize}}</div>
 
                     <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); removeProperty(property)">
                         <span class="fas fa-times"></span>
@@ -34,7 +34,7 @@
 
         <div class="outputs">
             <div class="output">
-                <div>data</div>
+                <div>{{'data'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="data" [parent]="this"></relation-node-output>
             </div>
         </div>

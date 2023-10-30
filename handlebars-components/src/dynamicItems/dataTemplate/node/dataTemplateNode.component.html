@@ -1,28 +1,28 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="data template"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'data template'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="template" [parent]="this"></relation-node-input>
-                <div>template</div>
+                <div>{{'template'|firstUppercaseLocalize}}</div>
             </div>
             
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="data" [parent]="this"></relation-node-input>
-                <div>data</div>
+                <div>{{'data'|firstUppercaseLocalize}}</div>
             </div>
         </div>
 
         <div class="outputs">
             <div class="output">
-                <div>output</div>
+                <div>{{'output'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="output" [parent]="this"></relation-node-output>
             </div>
         </div>
     </div>
 
     <button type="button" class="dynamic-btn dynamic-btn-primary" (click)="showCodeEditor()">
-        <span>template</span>
+        <span>{{'template'|firstUppercaseLocalize}}</span>
     </button>
 </div>

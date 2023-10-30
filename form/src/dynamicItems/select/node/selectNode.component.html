@@ -5,25 +5,25 @@
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="value" [parent]="this"></relation-node-input>
-                <div>value</div>
+                <div>{{'value'|firstUppercaseLocalize}}</div>
             </div>
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="required" [parent]="this"></relation-node-input>
-                <div>required</div>
+                <div>{{'required'|firstUppercaseLocalize}}/div>
             </div>
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="disabled" [parent]="this"></relation-node-input>
-                <div>disabled</div>
+                <div>{{'disabled'|firstUppercaseLocalize}}</div>
             </div>
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="values" [parent]="this"></relation-node-input>
-                <div>values</div>
+                <div>{{'values'|firstUppercaseLocalize}}</div>
             </div>
         </div>
 
         <div class="outputs">
             <div class="output">
-                <div>value</div>
+                <div>{{'value'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="valueOutput" [parent]="this"></relation-node-output>
             </div>
         </div>

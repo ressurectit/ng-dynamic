@@ -1,4 +1,4 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="rich text source"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'rich text source'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
@@ -7,13 +7,13 @@
     
         <div class="outputs">
             <div class="output">
-                <div>html string</div>
+                <div>{{'html string'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="htmlString" [parent]="this"></relation-node-output>
             </div>
         </div>
     </div>
 
     <button type="button" class="dynamic-btn dynamic-btn-primary" (click)="showCodeEditor()">
-        <span>content</span>
+        <span>{{'content'|firstUppercaseLocalize}}</span>
     </button>
 </div>

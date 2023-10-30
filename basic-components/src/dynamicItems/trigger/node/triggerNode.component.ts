@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
@@ -22,6 +23,7 @@ import {TriggerRelationsOptions} from '../trigger.options';
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -2,10 +2,11 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from 
 import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, TypescriptLanguageModel} from '@anglr/dynamic';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
-import typings from '!!raw-loader?esModule!@anglr/dynamic/typings/transformData';
-import {languages} from 'monaco-editor';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
+import {languages} from 'monaco-editor';
+import typings from '!!raw-loader?esModule!@anglr/dynamic/typings/transformData';
 
 import {TransformDataRelationsEditorOptions, TransformDataRelationsOptions} from '../transformData.options';
 
@@ -24,6 +25,7 @@ languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modul
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
+        FirstUppercaseLocalizeSAPipe
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

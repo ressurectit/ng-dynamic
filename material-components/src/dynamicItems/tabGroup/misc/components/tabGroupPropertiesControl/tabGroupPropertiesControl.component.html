@@ -1,5 +1,5 @@
 <div class="properties-form-group">
-    <div>Tabs</div>
+    <div>{{'tabs'|firstUppercaseLocalize}}</div>
     <div>
         <div class="dynamic-flex-row" *ngFor="let tabControl of tabsControls; let i = index" [formGroup]="tabControl">
             <div>{{i+1}}.</div>
@@ -10,7 +10,7 @@
         </div>
         
         <button type="button" class="dynamic-btn dynamic-btn-primary dynamic-margin-vertical-small" (click)="addTab()">
-            <span>Add tab</span>
+            <span>{{'add tab'|firstUppercaseLocalize}}</span>
         </button>
     </div>
 </div>

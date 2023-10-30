@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {HostDisplayBlockStyle} from '@anglr/common';
+import {HostDisplayBlockStyle, LocalizeSAPipe} from '@anglr/common';
 
 /**
  * Component used for displaying not found layout type placeholder
@@ -10,6 +10,10 @@ import {HostDisplayBlockStyle} from '@anglr/common';
     templateUrl: 'notFoundLayoutType.component.html',
     styles: [HostDisplayBlockStyle],
     standalone: true,
+    imports:
+    [
+        LocalizeSAPipe,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotFoundLayoutTypeSAComponent 

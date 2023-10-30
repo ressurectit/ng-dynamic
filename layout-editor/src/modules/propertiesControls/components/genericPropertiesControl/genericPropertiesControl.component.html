@@ -1,7 +1,7 @@
 <ng-container *ngFor="let property of properties">
     <!-- TODO pipe for control.control -->
     <div class="properties-form-group" *ngIf="form?.get(property)">
-        <label class="properties-control-label">{{propertiesMetadata?.[property]?.name ?? property}} <span *ngIf="propertiesMetadata?.[property]?.description" class="fas fa-info-circle" [tooltip]="propertiesMetadata?.[property]?.description"></span></label>
+        <label class="properties-control-label">{{(propertiesMetadata?.[property]?.name ?? property)|firstUppercaseLocalize}} <span *ngIf="propertiesMetadata?.[property]?.description" class="fas fa-info-circle" [tooltip]="propertiesMetadata?.[property]?.description|firstUppercaseLocalize"></span></label>
         <ng-container [propertyTypeControl]="propertiesMetadata?.[property]?.type" [control]="$any(form?.get(property) | asFormControl)" [values]="propertiesMetadata?.[property]?.values ?? []"></ng-container>
     </div>
 </ng-container>

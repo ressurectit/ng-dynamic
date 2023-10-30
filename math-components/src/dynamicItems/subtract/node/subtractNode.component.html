@@ -1,21 +1,21 @@
-<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="Subtract"></relations-node-header>
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" [name]="'subtract'|firstUppercaseLocalize"></relations-node-header>
 
 <div class="node-content">
     <div class="inputs-outputs">
         <div class="inputs">
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="input1" [parent]="this"></relation-node-input>
-                <div>input1</div>
+                <div>{{'input1'|firstUppercaseLocalize}}</div>
             </div>
             <div class="input">
                 <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="input2" [parent]="this"></relation-node-input>
-                <div>input2</div>
+                <div>{{'input2'|firstUppercaseLocalize}}</div>
             </div>
         </div>
 
         <div class="outputs">
             <div class="output">
-                <div>result</div>
+                <div>{{'result'|firstUppercaseLocalize}}</div>
                 <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="result" [parent]="this"></relation-node-output>
             </div>
         </div>

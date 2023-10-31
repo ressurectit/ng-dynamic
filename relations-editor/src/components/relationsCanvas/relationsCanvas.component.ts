@@ -262,7 +262,7 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
     {
         if (event.deltaY)
         {
-            const newZoomLevel = clamp(this.zoomLevel + (event.deltaY > 1 ? -1 : 1) * 0.05, SCALE_FACTOR_MIN, SCALE_FACTOR_MAX);    
+            const newZoomLevel = this._calculateNewZoomLevel(event.deltaY > 1 ? -1 : 1);    
             
             const posX = (event.clientX - this.canvasPosition.x - this.boundingBox.left) / this.zoomLevel;
             const posY = (event.clientY - this.canvasPosition.y - this.boundingBox.top) / this.zoomLevel;
@@ -275,6 +275,32 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
         
         event.preventDefault();
         event.stopImmediatePropagation();
+    }
+
+    //######################### public methods #########################
+
+    /**
+     * Zooms canvas in by one step
+     */
+    public zoomIn(): void
+    {
+        this._setZoomLevel(this._calculateNewZoomLevel(1));
+    }
+
+    /**
+     * Zooms canvas out by one step
+     */
+    public zoomOut(): void
+    {
+        this._setZoomLevel(this._calculateNewZoomLevel(-1));
+    }
+
+    /**
+     * Resets zoom level
+     */
+    public resetZoom(): void
+    {
+        this._setZoomLevel(1);
     }
 
     //######################### protected methods - template bindings #########################
@@ -298,6 +324,16 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
     }
 
     //######################### private methods #########################
+
+    /**
+     * Calculates new zoom level based on dalte
+     * @param delta 
+     * @returns 
+     */
+    private _calculateNewZoomLevel(delta: number): number
+    {
+        return clamp(this.zoomLevel + delta * 0.05, SCALE_FACTOR_MIN, SCALE_FACTOR_MAX);
+    }
 
     /**
      * Sets zoom level

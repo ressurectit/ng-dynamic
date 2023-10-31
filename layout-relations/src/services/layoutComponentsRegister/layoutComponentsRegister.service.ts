@@ -23,6 +23,11 @@ export interface LayoutComponentsRegisterType
     displayName: string|undefined|null;
 
     /**
+     * Package of layout component
+     */
+    package: string;
+
+    /**
      * Name of layout component
      */
     name: string;
@@ -135,6 +140,17 @@ export class LayoutComponentsRegister implements OnDestroy
         return this.definedTypes[name]?.name ?? null;
     }
 
+    /**
+     * Gets component package of type byt its name
+     * @param name - Name of type that component package should be obtained
+     */
+    public async getComponentPackage(name: string): Promise<string|null>
+    {
+        await (this.initPromise ??= this.initializeTypes());
+
+        return this.definedTypes[name]?.package ?? null;
+    }
+
     //######################### protected method #########################
 
     /**
@@ -166,6 +182,7 @@ export class LayoutComponentsRegister implements OnDestroy
                 displayName: component.metadata.displayName,
                 name: component.metadata.name,
                 scope: component.metadata.scope,
+                package: component.metadata.package,
             };
         }
     }

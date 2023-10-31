@@ -71,4 +71,14 @@ export interface RelationsNodeEditorData
      * Current scope of node that is being used
      */
     scope?: string;
+
+    /**
+     * Component name
+     */
+    name?: string;
+
+    /**
+     * Component package name
+     */
+    package?: string;
 }

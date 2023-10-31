@@ -23,6 +23,16 @@ interface ɵDynamicModuleWithDefault<TData = any> extends DynamicModule
      * Current scope of node that is being used
      */
     scope?: string;
+
+    /**
+     * Component name
+     */
+    name?: string;
+
+    /**
+     * Component package
+     */
+    package?: string;
 }
 
 /**
@@ -59,5 +69,7 @@ export const componentRelationsNodeExtractor: DynamicModuleDataExtractorFn<Relat
         singleton: true,
         displayName: localModule.displayName,
         scope: localModule.scope,
+        name: localModule.name,
+        package: localModule.package,
     };
 };

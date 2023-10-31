@@ -168,7 +168,7 @@
         "copyfiles": "2.4.1",
         "replace-in-file": "6.3.5",
         "path-exists-cli": "2.0.0",
-        "typescript": "5.2.2",
+        "typescript": "5.1.6",
         "npm-git-version": "2.0.0",
         "lodash-es": "4.17.21",
         "@types/lodash-es": "4.17.9"

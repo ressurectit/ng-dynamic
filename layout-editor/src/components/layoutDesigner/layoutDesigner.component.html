@@ -29,7 +29,7 @@
             <div class="designer-overlay-title"
                  *bodyRender
                  [positionTo]="layoutDesigner"
-                 placement="TopStart">{{editorMetadata?.metaInfo?.name ?? renderedType?.name}}</div>
+                 placement="TopStart">{{renderedType?.displayName ?? editorMetadata?.metaInfo?.name ?? renderedType?.name}}</div>
 
             <ng-container *ngIf="!!parent && parent.editorMetadata?.removeDescendant">
                 <div *bodyRender

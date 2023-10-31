@@ -364,5 +364,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         this.renderedType = {...this.options.typeMetadata};
         this.horizontal = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ?? false;
+        this.changeDetector.detectChanges();
     }
 }

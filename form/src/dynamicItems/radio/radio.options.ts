@@ -1,4 +1,5 @@
 import {FormComponentOptions} from '../../misc/formComponentBase.options';
+import {RadioOption} from './radio.interface';
 
 /**
  * Options for radio component
@@ -10,5 +11,5 @@ export interface RadioComponentOptions extends FormComponentOptions
     /**
      * Radio options
      */
-    options: string|undefined|null;
+    options: RadioOption[]|undefined|null;
 }

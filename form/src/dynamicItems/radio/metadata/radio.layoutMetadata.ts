@@ -2,6 +2,7 @@ import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, gener
 
 import {RadioComponentOptions} from '../radio.options';
 import {RadioModel} from './radio.model';
+import {RadioPropertiesControlSAComponent} from '../misc/components';
 
 
 /**
@@ -33,14 +34,26 @@ export class RadioLayoutEditorMetadata implements LayoutEditorMetadataDescriptor
                     modelType: RadioModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor<RadioModel>(['options', 'controlName']),
+                        genericPropertiesControlFor<RadioModel>(['controlName']),
+                    ],
+                },
+                {
+                    modelType: RadioModel,
+                    propertiesControls: 
+                    [
+                        RadioPropertiesControlSAComponent,
                     ],
                 },
             ],
         },
         defaultOptions:
         {
-            options: 'Radio'
+            options: [
+                {
+                    code: '1',
+                    text: 'Text'
+                }
+            ]
         },
         group: 'Form fields'
     };

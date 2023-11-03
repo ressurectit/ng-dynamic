@@ -1,0 +1,18 @@
+<div class="properties-form-group">
+    <label class="properties-control-label">{{'options'|firstUppercaseLocalize}}</label>
+    <div>
+        <div class="dynamic-flex-row" *ngFor="let tabControl of optionsControls; let i = index" [formGroup]="tabControl">
+            <div class="dynamic-flex-1">
+                <input class="properties-form-control dynamic-flex-1" type="text" [placeholder]="'code'|firstUppercaseLocalize" formControlName="code">
+                <textarea class="properties-form-control dynamic-flex-1" type="text" [placeholder]="'text'|firstUppercaseLocalize" formControlName="text"></textarea>
+            </div>
+            <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); removeOption(i)">
+                <span class="fas fa-times"></span>
+            </button>
+        </div>
+        
+        <button type="button" class="dynamic-btn dynamic-btn-primary dynamic-margin-vertical-small" (click)="addOption()">
+            <span>{{'add option'|firstUppercaseLocalize}}</span>
+        </button>
+    </div>
+</div>

@@ -1,1 +1,1 @@
-<label><input type="radio" [formControl]="control|asFormControl|asRequired" [name]="'1'" [value]="1"/> {{options?.options}}</label>
+<label *ngFor="let option of options?.options; index as index"><input type="radio" [formControl]="control|asFormControl|asRequired" [value]="option.code"/> {{option.text}}</label>

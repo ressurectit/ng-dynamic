@@ -1,2 +1,2 @@
 <label>{{options?.label}}</label>
-<input type="number" [attr.placeholder]="options?.placeholder" [formControl]="control|asFormControl|asRequired"/>
+<input type="number" [attr.placeholder]="options?.placeholder" [step]="step" [formControl]="control|asFormControl|asRequired"/>

@@ -140,7 +140,6 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions, T
 
         this.control = this._getFormControl(this.options?.controlName, this._parentControl, FormComponentControlType.FormControl, this.value); 
         this._registerValidations();
-
         this.controlSubscription = this.control
             ?.valueChanges
             ?.subscribe(value => 

@@ -33,7 +33,7 @@ export class NumberFieldLayoutEditorMetadata implements LayoutEditorMetadataDesc
                     modelType: NumberFieldModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor<NumberFieldModel>(['label', 'placeholder', 'controlName']),
+                        genericPropertiesControlFor<NumberFieldModel>(['label', 'placeholder', 'controlName', 'min', 'max', 'decimalPlaces']),
                     ],
                 },
             ],

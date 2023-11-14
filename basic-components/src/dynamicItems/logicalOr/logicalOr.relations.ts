@@ -102,24 +102,21 @@ export class LogicalOrRelations implements RelationsComponent<LogicalOrRelations
      */
     protected initialize(): void
     {
-        if(this.relationsOptions)
+        if(this.relationsOptions?.properties?.length)
         {
-            if(this.relationsOptions.properties.length)
+            for(const name of this.relationsOptions.properties)
             {
-                for(const name of this.relationsOptions.properties)
+                if(name)
                 {
-                    if(name)
-                    {
-                        Object.defineProperty(this,
-                                              name,
-                                              {
-                                                  set: function(value)
-                                                  {
-                                                      this.dynamicConditions[name] = value;
-                                                      this.evaluateResult();
-                                                  }
-                                              });
-                    }
+                    Object.defineProperty(this,
+                                            name,
+                                            {
+                                                set: function(value)
+                                                {
+                                                    this.dynamicConditions[name] = value;
+                                                    this.evaluateResult();
+                                                }
+                                            });
                 }
             }
         }
@@ -130,7 +127,7 @@ export class LogicalOrRelations implements RelationsComponent<LogicalOrRelations
      */
     protected evaluateResult(): void
     {
-        if (this.relationsOptions?.properties.length)
+        if (this.relationsOptions?.properties?.length)
         {
             for (const name of this.relationsOptions.properties)
             {

@@ -49,7 +49,6 @@ export class MatchRelations implements RelationsComponent
     {
         if(nameof<MatchRelations>('value') in changes)
         {
-            console.log(this.valueToMatch);
             //TODO fix possible scenarios, or add settings
             if (this.valueToMatch instanceof RegExp &&
                 isString(this.value))

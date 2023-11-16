@@ -5,7 +5,7 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {DebugData, DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {nameof, PromiseOr} from '@jscrpt/common';
+import {isPresent, nameof, PromiseOr} from '@jscrpt/common';
 
 import {ToggleButtonComponentOptions} from './toggleButton.options';
 import {ToggleButtonLayoutMetadataLoader, ToggleButtonRelationsMetadataLoader} from './toggleButton.metadata';
@@ -72,9 +72,9 @@ export class ToggleButtonSAComponent extends LayoutComponentBase<ToggleButtonCom
     {
         this.disabled = this.options?.disabled ?? false;
 
-        if(this.options?.state)
+        if(isPresent(this.options?.state))
         {
-            this.toggle = this.options.state;
+            this.toggle = this.options?.state;
         }
     }
 }

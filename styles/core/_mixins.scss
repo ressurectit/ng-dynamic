@@ -26,6 +26,7 @@
 @use '../components/relations-canvas' as relationsCanvas;
 @use '../components/relations-debugger-visualizer' as relationsDebuggerVisualizer;
 @use '../components/rich-text-block-properties-control' as richTextBlockPropertiesControl;
+@use '../components/button-presets-properties-control' as buttonPresetsPropertiesControl;
 
 @mixin buildThemeColors($theme)
 {
@@ -133,6 +134,7 @@
     @include relationsCanvas.css;
     @include relationsDebuggerVisualizer.css;
     @include richTextBlockPropertiesControl.css;
+    @include buttonPresetsPropertiesControl.css;
 
     @include misc.misc;
     @include misc.generate-margin-padding('margin', (none: 0, extra-small: 4px, small: 10px, medium: 15px, big: 20px));

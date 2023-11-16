@@ -2,6 +2,7 @@ import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, gener
 
 import {ButtonComponentOptions} from '../button.options';
 import {ButtonModel} from './button.model';
+import {ButtonPresetsPropertiesControlSAComponent} from '../../../misc/buttonPresetsPropertiesControl/buttonPresetsPropertiesControl.component';
 
 /**
  * Button layout metadata
@@ -33,6 +34,7 @@ export class ButtonLayoutEditorMetadata implements LayoutEditorMetadataDescripto
                     modelType: ButtonModel,
                     propertiesControls: 
                     [
+                        ButtonPresetsPropertiesControlSAComponent,
                         genericPropertiesControlFor<ButtonModel>(['buttonCssClass', 'text', 'disabled']),
                     ],
                 },

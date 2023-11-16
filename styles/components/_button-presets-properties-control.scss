@@ -1,0 +1,12 @@
+@mixin css
+{
+    button-presets
+    {
+        .button-presets-wrapper
+        {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+    }
+}

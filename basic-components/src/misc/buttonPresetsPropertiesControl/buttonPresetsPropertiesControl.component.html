@@ -1,0 +1,10 @@
+<div class="properties-form-group" *ngIf="buttonsPresets?.length">
+    <label class="properties-control-label"></label>
+    <div class="button-presets-wrapper">
+        <button 
+            type="button" 
+            *ngFor="let preset of buttonsPresets" 
+            [ngClass]="preset.cssClass"
+            (click)="_setPreset(preset.cssClass)">{{preset.text}}</button>
+    </div>
+</div>

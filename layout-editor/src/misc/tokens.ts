@@ -1,5 +1,5 @@
 import {InjectionToken, Type} from '@angular/core';
-import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataHistoryManager} from '@anglr/dynamic';
+import {DefaultOptionsOverride, DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Dictionary} from '@jscrpt/common';
 import {Observable} from 'rxjs';
@@ -59,3 +59,8 @@ export const LAYOUT_HISTORY_MANAGER: InjectionToken<MetadataHistoryManager<Layou
  * Injection token for observables that allows refreshing of components palatte items
  */
 export const REFRESH_PALETTE_OBSERVABLES: InjectionToken<Observable<void>[]> = new InjectionToken<Observable<void>[]>('REFRESH_PALETTE_OBSERVABLES');
+
+/**
+ * Injection token for relations default options override
+ */
+export const LAYOUT_DEFAULT_OPTIONS_OVERRIDE: InjectionToken<DefaultOptionsOverride> = new InjectionToken<DefaultOptionsOverride>('LAYOUT_DEFAULT_OPTIONS_OVERRIDE');

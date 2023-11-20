@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
-import {LAYOUT_HISTORY_MANAGER, provideLayoutEditor, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/layout-editor';
+import {LAYOUT_DEFAULT_OPTIONS_OVERRIDE, LAYOUT_HISTORY_MANAGER, provideLayoutEditor, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/layout-editor';
 import {provideBasicLayoutEditor, StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {provideMaterialLayoutEditor} from '@anglr/dynamic/material-components';
@@ -17,6 +17,7 @@ import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
 import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
+import {DemoLayoutDefaultOptionsOverrideService} from '../../../services/demoDefaultOptionsOverride';
 
 /**
  * Layout editor component
@@ -59,6 +60,11 @@ import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponen
             deps: [DemoCustomComponentsRegister],
             multi: true,
         },
+        <ClassProvider>
+        {
+            provide: LAYOUT_DEFAULT_OPTIONS_OVERRIDE,
+            useClass: DemoLayoutDefaultOptionsOverrideService
+        }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

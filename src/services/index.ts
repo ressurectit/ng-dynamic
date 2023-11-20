@@ -6,3 +6,4 @@ export * from './dynamicModuleDataExtractor/dynamicModuleDataExtractor.service';
 export * from './metadataHistoryManager/metadataHistoryManager.service';
 export * from './metadataStorage/metadataStorage.service';
 export * from './packageManager/packageManager.service';
+export * from './defaultOptionsOverride/defaultOptionsOverride.service';

@@ -1,8 +1,10 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import {Pipe, PipeTransform, inject} from '@angular/core';
 import {extend} from '@jscrpt/common';
 
 import type {NodesPaletteItem} from '../../components';
 import {RelationsNodeDragData} from '../../interfaces';
+import {RELATIONS_DEFAULT_OPTIONS_OVERRIDE} from '../../misc/tokens';
+import {DefaultOptionsOverride} from '../../../../src';
 
 /**
  * Transforms NodesPaletteItem item to RelationsNodeDragData
@@ -10,6 +12,13 @@ import {RelationsNodeDragData} from '../../interfaces';
 @Pipe({name: 'toRelationsDragData', standalone: true})
 export class ToRelationsDragDataSAPipe implements PipeTransform
 {
+    //######################### protected properties #########################
+    
+    /**
+     * Default options override service
+     */
+    protected _defaultOptionsOverride: DefaultOptionsOverride|null = inject(RELATIONS_DEFAULT_OPTIONS_OVERRIDE, {optional: true});
+
     //######################### public methods - implementation of PipeTransform #########################
 
     /**
@@ -31,7 +40,7 @@ export class ToRelationsDragDataSAPipe implements PipeTransform
                 package: value.itemSource.package,
                 name: value.itemSource.name,
                 scope,
-                relationsOptions: extend(true, {}, value.metadata.metaInfo?.defaultOptions),
+                relationsOptions: extend(true, {}, this._defaultOptionsOverride?.get(value.itemSource.package, value.itemSource.name, value.metadata.metaInfo?.defaultOptions) ?? value.metadata.metaInfo?.defaultOptions),
                 outputs: [],
                 nodeMetadata:
                 {

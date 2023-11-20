@@ -100,7 +100,7 @@ export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRel
     {
         if(this.relationsOptions)
         {
-            if(this.relationsOptions.properties.length)
+            if(this.relationsOptions?.properties?.length)
             {
                 for(const name of this.relationsOptions.properties)
                 {
@@ -138,7 +138,7 @@ export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRel
             return;
         }
 
-        if (this.relationsOptions?.properties.length)
+        if (this.relationsOptions?.properties?.length)
         {
             for (const name of this.relationsOptions.properties)
             {

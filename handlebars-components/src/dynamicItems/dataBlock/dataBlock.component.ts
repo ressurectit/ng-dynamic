@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, SimpleChanges, Input} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -8,7 +8,7 @@ import {nameof} from '@jscrpt/common';
 import Handlebars from 'handlebars';
 
 import {DataBlockComponentOptions} from './dataBlock.options';
-import {DataBlockLayoutMetadataLoader, DataBlockRelationsMetadataLoader} from './dataBlock.metadata';
+import {DataBlockLayoutDesignerTypeLoader, DataBlockLayoutMetadataLoader, DataBlockRelationsMetadataLoader} from './dataBlock.metadata';
 
 /**
  * Component used for displaying data block
@@ -21,6 +21,7 @@ import {DataBlockLayoutMetadataLoader, DataBlockRelationsMetadataLoader} from '.
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@LayoutEditorDesignerType(DataBlockLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(DataBlockRelationsMetadataLoader)
 @LayoutEditorMetadata(DataBlockLayoutMetadataLoader)
 export class DataBlockSAComponent extends LayoutComponentBase<DataBlockComponentOptions> implements LayoutComponent<DataBlockComponentOptions>, RelationsComponent

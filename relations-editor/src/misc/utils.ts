@@ -1,10 +1,11 @@
 import {ClassProvider, Provider, Type} from '@angular/core';
-import {DynamicItemLoaderValidatorFn, provideStaticPackageSource} from '@anglr/dynamic';
+import {DefaultsOverride, DynamicItemLoaderValidatorFn, provideStaticPackageSource} from '@anglr/dynamic';
 import {isBlank, isBoolean, isJsObject, isPresent, isString, isType} from '@jscrpt/common';
 
 import {DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR, DEFAULT_RELATIONS_NODES_EXTRACTOR, RELATIONS_MODULE_TYPES_LOADER_PROVIDER, RELATIONS_NODES_LOADER_PROVIDER, COMPONENTS_RELATIONS_NODES_EXTRACTOR, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, RELATIONS_HISTORY_MANAGER_STATE, RELATIONS_HISTORY_MANAGER_PROVIDER} from './providers';
 import type {RelationsModuleTypes, RelationsNodeDef} from './types';
 import {RelationsNodeManager, ScopeRegister, StaticComponentsRegister} from '../services';
+import {RELATIONS_DEFAULTS_OVERRIDE} from './tokens';
 
 /**
  * Clamps number between two values
@@ -99,6 +100,18 @@ export function provideRelationsEditorWithStatic(staticRegister: Type<StaticComp
         },
         provideStaticPackageSource('static-components'),
     ];
+}
+
+/**
+ * Provider for relations defaults override
+ * @param defaultsOverride - Service to pride as relations defaults override
+ */
+export function provideRelationsDefaultOverride(defaultsOverride: Type<DefaultsOverride>): Provider
+{
+    return <ClassProvider>{
+        provide: RELATIONS_DEFAULTS_OVERRIDE,
+        useClass: defaultsOverride
+    };
 }
 
 /**

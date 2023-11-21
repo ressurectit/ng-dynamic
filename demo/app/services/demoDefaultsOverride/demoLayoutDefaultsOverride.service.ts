@@ -1,12 +1,15 @@
 import {Injectable} from '@angular/core';
-import {DefaultOptionsOverride} from '@anglr/dynamic';
+import {DefaultsOverride} from '@anglr/dynamic';
 import {ButtonComponentOptions} from '@anglr/dynamic/basic-components';
 import {extend} from '@jscrpt/common';
 
 @Injectable()
-export class DemoLayoutDefaultOptionsOverrideService implements DefaultOptionsOverride
+export class DemoLayoutDefaultsOverrideService implements DefaultsOverride
 {
-    public get(packageName: string, name: string, defaultOptions: any)
+    /**
+     * @inheritdoc
+     */
+    public getOptions(packageName: string, name: string, defaultOptions: any)
     {
         switch (packageName)
         {
@@ -23,5 +26,12 @@ export class DemoLayoutDefaultOptionsOverrideService implements DefaultOptionsOv
 
         return defaultOptions;
     }
-    
+
+    /**
+     * @inheritdoc
+     */
+    public getDisplayName(packageName: string, name: string, displayName?: string): string 
+    {
+        return displayName;
+    }        
 }

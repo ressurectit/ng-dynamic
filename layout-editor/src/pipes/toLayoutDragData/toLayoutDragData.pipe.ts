@@ -1,10 +1,10 @@
 import {Pipe, PipeTransform, inject} from '@angular/core';
+import {DefaultsOverride} from '@anglr/dynamic';
 import {extend} from '@jscrpt/common';
 
 import {ComponentsPaletteItem} from '../../components';
 import {LayoutComponentDragData} from '../../interfaces';
-import {DefaultOptionsOverride} from '../../../../src';
-import {LAYOUT_DEFAULT_OPTIONS_OVERRIDE} from '../../misc/tokens';
+import {LAYOUT_DEFAULTS_OVERRIDE} from '../../misc/tokens';
 
 /**
  * Transforms ComponentsPaletteItem item to LayoutComponentDragData
@@ -17,7 +17,7 @@ export class ToLayoutDragDataSAPipe implements PipeTransform
     /**
      * Default options override service
      */
-    protected _defaultOptionsOverride: DefaultOptionsOverride|null = inject(LAYOUT_DEFAULT_OPTIONS_OVERRIDE, {optional: true});
+    protected _defaultsOverride: DefaultsOverride|null = inject(LAYOUT_DEFAULTS_OVERRIDE, {optional: true});
 
     //######################### public methods - implementation of PipeTransform #########################
 
@@ -31,10 +31,10 @@ export class ToLayoutDragDataSAPipe implements PipeTransform
             metadata:
             {
                 id: '',
-                displayName: '',
+                displayName: this._defaultsOverride?.getDisplayName(value.itemSource.package, value.itemSource.name) || '',
                 package: value.itemSource.package,
                 name: value.itemSource.name,
-                options: extend(true, {}, this._defaultOptionsOverride?.get(value.itemSource.package, value.itemSource.name, value.metadata.metaInfo?.defaultOptions) ?? value.metadata.metaInfo?.defaultOptions),
+                options: extend(true, {}, this._defaultsOverride?.getOptions(value.itemSource.package, value.itemSource.name, value.metadata.metaInfo?.defaultOptions) ?? value.metadata.metaInfo?.defaultOptions),
             },
             parentId: null,
             index: null,

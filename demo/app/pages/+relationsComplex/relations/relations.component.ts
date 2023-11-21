@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RELATIONS_DEFAULT_OPTIONS_OVERRIDE} from '@anglr/dynamic/relations-editor';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, provideRelationsDefaultOverride} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, provideLayoutRelationsEditorWithStatic, provideEditorRelationsCustomComponents} from '@anglr/dynamic/layout-relations';
 import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
@@ -20,7 +20,7 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {ComplexStaticRegister} from '../misc';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
 import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
-import {DemoRelationsDefaultOptionsOverrideService} from '../../../services/demoDefaultOptionsOverride';
+import {DemoRelationsDefaultsOverrideService} from '../../../services/demoDefaultsOverride';
 
 /**
  * Layout editor component
@@ -47,16 +47,12 @@ import {DemoRelationsDefaultOptionsOverrideService} from '../../../services/demo
         provideCssLayoutRelationsEditor(),
         provideMathLayoutRelationsEditor(),
         provideEditorRelationsCustomComponents(provideLayoutRelationsEditorWithStatic(ComplexStaticRegister), DemoCustomComponentsRegister),
+        provideRelationsDefaultOverride(DemoRelationsDefaultsOverrideService),
         <ClassProvider>
         {
             provide: PackageManager,
             useClass: DemoRelationsPackageManager,
         },
-        <ClassProvider>
-        {
-            provide: RELATIONS_DEFAULT_OPTIONS_OVERRIDE,
-            useClass: DemoRelationsDefaultOptionsOverrideService
-        }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

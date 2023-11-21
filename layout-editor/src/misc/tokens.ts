@@ -1,5 +1,5 @@
 import {InjectionToken, Type} from '@angular/core';
-import {DefaultOptionsOverride, DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataHistoryManager} from '@anglr/dynamic';
+import {DefaultsOverride, DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Dictionary} from '@jscrpt/common';
 import {Observable} from 'rxjs';
@@ -61,6 +61,6 @@ export const LAYOUT_HISTORY_MANAGER: InjectionToken<MetadataHistoryManager<Layou
 export const REFRESH_PALETTE_OBSERVABLES: InjectionToken<Observable<void>[]> = new InjectionToken<Observable<void>[]>('REFRESH_PALETTE_OBSERVABLES');
 
 /**
- * Injection token for relations default options override
+ * Injection token for layout defaults override
  */
-export const LAYOUT_DEFAULT_OPTIONS_OVERRIDE: InjectionToken<DefaultOptionsOverride> = new InjectionToken<DefaultOptionsOverride>('LAYOUT_DEFAULT_OPTIONS_OVERRIDE');
+export const LAYOUT_DEFAULTS_OVERRIDE: InjectionToken<DefaultsOverride> = new InjectionToken<DefaultsOverride>('LAYOUT_DEFAULTS_OVERRIDE');

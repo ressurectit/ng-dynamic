@@ -1,6 +1,6 @@
 import {InjectionToken} from '@angular/core';
 import {DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataHistoryManager} from '@anglr/dynamic';
-import {DefaultOptionsOverride} from '@anglr/dynamic';
+import {DefaultsOverride} from '@anglr/dynamic';
 import {Observable} from 'rxjs';
 
 import {RelationsModuleTypes, RelationsNodeDef} from './types';
@@ -47,6 +47,6 @@ export const REFRESH_PALETTE_OBSERVABLES: InjectionToken<Observable<void>[]> = n
 export const RELATIONS_HISTORY_MANAGER: InjectionToken<MetadataHistoryManager<RelationsNodeMetadata[]>> = new InjectionToken<MetadataHistoryManager<RelationsNodeMetadata[]>>('RELATIONS_HISTORY_MANAGER');
 
 /**
- * Injection token for relations default options override
+ * Injection token for relations defaults override
  */
-export const RELATIONS_DEFAULT_OPTIONS_OVERRIDE: InjectionToken<DefaultOptionsOverride> = new InjectionToken<DefaultOptionsOverride>('RELATIONS_DEFAULT_OPTIONS_OVERRIDE');
+export const RELATIONS_DEFAULTS_OVERRIDE: InjectionToken<DefaultsOverride> = new InjectionToken<DefaultsOverride>('RELATIONS_DEFAULTS_OVERRIDE');

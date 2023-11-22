@@ -65,10 +65,11 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
 
                                                                                                if(dragData.metadata)
                                                                                                {
-                                                                                                   const newId = `${dragData.metadata.name}-${generateId(16)}`;
+                                                                                                   const generatedId = generateId(16);
+                                                                                                   const newId = `${dragData.metadata.name}-${generatedId}`;
 
                                                                                                    dragData.metadata.id = newId;
-                                                                                                   dragData.metadata.displayName = dragData?.metadata.displayName && dragData?.metadata.displayName != '' ? dragData?.metadata.displayName : newId;
+                                                                                                   dragData.metadata.displayName = dragData?.metadata.displayName && dragData?.metadata.displayName != '' ? `${dragData?.metadata.displayName}-${generatedId}` : newId;
                                                                                                }
 
                                                                                                return {

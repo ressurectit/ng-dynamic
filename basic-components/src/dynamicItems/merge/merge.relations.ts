@@ -67,7 +67,7 @@ export class MergeRelations<TObj = unknown> implements RelationsComponent<MergeR
     {
         if(this.relationsOptions)
         {
-            if(this.relationsOptions.properties.length)
+            if(this.relationsOptions.properties?.length)
             {
                 for(const name of this.relationsOptions.properties)
                 {

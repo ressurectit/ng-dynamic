@@ -105,7 +105,7 @@ export class LogicalAndRelations implements RelationsComponent<LogicalAndRelatio
     {
         if(this.relationsOptions)
         {
-            if(this.relationsOptions.properties.length)
+            if(this.relationsOptions?.properties?.length)
             {
                 for(const name of this.relationsOptions.properties)
                 {
@@ -131,7 +131,7 @@ export class LogicalAndRelations implements RelationsComponent<LogicalAndRelatio
      */
     protected evaluateResult(): void
     {
-        if (this.relationsOptions?.properties.length)
+        if (this.relationsOptions?.properties?.length)
         {
             for (const name of this.relationsOptions.properties)
             {

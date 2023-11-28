@@ -152,7 +152,7 @@ export class SyncValuesRelations implements RelationsComponent<SyncValuesRelatio
 
         if(isPresent(id))
         {
-            this.relationsProcessor.transferOutputsData(id, false);
+            this.relationsProcessor.transferOutputsData(id, false, true);
         }
     }
 }

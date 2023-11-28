@@ -47,9 +47,9 @@ export class MatchRelations implements RelationsComponent
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<MatchRelations>('value') in changes)
+        if(nameof<MatchRelations>('value') in changes ||
+           nameof<MatchRelations>('valueToMatch') in changes)
         {
-            //TODO fix possible scenarios, or add settings
             if (this.valueToMatch instanceof RegExp &&
                 isString(this.value))
             {

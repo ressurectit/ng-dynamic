@@ -65,6 +65,7 @@ export class MergeRelations<TObj = unknown> implements RelationsComponent<MergeR
      */
     protected initialize(): void
     {
+        //TODO optimize property setter. Currently triggers multiple times when properties are set in sync.
         if(this.relationsOptions)
         {
             if(this.relationsOptions.properties?.length)

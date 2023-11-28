@@ -141,7 +141,8 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
                                                       param.value = value;
 
                                                       this.emptyParam[index] = isBlank(value);
-                                                  }
+                                                  },
+                                                  get: () => param.value
                                               });
                     }
                 }

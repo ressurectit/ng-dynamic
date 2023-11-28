@@ -1,7 +1,7 @@
 import {inject, Inject, Injectable, Injector, OnDestroy, Optional} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
-import {Dictionary, isBlank, noop, NoopAction} from '@jscrpt/common';
+import {Dictionary, isBlank, noop, NoopAction, isStrictEquals} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
 import {RelationsComponent, RelationsComponentMetadata, RelationsComponentType} from '../../interfaces';
@@ -379,9 +379,9 @@ export class RelationsProcessor implements OnDestroy
      * @param id - Id of component whose outputs relations should be applied to transfer data
      * @param delayed - Indication whether delay data transfer and only generate instructions, if true returns dictionary with data transfer instructions per components
      */
-    public transferOutputsData(id: string, delayed: true): Dictionary<RelationsDataTransferInstruction>
-    public transferOutputsData(id: string, delayed: false): null
-    public transferOutputsData(id: string, delayed: boolean = false): null|Dictionary<RelationsDataTransferInstruction>
+    public transferOutputsData(id: string, delayed: true, forceTransfer?: boolean): Dictionary<RelationsDataTransferInstruction>
+    public transferOutputsData(id: string, delayed: false, forceTransfer?: boolean): null
+    public transferOutputsData(id: string, delayed: boolean = false, forceTransfer: boolean = false): null|Dictionary<RelationsDataTransferInstruction>
     {
         const transfers: Dictionary<RelationsDataTransferInstructionImpl> = {};
         const relations: RelationsProcessorComponentData = this.relations[id];
@@ -433,6 +433,12 @@ export class RelationsProcessor implements OnDestroy
 
                         const previousValue = (inputComponent as any)[inputOutput.inputName];
                         const currentValue = (outputComponent as any)[inputOutput.outputName];
+
+                        //ignore changes when previousValue equals to currentValue.
+                        if (!forceTransfer && isStrictEquals(previousValue, currentValue)) 
+                        {
+                            continue;
+                        }
 
                         const change = transfers[inputOutput.inputComponentId].changes[inputOutput.inputName] =
                         {
@@ -558,6 +564,12 @@ export class RelationsProcessor implements OnDestroy
 
             const previousValue = (inputComponent as any)[backwardRelation.inputName];
             const currentValue = (outputComponent as any)[backwardRelation.outputName];
+
+            //ignore changes when previousValue equals to currentValue.
+            if (isStrictEquals(previousValue, currentValue)) 
+            {
+                continue;
+            }
 
             const change = transfer.changes[backwardRelation.inputName] =
             {
@@ -722,6 +734,12 @@ export class RelationsProcessor implements OnDestroy
         const previousValue = (target as any)[sourceTarget.inputName];
         const currentValue = (source as any)[sourceTarget.outputName];
         const transfer = new RelationsDataTransferInstructionImpl([target]);
+
+        //ignore changes when previousValue equals to currentValue.
+        if (isStrictEquals(previousValue, currentValue)) 
+        {
+            return false;
+        }
 
         const change = transfer.changes[sourceTarget.inputName] =
         {

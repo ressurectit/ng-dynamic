@@ -3,7 +3,6 @@ import {provideClientHydration} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding, withHashLocation} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
-import {AUTH_INTERCEPTOR_PROVIDER, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@anglr/authentication';
 import {LocalPermanentStorage} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
@@ -82,8 +81,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER,
     HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER,
     NO_CONNECTION_INTERCEPTOR_PROVIDER,
-    SUPPRESS_AUTH_INTERCEPTOR_PROVIDER,
-    AUTH_INTERCEPTOR_PROVIDER,
     PROGRESS_INTERCEPTOR_PROVIDER,
 
     //######################### NO CONNECTION INTERCEPTOR OPTIONS #########################
@@ -212,7 +209,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         .writeTo(DeveloperConsoleSink)
         .enrichWith(LogLevelEnricher)
         .enrichWith(TimestampEnricher)
-        .minimumLevel(LogLevel.Verbose)
+        .minimumLevel(LogLevel.Warning)
         .messageTemplate('{{timestamp}} [{{logLevel}}] {{messageLog}}')),
 
     //######################### SETTINGS STORAGE #########################

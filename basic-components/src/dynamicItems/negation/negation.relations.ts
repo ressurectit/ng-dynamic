@@ -24,7 +24,7 @@ export class NegationRelations implements RelationsComponent
     /**
      * Condition which value will be negated
      */
-    public condition: boolean = false;
+    public condition?: boolean;
 
     //######################### public properties - dynamic outputs #########################
 

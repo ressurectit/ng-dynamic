@@ -1,4 +1,5 @@
 import {SimpleChanges} from '@angular/core';
+import {isEmptyObject} from '@jscrpt/common';
 
 import {RelationsProcessorComponent} from '../../misc/types';
 import {RelationsDataTransferInstruction} from './relationsProcessor.interface';
@@ -39,7 +40,7 @@ export class RelationsDataTransferInstructionImpl implements RelationsDataTransf
     {
         for(const component of this.components)
         {
-            if(!component)
+            if(!component || isEmptyObject(this._changes))
             {
                 continue;
             }

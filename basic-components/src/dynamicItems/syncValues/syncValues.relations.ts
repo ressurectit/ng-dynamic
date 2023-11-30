@@ -89,10 +89,10 @@ export class SyncValuesRelations implements RelationsComponent<SyncValuesRelatio
         {
             if(this.timeout)
             {
-                clearTimeout(this.timeout);
+                cancelIdleCallback(this.timeout);
             }
 
-            this.timeout = setTimeout(() => this.sendData(), this.relationsOptions.idleTimeout ?? 0) as any;
+            this.timeout = requestIdleCallback(() => this.sendData(), {timeout: this.relationsOptions.idleTimeout ?? 0}) as any;
         }
     }
 

@@ -1,5 +1,5 @@
 import {Injector, SimpleChanges} from '@angular/core';
-import {defineAssignedProp, defineSkipInitProp, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
+import {defineAssignedProp, defineSkipInitProp, RelationsChangeDetector, RelationsComponent, RelationsComponentManager, RelationsProcessor, RelationsWithInjector} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {Dictionary} from '@jscrpt/common';
 import {Subject} from 'rxjs';
@@ -57,7 +57,6 @@ export class ComponentOutputsRelations implements RelationsComponent<ComponentOu
         for(const key of Object.keys(changes))
         {
             this.customComponent[key] = changes[key].currentValue;
-            this.customComponent[`${key}Change`]?.next?.();
         }
     }
 
@@ -114,6 +113,28 @@ export class ComponentOutputsRelations implements RelationsComponent<ComponentOu
                                       {
                                           this[`ɵ${output.name}`] = value;
                                           defineAssignedProp(this, output.name);
+
+                                          const injector = (this as RelationsWithInjector).ɵɵinjector;
+
+                                          if(!injector)
+                                          {
+                                              return;
+                                          }
+
+                                          const componentManager = injector.get(RelationsComponentManager);
+                                          const changeDetector = injector.get(RelationsChangeDetector);
+                                          const id = componentManager.getId(this);
+
+                                          if(!id)
+                                          {
+                                              return;
+                                          }
+
+                                          changeDetector.markForCheck(
+                                          {
+                                              componentId: id,
+                                              outputName: output.name,
+                                          });
                                       }
                                   });
 

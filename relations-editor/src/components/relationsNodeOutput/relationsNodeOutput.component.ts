@@ -52,6 +52,9 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
                 relation.destroy();
             }
         }
+
+        this.canvasPositionChangeSubscription?.unsubscribe();
+        this.canvasPositionChangeSubscription = null;
     }
 
     //######################### public methods - implementation of RelationsOutput #########################
@@ -113,11 +116,14 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
         event.preventDefault();
 
         this.isDragging = true;
-        this.lastMouseDownPosition =
+        this.canvasPositionChangeSubscription = this.canvas?.convasPositionChanged.subscribe(() => 
         {
-            x: event.clientX,
-            y: event.clientY
-        };
+            if (this.relation)
+            {
+                this.relation.end = this.canvas.getPositionInCanvas({x: this.lastMouseMovePosition.x, y: this.lastMouseMovePosition.y});
+                this.relation.invalidateVisuals();
+            }
+        });
 
         this.relation = this.startRelation();
     }
@@ -154,14 +160,15 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
             event.stopImmediatePropagation();
             event.preventDefault();
 
+            this.lastMouseMovePosition =
+            {
+                x: event.clientX,
+                y: event.clientY
+            };
+
             if (this.relation)
             {
-                this.relation.end =
-                {
-                    x: this.getCoordinates().x + (event.clientX - this.lastMouseDownPosition.x) * 1/this.zoomLevel,
-                    y: this.getCoordinates().y + (event.clientY - this.lastMouseDownPosition.y) * 1/this.zoomLevel
-                };
-
+                this.relation.end = this.canvas.getPositionInCanvas({x: this.lastMouseMovePosition.x, y: this.lastMouseMovePosition.y});
                 this.relation.invalidateVisuals();
             }
         }
@@ -177,6 +184,8 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
         if (this.isDragging)
         {
             this.isDragging = false;
+            this.canvasPositionChangeSubscription?.unsubscribe();
+            this.canvasPositionChangeSubscription = null;
             event.stopImmediatePropagation();
             event.preventDefault();
 

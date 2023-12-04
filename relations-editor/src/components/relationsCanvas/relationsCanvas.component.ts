@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild, ElementRef, Input, Inject, OnInit, ChangeDetectorRef, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild, ElementRef, Input, Inject, OnInit, ChangeDetectorRef, OnDestroy, EventEmitter, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MetadataHistoryManager} from '@anglr/dynamic';
 import {select} from 'd3';
@@ -23,9 +23,14 @@ const DEFAULT_BACKGROUND_SIZE = 16;
 const SCALE_FACTOR_MIN = 0.2;
 
 /**
- * Maximum sclae factor
+ * Maximum scale factor
  */
 const SCALE_FACTOR_MAX = 2;
+
+/**
+ * Maximal movement delta
+ */
+const MOVEMENT_DELTA_MAX = 10;
 
 /**
  * Component used as designer component wrapper for relations component
@@ -44,6 +49,13 @@ const SCALE_FACTOR_MAX = 2;
 })
 export class RelationsCanvasSAComponent implements OnInit, OnDestroy
 {
+    //######################### private properties #########################
+
+    /**
+     * Identifier of canvas move timer
+     */
+    private _canvasMoveTimer: number|null = null;
+
     //######################### protected properties #########################
 
     /**
@@ -93,6 +105,11 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
     protected canvasPosition: Coordinates = {x: 0, y: 0};
 
     /**
+     * Mouse position in canvas
+     */
+    protected mousePosition: Coordinates = {x: 0, y: 0};
+
+    /**
      * Zoom level
      */
     protected zoomLevel = 1;
@@ -102,13 +119,12 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
      */
     protected isDragging: boolean = false;
 
-    
     //######################### protected properties - getters and setters #########################
 
     /**
      * Canvas bounding box
      */
-    protected get boundingBox(): DOMRect
+    public get boundingBox(): DOMRect
     {
         return this.element.nativeElement.getBoundingClientRect();
     }
@@ -128,6 +144,11 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
      */
     @Input()
     public nodeDefinitions: RelationsNodeMetadata[] = [];
+
+    //######################### public properties - outputs #########################
+
+    @Output()
+    public convasPositionChanged: EventEmitter<void> = new EventEmitter<void>();
 
     //######################### constructor #########################
     constructor(protected element: ElementRef,
@@ -230,6 +251,11 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
     @HostListener('mousemove', ['$event'])
     protected onMouseMove(event: MouseEvent): void
     {
+        this.mousePosition = {
+            x: event.clientX - this.boundingBox.left,
+            y: event.clientY - this.boundingBox.top
+        };
+
         if (this.isDragging)
         {
             this.canvasPosition =
@@ -237,6 +263,48 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
                 x: event.clientX - this.dragStartPosition.x,
                 y: event.clientY - this.dragStartPosition.y
             };
+        }
+        else
+        {
+            if (event?.buttons === MouseButton.LEFT)
+            {
+                if (!this._canvasMoveTimer)
+                {
+                    this._canvasMoveTimer = setInterval(() =>
+                    {
+                        const delta: Coordinates = {
+                            x: 0,
+                            y: 0,
+                        };
+
+                        if (this.mousePosition.x >= this.boundingBox.width*0.9)
+                        {
+                            delta.x -= Math.min((this.mousePosition.x - this.boundingBox.width*0.9)/(this.boundingBox.width/10)*MOVEMENT_DELTA_MAX, MOVEMENT_DELTA_MAX);
+                        }
+                        else if (this.mousePosition.x <= this.boundingBox.width/10)
+                        {
+                            delta.x += Math.min((this.boundingBox.width/10 - this.mousePosition.x)/(this.boundingBox.width/10)*MOVEMENT_DELTA_MAX, MOVEMENT_DELTA_MAX);
+                        }
+
+                        if (this.mousePosition.y >= this.boundingBox.height*0.9)
+                        {
+                            delta.y -= Math.min((this.mousePosition.y - this.boundingBox.height*0.9)/(this.boundingBox.height/10)*MOVEMENT_DELTA_MAX, MOVEMENT_DELTA_MAX);
+                        }
+                        else if (this.mousePosition.y <= this.boundingBox.height/10)
+                        {
+                            delta.y += Math.min((this.boundingBox.height/10 - this.mousePosition.y)/(this.boundingBox.height/10)*MOVEMENT_DELTA_MAX, MOVEMENT_DELTA_MAX);
+                        }
+
+                        if (delta.x != 0 || delta.y != 0)
+                        {
+                            this.convasPositionChanged.emit(delta);
+                            this.canvasPosition.x += delta.x;
+                            this.canvasPosition.y += delta.y;
+                            this._changeDetector.detectChanges();
+                        }
+                    }, 33) as unknown as number;
+                }
+            }
         }
     }
 
@@ -250,6 +318,12 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
         if (this.isDragging)
         {
             this.isDragging = false;
+        }
+
+        if (this._canvasMoveTimer)
+        {
+            clearInterval(this._canvasMoveTimer);
+            this._canvasMoveTimer = null;
         }
     }
 

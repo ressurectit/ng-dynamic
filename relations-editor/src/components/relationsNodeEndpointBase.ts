@@ -1,4 +1,5 @@
 import {Directive, ElementRef, HostBinding, Input, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs';
 
 import {Coordinates, RelationsEndpoint, RelationsNode} from '../interfaces';
 import {NodeRelationPath} from '../misc/nodeRelationPath';
@@ -12,6 +13,11 @@ import {RelationsCanvasSAComponent} from './relationsCanvas/relationsCanvas.comp
 export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnInit
 {
     //######################### protected properties #########################
+
+    /**
+     * Canvas position change subscription
+     */
+    protected canvasPositionChangeSubscription: Subscription|null = null;
 
     /**
      * Node relation
@@ -30,9 +36,9 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnI
     protected isHighlighted: boolean = false;
 
     /**
-     * Last mouse down position
+     * Last mouse move position
      */
-    protected lastMouseDownPosition: Coordinates = 
+    protected lastMouseMovePosition: Coordinates = 
     {
         x: 0,
         y: 0

@@ -36,6 +36,9 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
         {
             this.relation.destroy();
         }
+
+        this.canvasPositionChangeSubscription?.unsubscribe();
+        this.canvasPositionChangeSubscription = null;
     }
 
     //######################### public methods - implementation of RelationsInput #########################
@@ -132,15 +135,19 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
         event.stopImmediatePropagation();
         event.preventDefault();
 
-        this.lastMouseDownPosition =
-        {
-            x: event.clientX,
-            y: event.clientY
-        };
-
         this._tempRelation = this.relation;
         this.relation = null;
         this.isDragging = true;
+
+        this.canvasPositionChangeSubscription = this.canvas?.convasPositionChanged.subscribe(() => 
+        {
+            if (this._tempRelation)
+            {
+                this._tempRelation.end = this.canvas.getPositionInCanvas({x: this.lastMouseMovePosition.x, y: this.lastMouseMovePosition.y});
+
+                this._tempRelation.invalidateVisuals();
+            }
+        });
     }
 
     /**
@@ -155,13 +162,15 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
             event.stopImmediatePropagation();
             event.preventDefault();
 
+            this.lastMouseMovePosition =
+            {
+                x: event.clientX,
+                y: event.clientY
+            };
+
             if (this._tempRelation)
             {
-                this._tempRelation.end =
-                {
-                    x: this.getCoordinates().x + (event.clientX - this.lastMouseDownPosition?.x) * 1/this.zoomLevel,
-                    y: this.getCoordinates().y + (event.clientY - this.lastMouseDownPosition?.y) * 1/this.zoomLevel
-                };
+                this._tempRelation.end = this.canvas.getPositionInCanvas({x: this.lastMouseMovePosition.x, y: this.lastMouseMovePosition.y});
     
                 this._tempRelation.invalidateVisuals();
             }
@@ -178,6 +187,8 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
         if (this.isDragging)
         {
             this.isDragging = false;
+            this.canvasPositionChangeSubscription?.unsubscribe();
+            this.canvasPositionChangeSubscription = null;
             event.stopImmediatePropagation();
             event.preventDefault();
             this._tempRelation?.invalidateVisuals(INVALIDATE_DROP);

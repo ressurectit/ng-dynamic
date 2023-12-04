@@ -214,7 +214,6 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                 await component.ngOnInit?.();
 
                 this.logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {{@id}}', {id: componentMetadata?.id});
-                // component.invalidateVisuals();
                 this.ɵComponentRef?.changeDetectorRef.markForCheck();
 
                 this.componentElementChange.next((this.ɵComponentRef?.hostView as EmbeddedViewRef<unknown>)?.rootNodes?.[0] as HTMLElement);

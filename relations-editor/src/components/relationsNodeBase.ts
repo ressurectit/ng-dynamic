@@ -1,12 +1,13 @@
 import {HostListener, ViewChildren, QueryList, ChangeDetectorRef, ElementRef, SimpleChanges, Directive, OnDestroy, inject} from '@angular/core';
 import {MetadataHistoryManager} from '@anglr/dynamic';
 import {Dictionary, nameof} from '@jscrpt/common';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 
 import {Coordinates, RelationsInput, RelationsNode, RelationsNodeMetadata, RelationsOutput} from '../interfaces';
 import {RelationNodeOutputSAComponent} from './relationsNodeOutput/relationsNodeOutput.component';
 import {RelationNodeInputSAComponent} from './relationsNodeInput/relationsNodeInput.component';
 import {RELATIONS_HISTORY_MANAGER} from '../misc/tokens';
+import {RelationsCanvasSAComponent} from './relationsCanvas/relationsCanvas.component';
 
 /**
  * Base class for relations node components
@@ -15,6 +16,13 @@ import {RELATIONS_HISTORY_MANAGER} from '../misc/tokens';
 export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> implements RelationsNode<TOptions, TEditorOptions>, OnDestroy
 {
     //######################### protected properties #########################
+
+    protected canvas: RelationsCanvasSAComponent = inject(RelationsCanvasSAComponent);
+
+    /**
+     * Canvas position change subscription
+     */
+    protected canvasPositionChangeSubscription: Subscription|null|undefined = null;
 
     /**
      * Instance of resize observer
@@ -44,16 +52,16 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     /**
      * Last mouse down position
      */
-    protected lastMouseDownPosition: Coordinates =
+    protected lastMouseMovePosition: Coordinates =
     {
         x: 0,
         y: 0
     };
 
     /**
-     * Node position on last mouse down event
+     * Last mouse down offset position
      */
-    protected lastMouseDownNodePosition: Coordinates =
+    protected lastMouseDownOffset: Coordinates =
     {
         x: 0,
         y: 0
@@ -154,6 +162,14 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
         return this.destroySubject.asObservable();
     }
 
+    /**
+     * Node bounding box
+     */
+    public get boundingBox(): DOMRect
+    {
+        return this.element.nativeElement.getBoundingClientRect();
+    }
+
     //######################### constructor #########################
     constructor(protected changeDetector: ChangeDetectorRef,
                 protected element: ElementRef<HTMLElement>,)
@@ -194,6 +210,8 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     public ngOnDestroy(): void
     {
         this.observer?.disconnect();
+        this.canvasPositionChangeSubscription?.unsubscribe();
+        this.canvasPositionChangeSubscription = null;
     }
 
     //######################### public methods - implementation of RelationsNode #########################
@@ -231,17 +249,25 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     {
         this.moved = false;
         this.isDragging = true;
-        this.lastMouseDownPosition =
+
+        this.lastMouseDownOffset =
         {
-            x: event.clientX,
-            y: event.clientY
+            x: event.clientX - this.boundingBox.left,
+            y: event.clientY - this.boundingBox.top
         };
 
-        this.lastMouseDownNodePosition =
+        this.canvasPositionChangeSubscription = this.canvas.convasPositionChanged.subscribe(() => 
         {
-            x: this.nodePosition.x,
-            y: this.nodePosition.y
-        };
+            this.nodePosition = this.canvas.getPositionInCanvas({
+                x: this.lastMouseMovePosition.x - this.lastMouseDownOffset.x,
+                y: this.lastMouseMovePosition.y - this.lastMouseDownOffset.y,
+            });
+
+            this.invalidateVisuals();
+
+            this.updatePosition();
+            this.updateRelations();
+        });
 
         event.stopImmediatePropagation();
     }
@@ -257,11 +283,16 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
         {
             this.moved = true;
 
-            this.nodePosition =
+            this.lastMouseMovePosition =
             {
-                x: this.lastMouseDownNodePosition.x + (event.clientX - this.lastMouseDownPosition.x) * 1/this.zoomLevel,
-                y: this.lastMouseDownNodePosition.y + (event.clientY - this.lastMouseDownPosition.y) * 1/this.zoomLevel,
+                x: event.clientX,
+                y: event.clientY
             };
+
+            this.nodePosition = this.canvas.getPositionInCanvas({
+                x: this.lastMouseMovePosition.x - this.lastMouseDownOffset.x,
+                y: this.lastMouseMovePosition.y - this.lastMouseDownOffset.y,
+            });
 
             this.updatePosition();
 
@@ -286,6 +317,8 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
             }
 
             this.isDragging = false;
+            this.canvasPositionChangeSubscription?.unsubscribe();
+            this.canvasPositionChangeSubscription = null;
             event.stopImmediatePropagation();
             event.preventDefault();
         }

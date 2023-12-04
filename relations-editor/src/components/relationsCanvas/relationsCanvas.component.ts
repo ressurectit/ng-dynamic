@@ -297,7 +297,7 @@ export class RelationsCanvasSAComponent implements OnInit, OnDestroy
 
                         if (delta.x != 0 || delta.y != 0)
                         {
-                            this.convasPositionChanged.emit(delta);
+                            this.convasPositionChanged.emit();
                             this.canvasPosition.x += delta.x;
                             this.canvasPosition.y += delta.y;
                             this._changeDetector.detectChanges();

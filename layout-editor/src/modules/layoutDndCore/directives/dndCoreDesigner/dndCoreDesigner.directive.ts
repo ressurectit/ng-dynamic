@@ -1,4 +1,4 @@
-import {ContentChild, Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
+import {ContentChild, Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output, inject} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {BindThis, isBlank, isPresent} from '@jscrpt/common';
@@ -22,6 +22,11 @@ import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 export class DndCoreDesignerDirective implements OnInit, OnDestroy
 {
     //######################### protected properties #########################
+
+    /**
+     * NgZone instance
+     */
+    protected ngZone: NgZone = inject(NgZone);
 
     /**
      * Current metadata for this component
@@ -335,21 +340,30 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
         this.initSubscriptions.add(this.bus
                                        .dropDataChange
                                        .pipe(filter(itm => itm.id === this.metadata.id))
-                                       .subscribe(itm => this.dropMetadata.emit(itm.data)));
+                                       .subscribe(itm => 
+                                       {
+                                           this.ngZone.run(() => this.dropMetadata.emit(itm.data));
+                                       }));
 
         this.initSubscriptions.add(this.bus
                                        .oldDropPlaceholderPreviewChange
                                        .pipe(filter(itm => itm.parentId === this.metadata.id))
                                        .subscribe(() =>
                                        {
-                                           this.placeholderPreviewElement?.remove();
-                                           this.placeholderPreviewElement = null;
+                                           this.ngZone.run(() =>
+                                           {
+                                               this.placeholderPreviewElement?.remove();
+                                               this.placeholderPreviewElement = null;
+                                           });
                                        }));
 
         this.initSubscriptions.add(this.bus
                                        .newDropPlaceholderPreviewChange
                                        .pipe(filter(itm => itm.parentId === this.metadata.id))
-                                       .subscribe(this.showPlaceholderPreview));
+                                       .subscribe((preview) =>
+                                       {
+                                           this.ngZone.run(() => this.showPlaceholderPreview(preview));
+                                       }));
 
         // this.initSubscriptions.add(registerDropzoneOverlay(this.dropzone, this.dropzoneElement, this.injector, this.dragData));
         // this.initSubscriptions.add(registerDropzoneOverlay(this.containerDrop, this.designerElement.nativeElement, this.injector, this.dragData));

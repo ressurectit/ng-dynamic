@@ -1,7 +1,7 @@
 import {ComponentRef, Directive, EmbeddedViewRef, EventEmitter, Inject, Injector, Input, OnChanges, OnDestroy, Optional, Output, SimpleChanges, SkipSelf, ValueProvider, ViewContainerRef} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {addSimpleChange, DynamicItemExtensionType, DynamicItemLoader, SCOPE_ID} from '@anglr/dynamic';
-import {DebounceCall, WithSync, nameof} from '@jscrpt/common';
+import {nameof} from '@jscrpt/common';
 
 import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer.options';
 import {MissingTypeBehavior} from './layoutComponentRenderer.types';
@@ -117,8 +117,6 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
     /**
      * Called when input value changes
      */
-    @DebounceCall(10)
-    @WithSync()
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
         this.logger?.debug('LayoutComponentRendererSADirective: rendering component {{@id}}', {id: this.componentMetadata?.id});
@@ -216,7 +214,7 @@ export class LayoutComponentRendererSADirective<TComponent extends LayoutCompone
                 await component.ngOnInit?.();
 
                 this.logger?.debug('LayoutComponentRendererSADirective: invalidating component visuals {{@id}}', {id: componentMetadata?.id});
-                component.invalidateVisuals();
+                // component.invalidateVisuals();
                 this.ɵComponentRef?.changeDetectorRef.markForCheck();
 
                 this.componentElementChange.next((this.ɵComponentRef?.hostView as EmbeddedViewRef<unknown>)?.rootNodes?.[0] as HTMLElement);

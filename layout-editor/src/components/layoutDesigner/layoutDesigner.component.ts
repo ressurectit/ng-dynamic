@@ -4,9 +4,10 @@ import {Logger, LOGGER, PositionToSADirective} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {MetadataHistoryManager, SCOPE_ID} from '@anglr/dynamic';
-import {isPresent} from '@jscrpt/common';
+import {extend, isPresent} from '@jscrpt/common';
 import {DndModule} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
+import {isEqual} from 'lodash-es';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {BodyRenderSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
@@ -44,6 +45,13 @@ import {LayoutComponentDragData} from '../../interfaces';
 })
 export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>, OnDestroy
 {
+    //######################### private properties #########################
+
+    /**
+     * Last type metadata value from onOptionSet
+     */
+    private _typeMetadata: LayoutComponentMetadata<LayoutDesignerComponentOptions>|null|undefined;
+
     //######################### protected properties #########################
 
     /**
@@ -357,12 +365,14 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override onOptionsSet(): void
     {
-        if(!this.options)
+        if(!this.options ||
+           isEqual(this._typeMetadata, this.options.typeMetadata))
         {
             return;
         }
 
         this.renderedType = {...this.options.typeMetadata};
+        this._typeMetadata = extend(true, {}, this.options.typeMetadata);
         this.horizontal = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ?? false;
         this.changeDetector.detectChanges();
     }

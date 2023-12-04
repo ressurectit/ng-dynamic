@@ -13,7 +13,7 @@ import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 import TerserPlugin from 'terser-webpack-plugin';
 import {AngularWebpackPlugin} from '@ngtools/webpack';
 import linkerPlugin from '@angular/compiler-cli/linker/babel';
-import asyncGeneratorFunctions from '@babel/plugin-proposal-async-generator-functions';
+import asyncGeneratorFunctions from '@babel/plugin-transform-async-generator-functions';
 import asyncToGenerator from '@babel/plugin-transform-async-to-generator';
 import {HmrLoader} from '@angular-devkit/build-angular/src/tools/webpack/plugins/hmr/hmr-loader.js';
 import {JavaScriptOptimizerPlugin} from '@angular-devkit/build-angular/src/tools/webpack/plugins/javascript-optimizer-plugin.js';
@@ -184,8 +184,8 @@ export default [function(options, args)
                 "@anglr/dynamic": path.join(dirName, "../src/index.ts"),
                 "app": path.join(dirName, "app")
             },
-            mainFields: ['esm2020', 'esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'],
-            conditionNames: ['esm2020', 'es2015', 'import']
+            mainFields: ['esm2022', 'es2022', 'esm2020', 'esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main'],
+            conditionNames: ['esm2022', 'es2022', 'esm2020', 'es2015', 'import']
         },
         module:
         {

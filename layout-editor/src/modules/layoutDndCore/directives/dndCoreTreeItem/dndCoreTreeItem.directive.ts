@@ -1,4 +1,4 @@
-import {Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output, inject} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {BindThis, isBlank, isPresent} from '@jscrpt/common';
@@ -21,6 +21,11 @@ import {LayoutDragItem, LayoutDropResult} from '../dndCoreDesigner/dndCoreDesign
 export class DndCoreTreeItemDirective implements OnInit, OnDestroy
 {
     //######################### protected properties #########################
+    
+    /**
+     * NgZone instance
+     */
+    protected ngZone: NgZone = inject(NgZone);
 
     /**
      * Current metadata for this component
@@ -296,23 +301,32 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
         }
 
         this.initSubscriptions.add(this.bus
-                                       .dropDataChange
-                                       .pipe(filter(itm => itm.id === this.metadata.id))
-                                       .subscribe(itm => this.dropMetadata.emit(itm.data)));
-
+                                        .dropDataChange
+                                        .pipe(filter(itm => itm.id === this.metadata.id))
+                                        .subscribe(itm => 
+                                        {
+                                            this.ngZone.run(() => this.dropMetadata.emit(itm.data));
+                                        }));
+ 
         this.initSubscriptions.add(this.bus
-                                       .oldDropPlaceholderPreviewChange
-                                       .pipe(filter(itm => itm.parentId === this.metadata.id))
-                                       .subscribe(() =>
-                                       {
-                                           this.placeholderPreviewElement?.remove();
-                                           this.placeholderPreviewElement = null;
-                                       }));
-
+                                        .oldDropPlaceholderPreviewChange
+                                        .pipe(filter(itm => itm.parentId === this.metadata.id))
+                                        .subscribe(() =>
+                                        {
+                                            this.ngZone.run(() =>
+                                            {
+                                                this.placeholderPreviewElement?.remove();
+                                                this.placeholderPreviewElement = null;
+                                            });
+                                        }));
+ 
         this.initSubscriptions.add(this.bus
-                                       .newDropPlaceholderPreviewChange
-                                       .pipe(filter(itm => itm.parentId === this.metadata.id))
-                                       .subscribe(this.showPlaceholderPreview));
+                                        .newDropPlaceholderPreviewChange
+                                        .pipe(filter(itm => itm.parentId === this.metadata.id))
+                                        .subscribe((preview) =>
+                                        {
+                                            this.ngZone.run(() => this.showPlaceholderPreview(preview));
+                                        }));
     }
 
     //######################### public methods - implementation of OnDestroy #########################

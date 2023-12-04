@@ -209,7 +209,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         .writeTo(DeveloperConsoleSink)
         .enrichWith(LogLevelEnricher)
         .enrichWith(TimestampEnricher)
-        .minimumLevel(LogLevel.Warning)
+        .minimumLevel(LogLevel.Verbose)
         .messageTemplate('{{timestamp}} [{{logLevel}}] {{messageLog}}')),
 
     //######################### SETTINGS STORAGE #########################

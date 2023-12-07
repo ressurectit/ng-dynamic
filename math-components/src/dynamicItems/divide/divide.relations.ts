@@ -1,7 +1,7 @@
 import {Input, SimpleChanges} from '@angular/core';
 import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
-import {isNumber, isPresent, nameof} from '@jscrpt/common';
+import {isNumber, isPresent, isString, nameof} from '@jscrpt/common';
 
 import {MathDivideRelationsMetadataLoader} from './divide.metadata';
 import {MathDivideRelationsOptions} from './divide.options';
@@ -38,6 +38,16 @@ export class MathDivideRelations implements RelationsComponent<MathDivideRelatio
         if(nameof<MathDivideRelationsOptions>('input1') in changes ||
            nameof<MathDivideRelationsOptions>('input2') in changes)
         {
+            if (isString(this.input1))
+            {
+                this.input1 = parseFloat(this.input1);
+            }
+
+            if (isString(this.input2))
+            {
+                this.input2 = parseFloat(this.input2);
+            }
+
             if (isNumber(this.input1) &&
                 isNumber(this.input2))
             {

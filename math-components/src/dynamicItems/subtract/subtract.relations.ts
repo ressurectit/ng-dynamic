@@ -1,7 +1,7 @@
 import {Input, SimpleChanges} from '@angular/core';
 import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
-import {isNumber, isPresent, nameof} from '@jscrpt/common';
+import {isNumber, isPresent, isString, nameof} from '@jscrpt/common';
 
 import {MathSubtractRelationsMetadataLoader} from './subtract.metadata';
 import {MathSubtractRelationsOptions} from './subtract.options';
@@ -38,10 +38,20 @@ export class MathSubtractRelations implements RelationsComponent<MathSubtractRel
         if(nameof<MathSubtractRelationsOptions>('input1') in changes ||
            nameof<MathSubtractRelationsOptions>('input2') in changes)
         {
+            if (isString(this.input1))
+            {
+                this.input1 = parseFloat(this.input1);
+            }
+
+            if (isString(this.input2))
+            {
+                this.input2 = parseFloat(this.input2);
+            }
+
             if (isNumber(this.input1) &&
                 isNumber(this.input2))
             {
-                this.result = this.input1 - this.input2;
+                this.result = +this.input1 - +this.input2;
                 return;
             }
 

@@ -7,7 +7,7 @@
     "scripts": {
         "build": "ngc --declaration --declarationDir . --declarationMap",
         "api": "api-extractor run --local --verbose -c",
-        "clean": "lerna run clean && rimraf --glob */temp temp es2022 **/tsdoc-metadata.json src/**/*.d.ts src/**/*.d.ts.map */src/**/*.d.ts */src/**/*.d.ts.map ./*.d.ts ./*.d.ts.map */*.d.ts",
+        "clean": "rimraf --glob */temp temp es2022 **/tsdoc-metadata.json src/**/*.d.ts src/**/*.d.ts.map */src/**/*.d.ts */src/**/*.d.ts.map ./*.d.ts ./*.d.ts.map */*.d.ts",
         "clean:deps": "lerna run clean:deps && rimraf package-lock.json node_modules || echo 'node_modules removed'",
         "clean:all": "lerna run clean:all && npm run clean && npm run clean:deps",
         "ngc": "ngc",

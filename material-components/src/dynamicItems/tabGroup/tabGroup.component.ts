@@ -5,7 +5,7 @@ import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutCom
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {generateId} from '@jscrpt/common';
+import {generateId, isPresent} from '@jscrpt/common';
 
 import {MaterialTabGroupComponentOptions} from './tabGroup.options';
 import {MaterialTabGroupLayoutMetadataLoader} from './tabGroup.metadata';
@@ -97,7 +97,7 @@ export class MaterialTabGroupSAComponent extends LayoutComponentBase<MaterialTab
      */
     public onHideTab(index: number|null|undefined)
     {
-        if (this.tabGroup?.selectedIndex === index &&
+        if ((!isPresent(index) || this.tabGroup?.selectedIndex === index) &&
             this.tabGroup?._tabs)
         {
             for (let i = 0; i < this.tabGroup._tabs.length; i++)
@@ -107,7 +107,7 @@ export class MaterialTabGroupSAComponent extends LayoutComponentBase<MaterialTab
                 if (!tab?.disabled)
                 {
                     this.tabGroup.selectedIndex = i;
-                    return;
+                    break;
                 }
             }
         }

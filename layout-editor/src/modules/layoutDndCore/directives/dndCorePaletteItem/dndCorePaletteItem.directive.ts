@@ -18,7 +18,7 @@ let emptyImage: HTMLImageElement;
  */
 function getEmptyImage()
 {
-    if (!emptyImage) 
+    if (!emptyImage)
     {
         emptyImage = new Image();
         emptyImage.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
@@ -56,55 +56,7 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
     /**
      * Drag source used for dragging palette item
      */
-    protected drag: DragSource<LayoutDragItem, LayoutDropResult> = this.dnd.dragSource('METADATA',
-                                                                                       {
-                                                                                           beginDrag: () =>
-                                                                                           {
-                                                                                               this.draggingSvc.setDragging(true);
-                                                                                               const dragData = extend(true, {}, this.dragData);
-
-                                                                                               if(dragData.metadata)
-                                                                                               {
-                                                                                                   const generatedId = generateId(16);
-                                                                                                   const newId = `${dragData.metadata.name}-${generatedId}`;
-
-                                                                                                   dragData.metadata.id = newId;
-                                                                                                   dragData.metadata.displayName = dragData?.metadata.displayName && dragData?.metadata.displayName != '' ? `${dragData?.metadata.displayName}-${generatedId}` : newId;
-                                                                                               }
-
-                                                                                               return {
-                                                                                                   dragData,
-                                                                                               };
-                                                                                           },
-                                                                                           endDrag: monitor =>
-                                                                                           {
-                                                                                               //dropped into drop zone
-                                                                                               if(monitor.didDrop())
-                                                                                               {
-                                                                                                   const item = monitor.getItem();
-                                                                                                   const dropResult = monitor.getDropResult();
-
-                                                                                                   if(!item)
-                                                                                                   {
-                                                                                                       return;
-                                                                                                   }
-
-                                                                                                   item.dragData.index = dropResult.index;
-
-                                                                                                   this.bus.setDropData(
-                                                                                                   {
-                                                                                                       data: item.dragData,
-                                                                                                       id: dropResult.id,
-                                                                                                   });
-
-                                                                                                   this.itemDrop.emit();
-                                                                                               }
-
-                                                                                               this.bus.setDropPlaceholderPreview(null);
-                                                                                               this.draggingSvc.setDragging(false);
-                                                                                           },
-                                                                                       },
-                                                                                       this.initSubscriptions);
+    protected drag: DragSource<LayoutDragItem, LayoutDropResult>;
 
     //######################### public properties - inputs #########################
 
@@ -129,6 +81,56 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
                 protected bus: DndBusService,
                 protected zone: NgZone,)
     {
+        this.drag = this.dnd.dragSource('METADATA',
+                                        {
+                                            beginDrag: () =>
+                                            {
+                                                this.draggingSvc.setDragging(true);
+                                                const dragData = extend(true, {}, this.dragData);
+
+                                                if(dragData.metadata)
+                                                {
+                                                    const generatedId = generateId(16);
+                                                    const newId = `${dragData.metadata.name}-${generatedId}`;
+
+                                                    dragData.metadata.id = newId;
+                                                    dragData.metadata.displayName = dragData?.metadata.displayName && dragData?.metadata.displayName != '' ? `${dragData?.metadata.displayName}-${generatedId}` : newId;
+                                                }
+
+                                                return {
+                                                    dragData,
+                                                };
+                                            },
+                                            endDrag: monitor =>
+                                            {
+                                                //dropped into drop zone
+                                                if(monitor.didDrop())
+                                                {
+                                                    const item = monitor.getItem();
+                                                    const dropResult = monitor.getDropResult();
+
+                                                    if(!item)
+                                                    {
+                                                        return;
+                                                    }
+
+                                                    item.dragData.index = dropResult.index;
+
+                                                    this.bus.setDropData(
+                                                    {
+                                                        data: item.dragData,
+                                                        id: dropResult.id,
+                                                    });
+
+                                                    this.itemDrop.emit();
+                                                }
+
+                                                this.bus.setDropPlaceholderPreview(null);
+                                                this.draggingSvc.setDragging(false);
+                                            },
+                                        },
+                                        this.initSubscriptions);
+
         this.connectDragToItem();
     }
 

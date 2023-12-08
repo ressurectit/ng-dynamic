@@ -85,69 +85,12 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     /**
      * Drop zone target that handles drop of component
      */
-    protected placeholderDrop: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
-                                                                                                  {
-                                                                                                      canDrop: () => true,
-                                                                                                      drop: monitor =>
-                                                                                                      {
-                                                                                                          const item = monitor.getItem();
-                                                                                                          let index = this.bus.dropPlaceholderPreviewIndex;
-
-                                                                                                          if(item && isPresent(item.dragData.index) && isPresent(index))
-                                                                                                          {
-                                                                                                              //same parent and higher index
-                                                                                                              if(index > item.dragData.index)
-                                                                                                              {
-                                                                                                                  index--;
-                                                                                                              }
-                                                                                                          }
-
-                                                                                                          return <LayoutDropResult>{
-                                                                                                              index,
-                                                                                                              id: this.metadata?.id,
-                                                                                                          };
-                                                                                                      },
-                                                                                                  }, this.initSubscriptions);
+    protected placeholderDrop: DropTarget<LayoutDragItem, LayoutDropResult>;
 
     /**
      * Drop zone target that handles drop of component
      */
-    protected containerDrop: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
-                                                                                                {
-                                                                                                    canDrop: monitor => this.canDropAncestors()[0] && monitor.isOver({shallow: true}),
-                                                                                                    drop: monitor =>
-                                                                                                    {
-                                                                                                        const [index, id] = this.getFixedDropCoordinates(monitor, false);
-
-                                                                                                        return <LayoutDropResult>{
-                                                                                                            index,
-                                                                                                            id,
-                                                                                                        };
-                                                                                                    },
-                                                                                                    hover: monitor =>
-                                                                                                    {
-                                                                                                        if(monitor.isOver({shallow: true}))
-                                                                                                        {
-                                                                                                            const [index, parentId] = this.getDropCoordinates(monitor, false);
-
-                                                                                                            if(isBlank(index) || isBlank(parentId))
-                                                                                                            {
-                                                                                                                return;
-                                                                                                            }
-
-                                                                                                            this.bus.setDropPlaceholderPreview(
-                                                                                                            {
-                                                                                                                index,
-                                                                                                                parentId,
-                                                                                                                placeholder:
-                                                                                                                {
-                                                                                                                    height: 0,
-                                                                                                                    width: 0
-                                                                                                                }
-                                                                                                            });
-                                                                                                        }
-                                                                                                    }
-                                                                                                }, this.initSubscriptions);
+    protected containerDrop: DropTarget<LayoutDragItem, LayoutDropResult>;
 
     /**
      * Gets element that represents container that contains children
@@ -182,90 +125,12 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     /**
      * Drag source used for dragging component
      */
-    public drag: DragSource<LayoutDragItem, LayoutDropResult> = this.dnd.dragSource('COMPONENT',
-                                                                                    {
-                                                                                        beginDrag: () =>
-                                                                                        {
-                                                                                            this.draggingSvc.setDragging(true);
-                                                                                            this.designerElement.nativeElement.classList.add('is-dragged');
-
-                                                                                            return {
-                                                                                                dragData: this.dragData,
-                                                                                            };
-                                                                                        },
-                                                                                        canDrag: () => !this.dragDisabled,
-                                                                                        endDrag: monitor =>
-                                                                                        {
-                                                                                            //dropped outside of any dropzone
-                                                                                            if(!monitor.didDrop())
-                                                                                            {
-                                                                                                this.designerElement.nativeElement.classList.remove('is-dragged');
-                                                                                            }
-                                                                                            //dropped into drop zone
-                                                                                            else
-                                                                                            {
-                                                                                                const item = monitor.getItem();
-                                                                                                const dropResult = monitor.getDropResult();
-
-                                                                                                if(!item)
-                                                                                                {
-                                                                                                    return;
-                                                                                                }
-
-                                                                                                item.dragData.index = dropResult.index;
-
-                                                                                                this.bus.setDropData(
-                                                                                                {
-                                                                                                    data: item.dragData,
-                                                                                                    id: dropResult.id,
-                                                                                                });
-                                                                                            }
-
-                                                                                            this.bus.setDropPlaceholderPreview(null);
-                                                                                            this.draggingSvc.setDragging(false);
-                                                                                        },
-                                                                                    },
-                                                                                    this.initSubscriptions);
+    public drag: DragSource<LayoutDragItem, LayoutDropResult>;
 
     /**
      * Drop zone target that handles drop of component
      */
-    public dropzone: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
-                                                                                        {
-                                                                                            canDrop: monitor => (this.canDrop || this.canDropAncestors()[0]) && monitor.isOver({shallow: true}),
-                                                                                            drop: monitor =>
-                                                                                            {
-                                                                                                const [index, id] = this.getFixedDropCoordinates(monitor, this.canDrop);
-
-                                                                                                return <LayoutDropResult>{
-                                                                                                    index,
-                                                                                                    id
-                                                                                                };
-                                                                                            },
-                                                                                            hover: monitor =>
-                                                                                            {
-                                                                                                if(monitor.isOver({shallow: true}) && monitor.canDrop())
-                                                                                                {
-                                                                                                    const [index, parentId] = this.getDropCoordinates(monitor, this.canDrop);
-
-                                                                                                    if(isBlank(index) || isBlank(parentId))
-                                                                                                    {
-                                                                                                        return;
-                                                                                                    }
-
-                                                                                                    this.bus.setDropPlaceholderPreview(
-                                                                                                    {
-                                                                                                        index,
-                                                                                                        parentId,
-                                                                                                        placeholder:
-                                                                                                        {
-                                                                                                            height: 0,
-                                                                                                            width: 0
-                                                                                                        }
-                                                                                                    });
-                                                                                                }
-                                                                                            }
-                                                                                        }, this.initSubscriptions);
+    public dropzone: DropTarget<LayoutDragItem, LayoutDropResult>;
 
     //######################### public properties - inputs #########################
 
@@ -305,6 +170,149 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                 protected injector: Injector,
                 @Inject(DOCUMENT) protected document: Document,)
     {
+        this.placeholderDrop = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
+                                                   {
+                                                       canDrop: () => true,
+                                                       drop: monitor =>
+                                                       {
+                                                           const item = monitor.getItem();
+                                                           let index = this.bus.dropPlaceholderPreviewIndex;
+
+                                                           if(item && isPresent(item.dragData.index) && isPresent(index))
+                                                           {
+                                                               //same parent and higher index
+                                                               if(index > item.dragData.index)
+                                                               {
+                                                                   index--;
+                                                               }
+                                                           }
+
+                                                           return <LayoutDropResult>{
+                                                               index,
+                                                               id: this.metadata?.id,
+                                                           };
+                                                       },
+                                                   }, this.initSubscriptions);
+
+        this.containerDrop = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
+                                                 {
+                                                     canDrop: monitor => this.canDropAncestors()[0] && monitor.isOver({shallow: true}),
+                                                     drop: monitor =>
+                                                     {
+                                                         const [index, id] = this.getFixedDropCoordinates(monitor, false);
+
+                                                         return <LayoutDropResult>{
+                                                             index,
+                                                             id,
+                                                         };
+                                                     },
+                                                     hover: monitor =>
+                                                     {
+                                                         if(monitor.isOver({shallow: true}))
+                                                         {
+                                                             const [index, parentId] = this.getDropCoordinates(monitor, false);
+
+                                                             if(isBlank(index) || isBlank(parentId))
+                                                             {
+                                                                 return;
+                                                             }
+
+                                                             this.bus.setDropPlaceholderPreview(
+                                                             {
+                                                                 index,
+                                                                 parentId,
+                                                                 placeholder:
+                                                                 {
+                                                                     height: 0,
+                                                                     width: 0
+                                                                 }
+                                                             });
+                                                         }
+                                                     }
+                                                 }, this.initSubscriptions);
+
+        this.drag = this.dnd.dragSource('COMPONENT',
+                                        {
+                                            beginDrag: () =>
+                                            {
+                                                this.draggingSvc.setDragging(true);
+                                                this.designerElement.nativeElement.classList.add('is-dragged');
+
+                                                return {
+                                                    dragData: this.dragData,
+                                                };
+                                            },
+                                            canDrag: () => !this.dragDisabled,
+                                            endDrag: monitor =>
+                                            {
+                                                //dropped outside of any dropzone
+                                                if(!monitor.didDrop())
+                                                {
+                                                    this.designerElement.nativeElement.classList.remove('is-dragged');
+                                                }
+                                                //dropped into drop zone
+                                                else
+                                                {
+                                                    const item = monitor.getItem();
+                                                    const dropResult = monitor.getDropResult();
+
+                                                    if(!item)
+                                                    {
+                                                        return;
+                                                    }
+
+                                                    item.dragData.index = dropResult.index;
+
+                                                    this.bus.setDropData(
+                                                    {
+                                                        data: item.dragData,
+                                                        id: dropResult.id,
+                                                    });
+                                                }
+
+                                                this.bus.setDropPlaceholderPreview(null);
+                                                this.draggingSvc.setDragging(false);
+                                            },
+                                        },
+                                        this.initSubscriptions);
+
+        this.dropzone = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
+                                            {
+                                                canDrop: monitor => (this.canDrop || this.canDropAncestors()[0]) && monitor.isOver({shallow: true}),
+                                                drop: monitor =>
+                                                {
+                                                    const [index, id] = this.getFixedDropCoordinates(monitor, this.canDrop);
+
+                                                    return <LayoutDropResult>{
+                                                        index,
+                                                        id
+                                                    };
+                                                },
+                                                hover: monitor =>
+                                                {
+                                                    if(monitor.isOver({shallow: true}) && monitor.canDrop())
+                                                    {
+                                                        const [index, parentId] = this.getDropCoordinates(monitor, this.canDrop);
+
+                                                        if(isBlank(index) || isBlank(parentId))
+                                                        {
+                                                            return;
+                                                        }
+
+                                                        this.bus.setDropPlaceholderPreview(
+                                                        {
+                                                            index,
+                                                            parentId,
+                                                            placeholder:
+                                                            {
+                                                                height: 0,
+                                                                width: 0
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            }, this.initSubscriptions);
+
         this.connectDropToContainer();
     }
 
@@ -340,7 +348,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
         this.initSubscriptions.add(this.bus
                                        .dropDataChange
                                        .pipe(filter(itm => itm.id === this.metadata.id))
-                                       .subscribe(itm => 
+                                       .subscribe(itm =>
                                        {
                                            this.ngZone.run(() => this.dropMetadata.emit(itm.data));
                                        }));

@@ -24,7 +24,7 @@ export class TransformDataRelations<TData = any, TTransformedData = any> impleme
     /**
      * Code executor used for execution o
      */
-    protected codeExecutor: CodeExecutor = this.injector.get(CodeExecutor);
+    protected codeExecutor: CodeExecutor;
 
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -59,6 +59,7 @@ export class TransformDataRelations<TData = any, TTransformedData = any> impleme
     //######################### constructor #########################
     constructor(protected injector: Injector,)
     {
+        this.codeExecutor = this.injector.get(CodeExecutor);
     }
 
     //######################### public methods - implementation of OnChanges #########################

@@ -24,7 +24,7 @@ export class StateRelations<TState = unknown> implements RelationsComponent<Stat
     /**
      * Code executor used for execution o
      */
-    protected codeExecutor: CodeExecutor = this.injector.get(CodeExecutor);
+    protected codeExecutor: CodeExecutor;
 
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -61,6 +61,7 @@ export class StateRelations<TState = unknown> implements RelationsComponent<Stat
     //######################### constructor #########################
     constructor(protected injector: Injector,)
     {
+        this.codeExecutor = this.injector.get(CodeExecutor);
     }
 
     //######################### public methods - implementation of OnChanges #########################

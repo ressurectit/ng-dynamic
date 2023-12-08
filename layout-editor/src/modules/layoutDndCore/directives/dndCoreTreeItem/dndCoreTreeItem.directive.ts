@@ -21,7 +21,7 @@ import {LayoutDragItem, LayoutDropResult} from '../dndCoreDesigner/dndCoreDesign
 export class DndCoreTreeItemDirective implements OnInit, OnDestroy
 {
     //######################### protected properties #########################
-    
+
     /**
      * NgZone instance
      */
@@ -71,164 +71,24 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
     /**
      * Drop zone target that handles drop of component
      */
-    protected placeholderDrop: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['TREE_COMPONENT'],
-                                                                                                  {
-                                                                                                      canDrop: () => true,
-                                                                                                      drop: monitor =>
-                                                                                                      {
-                                                                                                          const item = monitor.getItem();
-                                                                                                          let index = this.bus.dropPlaceholderPreviewIndex;
-                                                                                                  
-                                                                                                          if(item && isPresent(item.dragData.index) && isPresent(index))
-                                                                                                          {
-                                                                                                              //same parent and higher index
-                                                                                                              if(index > item.dragData.index)
-                                                                                                              {
-                                                                                                                  index--;
-                                                                                                              }
-                                                                                                          }
-
-                                                                                                          return <LayoutDropResult>{
-                                                                                                              index,
-                                                                                                              id: this.metadata?.id,
-                                                                                                          };
-                                                                                                      },
-                                                                                                  }, this.initSubscriptions);
+    protected placeholderDrop: DropTarget<LayoutDragItem, LayoutDropResult>;
 
     /**
      * Drop zone target that handles drop of component
      */
-    protected containerDrop: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['TREE_COMPONENT'],
-                                                                                                {
-                                                                                                    canDrop: monitor => this.canDropAncestors(this.metadata.id, monitor.getItem()?.dragData.metadata?.id)[0] && monitor.isOver({shallow: true}),
-                                                                                                    drop: monitor =>
-                                                                                                    {
-                                                                                                        const [index, id] = this.getFixedDropCoordinates(monitor, false);
-
-                                                                                                        return <LayoutDropResult>{
-                                                                                                            index,
-                                                                                                            id,
-                                                                                                        };
-                                                                                                    },
-                                                                                                    hover: monitor =>
-                                                                                                    {
-                                                                                                        if(monitor.isOver({shallow: true}))
-                                                                                                        {
-                                                                                                            const [index, parentId] = this.getDropCoordinates(monitor, false);
-
-                                                                                                            if(isBlank(index) || isBlank(parentId))
-                                                                                                            {
-                                                                                                                return;
-                                                                                                            }
-
-                                                                                                            this.bus.setDropPlaceholderPreview(
-                                                                                                            {
-                                                                                                                index,
-                                                                                                                parentId,
-                                                                                                                placeholder:
-                                                                                                                {
-                                                                                                                    height: 0,
-                                                                                                                    width: 0
-                                                                                                                }
-                                                                                                            });
-                                                                                                        }
-                                                                                                    }
-                                                                                                }, this.initSubscriptions);
+    protected containerDrop: DropTarget<LayoutDragItem, LayoutDropResult>;
 
     //######################### public properties #########################
 
     /**
      * Drag source used for dragging component
      */
-    public drag: DragSource<LayoutDragItem, LayoutDropResult> = this.dnd.dragSource('TREE_COMPONENT',
-                                                                                    {
-                                                                                        beginDrag: () =>
-                                                                                        {
-                                                                                            this.draggingSvc.setDragging(true);
-                                                                                            this.designerElement.nativeElement.classList.add('is-dragged');
-
-                                                                                            return {
-                                                                                                dragData: this.dragData,
-                                                                                            };
-                                                                                        },
-                                                                                        canDrag: () => !this.dragDisabled,
-                                                                                        endDrag: monitor =>
-                                                                                        {
-                                                                                            this.designerElement.nativeElement.classList.remove('is-dragged');
-
-                                                                                            //dropped outside of any dropzone
-                                                                                            if(monitor.didDrop())
-                                                                                            {
-                                                                                                const item = monitor.getItem();
-                                                                                                const dropResult = monitor.getDropResult();
-
-                                                                                                if(!item)
-                                                                                                {
-                                                                                                    return;
-                                                                                                }
-
-                                                                                                item.dragData.index = dropResult.index;
-
-                                                                                                this.bus.setDropData(
-                                                                                                {
-                                                                                                    data: item.dragData,
-                                                                                                    id: dropResult.id,
-                                                                                                });
-                                                                                            }
-
-                                                                                            this.bus.setDropPlaceholderPreview(null);
-                                                                                            this.draggingSvc.setDragging(false);
-                                                                                        },
-                                                                                    },
-                                                                                    this.initSubscriptions);
+    public drag: DragSource<LayoutDragItem, LayoutDropResult>;
 
     /**
      * Drop zone target that handles drop of component
      */
-    public dropzone: DropTarget<LayoutDragItem, LayoutDropResult> = this.dnd.dropTarget(['TREE_COMPONENT'],
-                                                                                        {
-                                                                                            canDrop: monitor => 
-                                                                                            {
-                                                                                                return ((this.canDrop && !this.hasAncestor(this.metadata.id, monitor.getItem()?.dragData.metadata?.id)) || this.canDropAncestors(this.metadata.id, monitor.getItem()?.dragData.metadata?.id)[0]) && monitor.isOver({shallow: true});
-                                                                                            },
-                                                                                            drop: monitor =>
-                                                                                            {
-                                                                                                const [index, id] = this.getFixedDropCoordinates(monitor, this.canDrop);
-
-                                                                                                return <LayoutDropResult>{
-                                                                                                    index,
-                                                                                                    id
-                                                                                                };
-                                                                                            },
-                                                                                            hover: monitor =>
-                                                                                            {
-                                                                                                if(monitor.isOver({shallow: true}))
-                                                                                                {
-                                                                                                    this._manager.dragOverComponent(this.metadata.id);
-
-                                                                                                    if (monitor.canDrop())
-                                                                                                    {
-                                                                                                        const [index, parentId] = this.getDropCoordinates(monitor, this.canDrop);
-
-                                                                                                        if(isBlank(index) || isBlank(parentId))
-                                                                                                        {
-                                                                                                            return;
-                                                                                                        }
-
-                                                                                                        this.bus.setDropPlaceholderPreview(
-                                                                                                        {
-                                                                                                            index,
-                                                                                                            parentId,
-                                                                                                            placeholder:
-                                                                                                            {
-                                                                                                                height: 0,
-                                                                                                                width: 0
-                                                                                                            }
-                                                                                                        });
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                        }, this.initSubscriptions);
+    public dropzone: DropTarget<LayoutDragItem, LayoutDropResult>;
 
     //######################### public properties - inputs #########################
 
@@ -275,6 +135,154 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
                 protected _manager: LayoutEditorMetadataManager,
                 @Inject(DOCUMENT) protected document: Document,)
     {
+        this.placeholderDrop = this.dnd.dropTarget(['TREE_COMPONENT'],
+                                                   {
+                                                       canDrop: () => true,
+                                                       drop: monitor =>
+                                                       {
+                                                           const item = monitor.getItem();
+                                                           let index = this.bus.dropPlaceholderPreviewIndex;
+
+                                                           if(item && isPresent(item.dragData.index) && isPresent(index))
+                                                           {
+                                                               //same parent and higher index
+                                                               if(index > item.dragData.index)
+                                                               {
+                                                                   index--;
+                                                               }
+                                                           }
+
+                                                           return <LayoutDropResult>{
+                                                               index,
+                                                               id: this.metadata?.id,
+                                                           };
+                                                       },
+                                                   }, this.initSubscriptions);
+
+        this.containerDrop = this.dnd.dropTarget(['TREE_COMPONENT'],
+                                                 {
+                                                     canDrop: monitor => this.canDropAncestors(this.metadata.id, monitor.getItem()?.dragData.metadata?.id)[0] && monitor.isOver({shallow: true}),
+                                                     drop: monitor =>
+                                                     {
+                                                         const [index, id] = this.getFixedDropCoordinates(monitor, false);
+
+                                                         return <LayoutDropResult>{
+                                                             index,
+                                                             id,
+                                                         };
+                                                     },
+                                                     hover: monitor =>
+                                                     {
+                                                         if(monitor.isOver({shallow: true}))
+                                                         {
+                                                             const [index, parentId] = this.getDropCoordinates(monitor, false);
+
+                                                             if(isBlank(index) || isBlank(parentId))
+                                                             {
+                                                                 return;
+                                                             }
+
+                                                             this.bus.setDropPlaceholderPreview(
+                                                             {
+                                                                 index,
+                                                                 parentId,
+                                                                 placeholder:
+                                                                 {
+                                                                     height: 0,
+                                                                     width: 0
+                                                                 }
+                                                             });
+                                                         }
+                                                     }
+                                                 }, this.initSubscriptions);
+
+        this.drag = this.dnd.dragSource('TREE_COMPONENT',
+                                        {
+                                            beginDrag: () =>
+                                            {
+                                                this.draggingSvc.setDragging(true);
+                                                this.designerElement.nativeElement.classList.add('is-dragged');
+
+                                                return {
+                                                    dragData: this.dragData,
+                                                };
+                                            },
+                                            canDrag: () => !this.dragDisabled,
+                                            endDrag: monitor =>
+                                            {
+                                                this.designerElement.nativeElement.classList.remove('is-dragged');
+
+                                                //dropped outside of any dropzone
+                                                if(monitor.didDrop())
+                                                {
+                                                    const item = monitor.getItem();
+                                                    const dropResult = monitor.getDropResult();
+
+                                                    if(!item)
+                                                    {
+                                                        return;
+                                                    }
+
+                                                    item.dragData.index = dropResult.index;
+
+                                                    this.bus.setDropData(
+                                                    {
+                                                        data: item.dragData,
+                                                        id: dropResult.id,
+                                                    });
+                                                }
+
+                                                this.bus.setDropPlaceholderPreview(null);
+                                                this.draggingSvc.setDragging(false);
+                                            },
+                                        },
+                                        this.initSubscriptions);
+
+        this.dropzone = this.dnd.dropTarget(['TREE_COMPONENT'],
+                                            {
+                                                canDrop: monitor =>
+                                                {
+                                                    return ((this.canDrop && !this.hasAncestor(this.metadata.id, monitor.getItem()?.dragData.metadata?.id)) || this.canDropAncestors(this.metadata.id, monitor.getItem()?.dragData.metadata?.id)[0]) && monitor.isOver({shallow: true});
+                                                },
+                                                drop: monitor =>
+                                                {
+                                                    const [index, id] = this.getFixedDropCoordinates(monitor, this.canDrop);
+
+                                                    return <LayoutDropResult>{
+                                                        index,
+                                                        id
+                                                    };
+                                                },
+                                                hover: monitor =>
+                                                {
+                                                    if(monitor.isOver({shallow: true}))
+                                                    {
+                                                        this._manager.dragOverComponent(this.metadata.id);
+
+                                                        if (monitor.canDrop())
+                                                        {
+                                                            const [index, parentId] = this.getDropCoordinates(monitor, this.canDrop);
+
+                                                            if(isBlank(index) || isBlank(parentId))
+                                                            {
+                                                                return;
+                                                            }
+
+                                                            this.bus.setDropPlaceholderPreview(
+                                                            {
+                                                                index,
+                                                                parentId,
+                                                                placeholder:
+                                                                {
+                                                                    height: 0,
+                                                                    width: 0
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                }
+                                            }, this.initSubscriptions);
+
         this.connectDropToContainer();
     }
 
@@ -303,11 +311,11 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
         this.initSubscriptions.add(this.bus
                                         .dropDataChange
                                         .pipe(filter(itm => itm.id === this.metadata.id))
-                                        .subscribe(itm => 
+                                        .subscribe(itm =>
                                         {
                                             this.ngZone.run(() => this.dropMetadata.emit(itm.data));
                                         }));
- 
+
         this.initSubscriptions.add(this.bus
                                         .oldDropPlaceholderPreviewChange
                                         .pipe(filter(itm => itm.parentId === this.metadata.id))
@@ -319,7 +327,7 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
                                                 this.placeholderPreviewElement = null;
                                             });
                                         }));
- 
+
         this.initSubscriptions.add(this.bus
                                         .newDropPlaceholderPreviewChange
                                         .pipe(filter(itm => itm.parentId === this.metadata.id))
@@ -362,7 +370,7 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
 
         //else get index from descendant
         const [canDropAncestor, ancestorId, id] = this.canDropAncestors(this.metadata.id, monitor.getItem()?.dragData.metadata?.id);
-        
+
         //this should not happen
         if(!canDropAncestor || isBlank(ancestorId))
         {
@@ -401,7 +409,7 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
             const rect = element.children[0]?.getBoundingClientRect();
             const position = rect?.y;
             const half = rect?.height / 2;
-            
+
             return position + half;
         };
 
@@ -412,7 +420,7 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
 
         let index = 0;
         const offset = monitor.getClientOffset();
-        
+
         if(!offset)
         {
             return [null, null];
@@ -576,7 +584,7 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
      * Checks whether component has ancestor with specified identifier
      * @param component component to check
      * @param ancestorId ancestor identifier to find
-     * @returns 
+     * @returns
      */
     protected hasAncestor(id: string, ancestorId?: string): boolean
     {

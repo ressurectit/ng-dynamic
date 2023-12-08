@@ -18,12 +18,12 @@ export class ComponentOutputsRelations implements RelationsComponent<ComponentOu
     /**
      * Relations processor instance
      */
-    protected relationsProcessor: RelationsProcessor|null = this.injector.get(RelationsProcessor, null);
+    protected relationsProcessor: RelationsProcessor|null;
 
     /**
      * Relations component manager
      */
-    protected componentManager: RelationsComponentManager|null = this.injector.get(RelationsComponentManager, null);
+    protected componentManager: RelationsComponentManager|null;
 
     /**
      * Id of component outputs relations
@@ -45,6 +45,9 @@ export class ComponentOutputsRelations implements RelationsComponent<ComponentOu
     //######################### constructor #########################
     constructor(protected injector: Injector,)
     {
+        this.relationsProcessor = this.injector.get(RelationsProcessor, null);
+
+        this.componentManager = this.injector.get(RelationsComponentManager, null);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################

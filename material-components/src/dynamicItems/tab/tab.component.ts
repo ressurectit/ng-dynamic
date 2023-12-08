@@ -9,7 +9,7 @@ import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {MaterialTabComponentOptions} from './tab.options';
 import {MaterialTabLayoutMetadataLoader, MaterialTabRelationsMetadataLoader} from './tab.metadata';
-import {MATERIAL_TAB_GROUP, MaterialTabGroupSAComponent} from '../tabGroup/tabGroup.component';
+import {MATERIAL_TAB_GROUP} from '../tabGroup/tabGroup.component';
 
 /**
  * Component used for displaying toggle panel layout
@@ -79,7 +79,7 @@ export class MaterialTabSAComponent extends LayoutComponentBase<MaterialTabCompo
     constructor(changeDetector: ChangeDetectorRef,
                 componentElement: ElementRef<HTMLElement>,
                 injector: Injector,
-                @Inject(MATERIAL_TAB_GROUP) @Optional() private _closestTabGroup: MaterialTabGroupSAComponent,
+                @Inject(MATERIAL_TAB_GROUP) @Optional() private _closestTabGroup: any,
                 @Inject(MAT_TAB) @Optional() private _closestTab: MatTab)
     {
         super(changeDetector, componentElement, injector);

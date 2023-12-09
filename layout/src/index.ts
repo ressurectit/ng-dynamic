@@ -7,4 +7,5 @@ export * from './misc/tokens';
 export * from './misc/types';
 export * from './misc/utils';
 export * from './modules';
+export * from './services';
 export * from './types';

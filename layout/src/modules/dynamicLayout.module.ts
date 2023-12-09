@@ -1,6 +1,6 @@
 import {ModuleWithProviders, NgModule} from '@angular/core';
 
-import {LayoutComponentRendererSADirective} from '../directives';
+import {LayoutComponentRenderer2SADirective, LayoutComponentRendererSADirective} from '../directives';
 import {provideLayout} from '../misc/utils';
 
 /**
@@ -11,10 +11,12 @@ import {provideLayout} from '../misc/utils';
     imports:
     [
         LayoutComponentRendererSADirective,
+        LayoutComponentRenderer2SADirective,
     ],
     exports:
     [
         LayoutComponentRendererSADirective,
+        LayoutComponentRenderer2SADirective,
     ]
 })
 export class DynamicLayoutModule

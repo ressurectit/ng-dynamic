@@ -21,7 +21,7 @@ export class WebpackTranslateLoaderService implements TranslateLoader
             (async () => 
             {
                 const result = await import(`../../../content/l10n/${lang}.json`);
-
+    
                 observer.next(result.default);
                 observer.complete();
             })();

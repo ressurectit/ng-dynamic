@@ -8,7 +8,6 @@ import {provideAnimations} from '@angular/platform-browser/animations';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {runWhenAppStable} from '@anglr/common';
 import {AnglrExceptionHandlerOptions} from '@anglr/error-handling';
-import {RestTransferStateService} from '@anglr/rest';
 import {simpleNotification} from '@jscrpt/common';
 import {HotkeyModule} from 'angular2-hotkeys';
 
@@ -36,8 +35,7 @@ const providers: (Provider|EnvironmentProviders)[] =
     })),
 ];
 
-runWhenAppStable(bootstrapApplication(AppSAComponent, {providers}), appRef =>
+runWhenAppStable(bootstrapApplication(AppSAComponent, {providers}), _ =>
 {
-    appRef.injector.get(RestTransferStateService)?.clearAndDeactivate();
     jsDevMode && simpleNotification(jsDevMode && !!import.meta.webpackHot);
 }, config.configuration.debug);

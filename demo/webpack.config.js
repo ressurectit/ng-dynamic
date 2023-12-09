@@ -3,10 +3,10 @@ import path from 'path';
 import {createHash} from 'crypto';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ScriptExtHtmlWebpackPlugin from 'script-ext-html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import WebpackNotifierPlugin from 'webpack-notifier';
 import CompressionPlugin from 'compression-webpack-plugin';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin';
 import BitBarWebpackProgressPlugin from 'bitbar-webpack-progress-plugin';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
@@ -112,7 +112,7 @@ export default [function(options, args)
                             warnings: false
                         },
                         progress: true,
-                    }
+                    },
                 },
                 devtool: 'eval-source-map'
             } :
@@ -252,7 +252,7 @@ export default [function(options, args)
                     resolve: 
                     {
                         fullySpecified: false
-                    }
+                    },
                 },
                 {
                     test: /\.html$/,
@@ -298,7 +298,7 @@ export default [function(options, args)
                 {
                     test: /\.(ttf|woff|woff2|eot|svg|png|jpeg|jpg|bmp|gif|icon|ico)$/,
                     type: 'asset/resource'
-                }
+                },
             ]
         },
         plugins:
@@ -340,8 +340,8 @@ export default [function(options, args)
             {
                 tsConfigPath: path.join(dirName, 'tsconfig.json'),
                 sourceMap: true,
-            })
-        ]
+            }),
+        ],
     };
 
     if(prod && esbuild)

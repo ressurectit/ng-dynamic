@@ -4,28 +4,29 @@ import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding, withHashLocation} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
 import {LocalPermanentStorage} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink} from '@anglr/common';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, providePermanentStorage} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
-import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, ERROR_WITH_URL_EXTENDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, handle404Func, HttpClientErrorResponseMapper, HttpClientValidationErrorResponseMapper, HTTP_CLIENT_ERROR_RESPONSE_MAPPER, HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER, RestNotFoundError} from '@anglr/error-handling';
-import {DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER} from '@anglr/error-handling/material';
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_OPTIONS, BasicPagingOptions, CONTENT_RENDERER_OPTIONS, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, GRID_INITIALIZER_TYPE, GRID_INITIALIZER_OPTIONS, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent} from '@anglr/grid';
+import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideAnglrExceptionExtenders, errorWithUrlExtender, provideInternalServerErrorRenderer, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorMessages, provideHttpClientErrorHandlers, handleHttp404Error} from '@anglr/error-handling';
+import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
+import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideGridInitializerType, provideMetadataSelectorType, provideNoDataRendererOptions, providePagingOptions, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
+import {DialogMetadataSelectorOptions, DialogMetadataSelectorSAComponent} from '@anglr/grid/material';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
-import {ConfirmationDialogOptions, CONFIRMATION_DIALOG_OPTIONS, MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService} from '@anglr/common/material';
+import {MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService, provideConfirmationDialogOptions} from '@anglr/common/material';
 import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
 import {MD_HELP_NOTIFICATIONS, RenderMarkdownConfig, RENDER_MARKDOWN_CONFIG} from '@anglr/md-help/web';
-import {ClientErrorHandlingMiddleware, HttpClientErrorCustomHandlerDef, HTTP_CLIENT_ERROR_CUSTOM_HANDLER, REST_ERROR_HANDLING_MIDDLEWARE_ORDER} from '@anglr/error-handling/rest';
+import {CatchHttpClientErrorMiddleware, HttpClientErrorProcessingMiddleware, REST_ERROR_HANDLING_MIDDLEWARE_ORDER} from '@anglr/error-handling/rest';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {provideGlobalNotifications} from '@anglr/notifications';
 import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
-import {ReportProgressMiddleware, ResponseTypeMiddleware, REST_METHOD_MIDDLEWARES} from '@anglr/rest';
-import {DATETIME_REST_DATE_API} from '@anglr/rest/datetime';
+import {LoggerMiddleware, MockLoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, provideRestMethodMiddlewares} from '@anglr/rest';
+import {provideRestDateTime} from '@anglr/rest/datetime';
 import {provideRelationsDebuggerImplementation} from '@anglr/dynamic/relations-debugger';
-import {isString, isJsObject} from '@jscrpt/common';
+import {isString} from '@jscrpt/common';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {DndModule} from '@ng-dnd/core';
-import {sk} from 'date-fns/locale';
 import {HTML5Backend} from 'react-dnd-html5-backend';
+import {sk} from 'date-fns/locale';
 
 import {routes} from './app.component.routes';
 import {config} from '../config';
@@ -105,57 +106,45 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### ERROR HANDLING #########################
-    ERROR_WITH_URL_EXTENDER,
+    provideAnglrExceptionExtenders(
+    [
+        errorWithUrlExtender,
+    ]),
     ANGLR_EXCEPTION_HANDLER_PROVIDER,
-    DIALOG_INTERNAL_SERVER_ERROR_RENDERER_PROVIDER,
+    provideInternalServerErrorRenderer(DialogInternalServerErrorRenderer),
 
     //######################### GRID GLOBAL OPTIONS #########################
-    <ValueProvider>
+    provideGridInitializerType(QueryGridInitializerComponent),
+    provideMetadataSelectorType(DialogMetadataSelectorSAComponent),
+    provideNoDataRendererOptions(
     {
-        provide: NO_DATA_RENDERER_OPTIONS,
-        useValue: <NoDataRendererOptions>
+        texts:
         {
-            texts:
-            {
-                loading: 'Nahrávam dáta ...',
-                noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
-                notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
-            }
+            loading: 'Nahrávam dáta ...',
+            noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
+            notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
         }
-    },
-    <ValueProvider>
+    }),
+    providePagingOptions<BasicPagingOptions>(
     {
-        provide: GRID_INITIALIZER_TYPE,
-        useValue: QueryGridInitializerComponent
-    },
-    <ValueProvider>
+        itemsPerPageValues: [15, 30, 60],
+        initialItemsPerPage: 15
+    }),
+    provideMetadataSelectorOptions<DialogMetadataSelectorOptions>(
     {
-        provide: PAGING_OPTIONS,
-        useValue: <BasicPagingOptions>
+        showButtonVisible: false
+    }),
+    provideGridInitializerOptions<QueryPermanentStorageGridInitializerOptions>(
+    {
+        storageIppName: 'all-grid-ipp'
+    }),
+    provideContentRendererOptions<TableContentRendererOptions>(
+    {
+        cssClasses:
         {
-            itemsPerPageValues: [15, 30, 60],
-            initialItemsPerPage: 15
+            containerDiv: 'table-container thin-scrollbar'
         }
-    },
-    <ValueProvider>
-    {
-        provide: GRID_INITIALIZER_OPTIONS,
-        useValue: <QueryPermanentStorageGridInitializerOptions>
-        {
-            storageIppName: 'all-grid-ipp'
-        }
-    },
-    <ValueProvider>
-    {
-        provide: CONTENT_RENDERER_OPTIONS,
-        useValue: <TableContentRendererOptions>
-        {
-            cssClasses:
-            {
-                containerDiv: 'table-container thin-scrollbar'
-            }
-        }
-    },
+    }),
     <ValueProvider>
     {
         provide: HEADER_CONTENT_RENDERER_OPTIONS,
@@ -190,12 +179,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### PERMANENT STORAGE #########################
-    //TODO
-    <ClassProvider>
-    {
-        provide: PERMANENT_STORAGE,
-        useClass: LocalPermanentStorage
-    },
+    providePermanentStorage(LocalPermanentStorage),
 
     //######################### LOGGER #########################
     provideLoggerConfig(config => config
@@ -307,16 +291,16 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
     
     //######################### CONFIRMATION DIALOG #########################
-    <ValueProvider>
+    provideConfirmationDialogOptions(
     {
-        provide: CONFIRMATION_DIALOG_OPTIONS,
-        useValue: <ConfirmationDialogOptions>
+        cssClasses:
         {
-            confirmationText: 'Prajete si pokračovať?',
-            dialogCancelText: 'Nie',
-            dialogConfirmText: 'Áno'
-        }
-    },
+            closeButton: 'btn btn-danger margin-right-small',
+        },
+        confirmationText: 'Prajete si pokračovať?',
+        dialogCancelText: 'Nie',
+        dialogConfirmText: 'Áno',
+    }),
 
     //######################### POSITION #########################
     providePosition(FloatingUiDomPosition),
@@ -333,65 +317,52 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### REST CONFIG #########################
-    DATETIME_REST_DATE_API,
+    provideRestDateTime(),
     REST_ERROR_HANDLING_MIDDLEWARE_ORDER,
-    <ValueProvider>
+    provideRestMethodMiddlewares(
+    [
+        LoggerMiddleware,
+        ResponseTypeMiddleware,
+        ReportProgressMiddleware,
+        HttpClientErrorProcessingMiddleware,
+        CatchHttpClientErrorMiddleware,
+        ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware]] : [],
+    ]),
+    provideHttpClientErrorResponseMapper(err =>
     {
-        provide: REST_METHOD_MIDDLEWARES,
-        useValue:
-        [
-            ResponseTypeMiddleware,
-            ReportProgressMiddleware,
-            ClientErrorHandlingMiddleware,
-        ]
-    },
-    <ValueProvider>
-    {
-        provide: HTTP_CLIENT_ERROR_RESPONSE_MAPPER,
-        useValue: <HttpClientErrorResponseMapper>(err => 
+        if(err?.error?.errors)
         {
-            if(err?.error?.errors)
-            {
-                return err?.error?.errors;
-            }
+            return err?.error?.errors;
+        }
 
-            if(isString(err?.error))
-            {
-                return [err?.error];
-            }
-
-            if(isJsObject(err?.error))
-            {
-                return [JSON.stringify(err?.error)];
-            }
-            
-            return [err.message];
-        })
-    },
-    <ValueProvider>
-    {
-        provide: HTTP_CLIENT_VALIDATION_ERROR_RESPONSE_MAPPER,
-        useValue: <HttpClientValidationErrorResponseMapper>(err => 
+        if(isString(err?.error))
         {
-            if(err?.error?.validationErrors)
-            {
-                return err?.error?.validationErrors;
-            }
+            return [err?.error];
+        }
 
-            return null;
-        })
-    },
-    <ValueProvider>
+        return [];
+    }),
+    provideHttpClientValidationErrorResponseMapper(err =>
     {
-        provide: HTTP_CLIENT_ERROR_CUSTOM_HANDLER,
-        useValue: <Record<number, HttpClientErrorCustomHandlerDef>>
+        if(err?.error?.validationErrors)
         {
-            404: [handle404Func, error => new RestNotFoundError(error.errors)],
-        },
-    },
+            return err?.error?.validationErrors;
+        }
+
+        return null;
+    }),
+    provideHttpClientErrorMessages(
+    {
+        400: 'Chyba spracovania dát!',
+        404: 'Záznam pre požadované ID sa nenašiel!',
+    }),
+    provideHttpClientErrorHandlers(
+    {
+        404: handleHttp404Error,
+    }),
     provideRelationsDebuggerImplementation(),
     importProvidersFrom(DndModule.forRoot(
-        {
-            backend: HTML5Backend
-        })),
+    {
+        backend: HTML5Backend
+    })),
 ];

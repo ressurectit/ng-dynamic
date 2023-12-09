@@ -158,7 +158,7 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
     /**
      * Make http request
      */
-    protected makeRequest(): void
+    protected async makeRequest(): Promise<void>
     {
         //on empty param
         if(this.emptyParam.find(itm => itm))
@@ -208,7 +208,7 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
                 {
                     case 'PATH':
                     {
-                        url = handlePathParam(data, url);
+                        url = await handlePathParam(data, url, []);
 
                         break;
                     }
@@ -220,19 +220,19 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
                     }
                     case 'QUERY':
                     {
-                        handleQueryParam(data, params);
+                        await handleQueryParam(data, params, []);
 
                         break;
                     }
                     case 'QUERY OBJECT':
                     {
-                        handleQueryObjectParam(data, queryStrings, this.queryStringSerializer);
+                        await handleQueryObjectParam(data, queryStrings, this.queryStringSerializer, []);
 
                         break;
                     }
                     case 'HEADER':
                     {
-                        handleHeaderParam(data, headers);
+                        await handleHeaderParam(data, headers, []);
 
                         break;
                     }

@@ -2,7 +2,6 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import {DebugDataEnabledService, LogLevel} from '@anglr/common';
 import {ValueNamePair} from '@jscrpt/common';
-import {LogEventLevel} from 'structured-log';
 
 import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../config';
 import {SettingsService} from '../../services/settings';
@@ -35,7 +34,7 @@ interface SettingsLoggingEnum
     /**
      * Minimal log level for console sink
      */
-    consoleLogLevel: LogEventLevel;
+    consoleLogLevel: LogLevel;
 }
 
 /**
@@ -101,12 +100,12 @@ export class UserSettingsSAComponent
     //######################### constructors #########################
     constructor(settingsSvc: SettingsService,
                 formBuilder: FormBuilder,
-                debugDataEnabled: DebugDataEnabledService)
+                debugDataEnabled: DebugDataEnabledService,)
     {
         const settings = settingsSvc.settings;
         const debuggingSettings = settingsSvc.settingsDebugging;
         const loggingSettings = settingsSvc.settingsLogging;
-        
+
         this._getLogLevels();
 
         this.generalSettingsForm = formBuilder.group(
@@ -126,7 +125,7 @@ export class UserSettingsSAComponent
         this.loggingSettingsForm = formBuilder.group(
         <SettingsLoggingEnum>
         {
-            consoleLogLevel: LogEventLevel[loggingSettings.consoleLogLevel],
+            consoleLogLevel: LogLevel[loggingSettings.consoleLogLevel as keyof typeof LogLevel],
         });
 
         this.generalSettingsForm.valueChanges.subscribe((generalSettings: SettingsGeneral) =>
@@ -157,13 +156,15 @@ export class UserSettingsSAComponent
      */
     private _getLogLevels(): void
     {
-        Object.keys(LogEventLevel).forEach(val =>
+        Object.keys(LogLevel).forEach(val =>
         {
-            if(!isNaN(+val))
+            const numVal = +val;
+
+            if(!isNaN(numVal))
             {
                 this.logLevels.push(
                 {
-                    name: LogEventLevel[val],
+                    name: LogLevel[numVal],
                     value: val
                 });
             }

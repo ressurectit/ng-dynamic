@@ -3,8 +3,8 @@ import {CommonModule, DOCUMENT} from '@angular/common';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import {ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
 import {AppHotkeysService, HotkeysCheatsheetSAComponent} from '@anglr/common/hotkeys';
+import {InternalServerErrorSAComponent} from '@anglr/error-handling';
 import {fadeInOutTrigger} from '@anglr/animations';
-import {InternalServerErrorModule} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
 import {nameof} from '@jscrpt/common';
 import {TranslateService} from '@ngx-translate/core';
@@ -21,7 +21,7 @@ import {MenuModule} from '../modules';
  * Application entry component
  */
 @Component(
-    {
+{
     selector: 'app',
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.scss'],
@@ -30,7 +30,7 @@ import {MenuModule} from '../modules';
     [
         CommonModule,
         RouterModule,
-        InternalServerErrorModule,
+        InternalServerErrorSAComponent,
         ProgressIndicatorModule,
         NotificationsGlobalModule,
         MenuModule,
@@ -39,8 +39,8 @@ import {MenuModule} from '../modules';
     ],
     animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger, loaderTrigger],
     providers: [AppHotkeysService],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    })
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
 export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
 {
     //######################### private fields #########################
@@ -48,7 +48,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Subscription for router outlet activation changes
      */
-    private _routerOutletActivatedSubscription: Subscription;
+    private _routerOutletActivatedSubscription: Subscription|undefined|null;
 
     /**
      * Subscription for changes of general settings
@@ -160,9 +160,9 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
      */
     public ngAfterViewInit()
     {
-        this._routerOutletActivatedSubscription = this.routerOutlet.activateEvents.subscribe(() =>
+        this._routerOutletActivatedSubscription = this.routerOutlet?.activateEvents.subscribe(() =>
         {
-            this.routeComponentState = this.routerOutlet.activatedRouteData['animation'] || (<any>this.routerOutlet.activatedRoute.component).name;
+            this.routeComponentState = this.routerOutlet?.activatedRouteData['animation'] || (<any>this.routerOutlet?.activatedRoute.component).name;
         });
 
         this.initialized = true;
@@ -179,10 +179,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
         this._routerOutletActivatedSubscription = null;
 
         this._settingsChangeSubscription?.unsubscribe();
-        this._settingsChangeSubscription = null;
-
         this._settingsDebuggingChangeSubscription?.unsubscribe();
-        this._settingsDebuggingChangeSubscription = null;
 
         this._appHotkeys.destroy();
     }
@@ -208,7 +205,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
                 this._changeDetector.detectChanges();
 
                 return false;
-            }, null, 'Show console'));
+            }, undefined, 'Show console'));
         }
     }
 }

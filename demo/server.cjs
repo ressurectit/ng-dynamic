@@ -1,15 +1,15 @@
-var connect = require('connect'),
-    gzipStatic = require('connect-gzip-static'),
-    serveStatic = require('serve-static'),
-    history = require('connect-history-api-fallback'),
-    {createProxyMiddleware} = require('http-proxy-middleware'),
-    argv = require('yargs').argv,
-    path = require('path'),
-    connectExtensions = require('nodejs-connect-extensions');
+const connect = require('connect'),
+      gzipStatic = require('connect-gzip-static'),
+      serveStatic = require('serve-static'),
+      history = require('connect-history-api-fallback'),
+      {createProxyMiddleware} = require('http-proxy-middleware'),
+      argv = require('yargs').argv,
+      path = require('path'),
+      connectExtensions = require('nodejs-connect-extensions');
 
 require('dotenv').config();
 
-var app = connect();
+const app = connect();
 
 connectExtensions.extendConnectUse(app);
 

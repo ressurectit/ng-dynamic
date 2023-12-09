@@ -2,7 +2,6 @@
     "configuration":
     {
         "debug": false,
-        "debugTranslation": false,
         "apiBaseUrl": "api/",
         "defaultApiHeaders": 
         {

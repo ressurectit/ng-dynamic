@@ -10,6 +10,8 @@ globalDefine(global =>
     }
 });
 
+//TODO: sideeffect
+
 /**
  * Sets dynamic metadata to for property
  * @param value - Object with metadata to be stored

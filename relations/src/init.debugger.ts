@@ -5,6 +5,8 @@ declare global
     const ngRelationsDebugger: boolean;
 }
 
+//TODO: sideeffect
+
 globalDefine(global =>
 {
     if(isBlank(global.ngRelationsDebugger))

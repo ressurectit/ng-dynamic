@@ -11,6 +11,8 @@ globalDefine(global =>
     }
 });
 
+//TODO: sideeffect
+
 (self as any).MonacoEnvironment = 
 {
     getWorkerUrl: function(_: string, label: string)

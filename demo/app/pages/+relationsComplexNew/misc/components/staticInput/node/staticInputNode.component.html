@@ -1,0 +1,20 @@
+<relations-node-header [parent]="this" [destroySubject]="destroySubject"></relations-node-header>
+
+<div class="node-content">
+    <div class="inputs-outputs">
+        <div class="inputs">
+        </div>
+    
+        <div class="outputs">
+            <div class="output">
+                <div>string</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="stringOutput" [parent]="this"></relation-node-output>
+            </div>
+    
+            <div class="output">
+                <div>boolean</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="booleanOutput" [parent]="this"></relation-node-output>
+            </div>
+        </div>
+    </div>
+</div>

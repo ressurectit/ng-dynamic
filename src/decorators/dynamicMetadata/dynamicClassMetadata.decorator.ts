@@ -13,6 +13,7 @@ globalDefine(global =>
 });
 
 //TODO: rework also with symbol
+//TODO: sideeffect
 
 /**
  * Sets dynamic metadata to class on which is this decorator applied

@@ -40,6 +40,10 @@ export const routes: Routes =
         loadChildren: () => import('../pages/+relationsComplex/relationsComplex.module').then(({RelationsComplexModule}) => RelationsComplexModule)
     },
     {
+        path: 'relationsComplexNew',
+        loadChildren: () => import('../pages/+relationsComplexNew/relationsComplexNew.module')
+    },
+    {
         path: 'relationsLayoutForm',
         loadChildren: () => import('../pages/+relationsLayoutForm/relationsLayoutForm.module').then(({RelationsLayoutFormModule}) => RelationsLayoutFormModule)
     },

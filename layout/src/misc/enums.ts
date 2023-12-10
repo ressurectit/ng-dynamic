@@ -16,5 +16,5 @@ export enum MissingTypeBehavior
     /**
      * Throws javascript error with missing component error
      */
-    ThrowError
+    ThrowError,
 }

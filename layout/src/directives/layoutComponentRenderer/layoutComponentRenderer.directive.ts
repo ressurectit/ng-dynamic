@@ -4,11 +4,11 @@ import {addSimpleChange, DynamicItemExtensionType, DynamicItemLoader, SCOPE_ID} 
 import {nameof} from '@jscrpt/common';
 
 import {LayoutComponentRendererDirectiveOptions} from './layoutComponentRenderer.options';
-import {MissingTypeBehavior} from './layoutComponentRenderer.types';
 import {NotFoundLayoutTypeSAComponent} from '../../components';
 import {LayoutComponent, LayoutComponentMetadata, LayoutComponentTransform} from '../../interfaces';
 import {LAYOUT_COMPONENTS_LOADER, LAYOUT_COMPONENT_CHILD_EXTENSIONS, LAYOUT_COMPONENT_TRANSFORM} from '../../misc/tokens';
 import {LayoutComponentDef} from '../../misc/types';
+import {MissingTypeBehavior} from '../../misc/enums';
 
 //TODO: refactor input, output names
 

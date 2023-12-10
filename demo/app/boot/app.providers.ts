@@ -190,6 +190,18 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
 
                 return () => LogLevel[settings.settingsLogging.consoleLogLevel as keyof typeof LogLevel];
             }))
+        //Relations logger
+        .writeTo(cfg => cfg.writeTo(DeveloperConsoleSink)
+            .minimumLevel(LogLevel.Off)
+            .filter((_, log) => !!log.message.match(/^(?:)RelationsProcessor|RelationsChangeDetector/)))
+        //Layout logger
+        .writeTo(cfg => cfg.writeTo(DeveloperConsoleSink)
+            .minimumLevel(LogLevel.Off)
+            .filter((_, log) => !!log.message.match(/^(?:)LayoutComponentRenderer2SADirective|LayoutRenderer/)))
+        //Dynamic logger
+        .writeTo(cfg => cfg.writeTo(DeveloperConsoleSink)
+            .minimumLevel(LogLevel.Off)
+            .filter((_, log) => !!log.message.match(/^(?:)BasicDynamicModuleItemsProvider|defaultExportExtractor|extensionsExportsExtractor|DynamicItemLoader/)))
         .writeTo(DeveloperConsoleSink)
         .enrichWith(LogLevelEnricher)
         .enrichWith(TimestampEnricher)

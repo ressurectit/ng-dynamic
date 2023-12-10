@@ -3,9 +3,9 @@ import {isPresent} from '@jscrpt/common';
 import {MissingTypeBehavior} from '../../misc/enums';
 
 /**
- * Options for LayoutComponentRendererDirective
+ * Options for LayoutRendererOptions
  */
-export class LayoutComponentRendererDirectiveOptions
+export class LayoutRendererOptions
 {
     //######################### public properties #########################
 

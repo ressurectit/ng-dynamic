@@ -90,7 +90,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         const extensionsOptions = this.extensionsOptions;
         
         await this.onInit();
-        await this.onOptionsSet();
+        await this.onOptionsSet(false);
 
         if(extensionsOptions)
         {
@@ -111,7 +111,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         //options has changed
         if(nameof<LayoutComponentBase<TOptions>>('options') in changes)
         {
-            await this.onOptionsSet();
+            await this.onOptionsSet(changes[nameof<LayoutComponentBase<TOptions>>('options')].firstChange);
 
             const extensionsOptions = this.extensionsOptions;
 
@@ -181,7 +181,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
 
     /**
      * Occurs when some property changes on component
-     * @param _changes - Changes that occured on component
+     * @param changes - Changes that occured on component
      */
     protected onChanges(_changes: SimpleChanges): PromiseOr<void>
     {
@@ -189,8 +189,9 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
 
     /**
      * Called everytime options are set, after initialization and later
+     * @param initial - Indication whether this is initial call during OnChanges phase
      */
-    protected onOptionsSet(): PromiseOr<void>
+    protected onOptionsSet(_initial: boolean): PromiseOr<void>
     {
     }
 

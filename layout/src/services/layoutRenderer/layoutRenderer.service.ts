@@ -7,6 +7,9 @@ import {LayoutComponent, LayoutComponentMetadata} from '../../interfaces';
 import {LayoutRendererItem} from './layoutRenderer.interface';
 import {LAYOUT_COMPONENTS_LOADER, LAYOUT_COMPONENT_CHILD_EXTENSIONS} from '../../misc/tokens';
 import {LayoutComponentDef} from '../../misc/types';
+import {LayoutRendererOptions} from './layoutRenderer.options';
+import {MissingTypeBehavior} from '../../misc/enums';
+import {NotFoundLayoutTypeSAComponent} from '../../components';
 
 /**
  * Service used for handling rendering of layout
@@ -27,6 +30,11 @@ export class LayoutRenderer
     protected loader: DynamicItemLoader<LayoutComponentDef> = inject(LAYOUT_COMPONENTS_LOADER);
 
     /**
+     * Options for layout renderer
+     */
+    protected options: LayoutRendererOptions;
+
+    /**
      * Map of renderers and their data
      */
     protected renderers: Record<string, LayoutRendererItem|undefined|null> = {};
@@ -36,7 +44,60 @@ export class LayoutRenderer
      */
     protected components: Record<string, LayoutRendererItem|undefined|null> = {};
 
+    /**
+     * Gets root renderer
+     */
+    protected get rootRenderer(): LayoutRendererItem|undefined|null
+    {
+        const renderers = Object.keys(this.renderers);
+
+        for(const rendererId of renderers)
+        {
+            const renderer = this.renderers[rendererId];
+
+            if(renderer?.parentId)
+            {
+                return this.renderers[renderer.parentId];
+            }
+        }
+        
+        return null;
+    }
+
+    //######################### constructor #########################
+    constructor()
+    {
+        const globalOptions = inject(LayoutRendererOptions, {optional: true});
+
+        if(!globalOptions || !(globalOptions instanceof LayoutRendererOptions))
+        {
+            this.options = new LayoutRendererOptions();
+        }
+        else
+        {
+            this.options = globalOptions;
+        }
+    }
+
     //######################### public methods #########################
+
+    /**
+     * Tests whether is component with id registered and rendered
+     * @param id - Id of component to be tested
+     */
+    public hasComponent(id: string): boolean
+    {
+        return !!this.components[id];
+    }
+
+    /**
+     * Tests whether is renderer with id registered
+     * @param id - Id of renderer
+     */
+    public hasRenderer(id: string): boolean
+    {
+        return !!this.renderers[id];
+    }
 
     @WithSync()
     public async registerRenderer(id: string,
@@ -78,36 +139,31 @@ export class LayoutRenderer
 
         if(!layoutComponentType)
         {
-            throw new Error();
+            this.logger.warn('LayoutRenderer: Unable to find layout component type {{@type}}', {type: {name: metadata.name, package: metadata.package}});
+
+            switch(this.options?.missingTypeBehavior)
+            {
+                default:
+                //case MissingTypeBehavior.ShowNotFound:
+                {
+                    rendererItem.viewContainer.createComponent(NotFoundLayoutTypeSAComponent);
+
+                    break;
+                }
+                case MissingTypeBehavior.Ignore:
+                {
+                    //do nothing
+
+                    break;
+                }
+                case MissingTypeBehavior.ThrowError:
+                {
+                    throw new Error(`LayoutRenderer: Unable to find layout component type Name: ${metadata.name} Package: ${metadata.package}`);
+                }
+            }
+
+            return;
         }
-
-        // if(!layoutComponentType)
-        // {
-        //     this.logger.warn('LayoutRenderer: Unable to find layout component type {{@type}}', {type: {name: metadata.name, package: metadata.package}});
-
-        //     switch(this.options?.missingTypeBehavior)
-        //     {
-        //         default:
-        //         //case MissingTypeBehavior.ShowNotFound:
-        //         {
-        //             this.viewContainerRef.createComponent(NotFoundLayoutTypeSAComponent);
-
-        //             break;
-        //         }
-        //         case MissingTypeBehavior.Ignore:
-        //         {
-        //             //do nothing
-
-        //             break;
-        //         }
-        //         case MissingTypeBehavior.ThrowError:
-        //         {
-        //             throw new Error(`LayoutComponentRendererSADirective: Unable to find layout component type Name: ${metadata.name} Package: ${metadata.package}`);
-        //         }
-        //     }
-
-        //     return;
-        // }
 
         const usedInjector = Injector.create(
         {
@@ -165,16 +221,45 @@ export class LayoutRenderer
         this.logger.verbose('LayoutRenderer: invalidated component visuals {{id}}', {id: metadata?.id});
     }
 
-    public unregisterRenderer(id: string,
-                              parentId: string|undefined|null,
-                              metadata: LayoutComponentMetadata,
-                              parentMetadata: LayoutComponentMetadata|undefined|null,): void
+    /**
+     * Destroyes renderer, removes it from register, destroyed renderer also destroys component
+     * @param id - Id of renderer
+     */
+    public destroyRenderer(id: string): void
     {
+        this.logger.debug('LayoutRenderer: destroying renderer "{{id}}"', {id});
+
+        const renderer = this.renderers[id];
+        
+        //if renderer exists remove it from register
+        if(renderer)
+        {
+            this.logger.verbose('LayoutRenderer: removing renderer from registry "{{id}}"', {id});
+
+            delete this.components[renderer.metadata.id];
+            delete this.renderers[id];
+        }
     }
 
-    public unregisterComponent(id: string,
-                               parentId: string|undefined|null,): void
+    /**
+     * Unregisters and removes/destroys component from register and html
+     * @param id - Id of component that will be removed from renderer
+     */
+    public unregisterComponent(id: string): void
     {
+        this.logger.debug('LayoutRenderer: ungregistering component "{{id}}"', {id});
 
+        const component = this.components[id];
+
+        if(component)
+        {
+            this.logger.verbose('LayoutRenderer: destroying component "{{id}}"', {id});
+            //destroys component
+            component.viewContainer.clear();
+            this.logger.verbose('LayoutRenderer: component destroyed "{{id}}"', {id});
+
+            //clearing component
+            component.component = null;
+        }
     }
 }

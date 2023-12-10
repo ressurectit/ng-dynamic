@@ -89,6 +89,7 @@ export class LayoutComponentRenderer2SADirective<TComponentOptions = unknown> im
                 parentComponent: this.parentRendererDirective?.componentMetadata?.id,
             });
 
+            //registers renderer and component
             this.renderer.registerRenderer(this.id,
                                            this.parentRendererDirective?.id,
                                            this.viewContainer,
@@ -107,5 +108,12 @@ export class LayoutComponentRenderer2SADirective<TComponentOptions = unknown> im
      */
     public ngOnDestroy(): void
     {
+        this.logger.debug('LayoutComponentRenderer2SADirective: destroying renderer "{{id}}" with component "{{componentId}}"',
+        {
+            id: this.id,
+            componentId: this.componentMetadata?.id,
+        });
+
+        this.renderer.destroyRenderer(this.id);
     }
 }

@@ -2,6 +2,7 @@ export * from './components';
 export * from './directives';
 export * from './extensions';
 export * from './interfaces';
+export * from './misc/enums';
 export * from './misc/providers';
 export * from './misc/tokens';
 export * from './misc/types';

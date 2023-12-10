@@ -1,3 +1,4 @@
-<ng-container *ngIf="condition">
-    <ng-template [layoutComponentRenderer]="options?.content"></ng-template>
-</ng-container>
+@if(condition)
+{
+    <ng-container *layoutComponentRenderer2="options?.content"></ng-container>
+}

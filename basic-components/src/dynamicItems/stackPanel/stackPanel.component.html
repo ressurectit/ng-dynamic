@@ -1,3 +1,4 @@
-<ng-container *ngFor="let type of options?.children">
-    <ng-template [layoutComponentRenderer]="type"></ng-template>
-</ng-container>
+@for(type of options?.children; track type)
+{
+    <ng-container *layoutComponentRenderer2="type"></ng-container>
+}

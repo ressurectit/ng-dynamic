@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ModuleRoutes} from '@anglr/common/router';
 import {NgSelectModule} from '@anglr/select';
-import {DynamicLayoutModule, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
+import {DynamicLayoutModule, LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
 import {provideBasicLayout} from '@anglr/dynamic/basic-components';
 import {provideMaterialLayout} from '@anglr/dynamic/material-components';
 import {provideCssLayout} from '@anglr/dynamic/css-components';
@@ -26,7 +26,6 @@ import {StoreDataService} from '../../services/storeData';
         CommonModule,
         ReactiveFormsModule,
         NgSelectModule,
-        LayoutComponentRendererSADirective,
         DynamicLayoutModule.withProviders(),
     ],
     declarations:

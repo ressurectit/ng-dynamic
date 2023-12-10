@@ -26,10 +26,11 @@ export class DataBlockDesignerSAComponent extends DataBlockSAComponent implement
      */
     protected override onOptionsSet(): void
     {
-        if(!this.initialized)
-        {
-            return;
-        }
+        //TODO: check if required
+        // if(!this.initialized)
+        // {
+        //     return;
+        // }
 
         this.componentElement.nativeElement.innerHTML = this.options?.template ?? '';
     }

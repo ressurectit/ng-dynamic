@@ -66,10 +66,11 @@ export class TemplateBlockSAComponent extends LayoutComponentBase<TemplateBlockC
      */
     protected override async onOptionsSet(): Promise<void>
     {
-        if(!this.initialized)
-        {
-            return;
-        }
+        //TODO: check if required
+        // if(!this.initialized)
+        // {
+        //     return;
+        // }
 
         const id = this.options?.layoutId;
 

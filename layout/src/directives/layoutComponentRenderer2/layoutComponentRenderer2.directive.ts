@@ -95,7 +95,8 @@ export class LayoutComponentRenderer2SADirective<TComponentOptions = unknown> im
                                            this.componentMetadata,
                                            this.parentRendererDirective?.componentMetadata,
                                            this.scopeId,
-                                           this.childExtensions,);
+                                           this.childExtensions,
+                                           undefined,);
         }
     }
 

@@ -70,10 +70,11 @@ export class DataBlockSAComponent extends LayoutComponentBase<DataBlockComponent
      */
     protected override onOptionsSet(): void
     {
-        if(!this.initialized)
-        {
-            return;
-        }
+        //TODO: check if required
+        // if(!this.initialized)
+        // {
+        //     return;
+        // }
 
         if(this.options?.template)
         {

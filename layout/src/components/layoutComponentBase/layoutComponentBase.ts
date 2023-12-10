@@ -18,10 +18,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     protected extensions: DynamicItemExtension<TOptions>[] = [];
 
-    /**
-     * Indication whether initialization was already done
-     */
-    protected initialized: boolean = false;
+    //TODO: check whether this is necessary
 
     /**
      * Indication whether was component destroyed
@@ -90,12 +87,6 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     public async ngOnInit(): Promise<void>
     {
-        if(this.initialized)
-        {
-            return;
-        }
-
-        this.initialized = true;
         const extensionsOptions = this.extensionsOptions;
         
         await this.onInit();
@@ -133,7 +124,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
                 }
             }
 
-            if(!this.initialized)
+            if(changes[nameof<LayoutComponentBase<TOptions>>('options')].firstChange)
             {
                 return;
             }

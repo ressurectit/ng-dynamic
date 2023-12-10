@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRenderer2SADirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {DebugData, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
@@ -22,7 +22,7 @@ import {IfBlockLayoutDesignerTypeLoader, IfBlockLayoutMetadataLoader, IfBlockRel
     imports:
     [
         CommonModule,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRenderer2SADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

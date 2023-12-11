@@ -116,6 +116,6 @@ export class MaterialTabSAComponent extends LayoutComponentBase<MaterialTabCompo
             this._closestTab.disabled = false;
         }
 
-        this._closestTabGroup?.invalidateVisuals();
+        this._closestTabGroup?.onShowTab();
     }
 }

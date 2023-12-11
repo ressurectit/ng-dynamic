@@ -115,6 +115,30 @@ export class MaterialTabGroupSAComponent extends LayoutComponentBase<MaterialTab
         this.invalidateVisuals();
     }
 
+    public onShowTab()
+    {
+        if (this.tabGroup?._tabs)
+        {
+            const selectedTab = this.tabGroup.selectedIndex ? this.tabGroup._tabs.get(this.tabGroup.selectedIndex) : null;
+
+            if (!selectedTab || selectedTab.disabled)
+            {
+                for (let i = 0; i < this.tabGroup._tabs.length; i++)
+                {
+                    const tab = this.tabGroup._tabs.get(i);
+
+                    if (!tab?.disabled)
+                    {
+                        this.tabGroup.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }
+
+        this.invalidateVisuals();
+    }
+
     public override onInit()
     {
         if (this.options &&

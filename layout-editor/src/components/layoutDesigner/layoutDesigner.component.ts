@@ -357,6 +357,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         this.editorMetadata = await this.metadataExtractor.extractMetadata(this.options.typeMetadata);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+
         this.layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this.options.typeMetadata.id, this.parent?.options?.typeMetadata.id);
     }
 

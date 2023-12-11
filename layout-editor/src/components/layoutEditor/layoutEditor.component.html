@@ -11,7 +11,7 @@
     </mat-tab-group>
 
     <div class="dynamic-flex-1 layout-content dynamic-thin-scrollbar">
-        <ng-container [layoutComponentRenderer]="metadata"></ng-container>
+        <ng-container *layoutComponentRenderer2="metadata"/>
     </div>
 
     <properties-editor></properties-editor>

@@ -70,6 +70,8 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
             throw new Error(`LayoutEditorRenderer: component with ID ${metadata.id} already exists!`);
         }
 
+        this.logger.verbose('LayoutEditorRenderer: getting type "{{@id}}" isDesigner: {{isDesigner}} for {{@dynamicItem}}', {id: metadata?.id, isDesigner, dynamicItem: {package: metadata.package, name: metadata.name}});
+
         const injector = customInjector ?? viewContainer.injector;
         const componentScopeId = metadata.scope;
         const layoutComponentType = await this.loader.loadItem(
@@ -84,6 +86,8 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
                     }
                 }
                 : metadata,);
+
+        this.logger.verbose('LayoutEditorRenderer: rendering component {{@id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
 
         if(!layoutComponentType)
         {
@@ -112,6 +116,8 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
 
             return;
         }
+
+        this.logger.verbose('LayoutEditorRenderer: rendering component {{@id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
 
         const usedInjector = Injector.create(
         {
@@ -158,11 +164,18 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
             ...layoutComponentType?.extensions?.map(itm => new itm(metadata)) ?? [],
         ]);
 
-        const changes: SimpleChanges = {};
-        addSimpleChange<LayoutComponent>(changes, 'options', metadata.options, instance.options, true);
+        const options = isDesigner 
+            ? <LayoutDesignerComponentOptions>
+            {
+                typeMetadata: metadata
+            }
+            : metadata.options;
 
-        this.logger.verbose('LayoutEditorRenderer: setting options for component {{id}}, isDesigner: {{isDesigner}}, options: {{@options}}', {id: metadata?.id, options: metadata.options, isDesigner});
-        instance.options = metadata.options;
+        const changes: SimpleChanges = {};
+        addSimpleChange<LayoutComponent>(changes, 'options', options, instance.options, true);
+
+        this.logger.verbose('LayoutEditorRenderer: setting options for component {{id}}, isDesigner: {{isDesigner}}, options: {{@options}}', {id: metadata?.id, options: options, isDesigner});
+        instance.options = options;
         this.logger.verbose('LayoutEditorRenderer: set options for component {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
 
         this.logger.verbose('LayoutEditorRenderer: setting changes for component {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});

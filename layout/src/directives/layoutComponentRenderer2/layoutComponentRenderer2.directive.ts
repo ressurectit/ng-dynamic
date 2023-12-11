@@ -1,7 +1,7 @@
 import {Directive, Input, OnChanges, OnDestroy, SimpleChanges, ValueProvider, ViewContainerRef, inject} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemExtensionType, SCOPE_ID} from '@anglr/dynamic';
-import {generateId} from '@jscrpt/common';
+import {generateId, isBlank, isPresent, nameof} from '@jscrpt/common';
 
 import {LayoutComponentMetadata} from '../../interfaces';
 import {LAYOUT_COMPONENT_CHILD_EXTENSIONS} from '../../misc/tokens';
@@ -25,7 +25,7 @@ import {LayoutRenderer} from '../../services';
     ],
     standalone: true
 })
-export class LayoutComponentRenderer2SADirective<TComponentOptions = unknown> implements OnChanges, OnDestroy
+export class LayoutComponentRenderer2SADirective implements OnChanges, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -70,34 +70,51 @@ export class LayoutComponentRenderer2SADirective<TComponentOptions = unknown> im
      * Type that should be dynamically created into current container
      */
     @Input('layoutComponentRenderer2')
-    public componentMetadata: LayoutComponentMetadata<TComponentOptions>|undefined|null;
+    public componentMetadata: LayoutComponentMetadata|undefined|null;
 
     //######################### public methods - implementation of OnChanges #########################
 
     /**
      * Called when input value changes
      */
-    public ngOnChanges(_: SimpleChanges): void
+    public ngOnChanges(changes: SimpleChanges): void
     {
-        if(this.componentMetadata)
+        if(nameof<LayoutComponentRenderer2SADirective>('componentMetadata') in changes)
         {
-            this.logger.debug('LayoutComponentRenderer2SADirective: registering component for rendering "{{id}}" inside renderer "{{rendererId}}" with parent renderer "{{parentRenderer}}" and parent component "{{parentComponent}}"',
-            {
-                id: this.componentMetadata.id,
-                rendererId: this.id,
-                parentRenderer: this.parentRendererDirective?.id,
-                parentComponent: this.parentRendererDirective?.componentMetadata?.id,
-            });
+            const change = changes[nameof<LayoutComponentRenderer2SADirective>('componentMetadata')];
 
-            //registers renderer and component
-            this.renderer.registerRenderer(this.id,
-                                           this.parentRendererDirective?.id,
-                                           this.viewContainer,
-                                           this.componentMetadata,
-                                           this.parentRendererDirective?.componentMetadata,
-                                           this.scopeId,
-                                           this.childExtensions,
-                                           undefined,);
+            //component added to renderer
+            if(isPresent(change.currentValue) && isBlank(change.previousValue))
+            {
+                const metadata = change.currentValue as LayoutComponentMetadata;
+
+                this.logger.debug('LayoutComponentRenderer2SADirective: registering component for rendering "{{id}}" inside renderer "{{rendererId}}" with parent renderer "{{parentRenderer}}" and parent component "{{parentComponent}}"',
+                {
+                    id: metadata.id,
+                    rendererId: this.id,
+                    parentRenderer: this.parentRendererDirective?.id,
+                    parentComponent: this.parentRendererDirective?.componentMetadata?.id,
+                });
+    
+                //registers renderer and component
+                this.renderer.registerRenderer(this.id,
+                                               this.parentRendererDirective?.id,
+                                               this.viewContainer,
+                                               metadata,
+                                               this.parentRendererDirective?.componentMetadata,
+                                               this.scopeId,
+                                               this.childExtensions,
+                                               undefined,);
+            }
+            //component removed from renderer, unregister renderer
+            else if(isBlank(change.currentValue) && isPresent(change.previousValue))
+            {
+                this.renderer.unregisterRenderer(this.id);
+            }
+            else
+            {
+                throw new Error('unexpected');
+            }
         }
     }
 

@@ -1,8 +1,8 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy, Injector, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Logger, LOGGER, PositionToSADirective} from '@anglr/common';
-import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentMetadata, LayoutComponentRenderer2SADirective} from '@anglr/dynamic/layout';
+import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {MetadataHistoryManager, SCOPE_ID} from '@anglr/dynamic';
 import {extend, isPresent} from '@jscrpt/common';
 import {DndModule} from '@ng-dnd/core';
@@ -35,7 +35,7 @@ import {LayoutComponentDragData} from '../../interfaces';
         LayoutDesignerOverlayForSAComponent,
         DesignerMinDimensionSADirective,
         CopyDesignerStylesSADirective,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRenderer2SADirective,
         DesignerDropzoneSADirective,
         BodyRenderSADirective,
         DndModule,

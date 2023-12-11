@@ -1,14 +1,20 @@
 import {ClassProvider, ExistingProvider, FactoryProvider, inject, Optional, ValueProvider} from '@angular/core';
 import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
-import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
+import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_COMPONENT_TRANSFORM, LayoutRenderer} from '@anglr/dynamic/layout';
 import {LOGGER, Logger} from '@anglr/common';
 
-import {LayoutDesignerDynamicModuleItemsProvider, LayoutEditorMetadataManager} from '../services';
+import {LayoutDesignerDynamicModuleItemsProvider, LayoutEditorMetadataManager, LayoutEditorRenderer} from '../services';
 import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_HISTORY_MANAGER, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
 import {layoutDesignerComponentTransform} from './transforms/layoutDesignerComponentTransform';
 import {LayoutPropertyMetadata} from './types';
 import {isLayoutModuleTypes} from './utils';
 import {layoutDesignerTypeExtractor} from './extractors';
+
+export const EDITOR_LAYOUT_RENDERER: ExistingProvider =
+{
+    provide: LayoutRenderer,
+    useExisting: LayoutEditorRenderer,
+};
 
 /**
  * Provider for designer layout components extractor

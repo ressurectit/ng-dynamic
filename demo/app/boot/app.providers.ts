@@ -197,7 +197,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         //Layout logger
         .writeTo(cfg => cfg.writeTo(DeveloperConsoleSink)
             .minimumLevel(LogLevel.Off)
-            .filter((_, log) => !!log.message.match(/^(?:)LayoutComponentRenderer2SADirective|LayoutRenderer/)))
+            .filter((_, log) => !!log.message.match(/^(?:)LayoutComponentRenderer2SADirective|LayoutRenderer|LayoutEditorRenderer/)))
         //Dynamic logger
         .writeTo(cfg => cfg.writeTo(DeveloperConsoleSink)
             .minimumLevel(LogLevel.Off)

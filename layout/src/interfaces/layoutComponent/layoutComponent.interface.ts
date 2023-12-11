@@ -1,11 +1,11 @@
-import {OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AfterViewInit, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DynamicItem, DynamicItemExtension} from '@anglr/dynamic';
 import {PromiseOr} from '@jscrpt/common';
 
 /**
  * Description of layout component
  */
-export interface LayoutComponent<TOptions = any> extends DynamicItem, Partial<OnInit>, Partial<OnChanges>
+export interface LayoutComponent<TOptions = any> extends DynamicItem, Partial<OnInit>, Partial<OnChanges>, Partial<AfterViewInit>
 {
     //######################### properties #########################
 
@@ -26,6 +26,13 @@ export interface LayoutComponent<TOptions = any> extends DynamicItem, Partial<On
      * @param changes - Information about changes that occured
      */
     ngOnChanges?(changes: SimpleChanges): PromiseOr<void>;
+
+    //######################### public methods - implementation of AfterViewInit #########################
+    
+    /**
+     * Called when view was initialized
+     */
+    ngAfterViewInit?(): PromiseOr<void>;
 
     /**
      * Registers extensions for component

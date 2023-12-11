@@ -20,11 +20,12 @@
          [horizontal]="parent?.horizontal ?? false"
          [dropTarget]="dndCore.dropzone"
          [isDropZone]="canDrop">
-        <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template>
+        <!-- <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template> -->
+        <ng-container *layoutComponentRenderer2="renderedType"/>
 
         <ng-container *ngIf="highlighted || selected">
             <div class="designer-overlay-border"></div>
-            <div class="designer-overlay-layout" [layoutDesignerOverlayFor]="renderer"></div>
+            <!-- <div class="designer-overlay-layout" [layoutDesignerOverlayFor]="renderer"></div> -->
 
             <div class="designer-overlay-title"
                  *bodyRender

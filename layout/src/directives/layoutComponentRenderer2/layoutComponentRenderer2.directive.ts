@@ -111,10 +111,6 @@ export class LayoutComponentRenderer2SADirective implements OnChanges, OnDestroy
             {
                 this.renderer.unregisterRenderer(this.id);
             }
-            else
-            {
-                throw new Error('unexpected');
-            }
         }
     }
 

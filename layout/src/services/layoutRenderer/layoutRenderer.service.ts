@@ -142,7 +142,7 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
         this.logger.verbose('LayoutRenderer: invalidated component visuals {{id}}', {id: metadata?.id});
 
         this.logger.verbose('LayoutRenderer: after view initializing {{id}}', {id: metadata?.id});
-        instance.ngAfterViewInit?.();
+        await instance.ngAfterViewInit?.();
         this.logger.verbose('LayoutRenderer: after view initialized {{id}}', {id: metadata?.id});
     }
 }

@@ -191,7 +191,7 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         this.logger.verbose('LayoutEditorRenderer: invalidated component visuals {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
 
         this.logger.verbose('LayoutEditorRenderer: after view initializing {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
-        instance.ngAfterViewInit?.();
+        await instance.ngAfterViewInit?.();
         this.logger.verbose('LayoutEditorRenderer: after view initialized {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
     }
 }

@@ -17,7 +17,7 @@ export interface LayoutEditorRendererItem extends LayoutRendererItem
     componentViewContainer: ViewContainerRef|undefined|null;
 
     /**
-     * Id of layout designer
+     * Id of rederer used for rendering component
      */
-    layoutDesignerId: string;
+    componentRendererId: string|undefined|null;
 }

@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EmbeddedViewRef, OnInit, OnDestroy, Input, ChangeDetectorRef} from '@angular/core';
-import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {Component, ChangeDetectionStrategy, ElementRef, EmbeddedViewRef, OnInit, OnDestroy, Input, ChangeDetectorRef, Inject} from '@angular/core';
+import {LOGGER, Logger} from '@anglr/common';
 import {Subscription} from 'rxjs';
 
-import {LiveEventService} from '../../services';
+import {LayoutEditorRenderer, LiveEventService} from '../../services';
 
 /**
  * Component displaying layout designer layout overlay
@@ -28,6 +28,21 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
      */
     protected initSubscriptions: Subscription = new Subscription();
 
+    //######################### protected properties #########################
+
+    /**
+     * Gets component id safely
+     */
+    protected get componentIdSafe(): string
+    {
+        if(!this.componentId)
+        {
+            throw new Error('LayoutDesignerOverlayForSAComponent: missing id of component!');
+        }
+
+        return this.componentId;
+    }
+
     //######################### protected properties - template bindings #########################
 
     /**
@@ -38,15 +53,17 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
     //######################### public properties - inputs #########################
 
     /**
-     * Instance of layout component renderer
+     * Id of component that is being rendered
      */
     @Input('layoutDesignerOverlayFor')
-    public layoutComponentRendererDirective?: LayoutComponentRendererSADirective;
+    public componentId: string|undefined|null;
 
     //######################### constructor #########################
     constructor(protected element: ElementRef<HTMLElement>,
                 protected changeDetector: ChangeDetectorRef,
-                protected liveEvents: LiveEventService,)
+                protected liveEvents: LiveEventService,
+                protected renderer: LayoutEditorRenderer,
+                @Inject(LOGGER) protected logger: Logger,)
     {
     }
 
@@ -59,8 +76,16 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
     {
         this.observer = new MutationObserver(() => this.changeDetector.detectChanges());
 
-        //TODO: make this working, use existing html element
-        this.htmlElement = (this.layoutComponentRendererDirective?.componentRef?.hostView as EmbeddedViewRef<any>)?.rootNodes?.[0];
+        const rendererItem = this.renderer.get(this.componentIdSafe);
+
+        if(!rendererItem)
+        {
+            throw new Error('LayoutDesignerOverlayForSAComponent: missing registered component!');
+        }
+
+        this.logger.verbose('LayoutDesignerOverlayForSAComponent: registering component for layout designer overlay');
+
+        this.htmlElement = (rendererItem.component?.hostView as EmbeddedViewRef<unknown>)?.rootNodes?.[0];
 
         if(this.htmlElement)
         {
@@ -79,6 +104,7 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
     public ngOnDestroy(): void
     {
         this.observer?.disconnect();
+        this.initSubscriptions.unsubscribe();
     }
 
     //######################### protected methods #########################

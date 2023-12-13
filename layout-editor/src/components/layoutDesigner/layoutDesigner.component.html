@@ -20,19 +20,20 @@
          [horizontal]="parent?.horizontal ?? false"
          [dropTarget]="dndCore.dropzone"
          [isDropZone]="canDrop">
-        <!-- <ng-template #renderer="layoutComponentRenderer" [layoutComponentRenderer]="renderedType" [layoutComponentRendererDisableTransformer]="true"></ng-template> -->
         <ng-container *layoutComponentRenderer2="renderedType"/>
 
-        <ng-container *ngIf="highlighted || selected">
+        @if(highlighted || selected)
+        {
             <div class="designer-overlay-border"></div>
-            <!-- <div class="designer-overlay-layout" [layoutDesignerOverlayFor]="renderer"></div> -->
+            <div class="designer-overlay-layout" [layoutDesignerOverlayFor]="options?.typeMetadata?.id"></div>
 
             <div class="designer-overlay-title"
                  *bodyRender
                  [positionTo]="layoutDesigner"
                  placement="TopStart">{{renderedType?.displayName ?? editorMetadata?.metaInfo?.name ?? renderedType?.name}}</div>
 
-            <ng-container *ngIf="!!parent && parent.editorMetadata?.removeDescendant">
+            @if(!!parent && parent.editorMetadata?.removeDescendant)
+            {
                 <div *bodyRender
                      class="designer-overlay-remove"
                      [positionTo]="layoutDesigner"
@@ -41,7 +42,7 @@
                      (click)="remove()">
                     <span class="fas fa-times"></span>
                 </div>
-            </ng-container>
-        </ng-container>
+            }
+        }
     </div>
 </div>

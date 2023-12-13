@@ -16,6 +16,15 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
     //######################### public methods #########################
 
     /**
+     * Gets renderer information for component
+     * @param id - Id of component that should be obtained
+     */
+    public get(id: string): LayoutEditorRendererItem|undefined|null
+    {
+        return this.components[id];
+    }
+
+    /**
      * @inheritdoc
      */
     @WithSync()
@@ -52,9 +61,15 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
                 childrenIds: [],
                 component: null,
                 layoutDesigner: null,
-                layoutDesignerId,
                 componentViewContainer: null,
+                componentRendererId: null,
             };
+
+            //register self as child of its parent
+            if(parentId)
+            {
+                this.renderers[parentId]?.childrenIds.push(id);
+            }
 
             this.components[metadata.id] = rendererItem;
             this.renderers[id] = rendererItem;
@@ -64,6 +79,9 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         {
             rendererItem = componentItem;
             rendererItem.componentViewContainer = viewContainer;
+            rendererItem.componentRendererId = id;
+
+            this.renderers[id] = rendererItem;
         }
         else
         {
@@ -193,5 +211,94 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         this.logger.verbose('LayoutEditorRenderer: after view initializing {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
         await instance.ngAfterViewInit?.();
         this.logger.verbose('LayoutEditorRenderer: after view initialized {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
+    }
+
+    /**
+     * Destroyes renderer, removes it from register, destroyed renderer also destroys component, this is called when renderer is destroyed
+     * @param id - Id of renderer
+     */
+    public override destroyRenderer(id: string): void
+    {
+        this.logger.debug('LayoutEditorRenderer: destroying renderer "{{id}}"', {id});
+
+        this.unregisterFromParent(id);
+        const renderer = this.renderers[id];
+        
+        //if renderer exists remove it from register
+        if(renderer)
+        {
+            this.logger.verbose('LayoutEditorRenderer: removing renderer from registry "{{id}}"', {id});
+
+            delete this.components[renderer.metadata.id];
+            delete this.renderers[id];
+        }
+    }
+    
+    /**
+     * Unregisters renderer, removes it from register, destroys component, this is called when renderer is emptied
+     * @param id - Id of renderer that will be removed
+     */
+    public override unregisterRenderer(id: string): void
+    {
+        this.logger.debug('LayoutEditorRenderer: ungregistering renderer "{{id}}"', {id});
+
+        this.unregisterFromParent(id);
+        const renderer = this.renderers[id];
+
+        //if renderer exists remove it from register and destroy component
+        if(renderer)
+        {
+            this.logger.verbose('LayoutEditorRenderer: destroying component "{{id}}"', {id});
+            //destroys component
+            renderer.viewContainer.clear();
+            this.logger.verbose('LayoutEditorRenderer: component destroyed "{{id}}"', {id});
+
+            delete this.components[renderer.metadata.id];
+            delete this.renderers[id];
+        }
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Unregisters renderer from its parent
+     * @param id - Id of renderer which is going to be unregistered
+     */
+    protected unregisterFromParent(id: string): void
+    {
+        this.logger.debug('LayoutEditorRenderer: ungregistering renderer from its parent "{{id}}"', {id});
+
+        const renderer = this.renderers[id];
+
+        //if renderer exists remove it from parent
+        if(renderer)
+        {
+            //not root renderer
+            if(renderer.parentId)
+            {
+                const parentRenderer = this.renderers[renderer.parentId];
+
+                //unregister child from parent
+                if(parentRenderer)
+                {
+                    //its not component renderer do nothing
+                    if(parentRenderer.id != renderer.componentRendererId)
+                    {
+                        this.logger.verbose('LayoutEditorRenderer: it is layout component renderer "{{id}}"', {id});
+
+                        return;
+                    }
+
+                    const index = parentRenderer.childrenIds.indexOf(id);
+
+                    if(index >= 0)
+                    {
+                        this.logger.verbose('LayoutEditorRenderer: removing from parent renderer "{{id}}"', {id});
+
+                        parentRenderer.childrenIds.splice(index, 1);
+                    }
+                }
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/cor
 import {filter, Subscription} from 'rxjs';
 
 import {LayoutComponentDragData} from '../../../../interfaces';
-import {DragActiveService, LayoutEditorMetadataManager} from '../../../../services';
+import {DragActiveService, LayoutEditorMetadataManager, LayoutEditorRendererItem} from '../../../../services';
 import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 // import {registerDropzoneOverlay} from '../../misc/utils';
@@ -392,6 +392,18 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
 
         this.containerConnection?.unsubscribe();
         this.containerConnection = null;
+    }
+
+    //######################### public methods #########################
+
+    /**
+     * Callback called when component was fully rendered
+     * @param item - Item that contains information about rendered component
+     */
+    @BindThis
+    public renderedComponentCallback(item: LayoutEditorRendererItem): void
+    {
+        console.log('dnd', item);
     }
 
     //######################### protected methods #########################

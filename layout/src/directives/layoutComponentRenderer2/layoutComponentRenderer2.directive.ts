@@ -1,7 +1,7 @@
 import {Directive, Input, OnChanges, OnDestroy, SimpleChanges, ValueProvider, ViewContainerRef, inject} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemExtensionType, SCOPE_ID} from '@anglr/dynamic';
-import {generateId, isBlank, isPresent, nameof} from '@jscrpt/common';
+import {Action1, generateId, isBlank, isPresent, nameof} from '@jscrpt/common';
 
 import {LayoutComponentMetadata} from '../../interfaces';
 import {LAYOUT_COMPONENT_CHILD_EXTENSIONS} from '../../misc/tokens';
@@ -13,7 +13,6 @@ import {LayoutRenderer} from '../../services';
 @Directive(
 {
     selector: '[layoutComponentRenderer2]',
-    exportAs: 'layoutComponentRenderer2',
     providers: 
     [
         <ValueProvider>
@@ -72,6 +71,12 @@ export class LayoutComponentRenderer2SADirective implements OnChanges, OnDestroy
     @Input('layoutComponentRenderer2')
     public componentMetadata: LayoutComponentMetadata|undefined|null;
 
+    /**
+     * Callback method called when component has been rendered
+     */
+    @Input('layoutComponentRenderer2Callback')
+    public renderedCallback: Action1<unknown>|undefined|null;
+
     //######################### public methods - implementation of OnChanges #########################
 
     /**
@@ -104,6 +109,7 @@ export class LayoutComponentRenderer2SADirective implements OnChanges, OnDestroy
                                                this.parentRendererDirective?.componentMetadata,
                                                this.scopeId,
                                                this.childExtensions,
+                                               this.renderedCallback,
                                                undefined,);
             }
             //component removed from renderer, unregister renderer

@@ -1,6 +1,6 @@
 import {Injectable, Injector, SimpleChanges, ValueProvider, ViewContainerRef} from '@angular/core';
 import {DynamicItemExtensionType, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
-import {WithSync} from '@jscrpt/common';
+import {Action1, WithSync} from '@jscrpt/common';
 
 import {LayoutComponent, LayoutComponentMetadata} from '../../interfaces';
 import {LayoutRendererItem} from './layoutRenderer.interface';
@@ -28,6 +28,7 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
                                   parentMetadata: LayoutComponentMetadata|undefined|null,
                                   scopeId: string|undefined|null,
                                   childExtensions: DynamicItemExtensionType[]|undefined|null,
+                                  renderedCallback: Action1<LayoutRendererItem>|undefined|null,
                                   customInjector: Injector|undefined|null,): Promise<void>
     {
         this.logger.debug('LayoutRenderer: registering renderer {{@renderer}}', {renderer: {id, parentId, metadata, parentMetadata, scopeId}});
@@ -144,5 +145,7 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
         this.logger.verbose('LayoutRenderer: after view initializing {{id}}', {id: metadata?.id});
         await instance.ngAfterViewInit?.();
         this.logger.verbose('LayoutRenderer: after view initialized {{id}}', {id: metadata?.id});
+
+        renderedCallback?.(rendererItem);
     }
 }

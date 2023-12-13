@@ -1,7 +1,7 @@
 import {Injectable, Injector, SimpleChanges, ValueProvider, ViewContainerRef} from '@angular/core';
 import {DynamicItemExtensionType, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {LAYOUT_COMPONENT_CHILD_EXTENSIONS, LayoutComponent, LayoutComponentMetadata, LayoutRendererBase, MissingTypeBehavior, NotFoundLayoutTypeSAComponent} from '@anglr/dynamic/layout';
-import {WithSync} from '@jscrpt/common';
+import {Action1, WithSync} from '@jscrpt/common';
 
 import {LayoutEditorRendererItem} from './layoutEditorRenderer.interface';
 import {LAYOUT_DESIGNER_COMPONENT_ID_SUFFIX} from '../../misc/constants';
@@ -35,6 +35,7 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
                                            parentMetadata: LayoutComponentMetadata|undefined|null,
                                            scopeId: string|undefined|null,
                                            childExtensions: DynamicItemExtensionType[]|undefined|null,
+                                           renderedCallback: Action1<LayoutEditorRendererItem>|undefined|null,
                                            customInjector: Injector|undefined|null,): Promise<void>
     {
         this.logger.debug('LayoutEditorRenderer: registering renderer {{@renderer}}', {renderer: {id, parentId, metadata, parentMetadata, scopeId}});
@@ -211,6 +212,11 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         this.logger.verbose('LayoutEditorRenderer: after view initializing {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
         await instance.ngAfterViewInit?.();
         this.logger.verbose('LayoutEditorRenderer: after view initialized {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
+
+        if(!isDesigner)
+        {
+            renderedCallback?.(rendererItem);
+        }
     }
 
     /**

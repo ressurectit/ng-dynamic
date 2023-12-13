@@ -18,6 +18,7 @@ import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 import {DndCoreDesignerDirective, LayoutDndCoreModule} from '../../modules';
 import {LayoutComponentDragData} from '../../interfaces';
+import {CombineRenderersCallbacksSAPipe} from '../../pipes';
 
 /**
  * Component used as designer component wrapper for layout component
@@ -40,6 +41,7 @@ import {LayoutComponentDragData} from '../../interfaces';
         BodyRenderSADirective,
         DndModule,
         LayoutDndCoreModule,
+        CombineRenderersCallbacksSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

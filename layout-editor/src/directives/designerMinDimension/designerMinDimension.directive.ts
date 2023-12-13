@@ -1,9 +1,10 @@
 import {ContentChild, Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {nameof} from '@jscrpt/common';
+import {BindThis, nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
+import {LayoutEditorRendererItem} from '../../services';
 
 /**
  * Applies min dimensions to designed element, so it can be visible event when it is empty
@@ -11,6 +12,7 @@ import {LayoutEditorMetadataDescriptor} from '../../decorators';
 @Directive(
 {
     selector: '[designerMinWidth]',
+    exportAs: 'designerMinWidth',
     standalone: true
 })
 export class DesignerMinDimensionSADirective implements OnInit, OnDestroy, OnChanges
@@ -129,6 +131,18 @@ export class DesignerMinDimensionSADirective implements OnInit, OnDestroy, OnCha
     {
         this.observer?.disconnect();
         this.initSubscriptions.unsubscribe();
+    }
+
+    //######################### public methods #########################
+
+    /**
+     * Callback called when component was fully rendered
+     * @param item - Item that contains information about rendered component
+     */
+    @BindThis
+    public renderedComponentCallback(item: LayoutEditorRendererItem): void
+    {
+        console.log('min width', item);
     }
 
     //######################### protected methods #########################

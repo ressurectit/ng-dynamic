@@ -1,6 +1,7 @@
 import {Injectable, Injector, ViewContainerRef, inject} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {DynamicItemExtensionType, DynamicItemLoader} from '@anglr/dynamic';
+import {Action1} from '@jscrpt/common';
 
 import {LayoutComponentMetadata} from '../../interfaces';
 import {LayoutRendererItem} from './layoutRenderer.interface';
@@ -105,6 +106,7 @@ export abstract class LayoutRendererBase<TRendererItem extends LayoutRendererIte
      * @param parentMetadata - Metadata of parent of rendere component
      * @param scopeId - Id of scope in which is this component rendered
      * @param childExtensions - Array of child extensions applied to component
+     * @param renderedCallback - Callback called when registered component is fully rendered
      * @param customInjector - Instance of custom injector if provided
      */
     public abstract registerRenderer(id: string,
@@ -114,6 +116,7 @@ export abstract class LayoutRendererBase<TRendererItem extends LayoutRendererIte
                                      parentMetadata: LayoutComponentMetadata|undefined|null,
                                      scopeId: string|undefined|null,
                                      childExtensions: DynamicItemExtensionType[]|undefined|null,
+                                     renderedCallback: Action1<LayoutRendererItem>|undefined|null,
                                      customInjector: Injector|undefined|null,): Promise<void>;
 
     /**

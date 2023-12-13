@@ -1,8 +1,9 @@
-import {Component, ChangeDetectionStrategy, ElementRef, EmbeddedViewRef, OnInit, OnDestroy, Input, ChangeDetectorRef, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ElementRef, OnInit, OnDestroy, Input, ChangeDetectorRef, Inject} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorRenderer, LiveEventService} from '../../services';
+import {getHostElement} from '../../misc/utils';
 
 /**
  * Component displaying layout designer layout overlay
@@ -48,7 +49,7 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
     /**
      * Instance of element that is monitored
      */
-    protected htmlElement: HTMLElement|undefined;
+    protected htmlElement: HTMLElement|undefined|null;
 
     //######################### public properties - inputs #########################
 
@@ -85,7 +86,7 @@ export class LayoutDesignerOverlayForSAComponent implements OnInit, OnDestroy
 
         this.logger.verbose('LayoutDesignerOverlayForSAComponent: registering component for layout designer overlay');
 
-        this.htmlElement = (rendererItem.component?.hostView as EmbeddedViewRef<unknown>)?.rootNodes?.[0];
+        this.htmlElement = getHostElement(rendererItem.component);
 
         if(this.htmlElement)
         {

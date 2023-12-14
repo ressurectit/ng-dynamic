@@ -39,12 +39,12 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     /**
      * Id of selected component
      */
-    protected _selectedComponent: string|null = null;
+    protected selectedComponentValue: string|null = null;
 
     /**
      * Id of highlighted component
      */
-    protected _highlightedComponent: string|null = null;
+    protected highlightedComponentValue: string|null = null;
 
     /**
      * Used for emitting layout changes
@@ -54,7 +54,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     /**
      * Used for emitting selected component changes
      */
-    protected _selectedChange: Subject<void> = new Subject<void>();
+    protected selectedChangeValue: Subject<void> = new Subject<void>();
 
     /**
      * Used for emitting highlighted component changes
@@ -65,11 +65,6 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      * Used for emitting changes in components display name
      */
     protected _displayNameChanges: Subject<void> = new Subject<void>();
-
-    /**
-     * Flattened tree of components tree
-     */
-    protected _flatTree: LayoutEditorMetadataManagerComponent[]|null = null;
 
     /**
      * Id of dragged over component
@@ -88,7 +83,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public get selectedComponent(): string|null
     {
-        return this._selectedComponent;
+        return this.selectedComponentValue;
     }
 
     /**
@@ -96,7 +91,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public get highlightedComponent(): string|null
     {
-        return this._highlightedComponent;
+        return this.highlightedComponentValue;
     }
 
     /**
@@ -133,7 +128,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public get selectedChange(): Observable<void>
     {
-        return this._selectedChange.asObservable();
+        return this.selectedChangeValue.asObservable();
     }
 
     /**
@@ -158,14 +153,6 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     public get draggedOverComponentChange(): Observable<void>
     {
         return this._draggedOverComponentChange.asObservable();
-    }
-
-    /**
-     * Gets flattened tree of components tree
-     */
-    public get flatTree(): LayoutEditorMetadataManagerComponent[]
-    {
-        return (this._flatTree ??= this._buildFlatTree());
     }
 
     //######################### constructor #########################
@@ -277,8 +264,8 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public selectComponent(id?: string): void
     {
-        this._selectedComponent = id ?? null;
-        this._selectedChange.next();
+        this.selectedComponentValue = id ?? null;
+        this.selectedChangeValue.next();
     }
 
     /**
@@ -286,8 +273,8 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public unselectComponent(): void
     {
-        this._selectedComponent = null;
-        this._selectedChange.next();
+        this.selectedComponentValue = null;
+        this.selectedChangeValue.next();
     }
 
     /**
@@ -296,7 +283,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public highlightComponent(id?: string): void
     {
-        this._highlightedComponent = id ?? null;
+        this.highlightedComponentValue = id ?? null;
         this._highlightedChange.next();
     }
 
@@ -305,7 +292,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public cancelHighlightedComponent(): void
     {
-        this._highlightedComponent = null;
+        this.highlightedComponentValue = null;
         this._highlightedChange.next();
     }
 
@@ -325,6 +312,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         this._draggedOverComponentChange.next();
     }
 
+    //TODO: removal candidate
     /**
      * Removes indication of component being dragged over
      * @param id - Id of component that will be marked
@@ -372,7 +360,6 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
             parent.children.push(componentItem);
         }
 
-        this._flatTree = null;
         this.layoutChangeSubject.next();
 
         this._logger?.debug('LayoutEditorMetadataManager: Registering component {{@id}}', {id: id});
@@ -398,6 +385,8 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         return this.components[id]?.parent?.component ?? null;
     }
 
+
+    //TODO: removal candidate
     /**
      * Gets index of componet in its parent, if not parent or id not found null is returned
      * @param id - Id of component which index from parent will be obtained
@@ -444,7 +433,6 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
             this.rootComponentId = null;
         }
 
-        this._flatTree = null;
         this.layoutChangeSubject.next();
 
         this._logger?.debug('LayoutEditorMetadataManager: Unregistering component {{@id}}', {id: id});
@@ -469,43 +457,5 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         }
 
         return this.components[this.rootComponentId].component.options?.typeMetadata ?? null;
-    }
-
-    //######################### protected methods #########################
-
-    /**
-     * Builds flattened tree of components tree
-     */
-    protected _buildFlatTree(): LayoutEditorMetadataManagerComponent[]
-    {
-        if(isBlank(this.rootComponentId))
-        {
-            return [];
-        }
-
-        const component = this.components[this.rootComponentId];
-
-        if(!component)
-        {
-            return [];
-        }
-
-        return this._buildFlatTreeForComponent(component);
-    }
-
-    /**
-     * Builds flattened tree of components tree
-     * @param component - Component which tree should be flattened
-     */
-    protected _buildFlatTreeForComponent(component: LayoutEditorMetadataManagerComponent): LayoutEditorMetadataManagerComponent[]
-    {
-        let result: LayoutEditorMetadataManagerComponent[] = [component];
-
-        for(const child of component.children)
-        {
-            result = result.concat(this._buildFlatTreeForComponent(child));
-        }
-
-        return result;
     }
 }

@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, Injector, Inject, Optional} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {HostDisplayBlockStyle, Logger, LOGGER} from '@anglr/common';
+import {HostDisplayBlockStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
 import prefixer  from 'postcss-prefix-selector';
 import postcss, {Processor, Root} from 'postcss';
@@ -52,15 +52,10 @@ export class StyleBlockSAComponent extends LayoutComponentBase<StyleBlockCompone
      */
     protected cssProcessor: Processor|undefined|null;
 
-    //######################### constructor #########################
-    constructor(changeDetector: ChangeDetectorRef,
-                element: ElementRef<HTMLElement>,
-                injector: Injector,
-                @Inject(DOCUMENT) protected document: Document,
-                @Inject(LOGGER) @Optional() logger?: Logger,)
-    {
-        super(changeDetector, element, injector, logger);
-    }
+    /**
+     * Instance of html document
+     */
+    protected document: Document = inject(DOCUMENT);
 
     //######################### protected methods - overrides #########################
 

@@ -1,7 +1,7 @@
 import {Injectable, Injector, SimpleChanges, ValueProvider, ViewContainerRef} from '@angular/core';
 import {DynamicItemExtensionType, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {LAYOUT_COMPONENT_CHILD_EXTENSIONS, LayoutComponent, LayoutComponentMetadata, LayoutRendererBase, MissingTypeBehavior, NotFoundLayoutTypeSAComponent} from '@anglr/dynamic/layout';
-import {Action1, WithSync} from '@jscrpt/common';
+import {Action1, NoopAction} from '@jscrpt/common';
 
 import {LayoutEditorRendererItem} from './layoutEditorRenderer.interface';
 import {LAYOUT_DESIGNER_COMPONENT_ID_SUFFIX} from '../../misc/constants';
@@ -13,6 +13,18 @@ import {LayoutDesignerComponentOptions} from '../../components';
 @Injectable()
 export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendererItem>
 {
+    //######################### protected properties #########################
+
+    /**
+     * Instance of promise that is used for sync async/await calls
+     */
+    protected syncPromise: Promise<void> = Promise.resolve();
+
+    /**
+     * Number of register calls waiting
+     */
+    protected registeredCalls: number = 0;
+
     //######################### public methods #########################
 
     /**
@@ -27,7 +39,6 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
     /**
      * @inheritdoc
      */
-    @WithSync()
     public override async registerRenderer(id: string,
                                            parentId: string|undefined|null,
                                            viewContainer: ViewContainerRef,
@@ -38,6 +49,14 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
                                            renderedCallback: Action1<LayoutEditorRendererItem>|undefined|null,
                                            customInjector: Injector|undefined|null,): Promise<void>
     {
+        this.registeredCalls++;
+
+        //synchronization code
+        const syncPromise = this.syncPromise;
+        let syncResolve: NoopAction|undefined;
+        this.syncPromise = new Promise(resolve => syncResolve = resolve);
+        await syncPromise;
+
         this.logger.debug('LayoutEditorRenderer: registering renderer {{@renderer}}', {renderer: {id, parentId, metadata, parentMetadata, scopeId}});
 
         let isDesigner: boolean = false;
@@ -183,7 +202,7 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
             ...layoutComponentType?.extensions?.map(itm => new itm(metadata)) ?? [],
         ]);
 
-        const options = isDesigner 
+        const options = isDesigner
             ? <LayoutDesignerComponentOptions>
             {
                 typeMetadata: metadata
@@ -217,6 +236,15 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         {
             renderedCallback?.(rendererItem);
         }
+
+        //sync call finished
+        syncResolve?.();
+        this.registeredCalls--;
+
+        if(this.registeredCalls === 0)
+        {
+            this.renderingFinishedSubject.next();
+        }
     }
 
     /**
@@ -229,7 +257,7 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
 
         this.unregisterFromParent(id);
         const renderer = this.renderers[id];
-        
+
         //if renderer exists remove it from register
         if(renderer)
         {
@@ -239,7 +267,7 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
             delete this.renderers[id];
         }
     }
-    
+
     /**
      * Unregisters renderer, removes it from register, destroys component, this is called when renderer is emptied
      * @param id - Id of renderer that will be removed

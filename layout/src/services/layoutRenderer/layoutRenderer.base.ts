@@ -2,6 +2,7 @@ import {Injectable, Injector, ViewContainerRef, inject} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {DynamicItemExtensionType, DynamicItemLoader} from '@anglr/dynamic';
 import {Action1} from '@jscrpt/common';
+import {Observable, Subject} from 'rxjs';
 
 import {LayoutComponentMetadata} from '../../interfaces';
 import {LayoutRendererItem} from './layoutRenderer.interface';
@@ -33,6 +34,11 @@ export abstract class LayoutRendererBase<TRendererItem extends LayoutRendererIte
     protected options: LayoutRendererOptions;
 
     /**
+     * Subject used for emitting when rendering has finished
+     */
+    protected renderingFinishedSubject: Subject<void> = new Subject<void>();
+
+    /**
      * Map of renderers and their data
      */
     protected renderers: Record<string, TRendererItem|undefined|null> = {};
@@ -60,6 +66,16 @@ export abstract class LayoutRendererBase<TRendererItem extends LayoutRendererIte
         }
         
         return null;
+    }
+
+    //######################### public properties #########################
+
+    /**
+     * Occurs when rendering has finished
+     */
+    public get renderingFinished(): Observable<void>
+    {
+        return this.renderingFinishedSubject.asObservable();
     }
 
     //######################### constructor #########################

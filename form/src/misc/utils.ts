@@ -73,7 +73,7 @@ export function provideFormLayoutRelations(): Provider[]
     ];
 }
 
-export function getFormControl<TValue = string>(controlName: string|null|undefined, parentControl: AbstractControl|undefined, defaultControlType: FormComponentControlType = FormComponentControlType.FormControl, defaultValue: TValue): AbstractControl
+export function getFormControl<TValue = string>(controlName: string|undefined|null, parentControl: AbstractControl|undefined|null, defaultControlType: FormComponentControlType = FormComponentControlType.FormControl, defaultValue: TValue): AbstractControl
 {
     if (!parentControl ||
         !controlName)

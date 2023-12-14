@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, Injector, Inject, Optional, Input} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input, inject} from '@angular/core';
 import {MAT_TAB, MatTab, MatTabsModule} from '@angular/material/tabs';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
@@ -33,12 +33,22 @@ import {MATERIAL_TAB_GROUP} from '../tabGroup/tabGroup.component';
 @RelationsEditorMetadata(MaterialTabRelationsMetadataLoader)
 export class MaterialTabSAComponent extends LayoutComponentBase<MaterialTabComponentOptions> implements LayoutComponent<MaterialTabComponentOptions>, RelationsComponent
 {
-    //######################### private properties #########################
+    //######################### protected properties #########################
 
     /**
      * Indication whether tab is visible
      */
-    private _visible: boolean|null|undefined;
+    protected visibleValue: boolean|null|undefined;
+    
+    /**
+     * Closes tab group
+     */
+    protected closestTabGroup: any = inject(MATERIAL_TAB_GROUP, {optional: true});
+
+    /**
+     * Instance of closest tab
+     */
+    protected closestTab: MatTab = inject(MAT_TAB, {optional: true});
 
     //######################### public properties #########################
 
@@ -60,7 +70,7 @@ export class MaterialTabSAComponent extends LayoutComponentBase<MaterialTabCompo
     @Input()
     public set visible(visible: boolean|null|undefined)
     {
-        this._visible = visible;
+        this.visibleValue = visible;
         if (this.visible)
         {
             this.showTab();
@@ -72,17 +82,7 @@ export class MaterialTabSAComponent extends LayoutComponentBase<MaterialTabCompo
     }
     public get visible(): boolean|null|undefined
     {
-        return this._visible;
-    }
-
-    //######################### constructor #########################
-    constructor(changeDetector: ChangeDetectorRef,
-                componentElement: ElementRef<HTMLElement>,
-                injector: Injector,
-                @Inject(MATERIAL_TAB_GROUP) @Optional() private _closestTabGroup: any,
-                @Inject(MAT_TAB) @Optional() private _closestTab: MatTab)
-    {
-        super(changeDetector, componentElement, injector);
+        return this.visibleValue;
     }
 
     //######################### protected - overrides #########################
@@ -98,12 +98,12 @@ export class MaterialTabSAComponent extends LayoutComponentBase<MaterialTabCompo
      */
     protected hideTab()
     {
-        if (this._closestTab)
+        if (this.closestTab)
         {
-            this._closestTab.disabled = true;
+            this.closestTab.disabled = true;
         }
             
-        this._closestTabGroup?.onHideTab(this.tabGroupIndex);
+        this.closestTabGroup?.onHideTab(this.tabGroupIndex);
     }
 
     /**
@@ -111,11 +111,11 @@ export class MaterialTabSAComponent extends LayoutComponentBase<MaterialTabCompo
      */
     protected showTab()
     {
-        if (this._closestTab)
+        if (this.closestTab)
         {
-            this._closestTab.disabled = false;
+            this.closestTab.disabled = false;
         }
 
-        this._closestTabGroup?.onShowTab();
+        this.closestTabGroup?.onShowTab();
     }
 }

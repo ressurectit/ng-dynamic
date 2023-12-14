@@ -75,6 +75,13 @@ export class DndCorePreviewComponent implements OnInit, OnDestroy
                     return;
                 }
 
+                const type = itm.type as string;
+
+                if(['COMPONENT', 'METADATA'].indexOf(type) < 0)
+                {
+                    return;
+                }
+
                 this.dragPreviewElement ??= this.renderDragPreview(itm.item);
 
                 if(this.dragPreviewElement)

@@ -1,6 +1,6 @@
 import {Injectable, Injector, SimpleChanges, ValueProvider, ViewContainerRef} from '@angular/core';
 import {DynamicItemExtensionType, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
-import {Action1, WithSync} from '@jscrpt/common';
+import {Action1, NoopAction} from '@jscrpt/common';
 
 import {LayoutComponent, LayoutComponentMetadata} from '../../interfaces';
 import {LayoutRendererItem} from './layoutRenderer.interface';
@@ -15,12 +15,23 @@ import {LayoutRendererBase} from './layoutRenderer.base';
 @Injectable()
 export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
 {
+    //######################### protected properties #########################
+
+    /**
+     * Instance of promise that is used for sync async/await calls
+     */
+    protected syncPromise: Promise<void> = Promise.resolve();
+
+    /**
+     * Number of register calls waiting
+     */
+    protected registeredCalls: number = 0;
+
     //######################### public methods #########################
 
     /**
      * @inheritdoc
      */
-    @WithSync()
     public async registerRenderer(id: string,
                                   parentId: string|undefined|null,
                                   viewContainer: ViewContainerRef,
@@ -31,6 +42,14 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
                                   renderedCallback: Action1<LayoutRendererItem>|undefined|null,
                                   customInjector: Injector|undefined|null,): Promise<void>
     {
+        this.registeredCalls++;
+
+        //synchronization code
+        const syncPromise = this.syncPromise;
+        let syncResolve: NoopAction|undefined;
+        this.syncPromise = new Promise(resolve => syncResolve = resolve);
+        await syncPromise;
+
         this.logger.debug('LayoutRenderer: registering renderer {{@renderer}}', {renderer: {id, parentId, metadata, parentMetadata, scopeId}});
 
         //tests whether component already exists
@@ -147,5 +166,14 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
         this.logger.verbose('LayoutRenderer: after view initialized {{id}}', {id: metadata?.id});
 
         renderedCallback?.(rendererItem);
+
+        //sync call finished
+        syncResolve?.();
+        this.registeredCalls--;
+
+        if(this.registeredCalls === 0)
+        {
+            this.renderingFinishedSubject.next();
+        }
     }
 }

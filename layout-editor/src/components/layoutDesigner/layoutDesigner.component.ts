@@ -1,6 +1,5 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef, SkipSelf, Optional, Inject, OnDestroy, Injector, ViewChild} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {Logger, LOGGER, PositionToSADirective} from '@anglr/common';
+import {Component, ChangeDetectionStrategy, ElementRef, SkipSelf, Optional, Inject, OnDestroy, ViewChild} from '@angular/core';
+import {PositionToSADirective} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata, LayoutComponentRenderer2SADirective} from '@anglr/dynamic/layout';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {MetadataHistoryManager, SCOPE_ID} from '@anglr/dynamic';
@@ -12,7 +11,6 @@ import {isEqual} from 'lodash-es';
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {BodyRenderSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
 import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
-import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
@@ -30,31 +28,27 @@ import {CombineRenderersCallbacksSAPipe} from '../../pipes';
     standalone: true,
     imports:
     [
-        CommonModule,
-        PositionToSADirective,
-        LayoutEditorDragPreviewSAComponent,
+        LayoutDndCoreModule,
+        DndModule,
         LayoutDesignerOverlayForSAComponent,
+        LayoutComponentRenderer2SADirective,
         DesignerMinDimensionSADirective,
         CopyDesignerStylesSADirective,
-        LayoutComponentRenderer2SADirective,
         DesignerDropzoneSADirective,
+        PositionToSADirective,
         BodyRenderSADirective,
-        DndModule,
-        LayoutDndCoreModule,
         CombineRenderersCallbacksSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>, OnDestroy
 {
-    //######################### private properties #########################
+    //######################### protected properties #########################
 
     /**
      * Last type metadata value from onOptionSet
      */
-    private _typeMetadata: LayoutComponentMetadata<LayoutDesignerComponentOptions>|null|undefined;
-
-    //######################### protected properties #########################
+    protected typeMetadata: LayoutComponentMetadata<LayoutDesignerComponentOptions>|null|undefined;
 
     /**
      * Subscriptions created during initialization
@@ -143,7 +137,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public get id(): string
     {
-        return this.options?.typeMetadata?.id ?? '';
+        if(!this.options?.typeMetadata?.id)
+        {
+            throw new Error('LayoutDesignerSAComponent: missing ID!');
+        }
+
+        return this.options.typeMetadata.id;
     }
 
     /**
@@ -157,18 +156,14 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     public editorMetadata: LayoutEditorMetadataDescriptor|null = null;
 
     //######################### constructor #########################
-    constructor(changeDetector: ChangeDetectorRef,
-                element: ElementRef<HTMLElement>,
-                injector: Injector,
-                protected metadataExtractor: LayoutEditorMetadataExtractor,
+    constructor(protected metadataExtractor: LayoutEditorMetadataExtractor,
                 protected layoutEditorMetadataManager: LayoutEditorMetadataManager,
                 protected iteratorSvc: LayoutComponentsIteratorService,
                 @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
-                @Optional() @Inject(SCOPE_ID) protected scopeId?: string,
-                @Inject(LOGGER) @Optional() logger?: Logger,
+                @Optional() @Inject(SCOPE_ID) protected scopeId: string|undefined|null,
                 @SkipSelf() @Optional() protected parent?: LayoutDesignerSAComponent,)
     {
-        super(changeDetector, element, injector, logger);
+        super();
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -369,13 +364,13 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     protected override onOptionsSet(): void
     {
         if(!this.options ||
-           isEqual(this._typeMetadata, this.options.typeMetadata))
+           isEqual(this.typeMetadata, this.options.typeMetadata))
         {
             return;
         }
 
         this.renderedType = {...this.options.typeMetadata};
-        this._typeMetadata = extend(true, {}, this.options.typeMetadata);
+        this.typeMetadata = extend(true, {}, this.options.typeMetadata);
         this.horizontal = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ?? false;
         this.changeDetector.detectChanges();
     }

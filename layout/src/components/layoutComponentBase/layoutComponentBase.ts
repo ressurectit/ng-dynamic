@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Directive, ElementRef, Inject, Injector, OnDestroy, Optional, SimpleChanges} from '@angular/core';
+import {ChangeDetectorRef, Directive, ElementRef, Injector, OnDestroy, SimpleChanges, inject} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemExtension} from '@anglr/dynamic';
 import {isEmptyObject, nameof, PromiseOr} from '@jscrpt/common';
@@ -43,20 +43,32 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
         return this.options;
     }
 
+    /**
+     * Instance of change detector for running explicit change detection
+     */
+    protected changeDetector: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+    /**
+     * Instance of components element
+     */
+    protected componentElement: ElementRef<HTMLElement> = inject(ElementRef<HTMLElement>);
+
+    /**
+     * Injector used for obtaining dependencies
+     */
+    protected injector: Injector = inject(Injector);
+
+    /**
+     * Instance of logger used for creating logs
+     */
+    protected logger: Logger = inject(LOGGER);
+
     //######################### public properties - implementation of LayoutComponent #########################
 
     /**
      * @inheritdoc
      */
     public options: TOptions|undefined|null;
-
-    //######################### constructor #########################
-    constructor(protected changeDetector: ChangeDetectorRef,
-                protected componentElement: ElementRef<HTMLElement>,
-                protected injector: Injector,
-                @Inject(LOGGER) @Optional() protected logger?: Logger,)
-    {
-    }
 
     //######################### public methods - implementation of OnDestroy #########################
     

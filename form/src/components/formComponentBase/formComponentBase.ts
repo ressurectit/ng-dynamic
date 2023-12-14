@@ -1,7 +1,6 @@
-import {ChangeDetectorRef, Directive, ElementRef, Inject, Injector, Input, Optional} from '@angular/core';
+import {Directive, Input, inject} from '@angular/core';
 import {AbstractControl, FormControl, Validators} from '@angular/forms';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
-import {LOGGER, Logger} from '@anglr/common';
 import {DynamicOutput} from '@anglr/dynamic/relations';
 import {PromiseOr} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
@@ -40,6 +39,11 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions, T
      * Form component control subscriptions
      */
     protected controlSubscription: Subscription|null|undefined;
+
+    /**
+     * Instance of parent control
+     */
+    protected parentControl: AbstractControl|undefined|null = inject(FORM_COMPONENT_CONTROL, {optional: true});
 
     //######################### public properties - inputs #########################
 
@@ -112,17 +116,6 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions, T
     @DynamicOutput()
     public valueOutput: TValue|null|undefined;
 
-    //######################### constructor #########################
-
-    constructor(_changeDetector: ChangeDetectorRef,
-                _element: ElementRef<HTMLElement>,
-                _injector: Injector,
-                @Inject(FORM_COMPONENT_CONTROL) @Optional() protected _parentControl?: AbstractControl,
-                @Inject(LOGGER) @Optional() _logger?: Logger,)
-    {
-        super(_changeDetector, _element, _injector, _logger);
-    }
-
     //######################### protected methods - _onOptionsSet implementation #########################
 
     /**
@@ -138,7 +131,7 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions, T
         this.controlSubscription?.unsubscribe();
         this.controlSubscription = null;
 
-        this.control = this._getFormControl(this.options?.controlName, this._parentControl, FormComponentControlType.FormControl, this.value); 
+        this.control = this._getFormControl(this.options?.controlName, this.parentControl, FormComponentControlType.FormControl, this.value); 
         this._registerValidations();
         this.controlSubscription = this.control
             ?.valueChanges
@@ -166,7 +159,7 @@ export abstract class FormComponentBase<TOptions extends FormComponentOptions, T
      * @param initValue Initial value for control
      * @returns Specified type of control
      */
-    private _getFormControl(controlName: string|null|undefined, parentControl: AbstractControl|undefined, defaultControlType: FormComponentControlType = FormComponentControlType.FormControl, initValue: TValue|null|undefined): AbstractControl
+    private _getFormControl(controlName: string|undefined|null, parentControl: AbstractControl|undefined|null, defaultControlType: FormComponentControlType = FormComponentControlType.FormControl, initValue: TValue|null|undefined): AbstractControl
     {
         let control = getFormControl(controlName, parentControl, defaultControlType, initValue);
 

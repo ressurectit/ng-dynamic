@@ -9,6 +9,7 @@ import {LayoutComponentDragData} from '../../../../interfaces';
 import {DragActiveService, LayoutEditorMetadataManager, LayoutEditorRendererItem} from '../../../../services';
 import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
+import {getHostElement} from '../../../../misc/utils';
 // import {registerDropzoneOverlay} from '../../misc/utils';
 
 /**
@@ -333,18 +334,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
             throw new Error('DndCoreDesignerDirective: missing drag data!');
         }
 
-        this.initSubscriptions.add(this.layoutComponentRendererDirective?.componentElementChange.subscribe(element =>
-        {
-            if(!element)
-            {
-                this.componentElement = null;
-
-                return;
-            }
-
-            this.componentElement = element;
-        }));
-
         this.initSubscriptions.add(this.bus
                                        .dropDataChange
                                        .pipe(filter(itm => itm.id === this.metadata.id))
@@ -403,7 +392,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     @BindThis
     public renderedComponentCallback(item: LayoutEditorRendererItem): void
     {
-        console.log('dnd', item);
+        this.componentElement = getHostElement(item.component);
     }
 
     //######################### protected methods #########################

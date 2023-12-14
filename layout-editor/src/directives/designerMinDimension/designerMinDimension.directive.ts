@@ -1,10 +1,10 @@
 import {ContentChild, Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {BindThis, nameof} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LayoutEditorRendererItem} from '../../services';
+import {getHostElement} from '../../misc/utils';
 
 /**
  * Applies min dimensions to designed element, so it can be visible event when it is empty
@@ -28,11 +28,6 @@ export class DesignerMinDimensionSADirective implements OnInit, OnDestroy, OnCha
      * Indication whether is min dimensions active
      */
     protected active: boolean = false;
-
-    /**
-     * Subscriptions created during initialization
-     */
-    protected initSubscriptions: Subscription = new Subscription();
 
     /**
      * Html element of dynamic component
@@ -94,19 +89,6 @@ export class DesignerMinDimensionSADirective implements OnInit, OnDestroy, OnCha
                 }
             }
         });
-
-        this.initSubscriptions.add(this.layoutComponentRendererDirective?.componentElementChange.subscribe(element =>
-        {
-            if(!element)
-            {
-                this.observer?.disconnect();
-
-                return;
-            }
-
-            this.element = element;
-            this.init();
-        }));
     }
 
     //######################### public methods - implementation of OnChanges #########################
@@ -130,7 +112,6 @@ export class DesignerMinDimensionSADirective implements OnInit, OnDestroy, OnCha
     public ngOnDestroy(): void
     {
         this.observer?.disconnect();
-        this.initSubscriptions.unsubscribe();
     }
 
     //######################### public methods #########################
@@ -142,7 +123,8 @@ export class DesignerMinDimensionSADirective implements OnInit, OnDestroy, OnCha
     @BindThis
     public renderedComponentCallback(item: LayoutEditorRendererItem): void
     {
-        console.log('min width', item);
+        this.element = getHostElement(item.component);
+        this.init();
     }
 
     //######################### protected methods #########################

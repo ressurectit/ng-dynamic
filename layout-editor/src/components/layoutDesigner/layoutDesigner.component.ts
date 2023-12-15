@@ -165,7 +165,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public override ngOnDestroy(): void
     {
-        this.logger?.debug('LayoutDesignerSAComponent: Destroying component {{@data}}', {data: {id: this.options?.typeMetadata.id}});
+        this.logger.debug('LayoutDesignerSAComponent: Destroying component {{@data}}', {data: {id: this.options?.typeMetadata.id}});
 
         this.initSubscriptions.unsubscribe();
 
@@ -191,11 +191,11 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         }
 
         const parentId = dragData.parentId;
-        this.logger?.debug('LayoutDesignerSAComponent: Adding descendant {{@data}}', {data: {id: dragData.metadata?.id, parent: this.options.typeMetadata.id}});
+        this.logger.debug('LayoutDesignerSAComponent: Adding descendant {{@data}}', {data: {id: dragData.metadata?.id, parent: this.options.typeMetadata.id}});
 
         if(!dragData.metadata)
         {
-            this.logger?.warn('LayoutDesignerSAComponent: Missing metadata while adding descendant');
+            this.logger.warn('LayoutDesignerSAComponent: Missing metadata while adding descendant');
 
             return;
         }
@@ -227,7 +227,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        this.logger?.debug('LayoutDesignerSAComponent: Removing descendant {{@data}}', {data: {id: this.options.typeMetadata.id, child: id}});
+        this.logger.debug('LayoutDesignerSAComponent: Removing descendant {{@data}}', {data: {id: this.options.typeMetadata.id, child: id}});
 
         this.editorMetadata?.removeDescendant?.(id, this.options.typeMetadata.options);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
@@ -244,7 +244,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected showOverlay(event: Event): void
     {
-        this.logger?.verbose('LayoutDesignerComponent: Showing overlay for {{@type}}', {type: {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id}});
+        this.logger.verbose('LayoutDesignerComponent: Showing overlay for {{@type}}', {type: {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id}});
 
         event.preventDefault();
         event.stopPropagation();
@@ -263,7 +263,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        this.logger?.verbose('LayoutDesignerComponent: Hiding overlay for {{@type}}', {type: {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id}});
+        this.logger.verbose('LayoutDesignerComponent: Hiding overlay for {{@type}}', {type: {name: this.options?.typeMetadata.name, id: this.options?.typeMetadata.id}});
 
         event.preventDefault();
         event.stopPropagation();
@@ -343,6 +343,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         this.editorMetadata = await this.metadataExtractor.extractMetadata(this.options.typeMetadata);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+        this.renderedType = this.options.typeMetadata;
 
         this.layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this.options.typeMetadata.id, this.parent?.options?.typeMetadata.id);
     }
@@ -352,6 +353,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override onOptionsSet(): void
     {
+        //TODO: optionsSafe !
         if(!this.options)
         {
             throw new Error('LayoutDesignerSAComponent: missing options');
@@ -362,7 +364,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             return;
         }
 
-        this.renderedType = {...this.options.typeMetadata};
+        //store previous type metadata for comparison on next change
         this.typeMetadata = extend(true, {}, this.options.typeMetadata);
         this.horizontal = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ?? false;
     }

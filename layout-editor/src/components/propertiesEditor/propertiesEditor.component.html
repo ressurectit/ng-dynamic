@@ -1,43 +1,49 @@
-<div *ngIf="!state.opened" class="properties-toolbar">
-    <button type="button" class="dynamic-btn-icon props-buttons" (click)="toggleCollapsed()">
-        <span class="dynamic-text-vertical">{{'properties'|firstUppercaseLocalize}}</span>
-    </button>
-</div>
-
-<ng-container *ngIf="state.opened">
+@if(!state.opened)
+{
+    <div class="properties-toolbar">
+        <button type="button" class="dynamic-btn-icon props-buttons" (click)="toggleCollapsed()">
+            <span class="dynamic-text-vertical">{{'properties'|firstUppercaseLocalize}}</span>
+        </button>
+    </div>
+}
+@else 
+{
     <div class="properties-main" [style.width.px]="state.width">
         <div class="header">
             <div class="header-title">{{'properties'|firstUppercaseLocalize}}</div>
-
+    
             <button type="button" class="dynamic-btn-icon" (click)="toggleCollapsed()">
                 <span class="fas fa-times"></span>
             </button>
         </div>
-
-        <ng-container *ngIf="component">
+    
+        @if(component)
+        {
             <div class="static-properties">
                 <div class="properties-form-group">
                     <label class="properties-control-label">{{'type'|firstUppercaseLocalize}}</label>
                     <div class="properties-form-static">{{metadata?.metaInfo?.name ?? component.options?.typeMetadata?.name}}</div>
-
+    
                     <label class="properties-control-label">{{'id'|firstUppercaseLocalize}}</label>
                     <div class="properties-form-static">{{component.options?.typeMetadata?.id}}</div>
-
+    
                     <label class="properties-control-label">{{'display name'|firstUppercaseLocalize}}</label>
                     <input class="properties-form-control" type="text" [formControl]="displayName">
                 </div>
             </div>
-
-
+    
+    
             <div class="dynamic-thin-scrollbar properties-controls">
-                <ng-container *ngFor="let props of propertiesData">
-                    <ng-container *ngFor="let propertiesCtrl of props.controls">
+                @for(props of propertiesData; track props)
+                {
+                    @for(propertiesCtrl of props.controls; track propertiesCtrl)
+                    {
                         <ng-container [propertiesControl]="propertiesCtrl" [form]="props.form" [propertiesMetadata]="props.metadata"></ng-container>
-                    </ng-container>
-                </ng-container>
+                    }
+                }
             </div>
-        </ng-container>
+        }
     </div>
-
+    
     <div class="properties-resizer" widthResizer (size)="updateSize($event)"></div>
-</ng-container>
+}

@@ -196,8 +196,8 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             .filter((_, log) => !!log.message.match(/^(?:)RelationsProcessor|RelationsChangeDetector/)))
         //Layout logger
         .writeTo(cfg => cfg.writeTo(DeveloperConsoleSink)
-            .minimumLevel(LogLevel.Off)
-            .filter((_, log) => !!log.message.match(/^(?:)LayoutComponentRendererSADirective|LayoutRenderer|LayoutEditorRenderer|LayoutDesignerOverlayForSAComponent/)))
+            .minimumLevel(LogLevel.Verbose)
+            .filter((_, log) => !!log.message.match(/^(?:)LayoutComponentRendererSADirective|LayoutRenderer|LayoutEditorRenderer|LayoutDesignerOverlayForSAComponent|LayoutDesignerSAComponent/)))
         //Dynamic logger
         .writeTo(cfg => cfg.writeTo(DeveloperConsoleSink)
             .minimumLevel(LogLevel.Off)

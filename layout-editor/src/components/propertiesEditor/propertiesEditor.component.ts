@@ -1,6 +1,5 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Optional, Type, SimpleChanges, Injector, inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Type, SimpleChanges, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Logger, LOGGER, PermanentStorage, PERMANENT_STORAGE, FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {FormModelBuilder} from '@anglr/common/forms';
@@ -8,8 +7,9 @@ import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {DebounceCall, Dictionary, extend, isPresent, WithSync} from '@jscrpt/common';
 import {Subscription, skip} from 'rxjs';
+// import {isEqual} from 'lodash-es';
 
-import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor} from '../../services';
+import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor, LayoutEditorRenderer} from '../../services';
 import {LayoutDesignerSAComponent} from '../layoutDesigner/layoutDesigner.component';
 import {LayoutEditorMetadataDescriptor, LayoutEditorPropertiesDefinitionMetadata, LayoutPropertyTypeData} from '../../decorators';
 import {PropertiesControlsModule} from '../../modules';
@@ -68,7 +68,6 @@ interface PropertiesEditorData
     standalone: true,
     imports:
     [
-        CommonModule,
         ReactiveFormsModule,
         PropertiesControlsModule,
         WidthResizerSADirective,
@@ -138,9 +137,10 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                 protected propertyExtractor: LayoutEditorPropertyMetadataExtractor,
                 protected formModelBuilder: FormModelBuilder,
                 protected changeDetector: ChangeDetectorRef,
+                protected layoutEditorRenderer: LayoutEditorRenderer,
                 @Inject(PERMANENT_STORAGE) protected storage: PermanentStorage,
                 @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
-                @Inject(LOGGER) @Optional() protected logger?: Logger,)
+                @Inject(LOGGER) protected logger: Logger,)
     {
     }
 
@@ -177,6 +177,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                     // eslint-disable-next-line no-self-assign
                     this.component.options = this.component.options;
                     await this.component.ngOnChanges?.(changes);
+                    this.component.invalidateVisuals();
                     this.manager.displayNameUpdated();
                     this.history.getNewState();
                 }
@@ -209,6 +210,10 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         this.storage.set(PROPERTIES_EDITOR_STATE, this.state);
     }
 
+    /**
+     * Updates size of properties
+     * @param size - Size that was changed
+     */
     protected updateSize(size: number): void
     {
         this.state.width -= size;
@@ -274,7 +279,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
             if(!this.metadata)
             {
-                this.logger?.error('PropertiesEditorSAComponent: unable to get metadata {{@source}}', {source: {package: this.component.options?.typeMetadata.package, name: this.component.options?.typeMetadata.name}});
+                this.logger.error('PropertiesEditorSAComponent: unable to get metadata {{@source}}', {source: {package: this.component.options?.typeMetadata.package, name: this.component.options?.typeMetadata.name}});
 
                 this.hide();
             }
@@ -346,15 +351,38 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
             {
                 if(this.component?.options?.typeMetadata)
                 {
-                    extend(this.component.options.typeMetadata.options, data);
+                    //TODO: optimize only when nothing has changed
+
+                    // const originalOptions = extend(true, {}, this.component.options.typeMetadata.options);
+                    extend(this.component.options.typeMetadata.options, {...data});
     
+                    // //options did not changed
+                    // if(!isEqual(originalOptions, this.component.options.typeMetadata.options))
+                    // {
+                    //     return;
+                    // }
+
+                    //options for layout designer component
                     const changes: SimpleChanges = {};
                     addSimpleChange<LayoutComponent>(changes, 'options', this.component.options, this.component.options);
-    
-                    // eslint-disable-next-line no-self-assign
-                    this.component.options = this.component.options;
+
                     await this.component.ngOnChanges?.(changes);
                     this.component.invalidateVisuals();
+
+                    //options for component itself
+                    const component = this.layoutEditorRenderer.get(this.component.id);
+
+                    if(!component?.component)
+                    {
+                        throw new Error('PropertiesEditorSAComponent: missing component!');
+                    }
+
+                    const componentChanges: SimpleChanges = {};
+                    addSimpleChange<LayoutComponent>(componentChanges, 'options', this.component.options.typeMetadata.options, this.component.options.typeMetadata.options);
+
+                    await component.component.instance.ngOnChanges?.(componentChanges);
+                    component.component.instance.invalidateVisuals();
+
                     this.history.getNewState();
                 }
             }));

@@ -21,7 +21,7 @@
          [horizontal]="parent?.horizontal ?? false"
          [dropTarget]="dndCore.dropzone"
          [isDropZone]="canDrop">
-        <ng-container *layoutComponentRenderer2="renderedType; callback: [dndCore.renderedComponentCallback, minWidthDirective.renderedComponentCallback] | combineRenderersCallbacks"/>
+        <ng-container *layoutComponentRenderer="renderedType; callback: [dndCore.renderedComponentCallback, minWidthDirective.renderedComponentCallback] | combineRenderersCallbacks"/>
 
         @if(highlighted || selected)
         {

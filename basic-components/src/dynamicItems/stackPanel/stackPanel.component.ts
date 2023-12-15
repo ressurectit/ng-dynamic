@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HostDisplayFlexStyle} from '@anglr/common';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentRenderer2SADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
 import {StackPanelComponentOptions} from './stackPanel.options';
@@ -19,7 +19,7 @@ import {StackPanelLayoutMetadataLoader} from './stackPanel.metadata';
     imports:
     [
         CommonModule,
-        LayoutComponentRenderer2SADirective,
+        LayoutComponentRendererSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

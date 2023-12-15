@@ -17,7 +17,7 @@
     <static-input class="margin-right-extra-small"></static-input>
 
     <div class="flex-1 overflow-vertical-scroll thin-scrollbar" style="border: 1px dotted #666;">
-        <ng-container [layoutComponentRenderer2]="metadata"/>
+        <ng-container *layoutComponentRenderer="metadata"/>
     </div>
 
     <static-output style="width: 200px;"></static-output>

@@ -31,7 +31,7 @@ export class FormGroupSAComponent extends FormComponentBase<FormGroupComponentOp
 {
     //######################### protected properties #########################
 
-    protected _formInjector?: Injector;
+    protected formInjector?: Injector;
 
     //######################### protected methods #########################
 
@@ -40,7 +40,7 @@ export class FormGroupSAComponent extends FormComponentBase<FormGroupComponentOp
      */
     protected override onInit(): PromiseOr<void>
     {
-        this._formInjector = Injector.create(
+        this.formInjector = Injector.create(
             {
                 parent: this.injector,
                 providers:

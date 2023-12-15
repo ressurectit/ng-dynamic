@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnChanges, SimpleChanges, Inject, OnInit, ChangeDetectorRef, Optional} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
-import {LayoutComponentMetadata, LayoutComponentRenderer2SADirective} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {CastPipesModule, CommonUtilsModule, FirstUppercaseLocalizeSAPipe, HostDisplayFlexStyle} from '@anglr/common';
 import {EditorHotkeys, MetadataHistoryManager, PackageManagerModule, DynamicItemSource} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
@@ -36,7 +36,7 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
         PropertiesEditorSAComponent,
         LayoutDndCoreModule,
         LayoutEditorDragPreviewSAComponent,
-        LayoutComponentRenderer2SADirective,
+        LayoutComponentRendererSADirective,
         PackageManagerModule,
         MatTabsModule,
         CommonModule,

@@ -12,7 +12,7 @@
 <form [formGroup]="_formGroup" (ngSubmit)="_submit()" *ngIf="_formGroup">
     <div class="flex-row margin-top-big flex-1">
         <div class="flex-1 overflow-vertical-scroll thin-scrollbar">
-            <ng-container [layoutComponentRenderer]="_metadata" [layoutComponentRendererInjector]="_formInjector"></ng-container>
+            <ng-container *layoutComponentRenderer="_metadata; injector: _formInjector"/>
         </div>
     </div>
     

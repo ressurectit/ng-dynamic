@@ -5,6 +5,6 @@
     </mat-expansion-panel-header>
 
     <ng-container *ngFor="let type of options?.children">
-        <ng-template [layoutComponentRenderer]="type"></ng-template>
+        <ng-container *layoutComponentRenderer="type"/>
     </ng-container>
 </mat-expansion-panel>

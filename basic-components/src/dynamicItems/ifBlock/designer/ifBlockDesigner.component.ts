@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentRenderer2SADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
@@ -17,7 +17,7 @@ import {IfBlockSAComponent} from '../ifBlock.component';
     standalone: true,
     imports:
     [
-        LayoutComponentRenderer2SADirective,
+        LayoutComponentRendererSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

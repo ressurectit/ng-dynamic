@@ -141,8 +141,10 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
             .pipe(skip(1))
             .subscribe(() => this.changeDetector.detectChanges()));
             
+        this.initSubscriptions.add(toObservable(this.manager.draggedOverComponent, {injector: this.injector})
+            .pipe(skip(1))
+            .subscribe(() => this.handleDragOver()));
         this.initSubscriptions.add(this.manager.displayNameChange.subscribe(() => this.changeDetector.detectChanges()));
-        this.initSubscriptions.add(this.manager.draggedOverComponentChange.subscribe(() => this._handleDragOver()));
 
         this.initChildren();
     }
@@ -277,9 +279,9 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     /**
      * Handle event when user is dragging over this components
      */
-    protected _handleDragOver(): void
+    protected handleDragOver(): void
     {
-        if (this.manager.draggedOverComponent != this.data?.id)
+        if (this.manager.draggedOverComponent() != this.data?.id)
         {
             this.dragOverSubscription?.unsubscribe();
             this.dragOverSubscription = null;
@@ -303,7 +305,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      * @param event - Mouse event that occured
      */
     @HostListener('mouseleave', ['$event'])
-    protected _cancelHighlight(event: MouseEvent): void
+    protected cancelHighlight(event: MouseEvent): void
     {
         event.preventDefault();
         event.stopPropagation();

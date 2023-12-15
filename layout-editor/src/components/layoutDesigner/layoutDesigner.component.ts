@@ -14,7 +14,7 @@ import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEd
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
-import {DndCoreDesignerDirective, LayoutDndCoreModule} from '../../modules';
+import {LayoutDndCoreModule} from '../../modules';
 import {LayoutComponentDragData} from '../../interfaces';
 import {CombineRenderersCallbacksSAPipe} from '../../pipes';
 
@@ -43,7 +43,7 @@ import {CombineRenderersCallbacksSAPipe} from '../../pipes';
 })
 export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesignerComponentOptions> implements LayoutComponent<LayoutDesignerComponentOptions>, OnDestroy
 {
-    //######################### protected properties #########################
+    //######################### protected fields #########################
 
     /**
      * Last type metadata value from onOptionSet
@@ -103,14 +103,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     @ViewChild('layoutDesigner', {static: true})
     protected designerElement!: ElementRef<HTMLElement>;
-
-    //######################### public properties - children #########################
-
-    /**
-     * Instance of designer dnd core directive
-     */
-    @ViewChild('dndCoreDesigner', {static: true})
-    public dndCoreDesigner!: DndCoreDesignerDirective;
 
     //######################### public properties #########################
 
@@ -330,11 +322,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         if(!this.options)
         {
-            return;
+            throw new Error('LayoutDesignerSAComponent: missing options!');
         }
 
         this.options.typeMetadata.scope = this.scopeId;
 
+        //obtains index of itself in parent
         if(this.parent?.options)
         {
             for await(const child of this.iteratorSvc.getChildrenIteratorFor(this.parent.options?.typeMetadata))
@@ -359,8 +352,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override onOptionsSet(): void
     {
-        if(!this.options ||
-           isEqual(this.typeMetadata, this.options.typeMetadata))
+        if(!this.options)
+        {
+            throw new Error('LayoutDesignerSAComponent: missing options');
+        }
+
+        if(isEqual(this.typeMetadata, this.options.typeMetadata))
         {
             return;
         }
@@ -368,6 +365,5 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.renderedType = {...this.options.typeMetadata};
         this.typeMetadata = extend(true, {}, this.options.typeMetadata);
         this.horizontal = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ?? false;
-        this.changeDetector.detectChanges();
     }
 }

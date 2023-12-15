@@ -1,4 +1,4 @@
-import {Inject, Injectable, OnDestroy, Optional, Signal, WritableSignal, signal} from '@angular/core';
+import {Inject, Injectable, OnDestroy, Signal, WritableSignal, signal} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {EditorHotkeys, MetadataStateManager} from '@anglr/dynamic';
@@ -59,12 +59,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     /**
      * Id of dragged over component
      */
-    protected ɵdraggedOverComponent: string|null = null;
-
-    /**
-     * Used for emitting dragged over component changes
-     */
-    protected draggedOverComponentChangeSubject: Subject<void> = new Subject<void>();
+    protected ɵdraggedOverComponent: WritableSignal<string|null> = signal(null);
 
     //######################### public properties #########################
 
@@ -87,9 +82,9 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     /**
      * Gets id of dragged over component
      */
-    public get draggedOverComponent(): string|null
+    public get draggedOverComponent(): Signal<string|null>
     {
-        return this.ɵdraggedOverComponent;
+        return this.ɵdraggedOverComponent.asReadonly();
     }
 
     /**
@@ -121,19 +116,11 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         return this.displayNameChangesSubject.asObservable();
     }
 
-    /**
-     * Occurs when dragged over component changes
-     */
-    public get draggedOverComponentChange(): Observable<void>
-    {
-        return this.draggedOverComponentChangeSubject.asObservable();
-    }
-
     //######################### constructor #########################
-    constructor(protected _editorHotkeys: EditorHotkeys,
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(protected editorHotkeys: EditorHotkeys,
+                @Inject(LOGGER) protected logger: Logger,)
     {
-        this.initSubscriptions.add(this._editorHotkeys.delete.subscribe(() => 
+        this.initSubscriptions.add(this.editorHotkeys.delete.subscribe(() => 
         {
             const selectedComponent = this.selectedComponent();
 
@@ -153,7 +140,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
             component.parent.component.invalidateVisuals();
         }));
 
-        this.initSubscriptions.add(this._editorHotkeys.copy.subscribe(() =>
+        this.initSubscriptions.add(this.editorHotkeys.copy.subscribe(() =>
         {
             const selectedComponent = this.selectedComponent();
 
@@ -166,7 +153,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
             this.metadataClipboard = component.component.options?.typeMetadata;
         }));
 
-        this.initSubscriptions.add(this._editorHotkeys.cut.subscribe(() =>
+        this.initSubscriptions.add(this.editorHotkeys.cut.subscribe(() =>
         {
             const selectedComponent = this.selectedComponent();
 
@@ -187,7 +174,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
             component.parent.component.invalidateVisuals();
         }));
 
-        this.initSubscriptions.add(this._editorHotkeys.paste.subscribe(() =>
+        this.initSubscriptions.add(this.editorHotkeys.paste.subscribe(() =>
         {
             const selectedComponent = this.selectedComponent();
 
@@ -321,13 +308,12 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public dragOverComponent(id?: string): void
     {
-        if (id === this.ɵdraggedOverComponent)
+        if (id === this.ɵdraggedOverComponent())
         {
             return;
         }
 
-        this.ɵdraggedOverComponent = id ?? null;
-        this.draggedOverComponentChangeSubject.next();
+        this.ɵdraggedOverComponent.set(id ?? null);
     }
 
     //TODO: removal candidate
@@ -337,8 +323,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public cancelDragOverComponent(): void
     {
-        this.ɵdraggedOverComponent = null;
-        this.draggedOverComponentChangeSubject.next();
+        this.ɵdraggedOverComponent.set(null);
     }
 
     /**
@@ -357,7 +342,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         //already exists
         if(this.components[id])
         {
-            this._logger?.error(`LayoutEditorMetadataManager: Component with id ${id} is already registered!`);
+            this.logger.error(`LayoutEditorMetadataManager: Component with id ${id} is already registered!`);
 
             return false;
         }
@@ -380,7 +365,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
 
         this.layoutChangeSubject.next();
 
-        this._logger?.debug('LayoutEditorMetadataManager: Registering component {{@id}}', {id: id});
+        this.logger.debug('LayoutEditorMetadataManager: Registering component {{@id}}', {id: id});
 
         return true;
     }
@@ -453,7 +438,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
 
         this.layoutChangeSubject.next();
 
-        this._logger?.debug('LayoutEditorMetadataManager: Unregistering component {{@id}}', {id: id});
+        this.logger.debug('LayoutEditorMetadataManager: Unregistering component {{@id}}', {id: id});
     }
 
     /**

@@ -62,7 +62,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected get selected(): boolean
     {
-        return this.layoutEditorMetadataManager.selectedComponent === this.options?.typeMetadata.id;
+        return this.layoutEditorMetadataManager.selectedComponent() === this.id;
     }
 
     /**
@@ -70,7 +70,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected get highlighted(): boolean
     {
-        return this.layoutEditorMetadataManager.highlightedComponent === this.options?.typeMetadata.id;
+        return this.layoutEditorMetadataManager.highlightedComponent() === this.id;
     }
 
     /**
@@ -290,7 +290,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         if(this.options)
         {
-            this.layoutEditorMetadataManager.selectComponent(this.options.typeMetadata.id);
+            this.layoutEditorMetadataManager.selectComponent(this.id);
         }
     }
 
@@ -347,10 +347,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
                 }
             }
         }
-
-        //TODO: optimize
-        this.initSubscriptions.add(this.layoutEditorMetadataManager.selectedChange.subscribe(() => this.changeDetector.detectChanges()));
-        this.initSubscriptions.add(this.layoutEditorMetadataManager.highlightedChange.subscribe(() => this.changeDetector.detectChanges()));
 
         this.editorMetadata = await this.metadataExtractor.extractMetadata(this.options.typeMetadata);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;

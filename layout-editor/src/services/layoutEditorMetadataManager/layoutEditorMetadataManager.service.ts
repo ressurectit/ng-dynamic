@@ -1,8 +1,8 @@
-import {Inject, Injectable, OnDestroy, Optional} from '@angular/core';
+import {Inject, Injectable, OnDestroy, Optional, Signal, WritableSignal, signal} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {EditorHotkeys, MetadataStateManager} from '@anglr/dynamic';
-import {Dictionary, extend, generateId, isBlank} from '@jscrpt/common';
+import {Dictionary, extend, generateId, isBlank, isPresent} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
 import type {LayoutDesignerSAComponent} from '../../components';
@@ -39,12 +39,12 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     /**
      * Id of selected component
      */
-    protected selectedComponentValue: string|null = null;
+    protected ɵselectedComponent: WritableSignal<string|null> = signal(null);
 
     /**
      * Id of highlighted component
      */
-    protected highlightedComponentValue: string|null = null;
+    protected ɵhighlightedComponent: WritableSignal<string|null> = signal(null);
 
     /**
      * Used for emitting layout changes
@@ -52,46 +52,36 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     protected layoutChangeSubject: Subject<void> = new Subject<void>();
 
     /**
-     * Used for emitting selected component changes
-     */
-    protected selectedChangeValue: Subject<void> = new Subject<void>();
-
-    /**
-     * Used for emitting highlighted component changes
-     */
-    protected _highlightedChange: Subject<void> = new Subject<void>();
-
-    /**
      * Used for emitting changes in components display name
      */
-    protected _displayNameChanges: Subject<void> = new Subject<void>();
+    protected displayNameChangesSubject: Subject<void> = new Subject<void>();
 
     /**
      * Id of dragged over component
      */
-    protected _draggedOverComponent: string|null = null;
+    protected ɵdraggedOverComponent: string|null = null;
 
     /**
      * Used for emitting dragged over component changes
      */
-    protected _draggedOverComponentChange: Subject<void> = new Subject<void>();
+    protected draggedOverComponentChangeSubject: Subject<void> = new Subject<void>();
 
     //######################### public properties #########################
 
     /**
      * Gets id of selected component
      */
-    public get selectedComponent(): string|null
+    public get selectedComponent(): Signal<string|null>
     {
-        return this.selectedComponentValue;
+        return this.ɵselectedComponent.asReadonly();
     }
 
     /**
      * Gets id of highlighted component
      */
-    public get highlightedComponent(): string|null
+    public get highlightedComponent(): Signal<string|null>
     {
-        return this.highlightedComponentValue;
+        return this.ɵhighlightedComponent.asReadonly();
     }
 
     /**
@@ -99,7 +89,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public get draggedOverComponent(): string|null
     {
-        return this._draggedOverComponent;
+        return this.ɵdraggedOverComponent;
     }
 
     /**
@@ -124,27 +114,11 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     }
 
     /**
-     * Occurs when selected component changes
-     */
-    public get selectedChange(): Observable<void>
-    {
-        return this.selectedChangeValue.asObservable();
-    }
-
-    /**
-     * Occurs when highlighted component changes
-     */
-    public get highlightedChange(): Observable<void>
-    {
-        return this._highlightedChange.asObservable();
-    }
-
-    /**
      * Occurs when display name of component changes
      */
     public get displayNameChange(): Observable<void>
     {
-        return this._displayNameChanges.asObservable();
+        return this.displayNameChangesSubject.asObservable();
     }
 
     /**
@@ -152,7 +126,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public get draggedOverComponentChange(): Observable<void>
     {
-        return this._draggedOverComponentChange.asObservable();
+        return this.draggedOverComponentChangeSubject.asObservable();
     }
 
     //######################### constructor #########################
@@ -161,41 +135,47 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     {
         this.initSubscriptions.add(this._editorHotkeys.delete.subscribe(() => 
         {
-            if(!this.selectedComponent)
+            const selectedComponent = this.selectedComponent();
+
+            if(!selectedComponent)
             {
                 return;
             }
 
-            const component = this.components[this.selectedComponent];
+            const component = this.components[selectedComponent];
 
             if(!component?.parent)
             {
                 return;
             }
 
-            component.parent.component.removeDescendant(this.selectedComponent);
+            component.parent.component.removeDescendant(selectedComponent);
             component.parent.component.invalidateVisuals();
         }));
 
         this.initSubscriptions.add(this._editorHotkeys.copy.subscribe(() =>
         {
-            if(!this.selectedComponent)
+            const selectedComponent = this.selectedComponent();
+
+            if(!selectedComponent)
             {
                 return;
             }
 
-            const component = this.components[this.selectedComponent];
+            const component = this.components[selectedComponent];
             this.metadataClipboard = component.component.options?.typeMetadata;
         }));
 
         this.initSubscriptions.add(this._editorHotkeys.cut.subscribe(() =>
         {
-            if(!this.selectedComponent)
+            const selectedComponent = this.selectedComponent();
+
+            if(!selectedComponent)
             {
                 return;
             }
 
-            const component = this.components[this.selectedComponent];
+            const component = this.components[selectedComponent];
 
             if(!component?.parent)
             {
@@ -203,18 +183,20 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
             }
 
             this.metadataClipboard = component.component.options?.typeMetadata;
-            component.parent.component.removeDescendant(this.selectedComponent);
+            component.parent.component.removeDescendant(selectedComponent);
             component.parent.component.invalidateVisuals();
         }));
 
         this.initSubscriptions.add(this._editorHotkeys.paste.subscribe(() =>
         {
-            if(!this.selectedComponent || !this.metadataClipboard)
+            const selectedComponent = this.selectedComponent();
+
+            if(!selectedComponent || !this.metadataClipboard)
             {
                 return;
             }
 
-            const component = this.components[this.selectedComponent];
+            const component = this.components[selectedComponent];
             const newId = `${this.metadataClipboard.name}-${generateId(12)}`;
 
             if(component.component.canDrop)
@@ -264,8 +246,20 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public selectComponent(id?: string): void
     {
-        this.selectedComponentValue = id ?? null;
-        this.selectedChangeValue.next();
+        const selected = this.ɵselectedComponent();
+        this.ɵselectedComponent.set(id ?? null);
+
+        //clear selection
+        if(isPresent(selected))
+        {
+            this.components[selected]?.component.invalidateVisuals();
+        }
+        
+        //select new one
+        if(isPresent(id))
+        {
+            this.components[id]?.component.invalidateVisuals();
+        }
     }
 
     /**
@@ -273,8 +267,14 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public unselectComponent(): void
     {
-        this.selectedComponentValue = null;
-        this.selectedChangeValue.next();
+        const selected = this.ɵselectedComponent();
+        this.ɵselectedComponent.set(null);
+
+        //clear selection
+        if(isPresent(selected))
+        {
+            this.components[selected]?.component.invalidateVisuals();
+        }
     }
 
     /**
@@ -283,8 +283,20 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public highlightComponent(id?: string): void
     {
-        this.highlightedComponentValue = id ?? null;
-        this._highlightedChange.next();
+        const highlighted = this.ɵhighlightedComponent();
+        this.ɵhighlightedComponent.set(id ?? null);
+
+        //clear highlighted
+        if(isPresent(highlighted))
+        {
+            this.components[highlighted]?.component.invalidateVisuals();
+        }
+        
+        //highlight new one
+        if(isPresent(id))
+        {
+            this.components[id]?.component.invalidateVisuals();
+        }
     }
 
     /**
@@ -292,8 +304,14 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public cancelHighlightedComponent(): void
     {
-        this.highlightedComponentValue = null;
-        this._highlightedChange.next();
+        const highlighted = this.ɵhighlightedComponent();
+        this.ɵhighlightedComponent.set(null);
+
+        //clear highlight
+        if(isPresent(highlighted))
+        {
+            this.components[highlighted]?.component.invalidateVisuals();
+        }
     }
 
     
@@ -303,13 +321,13 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public dragOverComponent(id?: string): void
     {
-        if (id === this._draggedOverComponent)
+        if (id === this.ɵdraggedOverComponent)
         {
             return;
         }
 
-        this._draggedOverComponent = id ?? null;
-        this._draggedOverComponentChange.next();
+        this.ɵdraggedOverComponent = id ?? null;
+        this.draggedOverComponentChangeSubject.next();
     }
 
     //TODO: removal candidate
@@ -319,8 +337,8 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public cancelDragOverComponent(): void
     {
-        this._draggedOverComponent = null;
-        this._draggedOverComponentChange.next();
+        this.ɵdraggedOverComponent = null;
+        this.draggedOverComponentChangeSubject.next();
     }
 
     /**
@@ -443,7 +461,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
      */
     public displayNameUpdated(): void
     {
-        this._displayNameChanges.next();
+        this.displayNameChangesSubject.next();
     }
 
     /**

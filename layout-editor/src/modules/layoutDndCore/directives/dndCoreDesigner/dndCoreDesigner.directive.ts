@@ -1,6 +1,7 @@
 import {ContentChild, Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output, inject} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {getHostElement} from '@anglr/common';
 import {BindThis, isBlank, isPresent} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
 import {filter, Subscription} from 'rxjs';
@@ -9,7 +10,6 @@ import {LayoutComponentDragData} from '../../../../interfaces';
 import {DragActiveService, LayoutEditorMetadataManager, LayoutEditorRendererItem} from '../../../../services';
 import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
-import {getHostElement} from '../../../../misc/utils';
 // import {registerDropzoneOverlay} from '../../misc/utils';
 
 /**

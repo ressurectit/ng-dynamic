@@ -1,4 +1,5 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Optional, Type, SimpleChanges} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Optional, Type, SimpleChanges, Injector, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Logger, LOGGER, PermanentStorage, PERMANENT_STORAGE, FirstUppercaseLocalizeSAPipe} from '@anglr/common';
@@ -6,7 +7,7 @@ import {FormModelBuilder} from '@anglr/common/forms';
 import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {DebounceCall, Dictionary, extend, isPresent, WithSync} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {Subscription, skip} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor} from '../../services';
 import {LayoutDesignerSAComponent} from '../layoutDesigner/layoutDesigner.component';
@@ -99,6 +100,11 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     protected lastComponent: LayoutDesignerSAComponent|null = null;
 
+    /**
+     * Injector used for obtaining dependencies
+     */
+    protected injector: Injector = inject(Injector);
+
     //######################### protected properties - template bindings #########################
 
     /**
@@ -153,7 +159,9 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         }
 
         this.initSubscriptions.add(this.manager.layoutChange.subscribe(() => this.initProperties()));
-        this.initSubscriptions.add(this.manager.selectedChange.subscribe(() => this.initProperties()));
+        this.initSubscriptions.add(toObservable(this.manager.selectedComponent, {injector: this.injector})
+            .pipe(skip(1))
+            .subscribe(() => this.initProperties()));
 
         this.displayName
             .valueChanges
@@ -218,17 +226,19 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     @WithSync()
     protected async initProperties(): Promise<void>
     {
-        if(isPresent(this.manager.selectedComponent))
-        {
-            const component = this.manager.getComponent(this.manager.selectedComponent);
+        const selectedComponent = this.manager.selectedComponent();
 
-            if(this.lastComponent == component && this.lastComponentId == this.manager.selectedComponent)
+        if(isPresent(selectedComponent))
+        {
+            const component = this.manager.getComponent(selectedComponent);
+
+            if(this.lastComponent == component && this.lastComponentId == selectedComponent)
             {
                 return;
             }
             
             this.lastComponent = component;
-            this.lastComponentId = this.manager.selectedComponent;
+            this.lastComponentId = selectedComponent;
 
             if(component)
             {

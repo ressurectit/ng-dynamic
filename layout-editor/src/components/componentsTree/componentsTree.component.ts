@@ -1,9 +1,10 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, ViewChild, Injector, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
-import {Subscription} from 'rxjs';
+import {Subscription, skip} from 'rxjs';
 
 import {DragActiveService, LayoutEditorMetadataManager} from '../../services';
 import {ComponentsTreeItemSAComponent} from './item';
@@ -38,7 +39,12 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     /**
      * Subscriptions created during initialization
      */
-    protected _initSubscriptions: Subscription = new Subscription();
+    protected initSubscriptions: Subscription = new Subscription();
+
+    /**
+     * Injector used for obtaining dependencies
+     */
+    protected injector: Injector = inject(Injector);
 
     //######################### protected fields - template bindings #########################
 
@@ -54,8 +60,8 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     protected rootTreeItem: ComponentsTreeItemSAComponent|undefined|null;
 
     //######################### constructor #########################
-    constructor(protected _manager: LayoutEditorMetadataManager,
-                protected _changeDetector: ChangeDetectorRef,)
+    constructor(protected manager: LayoutEditorMetadataManager,
+                protected changeDetector: ChangeDetectorRef,)
     {
     }
 
@@ -66,22 +72,26 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._initSubscriptions.add(this._manager.layoutChange.subscribe(() =>
+        this.initSubscriptions.add(this.manager.layoutChange.subscribe(() =>
         {
-            this.root = this._manager.getMetadata();
-            this._changeDetector.detectChanges();
+            this.root = this.manager.getMetadata();
+            this.changeDetector.detectChanges();
         }));
         
-        this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => 
-        {
-            this.rootTreeItem?.expand(this._manager.selectedComponent);
-            this._changeDetector.detectChanges();
-        }));
+        this.initSubscriptions.add(toObservable(this.manager.selectedComponent, {injector: this.injector})
+            .pipe(skip(1))
+            .subscribe(() => 
+            {
+                this.rootTreeItem?.expand(this.manager.selectedComponent());
+                this.changeDetector.detectChanges();
+            }));
         
-        this._initSubscriptions.add(this._manager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
-        this._initSubscriptions.add(this._manager.displayNameChange.subscribe(() => this._changeDetector.detectChanges()));
+        this.initSubscriptions.add(toObservable(this.manager.highlightedComponent, {injector: this.injector})
+            .pipe(skip(1))
+            .subscribe(() => this.changeDetector.detectChanges()));
+        this.initSubscriptions.add(this.manager.displayNameChange.subscribe(() => this.changeDetector.detectChanges()));
 
-        this.root = this._manager.getMetadata();
+        this.root = this.manager.getMetadata();
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -91,6 +101,6 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._initSubscriptions.unsubscribe();
+        this.initSubscriptions.unsubscribe();
     }
 }

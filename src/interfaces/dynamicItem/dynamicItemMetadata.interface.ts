@@ -18,5 +18,5 @@ export interface DynamicItemMetadata extends DynamicItemSource
     /**
      * Id of scope to be used for components and relations
      */
-    scope?: string;
+    scope?: string|null;
 }

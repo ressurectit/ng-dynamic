@@ -1,4 +1,4 @@
-import {ClassProvider, ComponentRef, EmbeddedViewRef, Provider, Type} from '@angular/core';
+import {ClassProvider, Provider, Type} from '@angular/core';
 import {DefaultsOverride, DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
 import {provideLayout} from '@anglr/dynamic/layout';
 import {isBlank} from '@jscrpt/common';
@@ -60,14 +60,3 @@ export const isLayoutModuleTypes: DynamicItemLoaderValidatorFn<LayoutModuleTypes
 
     return true;
 };
-
-//TODO: move into common
-
-/**
- * Gets host html element for component
- * @param component - Component ref of dynamically created component
- */
-export function getHostElement<TType>(component: ComponentRef<TType>|undefined|null): HTMLElement|undefined|null
-{
-    return (component?.hostView as EmbeddedViewRef<unknown>)?.rootNodes?.[0];
-}

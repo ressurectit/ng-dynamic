@@ -112,7 +112,7 @@
         "@angular/material": "17.0.3",
         "@anglr/animations": "10.0.0",
         "@anglr/authentication": "11.0.0",
-        "@anglr/common": "19.1.0-beta.20231207115247",
+        "@anglr/common": "19.1.0-beta.20231214113229",
         "@anglr/datetime": "7.0.0",
         "@anglr/error-handling": "13.0.0-beta.20231207103029",
         "@anglr/grid": "10.0.1",

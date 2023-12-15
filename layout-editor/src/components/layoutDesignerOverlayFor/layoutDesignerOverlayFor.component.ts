@@ -1,9 +1,8 @@
 import {Component, ChangeDetectionStrategy, ElementRef, OnInit, OnDestroy, Input, ChangeDetectorRef, Inject} from '@angular/core';
-import {LOGGER, Logger} from '@anglr/common';
+import {LOGGER, Logger, getHostElement} from '@anglr/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutEditorRenderer, LiveEventService} from '../../services';
-import {getHostElement} from '../../misc/utils';
 
 /**
  * Component displaying layout designer layout overlay

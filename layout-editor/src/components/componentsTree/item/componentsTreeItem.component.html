@@ -18,10 +18,10 @@
                 <span class="fa" *ngIf="hasChildren" [ngClass]="open ? 'fa-chevron-down' : 'fa-chevron-right'"></span>
             </button>
             <div 
-                [class.selected]="data?.id === _manager.selectedComponent"
-                [class.highlighted]="data?.id === _manager.highlightedComponent"
+                [class.selected]="data?.id === manager.selectedComponent()"
+                [class.highlighted]="data?.id === manager.highlightedComponent()"
                 (mouseover)="highlight($event, data?.id)"
-                (click)="_manager.selectComponent(data?.id)">{{data?.displayName || data?.id}}</div>
+                (click)="manager.selectComponent(data?.id)">{{data?.displayName || data?.id}}</div>
         </div>
     
         <div 

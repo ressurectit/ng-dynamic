@@ -1,10 +1,11 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, Input, OnInit, OnDestroy, ViewChildren, QueryList} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, Input, OnInit, OnDestroy, ViewChildren, QueryList, Injector, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {DebounceCall, WithSync} from '@jscrpt/common';
 import {DndModule} from '@ng-dnd/core';
-import {Subscription, timer} from 'rxjs';
+import {Subscription, skip, timer} from 'rxjs';
 
 import {DragActiveService, LayoutComponentsIteratorService, LayoutEditorMetadataManager} from '../../../services';
 import {LayoutDndCoreModule} from '../../../modules';
@@ -39,7 +40,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     /**
      * Subscriptions created during initialization
      */
-    protected _initSubscriptions: Subscription = new Subscription();
+    protected initSubscriptions: Subscription = new Subscription();
 
     /**
      * Node children
@@ -50,6 +51,11 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      * Handles drag over events
      */
     protected dragOverSubscription?: Subscription|null;
+
+    /**
+     * Injector used for obtaining dependencies
+     */
+    protected injector: Injector = inject(Injector);
 
     //######################### protected fields - template bindings #########################
 
@@ -68,14 +74,14 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     protected get dragDisabled(): boolean
     {
-        return !this.parentId || !this.data || this._manager.getComponent(this.data.id)?.dragDisabled === true;
+        return !this.parentId || !this.data || this.manager.getComponent(this.data.id)?.dragDisabled === true;
     }
 
     /**
      * Child tree node components
      */
     @ViewChildren(ComponentsTreeItemSAComponent)
-    protected _childrenNodes!: QueryList<ComponentsTreeItemSAComponent>;
+    protected childrenNodes!: QueryList<ComponentsTreeItemSAComponent>;
 
     //######################### public properties - inputs and outputs #########################
 
@@ -104,9 +110,9 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     public open: boolean = true;
 
     //######################### constructor #########################
-    constructor(protected _manager: LayoutEditorMetadataManager,
-                protected _changeDetector: ChangeDetectorRef,
-                protected _draggingSvc: DragActiveService,
+    constructor(protected manager: LayoutEditorMetadataManager,
+                protected changeDetector: ChangeDetectorRef,
+                protected draggingSvc: DragActiveService,
                 protected iteratorSvc: LayoutComponentsIteratorService,
     )
     {
@@ -119,19 +125,24 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._initSubscriptions.add(this._manager.layoutChange.subscribe(() => 
+        this.initSubscriptions.add(this.manager.layoutChange.subscribe(() => 
         {
             this.initChildren();
         }));
         
-        this._initSubscriptions.add(this._manager.selectedChange.subscribe(() => 
-        {
-            this._changeDetector.detectChanges();
-        }));
+        this.initSubscriptions.add(toObservable(this.manager.selectedComponent, {injector: this.injector})
+            .pipe(skip(1))
+            .subscribe(() => 
+            {
+                this.changeDetector.detectChanges();
+            }));
         
-        this._initSubscriptions.add(this._manager.highlightedChange.subscribe(() => this._changeDetector.detectChanges()));
-        this._initSubscriptions.add(this._manager.displayNameChange.subscribe(() => this._changeDetector.detectChanges()));
-        this._initSubscriptions.add(this._manager.draggedOverComponentChange.subscribe(() => this._handleDragOver()));
+        this.initSubscriptions.add(toObservable(this.manager.highlightedComponent, {injector: this.injector})
+            .pipe(skip(1))
+            .subscribe(() => this.changeDetector.detectChanges()));
+            
+        this.initSubscriptions.add(this.manager.displayNameChange.subscribe(() => this.changeDetector.detectChanges()));
+        this.initSubscriptions.add(this.manager.draggedOverComponentChange.subscribe(() => this._handleDragOver()));
 
         this.initChildren();
     }
@@ -143,7 +154,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._initSubscriptions.unsubscribe();
+        this.initSubscriptions.unsubscribe();
     }
 
     //######################### public methods #########################
@@ -176,7 +187,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
 
         if (this.hasChildren)
         {
-            for (const child of this._childrenNodes?.toArray())
+            for (const child of this.childrenNodes?.toArray())
             {
                 if (child.expand(nodeId))
                 {
@@ -197,7 +208,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     {
         if (this.data)
         {
-            this._manager.getComponent(this.data.id)?.addDescendant(dragData);
+            this.manager.getComponent(this.data.id)?.addDescendant(dragData);
         }
     }
     
@@ -206,9 +217,9 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public expandAll(): void
     {
-        this._childrenNodes?.forEach((child: ComponentsTreeItemSAComponent) => child.expandAll());
+        this.childrenNodes?.forEach((child: ComponentsTreeItemSAComponent) => child.expandAll());
         this.expand();
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 
     /**
@@ -224,9 +235,9 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public collapseAll(): void
     {
-        this._childrenNodes?.forEach((child: ComponentsTreeItemSAComponent) => child.collapseAll());
+        this.childrenNodes?.forEach((child: ComponentsTreeItemSAComponent) => child.collapseAll());
         this.collapse();
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 
     //######################### protected methods #########################
@@ -245,7 +256,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
             }
         }
         
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 
     //######################### protected methods - template bindings #########################
@@ -260,7 +271,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
         event.preventDefault();
         event.stopPropagation();
 
-        this._manager.highlightComponent(id);
+        this.manager.highlightComponent(id);
     }
 
     /**
@@ -268,7 +279,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     protected _handleDragOver(): void
     {
-        if (this._manager.draggedOverComponent != this.data?.id)
+        if (this.manager.draggedOverComponent != this.data?.id)
         {
             this.dragOverSubscription?.unsubscribe();
             this.dragOverSubscription = null;
@@ -280,7 +291,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
             this.dragOverSubscription = timer(DRAG_OVER_DELAY).subscribe(() =>
             {
                 this.expand();
-                this._changeDetector.detectChanges();
+                this.changeDetector.detectChanges();
             });
         }
     }
@@ -297,6 +308,6 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
         event.preventDefault();
         event.stopPropagation();
 
-        this._manager.cancelHighlightedComponent();
+        this.manager.cancelHighlightedComponent();
     }
 }

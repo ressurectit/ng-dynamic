@@ -1,10 +1,10 @@
 import {ContentChild, Directive, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {getHostElement} from '@anglr/common';
 import {BindThis, nameof} from '@jscrpt/common';
 
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LayoutEditorRendererItem} from '../../services';
-import {getHostElement} from '../../misc/utils';
 
 /**
  * Applies min dimensions to designed element, so it can be visible event when it is empty

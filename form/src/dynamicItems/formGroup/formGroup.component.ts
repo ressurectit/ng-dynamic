@@ -36,22 +36,21 @@ export class FormGroupSAComponent extends FormComponentBase<FormGroupComponentOp
     //######################### protected methods #########################
 
     /**
-     * Called on initialzation of component, options are already set
+     * @inheritdoc
      */
     protected override onInit(): PromiseOr<void>
     {
         this.formInjector = Injector.create(
-            {
-                parent: this.injector,
-                providers:
-                [
-                    <ValueProvider>
-                    {
-                        provide: FORM_COMPONENT_CONTROL,
-                        useValue: this.options?.controlName ? this.parentControl?.get(this.options.controlName) : null,
-                    }
-                ]
-            }
-        );
+        {
+            parent: this.injector,
+            providers:
+            [
+                <ValueProvider>
+                {
+                    provide: FORM_COMPONENT_CONTROL,
+                    useValue: this.options?.controlName ? this.parentControl?.get(this.options.controlName) : null,
+                }
+            ]
+        });
     }
 }

@@ -67,7 +67,6 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
             parentMetadata,
             scopeId,
             childExtensions,
-            childrenIds: [],
             component: null,
         };
 

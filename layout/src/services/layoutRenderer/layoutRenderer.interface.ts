@@ -44,11 +44,6 @@ export interface LayoutRendererItem
     childExtensions: DynamicItemExtensionType[]|undefined|null;
 
     /**
-     * Array of children (renderers ids) of this renderer
-     */
-    childrenIds: string[];
-
-    /**
      * Reference to created component
      */
     component: ComponentRef<LayoutComponent>|undefined|null;

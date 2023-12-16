@@ -273,6 +273,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
 
                                                 this.bus.setDropPlaceholderPreview(null);
                                                 this.draggingSvc.setDragging(false);
+                                                this.designerElement.nativeElement.classList.remove('is-dragged');
                                             },
                                         },
                                         this.initSubscriptions);

@@ -3,10 +3,9 @@ import {PositionToSADirective} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {MetadataHistoryManager, SCOPE_ID} from '@anglr/dynamic';
-import {extend, isPresent} from '@jscrpt/common';
+import {isPresent} from '@jscrpt/common';
 import {DndModule} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
-import {isEqual} from 'lodash-es';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {BodyRenderSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
@@ -46,27 +45,9 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     //######################### protected fields #########################
 
     /**
-     * Last type metadata value from onOptionSet
-     */
-    protected typeMetadata: LayoutComponentMetadata<LayoutDesignerComponentOptions>|null|undefined;
-
-    /**
      * Subscriptions created during initialization
      */
     protected initSubscriptions: Subscription = new Subscription();
-
-    /**
-     * Gets options safely
-     */
-    protected get optionsSafe(): LayoutDesignerComponentOptions
-    {
-        if(!this.options)
-        {
-            throw new Error('LayoutDesignerSAComponent: missing options');
-        }
-
-        return this.options;
-    }
 
     /**
      * Gets rendered component instance
@@ -210,7 +191,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     public addDescendant(dragData: LayoutComponentDragData): void
     {
         const options = this.optionsSafe;
-
+        let triggerLayoutChange = false;
         const parentId = dragData.parentId;
         this.logger.debug('LayoutDesignerSAComponent: Adding descendant {{@data}}', {data: {id: dragData.metadata?.id, parent: this.id}});
 
@@ -224,14 +205,34 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         //already added to tree, removing old reference
         if(parentId)
         {
-            this.history.disable();
-            this.layoutEditorMetadataManager.getComponent(parentId)?.removeDescendant(dragData.metadata?.id);
-            this.history.enable();
+            //only changing order in same parent
+            if(parentId == this.id)
+            {
+                this.logger.verbose('LayoutDesignerSAComponent: Swapping child component {{@(4)data}}', {data: {id: this.id}});
+
+                this.editorMetadata?.removeDescendant?.(dragData.metadata.id, options.typeMetadata.options);
+                triggerLayoutChange = true;
+            }
+            else
+            {
+                this.history.disable();
+                this.layoutEditorMetadataManager.getComponent(parentId)?.removeDescendant(dragData.metadata.id);
+                this.history.enable();
+            }
         }
 
         this.editorMetadata?.addDescendant?.(dragData?.metadata, options.typeMetadata.options, dragData.index ?? 0);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
         this.componentInstance.invalidateVisuals();
+
+        if(triggerLayoutChange)
+        {
+            this.layoutEditorMetadataManager.updateLayout();
+            const layoutDesigner = this.layoutEditorMetadataManager.getComponent(dragData.metadata.id);
+
+            layoutDesigner?.updateIndex();
+            layoutDesigner?.invalidateVisuals();
+        }
 
         this.history.getNewState();
     }
@@ -328,18 +329,14 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.parent.removeDescendant(this.id);
     }
 
-    //######################### protected methods - overrides #########################
+    //######################### protected methods #########################
 
     /**
-     * @inheritdoc
+     * Updates its own index in parent
      */
-    protected override async onInit(): Promise<void>
+    protected async updateIndex(): Promise<void>
     {
-        await super.onInit();
-
         const options = this.optionsSafe;
-
-        options.typeMetadata.scope = this.scopeId;
 
         //obtains index of itself in parent
         if(this.parent?.options)
@@ -354,6 +351,23 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
                 }
             }
         }
+    }
+
+    //######################### protected methods - overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override async onInit(): Promise<void>
+    {
+        await super.onInit();
+
+        const options = this.optionsSafe;
+
+        //TODO: SCOPE: use parent scope for settings this
+        options.typeMetadata.scope = this.scopeId;
+
+        await this.updateIndex();
 
         this.editorMetadata = await this.metadataExtractor.extractMetadata(options.typeMetadata);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
@@ -369,14 +383,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     {
         const options = this.optionsSafe;
 
-        //TODO: check, maybe this is not necessary anymore
-        if(isEqual(this.typeMetadata, options.typeMetadata))
-        {
-            return;
-        }
-
-        //store previous type metadata for comparison on next change
-        this.typeMetadata = extend(true, {}, options.typeMetadata);
         this.horizontal = this.editorMetadata?.isHorizontalDrop?.(options.typeMetadata.options) ?? false;
     }
 }

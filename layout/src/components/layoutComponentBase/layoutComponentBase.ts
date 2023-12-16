@@ -25,6 +25,19 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     protected destroyed: boolean = false;
 
+    /**
+     * Gets options safely
+     */
+    protected get optionsSafe(): TOptions
+    {
+        if(!this.options)
+        {
+            throw new Error('LayoutComponentBase: missing options');
+        }
+
+        return this.options;
+    }
+
     //######################### protected properties #########################
 
     /**
@@ -77,6 +90,8 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     public ngOnDestroy(): void
     {
+        this.logger.debug('LayoutComponentBase: destroying component, isDestroyed {{destroyed}}', {destroyed: this.destroyed});
+
         if(this.destroyed)
         {
             return;

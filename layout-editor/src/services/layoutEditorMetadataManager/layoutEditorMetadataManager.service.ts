@@ -450,6 +450,14 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     }
 
     /**
+     * Triggers event that layout has changed
+     */
+    public updateLayout(): void
+    {
+        this.layoutChangeSubject.next();
+    }
+
+    /**
      * Gets layout component metadata which is using this service
      */
     public getMetadata(): LayoutComponentMetadata|null

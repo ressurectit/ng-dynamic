@@ -22,7 +22,7 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
      */
     protected override onInit(): void
     {
-        this._applyStyling();
+        this.applyStyling();
     }
 
     /**
@@ -30,7 +30,7 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
      */
     protected override onOptionsChange(): void
     {
-        this._applyStyling();
+        this.applyStyling();
     }
 
     //######################### protected methods #########################
@@ -38,7 +38,7 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
     /**
      * Applies component styling to element
      */
-    protected _applyStyling(): void
+    protected applyStyling(): void
     {
         const options = this.options;
         const style = this.element?.nativeElement.style;
@@ -74,61 +74,24 @@ export class ComponentStylingExtension extends DynamicItemExtensionBase<Componen
         {
             if(options?.margin)
             {
-                if(isPresent(options.margin.bottom))
-                {
-                    style.marginBottom = options.margin.bottom;
-                }
-
-                if(isPresent(options.margin.right))
-                {
-                    style.marginRight = options.margin.right;
-                }
-
-                if(isPresent(options.margin.top))
-                {
-                    style.marginTop = options.margin.top;
-                }
-
-                if(isPresent(options.margin.left))
-                {
-                    style.marginLeft = options.margin.left;
-                }
+                style.marginBottom = options.margin.bottom ?? '';
+                style.marginRight = options.margin.right ?? '';
+                style.marginTop = options.margin.top ?? '';
+                style.marginLeft = options.margin.left ?? '';
             }
 
             if(options?.padding)
             {
-                if(isPresent(options.padding.bottom))
-                {
-                    style.paddingBottom = options.padding.bottom;
-                }
-
-                if(isPresent(options.padding.right))
-                {
-                    style.paddingRight = options.padding.right;
-                }
-
-                if(isPresent(options.padding.top))
-                {
-                    style.paddingTop = options.padding.top;
-                }
-
-                if(isPresent(options.padding.left))
-                {
-                    style.paddingLeft = options.padding.left;
-                }
+                style.paddingBottom = options.padding.bottom ?? '';
+                style.paddingRight = options.padding.right ?? '';
+                style.paddingTop = options.padding.top ?? '';
+                style.paddingLeft = options.padding.left ?? '';
             }
 
             if(options?.textStyling)
             {
-                if(isPresent(options.textStyling.fontSize))
-                {
-                    style.fontSize = options.textStyling.fontSize;
-                }
-
-                if(isPresent(options.textStyling.fontWeight))
-                {
-                    style.fontWeight = options.textStyling.fontWeight.toString();
-                }
+                style.fontSize = options.textStyling.fontSize ?? '';
+                style.fontWeight = options.textStyling.fontWeight?.toString() ?? '';
             }
         }
     }

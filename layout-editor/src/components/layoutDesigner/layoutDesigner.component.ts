@@ -10,7 +10,7 @@ import {isEqual} from 'lodash-es';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {BodyRenderSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
-import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager} from '../../services';
+import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorRenderer} from '../../services';
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
@@ -54,6 +54,34 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      * Subscriptions created during initialization
      */
     protected initSubscriptions: Subscription = new Subscription();
+
+    /**
+     * Gets options safely
+     */
+    protected get optionsSafe(): LayoutDesignerComponentOptions
+    {
+        if(!this.options)
+        {
+            throw new Error('LayoutDesignerSAComponent: missing options');
+        }
+
+        return this.options;
+    }
+
+    /**
+     * Gets rendered component instance
+     */
+    protected get componentInstance(): LayoutComponent
+    {
+        const renderer = this.layoutRenderer.get(this.id);
+
+        if(!renderer?.component)
+        {
+            throw new Error('LayoutDesignerSAComponent: unable to find renderer!');
+        }
+
+        return renderer.component.instance;
+    }
 
     //######################### protected properties - template bindings #########################
 
@@ -129,12 +157,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public get id(): string
     {
-        if(!this.options?.typeMetadata?.id)
-        {
-            throw new Error('LayoutDesignerSAComponent: missing ID!');
-        }
-
-        return this.options.typeMetadata.id;
+        return this.optionsSafe.typeMetadata.id;
     }
 
     /**
@@ -151,6 +174,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     constructor(protected metadataExtractor: LayoutEditorMetadataExtractor,
                 protected layoutEditorMetadataManager: LayoutEditorMetadataManager,
                 protected iteratorSvc: LayoutComponentsIteratorService,
+                protected layoutRenderer: LayoutEditorRenderer,
                 @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager<LayoutComponentMetadata>,
                 @Optional() @Inject(SCOPE_ID) protected scopeId: string|undefined|null,
                 @SkipSelf() @Optional() protected parent?: LayoutDesignerSAComponent,)
@@ -185,13 +209,10 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public addDescendant(dragData: LayoutComponentDragData): void
     {
-        if(!this.options)
-        {
-            return;
-        }
+        const options = this.optionsSafe;
 
         const parentId = dragData.parentId;
-        this.logger.debug('LayoutDesignerSAComponent: Adding descendant {{@data}}', {data: {id: dragData.metadata?.id, parent: this.options.typeMetadata.id}});
+        this.logger.debug('LayoutDesignerSAComponent: Adding descendant {{@data}}', {data: {id: dragData.metadata?.id, parent: this.id}});
 
         if(!dragData.metadata)
         {
@@ -208,11 +229,10 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             this.history.enable();
         }
 
-        this.editorMetadata?.addDescendant?.(dragData?.metadata, this.options.typeMetadata.options, dragData.index ?? 0);
-        this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
+        this.editorMetadata?.addDescendant?.(dragData?.metadata, options.typeMetadata.options, dragData.index ?? 0);
+        this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
+        this.componentInstance.invalidateVisuals();
 
-        this.renderedType = {...this.options.typeMetadata};
-        this.changeDetector.markForCheck();
         this.history.getNewState();
     }
 
@@ -222,17 +242,14 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     public removeDescendant(id: string): void
     {
-        if(!this.options)
-        {
-            return;
-        }
+        const options = this.optionsSafe;
 
-        this.logger.debug('LayoutDesignerSAComponent: Removing descendant {{@data}}', {data: {id: this.options.typeMetadata.id, child: id}});
+        this.logger.debug('LayoutDesignerSAComponent: Removing descendant {{@(4)data}}', {data: {id: this.id, child: id}});
 
-        this.editorMetadata?.removeDescendant?.(id, this.options.typeMetadata.options);
-        this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
-        this.renderedType = {...this.options.typeMetadata};
-        this.changeDetector.markForCheck();
+        this.editorMetadata?.removeDescendant?.(id, options.typeMetadata.options);
+        this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
+        this.componentInstance.invalidateVisuals();
+
         this.history.getNewState();
     }
 
@@ -303,12 +320,12 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected remove(): void
     {
-        if(!this.parent || !this.options)
+        if(!this.parent)
         {
             return;
         }
 
-        this.parent.removeDescendant(this.options.typeMetadata.id);
+        this.parent.removeDescendant(this.id);
     }
 
     //######################### protected methods - overrides #########################
@@ -320,19 +337,16 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
     {
         await super.onInit();
 
-        if(!this.options)
-        {
-            throw new Error('LayoutDesignerSAComponent: missing options!');
-        }
+        const options = this.optionsSafe;
 
-        this.options.typeMetadata.scope = this.scopeId;
+        options.typeMetadata.scope = this.scopeId;
 
         //obtains index of itself in parent
         if(this.parent?.options)
         {
             for await(const child of this.iteratorSvc.getChildrenIteratorFor(this.parent.options?.typeMetadata))
             {
-                if(this.options.typeMetadata.id === child.metadata.id)
+                if(options.typeMetadata.id === child.metadata.id)
                 {
                     this.index = child.index;
 
@@ -341,11 +355,11 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             }
         }
 
-        this.editorMetadata = await this.metadataExtractor.extractMetadata(this.options.typeMetadata);
-        this.canDrop = this.editorMetadata?.canDropMetadata?.(this.options.typeMetadata.options) ?? false;
-        this.renderedType = this.options.typeMetadata;
+        this.editorMetadata = await this.metadataExtractor.extractMetadata(options.typeMetadata);
+        this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
+        this.renderedType = options.typeMetadata;
 
-        this.layoutEditorMetadataManager.registerLayoutDesignerComponent(this, this.options.typeMetadata.id, this.parent?.options?.typeMetadata.id);
+        this.layoutEditorMetadataManager.registerLayoutDesignerComponent(this, options.typeMetadata.id, this.parent?.options?.typeMetadata.id);
     }
 
     /**
@@ -353,19 +367,16 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     protected override onOptionsSet(): void
     {
-        //TODO: optionsSafe !
-        if(!this.options)
-        {
-            throw new Error('LayoutDesignerSAComponent: missing options');
-        }
+        const options = this.optionsSafe;
 
-        if(isEqual(this.typeMetadata, this.options.typeMetadata))
+        //TODO: check, maybe this is not necessary anymore
+        if(isEqual(this.typeMetadata, options.typeMetadata))
         {
             return;
         }
 
         //store previous type metadata for comparison on next change
-        this.typeMetadata = extend(true, {}, this.options.typeMetadata);
-        this.horizontal = this.editorMetadata?.isHorizontalDrop?.(this.options.typeMetadata.options) ?? false;
+        this.typeMetadata = extend(true, {}, options.typeMetadata);
+        this.horizontal = this.editorMetadata?.isHorizontalDrop?.(options.typeMetadata.options) ?? false;
     }
 }

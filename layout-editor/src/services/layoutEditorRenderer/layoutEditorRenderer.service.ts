@@ -57,7 +57,7 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         this.syncPromise = new Promise(resolve => syncResolve = resolve);
         await syncPromise;
 
-        this.logger.debug('LayoutEditorRenderer: registering renderer {{@renderer}}', {renderer: {id, parentId, metadata, parentMetadata, scopeId}});
+        this.logger.debug('LayoutEditorRenderer: registering renderer {{@(4)renderer}}', {renderer: {id, parentId, metadata, parentMetadata, scopeId}});
 
         let isDesigner: boolean = false;
         let rendererItem: LayoutEditorRendererItem;
@@ -212,7 +212,7 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         const changes: SimpleChanges = {};
         addSimpleChange<LayoutComponent>(changes, 'options', options, instance.options, true);
 
-        this.logger.verbose('LayoutEditorRenderer: setting options for component {{id}}, isDesigner: {{isDesigner}}, options: {{@options}}', {id: metadata?.id, options: options, isDesigner});
+        this.logger.verbose('LayoutEditorRenderer: setting options for component {{id}}, isDesigner: {{isDesigner}}, options: {{@(4)options}}', {id: metadata?.id, options: options, isDesigner});
         instance.options = options;
         this.logger.verbose('LayoutEditorRenderer: set options for component {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
 
@@ -253,7 +253,8 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
      */
     public override destroyRenderer(id: string): void
     {
-        this.logger.debug('LayoutEditorRenderer: destroying renderer "{{id}}"', {id});
+        //TODO: fix this
+        this.logger.debug('LayoutEditorRenderer: destroying renderer "{{id}}", current renderers register: {{@(4)renderers}}', {id, renderers: Object.keys(this.renderers)});
 
         this.unregisterFromParent(id);
         const renderer = this.renderers[id];
@@ -274,7 +275,8 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
      */
     public override unregisterRenderer(id: string): void
     {
-        this.logger.debug('LayoutEditorRenderer: ungregistering renderer "{{id}}"', {id});
+        //TODO: fix this
+        this.logger.debug('LayoutEditorRenderer: ungregistering renderer "{{id}}", current renderers register: {{@(4)renderers}}', {id, renderers: Object.keys(this.renderers)});
 
         this.unregisterFromParent(id);
         const renderer = this.renderers[id];
@@ -311,6 +313,8 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
             if(renderer.parentId)
             {
                 const parentRenderer = this.renderers[renderer.parentId];
+
+                this.logger.verbose('LayoutEditorRenderer: removing "{{id}}" fromits parent {{parentId}}', {id, parentId: renderer.parentId});
 
                 //unregister child from parent
                 if(parentRenderer)

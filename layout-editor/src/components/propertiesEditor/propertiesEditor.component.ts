@@ -7,7 +7,7 @@ import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {DebounceCall, Dictionary, extend, isPresent, WithSync} from '@jscrpt/common';
 import {Subscription, skip} from 'rxjs';
-// import {isEqual} from 'lodash-es';
+import {isEqual} from 'lodash-es';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor, LayoutEditorRenderer} from '../../services';
 import {LayoutDesignerSAComponent} from '../layoutDesigner/layoutDesigner.component';
@@ -351,16 +351,15 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
             {
                 if(this.component?.options?.typeMetadata)
                 {
-                    //TODO: optimize only when nothing has changed
+                    const originalOptions = extend(true, {}, this.component.options.typeMetadata.options);
 
-                    // const originalOptions = extend(true, {}, this.component.options.typeMetadata.options);
-                    extend(this.component.options.typeMetadata.options, {...data});
-    
-                    // //options did not changed
-                    // if(!isEqual(originalOptions, this.component.options.typeMetadata.options))
-                    // {
-                    //     return;
-                    // }
+                    extend(this.component.options.typeMetadata.options, extend(true, {}, data));
+
+                    //options did not changed
+                    if(isEqual(originalOptions, this.component.options.typeMetadata.options))
+                    {
+                        return;
+                    }
 
                     //options for layout designer component
                     const changes: SimpleChanges = {};

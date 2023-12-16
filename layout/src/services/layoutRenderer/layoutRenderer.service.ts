@@ -50,7 +50,7 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
         this.syncPromise = new Promise(resolve => syncResolve = resolve);
         await syncPromise;
 
-        this.logger.debug('LayoutRenderer: registering renderer {{@renderer}}', {renderer: {id, parentId, metadata, parentMetadata, scopeId}});
+        this.logger.debug('LayoutRenderer: registering renderer {{@(4)renderer}}', {renderer: {id, parentId, metadata, parentMetadata, scopeId}});
 
         //tests whether component already exists
         if(this.components[metadata.id])
@@ -145,7 +145,7 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
         const changes: SimpleChanges = {};
         addSimpleChange<LayoutComponent>(changes, 'options', metadata.options, instance.options, true);
 
-        this.logger.verbose('LayoutRenderer: setting options for component {{id}}, options: {{@options}}', {id: metadata?.id, options: metadata.options});
+        this.logger.verbose('LayoutRenderer: setting options for component {{id}}, options: {{@(4)options}}', {id: metadata?.id, options: metadata.options});
         instance.options = metadata.options;
         this.logger.verbose('LayoutRenderer: set options for component {{id}}', {id: metadata?.id});
 

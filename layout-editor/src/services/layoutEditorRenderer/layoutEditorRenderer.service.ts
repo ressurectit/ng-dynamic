@@ -1,4 +1,4 @@
-import {Injectable, Injector, SimpleChanges, ValueProvider, ViewContainerRef, ViewRef} from '@angular/core';
+import {Injectable, Injector, SimpleChanges, ValueProvider, ViewContainerRef} from '@angular/core';
 import {DynamicItemExtensionType, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {LAYOUT_COMPONENT_CHILD_EXTENSIONS, LayoutComponent, LayoutComponentMetadata, LayoutRendererBase, MissingTypeBehavior, NotFoundLayoutTypeSAComponent} from '@anglr/dynamic/layout';
 import {Action1, NoopAction} from '@jscrpt/common';
@@ -24,11 +24,6 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
      * Number of register calls waiting
      */
     protected registeredCalls: number = 0;
-
-    /**
-     * Component that will be moved
-     */
-    protected componentInMove: LayoutEditorRendererItem&{detachedView?: ViewRef}|undefined|null;
 
     //######################### public methods #########################
 
@@ -68,45 +63,6 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         let rendererItem: LayoutEditorRendererItem;
         const componentItem = this.components[metadata.id];
         const layoutDesignerId = `${metadata.id}${LAYOUT_DESIGNER_COMPONENT_ID_SUFFIX}`;
-
-        if(this.componentInMove && this.componentInMove.metadata.id == metadata.id && this.componentInMove.detachedView)
-        {
-            this.logger.verbose('LayoutEditorRenderer: reattaching view {{id}}', {id: metadata.id});
-
-            rendererItem = this.componentInMove;
-
-            rendererItem.id = id;
-            rendererItem.parentId = parentId;
-            rendererItem.viewContainer = viewContainer;
-            rendererItem.parentMetadata = parentMetadata;
-            rendererItem.scopeId = scopeId;
-            rendererItem.childExtensions = childExtensions;
-
-            this.components[metadata.id] = rendererItem;
-            this.renderers[id] = rendererItem;
-
-            if(rendererItem.componentRendererId)
-            {
-                this.renderers[rendererItem.componentRendererId] = rendererItem;
-            }
-
-            rendererItem.viewContainer.insert(this.componentInMove.detachedView);
-
-            delete this.componentInMove.detachedView;
-            this.componentInMove = null;
-
-            renderedCallback?.(rendererItem);
-
-            syncResolve?.();
-            this.registeredCalls--;
-    
-            if(this.registeredCalls === 0)
-            {
-                this.renderingFinishedSubject.next();
-            }
-
-            return;
-        }
 
         //component does not exists nor its designer, so create designer
         if(!componentItem)
@@ -285,22 +241,6 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
     }
 
     /**
-     * Marks component for move, will not be destroyed
-     * @param componentId - Id of component that is being marked for move
-     */
-    public markForMove(componentId: string): void
-    {
-        const renderer = this.components[componentId];
-
-        if(!renderer)
-        {
-            throw new Error('LayoutEditorRenderer: missing component!');
-        }
-
-        this.componentInMove = renderer;
-    }
-
-    /**
      * Destroyes renderer, removes it from register, destroyed renderer also destroys component, this is called when renderer is destroyed
      * @param id - Id of renderer
      */
@@ -308,7 +248,6 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
     {
         this.logger.debug('LayoutEditorRenderer: destroying renderer "{{id}}", current renderers register: {{@(4)renderers}}', {id, renderers: Object.keys(this.renderers)});
         
-        this.componentInMove = null;
         const renderer = this.renderers[id];
 
         //if renderer exists remove it from register
@@ -334,27 +273,6 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         //if renderer exists remove it from register and destroy component
         if(renderer)
         {
-            if(renderer == this.componentInMove)
-            {
-                const detachedView = renderer.viewContainer.detach();
-
-                if(detachedView)
-                {
-                    this.componentInMove.detachedView = detachedView;
-                    this.logger.verbose('LayoutEditorRenderer: detached view "{{id}}"', {id: renderer.metadata.id});
-
-                    delete this.components[renderer.metadata.id];
-                    delete this.renderers[id];
-
-                    if(renderer.componentRendererId)
-                    {
-                        delete this.renderers[renderer.componentRendererId];
-                    }
-
-                    return;
-                }
-            }
-
             this.logger.verbose('LayoutEditorRenderer: destroying component "{{id}}"', {id});
             //destroys component
             renderer.viewContainer.clear();

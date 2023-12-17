@@ -216,7 +216,6 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
             else
             {
                 this.history.disable();
-                this.layoutRenderer.markForMove(dragData.metadata.id);
                 this.layoutEditorMetadataManager.getComponent(parentId)?.removeDescendant(dragData.metadata.id);
                 this.history.enable();
             }

@@ -168,8 +168,6 @@ export class ContentOptionsPropertiesControlSAComponent<TConfig extends CustomCo
                 const form = this.usedComponentsForms[cmpId][modelName] = this.formModelBuilder
                     .build(modelInstance);
 
-                console.log(form);
-
                 form.valueChanges.subscribe(value =>
                 {
                     const currentOpts = this.form?.controls.contentOptions.value ?? {};

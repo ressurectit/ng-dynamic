@@ -228,10 +228,13 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         if(triggerLayoutChange)
         {
             this.layoutEditorMetadataManager.updateLayout();
-            const layoutDesigner = this.layoutEditorMetadataManager.getComponent(dragData.metadata.id);
+            const layoutDesigners = this.layoutEditorMetadataManager.getChildren(this.id);
 
-            layoutDesigner?.updateIndex();
-            layoutDesigner?.invalidateVisuals();
+            for(const designer of layoutDesigners)
+            {
+                designer?.updateIndex();
+                designer?.invalidateVisuals();
+            }
         }
 
         this.history.getNewState();

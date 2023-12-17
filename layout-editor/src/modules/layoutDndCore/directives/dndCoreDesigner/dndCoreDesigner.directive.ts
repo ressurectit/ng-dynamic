@@ -1,6 +1,6 @@
-import {ContentChild, Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output, inject} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output, inject} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {getHostElement} from '@anglr/common';
 import {BindThis, isBlank, isPresent} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
@@ -84,12 +84,12 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     protected placeholderPreviewElement: HTMLElement|undefined|null;
 
     /**
-     * Drop zone target that handles drop of component
+     * Drop zone target for dropping over displayed placeholder, drops at exact location of placeholder
      */
     protected placeholderDrop: DropTarget<LayoutDragItem, LayoutDropResult>;
 
     /**
-     * Drop zone target that handles drop of component
+     * Drop zone target for dropping over itself
      */
     protected containerDrop: DropTarget<LayoutDragItem, LayoutDropResult>;
 
@@ -113,14 +113,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
         return component.editorMetadata.getChildrenContainer(this.componentElement) ?? this.componentElement;
     }
 
-    //######################### protected properties - children #########################
-
-    /**
-     * Instance of layout component renderer
-     */
-    @ContentChild(LayoutComponentRendererSADirective, {static: true})
-    protected layoutComponentRendererDirective?: LayoutComponentRendererSADirective;
-
     //######################### public properties #########################
 
     /**
@@ -138,19 +130,19 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     /**
      * Html element that represents dropzone
      */
-    @Input()
+    @Input({required: true})
     public dropzoneElement!: HTMLElement;
 
     /**
      * Instance of drag data for this component
      */
-    @Input('dndCoreDesigner')
+    @Input({required: true, alias: 'dndCoreDesigner'})
     public dragData!: LayoutComponentDragData;
 
     /**
      * Indication whether is drag disabled
      */
-    @Input()
+    @Input({required: true})
     public dragDisabled: boolean = false;
 
     //######################### public properties - outputs #########################
@@ -167,7 +159,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                 protected draggingSvc: DragActiveService,
                 protected manager: LayoutEditorMetadataManager,
                 protected bus: DndBusService,
-                protected zone: NgZone,
                 protected injector: Injector,
                 @Inject(DOCUMENT) protected document: Document,)
     {
@@ -570,7 +561,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
      */
     protected connectDropToPlaceholder(): void
     {
-        this.zone.runOutsideAngular(() =>
+        this.ngZone.runOutsideAngular(() =>
         {
             this.placeholderConnection?.unsubscribe();
 
@@ -586,7 +577,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
      */
     protected connectDropToContainer(): void
     {
-        this.zone.runOutsideAngular(() =>
+        this.ngZone.runOutsideAngular(() =>
         {
             this.containerConnection?.unsubscribe();
             this.containerConnection = this.containerDrop.connectDropTarget(this.designerElement.nativeElement);
@@ -605,7 +596,6 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
         }
 
         const component = this.manager.getComponentDef(id);
-
 
         if(!component?.parent)
         {

@@ -120,7 +120,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     constructor(protected editorHotkeys: EditorHotkeys,
                 @Inject(LOGGER) protected logger: Logger,)
     {
-        this.initSubscriptions.add(this.editorHotkeys.delete.subscribe(() => 
+        this.initSubscriptions.add(this.editorHotkeys.delete.subscribe(() =>
         {
             const selectedComponent = this.selectedComponent();
 
@@ -191,7 +191,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
                 component.component.addDescendant(
                 {
                     index: 0,
-                    metadata: extend({}, this.metadataClipboard, 
+                    metadata: extend({}, this.metadataClipboard,
                     {
                         id: newId,
                         displayName: newId,
@@ -204,7 +204,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
                 component.parent.component.addDescendant(
                 {
                     index: component.component.index + 1,
-                    metadata: extend({}, this.metadataClipboard, 
+                    metadata: extend({}, this.metadataClipboard,
                     {
                         id: newId,
                         displayName: newId,
@@ -216,7 +216,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -241,7 +241,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         {
             this.components[selected]?.component.invalidateVisuals();
         }
-        
+
         //select new one
         if(isPresent(id))
         {
@@ -278,7 +278,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         {
             this.components[highlighted]?.component.invalidateVisuals();
         }
-        
+
         //highlight new one
         if(isPresent(id))
         {
@@ -301,7 +301,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         }
     }
 
-    
+
     /**
      * Mark component as being dragged over
      * @param id - Id of component that will be marked
@@ -348,7 +348,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         }
 
         const parent = parentId ? this.components[parentId] : null;
-        const componentItem: LayoutEditorMetadataManagerComponent = 
+        const componentItem: LayoutEditorMetadataManagerComponent =
         {
             component,
             parent,
@@ -356,7 +356,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         };
 
         this.components[id] = componentItem;
-        
+
         //insert into parent at the end
         if(parent)
         {
@@ -388,27 +388,18 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
         return this.components[id]?.parent?.component ?? null;
     }
 
-
-    //TODO: removal candidate
     /**
-     * Gets index of componet in its parent, if not parent or id not found null is returned
-     * @param id - Id of component which index from parent will be obtained
+     * Gets children of component
+     * @param id - Id of component whose children are going to be get
      */
-    public getIndex(id: string): number|null
+    public getChildren(id: string): LayoutDesignerSAComponent[]
     {
-        const item = this.components[id];
-
-        if(!item || !item.parent)
-        {
-            return null;
-        }
-
-        return item.parent.children.indexOf(item);
+        return this.components[id]?.children?.map(itm => itm.component) ?? [];
     }
 
     /**
      * Gets component definition with information about component tree
-     * @param id - Id of component definition 
+     * @param id - Id of component definition
      */
     public getComponentDef(id: string): LayoutEditorMetadataManagerComponent|null
     {
@@ -423,7 +414,7 @@ export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutC
     {
         const componentItem = this.components[id];
         delete this.components[id];
-        
+
         //unregister from parent
         if(componentItem?.parent)
         {

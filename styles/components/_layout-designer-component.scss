@@ -80,6 +80,7 @@
         z-index: 500;
         padding: 2px 6px;
         pointer-events: none;
+        opacity: .7;
     }
 
     .designer-overlay-remove
@@ -88,7 +89,7 @@
         border-radius: 50%;
         background-color: var(--dynamic-designer-overlay-remove-background);
         padding: 2px 7px;
-        opacity: .75;
+        opacity: .45;
         color: var(--dynamic-designer-overlay-remove-foreground);
         cursor: pointer;
     }

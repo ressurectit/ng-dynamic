@@ -228,13 +228,15 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         if(triggerLayoutChange)
         {
             this.layoutEditorMetadataManager.updateLayout();
-            const layoutDesigners = this.layoutEditorMetadataManager.getChildren(this.id);
+        }
 
-            for(const designer of layoutDesigners)
-            {
-                designer?.updateIndex();
-                designer?.invalidateVisuals();
-            }
+        const layoutDesigners = this.layoutEditorMetadataManager.getChildren(this.id);
+        
+        //update indexes of children
+        for(const designer of layoutDesigners)
+        {
+            designer?.updateIndex();
+            designer?.invalidateVisuals();
         }
 
         this.history.getNewState();
@@ -253,6 +255,15 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.editorMetadata?.removeDescendant?.(id, options.typeMetadata.options);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
         this.componentInstance.invalidateVisuals();
+
+        const layoutDesigners = this.layoutEditorMetadataManager.getChildren(this.id);
+        
+        //update indexes of children
+        for(const designer of layoutDesigners)
+        {
+            designer?.updateIndex();
+            designer?.invalidateVisuals();
+        }
 
         this.history.getNewState();
     }

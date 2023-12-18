@@ -181,7 +181,8 @@ export class LayoutComponentsRegister implements OnDestroy
                 type: type.data,
                 displayName: component.metadata.displayName,
                 name: component.metadata.name,
-                scope: component.metadata.scope,
+                //TODO: fix types
+                scope: component.metadata.scope ?? undefined,
                 package: component.metadata.package,
             };
         }

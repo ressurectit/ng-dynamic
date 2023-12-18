@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ElementRef, SkipSelf, Optional, Inject, OnDestroy, ViewChild} from '@angular/core';
-import {PositionToSADirective} from '@anglr/common';
+import {BodyRenderSADirective, PositionToSADirective} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {MetadataHistoryManager, SCOPE_ID} from '@anglr/dynamic';
@@ -8,7 +8,7 @@ import {DndModule} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
-import {BodyRenderSADirective, CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
+import {CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
 import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorRenderer} from '../../services';
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';

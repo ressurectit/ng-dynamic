@@ -1,5 +1,5 @@
-import {Component, ChangeDetectionStrategy, ValueProvider, ExistingProvider, FactoryProvider, inject} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
+import {Component, ChangeDetectionStrategy, ExistingProvider, FactoryProvider, inject} from '@angular/core';
+import {LayoutComponent, LayoutComponentRendererSADirective, LayoutRenderer} from '@anglr/dynamic/layout';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {PromiseOr} from '@jscrpt/common';
@@ -23,11 +23,7 @@ import {PlaceholderHandler} from '../../../services';
     ],
     providers:
     [
-        <ValueProvider>
-        {
-            provide: LAYOUT_COMPONENT_TRANSFORM,
-            useValue: null
-        },
+        LayoutRenderer,
         <ExistingProvider>
         {
             provide: CustomComponentSAComponent,

@@ -1,13 +1,7 @@
 import {InjectionToken} from '@angular/core';
 import {DynamicItemExtensionType, DynamicItemLoader, DynamicModuleDataExtractor, DynamicModuleProvider, MetadataStorage} from '@anglr/dynamic';
 
-import {LayoutComponentTransform} from '../interfaces';
 import {LayoutComponentDef} from './types';
-
-/**
- * Injection token for layout component metadata transformation function
- */
-export const LAYOUT_COMPONENT_TRANSFORM: InjectionToken<LayoutComponentTransform> = new InjectionToken<LayoutComponentTransform>('LAYOUT_COMPONENT_TRANSFORM');
 
 /**
  * Injection token for layout component child extension types

@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE, LayoutRenderer} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsChangeDetector, RelationsComponentManager, RelationsManager, RelationsProcessor, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
@@ -28,6 +28,7 @@ import {TemplateBlockLayoutDesignerTypeLoader, TemplateBlockLayoutMetadataLoader
         RelationsManager,
         RelationsProcessor,
         RelationsChangeDetector,
+        LayoutRenderer,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,5 +1,5 @@
-import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
+import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {LayoutComponent, LayoutComponentRendererSADirective, LayoutRenderer} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {TemplateBlockComponentOptions} from '../templateBlock.options';
@@ -20,11 +20,7 @@ import {TemplateBlockSAComponent} from '../templateBlock.component';
     ],
     providers:
     [
-        <ValueProvider>
-        {
-            provide: LAYOUT_COMPONENT_TRANSFORM,
-            useValue: null
-        },
+        LayoutRenderer,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

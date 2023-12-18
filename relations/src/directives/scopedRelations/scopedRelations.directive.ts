@@ -1,5 +1,6 @@
 import {Directive, FactoryProvider, Inject, inject, Injector, OnDestroy} from '@angular/core';
 import {SCOPE_ID} from '@anglr/dynamic';
+import {LayoutRenderer} from '@anglr/dynamic/layout';
 
 import {RelationsChangeDetector, RelationsComponentManager, RelationsProcessor} from '../../services';
 
@@ -23,6 +24,7 @@ import {RelationsChangeDetector, RelationsComponentManager, RelationsProcessor} 
             useFactory: () => inject(RelationsProcessor, {skipSelf: true}).openScope(inject(SCOPE_ID), inject(RelationsComponentManager), inject(Injector))
         },
         RelationsChangeDetector,
+        LayoutRenderer,
     ],
 })
 export class ScopedRelationsSADirective implements OnDestroy

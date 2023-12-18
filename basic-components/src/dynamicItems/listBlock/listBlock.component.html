@@ -1,4 +1,4 @@
 @for(datum of data; track datum)
 {
-    <ng-container *layoutComponentRenderer="options?.template" scopedRelations listBlockScope [datum]="datum" [first]="$first" [last]="$last" [index]="$index" [componentId]="id"/>
+    <ng-container [layoutComponentRenderer]="options?.template" scopedRelations listBlockScope [datum]="datum" [first]="$first" [last]="$last" [index]="$index" [componentId]="id"/>
 }

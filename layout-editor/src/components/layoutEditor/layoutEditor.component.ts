@@ -10,7 +10,6 @@ import {Subscription} from 'rxjs';
 import {ComponentsPaletteSAComponent} from '../componentsPalette/componentsPalette.component';
 import {ComponentsTreeSAComponent} from '../componentsTree/componentsTree.component';
 import {PropertiesEditorSAComponent} from '../propertiesEditor/propertiesEditor.component';
-import {LAYOUT_DESIGNER_COMPONENT_TRANSFORM} from '../../misc/providers';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 import {DndBusService, LayoutDndCoreModule} from '../../modules';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
@@ -25,7 +24,6 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
     styles: [HostDisplayFlexStyle],
     providers:
     [
-        LAYOUT_DESIGNER_COMPONENT_TRANSFORM,
         DndBusService,
     ],
     standalone: true,

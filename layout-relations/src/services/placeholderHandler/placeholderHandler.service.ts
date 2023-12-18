@@ -1,5 +1,5 @@
 import {inject, Injector, Type} from '@angular/core';
-import {LayoutComponentMetadata, LayoutComponentTransform, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {RelationsChangeDetector, RelationsComponentManager, RelationsDebugger, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {LOGGER, Logger} from '@anglr/common';
 
@@ -122,9 +122,11 @@ export class PlaceholderHandler<TOptions = unknown>
      */
     public get designMode(): boolean
     {
-        return (this.ɵdesignMode ??= this.ɵisPlaceholder ? 
-            !!this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {optional: true}) :
-            !!this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true,}));
+        // return (this.ɵdesignMode ??= this.ɵisPlaceholder ? 
+        //     !!this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {optional: true}) :
+        //     !!this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true,}));
+
+        return false;
     }
 
     /**
@@ -138,17 +140,18 @@ export class PlaceholderHandler<TOptions = unknown>
     /**
      * Gets layout designer component transform function
      */
-    public get layoutDesignerComponentTransform(): LayoutComponentTransform|null
+    public get layoutDesignerComponentTransform(): null
     {
+        return null;
         //current transform
-        const transform = this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true});
+        // const transform = this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true});
 
-        //current or parent custom component transform
-        const result = transform ??
-            this.findRelatedCustomComponentHandler()?.injector?.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true}) ??
-            null;
+        // //current or parent custom component transform
+        // const result = transform ??
+        //     this.findRelatedCustomComponentHandler()?.injector?.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true}) ??
+        //     null;
 
-        return result;
+        // return result;
     }
 
     /**

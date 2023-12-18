@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, inject, SimpleChanges, FactoryProvider} from '@angular/core';
 import {MetadataStorage} from '@anglr/dynamic';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE, LayoutRenderer} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutComponentsIteratorService, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {provideRelationsDebugger, RelationsChangeDetector, RelationsComponent, RelationsComponentManager, RelationsManager, RelationsProcessor, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
@@ -34,6 +34,7 @@ import {PlaceholderHandler} from '../../services/placeholderHandler/placeholderH
         RelationsManager,
         RelationsProcessor,
         RelationsChangeDetector,
+        LayoutRenderer,
         ...provideRelationsDebugger(),
         LayoutComponentsIteratorService,
         <FactoryProvider>

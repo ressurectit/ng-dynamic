@@ -90,6 +90,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
      */
     public ngOnDestroy(): void
     {
+        //TODO: maybe fix this with relationsOnDestroy()
         this.logger.debug('LayoutComponentBase: destroying component, isDestroyed {{destroyed}}', {destroyed: this.destroyed});
 
         if(this.destroyed)

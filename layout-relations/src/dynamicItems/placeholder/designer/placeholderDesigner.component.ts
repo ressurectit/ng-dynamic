@@ -1,6 +1,6 @@
-import {Component, ChangeDetectionStrategy, FactoryProvider, inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, FactoryProvider} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentRendererSADirective, LAYOUT_COMPONENT_TRANSFORM} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {PlaceholderSAComponent} from '../placeholder.component';
@@ -24,11 +24,11 @@ import {ComponentWithId} from '../../../interfaces';
     ],
     providers:
     [
-        <FactoryProvider>
-        {
-            provide: LAYOUT_COMPONENT_TRANSFORM,
-            useFactory: () => inject(PlaceholderHandler).layoutDesignerComponentTransform,
-        },
+        // <FactoryProvider>
+        // {
+        //     provide: LAYOUT_COMPONENT_TRANSFORM,
+        //     useFactory: () => inject(PlaceholderHandler).layoutDesignerComponentTransform,
+        // },
         <FactoryProvider>
         {
             provide: PlaceholderHandler,

@@ -1,5 +1,6 @@
 import {inject, Injector, Type} from '@angular/core';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata, LayoutRenderer} from '@anglr/dynamic/layout';
+import {LayoutEditorRenderer} from '@anglr/dynamic/layout-editor';
 import {RelationsChangeDetector, RelationsComponentManager, RelationsDebugger, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {LOGGER, Logger} from '@anglr/common';
 
@@ -122,11 +123,9 @@ export class PlaceholderHandler<TOptions = unknown>
      */
     public get designMode(): boolean
     {
-        // return (this.ɵdesignMode ??= this.ɵisPlaceholder ? 
-        //     !!this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {optional: true}) :
-        //     !!this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true,}));
-
-        return false;
+        return (this.ɵdesignMode ??= this.ɵisPlaceholder ? 
+            this.injector.get(LayoutRenderer) instanceof LayoutEditorRenderer :
+            this.injector.get(LayoutRenderer, null, {skipSelf: true}) instanceof LayoutEditorRenderer);
     }
 
     /**
@@ -138,20 +137,24 @@ export class PlaceholderHandler<TOptions = unknown>
     }
 
     /**
-     * Gets layout designer component transform function
+     * Gets layout renderer
      */
-    public get layoutDesignerComponentTransform(): null
+    public get layoutRenderer(): LayoutRenderer|null
     {
-        return null;
-        //current transform
-        // const transform = this.injector.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true});
+        //current renderer
+        let transform = this.injector.get(LayoutRenderer, null, {skipSelf: true});
 
-        // //current or parent custom component transform
-        // const result = transform ??
-        //     this.findRelatedCustomComponentHandler()?.injector?.get(LAYOUT_COMPONENT_TRANSFORM, null, {skipSelf: true, optional: true}) ??
-        //     null;
+        if(!(transform instanceof LayoutEditorRenderer))
+        {
+            transform = null;
+        }
 
-        // return result;
+        //current or parent layout renderer
+        const result = transform ??
+            this.findRelatedCustomComponentHandler()?.injector?.get(LayoutRenderer, null, {skipSelf: true}) ??
+            null;
+
+        return result;
     }
 
     /**

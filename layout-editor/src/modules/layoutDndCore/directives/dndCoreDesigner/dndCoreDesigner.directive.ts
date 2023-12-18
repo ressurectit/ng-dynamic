@@ -7,7 +7,7 @@ import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/cor
 import {filter, Subscription} from 'rxjs';
 
 import {LayoutComponentDragData} from '../../../../interfaces';
-import {DragActiveService, LayoutEditorMetadataManager, LayoutEditorRendererItem} from '../../../../services';
+import {DragActiveService, LayoutEditorMetadataManager, LayoutEditorMetadataManagerComponent, LayoutEditorRendererItem} from '../../../../services';
 import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 // import {registerDropzoneOverlay} from '../../misc/utils';
@@ -271,7 +271,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
 
         this.dropzone = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
                                             {
-                                                canDrop: monitor => (this.canDrop || this.canDropAncestors()[0]) && monitor.isOver({shallow: true}),
+                                                canDrop: monitor => (this.canDrop || this.canDropAncestors()[0]) && monitor.isOver({shallow: true}) && this.selfIsAncestor(monitor),
                                                 drop: monitor =>
                                                 {
                                                     const [index, id] = this.getFixedDropCoordinates(monitor, this.canDrop);
@@ -582,6 +582,33 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
             this.containerConnection?.unsubscribe();
             this.containerConnection = this.containerDrop.connectDropTarget(this.designerElement.nativeElement);
         });
+    }
+
+    /**
+     * Tests whether dragged element is ancestor of drop target, prevents self inclusion
+     * @param monitor - Drop target monitor with all information about drag and drop
+     */
+    protected selfIsAncestor(monitor: DropTargetMonitor<LayoutDragItem, LayoutDropResult>): boolean
+    {
+        const metadata = monitor.getItem()?.dragData.metadata;
+
+        if(!metadata)
+        {
+            throw new Error('DndCoreDesignerDirective: missing drag metadata!');
+        }
+
+        let componentDef: LayoutEditorMetadataManagerComponent|undefined|null = this.manager.getComponentDef(this.metadata.id);
+
+        do
+        {
+            if(componentDef?.component.id == metadata.id)
+            {
+                return false;
+            }
+        }
+        while((componentDef = componentDef?.parent));
+
+        return true;
     }
 
     /**

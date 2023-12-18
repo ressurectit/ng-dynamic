@@ -1,5 +1,8 @@
-<div class="placeholder" *ngIf="!placeholderHandler.placeholderContainer; else container"></div>
-
-<ng-template #container>
+@if(!placeholderHandler.placeholderContainer)
+{
+    <div class="placeholder"></div>
+}
+@else 
+{
     <ng-container *layoutComponentRenderer="placeholderHandler.getOptions(id)"/>
-</ng-template>
+}

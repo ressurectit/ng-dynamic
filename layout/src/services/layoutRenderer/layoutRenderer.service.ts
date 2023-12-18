@@ -149,11 +149,11 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
         this.logger.verbose('LayoutRenderer: set options for component {{id}}', {id: metadata?.id});
 
         this.logger.verbose('LayoutRenderer: setting changes for component {{id}}', {id: metadata?.id});
-        await instance.ngOnChanges?.(changes);
+        await instance.dynamicOnChanges?.(changes);
         this.logger.verbose('LayoutRenderer: set changes for component {{id}}', {id: metadata?.id});
 
         this.logger.verbose('LayoutRenderer: initializing component {{id}}', {id: metadata?.id});
-        await instance.ngOnInit?.();
+        await instance.dynamicOnInit?.();
         this.logger.verbose('LayoutRenderer: initialized component {{id}}', {id: metadata?.id});
 
         this.logger.verbose('LayoutRenderer: invalidating component visuals {{id}}', {id: metadata?.id});
@@ -161,10 +161,12 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
         this.logger.verbose('LayoutRenderer: invalidated component visuals {{id}}', {id: metadata?.id});
 
         this.logger.verbose('LayoutRenderer: after view initializing {{id}}', {id: metadata?.id});
-        await instance.ngAfterViewInit?.();
+        await instance.dynamicAfterViewInit?.();
         this.logger.verbose('LayoutRenderer: after view initialized {{id}}', {id: metadata?.id});
 
         renderedCallback?.(rendererItem);
+
+        component.changeDetectorRef.reattach();
 
         //sync call finished
         syncResolve?.();

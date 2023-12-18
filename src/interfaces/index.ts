@@ -1,3 +1,4 @@
+export * from './dynamicEvents';
 export * from './dynamicItem';
 export * from './dynamicItemExtension';
 export * from './dynamicModule';

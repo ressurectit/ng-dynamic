@@ -112,7 +112,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     /**
      * @inheritdoc
      */
-    public async ngOnInit(): Promise<void>
+    public async dynamicOnInit(): Promise<void>
     {
         const extensionsOptions = this.extensionsOptions;
         
@@ -133,7 +133,7 @@ export abstract class LayoutComponentBase<TOptions> implements LayoutComponent<T
     /**
      * @inheritdoc
      */
-    public async ngOnChanges(changes: SimpleChanges): Promise<void>
+    public async dynamicOnChanges(changes: SimpleChanges): Promise<void>
     {
         //options has changed
         if(nameof<LayoutComponentBase<TOptions>>('options') in changes)

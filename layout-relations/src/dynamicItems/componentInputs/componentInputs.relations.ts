@@ -50,7 +50,7 @@ export class ComponentInputsRelations implements RelationsComponent<ComponentInp
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         for(const key of Object.keys(changes))
         {
@@ -73,7 +73,7 @@ export class ComponentInputsRelations implements RelationsComponent<ComponentInp
     /**
      * @inheritdoc
      */
-    public ngOnDestroy(): void
+    public relationsOnDestroy(): void
     {
         if(this.id)
         {

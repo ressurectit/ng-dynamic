@@ -39,7 +39,7 @@ export class NegationRelations implements RelationsComponent
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<NegationRelations>('condition') in changes)
         {

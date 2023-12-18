@@ -66,7 +66,7 @@ export class TriggerRelations implements RelationsComponent<TriggerRelationsOpti
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<TriggerRelations>('trigger') in changes)
         {

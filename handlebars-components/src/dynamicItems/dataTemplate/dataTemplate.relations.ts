@@ -72,7 +72,7 @@ export class DataTemplateRelations implements RelationsComponent<DataTemplateRel
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<DataTemplateRelations>('template') in changes)
         {

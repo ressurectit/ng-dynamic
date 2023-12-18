@@ -210,11 +210,11 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         this.logger.verbose('LayoutEditorRenderer: set options for component {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
 
         this.logger.verbose('LayoutEditorRenderer: setting changes for component {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
-        await instance.ngOnChanges?.(changes);
+        await instance.dynamicOnChanges?.(changes);
         this.logger.verbose('LayoutEditorRenderer: set changes for component {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
 
         this.logger.verbose('LayoutEditorRenderer: initializing component {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
-        await instance.ngOnInit?.();
+        await instance.dynamicOnInit?.();
         this.logger.verbose('LayoutEditorRenderer: initialized component {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
 
         this.logger.verbose('LayoutEditorRenderer: invalidating component visuals {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
@@ -222,13 +222,16 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         this.logger.verbose('LayoutEditorRenderer: invalidated component visuals {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
 
         this.logger.verbose('LayoutEditorRenderer: after view initializing {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
-        await instance.ngAfterViewInit?.();
+        await instance.dynamicAfterViewInit?.();
         this.logger.verbose('LayoutEditorRenderer: after view initialized {{id}} isDesigner: {{isDesigner}}', {id: metadata?.id, isDesigner});
 
         if(!isDesigner)
         {
             renderedCallback?.(rendererItem);
         }
+
+        //TODO: maybe make it configurable
+        component.changeDetectorRef.reattach();
 
         //sync call finished
         syncResolve?.();

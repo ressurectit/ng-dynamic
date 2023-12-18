@@ -25,15 +25,24 @@ export class MathDivideRelations implements RelationsComponent<MathDivideRelatio
 
     //######################### public properties #########################
 
-    relationsOptions: MathDivideRelationsOptions|undefined;
+    /**
+     * @inheritdoc
+     */
+    public relationsOptions: MathDivideRelationsOptions|undefined;
 
     //######################### public methods #########################
 
+    /**
+     * @inheritdoc
+     */
     public invalidateVisuals(): void
     {
     }
 
-    public ngOnChanges(changes: SimpleChanges): void
+    /**
+     * @inheritdoc
+     */
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<MathDivideRelationsOptions>('input1') in changes ||
            nameof<MathDivideRelationsOptions>('input2') in changes)

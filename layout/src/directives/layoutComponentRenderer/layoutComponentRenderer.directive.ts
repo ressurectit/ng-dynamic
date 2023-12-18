@@ -118,9 +118,39 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
                                                this.renderedCallback,
                                                this.customInjector,);
             }
+            //component changed
+            else if(isPresent(change.currentValue) && isPresent(change.previousValue))
+            {
+                this.logger.debug('LayoutComponentRendererSADirective: unregistering component from rendering "{{id}}"', {id: this.id});
+
+                this.renderer.unregisterRenderer(this.id);
+
+                const metadata = change.currentValue as LayoutComponentMetadata;
+
+                this.logger.debug('LayoutComponentRendererSADirective: registering component for rendering "{{id}}" inside renderer "{{rendererId}}" with parent renderer "{{parentRenderer}}" and parent component "{{parentComponent}}"',
+                {
+                    id: metadata.id,
+                    rendererId: this.id,
+                    parentRenderer: this.parentRendererDirective?.id,
+                    parentComponent: this.parentRendererDirective?.componentMetadata?.id,
+                });
+    
+                //registers renderer and component
+                this.renderer.registerRenderer(this.id,
+                                               this.parentRendererDirective?.id,
+                                               this.viewContainer,
+                                               metadata,
+                                               this.parentRendererDirective?.componentMetadata,
+                                               this.scopeId,
+                                               this.childExtensions,
+                                               this.renderedCallback,
+                                               this.customInjector,);
+            }
             //component removed from renderer, unregister renderer
             else if(isBlank(change.currentValue) && isPresent(change.previousValue))
             {
+                this.logger.debug('LayoutComponentRendererSADirective: unregistering component from rendering "{{id}}"', {id: this.id});
+
                 this.renderer.unregisterRenderer(this.id);
             }
         }

@@ -22,15 +22,24 @@ export class MathPowerRelations implements RelationsComponent<MathPowerRelations
 
     //######################### public properties #########################
 
-    relationsOptions: MathPowerRelationsOptions|undefined;
+    /**
+     * @inheritdoc
+     */
+    public relationsOptions: MathPowerRelationsOptions|undefined;
 
     //######################### public methods #########################
 
+    /**
+     * @inheritdoc
+     */
     public invalidateVisuals(): void
     {
     }
 
-    public ngOnChanges(changes: SimpleChanges): void
+    /**
+     * @inheritdoc
+     */
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<MathPowerRelationsOptions>('input') in changes ||
            nameof<MathPowerRelationsOptions>('exponent') in changes)

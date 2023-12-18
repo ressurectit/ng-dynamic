@@ -74,7 +74,7 @@ export class DebounceValueRelations<TValue = any> implements RelationsComponent<
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<DebounceValueRelations>('value') in changes)
         {

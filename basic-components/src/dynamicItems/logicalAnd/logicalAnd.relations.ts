@@ -80,7 +80,7 @@ export class LogicalAndRelations implements RelationsComponent<LogicalAndRelatio
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<LogicalAndRelations>('cond1') in changes ||
            nameof<LogicalAndRelations>('cond2') in changes)

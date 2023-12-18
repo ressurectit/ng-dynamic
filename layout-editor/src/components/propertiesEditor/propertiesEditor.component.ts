@@ -176,7 +176,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
                     // eslint-disable-next-line no-self-assign
                     this.component.options = this.component.options;
-                    await this.component.ngOnChanges?.(changes);
+                    await this.component.dynamicOnChanges?.(changes);
                     this.component.invalidateVisuals();
                     this.manager.displayNameUpdated();
                     this.history.getNewState();
@@ -365,7 +365,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                     const changes: SimpleChanges = {};
                     addSimpleChange<LayoutComponent>(changes, 'options', this.component.options, this.component.options);
 
-                    await this.component.ngOnChanges?.(changes);
+                    await this.component.dynamicOnChanges?.(changes);
                     this.component.invalidateVisuals();
 
                     //options for component itself
@@ -379,7 +379,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                     const componentChanges: SimpleChanges = {};
                     addSimpleChange<LayoutComponent>(componentChanges, 'options', this.component.options.typeMetadata.options, this.component.options.typeMetadata.options);
 
-                    await component.component.instance.ngOnChanges?.(componentChanges);
+                    await component.component.instance.dynamicOnChanges?.(componentChanges);
                     component.component.instance.invalidateVisuals();
 
                     this.history.getNewState();

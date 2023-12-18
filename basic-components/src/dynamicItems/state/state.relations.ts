@@ -67,9 +67,9 @@ export class StateRelations<TState = unknown> implements RelationsComponent<Stat
     //######################### public methods - implementation of OnChanges #########################
     
     /**
-     * Called when input value changes
+     * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<StateRelations>('initState') in changes)
         {

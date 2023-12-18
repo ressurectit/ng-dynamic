@@ -321,7 +321,7 @@ export class RelationsProcessor implements OnDestroy
 
                 for(const cmp of components)
                 {
-                    cmp.ngOnDestroy?.();
+                    cmp.relationsOnDestroy?.();
                 }
             }
         }

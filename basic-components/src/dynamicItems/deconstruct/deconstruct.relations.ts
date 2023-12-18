@@ -87,9 +87,9 @@ export class DeconstructRelations<TObj extends Dictionary = Dictionary> implemen
     //######################### public methods - implementation of OnChanges #########################
     
     /**
-     * Called when input value changes
+     * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<DeconstructRelations>('object') in changes)
         {

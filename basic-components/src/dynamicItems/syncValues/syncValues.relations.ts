@@ -71,7 +71,7 @@ export class SyncValuesRelations implements RelationsComponent<SyncValuesRelatio
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(!this.relationsOptions)
         {

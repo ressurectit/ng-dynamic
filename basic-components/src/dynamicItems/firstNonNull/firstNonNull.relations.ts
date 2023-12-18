@@ -78,7 +78,7 @@ export class FirstNonNullRelations implements RelationsComponent<FirstNonNullRel
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<FirstNonNullRelations>('data1') in changes || nameof<FirstNonNullRelations>('data2') in changes)
         {

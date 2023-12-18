@@ -25,15 +25,24 @@ export class MathAddRelations implements RelationsComponent<MathAddRelationsOpti
 
     //######################### public properties #########################
 
-    relationsOptions: MathAddRelationsOptions|undefined;
+    /**
+     * @inheritdoc
+     */
+    public relationsOptions: MathAddRelationsOptions|undefined;
 
     //######################### public methods #########################
 
+    /**
+     * @inheritdoc
+     */
     public invalidateVisuals(): void
     {
     }
 
-    public ngOnChanges(changes: SimpleChanges): void
+    /**
+     * @inheritdoc
+     */
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<MathAddRelationsOptions>('input1') in changes ||
            nameof<MathAddRelationsOptions>('input2') in changes)

@@ -65,9 +65,9 @@ export class TransformDataRelations<TData = any, TTransformedData = any> impleme
     //######################### public methods - implementation of OnChanges #########################
     
     /**
-     * Called when input value changes
+     * @inheritdoc
      */
-    public async ngOnChanges(changes: SimpleChanges): Promise<void>
+    public async dynamicOnChanges(changes: SimpleChanges): Promise<void>
     {
         if(nameof<TransformDataRelations>('data') in changes)
         {

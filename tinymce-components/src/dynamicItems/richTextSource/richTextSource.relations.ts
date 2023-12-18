@@ -1,4 +1,3 @@
-import {SimpleChanges} from '@angular/core';
 import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
@@ -48,13 +47,6 @@ export class RichTextSourceRelations implements RelationsComponent<RichTextSourc
 
     //######################### public methods - implementation of RelationsComponent #########################
     
-    /**
-     * @inheritdoc
-     */
-    public ngOnChanges(_changes: SimpleChanges): void
-    {
-    }
-
     /**
      * @inheritdoc
      */

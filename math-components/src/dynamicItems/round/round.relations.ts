@@ -22,15 +22,24 @@ export class MathRoundRelations implements RelationsComponent<MathRoundRelations
 
     //######################### public properties #########################
 
-    relationsOptions: MathRoundRelationsOptions|undefined;
+    /**
+     * @inheritdoc
+     */
+    public relationsOptions: MathRoundRelationsOptions|undefined;
 
     //######################### public methods #########################
 
+    /**
+     * @inheritdoc
+     */
     public invalidateVisuals(): void
     {
     }
 
-    public ngOnChanges(changes: SimpleChanges): void
+    /**
+     * @inheritdoc
+     */
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<MathRoundRelationsOptions>('input') in changes ||
            nameof<MathRoundRelationsOptions>('decimalPlace') in changes)

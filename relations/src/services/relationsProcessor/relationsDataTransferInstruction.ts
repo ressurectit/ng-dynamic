@@ -52,7 +52,7 @@ export class RelationsDataTransferInstructionImpl implements RelationsDataTransf
                 (component as any)[key] = change.currentValue;
             }
             
-            component.ngOnChanges?.(this._changes);
+            component.dynamicOnChanges?.(this._changes);
             component.invalidateVisuals();
         }
     }

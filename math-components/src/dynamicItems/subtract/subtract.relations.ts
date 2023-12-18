@@ -25,15 +25,24 @@ export class MathSubtractRelations implements RelationsComponent<MathSubtractRel
 
     //######################### public properties #########################
 
-    relationsOptions: MathSubtractRelationsOptions|undefined;
+    /**
+     * @inheritdoc
+     */
+    public relationsOptions: MathSubtractRelationsOptions|undefined;
 
     //######################### public methods #########################
 
+    /**
+     * @inheritdoc
+     */
     public invalidateVisuals(): void
     {
     }
 
-    public ngOnChanges(changes: SimpleChanges): void
+    /**
+     * @inheritdoc
+     */
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<MathSubtractRelationsOptions>('input1') in changes ||
            nameof<MathSubtractRelationsOptions>('input2') in changes)

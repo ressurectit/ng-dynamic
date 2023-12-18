@@ -225,7 +225,7 @@ export class CustomComponentSAComponent extends LayoutComponentBase<CustomCompon
      */
     protected override onChanges(changes: SimpleChanges): PromiseOr<void>
     {
-        this.inputsRelations?.ngOnChanges(changes);
+        this.inputsRelations?.dynamicOnChanges(changes);
     }
 
     /**

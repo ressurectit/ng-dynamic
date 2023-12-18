@@ -1,4 +1,4 @@
-import {Injector, SimpleChanges} from '@angular/core';
+import {Injector} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams, HttpRequest} from '@angular/common/http';
 import {DynamicOutput, PureRelationsComponent, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
@@ -101,7 +101,7 @@ export class RestRelations implements RelationsComponent<RestRelationsOptions>
     /**
      * @inheritdoc
      */
-    public ngOnChanges(_changes: SimpleChanges): void
+    public dynamicOnChanges(): void
     {
         this.makeRequest();
     }

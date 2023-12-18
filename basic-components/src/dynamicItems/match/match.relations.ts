@@ -45,7 +45,7 @@ export class MatchRelations implements RelationsComponent
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<MatchRelations>('value') in changes ||
            nameof<MatchRelations>('valueToMatch') in changes)

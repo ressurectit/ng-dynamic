@@ -53,9 +53,9 @@ export class DataBlockSAComponent extends LayoutComponentBase<DataBlockComponent
     /**
      * Called when input value changes
      */
-    public override async ngOnChanges(changes: SimpleChanges): Promise<void>
+    public override async dynamicOnChanges(changes: SimpleChanges): Promise<void>
     {
-        await super.ngOnChanges(changes);
+        await super.dynamicOnChanges(changes);
 
         if(nameof<DataBlockSAComponent>('data') in changes)
         {

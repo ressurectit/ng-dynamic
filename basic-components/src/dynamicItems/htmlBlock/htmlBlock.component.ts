@@ -51,9 +51,9 @@ export class HtmlBlockSAComponent extends LayoutComponentBase<HtmlBlockComponent
     /**
      * @inheritdoc
      */
-    public override async ngOnChanges(changes: SimpleChanges): Promise<void>
+    public override async dynamicOnChanges(changes: SimpleChanges): Promise<void>
     {
-        await super.ngOnChanges(changes);
+        await super.dynamicOnChanges(changes);
 
         if(nameof<HtmlBlockSAComponent>('content') in changes)
         {

@@ -25,15 +25,24 @@ export class MathMultiplyRelations implements RelationsComponent<MathMultiplyRel
 
     //######################### public properties #########################
 
-    relationsOptions: MathMultiplyRelationsOptions|undefined;
+    /**
+     * @inheritdoc
+     */
+    public relationsOptions: MathMultiplyRelationsOptions|undefined;
 
     //######################### public methods #########################
 
+    /**
+     * @inheritdoc
+     */
     public invalidateVisuals(): void
     {
     }
 
-    public ngOnChanges(changes: SimpleChanges): void
+    /**
+     * @inheritdoc
+     */
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<MathMultiplyRelationsOptions>('input1') in changes ||
            nameof<MathMultiplyRelationsOptions>('input2') in changes)

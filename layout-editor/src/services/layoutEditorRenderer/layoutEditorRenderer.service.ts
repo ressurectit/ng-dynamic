@@ -5,7 +5,7 @@ import {Action1, NoopAction} from '@jscrpt/common';
 
 import {LayoutEditorRendererItem} from './layoutEditorRenderer.interface';
 import {LAYOUT_DESIGNER_COMPONENT_ID_SUFFIX} from '../../misc/constants';
-import {LayoutDesignerComponentOptions} from '../../components';
+import {LayoutDesignerComponentOptions} from '../../components/layoutDesigner/layoutDesigner.options';
 
 /**
  * Service used for handling rendering of layout

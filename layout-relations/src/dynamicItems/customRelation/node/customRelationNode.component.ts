@@ -57,9 +57,10 @@ export class CustomRelationNodeSAComponent extends RelationsNodeBase<CustomRelat
             return;
         }
 
-        this.metadata.relationsOptions ??= 
+        this.metadata.relationsOptions = 
         {
-            name: ''
+            name: this.metadata.name,
+            id: this.metadata.id,
         };
 
         const relations = await this.relationsMetadataStorage?.getMetadata(this.metadata.name) ?? [];

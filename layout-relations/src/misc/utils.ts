@@ -30,6 +30,8 @@ export function provideLayoutRelationsCustomComponents(): Provider[]
     return [
         ...provideLayoutRelations(),
         CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER,
+        //TODO: move it outside
+        CUSTOM_RELATIONS_RELATIONS_COMPONENTS_PROVIDER,
     ];
 }
 

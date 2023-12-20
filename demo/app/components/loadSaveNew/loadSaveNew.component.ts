@@ -5,13 +5,14 @@ import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgSelectModule} from '@anglr/select';
 import {EditorHotkeys, MetadataHistoryManager, MetadataStateManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
-import {ShowCustomComponentOptionsSADirective} from '@anglr/dynamic/layout-relations';
+import {CustomDynamicItemsRegister, ShowCustomComponentOptionsSADirective} from '@anglr/dynamic/layout-relations';
 import {LiveEventService} from '@anglr/dynamic/layout-editor';
 import {extend, Func} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {StoreDataService} from '../../services/storeData';
 import {DemoCustomComponentsRegister} from '../../services/demoCustomComponentsRegister';
+import {DemoCustomRelationsRegister} from '../../services/demoCustomRelationsRegister';
 
 /**
  * Component used for loading saving and creating new layout/relations template
@@ -83,7 +84,7 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
                 private _changeDetector: ChangeDetectorRef,
                 protected liveEvents: LiveEventService,
 
-                @Optional() private _customComponentsRegister?: DemoCustomComponentsRegister,
+                @Inject(CustomDynamicItemsRegister) @Optional() private _customComponentsRegister?: DemoCustomRelationsRegister|DemoCustomComponentsRegister,
                 @Optional() private _hotkeys?: EditorHotkeys,)
     {
     }
@@ -97,14 +98,14 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
     {
         if(this.componentMarking)
         {
-            this._available.valueChanges.subscribe(value =>
+            this._available.valueChanges.subscribe(async value =>
             {
                 if(!value)
                 {
                     return;
                 }
     
-                const components = this._customComponentsRegister?.getRegisteredComponents();
+                const components = await this._customComponentsRegister?.getRegisteredComponents();
     
                 this._component.setValue(components.indexOf(value) >= 0, {emitEvent: false});
             });

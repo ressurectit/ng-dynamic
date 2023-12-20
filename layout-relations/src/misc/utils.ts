@@ -7,8 +7,8 @@ import {MetadataStorage, provideStaticPackageSource} from '@anglr/dynamic';
 import {LOGGER} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 
-import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER} from './providers';
-import {LayoutComponentsRegister, LayoutManager, CustomComponentsRegister, ScopeRegister} from '../services';
+import {LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER, CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER, CUSTOM_RELATIONS_RELATIONS_COMPONENTS_PROVIDER, CUSTOM_RELATIONS_RELATIONS_MODULE_TYPES_PROVIDER, CUSTOM_RELATIONS_RELATIONS_NODES_PROVIDER} from './providers';
+import {LayoutComponentsRegister, LayoutManager, CustomComponentsRegister, ScopeRegister, CustomRelationsRegister} from '../services';
 import {ContentComponentData} from '../components';
 
 /**
@@ -65,6 +65,25 @@ export function provideLayoutRelationsEditor(): Provider[]
             multi: true
         },
         provideStaticPackageSource('layout-components'),
+    ];
+}
+
+/**
+ * Providers that enables use of custom relations in relations editor
+ * @param customRelationsRegister - Type that represents implementation of custom relations register
+ */
+export function provideEditorRelationsCustomRelations(customRelationsRegister: Type<CustomRelationsRegister> = CustomRelationsRegister,): Provider[]
+{
+    return [
+        CUSTOM_RELATIONS_RELATIONS_NODES_PROVIDER,
+        CUSTOM_RELATIONS_RELATIONS_MODULE_TYPES_PROVIDER,
+        CUSTOM_RELATIONS_RELATIONS_COMPONENTS_PROVIDER,
+        provideStaticPackageSource('custom-relations'),
+        <ClassProvider>
+        {
+            provide: CustomRelationsRegister,
+            useClass: customRelationsRegister,
+        },
     ];
 }
 

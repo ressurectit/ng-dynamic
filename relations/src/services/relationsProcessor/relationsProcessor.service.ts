@@ -374,6 +374,8 @@ export class RelationsProcessor implements OnDestroy
         }
     }
 
+
+    //TODO: update typings with new parameter
     /**
      * Transfers data for specified component using its output relations, all data are transfered in single change set per component
      * @param id - Id of component whose outputs relations should be applied to transfer data

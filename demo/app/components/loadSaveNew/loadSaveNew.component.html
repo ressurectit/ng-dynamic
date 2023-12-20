@@ -24,7 +24,7 @@
 <ng-container *ngIf="layoutControls">
     <mat-slide-toggle [checked]="liveEvents.enabled" (change)="liveEvents.setEnabled(!liveEvents.enabled)">live events</mat-slide-toggle>
 
-    <label class="margin-horizontal-extra-small" *ngIf="componentMarking"><input type="checkbox" [formControl]="_component"> component</label>
-
     <button type="button" class="btn btn-primary" [showCustomComponentOptions]="_available.value" [disabled]="!_component.value">CC options</button>
 </ng-container>
+
+<label class="margin-horizontal-extra-small" *ngIf="componentMarking"><input type="checkbox" [formControl]="_component"> component</label>

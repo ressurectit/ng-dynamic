@@ -7,7 +7,7 @@ import {CustomDynamicItemConfiguration} from './customDynamicItemsRegister.inter
  * Register that contains registered custom dynamic items
  */
 @Injectable()
-export class CustomDynamiItemsRegister<TConfig extends CustomDynamicItemConfiguration = CustomDynamicItemConfiguration>
+export abstract class CustomDynamicItemsRegister<TConfig extends CustomDynamicItemConfiguration = CustomDynamicItemConfiguration>
 {
     //######################### public methods #########################
 

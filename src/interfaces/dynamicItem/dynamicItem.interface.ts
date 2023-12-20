@@ -31,6 +31,8 @@ export interface DynamicItemExtensions
     childExtensions?: DynamicItemExtensionType[]|null;
 }
 
+//TODO: cleanup, do not use this its duplicate
+
 /**
  * Definition of dynamic item editor data
  */

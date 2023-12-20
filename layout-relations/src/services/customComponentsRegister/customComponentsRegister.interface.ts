@@ -1,5 +1,6 @@
-import {CustomDynamicItemConfiguration} from '@anglr/dynamic';
 import {Dictionary} from '@jscrpt/common';
+
+import {CustomDynamicItemConfiguration} from '../customDynamicItemsRegister/customDynamicItemsRegister.interface';
 
 /**
  * Configuration for custom components

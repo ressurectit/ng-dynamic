@@ -8,7 +8,7 @@ import {provideMaterialLayoutEditor} from '@anglr/dynamic/material-components';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
-import {CustomComponentsRegister, provideEditorLayoutCustomComponents} from '@anglr/dynamic/layout-relations';
+import {CustomComponentsRegister, CustomDynamicItemsRegister, provideEditorLayoutCustomComponents} from '@anglr/dynamic/layout-relations';
 import {provideFormLayoutEditor} from '@anglr/dynamic/form';
 import {BindThis, generateId} from '@jscrpt/common';
 
@@ -51,14 +51,14 @@ import {DemoLayoutDefaultsOverrideService} from '../../../services/demoDefaultsO
         },
         <ExistingProvider>
         {
-            provide: DemoCustomComponentsRegister,
+            provide: CustomDynamicItemsRegister,
             useExisting: CustomComponentsRegister,
         },
         <FactoryProvider>
         {
             provide: REFRESH_PALETTE_OBSERVABLES,
             useFactory: (register: DemoCustomComponentsRegister) => register.registeredChange,
-            deps: [DemoCustomComponentsRegister],
+            deps: [CustomDynamicItemsRegister],
             multi: true,
         },
     ],

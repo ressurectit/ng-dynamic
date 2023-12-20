@@ -3,6 +3,12 @@ export * from './customComponentsDynamicModuleRelationsProvider/customComponents
 export * from './customComponentsDynamicModuleTypesProvider/customComponentsDynamicModuleTypesProvider.service';
 export * from './customComponentsRegister/customComponentsRegister.interface';
 export * from './customComponentsRegister/customComponentsRegister.service';
+export * from './customDynamicItemsRegister/customDynamicItemsRegister.interface';
+export * from './customDynamicItemsRegister/customDynamicItemsRegister.service';
+export * from './customRelationsDynamicModuleItemsProvider/customRelationsDynamicModuleItemsProvider.service';
+export * from './customRelationsDynamicModuleRelationsProvider/customRelationsDynamicModuleRelationsProvider.service';
+export * from './customRelationsRegister/customRelationsRegister.interface';
+export * from './customRelationsRegister/customRelationsRegister.service';
 export * from './layoutComponentsRegister/layoutComponentsRegister.service';
 export * from './layoutComponentsRelationsNodesProvider/layoutComponentsRelationsNodesProvider.service';
 export * from './layoutComponentsRelationsTypesProvider/layoutComponentsRelationsTypesProvider.service';

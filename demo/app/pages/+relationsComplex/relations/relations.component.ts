@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, provideRelationsDefaultOverride} from '@anglr/dynamic/relations-editor';
-import {LayoutManager, provideLayoutRelationsEditorWithStatic, provideEditorRelationsCustomComponents} from '@anglr/dynamic/layout-relations';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, provideRelationsDefaultOverride, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/relations-editor';
+import {LayoutManager, provideLayoutRelationsEditorWithStatic, provideEditorRelationsCustomComponents, provideEditorRelationsCustomRelations, CustomRelationsRegister, CustomDynamicItemsRegister} from '@anglr/dynamic/layout-relations';
 import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
 import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
@@ -21,6 +21,7 @@ import {ComplexStaticRegister} from '../misc';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
 import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
 import {DemoRelationsDefaultsOverrideService} from '../../../services/demoDefaultsOverride';
+import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelationsRegister';
 
 /**
  * Layout editor component
@@ -47,11 +48,24 @@ import {DemoRelationsDefaultsOverrideService} from '../../../services/demoDefaul
         provideCssLayoutRelationsEditor(),
         provideMathLayoutRelationsEditor(),
         provideEditorRelationsCustomComponents(provideLayoutRelationsEditorWithStatic(ComplexStaticRegister), DemoCustomComponentsRegister),
+        provideEditorRelationsCustomRelations(DemoCustomRelationsRegister),
         provideRelationsDefaultOverride(DemoRelationsDefaultsOverrideService),
         <ClassProvider>
         {
             provide: PackageManager,
             useClass: DemoRelationsPackageManager,
+        },
+        <ExistingProvider>
+        {
+            provide: CustomDynamicItemsRegister,
+            useExisting: CustomRelationsRegister,
+        },
+        <FactoryProvider>
+        {
+            provide: REFRESH_PALETTE_OBSERVABLES,
+            useFactory: (register: DemoCustomRelationsRegister) => register.registeredChange,
+            deps: [CustomDynamicItemsRegister],
+            multi: true,
         },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

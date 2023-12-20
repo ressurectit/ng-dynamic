@@ -77,7 +77,7 @@ export class CustomRelationsDynamicModuleItemsProvider implements DynamicModuleP
             }
             default:
             {
-                const customRelations = await import('../../dynamicItems/customComponent/type');
+                const customRelations = await import('../../dynamicItems/customRelation/type');
                 const customRelationsConfiguration = await this.customRelationsRegister?.getConfigurationForComponent(source.name);
                 
                 const resultType = 

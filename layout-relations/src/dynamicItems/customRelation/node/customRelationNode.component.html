@@ -1,0 +1,25 @@
+<relations-node-header [parent]="this" [destroySubject]="destroySubject" name="custom"></relations-node-header>
+
+<div class="node-content">
+    <div class="inputs-outputs">
+        <div class="inputs">
+            @for(inputMeta of inputsMeta?.relationsOptions?.inputs; track inputMeta)
+            {
+                <div class="input">
+                    <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="inputMeta.name" [parent]="this"></relation-node-input>
+                    <div>{{inputMeta.name}}</div>
+                </div>
+            }
+        </div>
+
+        <div class="outputs">
+            @for(outputMeta of outputsMeta?.relationsOptions?.outputs; track outputMeta)
+            {
+                <div class="output">
+                    <div>{{outputMeta.name}}</div>
+                    <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="outputMeta.name" [parent]="this"></relation-node-output>
+                </div>
+            }
+        </div>
+    </div>
+</div>

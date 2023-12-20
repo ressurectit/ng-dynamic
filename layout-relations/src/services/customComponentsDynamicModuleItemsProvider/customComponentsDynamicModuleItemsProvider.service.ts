@@ -52,7 +52,8 @@ export class CustomComponentsDynamicModuleItemsProvider implements DynamicModule
             default:
             {
                 const customComponent = await import('../../dynamicItems/customComponent/type');
-                const customComponentConfiguration = this._customComponentRegister?.getConfigurationForComponent(source.name);
+                const customComponentConfiguration = await this._customComponentRegister?.getConfigurationForComponent(source.name);
+                
                 return {
                     default: customComponent.default,
                     extensions: customComponent.extensions,

@@ -99,7 +99,7 @@ export class ContentOptionsPropertiesControlSAComponent<TConfig extends CustomCo
         this.customComponentContentMetadata = result.contentMetadata;
         this.customComponentMetadata = result.metadata;
 
-        const configuration = this.customComponentsRegister.getConfigurationForComponent(name);
+        const configuration = await this.customComponentsRegister.getConfigurationForComponent(name);
 
         if(!configuration)
         {

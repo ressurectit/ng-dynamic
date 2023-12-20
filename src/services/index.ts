@@ -1,3 +1,5 @@
+export * from './customDynamicItemsRegister/customDynamicItemsRegister.interface';
+export * from './customDynamicItemsRegister/customDynamicItemsRegister.service';
 export * from './editorHotkeys/editorHotkeys.service';
 export * from './dynamicItemLoader/dynamicItemLoader.interface';
 export * from './dynamicItemLoader/dynamicItemLoader.service';

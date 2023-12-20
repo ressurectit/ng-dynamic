@@ -186,7 +186,8 @@ export class PlaceholderHandler<TOptions = unknown>
      */
     public get relationsDebugger(): RelationsDebugger|null
     {
-        return this.getParentCustomComponentHandler()?.injector.get(RelationsDebugger, undefined, {skipSelf: true}) ?? null;
+        //TODO: fix this optional if needed
+        return this.getParentCustomComponentHandler()?.injector.get(RelationsDebugger, undefined, {skipSelf: true, optional: true}) ?? null;
     }
 
     /**

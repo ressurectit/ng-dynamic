@@ -103,7 +103,7 @@ export class ShowCustomComponentOptionsSADirective<TConfig extends CustomCompone
             data:
             {
                 customComponentContentMetadata: this.customComponentContentMetadata,
-                configuration: this.customComponentsRegister.getConfigurationForComponent(this.name ?? '') ?? {},
+                configuration: await this.customComponentsRegister.getConfigurationForComponent(this.name ?? '') ?? {},
                 propsMetadataExtractor: this.propsMetadataExtractor,
             }
         }).afterClosed());

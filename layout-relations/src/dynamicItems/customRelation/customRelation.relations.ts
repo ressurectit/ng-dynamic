@@ -2,13 +2,32 @@ import {Injector, SimpleChanges} from '@angular/core';
 import {PureRelationsComponent, RELATIONS_METADATA_STORAGE, RelationsChangeDetector, RelationsComponent, RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {MetadataStorage} from '@anglr/dynamic';
-import {NoopAction} from '@jscrpt/common';
 
 import {CustomRelationRelationsMetadataLoader} from './customRelation.metadata';
 import {CustomRelationRelationsOptions} from './customRelation.options';
 import {ComponentInputsRelations} from '../componentInputs/componentInputs.relations';
 import {ComponentOutputsRelations} from '../componentOutputs/componentOutputs.relations';
 import {getInputs, getOutputs} from './customRelation.utils';
+
+/**
+ * Definition of object with destroy method
+ */
+interface Destroyable 
+{
+    /**
+     * Destroyes object
+     */
+    destroy(): void;
+}
+
+/**
+ * Tests whether is object destroyable
+ * @param value - Value to be tested
+ */
+function isDestroyable(value: unknown): value is Destroyable
+{
+    return typeof (value as Destroyable)?.destroy === 'function';
+}
 
 /**
  * Custom relation relations component
@@ -64,11 +83,6 @@ export class CustomRelationRelations implements RelationsComponent<CustomRelatio
      */
     protected ɵrelationsOptions: CustomRelationRelationsOptions|undefined|null;
 
-    /**
-     * Promise used for synchronization of options set and changes event
-     */
-    protected initSyncPromise: Promise<void>|undefined|null;
-
     //######################### public properties - implementation of RelationsComponent #########################
 
     /**
@@ -116,8 +130,6 @@ export class CustomRelationRelations implements RelationsComponent<CustomRelatio
      */
     public async dynamicOnChanges?(changes: SimpleChanges): Promise<void>
     {
-        await this.initSyncPromise;
-
         this.inputsRelations?.dynamicOnChanges(changes);
     }
 
@@ -136,7 +148,10 @@ export class CustomRelationRelations implements RelationsComponent<CustomRelatio
         this.parentRelationsProcessor.destroyComponent(this.id);
         this.parentComponentManager.unregisterComponent(this.id);
         
-        //TODO: injector destroy TODO?
+        if(isDestroyable(this.injector))
+        {
+            this.injector.destroy();
+        }
     }
 
     //######################### public methods - implementation of Invalidatable #########################
@@ -159,10 +174,6 @@ export class CustomRelationRelations implements RelationsComponent<CustomRelatio
         {
             throw new Error('CustomRelationRelations: missing relations options!');
         }
-
-        let resolveFn: NoopAction|undefined|null;
-
-        this.initSyncPromise = new Promise(resolve => resolveFn = resolve);
 
         this.id = this.ɵrelationsOptions.id;
         let relations: RelationsNodeMetadata[]|null = null;
@@ -202,7 +213,5 @@ export class CustomRelationRelations implements RelationsComponent<CustomRelatio
             await this.parentRelationsProcessor.initialized;
             this.parentRelationsProcessor.updateRelations(this.id);
         }
-
-        resolveFn?.();
     }
 }

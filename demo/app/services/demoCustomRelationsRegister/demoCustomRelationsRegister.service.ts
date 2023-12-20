@@ -43,8 +43,6 @@ export class DemoCustomRelationsRegister<TConfig extends CustomRelationsConfigur
      */
     public toggleRegisteredComponent(name: string): void
     {
-        console.log(name);
-
         const customComponents = this._store.get<Dictionary<TConfig>|null>(CUSTOM_RELATIONS) ?? {};
 
         if(customComponents[name])

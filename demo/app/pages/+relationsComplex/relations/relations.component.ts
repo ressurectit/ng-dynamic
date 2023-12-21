@@ -12,6 +12,7 @@ import {provideMathLayoutRelationsEditor} from '@anglr/dynamic/math-components';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {provideRestLayoutRelationsEditor} from '@anglr/dynamic/rest-components';
 import {provideFormLayoutRelationsEditor} from '@anglr/dynamic/form';
+import {provideGridLayoutRelationsEditor} from '@anglr/dynamic/grid-components';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
@@ -47,6 +48,7 @@ import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelations
         provideTinyMceLayoutRelationsEditor(),
         provideCssLayoutRelationsEditor(),
         provideMathLayoutRelationsEditor(),
+        provideGridLayoutRelationsEditor(),
         provideEditorRelationsCustomComponents(provideLayoutRelationsEditorWithStatic(ComplexStaticRegister), DemoCustomComponentsRegister),
         provideEditorRelationsCustomRelations(DemoCustomRelationsRegister),
         provideRelationsDefaultOverride(DemoRelationsDefaultsOverrideService),

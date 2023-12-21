@@ -6,6 +6,7 @@ import {provideBasicLayoutEditor, StackPanelComponentOptions} from '@anglr/dynam
 import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
 import {provideMaterialLayoutEditor} from '@anglr/dynamic/material-components';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
+import {provideGridLayoutEditor} from '@anglr/dynamic/grid-components';
 import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
 import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
 import {CustomComponentsRegister, CustomDynamicItemsRegister, provideEditorLayoutCustomComponents} from '@anglr/dynamic/layout-relations';
@@ -38,6 +39,7 @@ import {DemoLayoutDefaultsOverrideService} from '../../../services/demoDefaultsO
         provideLayoutEditor(),
         provideFormLayoutEditor(),
         provideBasicLayoutEditor(),
+        provideGridLayoutEditor(),
         provideMaterialLayoutEditor(),
         provideCssLayoutEditor(),
         provideTinyMceLayoutEditor(),

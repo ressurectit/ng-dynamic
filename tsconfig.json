@@ -39,6 +39,7 @@
             "@anglr/dynamic/rest-components": ["../rest-components/src/index.ts"],
             "@anglr/dynamic/tinymce-components": ["../tinymce-components/src/index.ts"],
             "@anglr/dynamic/math-components": ["../math-components/src/index.ts"],
+            "@anglr/dynamic/grid-components": ["../grid-components/src/index.ts"],
             "@anglr/dynamic": ["index.ts"],
         },
         "lib":

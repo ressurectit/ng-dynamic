@@ -14,6 +14,7 @@ import {provideMathLayoutRelations} from '@anglr/dynamic/math-components';
 import {provideBasicLayoutRelations} from '@anglr/dynamic/basic-components';
 import {provideRestLayoutRelations} from '@anglr/dynamic/rest-components';
 import {provideFormLayoutRelations} from '@anglr/dynamic/form';
+import {provideGridLayoutRelations} from '@anglr/dynamic/grid-components';
 import {MetadataStorage} from '@anglr/dynamic';
 
 import {StoreDataService} from '../../../services/storeData';
@@ -49,6 +50,7 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
         provideHandlebarsLayoutRelations(),
         provideRestLayoutRelations(),
         provideMathLayoutRelations(),
+        provideGridLayoutRelations(),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

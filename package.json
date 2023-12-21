@@ -83,6 +83,7 @@
         "@angular/cdk": ">=17.0.0",
         "@angular/material": ">=17.0.0",
         "@anglr/common": ">=19.1.0-beta.20231207115247",
+        "@anglr/grid": ">=10.0.1",
         "@anglr/rest": ">=14.0.0-beta.20231206182048",
         "rxjs": ">=7.5.7",
         "@jscrpt/common": ">=5.1.0",
@@ -326,6 +327,13 @@
             "es2022": "./es2022/math-components/src/index.js",
             "node": "./es2022/math-components/src/index.js",
             "default": "./es2022/math-components/src/index.js"
+        },
+        "./grid-components": {
+            "types": "./grid-components/src/index.d.ts",
+            "esm2022": "./es2022/grid-components/src/index.js",
+            "es2022": "./es2022/grid-components/src/index.js",
+            "node": "./es2022/grid-components/src/index.js",
+            "default": "./es2022/grid-components/src/index.js"
         },
         "./typings/transformData": {
             "default": "./basic-components/src/dynamicItems/transformData/transformData.interface.d.ts"

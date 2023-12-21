@@ -23,13 +23,13 @@ export class DynamicItemLoader<TDynamicItemDef = any>
     constructor(protected providers: DynamicModuleProvider[],
                 protected extractors: DynamicModuleDataExtractor<TDynamicItemDef>[],
                 protected validatorFn: DynamicItemLoaderValidatorFn<TDynamicItemDef>,
-                protected logger?: Logger,
+                protected logger: Logger,
                 protected noCache?: boolean,)
     {
         //providers is not an array
         if(!Array.isArray(this.providers))
         {
-            this.logger?.error('DynamicItemLoader: missing providers!');
+            this.logger.error('DynamicItemLoader: missing providers!');
 
             this.providers = [];
         }
@@ -37,7 +37,7 @@ export class DynamicItemLoader<TDynamicItemDef = any>
         //extractors is not an array
         if(!Array.isArray(this.extractors))
         {
-            this.logger?.error('DynamicItemLoader: missing extractors!');
+            this.logger.error('DynamicItemLoader: missing extractors!');
 
             this.extractors = [];
         }
@@ -57,7 +57,7 @@ export class DynamicItemLoader<TDynamicItemDef = any>
         //try to get from cache
         if(cacheId in this.cachedDynamicItems && !this.noCache)
         {
-            this.logger?.verbose('DynamicItemLoader: Loading from cache {{@source}}', {source: {name: source.name, package: source.package}});
+            this.logger.verbose('DynamicItemLoader: Loading from cache {{@source}}', {source: {name: source.name, package: source.package}});
 
             return this.cachedDynamicItems[cacheId];
         }
@@ -85,7 +85,7 @@ export class DynamicItemLoader<TDynamicItemDef = any>
         //no module found
         if(!dynamicModule)
         {
-            this.logger?.debug('DynamicItemLoader: Failed to get dynamic module {{@source}}', {source: {name: source.name, package: source.package}});
+            this.logger.debug('DynamicItemLoader: Failed to get dynamic module {{@source}}', {source: {name: source.name, package: source.package}});
 
             return null;
         }
@@ -101,7 +101,7 @@ export class DynamicItemLoader<TDynamicItemDef = any>
 
                 if(!this.cachedDynamicItems[cacheId])
                 {
-                    this.logger?.warn('DynamicItemLoader: Found dynamic item {{@source}} is not of requested type', {source: {name: source.name, package: source.package}});        
+                    this.logger.warn('DynamicItemLoader: Found dynamic item {{@source}} is not of requested type', {source: {name: source.name, package: source.package}});        
                 }
 
                 return this.cachedDynamicItems[cacheId];
@@ -109,7 +109,7 @@ export class DynamicItemLoader<TDynamicItemDef = any>
             }
         }
 
-        this.logger?.debug('DynamicItemLoader: Failed to extract dynamic item {{@source}}', {source: {name: source.name, package: source.package}});
+        this.logger.debug('DynamicItemLoader: Failed to extract dynamic item {{@source}}', {source: {name: source.name, package: source.package}});
 
         this.cachedDynamicItems[cacheId] = null;
 

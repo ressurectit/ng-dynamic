@@ -13,18 +13,18 @@ export class DynamicModuleDataExtractor<TData = any>
 
     /**
      * Creates new instance of DynamicModuleDataExtractor
-     * @param _extractorFunctions - Array of extractor functions used to create result
-     * @param _logger - Instance of logger used for logging, optional
+     * @param extractorFunctions - Array of extractor functions used to create result
+     * @param logger - Instance of logger used for logging, optional
      */
-    constructor(protected _extractorFunctions: DynamicModuleDataExtractorFn[],
-                protected _logger?: Logger,)
+    constructor(protected extractorFunctions: DynamicModuleDataExtractorFn[],
+                protected logger: Logger,)
     {
         //extractor functions is not an array
-        if(!Array.isArray(this._extractorFunctions))
+        if(!Array.isArray(this.extractorFunctions))
         {
-            this._logger?.error('DynamicModuleDataExtractor: missing extractor functions!');
+            this.logger.error('DynamicModuleDataExtractor: missing extractor functions!');
 
-            this._extractorFunctions = [];
+            this.extractorFunctions = [];
         }
     }
 
@@ -38,9 +38,9 @@ export class DynamicModuleDataExtractor<TData = any>
     {
         const result: TData = {} as any;
 
-        for(const fn of this._extractorFunctions)
+        for(const fn of this.extractorFunctions)
         {
-            extend(true, result, await fn(module, this._logger));
+            extend(true, result, await fn(module, this.logger));
         }
 
         if(isEmptyObject(result))

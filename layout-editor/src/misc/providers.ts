@@ -1,7 +1,7 @@
-import {ClassProvider, ExistingProvider, FactoryProvider, inject, Optional, ValueProvider} from '@angular/core';
+import {ClassProvider, ExistingProvider, FactoryProvider, inject, ValueProvider} from '@angular/core';
 import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LayoutRenderer} from '@anglr/dynamic/layout';
-import {LOGGER, Logger} from '@anglr/common';
+import {LOGGER} from '@anglr/common';
 
 import {LayoutDesignerDynamicModuleItemsProvider, LayoutEditorMetadataManager, LayoutEditorRenderer} from '../services';
 import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_HISTORY_MANAGER, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
@@ -21,14 +21,13 @@ export const EDITOR_LAYOUT_RENDERER: ExistingProvider =
 export const DESIGNER_LAYOUT_COMPONENTS_EXTRACTOR: FactoryProvider =
 {
     provide: LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS,
-    useFactory: (logger?: Logger) =>
+    useFactory: () =>
     {
         return new DynamicModuleDataExtractor([
                                                   layoutDesignerTypeExtractor,
                                               ],
-                                              logger);
+                                              inject(LOGGER));
     },
-    deps: [[new Optional(), LOGGER]],
     multi: true
 };
 
@@ -48,14 +47,13 @@ export const LAYOUT_DESIGNER_COMPONENTS_PROVIDER: ClassProvider =
 export const DEFAULT_LAYOUT_MODULE_TYPES_EXTRACTOR: FactoryProvider =
 {
     provide: LAYOUT_MODULE_TYPES_DATA_EXTRACTORS,
-    useFactory: (logger?: Logger) =>
+    useFactory: () =>
     {
         return new DynamicModuleDataExtractor([
                                                   defaultExportExtractor,
                                               ],
-                                              logger);
+                                              inject(LOGGER));
     },
-    deps: [[new Optional(), LOGGER]],
     multi: true
 };
 
@@ -80,7 +78,7 @@ export const LAYOUT_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
     useFactory: () => new DynamicItemLoader(inject(LAYOUT_MODULE_TYPES_PROVIDERS),
                                             inject(LAYOUT_MODULE_TYPES_DATA_EXTRACTORS),
                                             isLayoutModuleTypes,
-                                            inject(LOGGER, {optional: true}) ?? undefined,
+                                            inject(LOGGER),
                                             true)
 };
 

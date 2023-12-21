@@ -1,5 +1,5 @@
-import {Directive, ElementRef, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output} from '@angular/core';
-import {extend, generateId} from '@jscrpt/common';
+import {Directive, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {extend, generateId, isBlank, nameof} from '@jscrpt/common';
 import {DndService, DragSource} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
 
@@ -34,7 +34,7 @@ function getEmptyImage()
 {
     selector: '[dndCorePaletteItem]',
 })
-export class DndCorePaletteItemDirective implements OnInit, OnDestroy
+export class DndCorePaletteItemDirective implements OnInit, OnChanges, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -63,8 +63,14 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
     /**
      * Instance of drag data for this component
      */
-    @Input('dndCorePaletteItem')
+    @Input({required: true, alias: 'dndCorePaletteItem'})
     public dragData!: LayoutComponentDragData;
+
+    /**
+     * Default drag type for dragging components
+     */
+    @Input({required: true})
+    public customDragType: string|undefined|null;
 
     //######################### public properties - outputs #########################
 
@@ -147,6 +153,22 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
         }
     }
 
+    //######################### public methods - implementation of OnChanges #########################
+    
+    /**
+     * @inheritdoc
+     */
+    public ngOnChanges(changes: SimpleChanges): void
+    {
+        if(nameof<DndCorePaletteItemDirective>('customDragType') in changes)
+        {
+            if(!isBlank(this.customDragType))
+            {
+                this.drag.setType(this.customDragType);
+            }
+        }
+    }
+
     //######################### public methods - implementation of OnDestroy #########################
 
     /**
@@ -161,6 +183,8 @@ export class DndCorePaletteItemDirective implements OnInit, OnDestroy
 
         this.dragPreviewConnection?.unsubscribe();
         this.dragPreviewConnection = null;
+
+        this.drag.unsubscribe();
     }
 
     //######################### protected methods #########################

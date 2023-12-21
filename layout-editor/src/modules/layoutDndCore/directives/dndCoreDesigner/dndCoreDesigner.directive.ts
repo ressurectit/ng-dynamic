@@ -1,8 +1,8 @@
-import {Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnDestroy, OnInit, Output, inject} from '@angular/core';
+import {Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {getHostElement} from '@anglr/common';
-import {BindThis, isBlank, isPresent} from '@jscrpt/common';
+import {BindThis, isBlank, isPresent, nameof} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
 import {filter, Subscription} from 'rxjs';
 
@@ -12,6 +12,9 @@ import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 // import {registerDropzoneOverlay} from '../../misc/utils';
 
+const DEFAULT_DROP_TYPES = ['COMPONENT', 'METADATA'];
+const DEFAULT_DRAG_TYPE = 'COMPONENT';
+
 /**
  * Directive used for initializing and handling dnd core functionality for layout designer
  */
@@ -20,7 +23,7 @@ import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
     selector: '[dndCoreDesigner]',
     exportAs: 'dndCoreDesigner',
 })
-export class DndCoreDesignerDirective implements OnInit, OnDestroy
+export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -145,6 +148,18 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
     @Input({required: true})
     public dragDisabled: boolean = false;
 
+    /**
+     * Default drag type for dragging components
+     */
+    @Input({required: true})
+    public customDragType: string|undefined|null;
+
+    /**
+     * Default drop type for droping components
+     */
+    @Input({required: true})
+    public customDropTypes: string|string[]|undefined|null;
+
     //######################### public properties - outputs #########################
 
     /**
@@ -162,7 +177,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                 protected injector: Injector,
                 @Inject(DOCUMENT) protected document: Document,)
     {
-        this.placeholderDrop = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
+        this.placeholderDrop = this.dnd.dropTarget(DEFAULT_DROP_TYPES,
                                                    {
                                                        canDrop: () => true,
                                                        drop: monitor =>
@@ -186,7 +201,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                                                        },
                                                    }, this.initSubscriptions);
 
-        this.containerDrop = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
+        this.containerDrop = this.dnd.dropTarget(DEFAULT_DROP_TYPES,
                                                  {
                                                      canDrop: monitor => this.canDropAncestors()[0] && monitor.isOver({shallow: true}),
                                                      drop: monitor =>
@@ -223,7 +238,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                                                      }
                                                  }, this.initSubscriptions);
 
-        this.drag = this.dnd.dragSource('COMPONENT',
+        this.drag = this.dnd.dragSource(DEFAULT_DRAG_TYPE,
                                         {
                                             beginDrag: () =>
                                             {
@@ -269,7 +284,7 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
                                         },
                                         this.initSubscriptions);
 
-        this.dropzone = this.dnd.dropTarget(['COMPONENT', 'METADATA'],
+        this.dropzone = this.dnd.dropTarget(DEFAULT_DROP_TYPES,
                                             {
                                                 canDrop: monitor => (this.canDrop || this.canDropAncestors()[0]) && monitor.isOver({shallow: true}) && this.selfIsAncestor(monitor),
                                                 drop: monitor =>
@@ -359,6 +374,31 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
         // this.initSubscriptions.add(registerDropzoneOverlay(this.containerDrop, this.designerElement.nativeElement, this.injector, this.dragData));
     }
 
+    //######################### public methods - implementation of OnChanges #########################
+    
+    /**
+     * @inheritdoc
+     */
+    public ngOnChanges(changes: SimpleChanges): void
+    {
+        if(nameof<DndCoreDesignerDirective>('customDragType') in changes)
+        {
+            if(!isBlank(this.customDragType))
+            {
+                this.drag.setType(this.customDragType);
+            }
+        }
+
+        if(nameof<DndCoreDesignerDirective>('customDropTypes') in changes)
+        {
+            if(!isBlank(this.customDropTypes))
+            {
+                this.dropzone.setTypes(this.customDropTypes);
+                this.placeholderDrop.setTypes(this.customDropTypes);
+            }
+        }
+    }
+
     //######################### public methods - implementation of OnDestroy #########################
 
     /**
@@ -373,6 +413,11 @@ export class DndCoreDesignerDirective implements OnInit, OnDestroy
 
         this.containerConnection?.unsubscribe();
         this.containerConnection = null;
+
+        this.drag.unsubscribe();
+        this.dropzone.unsubscribe();
+        this.placeholderDrop.unsubscribe();
+        this.containerDrop.unsubscribe();
     }
 
     //######################### public methods #########################

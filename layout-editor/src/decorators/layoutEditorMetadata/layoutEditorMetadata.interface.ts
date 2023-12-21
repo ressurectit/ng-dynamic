@@ -1,6 +1,6 @@
 import {Type} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {Action2, Action3, Dictionary, Func1} from '@jscrpt/common';
+import {Action2, Action3, Dictionary, Func0, Func1} from '@jscrpt/common';
 
 import {PropertiesControl, PropertyTypeControl} from '../../interfaces';
 
@@ -134,6 +134,16 @@ export interface LayoutEditorMetadataDescriptor<TOptions = any>
      * @param options - Options that should be updated by removing descendant metadata
      */
     readonly removeDescendant?: Action2<string, TOptions>;
+
+    /**
+     * Gets custom drag type for component
+     */
+    readonly customDragType?: Func0<{tree: string, layout: string}>;
+
+    /**
+     * Gets custom drop types for component drop zone
+     */
+    readonly customDropTypes?: Func0<{tree: string|string[], layout: string|string[]}>;
 }
 
 /**

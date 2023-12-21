@@ -5,6 +5,8 @@
      [dropzoneElement]="layoutDropzone"
      [dragDisabled]="dragDisabled"
      [dragSource]="dndCore.drag"
+     [customDragType]="editorMetadata?.customDragType?.()?.layout"
+     [customDropTypes]="editorMetadata?.customDropTypes?.()?.layout"
      [noHTML5Preview]="true"
      (dropMetadata)="addDescendant($event)"
      [copyDesignerStyles]="renderedType"

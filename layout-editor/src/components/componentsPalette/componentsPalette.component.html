@@ -6,6 +6,7 @@
              class="palette-droplist">
             <div class="editor-component mat-elevation-z2"
                  [dndCorePaletteItem]="item | toLayoutDragData"
+                 [customDragType]="item.metadata.customDragType?.()?.layout"
                  (itemDrop)="refreshPipe = !refreshPipe">
                 <div class="editor-component-name">{{item.metadata.metaInfo?.name ?? item.itemSource.name|firstUppercaseLocalize}}</div>
                 <div class="editor-component-description" *ngIf="item.metadata.metaInfo?.description">{{item.metadata.metaInfo?.description|firstUppercaseLocalize}}</div>

@@ -57,6 +57,8 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
 
     //######################### protected properties - template bindings #########################
 
+    //TODO: remove temp???
+
     /**
      * Available items grouped by group name
      */

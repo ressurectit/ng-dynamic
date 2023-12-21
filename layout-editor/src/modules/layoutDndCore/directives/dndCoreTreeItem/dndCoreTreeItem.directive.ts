@@ -10,6 +10,8 @@ import {DragActiveService, LayoutEditorMetadataManager} from '../../../../servic
 import {DndBusService, DropPlaceholderPreview} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from '../dndCoreDesigner/dndCoreDesigner.interface';
 
+const DEFAULT_DRAG_DROP_TYPE = 'TREE_COMPONENT';
+
 /**
  * Directive used for initializing and handling dnd core functionality for layout component tree item
  */
@@ -132,10 +134,9 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
                 protected bus: DndBusService,
                 protected zone: NgZone,
                 protected injector: Injector,
-                protected _manager: LayoutEditorMetadataManager,
                 @Inject(DOCUMENT) protected document: Document,)
     {
-        this.placeholderDrop = this.dnd.dropTarget(['TREE_COMPONENT'],
+        this.placeholderDrop = this.dnd.dropTarget(DEFAULT_DRAG_DROP_TYPE,
                                                    {
                                                        canDrop: () => true,
                                                        drop: monitor =>
@@ -159,7 +160,7 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
                                                        },
                                                    }, this.initSubscriptions);
 
-        this.containerDrop = this.dnd.dropTarget(['TREE_COMPONENT'],
+        this.containerDrop = this.dnd.dropTarget(DEFAULT_DRAG_DROP_TYPE,
                                                  {
                                                      canDrop: monitor => this.canDropAncestors(this.metadata.id, monitor.getItem()?.dragData.metadata?.id)[0] && monitor.isOver({shallow: true}),
                                                      drop: monitor =>
@@ -196,7 +197,7 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
                                                      }
                                                  }, this.initSubscriptions);
 
-        this.drag = this.dnd.dragSource('TREE_COMPONENT',
+        this.drag = this.dnd.dragSource(DEFAULT_DRAG_DROP_TYPE,
                                         {
                                             beginDrag: () =>
                                             {
@@ -238,7 +239,7 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
                                         },
                                         this.initSubscriptions);
 
-        this.dropzone = this.dnd.dropTarget(['TREE_COMPONENT'],
+        this.dropzone = this.dnd.dropTarget(DEFAULT_DRAG_DROP_TYPE,
                                             {
                                                 canDrop: monitor =>
                                                 {
@@ -257,7 +258,7 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
                                                 {
                                                     if(monitor.isOver({shallow: true}))
                                                     {
-                                                        this._manager.dragOverComponent(this.metadata.id);
+                                                        this.manager.dragOverComponent(this.metadata.id);
 
                                                         if (monitor.canDrop())
                                                         {
@@ -293,6 +294,21 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
+        const component = this.manager.getComponent(this.metadata.id);
+
+        if(component?.editorMetadata?.customDragType)
+        {
+            const dragType = component.editorMetadata.customDragType();
+            this.drag.setType(dragType.tree);
+        }
+
+        if(component?.editorMetadata?.customDropTypes)
+        {
+            const dropTypes = component.editorMetadata.customDropTypes();
+            this.dropzone.setTypes(dropTypes.tree);
+            this.placeholderDrop.setTypes(dropTypes.tree);
+        }
+
         if(!this.dropzoneElement)
         {
             throw new Error('DndCoreDesignerDirective: missing dropzone element!');
@@ -351,6 +367,11 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
 
         this.containerConnection?.unsubscribe();
         this.containerConnection = null;
+
+        this.drag.unsubscribe();
+        this.dropzone.unsubscribe();
+        this.placeholderDrop.unsubscribe();
+        this.containerDrop.unsubscribe();
     }
 
     //######################### protected methods #########################

@@ -1,10 +1,10 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
-import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {DataTableComponentOptions} from './dataTable.options';
-import {DataTableLayoutMetadataLoader} from './dataTable.metadata';
+import {DataTableLayoutDesignerTypeLoader, DataTableLayoutMetadataLoader} from './dataTable.metadata';
 
 /**
  * Component used for displaying data table
@@ -17,6 +17,7 @@ import {DataTableLayoutMetadataLoader} from './dataTable.metadata';
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
+@LayoutEditorDesignerType(DataTableLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(DataTableLayoutMetadataLoader)
 export class DataTableSAComponent extends LayoutComponentBase<DataTableComponentOptions> implements LayoutComponent<DataTableComponentOptions>
 {

@@ -1,10 +1,10 @@
 /**
- * Allows working with state of metadata
+ * Allows obtaining editor metadata
  */
-export interface MetadataStateManager<TMetadata = any>
+export interface EditorMetadataManager<TMetadata = any>
 {
     /**
-     * Gets current state of metadata
+     * Gets current metadata from editor
      */
     getMetadata(): TMetadata|null;
 }

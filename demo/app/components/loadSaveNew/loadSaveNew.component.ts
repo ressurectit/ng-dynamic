@@ -4,7 +4,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgSelectModule} from '@anglr/select';
-import {EditorHotkeys, MetadataHistoryManager, MetadataStateManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
+import {EditorHotkeys, MetadataHistoryManager, EditorMetadataManager, EDITOR_METADATA_MANAGER} from '@anglr/dynamic';
 import {CustomDynamicItemsRegister, ShowCustomComponentOptionsSADirective} from '@anglr/dynamic/layout-relations';
 import {LiveEventService} from '@anglr/dynamic/layout-editor';
 import {extend, Func} from '@jscrpt/common';
@@ -80,7 +80,7 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
     //######################### constructor #########################
     constructor(private _router: Router,
                 private _route: ActivatedRoute,
-                @Inject(METADATA_STATE_MANAGER) private _metaManager: MetadataStateManager<TMetadata>,
+                @Inject(EDITOR_METADATA_MANAGER) private _metaManager: EditorMetadataManager<TMetadata>,
                 private _changeDetector: ChangeDetectorRef,
                 protected liveEvents: LiveEventService,
 

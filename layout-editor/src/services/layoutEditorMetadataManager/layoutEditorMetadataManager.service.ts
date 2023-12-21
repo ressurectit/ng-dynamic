@@ -1,7 +1,7 @@
 import {Inject, Injectable, OnDestroy, Signal, WritableSignal, signal} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {EditorHotkeys, MetadataStateManager} from '@anglr/dynamic';
+import {EditorHotkeys, EditorMetadataManager} from '@anglr/dynamic';
 import {Dictionary, extend, generateId, isBlank, isPresent} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
@@ -12,7 +12,7 @@ import {LayoutEditorMetadataManagerComponent} from './layoutEditorMetadataManage
  * Class used for handling layout metadata
  */
 @Injectable()
-export class LayoutEditorMetadataManager implements MetadataStateManager<LayoutComponentMetadata>, OnDestroy
+export class LayoutEditorMetadataManager implements EditorMetadataManager<LayoutComponentMetadata>, OnDestroy
 {
     //######################### protected fields #########################
 

@@ -1,5 +1,5 @@
 import {ClassProvider, ExistingProvider, FactoryProvider, inject, Optional} from '@angular/core';
-import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
+import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, EDITOR_METADATA_MANAGER} from '@anglr/dynamic';
 import {LOGGER, Logger} from '@anglr/common';
 
 import {RELATIONS_HISTORY_MANAGER, RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
@@ -108,7 +108,7 @@ export const RELATIONS_NODES_LOADER_PROVIDER: FactoryProvider =
  */
 export const RELATIONS_HISTORY_MANAGER_STATE: ExistingProvider =
 {
-    provide: METADATA_STATE_MANAGER,
+    provide: EDITOR_METADATA_MANAGER,
     useExisting: RelationsNodeManager,
 };
 

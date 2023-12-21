@@ -1,6 +1,6 @@
 import {FactoryProvider, Provider, inject} from '@angular/core';
 import {LOGGER} from '@anglr/common';
-import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, extensionsExportsExtractor} from '@anglr/dynamic';
+import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, extensionsExportsExtractor, LayoutFeature} from '@anglr/dynamic';
 
 import {LAYOUT_COMPONENTS_LOADER, LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS} from './tokens';
 import {isLayoutComponentDef} from './utils';
@@ -41,11 +41,22 @@ const LAYOUT_COMPONENTS_LOADER_PROVIDER: FactoryProvider =
 /**
  * Provides layout runtime providers
  */
-export function provideLayout(): Provider[]
+export function provideLayout(...features: LayoutFeature[]): Provider[]
 {
+    const prependFeaturesProviders: Provider[] = [];
+    const featuresProviders: Provider[] = [];
+
+    for(const feature of features)
+    {
+        prependFeaturesProviders.push(feature.prependProviders);
+        featuresProviders.push(feature.providers);
+    }
+
     return [
+        ...prependFeaturesProviders,
         LAYOUT_COMPONENTS_LOADER_PROVIDER,
         DEFAULT_LAYOUT_COMPONENTS_EXTRACTOR,
         LayoutRenderer,
+        featuresProviders,
     ];
 }

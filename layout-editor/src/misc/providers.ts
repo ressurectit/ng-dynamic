@@ -1,5 +1,5 @@
 import {ClassProvider, ExistingProvider, FactoryProvider, inject, ValueProvider} from '@angular/core';
-import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, METADATA_STATE_MANAGER} from '@anglr/dynamic';
+import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, EDITOR_METADATA_MANAGER} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LayoutRenderer} from '@anglr/dynamic/layout';
 import {LOGGER} from '@anglr/common';
 
@@ -9,6 +9,11 @@ import {LayoutPropertyMetadata} from './types';
 import {isLayoutModuleTypes} from './utils';
 import {layoutDesignerTypeExtractor} from './extractors';
 
+//TODO: move into feature all providers and make them non exported
+
+/**
+ * Layout renderer for layout editor
+ */
 export const EDITOR_LAYOUT_RENDERER: ExistingProvider =
 {
     provide: LayoutRenderer,
@@ -83,11 +88,11 @@ export const LAYOUT_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
 };
 
 /**
- * Provider for layout history manager state
+ * Provider for layout metadata manager state
  */
-export const LAYOUT_HISTORY_MANAGER_STATE: ExistingProvider =
+export const LAYOUT_EDITOR_METADATA_MANAGER: ExistingProvider =
 {
-    provide: METADATA_STATE_MANAGER,
+    provide: EDITOR_METADATA_MANAGER,
     useExisting: LayoutEditorMetadataManager,
 };
 

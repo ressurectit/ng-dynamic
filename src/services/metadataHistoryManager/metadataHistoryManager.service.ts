@@ -2,8 +2,8 @@ import {Inject, Injectable} from '@angular/core';
 import {isBlank, isPresent} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
-import {MetadataStateManager} from '../../interfaces';
-import {METADATA_STATE_MANAGER} from '../../misc/tokens';
+import {EditorMetadataManager} from '../../interfaces';
+import {EDITOR_METADATA_MANAGER} from '../../misc/tokens';
 
 /**
  * Maximum number of items in history
@@ -116,7 +116,7 @@ export class MetadataHistoryManager<TMetadata = any>
     }
 
     //######################### constructor #########################
-    constructor(@Inject(METADATA_STATE_MANAGER) protected metadataState: MetadataStateManager<TMetadata>,)
+    constructor(@Inject(EDITOR_METADATA_MANAGER) protected metadataState: EditorMetadataManager<TMetadata>,)
     {
     }
 

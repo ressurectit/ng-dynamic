@@ -1,6 +1,6 @@
 const components: string[] = 
 [
-    'textBlock'
+    'dataTable'
 ];
 
 export default components;

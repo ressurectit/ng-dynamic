@@ -1,1 +1,1 @@
-export * from './textBlock';
+export * from './dataTable';

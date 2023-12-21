@@ -1,7 +1,7 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 
-import {TextBlockSAComponent} from './textBlock.component';
+import {DataTableSAComponent} from './dataTable.component';
 
-export default TextBlockSAComponent;
+export default DataTableSAComponent;
 
 export const extensions = [ComponentStylingExtension];

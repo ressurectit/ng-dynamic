@@ -3,7 +3,7 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {GridColumnComponentOptions} from '../gridColumn';
 
 /**
- * Options for data grid columns
+ * Options for grid columns component
  */
 export interface GridColumnsComponentOptions
 {

@@ -29,8 +29,7 @@ import {DataTableLayoutDesignerTypeLoader, DataTableLayoutMetadataLoader} from '
         return [];
     }
 
-    return [options.columns];
-    // return [options.columns, options.dataLoader, options.paging];
+    return [options.columns, options.dataLoader];
 })
 @LayoutEditorDesignerType(DataTableLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(DataTableLayoutMetadataLoader)

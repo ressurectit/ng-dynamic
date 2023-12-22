@@ -41,5 +41,17 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
                 columns: [],
             },
         };
+
+        this.optionsSafe.dataLoader ??=
+        {
+            id: `dataLoader-${generateId(10)}`,
+            name: 'dataLoader',
+            package: 'grid-components',
+            displayName: 'data loader',
+            options: 
+            {
+                plugin: null,
+            },
+        };
     }
 }

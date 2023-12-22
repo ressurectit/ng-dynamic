@@ -395,6 +395,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
             {
                 this.dropzone.setTypes(this.customDropTypes);
                 this.placeholderDrop.setTypes(this.customDropTypes);
+                this.containerDrop.setTypes(this.customDropTypes);
             }
         }
     }
@@ -674,6 +675,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
             return [false, null, id];
         }
 
+        //TODO: need to check custom drag drop
         if(component.parent.component.canDrop)
         {
             return [true, component.parent.component.id, id];

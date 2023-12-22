@@ -1,6 +1,7 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
 import {GridColumnsComponentOptions} from '../gridColumns';
+import {DataLoaderComponentOptions} from '../dataLoader';
 
 /**
  * Options for data table component
@@ -20,7 +21,7 @@ export interface DataTableComponentOptions
     paging: LayoutComponentMetadata;
 
     /**
-     * Holds data loader type
+     * Holds data loader plugin type
      */
-    dataLoader: LayoutComponentMetadata;
+    dataLoader: LayoutComponentMetadata<DataLoaderComponentOptions>;
 }

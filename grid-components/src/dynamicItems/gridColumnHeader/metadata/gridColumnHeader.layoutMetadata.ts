@@ -41,7 +41,7 @@ export class GridColumnHeaderLayoutEditorMetadata implements LayoutEditorMetadat
     public removeDescendant?: Action<[string, GridColumnHeaderComponentOptions]> = (_, options) =>
     {
         options.content = null;
-    }
+    };
 
     //######################### constructor #########################
     constructor()

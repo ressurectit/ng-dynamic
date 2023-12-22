@@ -1,7 +1,8 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
-import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
+import {MatrixGridModule} from '@anglr/grid';
 
 import {DataTableComponentOptions} from './dataTable.options';
 import {DataTableLayoutDesignerTypeLoader, DataTableLayoutMetadataLoader} from './dataTable.metadata';
@@ -15,7 +16,21 @@ import {DataTableLayoutDesignerTypeLoader, DataTableLayoutMetadataLoader} from '
     templateUrl: 'dataTable.component.html',
     styles: [HostDisplayBlockStyle],
     standalone: true,
+    imports:
+    [
+        MatrixGridModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
+})
+@DescendantsGetter<DataTableComponentOptions>(options => 
+{
+    if(!options)
+    {
+        return [];
+    }
+
+    return [options.columns];
+    // return [options.columns, options.dataLoader, options.paging];
 })
 @LayoutEditorDesignerType(DataTableLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(DataTableLayoutMetadataLoader)

@@ -1,6 +1,7 @@
 const components: string[] = 
 [
-    'dataTable'
+    'dataTable',
+    'gridColumn',
 ];
 
 export default components;

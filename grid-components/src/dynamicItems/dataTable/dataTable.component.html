@@ -1,1 +1,12 @@
-<div ngGrid></div>
+<div ngGrid>
+    @for(col of colsDef; track col)
+    {
+        <ng-container [matrixGridColumn]="col.id">
+            <div *headerCellTemplate>
+                <ng-container *layoutComponentRenderer="col"/>
+            </div>
+            
+            <div *contentCellTemplate>xxxx</div>
+        </ng-container>
+    }
+</div>

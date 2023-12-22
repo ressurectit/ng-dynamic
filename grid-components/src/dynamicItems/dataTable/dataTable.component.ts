@@ -1,8 +1,9 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {MatrixGridModule} from '@anglr/grid';
+import {PromiseOr} from '@jscrpt/common';
 
 import {DataTableComponentOptions} from './dataTable.options';
 import {DataTableLayoutDesignerTypeLoader, DataTableLayoutMetadataLoader} from './dataTable.metadata';
@@ -19,6 +20,7 @@ import {DataTableLayoutDesignerTypeLoader, DataTableLayoutMetadataLoader} from '
     imports:
     [
         MatrixGridModule,
+        LayoutComponentRendererSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -35,4 +37,28 @@ import {DataTableLayoutDesignerTypeLoader, DataTableLayoutMetadataLoader} from '
 @LayoutEditorMetadata(DataTableLayoutMetadataLoader)
 export class DataTableSAComponent extends LayoutComponentBase<DataTableComponentOptions> implements LayoutComponent<DataTableComponentOptions>
 {
+    //######################### protected properties - template bindings #########################
+
+    /**
+     * Definition of columns
+     */
+    protected colsDef: LayoutComponentMetadata[] = [];
+
+    //######################### public methods - overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override onInit(): PromiseOr<void>
+    {
+        for(const column of this.optionsSafe.columns.options?.columns ?? [])
+        {
+            const template = column.options?.header.options?.content;
+
+            if(template)
+            {
+                this.colsDef.push(template);
+            }
+        }
+    }
 }

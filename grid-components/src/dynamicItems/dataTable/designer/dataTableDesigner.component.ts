@@ -36,7 +36,10 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
             name: 'gridColumns',
             package: 'grid-components',
             displayName: 'columns',
-            options: {},
+            options: 
+            {
+                columns: [],
+            },
         };
     }
 }

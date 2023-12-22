@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
-import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
+import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {GridColumnComponentOptions} from './gridColumn.options';
@@ -17,16 +17,15 @@ import {GridColumnLayoutDesignerTypeLoader, GridColumnLayoutMetadataLoader} from
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-// @DescendantsGetter<GridColumnComponentOptions>(options => 
-// {
-//     if(!options)
-//     {
-//         return [];
-//     }
+@DescendantsGetter<GridColumnComponentOptions>(options => 
+{
+    if(!options)
+    {
+        return [];
+    }
 
-//     return [options.columns];
-//     // return [options.columns, options.dataLoader, options.paging];
-// })
+    return [options.header, options.content];
+})
 @LayoutEditorDesignerType(GridColumnLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(GridColumnLayoutMetadataLoader)
 export class GridColumnSAComponent extends LayoutComponentBase<GridColumnComponentOptions> implements LayoutComponent<GridColumnComponentOptions>

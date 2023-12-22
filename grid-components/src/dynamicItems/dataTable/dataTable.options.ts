@@ -1,5 +1,7 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
+import {GridColumnsComponentOptions} from '../gridColumns';
+
 /**
  * Options for data table component
  */
@@ -10,7 +12,7 @@ export interface DataTableComponentOptions
     /**
      * Holds columns definition
      */
-    columns: LayoutComponentMetadata;
+    columns: LayoutComponentMetadata<GridColumnsComponentOptions>;
 
     /**
      * Holds paging type

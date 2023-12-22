@@ -1,9 +1,9 @@
 import {Pipe, PipeTransform, inject} from '@angular/core';
+import {DefaultsOverride} from '@anglr/dynamic';
 import {extend} from '@jscrpt/common';
 
 import type {NodesPaletteItem} from '../../components';
 import {RelationsNodeDragData} from '../../interfaces';
-import {DefaultsOverride} from '../../../../src';
 import {RELATIONS_DEFAULTS_OVERRIDE} from '../../misc/tokens';
 
 /**

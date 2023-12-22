@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutDesignerSAComponent} from '@anglr/dynamic/layout-editor';
+import {ComponentWithId} from '@anglr/dynamic/layout-relations';
 import {HostFlexRowStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
 
@@ -22,7 +23,7 @@ import {GridColumnsSAComponent} from '../gridColumns.component';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridColumnsDesignerSAComponent extends GridColumnsSAComponent implements LayoutComponent<GridColumnsComponentOptions>
+export class GridColumnsDesignerSAComponent extends GridColumnsSAComponent implements LayoutComponent<GridColumnsComponentOptions>, ComponentWithId
 {
     //######################### protected properties #########################
 

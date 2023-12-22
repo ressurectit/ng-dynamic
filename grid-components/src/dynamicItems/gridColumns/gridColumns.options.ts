@@ -14,3 +14,10 @@ export interface GridColumnsComponentOptions
      */
     columns: LayoutComponentMetadata<GridColumnComponentOptions>[];
 }
+
+/**
+ * Options for grid columns relations
+ */
+export interface GridColumnsRelationsOptions
+{
+}

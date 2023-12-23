@@ -10,6 +10,7 @@ import {DataTableComponentOptions} from './dataTable.options';
 import {DataTableLayoutDesignerTypeLoader, DataTableLayoutMetadataLoader} from './dataTable.metadata';
 import {GridDataLoaderPlugin} from '../../interfaces';
 import {SyncDataLoaderComponentOptions} from '../syncDataLoader';
+import {ScopedMatrixContentRendererSAComponent} from '../../misc/classes/scopedMatrixContentRenderer.component';
 
 /**
  * Definition of column
@@ -100,6 +101,13 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
     protected gridOptions: RecursivePartial<GridOptions> =
     {
         autoInitialize: false,
+        plugins:
+        {
+            contentRenderer:
+            {
+                type: ScopedMatrixContentRendererSAComponent,
+            }
+        }
     };
 
     //######################### protected properties - children #########################

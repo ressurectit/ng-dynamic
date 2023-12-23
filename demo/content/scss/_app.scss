@@ -4,6 +4,7 @@
 @use 'mixins';
 
 @use '@anglr/dynamic/styles' as dynamic;
+@use '@anglr/grid/styles' as gridPackage;
 
 //---------------------- PAGE STYLING ----------------------
 .app-page
@@ -14,6 +15,7 @@
     //############## PACKAGES ##############
 
     @include dynamic.buildThemeCss;
+    @include gridPackage.buildThemeCss;
 
     //############## BLOCKS ##############
     

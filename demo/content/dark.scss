@@ -1,2 +1,3 @@
 @use '@anglr/dynamic/styles/themes/dark' as dynamicTheme;
-@use 'scss/theme/theme' with ($themeName: 'dark', $dynamicTheme: dynamicTheme.defineTheme());
+@use '@anglr/grid/styles/themes/light' as gridTheme;
+@use 'scss/theme/theme' with ($themeName: 'dark', $dynamicTheme: dynamicTheme.defineTheme(), $gridTheme: gridTheme.defineTheme());

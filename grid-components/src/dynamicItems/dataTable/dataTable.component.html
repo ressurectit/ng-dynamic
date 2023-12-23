@@ -1,12 +1,16 @@
-<div ngGrid>
+<ng-container *layoutComponentRenderer="options?.dataLoader?.options?.plugin; callback: renderedComponentCallback"/>
+
+<div #grid ngGrid [gridOptions]="gridOptions">
     @for(col of colsDef; track col)
     {
         <ng-container [matrixGridColumn]="col.id">
             <div *headerCellTemplate>
-                <ng-container *layoutComponentRenderer="col"/>
+                <ng-container *layoutComponentRenderer="col.header"/>
             </div>
             
-            <div *contentCellTemplate>xxxx</div>
+            <div *contentCellTemplate>
+                <ng-container *layoutComponentRenderer="col.content"/>
+            </div>
         </ng-container>
     }
 </div>

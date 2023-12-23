@@ -7,9 +7,11 @@
 @use '../themes';
 
 @use '@anglr/dynamic/styles' as dynamic;
+@use '@anglr/grid/styles' as grid;
 
 $themeName: null !default;
 $dynamicTheme: null !default;
+$gridTheme: null !default;
 $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map.get(meta.module-variables("themes"), "#{$themeName}-theme"));
 
 //---------------------- PAGE STYLING ----------------------
@@ -21,6 +23,7 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
     //############## PACKAGES ##############
 
     @include dynamic.buildThemeColors($dynamicTheme);
+    @include grid.buildThemeColors($gridTheme);
 
     //############## SCROLLBAR ##############
 

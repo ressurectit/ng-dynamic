@@ -6,6 +6,114 @@ $theme: null !default;
 
 //############## GRID ##############
 
+data-table
+{
+    [nggrid]
+    {
+        // .matrix-content-renderer
+        // {
+        //     display: flex;
+        //     flex-direction: column;
+        //     flex: 1;
+        //     min-height: 0;
+        //     min-width: 0;
+        // }
+
+        // .grid-container-css-grid,
+        // .grid-body-css-grid
+        // {
+        //     min-height: 0;
+        // }
+
+        .grid-header-css-grid
+        {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            background-color: #666;
+            color: #fff;
+        }
+
+        .grid-header-row-css-grid
+        {
+            padding: 6px 10px;
+
+            &>div
+            {
+                white-space: nowrap;
+                display: flex;
+
+                &>span:first-child
+                {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    min-width: 0;
+                    flex: 1;
+                }
+            }
+        }
+        
+        .grid-content-row-css-grid
+        {
+            padding: 4px 10px;
+
+            &>div
+            {
+                min-width: 0;
+            }
+        }
+
+        .grid-content-row-css-grid,
+        .grid-header-row-css-grid
+        {
+            &>div
+            {
+                padding: 0 3px;
+
+                &>span.fa
+                {
+                    margin-left: 3px;
+                }
+            }
+        }
+
+        .grid-content-row-css-grid
+        {
+            // &:nth-child(odd)
+            // {
+            //     background-color: var(--grid-oddRow-background);
+            //     color: var(--grid-oddRow-foreground);
+            // }
+
+            // &:nth-child(even)
+            // {
+            //     background-color: var(--grid-evenRow-background);
+            //     color: var(--grid-evenRow-foreground);
+            // }
+        }
+
+        ng-basic-paging
+        {
+            margin-top: 10px;
+
+            .items-per-page,
+            .pages
+            {
+                a
+                {
+                    margin: 8px;
+                    border: 1px solid 1px;
+                    border-radius: 4px;
+
+                    &.active
+                    {
+                        // border: 1px solid var(--paging-active-border);
+                    }
+                }
+            }
+        }
+    }
+}
+
 ng-grid
 {
     div.css-grid-content-renderer

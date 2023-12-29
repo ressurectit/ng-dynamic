@@ -1,33 +1,13 @@
 import {Injector, SimpleChanges} from '@angular/core';
 import {PureRelationsComponent, RELATIONS_METADATA_STORAGE, RelationsChangeDetector, RelationsComponent, RelationsComponentManager, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
-import {MetadataStorage} from '@anglr/dynamic';
+import {MetadataStorage, isDestroyable} from '@anglr/dynamic';
 
 import {CustomRelationRelationsMetadataLoader} from './customRelation.metadata';
 import {CustomRelationRelationsOptions} from './customRelation.options';
 import {ComponentInputsRelations} from '../componentInputs/componentInputs.relations';
 import {ComponentOutputsRelations} from '../componentOutputs/componentOutputs.relations';
 import {getInputs, getOutputs} from './customRelation.utils';
-
-/**
- * Definition of object with destroy method
- */
-interface Destroyable 
-{
-    /**
-     * Destroyes object
-     */
-    destroy(): void;
-}
-
-/**
- * Tests whether is object destroyable
- * @param value - Value to be tested
- */
-function isDestroyable(value: unknown): value is Destroyable
-{
-    return typeof (value as Destroyable)?.destroy === 'function';
-}
 
 /**
  * Custom relation relations component

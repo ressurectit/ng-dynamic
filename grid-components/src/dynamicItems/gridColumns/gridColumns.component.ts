@@ -2,7 +2,6 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {ComponentWithId} from '@anglr/dynamic/layout-relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {MatrixGridModule} from '@anglr/grid';
 
@@ -15,7 +14,7 @@ import {GridColumnsLayoutDesignerTypeLoader, GridColumnsLayoutMetadataLoader, Gr
 @Component(
 {
     selector: 'grid-columns',
-    templateUrl: 'gridColumns.component.html',
+    template: '',
     styles: [HostDisplayBlockStyle],
     standalone: true,
     imports:
@@ -31,22 +30,6 @@ import {GridColumnsLayoutDesignerTypeLoader, GridColumnsLayoutMetadataLoader, Gr
 @LayoutEditorDesignerType(GridColumnsLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(GridColumnsRelationsMetadataLoader)
 @LayoutEditorMetadata(GridColumnsLayoutMetadataLoader)
-export class GridColumnsSAComponent extends LayoutComponentBase<GridColumnsComponentOptions> implements LayoutComponent<GridColumnsComponentOptions>, ComponentWithId
+export class GridColumnsSAComponent extends LayoutComponentBase<GridColumnsComponentOptions> implements LayoutComponent<GridColumnsComponentOptions>
 {
-    //######################### public properties - implementation of ComponentWithId #########################
-    
-    /**
-     * @inheritdoc
-     */
-    public id: string = '';
-
-    //######################### public methods - implementation of ComponentWithId #########################
-
-    /**
-     * @inheritdoc
-     */
-    public setId(id: string): void
-    {
-        this.id = id;
-    }
 }

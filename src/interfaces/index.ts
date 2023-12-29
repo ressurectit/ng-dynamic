@@ -1,3 +1,4 @@
+export * from './destroyable';
 export * from './dynamicEvents';
 export * from './dynamicItem';
 export * from './dynamicItemExtension';

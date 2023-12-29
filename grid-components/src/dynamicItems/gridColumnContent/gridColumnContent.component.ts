@@ -12,7 +12,7 @@ import {GridColumnContentLayoutDesignerTypeLoader, GridColumnContentLayoutMetada
 @Component(
 {
     selector: 'grid-column-content',
-    templateUrl: 'gridColumnContent.component.html',
+    template: '',
     styles: [HostDisplayBlockStyle],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

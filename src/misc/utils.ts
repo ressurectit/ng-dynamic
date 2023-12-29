@@ -1,7 +1,7 @@
 import {Provider, SimpleChange, SimpleChanges, ValueProvider} from '@angular/core';
 import {NEVER} from 'rxjs';
 
-import {PackageSource} from '../interfaces';
+import {Destroyable, PackageSource} from '../interfaces';
 import {PACKAGE_SOURCES} from './tokens';
 
 /**
@@ -58,4 +58,13 @@ export function getJson<TResult = any>(jsonString: string): TResult|null
     {
         return null;
     }
+}
+
+/**
+ * Tests whether is object destroyable
+ * @param value - Value to be tested
+ */
+export function isDestroyable(value: unknown): value is Destroyable
+{
+    return typeof (value as Destroyable)?.destroy === 'function';
 }

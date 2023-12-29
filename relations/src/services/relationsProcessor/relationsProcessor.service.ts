@@ -257,6 +257,8 @@ export class RelationsProcessor implements OnDestroy
      */
     public destroyComponent(id: string): void
     {
+        console.log('destroying', id);
+
         const metadata: RelationsProcessorComponentData = this.relations[id];
         const backwardRelations = this.backwardRelations[id];
 

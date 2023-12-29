@@ -12,7 +12,7 @@ import {GridColumnHeaderLayoutDesignerTypeLoader, GridColumnHeaderLayoutMetadata
 @Component(
 {
     selector: 'grid-column-header',
-    templateUrl: 'gridColumnHeader.component.html',
+    template: '',
     styles: [HostDisplayBlockStyle],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush

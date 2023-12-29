@@ -1,4 +1,3 @@
-import {Directive} from '@angular/core';
 import {DebugData, DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
 import {nameof} from '@jscrpt/common';
 
@@ -17,7 +16,6 @@ import {ListBlockRelationsOptions} from './listBlock.options';
         nameof<ListBlockRelations>('last'),
     ],
 })
-@Directive()
 export class ListBlockRelations<TDatum = any> implements RelationsComponent<ListBlockRelationsOptions>
 {
     //######################### public properties - implementation of RelationsComponent #########################

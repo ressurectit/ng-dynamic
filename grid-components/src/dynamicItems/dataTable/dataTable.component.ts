@@ -2,15 +2,16 @@ import {Component, ChangeDetectionStrategy, ViewChild} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LayoutRendererItem} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {DataLoader, Grid, GridOptions, MatrixGridModule, SyncDataLoaderOptions, SyncDataLoaderSAComponent} from '@anglr/grid';
+import {DataLoader, DataLoaderOptions, Grid, GridOptions, MatrixGridModule, NoPagingSAComponent, Paging, PagingOptions, SyncDataLoaderOptions, SyncDataLoaderSAComponent} from '@anglr/grid';
 import {patchOptions, reinitializeOptions} from '@anglr/grid/extensions';
 import {BindThis, PromiseOr, RecursivePartial} from '@jscrpt/common';
 
 import {DataTableComponentOptions} from './dataTable.options';
 import {DataTableLayoutDesignerTypeLoader, DataTableLayoutMetadataLoader} from './dataTable.metadata';
-import {GridDataLoaderPlugin} from '../../interfaces';
-import {SyncDataLoaderComponentOptions} from '../syncDataLoader';
+import {GridPluginComponent} from '../../interfaces';
 import {ScopedMatrixContentRendererSAComponent} from '../../misc/classes/scopedMatrixContentRenderer.component';
+import {DataLoaderComponentOptions} from '../dataLoader';
+import {PagingComponentOptions} from '../paging';
 
 /**
  * Definition of column
@@ -61,7 +62,7 @@ interface ColDef
         return [];
     }
 
-    return [options.columns, options.dataLoader];
+    return [options.columns, options.paging, options.dataLoader];
 })
 @LayoutEditorDesignerType(DataTableLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(DataTableLayoutMetadataLoader)
@@ -75,7 +76,7 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
     protected initializationStatus =
     {
         dataLoader: false,
-        paging: true,
+        paging: false,
     };
 
     //######################### protected properties #########################
@@ -126,14 +127,14 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
     //######################### protected methods - template bindings #########################
 
     /**
-     * Callback called when component was fully rendered
-     * @param item - Item that contains information about rendered component
+     * Callback called when data loader was rendered
+     * @param item - Item that contains information about rendered data loader
      */
     @BindThis
-    protected async renderedComponentCallback(item: unknown): Promise<void>
+    protected async dataLoaderCallback(item: unknown): Promise<void>
     {
         const itm: LayoutRendererItem = item as LayoutRendererItem;
-        const dataLoaderComponent = itm.component?.instance as GridDataLoaderPlugin<DataLoader, SyncDataLoaderComponentOptions, SyncDataLoaderOptions>;
+        const dataLoaderComponent = itm.component?.instance as GridPluginComponent<DataLoader, DataLoaderComponentOptions, DataLoaderOptions>;
         dataLoaderComponent.setGridInstance(this.gridSafe);
         
         this.gridSafe.execute(patchOptions(
@@ -145,6 +146,30 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
         }));
 
         this.initializationStatus.dataLoader = true;
+
+        this.initializeGrid();
+    }
+
+    /**
+     * Callback called when paging was rendered
+     * @param item - Item that contains information about rendered paging
+     */
+    @BindThis
+    protected async pagingCallback(item: unknown): Promise<void>
+    {
+        const itm: LayoutRendererItem = item as LayoutRendererItem;
+        const pagingComponent = itm.component?.instance as GridPluginComponent<Paging, PagingComponentOptions, PagingOptions>;
+        pagingComponent.setGridInstance(this.gridSafe);
+        
+        this.gridSafe.execute(patchOptions(
+        {
+            plugins:
+            {
+                paging: pagingComponent.pluginDescription,
+            }
+        }));
+
+        this.initializationStatus.paging = true;
 
         this.initializeGrid();
     }
@@ -203,6 +228,23 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
             }));
 
             this.initializationStatus.dataLoader = true; 
+        }
+
+        //no paging plugin provided
+        if(!this.initializationStatus.paging && !this.optionsSafe.paging.options?.plugin)
+        {
+            this.gridSafe.execute(patchOptions(
+            {
+                plugins:
+                {
+                    paging:
+                    {
+                        type: NoPagingSAComponent,
+                    }
+                }
+            }));
+
+            this.initializationStatus.paging = true; 
         }
 
         if(this.initializationStatus.dataLoader &&

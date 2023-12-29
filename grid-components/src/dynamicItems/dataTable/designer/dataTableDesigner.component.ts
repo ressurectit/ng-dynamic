@@ -53,5 +53,17 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
                 plugin: null,
             },
         };
+
+        this.optionsSafe.paging ??=
+        {
+            id: `paging-${generateId(10)}`,
+            name: 'paging',
+            package: 'grid-components',
+            displayName: 'paging',
+            options: 
+            {
+                plugin: null,
+            },
+        };
     }
 }

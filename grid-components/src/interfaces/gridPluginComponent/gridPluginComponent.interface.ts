@@ -5,7 +5,7 @@ import {RecursivePartial} from '@jscrpt/common';
 /**
  * Definition of component that provides grid plugin
  */
-export interface GridDataLoaderPlugin<TPlugin extends GridPlugin, TOptions, TPluginOptions extends PluginOptions = PluginOptions> extends LayoutComponent<TOptions>
+export interface GridPluginComponent<TPlugin extends GridPlugin, TOptions, TPluginOptions extends PluginOptions = PluginOptions> extends LayoutComponent<TOptions>
 {
     /**
      * Description of plugin that will be used in grid

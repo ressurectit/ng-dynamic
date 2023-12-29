@@ -9,7 +9,7 @@ import {Action1, BindThis, PagedData, PromiseOr, RecursivePartial, nameof, noop}
 
 import {AsyncDataLoaderComponentOptions, AsyncDataLoaderRelationsOptions} from './asyncDataLoader.options';
 import {AsyncDataLoaderLayoutDesignerTypeLoader, AsyncDataLoaderLayoutMetadataLoader, AsyncDataLoaderRelationsMetadataLoader} from './asyncDataLoader.metadata';
-import {GridDataLoaderPlugin} from '../../interfaces';
+import {GridPluginComponent} from '../../interfaces';
 
 /**
  * Component used for displaying async data loader
@@ -25,7 +25,7 @@ import {GridDataLoaderPlugin} from '../../interfaces';
 @LayoutEditorDesignerType(AsyncDataLoaderLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(AsyncDataLoaderRelationsMetadataLoader)
 @LayoutEditorMetadata(AsyncDataLoaderLayoutMetadataLoader)
-export class AsyncDataLoaderSAComponent extends LayoutComponentBase<AsyncDataLoaderComponentOptions> implements GridDataLoaderPlugin<GridAsyncDataLoader, AsyncDataLoaderComponentOptions, AsyncDataLoaderOptions>, RelationsComponent<AsyncDataLoaderRelationsOptions>
+export class AsyncDataLoaderSAComponent extends LayoutComponentBase<AsyncDataLoaderComponentOptions> implements GridPluginComponent<GridAsyncDataLoader, AsyncDataLoaderComponentOptions, AsyncDataLoaderOptions>, RelationsComponent<AsyncDataLoaderRelationsOptions>
 {
     //######################### protected fields #########################
 

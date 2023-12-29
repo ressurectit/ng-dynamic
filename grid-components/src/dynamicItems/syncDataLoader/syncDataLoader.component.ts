@@ -12,7 +12,7 @@ import {first} from 'rxjs';
 
 import {SyncDataLoaderComponentOptions, SyncDataLoaderRelationsOptions} from './syncDataLoader.options';
 import {SyncDataLoaderLayoutDesignerTypeLoader, SyncDataLoaderLayoutMetadataLoader, SyncDataLoaderRelationsMetadataLoader} from './syncDataLoader.metadata';
-import {GridDataLoaderPlugin} from '../../interfaces';
+import {GridPluginComponent} from '../../interfaces';
 
 /**
  * Component used for displaying sync data loader
@@ -28,7 +28,7 @@ import {GridDataLoaderPlugin} from '../../interfaces';
 @LayoutEditorDesignerType(SyncDataLoaderLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(SyncDataLoaderRelationsMetadataLoader)
 @LayoutEditorMetadata(SyncDataLoaderLayoutMetadataLoader)
-export class SyncDataLoaderSAComponent extends LayoutComponentBase<SyncDataLoaderComponentOptions> implements GridDataLoaderPlugin<GridSyncDataLoader, SyncDataLoaderComponentOptions, SyncDataLoaderOptions>, RelationsComponent<SyncDataLoaderRelationsOptions>
+export class SyncDataLoaderSAComponent extends LayoutComponentBase<SyncDataLoaderComponentOptions> implements GridPluginComponent<GridSyncDataLoader, SyncDataLoaderComponentOptions, SyncDataLoaderOptions>, RelationsComponent<SyncDataLoaderRelationsOptions>
 {
     //######################### protected fields #########################
 

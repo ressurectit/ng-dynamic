@@ -1,6 +1,7 @@
 const components: string[] = 
 [
     'asyncDataLoader',
+    'basicPaging',
     'dataTable',
     'gridColumn',
     'syncDataLoader',

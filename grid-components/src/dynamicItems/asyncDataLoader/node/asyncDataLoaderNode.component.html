@@ -1,0 +1,29 @@
+<relations-node-header [parent]="this" [destroySubject]="destroySubject"></relations-node-header>
+
+<div class="node-content">
+    <div class="inputs-outputs">
+        <div class="inputs">
+            <div class="input">
+                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="result" [parent]="this"/>
+                <div>{{'result'|firstUppercaseLocalize}}</div>
+            </div>
+        </div>
+    
+        <div class="outputs">
+            <div class="output">
+                <div>{{'page'|firstUppercaseLocalize}}</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="page" [parent]="this"/>
+            </div>
+            
+            <div class="output">
+                <div>{{'itemsPerPage'|firstUppercaseLocalize}}</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="itemsPerPage" [parent]="this"/>
+            </div>
+
+            <div class="output">
+                <div>{{'ordering'|firstUppercaseLocalize}}</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="ordering" [parent]="this"/>
+            </div>
+        </div>
+    </div>
+</div>

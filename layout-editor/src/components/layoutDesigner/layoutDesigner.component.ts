@@ -13,7 +13,7 @@ import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEd
 import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
-import {LayoutDndCoreModule} from '../../modules';
+import {DndCoreDesignerDirective, LayoutDndCoreModule} from '../../modules';
 import {LayoutComponentDragData} from '../../interfaces';
 import {CombineRenderersCallbacksSAPipe} from '../../pipes';
 
@@ -112,6 +112,14 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
      */
     @ViewChild('layoutDesigner', {static: true})
     protected designerElement!: ElementRef<HTMLElement>;
+
+    //######################### public properties - children #########################
+
+    /**
+     * Instance of designer dnd core directive
+     */
+    @ViewChild('dndCore', {static: true})
+    public dndCoreDesigner!: DndCoreDesignerDirective;
 
     //######################### public properties #########################
 

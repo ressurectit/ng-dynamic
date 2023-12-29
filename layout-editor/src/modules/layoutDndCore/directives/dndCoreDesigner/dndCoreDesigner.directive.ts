@@ -203,7 +203,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
 
         this.containerDrop = this.dnd.dropTarget(DEFAULT_DROP_TYPES,
                                                  {
-                                                     canDrop: monitor => this.canDropAncestors()[0] && monitor.isOver({shallow: true}),
+                                                     canDrop: monitor => this.canDropAncestors(monitor)[0] && monitor.isOver({shallow: true}),
                                                      drop: monitor =>
                                                      {
                                                          const [index, id] = this.getFixedDropCoordinates(monitor, false);
@@ -286,7 +286,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
 
         this.dropzone = this.dnd.dropTarget(DEFAULT_DROP_TYPES,
                                             {
-                                                canDrop: monitor => (this.canDrop || this.canDropAncestors()[0]) && monitor.isOver({shallow: true}) && this.selfIsAncestor(monitor),
+                                                canDrop: monitor => (this.canDrop || this.canDropAncestors(monitor)[0]) && monitor.isOver({shallow: true}) && this.selfIsAncestor(monitor),
                                                 drop: monitor =>
                                                 {
                                                     const [index, id] = this.getFixedDropCoordinates(monitor, this.canDrop);
@@ -449,7 +449,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
         }
 
         //else get index from descendant
-        const [canDropAncestor, ancestorId, id] = this.canDropAncestors();
+        const [canDropAncestor, ancestorId, id] = this.canDropAncestors(monitor);
 
         //this should not happen
         if(!canDropAncestor || isBlank(ancestorId))
@@ -475,7 +475,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
             return [null, null];
         }
 
-        return [componentIndex + this.getIndexIncrement(monitor, parentComponent.horizontal), ancestorId];
+        return [componentIndex + parentComponent.dndCoreDesigner.getIndexIncrement(monitor, parentComponent.horizontal), ancestorId];
     }
 
     /**
@@ -659,9 +659,10 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
 
     /**
      * Gets indication whether any of ancestors can accept drop, also returns id of that ancestor
+     * @param monitor - Monitor containing information about current drag drop state
      * @param id - Id of component whose parent will be tested, if not specified id of this component will be used
      */
-    protected canDropAncestors(id?: string): [boolean, string|null, string]
+    protected canDropAncestors(monitor: DropTargetMonitor<LayoutDragItem, LayoutDropResult>, id?: string): [boolean, string|null, string]
     {
         if(isBlank(id))
         {
@@ -675,14 +676,21 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
             return [false, null, id];
         }
 
-        //TODO: need to check custom drag drop
-        if(component.parent.component.canDrop)
+        const dragType = monitor.getItemType() as string;
+        const dropTypes = component.parent.component.dndCoreDesigner.customDropTypes
+            ? Array.isArray(component.parent.component.dndCoreDesigner.customDropTypes)
+                ? component.parent.component.dndCoreDesigner.customDropTypes
+                : [component.parent.component.dndCoreDesigner.customDropTypes]
+            : DEFAULT_DROP_TYPES;
+
+        if(component.parent.component.canDrop &&
+           dropTypes.indexOf(dragType) >= 0)
         {
             return [true, component.parent.component.id, id];
         }
         else
         {
-            return this.canDropAncestors(component.parent.component.id);
+            return this.canDropAncestors(monitor, component.parent.component.id);
         }
     }
 }

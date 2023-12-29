@@ -15,5 +15,25 @@
                 padding: 4px;
             }
         }
+
+        .data-table-plugins
+        {
+            background-color: var(--dynamic-data-table-designer-plugins-background);
+            padding: 10px 15px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .plugin
+            {
+                box-shadow: 0 0 3px var(--dynamic-data-table-designer-plugin-shadow);
+            }
+
+            .plugin-title
+            {
+                letter-spacing: 1px;
+                font-weight: 500;
+            }
+        }
     }
 }

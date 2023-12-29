@@ -106,6 +106,8 @@
     --dynamic-relations-debugger-tooltip-shadow3: #{map.get(map.get($theme, 'relationsDebuggerTooltip'), 'shadow3')};
     --dynamic-data-table-designer-column-header-background: #{map.get(map.get(map.get($theme, 'dataTableDesigner'), 'columnHeader'), 'background')};
     --dynamic-data-table-designer-column-header-foreground: #{map.get(map.get(map.get($theme, 'dataTableDesigner'), 'columnHeader'), 'foreground')};
+    --dynamic-data-table-designer-plugins-background: #{map.get(map.get(map.get($theme, 'dataTableDesigner'), 'plugins'), 'background')};
+    --dynamic-data-table-designer-plugin-shadow: #{map.get(map.get(map.get($theme, 'dataTableDesigner'), 'plugin'), 'shadow')};
 }
 
 @mixin buildThemeCss

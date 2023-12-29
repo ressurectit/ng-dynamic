@@ -1,2 +1,14 @@
 <ng-container *layoutComponentRenderer="options?.columns"/>
-<ng-container *layoutComponentRenderer="options?.dataLoader"/>
+
+<div class="data-table-plugins">
+    <div class="dynamic-flex-1 plugin">
+        <div class="plugin-title">Data Loader</div>
+        <ng-container *layoutComponentRenderer="options?.dataLoader"/>
+    </div>
+
+    <div class="dynamic-flex-1">
+    </div>
+
+    <div class="dynamic-flex-1">
+    </div>
+</div>

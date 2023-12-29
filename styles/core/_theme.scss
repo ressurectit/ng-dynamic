@@ -203,6 +203,14 @@ $defaultTheme:
         (
             background: #666,
             foreground: #fff,
-        )
-    )
+        ),
+        plugins:
+        (
+            background: #0000001A,
+        ),
+        plugin:
+        (
+            shadow: #666,
+        ),
+    ),
 );

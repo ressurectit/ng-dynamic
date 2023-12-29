@@ -1,6 +1,6 @@
-import {ClassProvider, ExistingProvider, FactoryProvider, inject, Optional} from '@angular/core';
+import {ClassProvider, ExistingProvider, FactoryProvider, inject} from '@angular/core';
 import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, EDITOR_METADATA_MANAGER} from '@anglr/dynamic';
-import {LOGGER, Logger} from '@anglr/common';
+import {LOGGER} from '@anglr/common';
 
 import {RELATIONS_HISTORY_MANAGER, RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
 import {componentRelationsNodeExtractor, relationsNodeExtractor} from './extractors';
@@ -33,14 +33,13 @@ export const STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
 export const DEFAULT_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
 {
     provide: RELATIONS_NODES_DATA_EXTRACTORS,
-    useFactory: (logger?: Logger) =>
+    useFactory: () =>
     {
         return new DynamicModuleDataExtractor([
                                                   relationsNodeExtractor,
                                               ],
-                                              logger);
+                                              inject(LOGGER));
     },
-    deps: [[new Optional(), LOGGER]],
     multi: true
 };
 
@@ -50,14 +49,13 @@ export const DEFAULT_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
 export const COMPONENTS_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
 {
     provide: RELATIONS_NODES_DATA_EXTRACTORS,
-    useFactory: (logger?: Logger) =>
+    useFactory: () =>
     {
         return new DynamicModuleDataExtractor([
                                                   componentRelationsNodeExtractor,
                                               ],
-                                              logger);
+                                              inject(LOGGER));
     },
-    deps: [[new Optional(), LOGGER]],
     multi: true
 };
 
@@ -67,14 +65,13 @@ export const COMPONENTS_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
 export const DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR: FactoryProvider =
 {
     provide: RELATIONS_MODULE_TYPES_DATA_EXTRACTORS,
-    useFactory: (logger?: Logger) =>
+    useFactory: () =>
     {
         return new DynamicModuleDataExtractor([
                                                   defaultExportExtractor,
                                               ],
-                                              logger);
+                                              inject(LOGGER));
     },
-    deps: [[new Optional(), LOGGER]],
     multi: true
 };
 
@@ -87,7 +84,7 @@ export const RELATIONS_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
     useFactory: () => new DynamicItemLoader(inject(RELATIONS_MODULE_TYPES_PROVIDERS),
                                             inject(RELATIONS_MODULE_TYPES_DATA_EXTRACTORS),
                                             isRelationsModuleTypes,
-                                            inject(LOGGER, {optional: true}) ?? undefined,
+                                            inject(LOGGER),
                                             true)
 };
 
@@ -100,7 +97,7 @@ export const RELATIONS_NODES_LOADER_PROVIDER: FactoryProvider =
     useFactory: () => new DynamicItemLoader(inject(RELATIONS_NODES_PROVIDERS),
                                             inject(RELATIONS_NODES_DATA_EXTRACTORS),
                                             isRelationsNodeDef,
-                                            inject(LOGGER, {optional: true}) ?? undefined)
+                                            inject(LOGGER))
 };
 
 /**

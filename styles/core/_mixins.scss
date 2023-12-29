@@ -10,6 +10,7 @@
 @use '../components/components-tree-item' as componentsTreeItem;
 @use '../components/components-tree' as componentsTree;
 @use '../components/content-options' as contentOptions;
+@use '../components/data-table' as dataTable;
 @use '../components/grid-panel' as gridPanel;
 @use '../components/layout-designer-component' as layoutDesignerComponent;
 @use '../components/layout-designer-overlay-for' as layoutDesignerOverlayFor;
@@ -103,6 +104,8 @@
     --dynamic-relations-debugger-tooltip-shadow1: #{map.get(map.get($theme, 'relationsDebuggerTooltip'), 'shadow1')};
     --dynamic-relations-debugger-tooltip-shadow2: #{map.get(map.get($theme, 'relationsDebuggerTooltip'), 'shadow2')};
     --dynamic-relations-debugger-tooltip-shadow3: #{map.get(map.get($theme, 'relationsDebuggerTooltip'), 'shadow3')};
+    --dynamic-data-table-designer-column-header-background: #{map.get(map.get(map.get($theme, 'dataTableDesigner'), 'columnHeader'), 'background')};
+    --dynamic-data-table-designer-column-header-foreground: #{map.get(map.get(map.get($theme, 'dataTableDesigner'), 'columnHeader'), 'foreground')};
 }
 
 @mixin buildThemeCss
@@ -118,6 +121,7 @@
     @include componentsTreeItem.css;
     @include componentsTree.css;
     @include contentOptions.css;
+    @include dataTable.css;
     @include gridPanel.css;
     @include layoutDesignerComponent.css;
     @include layoutDesignerOverlayFor.css;

@@ -1,5 +1,7 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, SimpleChanges} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutDesignerSAComponent, LayoutEditorMetadataManager, LayoutEditorRenderer} from '@anglr/dynamic/layout-editor';
+import {addSimpleChange} from '@anglr/dynamic';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
 
@@ -23,6 +25,42 @@ import {GridColumnSAComponent} from '../gridColumn.component';
 })
 export class GridColumnDesignerSAComponent extends GridColumnSAComponent implements LayoutComponent<GridColumnComponentOptions>
 {
+    //######################### protected fields #########################
+
+    /**
+     * Instance of manager for layout editor metadata
+     */
+    protected metadataManager: LayoutEditorMetadataManager = inject(LayoutEditorMetadataManager);
+    
+    /**
+     * Instance of layout renderer
+     */
+    protected layoutRenderer: LayoutEditorRenderer = inject(LayoutEditorRenderer);
+
+    //######################### protected properties #########################
+
+    /**
+     * Gets instance of grid columns
+     */
+    protected get gridColumns(): LayoutComponent
+    {
+        const parent = this.metadataManager.getParent(this.injector.get(LayoutDesignerSAComponent).id);
+
+        if(!parent)
+        {
+            throw new Error('GridColumnDesignerSAComponent: component without parent!');
+        }
+
+        const parentComponent = this.layoutRenderer.get(parent.id)?.component?.instance;
+
+        if(!parentComponent)
+        {
+            throw new Error('GridColumnDesignerSAComponent: missing parent component instance!');
+        }
+
+        return parentComponent;
+    }
+
     //######################### protected methods - overrides #########################
 
     /**
@@ -53,5 +91,19 @@ export class GridColumnDesignerSAComponent extends GridColumnSAComponent impleme
                 content: null,
             },
         };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected override onOptionsChange(): void
+    {
+        const gridColumns = this.gridColumns;
+
+        const changes: SimpleChanges = {};
+        addSimpleChange<LayoutComponent>(changes, 'options', gridColumns.options, gridColumns.options, false);
+
+        gridColumns.dynamicOnChanges?.(changes);
+        gridColumns.invalidateVisuals();
     }
 }

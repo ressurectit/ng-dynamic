@@ -1,0 +1,19 @@
+@mixin css
+{
+    data-table-designer
+    {
+        grid-columns-designer
+        {
+            display: grid;
+
+            grid-template-rows: auto;
+
+            grid-column-header-designer
+            {
+                background-color: var(--dynamic-data-table-designer-column-header-background);
+                color: var(--dynamic-data-table-designer-column-header-foreground);
+                padding: 4px;
+            }
+        }
+    }
+}

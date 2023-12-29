@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, ElementRef, SkipSelf, Optional, Inject, OnDestroy, ViewChild} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ElementRef, SkipSelf, Optional, Inject, OnDestroy, ViewChild, SimpleChanges} from '@angular/core';
 import {BodyRenderSADirective, PositionToSADirective} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
-import {MetadataHistoryManager, SCOPE_ID} from '@anglr/dynamic';
+import {MetadataHistoryManager, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {isPresent} from '@jscrpt/common';
 import {DndModule} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
@@ -223,6 +223,10 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         this.editorMetadata?.addDescendant?.(dragData?.metadata, options.typeMetadata.options, dragData.index ?? 0);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
+
+        const changes: SimpleChanges = {};
+        addSimpleChange<LayoutComponent>(changes, 'options', options.typeMetadata.options, options.typeMetadata.options, false);
+        this.componentInstance.dynamicOnChanges?.(changes);
         this.componentInstance.invalidateVisuals();
 
         if(triggerLayoutChange)
@@ -254,6 +258,10 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
 
         this.editorMetadata?.removeDescendant?.(id, options.typeMetadata.options);
         this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
+        
+        const changes: SimpleChanges = {};
+        addSimpleChange<LayoutComponent>(changes, 'options', options.typeMetadata.options, options.typeMetadata.options, false);
+        this.componentInstance.dynamicOnChanges?.(changes);
         this.componentInstance.invalidateVisuals();
 
         const layoutDesigners = this.layoutEditorMetadataManager.getChildren(this.id);

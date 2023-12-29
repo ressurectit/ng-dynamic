@@ -1,7 +1,8 @@
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo, genericPropertiesControlFor} from '@anglr/dynamic/layout-editor';
 import {Func0} from '@jscrpt/common';
 
 import {GridColumnComponentOptions} from '../gridColumn.options';
+import {GridColumnModel} from './gridColumn.model';
 
 /**
  * Grid column layout metadata
@@ -18,6 +19,23 @@ export class GridColumnLayoutEditorMetadata implements LayoutEditorMetadataDescr
         name: 'Grid column',
         description: 'Definition of grid column header and content',
         group: 'Grid',
+        optionsMetadata:
+        {
+            propertiesMetadata:
+            [
+                {
+                    modelType: GridColumnModel,
+                    propertiesControls: 
+                    [
+                        genericPropertiesControlFor<GridColumnModel>(['width']),
+                    ],
+                },
+            ]
+        },
+        defaultOptions:
+        {
+            width: '1fr',
+        }
     };
 
     /**

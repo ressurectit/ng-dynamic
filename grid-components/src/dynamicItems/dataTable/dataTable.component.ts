@@ -23,6 +23,11 @@ interface ColDef
     id: string;
 
     /**
+     * Width of column
+     */
+    width: string;
+
+    /**
      * Header template
      */
     header: LayoutComponentMetadata|undefined|null;
@@ -158,6 +163,7 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
                 id: column.id,
                 header: null,
                 content: null,
+                width: column.options?.width ?? '1fr',
             };
 
             colDef.header = column.options?.header.options?.content;

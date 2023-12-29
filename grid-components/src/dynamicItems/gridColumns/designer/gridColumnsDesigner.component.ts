@@ -45,4 +45,19 @@ export class GridColumnsDesignerSAComponent extends GridColumnsSAComponent imple
 
         this.designer.options.typeMetadata.scope ??= generateId(10);
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected override onOptionsSet(): void
+    {
+        let colsDef = '';
+
+        for(const col of this.optionsSafe.columns)
+        {
+            colsDef += `${col.options?.width || '1fr'} `;
+        }
+
+        this.componentElement.nativeElement.style.gridTemplateColumns = colsDef.trim();
+    }
 }

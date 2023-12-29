@@ -19,4 +19,9 @@ export interface GridColumnComponentOptions
      * Contains content for grid column content
      */
     content: LayoutComponentMetadata<GridColumnContentComponentOptions>;
+
+    /**
+     * Width of column
+     */
+    width: string;
 }

@@ -3,7 +3,7 @@
 <div #grid ngGrid [gridOptions]="gridOptions">
     @for(col of colsDef; track col)
     {
-        <ng-container [matrixGridColumn]="col.id">
+        <ng-container [matrixGridColumn]="col.id" [width]="col.width">
             <div *headerCellTemplate>
                 <ng-container *layoutComponentRenderer="col.header"/>
             </div>

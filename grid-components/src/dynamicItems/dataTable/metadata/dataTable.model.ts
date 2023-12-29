@@ -10,17 +10,17 @@ export class DataTableModel implements DataTableComponentOptions
     //######################### public properties #########################
 
     /**
-     * Holds columns definition
+     * @inheritdoc
      */
     public columns!: LayoutComponentMetadata;
 
     /**
-     * Holds paging type
+     * @inheritdoc
      */
     public paging!: LayoutComponentMetadata;
 
     /**
-     * Holds data loader type
+     * @inheritdoc
      */
     public dataLoader!: LayoutComponentMetadata;
     

@@ -4,6 +4,7 @@ const components: string[] =
     'basicPaging',
     'dataTable',
     'gridColumn',
+    'previousNextPaging',
     'syncDataLoader',
 ];
 

@@ -7,4 +7,5 @@ export * from './gridColumnContent';
 export * from './gridColumnHeader';
 export * from './gridColumns';
 export * from './paging';
+export * from './previousNextPaging';
 export * from './syncDataLoader';

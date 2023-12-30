@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ViewChild} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LayoutRendererItem} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {DataLoader, DataLoaderOptions, Grid, GridOptions, MatrixGridModule, NoPagingSAComponent, Paging, PagingOptions, SyncDataLoaderOptions, SyncDataLoaderSAComponent} from '@anglr/grid';
+import {DataLoader, DataLoaderOptions, Grid, GridOptions, MatrixGridModule, MetadataSelector, MetadataSelectorOptions, NoMetadataSelectorSAComponent, NoPagingOptions, NoPagingSAComponent, Paging, PagingOptions, SyncDataLoaderOptions, SyncDataLoaderSAComponent} from '@anglr/grid';
 import {patchOptions, reinitializeOptions} from '@anglr/grid/extensions';
 import {BindThis, PromiseOr, RecursivePartial} from '@jscrpt/common';
 
@@ -12,6 +12,7 @@ import {GridPluginComponent} from '../../interfaces';
 import {ScopedMatrixContentRendererSAComponent} from '../../misc/classes/scopedMatrixContentRenderer.component';
 import {DataLoaderComponentOptions} from '../dataLoader';
 import {PagingComponentOptions} from '../paging';
+import {MetadataSelectorComponentOptions} from '../metadataSelector';
 
 /**
  * Definition of column
@@ -27,6 +28,16 @@ interface ColDef
      * Width of column
      */
     width: string;
+
+    /**
+     * Title of column displayed during column selection
+     */
+    title: string;
+
+    /**
+     * Indication whether is column orderable
+     */
+    orderable: boolean;
 
     /**
      * Header template
@@ -62,7 +73,7 @@ interface ColDef
         return [];
     }
 
-    return [options.columns, options.paging, options.dataLoader];
+    return [options.columns, options.paging, options.dataLoader, options.metadataSelector];
 })
 @LayoutEditorDesignerType(DataTableLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(DataTableLayoutMetadataLoader)
@@ -77,6 +88,7 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
     {
         dataLoader: false,
         paging: false,
+        metadataSelector: false,
     };
 
     //######################### protected properties #########################
@@ -174,6 +186,30 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
         this.initializeGrid();
     }
 
+    /**
+     * Callback called when metadata selector was rendered
+     * @param item - Item that contains information about rendered metadata selector
+     */
+    @BindThis
+    protected async metadataSelectorCallback(item: unknown): Promise<void>
+    {
+        const itm: LayoutRendererItem = item as LayoutRendererItem;
+        const metadataSelectorComponent = itm.component?.instance as GridPluginComponent<MetadataSelector, MetadataSelectorComponentOptions, MetadataSelectorOptions>;
+        metadataSelectorComponent.setGridInstance(this.gridSafe);
+        
+        this.gridSafe.execute(patchOptions(
+        {
+            plugins:
+            {
+                metadataSelector: metadataSelectorComponent.pluginDescription,
+            }
+        }));
+
+        this.initializationStatus.metadataSelector = true;
+
+        this.initializeGrid();
+    }
+
     //######################### protected methods - overrides #########################
 
     /**
@@ -185,10 +221,12 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
         {
             const colDef: ColDef =
             {
-                id: column.id,
+                id: column.options?.orderingName || column.displayName || column.id,
                 header: null,
                 content: null,
                 width: column.options?.width ?? '1fr',
+                orderable: column.options?.orderable ?? false,
+                title: column.displayName || column.id,
             };
 
             colDef.header = column.options?.header.options?.content;
@@ -239,6 +277,10 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
                 {
                     paging:
                     {
+                        options: <RecursivePartial<NoPagingOptions>>
+                        {
+                            initialItemsPerPage: NaN,
+                        },
                         type: NoPagingSAComponent,
                     }
                 }
@@ -247,8 +289,26 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
             this.initializationStatus.paging = true; 
         }
 
+        //no metadata selector plugin provided
+        if(!this.initializationStatus.metadataSelector && !this.optionsSafe.metadataSelector.options?.plugin)
+        {
+            this.gridSafe.execute(patchOptions(
+            {
+                plugins:
+                {
+                    metadataSelector:
+                    {
+                        type: NoMetadataSelectorSAComponent,
+                    }
+                }
+            }));
+
+            this.initializationStatus.metadataSelector = true; 
+        }
+
         if(this.initializationStatus.dataLoader &&
-           this.initializationStatus.paging)
+           this.initializationStatus.paging &&
+           this.initializationStatus.metadataSelector)
         {
             await this.gridSafe.execute(reinitializeOptions());
         }

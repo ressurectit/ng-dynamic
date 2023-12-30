@@ -24,4 +24,14 @@ export interface GridColumnComponentOptions
      * Width of column
      */
     width: string;
+
+    /**
+     * String that is used for ordering
+     */
+    orderingName: string|undefined|null;
+
+    /**
+     * Indication whether you can use this column for ordering
+     */
+    orderable: boolean;
 }

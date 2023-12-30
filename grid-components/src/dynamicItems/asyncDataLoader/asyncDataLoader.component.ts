@@ -77,7 +77,7 @@ export class AsyncDataLoaderSAComponent extends LayoutComponentBase<AsyncDataLoa
     //######################### public properties - implementation of GridDataLoaderPlugin #########################
     
     /**
-     * Description of plugin that will be used in grid
+     * @inheritdoc
      */
     public pluginDescription: PluginDescription<GridAsyncDataLoader, RecursivePartial<AsyncDataLoaderOptions>> =
     {
@@ -93,8 +93,7 @@ export class AsyncDataLoaderSAComponent extends LayoutComponentBase<AsyncDataLoa
     //######################### public methods - implementation of GridDataLoaderPlugin #########################
     
     /**
-     * Sets grid instance to this type
-     * @param grid - Instance of grid
+     * @inheritdoc
      */
     public setGridInstance(grid: Grid): void
     {

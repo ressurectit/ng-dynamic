@@ -30,6 +30,22 @@ export class GridColumnModel implements GridColumnComponentOptions
     @LayoutPropertyDescription('Width of column')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
     public width: string = '1fr';
+
+    /**
+     * @inheritdoc
+     */
+    @LayoutPropertyName('Ordering name')
+    @LayoutPropertyDescription('String that is used for ordering')
+    @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
+    public orderingName: string|undefined|null = null;
+
+    /**
+     * @inheritdoc
+     */
+    @LayoutPropertyName('Orderable')
+    @LayoutPropertyDescription('Indication whether you can use this column for ordering')
+    @LayoutPropertyType<DefaultKnownPropertyTypes>('inputBoolean')
+    public orderable: boolean = false;
     
     //######################### constructor #########################
     constructor(value: GridColumnComponentOptions|undefined|null)

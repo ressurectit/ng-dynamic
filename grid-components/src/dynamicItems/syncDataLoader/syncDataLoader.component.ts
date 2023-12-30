@@ -55,7 +55,7 @@ export class SyncDataLoaderSAComponent extends LayoutComponentBase<SyncDataLoade
     //######################### public properties - implementation of GridDataLoaderPlugin #########################
     
     /**
-     * Description of plugin that will be used in grid
+     * @inheritdoc
      */
     public pluginDescription: PluginDescription<GridSyncDataLoader, RecursivePartial<SyncDataLoaderOptions>> =
     {
@@ -71,8 +71,7 @@ export class SyncDataLoaderSAComponent extends LayoutComponentBase<SyncDataLoade
     //######################### public methods - implementation of GridDataLoaderPlugin #########################
     
     /**
-     * Sets grid instance to this type
-     * @param grid - Instance of grid
+     * @inheritdoc
      */
     public setGridInstance(grid: Grid): void
     {

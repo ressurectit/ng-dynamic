@@ -1,11 +1,12 @@
 <ng-container *layoutComponentRenderer="options?.dataLoader?.options?.plugin; callback: dataLoaderCallback"/>
 <ng-container *layoutComponentRenderer="options?.paging?.options?.plugin; callback: pagingCallback"/>
+<ng-container *layoutComponentRenderer="options?.metadataSelector?.options?.plugin; callback: metadataSelectorCallback"/>
 
 <div #grid ngGrid [gridOptions]="gridOptions">
     @for(col of colsDef; track col)
     {
-        <ng-container [matrixGridColumn]="col.id" [width]="col.width">
-            <div *headerCellTemplate>
+        <ng-container [matrixGridColumn]="col.id" [width]="col.width" [title]="col.title">
+            <div *headerCellTemplate [orderable]="col.orderable">
                 <ng-container *layoutComponentRenderer="col.header"/>
             </div>
             

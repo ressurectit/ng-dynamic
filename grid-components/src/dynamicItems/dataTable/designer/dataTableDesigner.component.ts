@@ -65,5 +65,17 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
                 plugin: null,
             },
         };
+
+        this.optionsSafe.metadataSelector ??=
+        {
+            id: `metadataSelector-${generateId(10)}`,
+            name: 'metadataSelector',
+            package: 'grid-components',
+            displayName: 'metadata selector',
+            options: 
+            {
+                plugin: null,
+            },
+        };
     }
 }

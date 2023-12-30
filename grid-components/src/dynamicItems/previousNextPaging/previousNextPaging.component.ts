@@ -34,7 +34,7 @@ export class PreviousNextPagingSAComponent extends LayoutComponentBase<PreviousN
     //######################### public properties - implementation of GridDataLoaderPlugin #########################
     
     /**
-     * Description of plugin that will be used in grid
+     * @inheritdoc
      */
     public pluginDescription: PluginDescription<GridPreviousNextPaging, RecursivePartial<PreviousNextPagingOptions>> =
     {
@@ -52,8 +52,7 @@ export class PreviousNextPagingSAComponent extends LayoutComponentBase<PreviousN
     //######################### public methods - implementation of GridDataLoaderPlugin #########################
     
     /**
-     * Sets grid instance to this type
-     * @param grid - Instance of grid
+     * @inheritdoc
      */
     public setGridInstance(grid: Grid): void
     {

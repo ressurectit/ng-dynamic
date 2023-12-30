@@ -1,41 +1,40 @@
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo, genericPropertiesControlFor} from '@anglr/dynamic/layout-editor';
 import {Func0} from '@jscrpt/common';
 
-import {GridColumnComponentOptions} from '../gridColumn.options';
-import {GridColumnModel} from './gridColumn.model';
+import {DialogMetadataSelectorComponentOptions} from '../dialogMetadataSelector.options';
+import {DialogMetadataSelectorModel} from './dialogMetadataSelector.model';
 
 /**
- * Grid column layout metadata
+ * Dialog metadata selector layout metadata
  */
-export class GridColumnLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<GridColumnComponentOptions>
+export class DialogMetadataSelectorLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<DialogMetadataSelectorComponentOptions>
 {
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
     /**
      * @inheritdoc
      */
-    public metaInfo?: LayoutEditorMetadataInfo<GridColumnComponentOptions> =
+    public metaInfo?: LayoutEditorMetadataInfo<DialogMetadataSelectorComponentOptions> =
     {
-        name: 'Grid column',
-        description: 'Definition of grid column header and content',
+        name: 'Dialog metadata selector',
+        description: 'Dialog metadata selector grid plugin for metadata selection',
         group: 'Grid',
         optionsMetadata:
         {
             propertiesMetadata:
             [
                 {
-                    modelType: GridColumnModel,
+                    modelType: DialogMetadataSelectorModel,
                     propertiesControls: 
                     [
-                        genericPropertiesControlFor<GridColumnModel>(['width', 'orderable', 'orderingName']),
+                        genericPropertiesControlFor<DialogMetadataSelectorModel>(['storageName', 'showButtonVisible']),
                     ],
                 },
             ]
         },
         defaultOptions:
         {
-            width: '1fr',
-            orderable: false,
+            showButtonVisible: true,
         }
     };
 
@@ -45,8 +44,8 @@ export class GridColumnLayoutEditorMetadata implements LayoutEditorMetadataDescr
     public customDragType?: Func0<{tree: string, layout: string}> = () =>
     {
         return {
-            layout: 'GRID_COLUMN',
-            tree: 'TREE_GRID_COLUMN',
+            layout: 'METADATA_SELECTOR',
+            tree: 'TREE_METADATA_SELECTOR',
         };
     };
 

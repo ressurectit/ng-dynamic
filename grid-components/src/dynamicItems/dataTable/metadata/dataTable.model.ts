@@ -23,6 +23,11 @@ export class DataTableModel implements DataTableComponentOptions
      * @inheritdoc
      */
     public dataLoader!: LayoutComponentMetadata;
+
+    /**
+     * @inheritdoc
+     */
+    public metadataSelector!: LayoutComponentMetadata;
     
     //######################### constructor #########################
     constructor(value: DataTableComponentOptions|undefined|null)

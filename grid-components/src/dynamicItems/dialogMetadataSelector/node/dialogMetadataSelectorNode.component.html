@@ -1,0 +1,15 @@
+<relations-node-header [parent]="this" [destroySubject]="destroySubject"></relations-node-header>
+
+<div class="node-content">
+    <div class="inputs-outputs">
+        <div class="inputs">
+        </div>
+    
+        <div class="outputs">
+            <div class="output">
+                <div>{{'grid'|firstUppercaseLocalize}}</div>
+                <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="grid" [parent]="this"/>
+            </div>
+        </div>
+    </div>
+</div>

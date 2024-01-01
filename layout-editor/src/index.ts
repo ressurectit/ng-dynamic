@@ -4,7 +4,6 @@ export * from './directives';
 export * from './interfaces';
 export * from './misc/constants';
 export * from './misc/extractors';
-export * from './misc/features/layoutEditor.feature';
 export * from './misc/models';
 export * from './misc/providers';
 export * from './misc/tokens';

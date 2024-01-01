@@ -3,9 +3,28 @@
  */
 export enum DynamicFeatureType
 {
-    Layout = 0x01,
+    /**
+     * No feature available
+     */
+    None = 0x00,
 
-    Relations = 0x02,
+    /**
+     * Layout runtime type
+     */
+    LayoutRuntime = 0x01,
 
-    Editor = 0x04,
+    /**
+     * Relations runtime type
+     */
+    RelationsRuntime = 0x02,
+
+    /**
+     * Layout editor type
+     */
+    LayoutEditor = 0x04,
+
+    /**
+     * Relations editor type
+     */
+    RelationsEditor = 0x08,
 }

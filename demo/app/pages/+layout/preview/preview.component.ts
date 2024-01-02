@@ -1,10 +1,19 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, FactoryProvider, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormControl} from '@angular/forms';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {NgSelectModule} from '@anglr/select';
+import {MetadataStorage, provideDynamic} from '@anglr/dynamic';
+import {LAYOUT_METADATA_STORAGE, LayoutComponentMetadata, LayoutComponentRendererSADirective, withLayoutRuntime} from '@anglr/dynamic/layout';
+import {withBasicComponents} from '@anglr/dynamic/basic-components';
+import {withMaterialComponents} from '@anglr/dynamic/material-components';
+import {withCssComponents} from '@anglr/dynamic/css-components';
+import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
+import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
+import {withFormComponents} from '@anglr/dynamic/form';
 
 import {StoreDataService} from '../../../services/storeData';
+import {createStoreDataServiceFactory} from '../../../misc/factories';
 
 /**
  * Layout preview component
@@ -13,6 +22,30 @@ import {StoreDataService} from '../../../services/storeData';
 {
     selector: 'layout-preview-view',
     templateUrl: 'preview.component.html',
+    standalone: true,
+    imports:
+    [
+        ReactiveFormsModule,
+        NgSelectModule,
+        LayoutComponentRendererSADirective,
+    ],
+    providers:
+    [
+        //TODO: rework for function
+        <FactoryProvider>
+        {
+            provide: LAYOUT_METADATA_STORAGE,
+            useFactory: () => new MetadataStorage<LayoutComponentMetadata>(id => inject(StoreDataService<LayoutComponentMetadata>).getData(id)),
+        },
+        createStoreDataServiceFactory('LAYOUT_DATA'),
+        provideDynamic([withLayoutRuntime()],
+                       withBasicComponents(),
+                       withMaterialComponents(),
+                       withCssComponents(),
+                       withTinyMceComponents(),
+                       withHandlebarsComponents(),
+                       withFormComponents(),),
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'preview'})
@@ -21,16 +54,16 @@ export class PreviewComponent implements OnInit, OnDestroy
 {
     //######################### protected properties - template bindings #########################
 
-    protected _available: FormControl = new FormControl('');
+    protected available: FormControl = new FormControl('');
 
-    protected _metadata: LayoutComponentMetadata = null;
+    protected metadata: LayoutComponentMetadata = null;
 
-    protected _availableNames: string[] = [];
+    protected availableNames: string[] = [];
 
     //######################### constructor #########################
-    constructor(private _store: StoreDataService,
-                private _router: Router,
-                private _route: ActivatedRoute,)
+    constructor(private store: StoreDataService,
+                private router: Router,
+                private route: ActivatedRoute,)
     {
     }
 
@@ -41,19 +74,19 @@ export class PreviewComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._availableNames = this._store.getStored();
+        this.availableNames = this.store.getStored();
 
-        this._route.params.subscribe(({id}) =>
+        this.route.params.subscribe(({id}) =>
         {
             if(id)
             {
-                this._available.setValue(id);
-                this._metadata = this._store.getData(id);
+                this.available.setValue(id);
+                this.metadata = this.store.getData(id);
             }
 
-            this._available.valueChanges.subscribe(val =>
+            this.available.valueChanges.subscribe(val =>
             {
-                this._router.navigate(['/layout/preview', val], {skipLocationChange: false, replaceUrl: true});
+                this.router.navigate(['/layout/preview', val], {skipLocationChange: false, replaceUrl: true});
             });
         });
     }

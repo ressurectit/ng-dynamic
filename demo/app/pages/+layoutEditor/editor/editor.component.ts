@@ -1,13 +1,22 @@
-import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, FactoryProvider, ClassProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {LAYOUT_METADATA_STORAGE, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
-import {MetadataHistoryManager} from '@anglr/dynamic';
-import {LAYOUT_HISTORY_MANAGER} from '@anglr/dynamic/layout-editor';
+import {MetadataHistoryManager, MetadataStorage, PackageManager, provideDynamic} from '@anglr/dynamic';
+import {LAYOUT_HISTORY_MANAGER, LayoutEditorSAComponent, withLayoutEditor} from '@anglr/dynamic/layout-editor';
+import {withBasicComponents} from '@anglr/dynamic/basic-components';
+import {withMaterialComponents} from '@anglr/dynamic/material-components';
+import {withCssComponents} from '@anglr/dynamic/css-components';
+import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
+import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
+import {withFormComponents} from '@anglr/dynamic/form';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
+import {LoadSaveNewSAComponent} from '../../../components';
+import {createStoreDataServiceFactory} from '../../../misc/factories';
+import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
 
 /**
  * Layout editor component
@@ -16,6 +25,34 @@ import {StoreDataService} from '../../../services/storeData';
 {
     selector: 'layout-editor-view',
     templateUrl: 'editor.component.html',
+    standalone: true,
+    imports:
+    [
+        LoadSaveNewSAComponent,
+        LayoutEditorSAComponent,
+    ],
+    providers:
+    [
+        <FactoryProvider>
+        {
+            provide: LAYOUT_METADATA_STORAGE,
+            useFactory: (store: StoreDataService<LayoutComponentMetadata>) => new MetadataStorage<LayoutComponentMetadata>(id => store.getData(id)),
+            deps: [StoreDataService]
+        },
+        <ClassProvider>
+        {
+            provide: PackageManager,
+            useClass: DemoLayoutPackageManager,
+        },
+        createStoreDataServiceFactory('LAYOUT_DATA'),
+        provideDynamic([withLayoutEditor()],
+                       withBasicComponents(),
+                       withMaterialComponents(),
+                       withCssComponents(),
+                       withTinyMceComponents(),
+                       withHandlebarsComponents(),
+                       withFormComponents(),),
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'editor'})
@@ -24,7 +61,7 @@ export class EditorComponent
 {
     //######################### protected properties - template bindings #########################
 
-    protected _metadata: LayoutComponentMetadata|null = null;
+    protected metadata: LayoutComponentMetadata|null = null;
 
     protected get emptyMetadata(): LayoutComponentMetadata
     {
@@ -50,13 +87,13 @@ export class EditorComponent
     //######################### protected methods - template bindings #########################
 
     @BindThis
-    protected _getMetadata(metadata: LayoutComponentMetadata): LayoutComponentMetadata
+    protected getMetadata(metadata: LayoutComponentMetadata): LayoutComponentMetadata
     {
         return metadata;
     }
 
-    protected _loadDemo(): void
+    protected loadDemo(): void
     {
-        this._metadata = DemoData.demoLayout;
+        this.metadata = DemoData.demoLayout;
     }
 }

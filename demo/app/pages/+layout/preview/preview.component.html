@@ -1,11 +1,14 @@
 <div>
-    <ng-select [formControl]="_available">
-        <ng-option *ngFor="let val of _availableNames" [value]="val" [text]="val"></ng-option>
+    <ng-select [formControl]="available">
+        @for(val of availableNames; track val)
+        {
+            <ng-option [value]="val" [text]="val"></ng-option>
+        }
     </ng-select>
 </div>
 
 <div class="flex-row margin-top-big flex-1">
     <div class="flex-1 overflow-vertical-scroll">
-        <ng-container *layoutComponentRenderer="_metadata"/>
+        <ng-container *layoutComponentRenderer="metadata"/>
     </div>
 </div>

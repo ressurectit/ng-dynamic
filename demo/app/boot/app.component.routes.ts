@@ -13,11 +13,11 @@ export const routes: Routes =
     },
     {
         path: 'layout',
-        loadChildren: () => import('../pages/+layout/layout.module').then(({LayoutModule}) => LayoutModule)
+        loadChildren: () => import('../pages/+layout/layout.module')
     },
     {
         path: 'layout',
-        loadChildren: () => import('../pages/+layoutEditor/layoutEditor.module').then(({LayoutEditorModule}) => LayoutEditorModule)
+        loadChildren: () => import('../pages/+layoutEditor/layoutEditor.module')
     },
     {
         path: 'relationsStatic',
@@ -44,8 +44,8 @@ export const routes: Routes =
         loadChildren: () => import('../pages/+relationsLayoutForm/relationsLayoutForm.module').then(({RelationsLayoutFormModule}) => RelationsLayoutFormModule)
     },
     ...extractRoutes(
-        [
-        ]),
+    [
+    ]),
     accessDeniedRoute,
     notFoundRoute,
 ];

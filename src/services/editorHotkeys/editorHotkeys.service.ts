@@ -1,5 +1,6 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {AppHotkeysService} from '@anglr/common/hotkeys';
+import {LOGGER, Logger} from '@anglr/common';
 import {Hotkey} from 'angular2-hotkeys';
 import {Observable, Subject} from 'rxjs';
 
@@ -105,8 +106,13 @@ export class EditorHotkeys
     }
 
     //######################### constructor #########################
-    constructor(protected hotkeys: AppHotkeysService,)
+    constructor(@Inject(LOGGER) logger: Logger,
+                protected hotkeys?: AppHotkeysService,)
     {
+        if(!hotkeys)
+        {
+            logger.warn('EditorHotkeys: missing hotkeys service, please provide AppHotkeysService.');
+        }
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -116,7 +122,7 @@ export class EditorHotkeys
      */
     public destroy(): void
     {
-        this.hotkeys.destroy();
+        this.hotkeys?.destroy();
     }
 
     //######################### public methods #########################
@@ -126,6 +132,11 @@ export class EditorHotkeys
      */
     public init(): void
     {
+        if(!this.hotkeys)
+        {
+            return;
+        }
+
         this.hotkeys.hotkeys.add(new Hotkey('ctrl+s', () =>
         {
             this.saveSubject.next();

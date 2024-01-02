@@ -1,7 +1,7 @@
 import {ClassProvider, ExistingProvider, FactoryProvider, Type, ValueProvider, inject} from '@angular/core';
 import {LOGGER} from '@anglr/common';
 import {CoreDynamicFeature, defaultExportExtractor, DefaultsOverride, DynamicFeature, DynamicFeatureType, DynamicItemLoader, DynamicModuleDataExtractor, EDITOR_METADATA_MANAGER, MetadataHistoryManager} from '@anglr/dynamic';
-import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LayoutRenderer} from '@anglr/dynamic/layout';
+import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LayoutRenderer, withLayoutRuntime} from '@anglr/dynamic/layout';
 
 import {DragActiveService, LayoutComponentsIteratorService, LayoutDesignerDynamicModuleItemsProvider, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor, LayoutEditorRenderer, LiveEventService} from '../services';
 import {layoutDesignerTypeExtractor} from './extractors';
@@ -69,7 +69,7 @@ const LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES_PROVIDER: ValueProvider =
 const LAYOUT_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
 {
     provide: LAYOUT_MODULE_TYPES_LOADER,
-    useFactory: () => new DynamicItemLoader(inject(LAYOUT_MODULE_TYPES_PROVIDERS),
+    useFactory: () => new DynamicItemLoader(inject(LAYOUT_MODULE_TYPES_PROVIDERS, {optional: true}) ?? [],
                                             inject(LAYOUT_MODULE_TYPES_DATA_EXTRACTORS),
                                             isLayoutModuleTypes,
                                             inject(LOGGER),
@@ -127,7 +127,8 @@ export function withLayoutEditor(): CoreDynamicFeature
                                           LAYOUT_HISTORY_MANAGER_PROVIDER,
                                           LAYOUT_EDITOR_METADATA_MANAGER,
                                       ]
-                                  });
+                                  },
+                                  withLayoutRuntime());
 }
 
 /**

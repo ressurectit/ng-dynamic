@@ -80,7 +80,7 @@ export const LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES_PROVIDER: ValueProvider 
 export const LAYOUT_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
 {
     provide: LAYOUT_MODULE_TYPES_LOADER,
-    useFactory: () => new DynamicItemLoader(inject(LAYOUT_MODULE_TYPES_PROVIDERS),
+    useFactory: () => new DynamicItemLoader(inject(LAYOUT_MODULE_TYPES_PROVIDERS, {optional: true}) ?? [],
                                             inject(LAYOUT_MODULE_TYPES_DATA_EXTRACTORS),
                                             isLayoutModuleTypes,
                                             inject(LOGGER),

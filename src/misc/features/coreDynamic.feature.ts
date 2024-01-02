@@ -45,6 +45,8 @@ export class CoreDynamicFeature
 
             this.featureProviders.prependProviders.push(...useProviders.prependProviders);
             this.featureProviders.providers.push(...useProviders.providers);
+
+            this.ɵtype |= use.type;
         }
 
         this.featureProviders.prependProviders.push(...featureProviders.prependProviders);

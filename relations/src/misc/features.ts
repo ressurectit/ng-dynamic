@@ -29,7 +29,7 @@ const DEFAULT_RELATIONS_COMPONENTS_EXTRACTOR: FactoryProvider =
 const RELATIONS_COMPONENTS_LOADER_PROVIDER: FactoryProvider =
 {
     provide: RELATIONS_COMPONENTS_LOADER,
-    useFactory: () => new DynamicItemLoader(inject(RELATIONS_COMPONENTS_MODULE_PROVIDERS),
+    useFactory: () => new DynamicItemLoader(inject(RELATIONS_COMPONENTS_MODULE_PROVIDERS, {optional: true}) ?? [],
                                             inject(RELATIONS_COMPONENTS_MODULE_DATA_EXTRACTORS),
                                             isRelationsComponentDef,
                                             inject(LOGGER))

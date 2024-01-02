@@ -1,16 +1,16 @@
-import {ClassProvider, ExistingProvider, FactoryProvider, inject} from '@angular/core';
-import {defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, EDITOR_METADATA_MANAGER} from '@anglr/dynamic';
+import {ClassProvider, ExistingProvider, FactoryProvider, Type, inject} from '@angular/core';
+import {CoreDynamicFeature, DynamicFeatureType, defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, EDITOR_METADATA_MANAGER, DynamicFeature, provideStaticPackageSource} from '@anglr/dynamic';
 import {LOGGER} from '@anglr/common';
 
 import {RELATIONS_HISTORY_MANAGER, RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
 import {componentRelationsNodeExtractor, relationsNodeExtractor} from './extractors';
-import {StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider, RelationsNodeManager} from '../services';
+import {StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider, RelationsNodeManager, ScopeRegister, StaticComponentsRegister} from '../services';
 import {isRelationsModuleTypes, isRelationsNodeDef} from './utils';
 
 /**
  * Provider for static components relations nodes provider
  */
-export const STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
+const STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
 {
     provide: RELATIONS_NODES_PROVIDERS,
     useClass: StaticComponentsRelationsNodesProvider,
@@ -20,7 +20,7 @@ export const STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER: ClassProvider =
 /**
  * Provider for static components relations types provider
  */
-export const STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
+const STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
 {
     provide: RELATIONS_MODULE_TYPES_PROVIDERS,
     useClass: StaticComponentsRelationsTypesProvider,
@@ -30,7 +30,7 @@ export const STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER: ClassProvider =
 /**
  * Provider for default relations nodes extractor
  */
-export const DEFAULT_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
+const DEFAULT_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
 {
     provide: RELATIONS_NODES_DATA_EXTRACTORS,
     useFactory: () =>
@@ -46,7 +46,7 @@ export const DEFAULT_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
 /**
  * Provider for static and layout components relations nodes extractor
  */
-export const COMPONENTS_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
+const COMPONENTS_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
 {
     provide: RELATIONS_NODES_DATA_EXTRACTORS,
     useFactory: () =>
@@ -62,7 +62,7 @@ export const COMPONENTS_RELATIONS_NODES_EXTRACTOR: FactoryProvider =
 /**
  * Provider for default relations module types extractor
  */
-export const DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR: FactoryProvider =
+const DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR: FactoryProvider =
 {
     provide: RELATIONS_MODULE_TYPES_DATA_EXTRACTORS,
     useFactory: () =>
@@ -78,7 +78,7 @@ export const DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR: FactoryProvider =
 /**
  * Provider for relations module types
  */
-export const RELATIONS_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
+const RELATIONS_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
 {
     provide: RELATIONS_MODULE_TYPES_LOADER,
     useFactory: () => new DynamicItemLoader(inject(RELATIONS_MODULE_TYPES_PROVIDERS),
@@ -91,7 +91,7 @@ export const RELATIONS_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
 /**
  * Provider for relations node loader
  */
-export const RELATIONS_NODES_LOADER_PROVIDER: FactoryProvider =
+const RELATIONS_NODES_LOADER_PROVIDER: FactoryProvider =
 {
     provide: RELATIONS_NODES_LOADER,
     useFactory: () => new DynamicItemLoader(inject(RELATIONS_NODES_PROVIDERS),
@@ -104,7 +104,7 @@ export const RELATIONS_NODES_LOADER_PROVIDER: FactoryProvider =
 /**
  * Provider for relations history manager state
  */
-export const RELATIONS_HISTORY_MANAGER_STATE: ExistingProvider =
+const RELATIONS_HISTORY_MANAGER_STATE: ExistingProvider =
 {
     provide: EDITOR_METADATA_MANAGER,
     useExisting: RelationsNodeManager,
@@ -113,8 +113,57 @@ export const RELATIONS_HISTORY_MANAGER_STATE: ExistingProvider =
 /**
  * Provider for relations history manager
  */
-export const RELATIONS_HISTORY_MANAGER_PROVIDER: ClassProvider =
+const RELATIONS_HISTORY_MANAGER_PROVIDER: ClassProvider =
 {
     provide: RELATIONS_HISTORY_MANAGER,
     useClass: MetadataHistoryManager
 };
+
+/**
+ * Enables use of relations editor core feature
+ */
+export function withRelationsEditor(): CoreDynamicFeature
+{
+    return new CoreDynamicFeature(DynamicFeatureType.RelationsEditor,
+                                  {
+                                      prependProviders: [],
+                                      providers:
+                                      [
+                                          DEFAULT_RELATIONS_NODES_EXTRACTOR,
+                                          COMPONENTS_RELATIONS_NODES_EXTRACTOR,
+                                          DEFAULT_RELATIONS_MODULE_TYPES_EXTRACTOR,
+                                          RELATIONS_MODULE_TYPES_LOADER_PROVIDER,
+                                          RELATIONS_NODES_LOADER_PROVIDER,
+                                          RelationsNodeManager,
+                                          ScopeRegister,
+                                          RELATIONS_HISTORY_MANAGER_STATE,
+                                          RELATIONS_HISTORY_MANAGER_PROVIDER,
+                                      ]
+                                  });
+}
+
+/**
+ * Enables use of static components withing relations editor
+ * @param staticRegister - Type that represents implementation of static components register
+ */
+export function withStaticComponents(staticRegister: Type<StaticComponentsRegister>): DynamicFeature
+{
+    return new DynamicFeature(
+    {
+        relationsEditor:
+        {
+            prependProviders: [],
+            providers:
+            [
+                STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
+                STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
+                <ClassProvider>
+                {
+                    provide: StaticComponentsRegister,
+                    useClass: staticRegister
+                },
+                provideStaticPackageSource('static-components'),
+            ]
+        }
+    });
+}

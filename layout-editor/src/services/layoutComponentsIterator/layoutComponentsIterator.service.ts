@@ -1,4 +1,4 @@
-import {Inject, Injectable, Optional} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {DynamicItemLoader} from '@anglr/dynamic';
 import {LayoutComponentDef, LayoutComponentMetadata, LAYOUT_COMPONENTS_LOADER} from '@anglr/dynamic/layout';
 import {Logger, LOGGER} from '@anglr/common';
@@ -14,7 +14,7 @@ export class LayoutComponentsIteratorService
 {
     //######################### constructor #########################
     constructor(@Inject(LAYOUT_COMPONENTS_LOADER) protected loader: DynamicItemLoader<LayoutComponentDef>,
-                @Inject(LOGGER) @Optional() protected logger?: Logger,)
+                @Inject(LOGGER) protected logger: Logger,)
     {
     }
 

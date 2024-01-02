@@ -1,7 +1,6 @@
-import {Inject} from '@angular/core';
 import {Logger} from '@anglr/common';
 import {DynamicItemLoader} from '@anglr/dynamic';
-import {LayoutComponentDef, LayoutComponentMetadata, LAYOUT_COMPONENTS_LOADER} from '@anglr/dynamic/layout';
+import {LayoutComponentDef, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Action} from '@jscrpt/common';
 
 import {getDescendantsGetter} from '../../decorators';
@@ -65,8 +64,8 @@ export class LayoutComponentsIterator<TOptions = any>
 
     //######################### constructor #########################
     constructor(protected layoutMetadata: LayoutComponentMetadata<TOptions>,
-                @Inject(LAYOUT_COMPONENTS_LOADER) protected loader: DynamicItemLoader<LayoutComponentDef>,
-                protected logger?: Logger,)
+                protected loader: DynamicItemLoader<LayoutComponentDef>,
+                protected logger: Logger,)
     {
     }
 
@@ -118,7 +117,7 @@ export class LayoutComponentsIterator<TOptions = any>
 
         if(!def)
         {
-            this.logger?.debug('LayoutComponentsIterator: failed to get dynamic component type for iterator! {{@data}}', {data: {package: metadata.package, name: metadata.name}});
+            this.logger.debug('LayoutComponentsIterator: failed to get dynamic component type for iterator! {{@data}}', {data: {package: metadata.package, name: metadata.name}});
 
             return;
         }

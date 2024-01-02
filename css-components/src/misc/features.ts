@@ -48,15 +48,5 @@ export function withCssComponents(): DynamicFeature
                 provideStaticPackageSource('css-components'),
             ],
         },
-        relationsRuntime:
-        {
-            prependProviders: [],
-            providers: [],
-        },
-        relationsEditor:
-        {
-            prependProviders: [],
-            providers: [],
-        },
     });
 }

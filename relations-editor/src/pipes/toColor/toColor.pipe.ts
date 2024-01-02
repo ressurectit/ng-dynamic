@@ -1,6 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-
-import {stringToColour} from '../../misc/utils';
+import {stringToColour} from '@jscrpt/common';
 
 /**
  * Converts string to color code

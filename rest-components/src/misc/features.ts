@@ -42,16 +42,6 @@ export function withRestComponents(): DynamicFeature
 {
     return new DynamicFeature(
     {
-        layoutRuntime:
-        {
-            prependProviders: [],
-            providers: [],
-        },
-        layoutEditor:
-        {
-            prependProviders: [],
-            providers: [],
-        },
         relationsRuntime:
         {
             prependProviders: [],

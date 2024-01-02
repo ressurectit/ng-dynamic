@@ -24,20 +24,20 @@ export interface TypedFeatureProviders
     /**
      * Providers for layout runtime
      */
-    readonly layoutRuntime: FeatureProviders;
+    readonly layoutRuntime?: FeatureProviders;
 
     /**
      * Providers for relations runtime
      */
-    readonly relationsRuntime: FeatureProviders;
+    readonly relationsRuntime?: FeatureProviders;
 
     /**
      * Providers for layout editor
      */
-    readonly layoutEditor: FeatureProviders;
+    readonly layoutEditor?: FeatureProviders;
 
     /**
      * Providers for relations editor
      */
-    readonly relationsEditor: FeatureProviders;
+    readonly relationsEditor?: FeatureProviders;
 }

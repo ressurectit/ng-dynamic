@@ -1,4 +1,4 @@
-import {Inject, Injectable, Optional, Type} from '@angular/core';
+import {Inject, Injectable, Type} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {Dictionary, extend} from '@jscrpt/common';
 
@@ -13,7 +13,7 @@ export class LayoutEditorPropertyMetadataExtractor
 {
     //######################### constructor #########################
     constructor(@Inject(LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES) protected _layoutPropertiesSymbols: symbol[],
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+                @Inject(LOGGER) protected logger: Logger,)
     {
     }
 
@@ -30,7 +30,7 @@ export class LayoutEditorPropertyMetadataExtractor
             return null;
         }
 
-        this._logger?.debug(`LayoutEditorPropertyMetadataExtractor: Trying to extract properties metadata '${type.name}'`);
+        this.logger.debug(`LayoutEditorPropertyMetadataExtractor: Trying to extract properties metadata '${type.name}'`);
 
         const result = {};
 

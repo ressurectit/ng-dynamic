@@ -7,6 +7,8 @@ import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS} from '@angl
 
 import {MathDynamicModuleItemsProvider, MathDynamicModuleRelationsProvider, MathDynamicModuleTypesProvider} from '../services';
 
+//TODO: remove math layout
+
 /**
  * Provider for math package layout components provider
  */

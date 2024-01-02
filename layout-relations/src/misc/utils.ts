@@ -1,7 +1,7 @@
-import {ClassProvider, FactoryProvider, Injector, Provider, Type} from '@angular/core';
+import {ClassProvider, Injector, Provider, Type} from '@angular/core';
 import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE, provideLayout} from '@anglr/dynamic/layout';
 import {provideRelations} from '@anglr/dynamic/relations';
-import {provideRelationsEditor, REFRESH_PALETTE_OBSERVABLES, ScopeRegister as RelationsScopeRegister, StaticComponentsRegister, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER} from '@anglr/dynamic/relations-editor';
+import {provideRelationsEditor, ScopeRegister as RelationsScopeRegister, StaticComponentsRegister, STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER, STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER} from '@anglr/dynamic/relations-editor';
 import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, provideLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {MetadataStorage, provideStaticPackageSource} from '@anglr/dynamic';
 import {LOGGER} from '@anglr/common';
@@ -56,16 +56,6 @@ export function provideLayoutRelationsEditor(): Provider[]
             provide: RelationsScopeRegister,
             useClass: ScopeRegister,
         },
-        <FactoryProvider>
-        {
-            provide: REFRESH_PALETTE_OBSERVABLES,
-            useFactory: (layoutManager: LayoutManager) =>
-            {
-                return layoutManager.layoutChange;
-            },
-            deps: [LayoutManager],
-            multi: true
-        },
         provideStaticPackageSource('layout-components'),
     ];
 }
@@ -93,6 +83,8 @@ export function provideEditorRelationsCustomRelations(customRelationsRegister: T
  * Providers that enables use of custom relations components in relations editor
  * @param layoutRelationsEditorProviders - Array of providers for layout relations editor
  * @param customComponentRegister - Type that represents implementation of custom components register
+ * 
+ * @deprecated
  */
 export function provideEditorRelationsCustomComponents(layoutRelationsEditorProviders: Provider[],
                                                        customComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister,): Provider[]
@@ -115,6 +107,8 @@ export function provideEditorRelationsCustomComponents(layoutRelationsEditorProv
  * Providers that enables use of custom layout components in layout editor
  * @param layoutRelationsEditorProviders - Array of providers for layout relations editor
  * @param customComponentRegister - Type that represents implementation of custom components register
+ * 
+ * @deprecated
  */
 export function provideEditorLayoutCustomComponents(layoutRelationsEditorProviders: Provider[],
                                                     customComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister,): Provider[]
@@ -133,6 +127,8 @@ export function provideEditorLayoutCustomComponents(layoutRelationsEditorProvide
         ...layoutRelationsEditorProviders,
     ];
 }
+
+//TODO: remove, also module provider methods
 
 /**
  * Providers for relations editor subpackage, that works with layout metadata, with support of static components

@@ -3,6 +3,7 @@ export * from './directives';
 export * from './dynamicItems';
 export * from './interfaces';
 export * from './misc/extensions';
+export * from './misc/features';
 export * from './misc/providers';
 export * from './misc/utils';
 export * from './modules';

@@ -11,8 +11,9 @@ export class FormComponentControlBuilder
 {
     //######################### constructor #########################
 
-    constructor(private _iteratorsSvc: LayoutComponentsIteratorService)
-    {}
+    constructor(protected iteratorsSvc: LayoutComponentsIteratorService)
+    {
+    }
 
     //######################### public methods #########################
 
@@ -25,9 +26,11 @@ export class FormComponentControlBuilder
     {
         const formGroup = new FormGroup({});
         let activeGroup: FormGroup|null = formGroup;
-        for await (const iteratorItem of this._iteratorsSvc.getIteratorFor(layoutMetadata))
+        
+        for await (const iteratorItem of this.iteratorsSvc.getIteratorFor(layoutMetadata))
         {
             const controlName = this._getControlName(iteratorItem.metadata);
+
             if (controlName)
             {
                 const control = this._getControlForMetadata(iteratorItem.metadata);
@@ -42,7 +45,7 @@ export class FormComponentControlBuilder
         return formGroup;
     }
 
-    //######################### private methods #########################
+    //######################### protected methods #########################
 
     /**
      * Get active form group for specific layout component
@@ -50,7 +53,7 @@ export class FormComponentControlBuilder
      * @param group active form group
      * @returns 
      */
-    private _getActiveGroup(parentIterator: LayoutComponentsIteratorItem|null|undefined, group: FormGroup): FormGroup
+    protected _getActiveGroup(parentIterator: LayoutComponentsIteratorItem|null|undefined, group: FormGroup): FormGroup
     {
         //Already on root FormGroup
         if (!group.parent ||
@@ -89,7 +92,7 @@ export class FormComponentControlBuilder
      * @param metadata component metadata
      * @returns 
      */
-    private _getControlName(metadata: LayoutComponentMetadata)
+    protected _getControlName(metadata: LayoutComponentMetadata)
     {
         if (!metadata)
         {
@@ -104,7 +107,7 @@ export class FormComponentControlBuilder
      * @param metadata component metadata
      * @returns 
      */
-    private _getControlForMetadata(metadata: LayoutComponentMetadata): AbstractControl
+    protected _getControlForMetadata(metadata: LayoutComponentMetadata): AbstractControl
     {
         switch ((<FormComponentOptions>metadata?.options)?.controlType)
         {

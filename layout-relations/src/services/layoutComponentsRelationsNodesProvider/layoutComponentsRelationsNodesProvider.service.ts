@@ -1,4 +1,4 @@
-import {Inject, Injectable, Optional} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
 
@@ -11,8 +11,8 @@ import {LayoutComponentsRegister} from '../layoutComponentsRegister/layoutCompon
 export class LayoutComponentsRelationsNodesProvider implements DynamicModuleProvider
 {
     //######################### constructor #########################
-    constructor(protected _componentsRegister: LayoutComponentsRegister,
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(protected componentsRegister: LayoutComponentsRegister,
+                @Inject(LOGGER) protected logger: Logger,)
     {
     }
 
@@ -29,9 +29,9 @@ export class LayoutComponentsRelationsNodesProvider implements DynamicModuleProv
             return null;
         }
 
-        this._logger?.debug('LayoutComponentsRelationsNodesProvider: trying to get node {{@item}}', {item: {name: source.name, package: source.package}});
+        this.logger.debug('LayoutComponentsRelationsNodesProvider: trying to get node {{@item}}', {item: {name: source.name, package: source.package}});
 
-        const type = await this._componentsRegister.getType(source.name);
+        const type = await this.componentsRegister.getType(source.name);
         
         if(!type)
         {
@@ -40,10 +40,10 @@ export class LayoutComponentsRelationsNodesProvider implements DynamicModuleProv
 
         //TODO: add type for return
 
-        const displayName = await this._componentsRegister.getDisplayName(source.name);
-        const scope = await this._componentsRegister.getScope(source.name);
-        const name = await this._componentsRegister.getComponentName(source.name);
-        const packageName = await this._componentsRegister.getComponentPackage(source.name);
+        const displayName = await this.componentsRegister.getDisplayName(source.name);
+        const scope = await this.componentsRegister.getScope(source.name);
+        const name = await this.componentsRegister.getComponentName(source.name);
+        const packageName = await this.componentsRegister.getComponentPackage(source.name);
 
         return {
             default: type,

@@ -3,6 +3,8 @@ import {provideStaticPackageSource} from '@anglr/dynamic';
 
 import {MATH_LAYOUT_COMPONENTS_PROVIDER, MATH_LAYOUT_MODULE_TYPES_PROVIDER, MATH_RELATIONS_COMPONENTS_PROVIDER, MATH_RELATIONS_MODULE_TYPES_PROVIDER, MATH_RELATIONS_NODES_PROVIDER} from './providers';
 
+//TODO: remove math layout
+
 /**
  * Providers for layout math subpackage
  */

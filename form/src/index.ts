@@ -3,6 +3,7 @@ export * from './dynamicItems';
 export * from './interfaces';
 export * from './metadata';
 export * from './misc/enums';
+export * from './misc/features';
 export * from './misc/formComponentBase.options';
 export * from './misc/formFieldBase.options';
 export * from './misc/tokens';

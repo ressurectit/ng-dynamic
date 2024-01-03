@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, Inject, ClassProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
-import {MetadataHistoryManager, PackageManager, provideDynamic} from '@anglr/dynamic';
+import {MetadataHistoryManager, provideDynamic, withPackageManager} from '@anglr/dynamic';
 import {LAYOUT_HISTORY_MANAGER, LayoutEditorSAComponent, withLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
 import {withMaterialComponents} from '@anglr/dynamic/material-components';
@@ -10,13 +10,14 @@ import {withCssComponents} from '@anglr/dynamic/css-components';
 import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
 import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
 import {withFormComponents} from '@anglr/dynamic/form';
+import {DebugDataCopyClickModule} from '@anglr/common/material';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LoadSaveNewSAComponent} from '../../../components';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
-import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
+import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager';
 
 /**
  * Layout editor component
@@ -30,16 +31,13 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
     [
         LoadSaveNewSAComponent,
         LayoutEditorSAComponent,
+        DebugDataCopyClickModule,
     ],
     providers:
     [
-        <ClassProvider>
-        {
-            provide: PackageManager,
-            useClass: DemoLayoutPackageManager,
-        },
         createStoreDataServiceFactory('LAYOUT_DATA'),
         provideDynamic([withLayoutEditor()],
+                       withPackageManager(DemoLayoutPackageManager),
                        withBasicComponents(),
                        withMaterialComponents(),
                        withCssComponents(),

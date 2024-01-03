@@ -70,7 +70,6 @@ export class PackageManager
     //######################### constructor #########################
     constructor(protected storageName?: string,)
     {
-
         if(storageName)
         {
             this.usedPackagesValue.set(this.store.get<string[]|null>(storageName) ?? []);
@@ -85,6 +84,7 @@ export class PackageManager
             this.initSubscriptions.add(source.packagesChange.subscribe(() => this.setPackages()));
         }
 
+        this.setPackages();
         this.destroyRef.onDestroy(() => this.destroy());
     }
     

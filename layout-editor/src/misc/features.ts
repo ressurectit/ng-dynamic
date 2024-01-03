@@ -1,6 +1,6 @@
 import {ClassProvider, ExistingProvider, FactoryProvider, Type, ValueProvider, inject} from '@angular/core';
 import {LOGGER} from '@anglr/common';
-import {CoreDynamicFeature, defaultExportExtractor, DefaultsOverride, DynamicFeature, DynamicFeatureType, DynamicItemLoader, DynamicModuleDataExtractor, EDITOR_METADATA_MANAGER, MetadataHistoryManager} from '@anglr/dynamic';
+import {CoreDynamicFeature, defaultExportExtractor, DefaultsOverride, DynamicFeature, DynamicFeatureType, DynamicItemLoader, DynamicModuleDataExtractor, EDITOR_METADATA_MANAGER, MetadataHistoryManager, PackageManager} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LayoutRenderer, withLayoutRuntime} from '@anglr/dynamic/layout';
 
 import {DragActiveService, LayoutComponentsIteratorService, LayoutDesignerDynamicModuleItemsProvider, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor, LayoutEditorRenderer, LiveEventService} from '../services';
@@ -123,6 +123,11 @@ export function withLayoutEditor(): CoreDynamicFeature
                                           {
                                               provide: LayoutRenderer,
                                               useExisting: LayoutEditorRenderer,
+                                          },
+                                          <FactoryProvider>
+                                          {
+                                              provide: PackageManager,
+                                              useFactory: () => new PackageManager(),
                                           },
                                           LAYOUT_HISTORY_MANAGER_PROVIDER,
                                           LAYOUT_EDITOR_METADATA_MANAGER,

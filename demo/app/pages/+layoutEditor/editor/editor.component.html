@@ -4,6 +4,8 @@
     <button class="btn btn-primary" type="button" (click)="loadDemo()">
         <span>demo</span>
     </button>
+
+    <debug-data [copyClick]="metadata">metadata</debug-data>
 </div>
 
 <layout-editor class="flex-1" [metadata]="metadata"></layout-editor>

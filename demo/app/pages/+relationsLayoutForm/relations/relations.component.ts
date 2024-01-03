@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ClassProvider, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, provideLayoutRelationsEditor} from '@anglr/dynamic/layout-relations';
@@ -6,8 +6,7 @@ import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-compon
 import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
 import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
 import {provideFormLayoutRelationsEditor} from '@anglr/dynamic/form';
-import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
-import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
+import {EditorHotkeys, MetadataHistoryManager, PackageManager} from '@anglr/dynamic';
 import {provideMaterialLayoutRelationsEditor} from '@anglr/dynamic/material-components';
 import {provideBasicLayoutRelationsEditor} from '@anglr/dynamic/basic-components';
 import {BindThis} from '@jscrpt/common';
@@ -27,12 +26,6 @@ import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackag
     providers:
     [
         EditorHotkeys,
-        <FactoryProvider>
-        {
-            provide: RELATIONS_METADATA_STORAGE,
-            useFactory: (store: StoreDataService<LayoutRelationsMetadata>) => new MetadataStorage<RelationsNodeMetadata[]>(id => store.getData(id)?.relations),
-            deps: [StoreDataService]
-        },
         provideLayoutRelationsEditor(),
         provideBasicLayoutRelationsEditor(),
         provideMaterialLayoutRelationsEditor(),

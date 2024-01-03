@@ -37,15 +37,15 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
 {
     //######################### protected properties - template bindings #########################
 
-    protected _metadata: TStoreMetadata|null = null;
+    protected metadata: TStoreMetadata|null = null;
     
-    protected _available: FormControl<string> = new FormControl('');
+    protected available: FormControl<string> = new FormControl('');
 
-    protected _component: FormControl<boolean> = new FormControl(false);
+    protected component: FormControl<boolean> = new FormControl(false);
 
-    protected _name: FormControl = new FormControl(null);
+    protected name: FormControl = new FormControl(null);
 
-    protected _availableNames: string[] = [];
+    protected availableNames: string[] = [];
 
     /**
      * Subscriptions created during initialization
@@ -82,9 +82,9 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
                 private _route: ActivatedRoute,
                 @Inject(EDITOR_METADATA_MANAGER) private _metaManager: EditorMetadataManager<TMetadata>,
                 private _changeDetector: ChangeDetectorRef,
-                protected liveEvents: LiveEventService,
+                @Optional() protected liveEvents?: LiveEventService,
 
-                @Inject(CustomDynamicItemsRegister) @Optional() private _customComponentsRegister?: DemoCustomRelationsRegister|DemoCustomComponentsRegister,
+                @Inject(CustomDynamicItemsRegister) @Optional() protected customComponentsRegister?: DemoCustomRelationsRegister|DemoCustomComponentsRegister,
                 @Optional() private _hotkeys?: EditorHotkeys,)
     {
     }
@@ -98,24 +98,24 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
     {
         if(this.componentMarking)
         {
-            this._available.valueChanges.subscribe(async value =>
+            this.available.valueChanges.subscribe(async value =>
             {
                 if(!value)
                 {
                     return;
                 }
     
-                const components = await this._customComponentsRegister?.getRegisteredComponents();
+                const components = await this.customComponentsRegister?.getRegisteredComponents();
     
-                this._component.setValue(components.indexOf(value) >= 0, {emitEvent: false});
+                this.component.setValue(components.indexOf(value) >= 0, {emitEvent: false});
             });
     
-            this._component.valueChanges.subscribe(() => this._customComponentsRegister?.toggleRegisteredComponent(this._available.value));
+            this.component.valueChanges.subscribe(() => this.customComponentsRegister?.toggleRegisteredComponent(this.available.value));
         }
 
         if(this._hotkeys)
         {
-            this.initSubscriptions.add(this._hotkeys.save.subscribe(() => this._save()));
+            this.initSubscriptions.add(this._hotkeys.save.subscribe(() => this.save()));
         }
 
         if(this.history)
@@ -124,24 +124,24 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
             this.initSubscriptions.add(this.history.pop.subscribe(() => this._changeDetector.detectChanges()));
         }
 
-        this._availableNames = this.store.getStored();
+        this.availableNames = this.store.getStored();
 
         this._route.params.subscribe(({id}) =>
         {
             if(!id)
             {
-                this._metadata = null;
-                this.metadataChange.next(this._metadata);
+                this.metadata = null;
+                this.metadataChange.next(this.metadata);
 
-                this._name.setValue('');
-                this._available.setValue('');
+                this.name.setValue('');
+                this.available.setValue('');
             }
             else
             {
-                this._name.setValue(id);
-                this._available.setValue(id);
-                this._metadata = this.store.getData(this._available.value);
-                this.metadataChange.next(this._metadata);
+                this.name.setValue(id);
+                this.available.setValue(id);
+                this.metadata = this.store.getData(this.available.value);
+                this.metadataChange.next(this.metadata);
             }
         });
     }
@@ -158,48 +158,48 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
 
     //######################### protected methods - template bindings #########################
 
-    protected _load(): void
+    protected load(): void
     {
-        this._metadata = this.store.getData(this._available.value);
-        this.metadataChange.next(this._metadata);
-        this._name.setValue(this._available.value);
+        this.metadata = this.store.getData(this.available.value);
+        this.metadataChange.next(this.metadata);
+        this.name.setValue(this.available.value);
 
-        this._router.navigate([this.routePath, this._available.value], {skipLocationChange: false, replaceUrl: true});
+        this._router.navigate([this.routePath, this.available.value], {skipLocationChange: false, replaceUrl: true});
     }
 
-    protected _save(): void
+    protected save(): void
     {
-        this._saveData(this._metaManager.getMetadata());
+        this.saveData(this._metaManager.getMetadata());
     }
 
-    protected _delete(): void
+    protected delete(): void
     {
-        this.store.removeData(this._available.value);
+        this.store.removeData(this.available.value);
 
-        this._availableNames = this.store.getStored();
+        this.availableNames = this.store.getStored();
         this._router.navigate([this.routePath], {skipLocationChange: false, replaceUrl: true});
     }
 
-    protected _new(): void
+    protected new(): void
     {
-        this._metadata = null;
-        this.metadataChange.next(this._metadata);
+        this.metadata = null;
+        this.metadataChange.next(this.metadata);
 
-        this._name.setValue('');
-        this._available.setValue('');
+        this.name.setValue('');
+        this.available.setValue('');
         
         this._router.navigate([this.routePath], {skipLocationChange: false, replaceUrl: true});
     }
 
-    protected _saveData(metadata: TMetadata): void
+    protected saveData(metadata: TMetadata): void
     {
-        const data = this.store.getData(this._name.value) ?? {};
+        const data = this.store.getData(this.name.value) ?? {};
         this.history?.save();
 
-        this.store.setData(this._name.value, extend(data, this.getMetadataCallback(metadata)));
+        this.store.setData(this.name.value, extend(data, this.getMetadataCallback(metadata)));
 
-        this._availableNames = this.store.getStored();
+        this.availableNames = this.store.getStored();
         this._changeDetector.detectChanges();
-        this._router.navigate([this.routePath, this._name.value], {skipLocationChange: false, replaceUrl: true});
+        this._router.navigate([this.routePath, this.name.value], {skipLocationChange: false, replaceUrl: true});
     }
 }

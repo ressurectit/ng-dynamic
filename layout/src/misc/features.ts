@@ -1,8 +1,8 @@
-import {FactoryProvider, inject} from '@angular/core';
+import {ClassProvider, FactoryProvider, Type, inject} from '@angular/core';
 import {LOGGER} from '@anglr/common';
-import {CoreDynamicFeature, defaultExportExtractor, DynamicFeatureType, DynamicItemLoader, DynamicModuleDataExtractor, extensionsExportsExtractor} from '@anglr/dynamic';
+import {CoreDynamicFeature, defaultExportExtractor, DynamicFeature, DynamicFeatureType, DynamicItemLoader, DynamicModuleDataExtractor, extensionsExportsExtractor, MetadataStorage} from '@anglr/dynamic';
 
-import {LAYOUT_COMPONENTS_LOADER, LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS} from './tokens';
+import {LAYOUT_COMPONENTS_LOADER, LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_METADATA_STORAGE} from './tokens';
 import {isLayoutComponentDef} from './utils';
 import {LayoutRenderer} from '../services';
 
@@ -51,6 +51,34 @@ export function withLayoutRuntime(): CoreDynamicFeature
                                           LAYOUT_COMPONENTS_LOADER_PROVIDER,
                                           DEFAULT_LAYOUT_COMPONENTS_EXTRACTOR,
                                           LayoutRenderer,
-                                      ]
+                                          <ClassProvider>
+                                          {
+                                              provide: LAYOUT_METADATA_STORAGE,
+                                              useClass: MetadataStorage,
+                                          },
+                                      ],
                                   });
+}
+
+/**
+ * Enables use of custom layout metadata storage
+ * @param metadataStorageType - Type that will be used as layout metadata storage
+ */
+export function withLayoutMetadataStorage<TMetadata>(metadataStorageType: Type<MetadataStorage<TMetadata>>): DynamicFeature
+{
+    return new DynamicFeature(
+    {
+        layoutRuntime:
+        {
+            prependProviders: [],
+            providers:
+            [
+                <ClassProvider>
+                {
+                    provide: LAYOUT_METADATA_STORAGE,
+                    useClass: metadataStorageType,
+                },
+            ],
+        },
+    });
 }

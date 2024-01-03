@@ -1,7 +1,8 @@
-import {inject} from '@angular/core';
-import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
+import {DestroyRef, Signal, WritableSignal, inject, signal} from '@angular/core';
+import {PermanentStorage, PERMANENT_STORAGE, Logger, LOGGER} from '@anglr/common';
 import {PromiseOr} from '@jscrpt/common';
-import {Observable, Subject, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
+import {isEqual} from 'lodash-es';
 
 import {PackageSource} from '../../interfaces';
 import {PACKAGE_SOURCES} from '../../misc/tokens';
@@ -11,13 +12,6 @@ import {PACKAGE_SOURCES} from '../../misc/tokens';
  */
 export class PackageManager
 {
-    //######################### private fields #########################
-    
-    /**
-     * Current usedPackages value
-     */
-    private _usedPackages: string[] = [];
-
     //######################### protected properties #########################
     
     /**
@@ -26,14 +20,14 @@ export class PackageManager
     protected initSubscriptions: Subscription = new Subscription();
 
     /**
-     * Used for emitting usedPackages changes
+     * Signal storing used packages
      */
-    protected usedPackagesSubject: Subject<void> = new Subject<void>();
+    protected usedPackagesValue: WritableSignal<readonly string[]> = signal([]);
 
     /**
-     * Used for emitting packages changes
+     * Signal storing all packages
      */
-    protected packagesChangeSubject: Subject<void> = new Subject<void>();
+    protected packagesValue: WritableSignal<readonly string[]> = signal([]);
 
     /**
      * Permanent storage storing selected packages
@@ -45,60 +39,53 @@ export class PackageManager
      */
     protected packageSources: PackageSource[] = inject(PACKAGE_SOURCES);
 
-    //######################### public properties #########################
+    /**
+     * Instance of destroy ref
+     */
+    protected destroyRef: DestroyRef = inject(DestroyRef);
 
     /**
-     * Occurs when available packages changes
+     * Instance of logger
      */
-    public get packagesChange(): Observable<void>
-    {
-        return this.packagesChangeSubject.asObservable();
-    }
+    protected logger: Logger = inject(LOGGER);
+
+    //######################### public properties #########################
 
     /**
      * Gets available packages
      */
-    public get packages(): readonly string[]
+    public get packages(): Signal<readonly string[]>
     {
-        const result: string[] = [];
-
-        for(const source of this.packageSources)
-        {
-            result.push(...source.packages);
-        }
-
-        return result;
+        return this.packagesValue.asReadonly();
     }
 
     /**
      * Gets current usedPackages value
      */
-    public get usedPackages(): string[]
+    public get usedPackages(): Signal<readonly string[]>
     {
-        return this._usedPackages;
-    }
-    protected set usedPackages(value: string[])
-    {
-        this._usedPackages = value;
+        return this.usedPackagesValue.asReadonly();
     }
     
-    /**
-     * Occurs when usedPackages changes
-     */
-    public get usedPackagesChange(): Observable<void>
-    {
-        return this.usedPackagesSubject.asObservable();
-    }
-
     //######################### constructor #########################
-    constructor(protected storageName: string,)
+    constructor(protected storageName?: string,)
     {
-        this.usedPackages = this.store.get<string[]|null>(storageName) ?? [];
+
+        if(storageName)
+        {
+            this.usedPackagesValue.set(this.store.get<string[]|null>(storageName) ?? []);
+        }
+        else
+        {
+            this.logger.warn('PackageManager: missing storage name, package selection will not be persistent!');
+        }
 
         for(const source of this.packageSources)
         {
-            this.initSubscriptions.add(source.packagesChange.subscribe(() =>this.packagesChangeSubject.next()));
+            this.initSubscriptions.add(source.packagesChange.subscribe(() => this.setPackages()));
         }
+
+        this.destroyRef.onDestroy(() => this.destroy());
     }
     
     //######################### public methods #########################
@@ -109,17 +96,18 @@ export class PackageManager
      */
     public setUsedPackages(usedPackages: string[]): void
     {
-        if(this._usedPackages == usedPackages)
+        if(isEqual(this.usedPackagesValue(), usedPackages))
         {
             return;
         }
     
-        this._usedPackages = usedPackages;
-        this.store.set(this.storageName, usedPackages);
-        this.usedPackagesSubject.next();
-    }
+        this.usedPackagesValue.set(usedPackages);
 
-    //######################### public methods #########################
+        if(this.storageName)
+        {
+            this.store.set(this.storageName, usedPackages);
+        }
+    }
 
     /**
      * Refresh available packages with current data
@@ -138,5 +126,22 @@ export class PackageManager
     public destroy(): void
     {
         this.initSubscriptions.unsubscribe();
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Sets packages new value
+     */
+    protected setPackages(): void
+    {
+        const packages: string[] = [];
+
+        for(const source of this.packageSources)
+        {
+            packages.push(...source.packages);
+        }
+
+        this.packagesValue.set(packages);
     }
 } 

@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LAYOUT_HISTORY_MANAGER, provideLayoutDefaultsOverride, provideLayoutEditor, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/layout-editor';
 import {provideBasicLayoutEditor, StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
-import {EditorHotkeys, MetadataHistoryManager, MetadataStorage, PackageManager} from '@anglr/dynamic';
+import {EditorHotkeys, MetadataHistoryManager, PackageManager} from '@anglr/dynamic';
 import {provideMaterialLayoutEditor} from '@anglr/dynamic/material-components';
 import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
 import {provideGridLayoutEditor} from '@anglr/dynamic/grid-components';
@@ -30,12 +30,6 @@ import {DemoLayoutDefaultsOverrideService} from '../../../services/demoDefaultsO
     providers:
     [
         EditorHotkeys,
-        <FactoryProvider>
-        {
-            provide: LAYOUT_METADATA_STORAGE,
-            useFactory: (store: StoreDataService<LayoutRelationsMetadata>) => new MetadataStorage<LayoutComponentMetadata>(id => store.getData(id)?.layout),
-            deps: [StoreDataService]
-        },
         provideLayoutEditor(),
         provideFormLayoutEditor(),
         provideBasicLayoutEditor(),

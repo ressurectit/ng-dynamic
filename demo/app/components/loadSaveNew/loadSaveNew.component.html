@@ -1,30 +1,34 @@
-<ng-select [formControl]="_available" style="width: 180px">
+<ng-select [formControl]="available" style="width: 180px">
     <ng-option [value]="''" text="*unsaved*"></ng-option>
-    <ng-option *ngFor="let val of _availableNames" [value]="val" [text]="val"></ng-option>
+    <ng-option *ngFor="let val of availableNames" [value]="val" [text]="val"></ng-option>
 </ng-select>
 
-<button class="btn btn-danger" type="button" (click)="_delete()" [disabled]="!_available.value">
+<button class="btn btn-danger" type="button" (click)="delete()" [disabled]="!available.value">
     <span>remove</span>
 </button>
 
-<button class="btn btn-primary" type="button" (click)="_load()" [disabled]="!_available.value">
+<button class="btn btn-primary" type="button" (click)="load()" [disabled]="!available.value">
     <span>load</span>
 </button>
 
-<input type="text" [formControl]="_name">
+<input type="text" [formControl]="name">
 
-<button class="btn btn-primary" type="button" (click)="_save()" [disabled]="!_name.value">
+<button class="btn btn-primary" type="button" (click)="save()" [disabled]="!name.value">
     <span>save <ng-container *ngIf="!(history?.saved ?? true)">*</ng-container></span>
 </button>
 
-<button class="btn btn-primary" type="button" (click)="_new()">
+<button class="btn btn-primary" type="button" (click)="new()">
     <span>new</span>
 </button>
 
-<ng-container *ngIf="layoutControls">
+@if(liveEvents)
+{
     <mat-slide-toggle [checked]="liveEvents.enabled" (change)="liveEvents.setEnabled(!liveEvents.enabled)">live events</mat-slide-toggle>
+}
 
-    <button type="button" class="btn btn-primary" [showCustomComponentOptions]="_available.value" [disabled]="!_component.value">CC options</button>
-</ng-container>
+@if(customComponentsRegister)
+{
+    <button type="button" class="btn btn-primary" [showCustomComponentOptions]="available.value" [disabled]="!component.value">CC options</button>
 
-<label class="margin-horizontal-extra-small" *ngIf="componentMarking"><input type="checkbox" [formControl]="_component"> component</label>
+    <label class="margin-horizontal-extra-small" *ngIf="componentMarking"><input type="checkbox" [formControl]="component"> component</label>
+}

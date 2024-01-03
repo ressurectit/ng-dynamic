@@ -22,7 +22,8 @@ export const RELATIONS_COMPONENTS_LOADER: InjectionToken<DynamicItemLoader<Relat
 /**
  * Injection token for metadata storage set up for relations
  */
-export const RELATIONS_METADATA_STORAGE: InjectionToken<MetadataStorage> = new InjectionToken<MetadataStorage>('RELATIONS_METADATA_STORAGE');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const RELATIONS_METADATA_STORAGE: InjectionToken<MetadataStorage<any>> = new InjectionToken<MetadataStorage<any>>('RELATIONS_METADATA_STORAGE');
 
 /**
  * Injection token for indication whether skip relations process initialization

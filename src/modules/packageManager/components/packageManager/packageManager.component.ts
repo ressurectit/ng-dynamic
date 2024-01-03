@@ -25,7 +25,7 @@ export class PackageManagerComponent implements OnInit
     /**
      * Array of used packages
      */
-    protected usedPackages: string[] = [];
+    protected usedPackages: readonly string[] = [];
 
     /**
      * Array of available packages
@@ -44,7 +44,7 @@ export class PackageManagerComponent implements OnInit
      */
     public ngOnInit(): void
     {
-        this.usedPackages = this.packageManager.usedPackages;
+        this.usedPackages = this.packageManager.usedPackages();
         this.updatedAvailablePackages();
     }
 
@@ -63,7 +63,7 @@ export class PackageManagerComponent implements OnInit
 
         this.usedPackages = [...this.usedPackages, packageName];
         this.updatedAvailablePackages();
-        this.packageManager.setUsedPackages(this.usedPackages);
+        this.packageManager.setUsedPackages(this.usedPackages as string[]);
     }
 
     /**
@@ -74,7 +74,7 @@ export class PackageManagerComponent implements OnInit
     {
         this.usedPackages = this.usedPackages.filter(itm => itm != packageName);
         this.updatedAvailablePackages();
-        this.packageManager.setUsedPackages(this.usedPackages);
+        this.packageManager.setUsedPackages(this.usedPackages as string[]);
     }
 
     //######################### protected methods #########################
@@ -84,6 +84,6 @@ export class PackageManagerComponent implements OnInit
      */
     protected updatedAvailablePackages(): void
     {
-        this.availablePackages = this.packageManager.packages.filter(itm => !this.usedPackages.find(it => it == itm));
+        this.availablePackages = this.packageManager.packages().filter(itm => !this.usedPackages.find(it => it == itm));
     }
 }

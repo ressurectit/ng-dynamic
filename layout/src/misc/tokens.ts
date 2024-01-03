@@ -26,4 +26,5 @@ export const LAYOUT_COMPONENTS_LOADER: InjectionToken<DynamicItemLoader<LayoutCo
 /**
  * Injection token for metadata storage set up for layout
  */
-export const LAYOUT_METADATA_STORAGE: InjectionToken<MetadataStorage> = new InjectionToken<MetadataStorage>('LAYOUT_METADATA_STORAGE');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const LAYOUT_METADATA_STORAGE: InjectionToken<MetadataStorage<any>> = new InjectionToken<MetadataStorage<any>>('LAYOUT_METADATA_STORAGE');

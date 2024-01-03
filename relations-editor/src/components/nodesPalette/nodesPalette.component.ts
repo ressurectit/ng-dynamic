@@ -1,10 +1,11 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, SimpleChanges} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, SimpleChanges, Injector, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, generateId, nameof, WithSync} from '@jscrpt/common';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subscription, take} from 'rxjs';
 
 import {NodesPaletteItem} from './nodesPalette.interface';
 import {REFRESH_PALETTE_OBSERVABLES, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_NODES_LOADER} from '../../misc/tokens';
@@ -50,10 +51,15 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
     /**
      * Gets array of used packages
      */
-    protected get usedPackages(): string[]
+    protected get usedPackages(): readonly string[]
     {
-        return this.packages ?? this.packageManager.usedPackages;
+        return this.packages ?? this.packageManager.usedPackages();
     }
+
+    /**
+     * Injector used for obtaining dependencies
+     */
+    protected injector: Injector = inject(Injector);
 
     //######################### protected properties - template bindings #########################
 
@@ -104,13 +110,13 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
     public blackList: DynamicItemSource[]|undefined|null;
 
     //######################### constructor #########################
-    constructor(@Inject(RELATIONS_MODULE_TYPES_LOADER) protected _moduleTypesLoader: DynamicItemLoader<RelationsModuleTypes>,
-                @Inject(RELATIONS_NODES_LOADER) protected _nodesLoader: DynamicItemLoader<RelationsNodeDef>,
-                protected _changeDetector: ChangeDetectorRef,
+    constructor(@Inject(RELATIONS_MODULE_TYPES_LOADER) protected moduleTypesLoader: DynamicItemLoader<RelationsModuleTypes>,
+                @Inject(RELATIONS_NODES_LOADER) protected nodesLoader: DynamicItemLoader<RelationsNodeDef>,
+                protected changeDetector: ChangeDetectorRef,
                 protected packageManager: PackageManager,
-                protected _metadataManager: RelationsNodeManager,
-                @Inject(REFRESH_PALETTE_OBSERVABLES) @Optional() protected _refreshObservables?: Observable<void>[],
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+                protected metadataManager: RelationsNodeManager,
+                @Inject(LOGGER) protected logger: Logger,
+                @Inject(REFRESH_PALETTE_OBSERVABLES) @Optional() protected refreshObservables?: Observable<void>[],)
     {
     }
 
@@ -121,15 +127,17 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      */
     public async ngOnInit(): Promise<void>
     {
-        if(this._refreshObservables && Array.isArray(this._refreshObservables))
+        if(this.refreshObservables && Array.isArray(this.refreshObservables))
         {
-            for(const obs of this._refreshObservables)
+            for(const obs of this.refreshObservables)
             {
                 this.initSubscriptions.add(obs.subscribe(() => this.loadNodes()));
             }
         }
 
-        this.initSubscriptions.add(this.packageManager.usedPackagesChange.subscribe(() => this.loadNodes()));
+        this.initSubscriptions.add(toObservable(this.packageManager.usedPackages, {injector: this.injector})
+            .pipe(take(1))
+            .subscribe(() => this.loadNodes()));
 
         await this.loadNodes();
     }
@@ -190,7 +198,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
 
         for (const packageName of this.usedPackages)
         {
-            const types = (await this._moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
+            const types = (await this.moduleTypesLoader.loadItem({package: packageName, name: 'types'}))?.data ?? [];
 
             for(const type of types)
             {
@@ -210,11 +218,11 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
                 }
 
                 const itemSource: DynamicItemSource = {package: packageName, name: type};
-                const metadata = await this._nodesLoader.loadItem(itemSource);
+                const metadata = await this.nodesLoader.loadItem(itemSource);
     
                 if(!metadata)
                 {
-                    this._logger?.warn('NodesPaletteSAComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
+                    this.logger.warn('NodesPaletteSAComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
                 }
                 else
                 {
@@ -237,7 +245,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
             this.groupedItems[group].push(item);
         }
 
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 
     //######################### protected methods - template bindings #########################

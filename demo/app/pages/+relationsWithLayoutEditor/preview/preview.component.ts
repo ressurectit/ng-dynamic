@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, FactoryProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
-import {LayoutComponentMetadata, LAYOUT_METADATA_STORAGE} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {RelationsManager} from '@anglr/dynamic/relations';
 import {provideCssLayoutRelations} from '@anglr/dynamic/css-components';
 import {provideTinyMceLayoutRelations} from '@anglr/dynamic/tinymce-components';
@@ -11,7 +11,6 @@ import {provideLayoutRelations} from '@anglr/dynamic/layout-relations';
 import {provideRestLayoutRelations} from '@anglr/dynamic/rest-components';
 import {provideBasicLayoutRelations} from '@anglr/dynamic/basic-components';
 import {provideMaterialLayoutRelations} from '@anglr/dynamic/material-components';
-import {MetadataStorage} from '@anglr/dynamic';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
@@ -27,12 +26,6 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
     templateUrl: 'preview.component.html',
     providers:
     [
-        <FactoryProvider>
-        {
-            provide: LAYOUT_METADATA_STORAGE,
-            useFactory: (store: StoreDataService<LayoutRelationsMetadata>) => new MetadataStorage<LayoutComponentMetadata>(id => store.getData(id)?.layout),
-            deps: [StoreDataService]
-        },
         provideLayoutRelations(),
         provideBasicLayoutRelations(),
         provideMaterialLayoutRelations(),

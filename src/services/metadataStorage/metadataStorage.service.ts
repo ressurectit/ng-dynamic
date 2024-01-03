@@ -1,14 +1,19 @@
-import {Func, PromiseOr} from '@jscrpt/common';
+import {Injectable, inject} from '@angular/core';
+import {LOGGER, Logger} from '@anglr/common';
+import {PromiseOr} from '@jscrpt/common';
 
 /**
- * Class that represents abstract metadata storage
+ * Class that represents default metadata storage
  */
-export class MetadataStorage<TMetadata = any>
+@Injectable()
+export class MetadataStorage<TMetadata>
 {
-    //######################### constructor #########################
-    constructor(protected getMetadataFn: Func<PromiseOr<TMetadata|null>, [string]>,)
-    {
-    }
+    //######################### protected fields #########################
+
+    /**
+     * Instance of logger used for creating logs
+     */
+    protected logger: Logger = inject(LOGGER);
 
     //######################### public methods #########################
 
@@ -18,6 +23,8 @@ export class MetadataStorage<TMetadata = any>
      */
     public getMetadata(id: string): PromiseOr<TMetadata|null>
     {
-        return this.getMetadataFn(id);
+        this.logger.warn('MetadataStorage: default metadata storage has no metadata for "{{id}}"', {id});
+
+        return null;
     }
 }

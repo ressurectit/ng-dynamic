@@ -1,8 +1,8 @@
-import {FactoryProvider, inject} from '@angular/core';
+import {ClassProvider, FactoryProvider, Type, inject} from '@angular/core';
 import {LOGGER} from '@anglr/common';
-import {CoreDynamicFeature, DynamicFeatureType, DynamicItemLoader, DynamicModuleDataExtractor} from '@anglr/dynamic';
+import {CoreDynamicFeature, DynamicFeature, DynamicFeatureType, DynamicItemLoader, DynamicModuleDataExtractor, MetadataStorage} from '@anglr/dynamic';
 
-import {RELATIONS_COMPONENTS_LOADER, RELATIONS_COMPONENTS_MODULE_DATA_EXTRACTORS, RELATIONS_COMPONENTS_MODULE_PROVIDERS} from './tokens';
+import {RELATIONS_COMPONENTS_LOADER, RELATIONS_COMPONENTS_MODULE_DATA_EXTRACTORS, RELATIONS_COMPONENTS_MODULE_PROVIDERS, RELATIONS_METADATA_STORAGE} from './tokens';
 import {relationsExportExtractor} from './extractors';
 import {isRelationsComponentDef} from './utils';
 import {CodeExecutor, RelationsChangeDetector, RelationsComponentManager, RelationsManager, RelationsProcessor} from '../services';
@@ -55,4 +55,27 @@ export function withRelationsRuntime(): CoreDynamicFeature
                                           CodeExecutor,
                                       ]
                                   });
+}
+
+/**
+ * Enables use of custom relations metadata storage
+ * @param metadataStorageType - Type that will be used as relations metadata storage
+ */
+export function withRelationsMetadataStorage<TMetadata>(metadataStorageType: Type<MetadataStorage<TMetadata>>): DynamicFeature
+{
+    return new DynamicFeature(
+    {
+        layoutRuntime:
+        {
+            prependProviders: [],
+            providers:
+            [
+                <ClassProvider>
+                {
+                    provide: RELATIONS_METADATA_STORAGE,
+                    useClass: metadataStorageType,
+                },
+            ],
+        },
+    });
 }

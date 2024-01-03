@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, Inject, FactoryProvider, ClassProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, ClassProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {LAYOUT_METADATA_STORAGE, LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
-import {MetadataHistoryManager, MetadataStorage, PackageManager, provideDynamic} from '@anglr/dynamic';
+import {MetadataHistoryManager, PackageManager, provideDynamic} from '@anglr/dynamic';
 import {LAYOUT_HISTORY_MANAGER, LayoutEditorSAComponent, withLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
 import {withMaterialComponents} from '@anglr/dynamic/material-components';
@@ -33,12 +33,6 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
     ],
     providers:
     [
-        <FactoryProvider>
-        {
-            provide: LAYOUT_METADATA_STORAGE,
-            useFactory: (store: StoreDataService<LayoutComponentMetadata>) => new MetadataStorage<LayoutComponentMetadata>(id => store.getData(id)),
-            deps: [StoreDataService]
-        },
         <ClassProvider>
         {
             provide: PackageManager,

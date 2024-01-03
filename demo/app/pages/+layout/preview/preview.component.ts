@@ -1,10 +1,10 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, FactoryProvider, inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {NgSelectModule} from '@anglr/select';
-import {MetadataStorage, provideDynamic} from '@anglr/dynamic';
-import {LAYOUT_METADATA_STORAGE, LayoutComponentMetadata, LayoutComponentRendererSADirective, withLayoutRuntime} from '@anglr/dynamic/layout';
+import {provideDynamic} from '@anglr/dynamic';
+import {LayoutComponentMetadata, LayoutComponentRendererSADirective, withLayoutRuntime} from '@anglr/dynamic/layout';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
 import {withMaterialComponents} from '@anglr/dynamic/material-components';
 import {withCssComponents} from '@anglr/dynamic/css-components';
@@ -31,12 +31,6 @@ import {createStoreDataServiceFactory} from '../../../misc/factories';
     ],
     providers:
     [
-        //TODO: rework for function
-        <FactoryProvider>
-        {
-            provide: LAYOUT_METADATA_STORAGE,
-            useFactory: () => new MetadataStorage<LayoutComponentMetadata>(id => inject(StoreDataService<LayoutComponentMetadata>).getData(id)),
-        },
         createStoreDataServiceFactory('LAYOUT_DATA'),
         provideDynamic([withLayoutRuntime()],
                        withBasicComponents(),

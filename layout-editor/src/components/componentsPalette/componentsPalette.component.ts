@@ -1,9 +1,10 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, OnChanges, SimpleChanges, Injector, inject} from '@angular/core';
+import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, nameof, WithSync} from '@jscrpt/common';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subscription, skip} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor} from '../../services';
 import {ComponentsPaletteItem, LayoutModuleTypes} from './componentsPalette.interface';
@@ -45,15 +46,20 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
     /**
      * Gets array of used packages
      */
-    protected get usedPackages(): string[]
+    protected get usedPackages(): readonly string[]
     {
-        return this.packages ?? this.packageManager.usedPackages;
+        return this.packages ?? this.packageManager.usedPackages();
     }
 
     /**
      * Array of whitelisted packages
      */
     protected whiteListedPackages: string[] = [];
+
+    /**
+     * Injector used for obtaining dependencies
+     */
+    protected injector: Injector = inject(Injector);
 
     //######################### protected properties - template bindings #########################
 
@@ -94,8 +100,8 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
                 protected changeDetector: ChangeDetectorRef,
                 protected packageManager: PackageManager,
                 protected metadataExtractor: LayoutEditorMetadataExtractor,
-                @Inject(REFRESH_PALETTE_OBSERVABLES) @Optional() protected _refreshObservables?: Observable<void>[],
-                @Inject(LOGGER) @Optional() protected logger?: Logger,)
+                @Inject(LOGGER) protected logger: Logger,
+                @Inject(REFRESH_PALETTE_OBSERVABLES) @Optional() protected refreshObservables?: Observable<void>[],)
     {
     }
 
@@ -106,11 +112,13 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
      */
     public async ngOnInit(): Promise<void>
     {
-        this.initSubscriptions.add(this.packageManager.usedPackagesChange.subscribe(() => this.initItems()));
+        this.initSubscriptions.add(toObservable(this.packageManager.usedPackages, {injector: this.injector})
+            .pipe(skip(1))
+            .subscribe(() => this.initItems()));
 
-        if(this._refreshObservables && Array.isArray(this._refreshObservables))
+        if(this.refreshObservables && Array.isArray(this.refreshObservables))
         {
-            for(const obs of this._refreshObservables)
+            for(const obs of this.refreshObservables)
             {
                 this.initSubscriptions.add(obs.subscribe(() => this.initItems()));
             }
@@ -201,7 +209,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
 
                 if(!metadata)
                 {
-                    this.logger?.warn('ComponentsPaletteSAComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
+                    this.logger.warn('ComponentsPaletteSAComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
                 }
                 else
                 {

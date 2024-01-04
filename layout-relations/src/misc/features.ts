@@ -1,7 +1,7 @@
 import {ClassProvider, Type} from '@angular/core';
-import {DynamicFeature, provideStaticPackageSource} from '@anglr/dynamic';
-import {LAYOUT_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/layout';
-import {RELATIONS_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/relations';
+import {CoreDynamicFeature, DynamicFeature, DynamicFeatureType, provideStaticPackageSource} from '@anglr/dynamic';
+import {LAYOUT_COMPONENTS_MODULE_PROVIDERS, withLayoutRuntime} from '@anglr/dynamic/layout';
+import {RELATIONS_COMPONENTS_MODULE_PROVIDERS, withRelationsRuntime} from '@anglr/dynamic/relations';
 import {LAYOUT_MODULE_TYPES_PROVIDERS, LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
 import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS, ScopeRegister as RelationsScopeRegister} from '@anglr/dynamic/relations-editor';
 
@@ -98,7 +98,21 @@ const CUSTOM_RELATIONS_RELATIONS_COMPONENTS_PROVIDER: ClassProvider =
 };
 
 /**
- *
+ * Enables use of layout relations runtime
+ */
+export function withLayoutRelationsRuntime(): CoreDynamicFeature
+{
+    return new CoreDynamicFeature(DynamicFeatureType.LayoutRuntime | DynamicFeatureType.RelationsRuntime,
+                                  {
+                                      prependProviders: [],
+                                      providers: [],
+                                  },
+                                  withLayoutRuntime(),
+                                  withRelationsRuntime());
+}
+
+/**
+ * Enables use of layout components
  */
 export function withLayoutComponents(): DynamicFeature
 {

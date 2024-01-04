@@ -9,9 +9,14 @@ import {DynamicFeatureType} from './enums';
  * @param coreFeatures - Array of core dynamic features
  * @param features - Array of dynamic features
  */
-export function provideDynamic(coreFeatures: CoreDynamicFeature[],
+export function provideDynamic(coreFeatures: CoreDynamicFeature[]|CoreDynamicFeature,
                                ...features: DynamicFeature[]): Provider[]
 {
+    if(!Array.isArray(coreFeatures))
+    {
+        coreFeatures = [coreFeatures];
+    }
+
     const prependProviders: Provider[] = [];
     const providers: Provider[] = [];
     let type: DynamicFeatureType = 0;

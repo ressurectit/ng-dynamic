@@ -1,0 +1,17 @@
+<div class="flex-row">
+    <a class="margin-horizontal-small" [routerLink]="['/layoutRelationsEditor/layout', available.value]">layout</a>
+    <a class="margin-horizontal-small" [routerLink]="['/layoutRelationsEditor/relations', available.value]">relations</a>
+
+    <ng-select [formControl]="available" class="flex-1">
+        @for(val of availableNames; track val)
+        {
+            <ng-option [value]="val" [text]="val"/>
+        }
+    </ng-select>
+</div>
+
+<div class="flex-row margin-top-big flex-1">
+    <div class="flex-1 overflow-vertical-scroll">
+        <ng-container *layoutComponentRenderer="metadata"/>
+    </div>
+</div>

@@ -2,10 +2,10 @@ import {Component, ChangeDetectionStrategy, SimpleChanges, ChangeDetectorRef, In
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {DynamicOutput, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
+import {DynamicOnChanges} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 
 import {RelationsSampleClickRelationsMetadataLoader} from './relationsSampleClick.metadata';
-import {DynamicOnChanges} from '../../../../src';
 
 /**
  * Sample relations click component

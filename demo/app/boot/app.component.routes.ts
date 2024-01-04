@@ -28,16 +28,12 @@ export const routes: Routes =
         loadChildren: () => import('../pages/+relationsEditor/relationsEditor.module')
     },
     {
-        path: 'relationsWithEditor',
-        loadChildren: () => import('../pages/+relationsWithEditor/relationsWithEditor.module').then(({RelationsWithEditorModule}) => RelationsWithEditorModule)
+        path: 'layoutRelationsEditor',
+        loadChildren: () => import('../pages/+layoutRelationsEditor/layoutRelationsEditor.module')
     },
     {
-        path: 'relationsWithLayoutEditor',
-        loadChildren: () => import('../pages/+relationsWithLayoutEditor/relationsWithLayoutEditor.module').then(({RelationsWithLayoutEditorModule}) => RelationsWithLayoutEditorModule)
-    },
-    {
-        path: 'relationsComplex',
-        loadChildren: () => import('../pages/+relationsComplex/relationsComplex.module').then(({RelationsComplexModule}) => RelationsComplexModule)
+        path: 'layoutRelationsAllFeatures',
+        loadChildren: () => import('../pages/+layoutRelationsAllFeatures/layoutRelationsAllFeatures.module')
     },
     {
         path: 'relationsLayoutForm',

@@ -34,14 +34,14 @@ import {StaticComponentsRegister} from '../../../services/staticComponentsRegist
     providers:
     [
         createStoreDataServiceFactory('RELATIONS_DATA'),
-        provideDynamic([withRelationsEditor()],
+        provideDynamic(withRelationsEditor(),
                        withPackageManager(DemoRelationsPackageManager),
                        withStaticComponents(StaticComponentsRegister),
                        withBasicComponents(),
-                       withMathComponents(),
-                       withTinyMceComponents(),
                        withHandlebarsComponents(),
-                       withRestComponents(),)
+                       withMathComponents(),
+                       withRestComponents(),
+                       withTinyMceComponents(),)
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

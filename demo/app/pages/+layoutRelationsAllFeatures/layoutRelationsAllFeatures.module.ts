@@ -9,7 +9,7 @@ import {GoBackSADirective} from '@anglr/common';
 import {DynamicLayoutRelationsEditorModule} from '@anglr/dynamic/layout-relations';
 import {ShowRelationsDebuggerSADirective} from '@anglr/dynamic/relations-debugger';
 
-import {components} from './relationsComplex.routes';
+import {components} from './layoutRelationsAllFeatures.routes';
 import {LoadSaveNewSAComponent} from '../../components';
 import {createStoreDataServiceFactory} from '../../misc/factories';
 import {StaticInputSAComponent, StaticOutputSAComponent} from './misc';
@@ -43,6 +43,6 @@ import {StaticInputSAComponent, StaticOutputSAComponent} from './misc';
     ],
 })
 @ModuleRoutes(components)
-export class RelationsComplexModule
+export default class LayoutRelationsAllFeaturesModule
 {
 }

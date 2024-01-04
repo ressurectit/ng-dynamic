@@ -1,0 +1,13 @@
+<div class="flex-row">
+    <button class="btn btn-primary margin-right-extra-small" type="button" goBack>
+        <span>go back</span>
+    </button>
+
+    <load-save-new [store]="store" [getMetadataCallback]="getMetadata" routePath="/relationsWithLayoutEditor/relations" (metadataChange)="setMetadata($event)" [history]="history"></load-save-new>
+
+    <button class="btn btn-primary" type="button" (click)="loadDemo()">
+        <span>demo</span>
+    </button>
+</div>
+
+<relations-editor class="flex-1" [metadata]="metadata"></relations-editor>

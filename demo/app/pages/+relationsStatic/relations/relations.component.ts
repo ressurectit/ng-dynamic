@@ -21,7 +21,7 @@ import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../..
     ],
     providers:
     [
-        provideDynamic([withRelationsRuntime()]),
+        provideDynamic(withRelationsRuntime()),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,22 +1,22 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
+import {GoBackSADirective} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {LAYOUT_HISTORY_MANAGER, LayoutEditorSAComponent, withLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {MetadataHistoryManager, provideDynamic, withPackageManager} from '@anglr/dynamic';
-import {LAYOUT_HISTORY_MANAGER, LayoutEditorSAComponent, withLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
 import {withMaterialComponents} from '@anglr/dynamic/material-components';
 import {withCssComponents} from '@anglr/dynamic/css-components';
 import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
 import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
-import {DebugDataCopyClickModule} from '@anglr/common/material';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
-import {LoadSaveNewSAComponent} from '../../../components';
-import {createStoreDataServiceFactory} from '../../../misc/factories';
+import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager';
+import {LoadSaveNewSAComponent} from '../../../components';
 
 /**
  * Layout editor component
@@ -24,30 +24,29 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
 @Component(
 {
     selector: 'layout-editor-view',
-    templateUrl: 'editor.component.html',
+    templateUrl: 'layout.component.html',
     standalone: true,
     imports:
     [
-        LoadSaveNewSAComponent,
+        GoBackSADirective,
         LayoutEditorSAComponent,
-        DebugDataCopyClickModule,
+        LoadSaveNewSAComponent,
     ],
     providers:
     [
-        createStoreDataServiceFactory('LAYOUT_DATA'),
         provideDynamic(withLayoutEditor(),
                        withPackageManager(DemoLayoutPackageManager),
                        withBasicComponents(),
-                       withCssComponents(),
-                       withHandlebarsComponents(),
                        withMaterialComponents(),
-                       withTinyMceComponents(),),
+                       withCssComponents(),
+                       withTinyMceComponents(),
+                       withHandlebarsComponents(),),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path: 'editor'})
-@ComponentRoute({path: 'editor/:id'})
-export class EditorComponent
+@ComponentRoute({path: 'layout'})
+@ComponentRoute({path: 'layout/:id'})
+export class LayoutComponent
 {
     //######################### protected properties - template bindings #########################
 
@@ -68,7 +67,7 @@ export class EditorComponent
     }
 
     //######################### constructor #########################
-    constructor(protected store: StoreDataService,
+    constructor(protected store: StoreDataService<LayoutRelationsMetadata>,
         
                 @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager,)
     {
@@ -77,13 +76,15 @@ export class EditorComponent
     //######################### protected methods - template bindings #########################
 
     @BindThis
-    protected getMetadata(metadata: LayoutComponentMetadata): LayoutComponentMetadata
+    protected getMetadata(metadata: LayoutComponentMetadata): LayoutRelationsMetadata
     {
-        return metadata;
+        return {
+            layout: metadata
+        };
     }
 
     protected loadDemo(): void
     {
-        this.metadata = DemoData.demoLayout;
+        this.metadata = DemoData.demoLayoutWithRelations;
     }
 }

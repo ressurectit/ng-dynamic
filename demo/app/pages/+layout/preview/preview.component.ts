@@ -10,7 +10,6 @@ import {withMaterialComponents} from '@anglr/dynamic/material-components';
 import {withCssComponents} from '@anglr/dynamic/css-components';
 import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
 import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
-import {withFormComponents} from '@anglr/dynamic/form';
 
 import {StoreDataService} from '../../../services/storeData';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
@@ -32,13 +31,12 @@ import {createStoreDataServiceFactory} from '../../../misc/factories';
     providers:
     [
         createStoreDataServiceFactory('LAYOUT_DATA'),
-        provideDynamic([withLayoutRuntime()],
+        provideDynamic(withLayoutRuntime(),
                        withBasicComponents(),
-                       withMaterialComponents(),
                        withCssComponents(),
-                       withTinyMceComponents(),
                        withHandlebarsComponents(),
-                       withFormComponents(),),
+                       withMaterialComponents(),
+                       withTinyMceComponents(),),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

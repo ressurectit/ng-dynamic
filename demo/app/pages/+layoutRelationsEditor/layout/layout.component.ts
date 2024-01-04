@@ -10,6 +10,10 @@ import {withMaterialComponents} from '@anglr/dynamic/material-components';
 import {withCssComponents} from '@anglr/dynamic/css-components';
 import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
 import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
+import {withGridComponents} from '@anglr/dynamic/grid-components';
+import {withMathComponents} from '@anglr/dynamic/math-components';
+import {withRestComponents} from '@anglr/dynamic/rest-components';
+import {withFormComponents} from '@anglr/dynamic/form';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
@@ -37,10 +41,14 @@ import {LoadSaveNewSAComponent} from '../../../components';
         provideDynamic(withLayoutEditor(),
                        withPackageManager(DemoLayoutPackageManager),
                        withBasicComponents(),
-                       withMaterialComponents(),
                        withCssComponents(),
-                       withTinyMceComponents(),
-                       withHandlebarsComponents(),),
+                       withFormComponents(),
+                       withGridComponents(),
+                       withHandlebarsComponents(),
+                       withMaterialComponents(),
+                       withMathComponents(),
+                       withRestComponents(),
+                       withTinyMceComponents(),),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

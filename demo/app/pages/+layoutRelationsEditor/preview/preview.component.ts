@@ -7,13 +7,16 @@ import {provideDynamic} from '@anglr/dynamic';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {RelationsManager} from '@anglr/dynamic/relations';
 import {withLayoutRelationsRuntime} from '@anglr/dynamic/layout-relations';
-// import {provideCssLayoutRelations} from '@anglr/dynamic/css-components';
-// import {provideTinyMceLayoutRelations} from '@anglr/dynamic/tinymce-components';
-// import {provideHandlebarsLayoutRelations} from '@anglr/dynamic/handlebars-components';
-// import {provideLayoutRelations} from '@anglr/dynamic/layout-relations';
-// import {provideRestLayoutRelations} from '@anglr/dynamic/rest-components';
-// import {provideBasicLayoutRelations} from '@anglr/dynamic/basic-components';
-// import {provideMaterialLayoutRelations} from '@anglr/dynamic/material-components';
+import {withBasicComponents} from '@anglr/dynamic/basic-components';
+import {withMaterialComponents} from '@anglr/dynamic/material-components';
+import {withCssComponents} from '@anglr/dynamic/css-components';
+import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
+import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
+import {withGridComponents} from '@anglr/dynamic/grid-components';
+import {withMathComponents} from '@anglr/dynamic/math-components';
+import {withRestComponents} from '@anglr/dynamic/rest-components';
+import {withFormComponents} from '@anglr/dynamic/form';
+import {DebugDataCopyClickModule} from '@anglr/common/material';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
@@ -32,17 +35,20 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
         NgSelectModule,
         ReactiveFormsModule,
         LayoutComponentRendererSADirective,
+        DebugDataCopyClickModule,
     ],
     providers:
     [
-        provideDynamic(withLayoutRelationsRuntime()),
-        // provideLayoutRelations(),
-        // provideBasicLayoutRelations(),
-        // provideMaterialLayoutRelations(),
-        // provideCssLayoutRelations(),
-        // provideTinyMceLayoutRelations(),
-        // provideHandlebarsLayoutRelations(),
-        // provideRestLayoutRelations(),
+        provideDynamic(withLayoutRelationsRuntime(),
+                       withBasicComponents(),
+                       withCssComponents(),
+                       withFormComponents(),
+                       withGridComponents(),
+                       withHandlebarsComponents(),
+                       withMaterialComponents(),
+                       withMathComponents(),
+                       withRestComponents(),
+                       withTinyMceComponents(),),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -55,6 +61,8 @@ export class PreviewComponent implements OnInit, OnDestroy
     protected available: FormControl = new FormControl('');
 
     protected metadata: LayoutComponentMetadata = null;
+
+    protected allMetadata: LayoutRelationsMetadata|undefined|null;
 
     protected availableNames: string[] = [];
 
@@ -80,7 +88,7 @@ export class PreviewComponent implements OnInit, OnDestroy
             if(id)
             {
                 this.available.setValue(id);
-                const meta = this._store.getData(id);
+                const meta = this.allMetadata = this._store.getData(id);
                 this.metadata = meta?.layout;
 
                 this._relationsManager.setRelations(meta.relations ?? []);
@@ -92,7 +100,7 @@ export class PreviewComponent implements OnInit, OnDestroy
 
             this.available.valueChanges.subscribe(val =>
             {
-                this._router.navigate(['/relationsWithLayoutEditor/preview', val], {skipLocationChange: false, replaceUrl: true});
+                this._router.navigate(['/layoutRelationsEditor/preview', val], {skipLocationChange: false, replaceUrl: true});
             });
         });
     }

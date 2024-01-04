@@ -3,9 +3,9 @@ import {CoreDynamicFeature, DynamicFeature, DynamicFeatureType, provideStaticPac
 import {LAYOUT_COMPONENTS_MODULE_PROVIDERS, withLayoutRuntime} from '@anglr/dynamic/layout';
 import {RELATIONS_COMPONENTS_MODULE_PROVIDERS, withRelationsRuntime} from '@anglr/dynamic/relations';
 import {LAYOUT_MODULE_TYPES_PROVIDERS, LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
-import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS, ScopeRegister as RelationsScopeRegister} from '@anglr/dynamic/relations-editor';
+import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS, ScopeRegister as RelationsScopeRegister, withRelationsEditor} from '@anglr/dynamic/relations-editor';
 
-import {CustomComponentsDynamicModuleItemsProvider, CustomComponentsDynamicModuleRelationsProvider, CustomComponentsDynamicModuleTypesProvider, CustomComponentsRegister, CustomRelationsDynamicModuleItemsProvider, CustomRelationsDynamicModuleRelationsProvider, CustomRelationsRegister, LayoutComponentsRelationsNodesProvider, LayoutComponentsRelationsTypesProvider, ScopeRegister} from '../services';
+import {CustomComponentsDynamicModuleItemsProvider, CustomComponentsDynamicModuleRelationsProvider, CustomComponentsDynamicModuleTypesProvider, CustomComponentsRegister, CustomRelationsDynamicModuleItemsProvider, CustomRelationsDynamicModuleRelationsProvider, CustomRelationsRegister, LayoutComponentsRegister, LayoutComponentsRelationsNodesProvider, LayoutComponentsRelationsTypesProvider, LayoutManager, ScopeRegister} from '../services';
 
 /**
  * Provider for layout components relations nodes provider
@@ -102,7 +102,7 @@ const CUSTOM_RELATIONS_RELATIONS_COMPONENTS_PROVIDER: ClassProvider =
  */
 export function withLayoutRelationsRuntime(): CoreDynamicFeature
 {
-    return new CoreDynamicFeature(DynamicFeatureType.LayoutRuntime | DynamicFeatureType.RelationsRuntime,
+    return new CoreDynamicFeature(DynamicFeatureType.None,
                                   {
                                       prependProviders: [],
                                       providers: [],
@@ -112,28 +112,30 @@ export function withLayoutRelationsRuntime(): CoreDynamicFeature
 }
 
 /**
- * Enables use of layout components
+ * Enables use of layout components inside of relations editor
  */
-export function withLayoutComponents(): DynamicFeature
+export function withLayoutRelationsEditor(): CoreDynamicFeature
 {
-    return new DynamicFeature(
-    {
-        relationsEditor:
-        {
-            prependProviders: [],
-            providers:
-            [
-                LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER,
-                LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
-                <ClassProvider>
-                {
-                    provide: RelationsScopeRegister,
-                    useClass: ScopeRegister,
-                },
-                provideStaticPackageSource('layout-components'),
-            ],
-        },
-    });
+    return new CoreDynamicFeature(DynamicFeatureType.None,
+                                  {
+                                      prependProviders: [],
+                                      providers: 
+                                      [
+                                          LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER,
+                                          LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
+                                          LayoutManager,
+                                          LayoutComponentsRegister,
+                                          LayoutComponentsIteratorService,
+                                          <ClassProvider>
+                                          {
+                                              provide: RelationsScopeRegister,
+                                              useClass: ScopeRegister,
+                                          },
+                                          provideStaticPackageSource('layout-components'),
+                                      ],
+                                  },
+                                  withLayoutRuntime(),
+                                  withRelationsEditor());
 }
 
 /**

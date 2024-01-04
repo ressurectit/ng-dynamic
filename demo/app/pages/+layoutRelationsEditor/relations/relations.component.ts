@@ -1,15 +1,25 @@
-import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, Optional} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {GoBackSADirective} from '@anglr/common';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent} from '@anglr/dynamic/relations-editor';
-import {LayoutManager} from '@anglr/dynamic/layout-relations';
-import {MetadataHistoryManager} from '@anglr/dynamic';
+import {LayoutManager, withLayoutRelationsEditor} from '@anglr/dynamic/layout-relations';
+import {MetadataHistoryManager, provideDynamic, withPackageManager} from '@anglr/dynamic';
+import {withBasicComponents} from '@anglr/dynamic/basic-components';
+import {withMathComponents} from '@anglr/dynamic/math-components';
+import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
+import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
+import {withRestComponents} from '@anglr/dynamic/rest-components';
+import {withGridComponents} from '@anglr/dynamic/grid-components';
+import {withMaterialComponents} from '@anglr/dynamic/material-components';
+import {withCssComponents} from '@anglr/dynamic/css-components';
+import {withFormComponents} from '@anglr/dynamic/form';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {LoadSaveNewSAComponent} from '../../../components';
+import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager';
 
 /**
  * Layout editor component
@@ -27,18 +37,17 @@ import {LoadSaveNewSAComponent} from '../../../components';
     ],
     providers:
     [
-        // provideLayoutRelationsEditor(),
-        // provideBasicLayoutRelationsEditor(),
-        // provideMaterialLayoutRelationsEditor(),
-        // provideHandlebarsLayoutRelationsEditor(),
-        // provideRestLayoutRelationsEditor(),
-        // provideTinyMceLayoutRelationsEditor(),
-        // provideCssLayoutRelationsEditor(),
-        // <ClassProvider>
-        // {
-        //     provide: PackageManager,
-        //     useClass: DemoRelationsPackageManager,
-        // },
+        provideDynamic(withLayoutRelationsEditor(),
+                       withPackageManager(DemoRelationsPackageManager),
+                       withBasicComponents(),
+                       withCssComponents(),
+                       withFormComponents(),
+                       withGridComponents(),
+                       withHandlebarsComponents(),
+                       withMaterialComponents(),
+                       withMathComponents(),
+                       withRestComponents(),
+                       withTinyMceComponents(),)
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -58,7 +67,7 @@ export class RelationsComponent
     //######################### constructor #########################
     constructor(protected store: StoreDataService<LayoutRelationsMetadata>,
                 @Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager,
-                protected layoutManager: LayoutManager,)
+                @Optional() protected layoutManager?: LayoutManager,)
     {
     }
 
@@ -80,6 +89,6 @@ export class RelationsComponent
     protected setMetadata(metadata: LayoutRelationsMetadata): void
     {
         this.metadata = metadata?.relations ?? this.emptyMetadata;
-        this.layoutManager.setLayout(metadata?.layout);
+        this.layoutManager?.setLayout(metadata?.layout);
     }
 }

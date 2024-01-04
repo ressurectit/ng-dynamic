@@ -126,7 +126,7 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
 
         this.availableNames = this.store.getStored();
 
-        this._route.params.subscribe(({id}) =>
+        this._route.params.subscribe(({id}) =>  
         {
             if(!id)
             {
@@ -193,9 +193,9 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
 
     protected saveData(metadata: TMetadata): void
     {
-        const data = this.store.getData(this.name.value) ?? this.isRelations ? [] : {};
+        const data = this.store.getData(this.name.value) ?? (this.isRelations ? [] : {});
         this.history?.save();
-
+        
         this.store.setData(this.name.value, extend(data, this.getMetadataCallback(metadata)));
 
         this.availableNames = this.store.getStored();

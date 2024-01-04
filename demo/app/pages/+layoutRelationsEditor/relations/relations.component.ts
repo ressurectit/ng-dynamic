@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject, Optional} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {GoBackSADirective} from '@anglr/common';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent} from '@anglr/dynamic/relations-editor';
@@ -67,7 +67,7 @@ export class RelationsComponent
     //######################### constructor #########################
     constructor(protected store: StoreDataService<LayoutRelationsMetadata>,
                 @Inject(RELATIONS_HISTORY_MANAGER) protected history: MetadataHistoryManager,
-                @Optional() protected layoutManager?: LayoutManager,)
+                protected layoutManager: LayoutManager,)
     {
     }
 

@@ -1,17 +1,19 @@
-import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject, ExistingProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, provideRelationsDefaultOverride, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/relations-editor';
-import {LayoutManager, provideLayoutRelationsEditorWithStatic, provideEditorRelationsCustomComponents, provideEditorRelationsCustomRelations, CustomRelationsRegister, CustomDynamicItemsRegister} from '@anglr/dynamic/layout-relations';
-import {provideTinyMceLayoutRelationsEditor} from '@anglr/dynamic/tinymce-components';
-import {provideHandlebarsLayoutRelationsEditor} from '@anglr/dynamic/handlebars-components';
-import {provideCssLayoutRelationsEditor} from '@anglr/dynamic/css-components';
-import {EditorHotkeys, MetadataHistoryManager, PackageManager} from '@anglr/dynamic';
-import {provideBasicLayoutRelationsEditor} from '@anglr/dynamic/basic-components';
-import {provideMaterialLayoutRelationsEditor} from '@anglr/dynamic/material-components';
-import {provideMathLayoutRelationsEditor} from '@anglr/dynamic/math-components';
-import {provideRestLayoutRelationsEditor} from '@anglr/dynamic/rest-components';
-import {provideFormLayoutRelationsEditor} from '@anglr/dynamic/form';
-import {provideGridLayoutRelationsEditor} from '@anglr/dynamic/grid-components';
+import {GoBackSADirective} from '@anglr/common';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent, withStaticComponents} from '@anglr/dynamic/relations-editor';
+import {LayoutManager, CustomRelationsRegister, CustomDynamicItemsRegister, withLayoutRelationsEditor, withCustomComponents, withCustomRelations} from '@anglr/dynamic/layout-relations';
+import {MetadataHistoryManager, provideDynamic, withEditorHotkeys, withPackageManager} from '@anglr/dynamic';
+import {withRelationsMetadataStorage} from '@anglr/dynamic/relations';
+import {withBasicComponents} from '@anglr/dynamic/basic-components';
+import {withMaterialComponents} from '@anglr/dynamic/material-components';
+import {withCssComponents} from '@anglr/dynamic/css-components';
+import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
+import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
+import {withGridComponents} from '@anglr/dynamic/grid-components';
+import {withMathComponents} from '@anglr/dynamic/math-components';
+import {withRestComponents} from '@anglr/dynamic/rest-components';
+import {withFormComponents} from '@anglr/dynamic/form';
 import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
@@ -20,8 +22,9 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {ComplexStaticRegister} from '../misc';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
 import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
-import {DemoRelationsDefaultsOverrideService} from '../../../services/demoDefaultsOverride';
 import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelationsRegister';
+import {LoadSaveNewSAComponent} from '../../../components';
+import {MetadataStorageRelationsComplex} from '../../../services/metadataStorageRelationsComplex';
 
 /**
  * Layout editor component
@@ -30,38 +33,44 @@ import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelations
 {
     selector: 'relations-editor-view',
     templateUrl: 'relations.component.html',
+    standalone: true,
+    imports:
+    [
+        GoBackSADirective,
+        LoadSaveNewSAComponent,
+        RelationsEditorSAComponent,
+    ],
     providers:
     [
-        EditorHotkeys,
-        provideFormLayoutRelationsEditor(),
-        provideBasicLayoutRelationsEditor(),
-        provideHandlebarsLayoutRelationsEditor(),
-        provideMaterialLayoutRelationsEditor(),
-        provideRestLayoutRelationsEditor(),
-        provideTinyMceLayoutRelationsEditor(),
-        provideCssLayoutRelationsEditor(),
-        provideMathLayoutRelationsEditor(),
-        provideGridLayoutRelationsEditor(),
-        provideEditorRelationsCustomComponents(provideLayoutRelationsEditorWithStatic(ComplexStaticRegister), DemoCustomComponentsRegister),
-        provideEditorRelationsCustomRelations(DemoCustomRelationsRegister),
-        provideRelationsDefaultOverride(DemoRelationsDefaultsOverrideService),
-        <ClassProvider>
-        {
-            provide: PackageManager,
-            useClass: DemoRelationsPackageManager,
-        },
+        provideDynamic(withLayoutRelationsEditor(),
+                       withPackageManager(DemoRelationsPackageManager),
+                       withEditorHotkeys(),
+                       withCustomComponents(DemoCustomComponentsRegister),
+                    //    withLayoutDefaultsOverride(DemoLayoutDefaultsOverrideService),
+                       withRelationsMetadataStorage(MetadataStorageRelationsComplex),
+                       withCustomRelations(DemoCustomRelationsRegister),
+                       withStaticComponents(ComplexStaticRegister),
+                       withBasicComponents(),
+                       withCssComponents(),
+                       withFormComponents(),
+                       withGridComponents(),
+                       withHandlebarsComponents(),
+                       withMaterialComponents(),
+                       withMathComponents(),
+                       withRestComponents(),
+                       withTinyMceComponents(),),
         <ExistingProvider>
         {
             provide: CustomDynamicItemsRegister,
             useExisting: CustomRelationsRegister,
         },
-        <FactoryProvider>
-        {
-            provide: REFRESH_PALETTE_OBSERVABLES,
-            useFactory: (register: DemoCustomRelationsRegister) => register.registeredChange,
-            deps: [CustomDynamicItemsRegister],
-            multi: true,
-        },
+        // <FactoryProvider>
+        // {
+        //     provide: REFRESH_PALETTE_OBSERVABLES,
+        //     useFactory: (register: DemoCustomRelationsRegister) => register.registeredChange,
+        //     deps: [CustomDynamicItemsRegister],
+        //     multi: true,
+        // },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

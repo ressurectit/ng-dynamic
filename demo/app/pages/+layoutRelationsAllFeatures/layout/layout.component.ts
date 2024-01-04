@@ -1,24 +1,31 @@
-import {Component, ChangeDetectionStrategy, ClassProvider, FactoryProvider, Inject, ExistingProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, ExistingProvider, inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LAYOUT_HISTORY_MANAGER, provideLayoutDefaultsOverride, provideLayoutEditor, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/layout-editor';
-import {provideBasicLayoutEditor, StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
-import {EditorHotkeys, MetadataHistoryManager, PackageManager} from '@anglr/dynamic';
-import {provideMaterialLayoutEditor} from '@anglr/dynamic/material-components';
-import {provideCssLayoutEditor} from '@anglr/dynamic/css-components';
-import {provideGridLayoutEditor} from '@anglr/dynamic/grid-components';
-import {provideTinyMceLayoutEditor} from '@anglr/dynamic/tinymce-components';
-import {provideHandlebarsLayoutEditor} from '@anglr/dynamic/handlebars-components';
-import {CustomComponentsRegister, CustomDynamicItemsRegister, provideEditorLayoutCustomComponents} from '@anglr/dynamic/layout-relations';
-import {provideFormLayoutEditor} from '@anglr/dynamic/form';
+import {GoBackSADirective} from '@anglr/common';
+import {DebugDataCopyClickModule} from '@anglr/common/material';
+import {LayoutComponentMetadata, withLayoutMetadataStorage} from '@anglr/dynamic/layout';
+import {LAYOUT_HISTORY_MANAGER, LayoutEditorSAComponent, withLayoutDefaultsOverride, withLayoutEditor} from '@anglr/dynamic/layout-editor';
+import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
+import {MetadataHistoryManager, provideDynamic, withEditorHotkeys, withPackageManager} from '@anglr/dynamic';
+import {CustomComponentsRegister, CustomDynamicItemsRegister, withCustomComponents, withCustomRelations} from '@anglr/dynamic/layout-relations';
+import {withBasicComponents} from '@anglr/dynamic/basic-components';
+import {withMaterialComponents} from '@anglr/dynamic/material-components';
+import {withCssComponents} from '@anglr/dynamic/css-components';
+import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
+import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
+import {withGridComponents} from '@anglr/dynamic/grid-components';
+import {withMathComponents} from '@anglr/dynamic/math-components';
+import {withRestComponents} from '@anglr/dynamic/rest-components';
+import {withFormComponents} from '@anglr/dynamic/form';
 import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
-import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager/demoLayoutPackageManager.service';
+import {LoadSaveNewSAComponent} from '../../../components';
+import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager';
 import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
 import {DemoLayoutDefaultsOverrideService} from '../../../services/demoDefaultsOverride';
+import {MetadataStorageLayoutComplex} from '../../../services/metadataStorageLayoutComplex';
 
 /**
  * Layout editor component
@@ -27,35 +34,36 @@ import {DemoLayoutDefaultsOverrideService} from '../../../services/demoDefaultsO
 {
     selector: 'layout-editor-view',
     templateUrl: 'layout.component.html',
+    standalone: true,
+    imports:
+    [
+        GoBackSADirective,
+        DebugDataCopyClickModule,
+        LoadSaveNewSAComponent,
+        LayoutEditorSAComponent,
+    ],
     providers:
     [
-        EditorHotkeys,
-        provideLayoutEditor(),
-        provideFormLayoutEditor(),
-        provideBasicLayoutEditor(),
-        provideGridLayoutEditor(),
-        provideMaterialLayoutEditor(),
-        provideCssLayoutEditor(),
-        provideTinyMceLayoutEditor(),
-        provideHandlebarsLayoutEditor(),
-        provideEditorLayoutCustomComponents([], DemoCustomComponentsRegister),
-        provideLayoutDefaultsOverride(DemoLayoutDefaultsOverrideService),
-        <ClassProvider>
-        {
-            provide: PackageManager,
-            useClass: DemoLayoutPackageManager,
-        },
+        provideDynamic(withLayoutEditor(),
+                       withPackageManager(DemoLayoutPackageManager),
+                       withEditorHotkeys(),
+                       withCustomComponents(DemoCustomComponentsRegister, () => (inject(CustomDynamicItemsRegister) as DemoCustomComponentsRegister).registeredChange),
+                       withLayoutDefaultsOverride(DemoLayoutDefaultsOverrideService),
+                       withLayoutMetadataStorage(MetadataStorageLayoutComplex),
+                       withCustomRelations(),
+                       withBasicComponents(),
+                       withCssComponents(),
+                       withFormComponents(),
+                       withGridComponents(),
+                       withHandlebarsComponents(),
+                       withMaterialComponents(),
+                       withMathComponents(),
+                       withRestComponents(),
+                       withTinyMceComponents(),),
         <ExistingProvider>
         {
             provide: CustomDynamicItemsRegister,
             useExisting: CustomComponentsRegister,
-        },
-        <FactoryProvider>
-        {
-            provide: REFRESH_PALETTE_OBSERVABLES,
-            useFactory: (register: DemoCustomComponentsRegister) => register.registeredChange,
-            deps: [CustomDynamicItemsRegister],
-            multi: true,
         },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -66,7 +74,7 @@ export class LayoutComponent
 {
     //######################### protected properties - template bindings #########################
 
-    protected _metadata: LayoutComponentMetadata|null = null;
+    protected metadata: LayoutComponentMetadata|null = null;
 
     protected get emptyMetadata(): LayoutComponentMetadata
     {
@@ -83,7 +91,7 @@ export class LayoutComponent
     }
 
     //######################### constructor #########################
-    constructor(protected _store: StoreDataService<LayoutRelationsMetadata>,
+    constructor(protected store: StoreDataService<LayoutRelationsMetadata>,
                 @Inject(LAYOUT_HISTORY_MANAGER) protected history: MetadataHistoryManager,)
     {
     }
@@ -91,25 +99,25 @@ export class LayoutComponent
     //######################### protected methods - template bindings #########################
 
     @BindThis
-    protected _getMetadata(metadata: LayoutComponentMetadata): LayoutRelationsMetadata
+    protected getMetadata(metadata: LayoutComponentMetadata): LayoutRelationsMetadata
     {
         return {
             layout: metadata
         };
     }
 
-    protected _loadDemo(): void
+    protected loadDemo(): void
     {
-        this._metadata = DemoData.demoRelationsComplexLayout;
+        this.metadata = DemoData.demoRelationsComplexLayout;
     }
 
-    protected _loadRestDemo(): void
+    protected loadRestDemo(): void
     {
-        this._metadata = DemoData.complexDemoRestLayout;
+        this.metadata = DemoData.complexDemoRestLayout;
     }
 
-    protected _loadFullDemo(): void
+    protected loadFullDemo(): void
     {
-        this._metadata = DemoData.complexDemoFullLayout;
+        this.metadata = DemoData.complexDemoFullLayout;
     }
 }

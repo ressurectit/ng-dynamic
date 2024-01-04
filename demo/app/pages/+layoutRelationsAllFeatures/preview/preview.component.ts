@@ -1,23 +1,31 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormControl} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {provideLayoutRelationsCustomComponents} from '@anglr/dynamic/layout-relations';
-import {RelationsManager} from '@anglr/dynamic/relations';
+import {DebugDataCopyClickModule} from '@anglr/common/material';
+import {NgSelectModule} from '@anglr/select';
+import {provideDynamic} from '@anglr/dynamic';
+import {withCustomComponents, withCustomRelations, withLayoutRelationsRuntime} from '@anglr/dynamic/layout-relations';
+import {LayoutComponentMetadata, LayoutComponentRendererSADirective, withLayoutMetadataStorage} from '@anglr/dynamic/layout';
+import {RelationsManager, withRelationsMetadataStorage} from '@anglr/dynamic/relations';
 import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
-import {provideCssLayoutRelations} from '@anglr/dynamic/css-components';
-import {provideTinyMceLayoutRelations} from '@anglr/dynamic/tinymce-components';
-import {provideHandlebarsLayoutRelations} from '@anglr/dynamic/handlebars-components';
-import {provideMaterialLayoutRelations} from '@anglr/dynamic/material-components';
-import {provideMathLayoutRelations} from '@anglr/dynamic/math-components';
-import {provideBasicLayoutRelations} from '@anglr/dynamic/basic-components';
-import {provideRestLayoutRelations} from '@anglr/dynamic/rest-components';
-import {provideFormLayoutRelations} from '@anglr/dynamic/form';
-import {provideGridLayoutRelations} from '@anglr/dynamic/grid-components';
+import {withBasicComponents} from '@anglr/dynamic/basic-components';
+import {withMaterialComponents} from '@anglr/dynamic/material-components';
+import {withCssComponents} from '@anglr/dynamic/css-components';
+import {withTinyMceComponents} from '@anglr/dynamic/tinymce-components';
+import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
+import {withGridComponents} from '@anglr/dynamic/grid-components';
+import {withMathComponents} from '@anglr/dynamic/math-components';
+import {withRestComponents} from '@anglr/dynamic/rest-components';
+import {withFormComponents} from '@anglr/dynamic/form';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
+import {StaticInputSAComponent, StaticOutputSAComponent} from '../misc';
+import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
+import {MetadataStorageLayoutComplex} from '../../../services/metadataStorageLayoutComplex';
+import {MetadataStorageRelationsComplex} from '../../../services/metadataStorageRelationsComplex';
+import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelationsRegister';
 
 /**
  * Layout preview component
@@ -26,18 +34,35 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 {
     selector: 'layout-preview-view',
     templateUrl: 'preview.component.html',
+    standalone: true,
+    imports:
+    [
+        LayoutComponentRendererSADirective,
+        RouterLink,
+        ReactiveFormsModule,
+        NgSelectModule,
+        DebugDataCopyClickModule,
+        StaticInputSAComponent,
+        StaticOutputSAComponent,
+// ShowRelationsDebuggerSADirective,
+    ],
     providers:
     [
-        provideLayoutRelationsCustomComponents(),
-        provideFormLayoutRelations(),
-        provideBasicLayoutRelations(),
-        provideMaterialLayoutRelations(),
-        provideCssLayoutRelations(),
-        provideTinyMceLayoutRelations(),
-        provideHandlebarsLayoutRelations(),
-        provideRestLayoutRelations(),
-        provideMathLayoutRelations(),
-        provideGridLayoutRelations(),
+        provideDynamic(withLayoutRelationsRuntime(),
+                       withCustomComponents(DemoCustomComponentsRegister),
+                       withCustomRelations(DemoCustomRelationsRegister),
+                       withLayoutMetadataStorage(MetadataStorageLayoutComplex),
+                       withRelationsMetadataStorage(MetadataStorageRelationsComplex),
+                       withCustomRelations(),
+                       withBasicComponents(),
+                       withCssComponents(),
+                       withFormComponents(),
+                       withGridComponents(),
+                       withHandlebarsComponents(),
+                       withMaterialComponents(),
+                       withMathComponents(),
+                       withRestComponents(),
+                       withTinyMceComponents(),),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -92,7 +117,7 @@ export class PreviewComponent implements OnInit, OnDestroy
 
             this.available.valueChanges.subscribe(val =>
             {
-                this.router.navigate(['/relationsComplex/preview', val], {skipLocationChange: false, replaceUrl: true});
+                this.router.navigate(['/layoutRelationsAllFeatures/preview', val], {skipLocationChange: false, replaceUrl: true});
             });
         });
     }

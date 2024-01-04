@@ -3,26 +3,26 @@
         <span>go back</span>
     </button>
 
-    <load-save-new [store]="_store"
-                   [getMetadataCallback]="_getMetadata"
+    <load-save-new [store]="store"
+                   [getMetadataCallback]="getMetadata"
                    [history]="history"
                    [componentMarking]="true"
-                   routePath="/relationsComplex/layout"
-                   (metadataChange)="_metadata = ($any($event?.layout) ?? emptyMetadata)"></load-save-new>
+                   routePath="/layoutRelationsAllFeatures/layout"
+                   (metadataChange)="metadata = ($any($event?.layout) ?? emptyMetadata)"></load-save-new>
     
-    <button class="btn btn-primary" type="button" (click)="_loadDemo()">
+    <button class="btn btn-primary" type="button" (click)="loadDemo()">
         <span>demo</span>
     </button>
 
-    <button class="btn btn-primary" type="button" (click)="_loadRestDemo()">
+    <button class="btn btn-primary" type="button" (click)="loadRestDemo()">
         <span>demo rest</span>
     </button>
 
-    <button class="btn btn-primary" type="button" (click)="_loadFullDemo()">
+    <button class="btn btn-primary" type="button" (click)="loadFullDemo()">
         <span>demo full</span>
     </button>
 
-    <debug-data [copyClick]="_metadata"><div class="margin-horizontal-small">metadata</div></debug-data>
+    <debug-data [copyClick]="metadata"><div class="margin-horizontal-small">metadata</div></debug-data>
 </div>
 
-<layout-editor class="flex-1" [metadata]="_metadata"></layout-editor>
+<layout-editor class="flex-1" [metadata]="metadata"></layout-editor>

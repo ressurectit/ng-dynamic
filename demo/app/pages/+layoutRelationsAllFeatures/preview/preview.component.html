@@ -1,21 +1,24 @@
 <div class="flex-row">
-    <a class="margin-horizontal-small" [routerLink]="['/relationsComplex/layout', available.value]">layout</a>
-    <a class="margin-horizontal-small" [routerLink]="['/relationsComplex/relations', available.value]">relations</a>
-    <a class="margin-horizontal-small" href="#" showRelationsDebugger [relationsDefinition]="relations">debug</a>
+    <a class="margin-horizontal-small" [routerLink]="['/layoutRelationsAllFeatures/layout', available.value]">layout</a>
+    <a class="margin-horizontal-small" [routerLink]="['/layoutRelationsAllFeatures/relations', available.value]">relations</a>
+    <!-- <a class="margin-horizontal-small" href="#" showRelationsDebugger [relationsDefinition]="relations">debug</a> -->
 
     <ng-select [formControl]="available" class="flex-1">
-        <ng-option *ngFor="let val of availableNames" [value]="val" [text]="val"></ng-option>
+        @for(val of availableNames; track val)
+        {
+            <ng-option [value]="val" [text]="val"></ng-option>
+        }
     </ng-select>
 
-    <debug-data [copyClick]="selectedMetadata"><div class="margin-horizontal-small">{{available.value}}</div></debug-data>
+    <debug-data [copyClick]="selectedMetadata"><div class="margin-horizontal-small">metadata</div></debug-data>
 </div>
 
 <div class="flex-row margin-top-big flex-1">
-    <static-input class="margin-right-extra-small"></static-input>
+    <static-input class="margin-right-extra-small"/>
 
     <div class="flex-1 overflow-vertical-scroll thin-scrollbar" style="border: 1px dotted #666;">
         <ng-container *layoutComponentRenderer="metadata"/>
     </div>
 
-    <static-output style="width: 200px;"></static-output>
+    <static-output style="width: 200px;"/>
 </div>

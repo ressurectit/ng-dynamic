@@ -1,9 +1,10 @@
-import {ClassProvider, Type} from '@angular/core';
+import {ClassProvider, FactoryProvider, Type} from '@angular/core';
 import {CoreDynamicFeature, DynamicFeature, DynamicFeatureType, provideStaticPackageSource} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_PROVIDERS, withLayoutRuntime} from '@anglr/dynamic/layout';
 import {RELATIONS_COMPONENTS_MODULE_PROVIDERS, withRelationsRuntime} from '@anglr/dynamic/relations';
-import {LAYOUT_MODULE_TYPES_PROVIDERS, LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
+import {LAYOUT_MODULE_TYPES_PROVIDERS, LayoutComponentsIteratorService, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/layout-editor';
 import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS, ScopeRegister as RelationsScopeRegister, withRelationsEditor} from '@anglr/dynamic/relations-editor';
+import {NoopAction} from '@jscrpt/common';
 
 import {CustomComponentsDynamicModuleItemsProvider, CustomComponentsDynamicModuleRelationsProvider, CustomComponentsDynamicModuleTypesProvider, CustomComponentsRegister, CustomRelationsDynamicModuleItemsProvider, CustomRelationsDynamicModuleRelationsProvider, CustomRelationsRegister, LayoutComponentsRegister, LayoutComponentsRelationsNodesProvider, LayoutComponentsRelationsTypesProvider, LayoutManager, ScopeRegister} from '../services';
 
@@ -142,7 +143,8 @@ export function withLayoutRelationsEditor(): CoreDynamicFeature
  * Enables use of custom components
  * @param customComponentRegister - Type that represents implementation of custom components register
  */
-export function withCustomComponents(customComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister): DynamicFeature
+export function withCustomComponents(customComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister,
+                                     ...layoutRefreshPaletteObservable: NoopAction[]): DynamicFeature
 {
     return new DynamicFeature(
     {
@@ -167,6 +169,14 @@ export function withCustomComponents(customComponentRegister: Type<CustomCompone
                     provide: CustomComponentsRegister,
                     useClass: customComponentRegister,
                 },
+                ...layoutRefreshPaletteObservable.map(itm =>
+                {
+                    return <FactoryProvider> {
+                        provide: REFRESH_PALETTE_OBSERVABLES,
+                        useFactory: itm,
+                        multi: true,
+                    };
+                }),
             ],
         },
         relationsEditor:

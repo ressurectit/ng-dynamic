@@ -6,9 +6,7 @@ import {components} from './layout.routes';
 /**
  * Module for layout preview samples
  */
-@NgModule(
-{
-})
+@NgModule()
 @ModuleRoutes(components)
 export default class LayoutModule
 {

@@ -6,9 +6,7 @@ import {components} from './layoutEditor.routes';
 /**
  * Module for layout editor samples
  */
-@NgModule(
-{
-})
+@NgModule()
 @ModuleRoutes(components)
 export default class LayoutEditorModule
 {

@@ -21,7 +21,7 @@ export const routes: Routes =
     },
     {
         path: 'relationsStatic',
-        loadChildren: () => import('../pages/+relationsStatic/relationsStatic.module').then(({RelationsStaticModule}) => RelationsStaticModule)
+        loadChildren: () => import('../pages/+relationsStatic/relationsStatic.module')
     },
     {
         path: 'relationsEditor',

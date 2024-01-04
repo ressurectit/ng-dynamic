@@ -1,4 +1,4 @@
-import {Inject, Injectable, Optional} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
 
@@ -11,8 +11,8 @@ import {StaticComponentsRegister} from '../staticComponentsRegister/staticCompon
 export class StaticComponentsRelationsNodesProvider implements DynamicModuleProvider
 {
     //######################### constructor #########################
-    constructor(protected _componentsRegister: StaticComponentsRegister,
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(protected componentsRegister: StaticComponentsRegister,
+                @Inject(LOGGER) protected logger: Logger,)
     {
     }
 
@@ -29,9 +29,9 @@ export class StaticComponentsRelationsNodesProvider implements DynamicModuleProv
             return null;
         }
 
-        this._logger?.debug('StaticComponentsRelationsNodesProvider: trying to get node {{@item}}', {item: {name: source.name, package: source.package}});
+        this.logger.debug('StaticComponentsRelationsNodesProvider: trying to get node {{@item}}', {item: {name: source.name, package: source.package}});
 
-        const type = this._componentsRegister.getType(source.name);
+        const type = this.componentsRegister.getType(source.name);
 
         if(!type)
         {

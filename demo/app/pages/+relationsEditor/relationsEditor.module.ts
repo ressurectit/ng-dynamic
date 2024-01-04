@@ -6,9 +6,7 @@ import {components} from './relationsEditor.routes';
 /**
  * Module for relations editor samples
  */
-@NgModule(
-{
-})
+@NgModule()
 @ModuleRoutes(components)
 export default class RelationsEditorModule
 {

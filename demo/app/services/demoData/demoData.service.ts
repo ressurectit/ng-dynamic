@@ -640,67 +640,9 @@ export class DemoData
     public static relationsStaticDemo: RelationsNodeMetadata[] =
     [
         {
-            id: 'sample-source',
-            package: 'basic-components',
-            name: 'sampleSource',
-            relationsOptions: null,
-            outputs:
-            [
-                {
-                    outputName: 'vystup',
-                    inputs:
-                    [
-                        {
-                            id: 'relations-sample-click',
-                            inputName: 'vstup'
-                        }
-                    ]
-                }
-            ],
-            nodeMetadata:
-            {
-                scopeConfigurable: true,
-                coordinates: 
-                {
-                    x: 30,
-                    y: 60
-                },
-                options: null
-            }
-        },
-        {
             id: 'relations-sample-click',
             package: 'static-components',
             name: 'relations-sample-click',
-            relationsOptions: null,
-            outputs:
-            [
-                {
-                    outputName: 'vystup',
-                    inputs:
-                    [
-                        {
-                            id: 'sample-changes',
-                            inputName: 'vstup'
-                        }
-                    ]
-                }
-            ],
-            nodeMetadata:
-            {
-                scopeConfigurable: true,
-                coordinates: 
-                {
-                    x: 230,
-                    y: 80
-                },
-                options: null
-            }
-        },
-        {
-            id: 'sample-changes',
-            package: 'basic-components',
-            name: 'sampleChange',
             relationsOptions: null,
             outputs:
             [
@@ -720,8 +662,8 @@ export class DemoData
                 scopeConfigurable: true,
                 coordinates: 
                 {
-                    x: 430,
-                    y: 100
+                    x: 230,
+                    y: 80
                 },
                 options: null
             }

@@ -1,5 +1,5 @@
-import {ClassProvider, ExistingProvider, FactoryProvider, Type, inject} from '@angular/core';
-import {CoreDynamicFeature, DynamicFeatureType, defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, EDITOR_METADATA_MANAGER, DynamicFeature, provideStaticPackageSource} from '@anglr/dynamic';
+import {ClassProvider, ExistingProvider, FactoryProvider, Provider, Type, inject} from '@angular/core';
+import {CoreDynamicFeature, DynamicFeatureType, defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, EDITOR_METADATA_MANAGER, DynamicFeature, provideStaticPackageSource, FactoryFn} from '@anglr/dynamic';
 import {LOGGER} from '@anglr/common';
 
 import {RELATIONS_HISTORY_MANAGER, RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
@@ -146,8 +146,20 @@ export function withRelationsEditor(): CoreDynamicFeature
  * Enables use of static components withing relations editor
  * @param staticRegister - Type that represents implementation of static components register
  */
-export function withStaticComponents(staticRegister: Type<StaticComponentsRegister>): DynamicFeature
+export function withStaticComponents(staticRegister: Type<StaticComponentsRegister>|FactoryFn): DynamicFeature
 {
+    const provider: Provider = staticRegister instanceof FactoryFn 
+        ? <FactoryProvider>
+        {
+            provide: StaticComponentsRegister,
+            useFactory: staticRegister.factoryFn,
+        }
+        : <ClassProvider>
+        {
+            provide: StaticComponentsRegister,
+            useClass: staticRegister,
+        };
+
     return new DynamicFeature(
     {
         relationsEditor:
@@ -157,11 +169,7 @@ export function withStaticComponents(staticRegister: Type<StaticComponentsRegist
             [
                 STATIC_COMPONENTS_RELATIONS_NODES_PROVIDER,
                 STATIC_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
-                <ClassProvider>
-                {
-                    provide: StaticComponentsRegister,
-                    useClass: staticRegister
-                },
+                provider,
                 provideStaticPackageSource('static-components'),
             ]
         }

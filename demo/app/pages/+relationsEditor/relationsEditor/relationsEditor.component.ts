@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent, withRelationsEditor} from '@anglr/dynamic/relations-editor';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent, withRelationsEditor, withStaticComponents} from '@anglr/dynamic/relations-editor';
 import {MetadataHistoryManager, EditorMetadataManager, EDITOR_METADATA_MANAGER, provideDynamic, withPackageManager} from '@anglr/dynamic';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
 import {withMathComponents} from '@anglr/dynamic/math-components';
@@ -15,6 +15,7 @@ import {StoreDataService} from '../../../services/storeData';
 import {LoadSaveNewSAComponent} from '../../../components';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager';
+import {StaticComponentsRegister} from '../../../services/staticComponentsRegister';
 
 /**
  * Layout editor component
@@ -35,6 +36,7 @@ import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackag
         createStoreDataServiceFactory('RELATIONS_DATA'),
         provideDynamic([withRelationsEditor()],
                        withPackageManager(DemoRelationsPackageManager),
+                       withStaticComponents(StaticComponentsRegister),
                        withBasicComponents(),
                        withMathComponents(),
                        withTinyMceComponents(),
@@ -76,6 +78,11 @@ export class RelationsEditorComponent
     protected loadDemo(): void
     {
         this.metadata = DemoData.relationsDemo;
+    }
+
+    protected loadStaticDemo(): void
+    {
+        this.metadata = [...DemoData.relationsStaticDemo];
     }
 
     protected showMetadata(): void

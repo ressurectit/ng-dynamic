@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef, SimpleChanges} from '@angular/core';
 import {RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
+import {DynamicOnChanges} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 
 import {RelationsResultRelationsMetadataLoader} from './relationsResult.metadata';
@@ -12,12 +13,11 @@ import {RelationsResultRelationsMetadataLoader} from './relationsResult.metadata
 {
     selector: 'relations-result',
     templateUrl: 'relationsResult.component.html',
-    // styleUrls: ['relationsResult.component.scss'],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(RelationsResultRelationsMetadataLoader)
-export class RelationsResultSAComponent implements RelationsComponent, OnInit, OnDestroy
+export class RelationsResultSAComponent implements RelationsComponent, OnInit, OnDestroy, DynamicOnChanges
 {
     //######################### public static properties #########################
 
@@ -79,7 +79,7 @@ export class RelationsResultSAComponent implements RelationsComponent, OnInit, O
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges(changes: SimpleChanges): void
     {
         if(nameof<RelationsResultSAComponent>('vstup') in changes && this.vstup)
         {

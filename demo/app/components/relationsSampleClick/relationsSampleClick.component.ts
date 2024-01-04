@@ -5,6 +5,7 @@ import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {nameof} from '@jscrpt/common';
 
 import {RelationsSampleClickRelationsMetadataLoader} from './relationsSampleClick.metadata';
+import {DynamicOnChanges} from '../../../../src';
 
 /**
  * Sample relations click component
@@ -21,7 +22,7 @@ import {RelationsSampleClickRelationsMetadataLoader} from './relationsSampleClic
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(RelationsSampleClickRelationsMetadataLoader)
-export class RelationsSampleClickSAComponent implements RelationsComponent, OnInit, OnDestroy
+export class RelationsSampleClickSAComponent implements RelationsComponent, OnInit, OnDestroy, DynamicOnChanges
 {
     //######################### public static properties #########################
 
@@ -99,7 +100,7 @@ export class RelationsSampleClickSAComponent implements RelationsComponent, OnIn
     /**
      * @inheritdoc
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public dynamicOnChanges?(changes: SimpleChanges): void
     {
         if(nameof<RelationsSampleClickSAComponent>('vstup') in changes && this.vstup)
         {

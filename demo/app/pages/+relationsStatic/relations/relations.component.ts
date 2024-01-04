@@ -1,8 +1,10 @@
 import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsManager} from '@anglr/dynamic/relations';
+import {provideDynamic} from '@anglr/dynamic';
+import {RelationsManager, withRelationsRuntime} from '@anglr/dynamic/relations';
 
 import {DemoData} from '../../../services/demoData';
+import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../../../components';
 
 /**
  * Page for displaying relations
@@ -11,7 +13,16 @@ import {DemoData} from '../../../services/demoData';
 {
     selector: 'relations-view',
     templateUrl: 'relations.component.html',
-    // styleUrls: ['relations.component.scss'],
+    standalone: true,
+    imports:
+    [
+        RelationsSampleClickSAComponent,
+        RelationsResultSAComponent,
+    ],
+    providers:
+    [
+        provideDynamic([withRelationsRuntime()]),
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: ''})
@@ -23,6 +34,11 @@ export class RelationsComponent implements OnInit
      * Indication whether is relations sample click component visible
      */
     protected visible: boolean = true;
+
+    /**
+     * String text to be set when input has changed
+     */
+    protected text: string = '';
 
     //######################### constructor #########################
     constructor(private _relationsManager: RelationsManager,)

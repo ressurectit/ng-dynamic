@@ -2,14 +2,19 @@
     <button class="btn btn-primary" type="button" (click)="visible = !visible">
         <span>click</span>
     </button>
+
+    <input type="text" (input)="text = $any($event.target).value">
 </div>
 
-<div *ngIf="visible">
-    <div class="bold">relations sample click</div>
-    <relations-sample-click></relations-sample-click>
-</div>
+@if(visible)
+{
+    <div>
+        <div class="bold">relations sample click</div>
+        <relations-sample-click [vstup]="text"/>
+    </div>
+}
 
 <div>
     <div class="bold">relations result</div>
-    <relations-result></relations-result>
+    <relations-result/>
 </div>

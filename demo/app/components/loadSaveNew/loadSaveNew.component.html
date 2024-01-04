@@ -1,6 +1,9 @@
 <ng-select [formControl]="available" style="width: 180px">
     <ng-option [value]="''" text="*unsaved*"></ng-option>
-    <ng-option *ngFor="let val of availableNames" [value]="val" [text]="val"></ng-option>
+    @for(val of availableNames; track val)
+    {
+        <ng-option [value]="val" [text]="val"></ng-option>
+    }
 </ng-select>
 
 <button class="btn btn-danger" type="button" (click)="delete()" [disabled]="!available.value">
@@ -14,7 +17,7 @@
 <input type="text" [formControl]="name">
 
 <button class="btn btn-primary" type="button" (click)="save()" [disabled]="!name.value">
-    <span>save <ng-container *ngIf="!(history?.saved ?? true)">*</ng-container></span>
+    <span>save @if(!(history?.saved ?? true)){*}</span>
 </button>
 
 <button class="btn btn-primary" type="button" (click)="new()">

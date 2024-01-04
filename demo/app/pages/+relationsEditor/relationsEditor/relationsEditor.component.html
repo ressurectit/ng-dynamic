@@ -1,13 +1,15 @@
 <div class="flex-row">
-    <load-save-new [store]="_store" [getMetadataCallback]="_getMetadata" [layoutControls]="false" routePath="/relationsEditor" (metadataChange)="_metadata = ($any($event) ?? emptyMetadata)" [history]="history"></load-save-new>
+    <load-save-new [store]="store" [getMetadataCallback]="getMetadata" routePath="/relationsEditor" isRelations (metadataChange)="metadata = ($any($event) ?? emptyMetadata)" [history]="history"></load-save-new>
 
-    <button class="btn btn-primary" type="button" (click)="_loadDemo()">
+    <button class="btn btn-primary" type="button" (click)="loadDemo()">
         <span>demo</span>
     </button>
+
+    <debug-data [copyClick]="metadata">metadata</debug-data>
 </div>
 
 <div class="flex-1 flex-row">
-    <relations-editor class="flex-1" [metadata]="_metadata"></relations-editor>
+    <relations-editor class="flex-1" [metadata]="metadata"></relations-editor>
 
     <div style="width: 300px;" class="flex-column">
         <div>Relations metadata</div>

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, OnInit, EventEmitter, Output, OnDestroy, Inject, Optional, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Input, OnInit, EventEmitter, Output, OnDestroy, Inject, Optional, ChangeDetectorRef, booleanAttribute} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
@@ -69,8 +69,8 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
     @Input()
     public componentMarking: boolean = false;
 
-    @Input()
-    public layoutControls: boolean = true;
+    @Input({transform: booleanAttribute})
+    public isRelations: boolean = false;
 
     //######################### public properties - outputs #########################
 
@@ -193,7 +193,7 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
 
     protected saveData(metadata: TMetadata): void
     {
-        const data = this.store.getData(this.name.value) ?? {};
+        const data = this.store.getData(this.name.value) ?? this.isRelations ? [] : {};
         this.history?.save();
 
         this.store.setData(this.name.value, extend(data, this.getMetadataCallback(metadata)));

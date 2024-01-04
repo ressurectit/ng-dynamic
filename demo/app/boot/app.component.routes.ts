@@ -25,7 +25,7 @@ export const routes: Routes =
     },
     {
         path: 'relationsEditor',
-        loadChildren: () => import('../pages/+relationsEditor/relationsEditor.module').then(({RelationsEditorModule}) => RelationsEditorModule)
+        loadChildren: () => import('../pages/+relationsEditor/relationsEditor.module')
     },
     {
         path: 'relationsWithEditor',

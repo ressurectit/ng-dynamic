@@ -5,7 +5,7 @@ import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, generateId, nameof, WithSync} from '@jscrpt/common';
-import {Observable, Subscription, take} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 import {NodesPaletteItem} from './nodesPalette.interface';
 import {REFRESH_PALETTE_OBSERVABLES, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_NODES_LOADER} from '../../misc/tokens';
@@ -127,6 +127,9 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      */
     public async ngOnInit(): Promise<void>
     {
+        this.initSubscriptions.add(toObservable(this.packageManager.usedPackages, {injector: this.injector})
+            .subscribe(() => this.loadNodes()));
+
         if(this.refreshObservables && Array.isArray(this.refreshObservables))
         {
             for(const obs of this.refreshObservables)
@@ -134,12 +137,6 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
                 this.initSubscriptions.add(obs.subscribe(() => this.loadNodes()));
             }
         }
-
-        this.initSubscriptions.add(toObservable(this.packageManager.usedPackages, {injector: this.injector})
-            .pipe(take(1))
-            .subscribe(() => this.loadNodes()));
-
-        await this.loadNodes();
     }
 
     //######################### public methods - implementation of OnChanges #########################

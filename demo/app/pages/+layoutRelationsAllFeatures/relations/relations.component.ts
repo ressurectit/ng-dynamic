@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject, ExistingProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, ExistingProvider, inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {GoBackSADirective} from '@anglr/common';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent, withStaticComponents} from '@anglr/dynamic/relations-editor';
@@ -48,7 +48,7 @@ import {MetadataStorageRelationsComplex} from '../../../services/metadataStorage
                        withCustomComponents(DemoCustomComponentsRegister),
                     //    withLayoutDefaultsOverride(DemoLayoutDefaultsOverrideService),
                        withRelationsMetadataStorage(MetadataStorageRelationsComplex),
-                       withCustomRelations(DemoCustomRelationsRegister),
+                       withCustomRelations(DemoCustomRelationsRegister, () => (inject(CustomDynamicItemsRegister) as DemoCustomRelationsRegister).registeredChange),
                        withStaticComponents(ComplexStaticRegister),
                        withBasicComponents(),
                        withCssComponents(),
@@ -64,13 +64,6 @@ import {MetadataStorageRelationsComplex} from '../../../services/metadataStorage
             provide: CustomDynamicItemsRegister,
             useExisting: CustomRelationsRegister,
         },
-        // <FactoryProvider>
-        // {
-        //     provide: REFRESH_PALETTE_OBSERVABLES,
-        //     useFactory: (register: DemoCustomRelationsRegister) => register.registeredChange,
-        //     deps: [CustomDynamicItemsRegister],
-        //     multi: true,
-        // },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

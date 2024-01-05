@@ -1,17 +1,21 @@
 <div class="dynamic-flex-column">
-    <ng-container *ngFor="let groupKeyValue of groupedItems | keyvalue">
+    @for(groupKeyValue of groupedItems | keyvalue; track groupKeyValue)
+    {
         <div class="dynamic-text-spread dynamic-text-small-caps dynamic-margin-left-extra-small dynamic-margin-horizontal-small dynamic-bold">{{groupKeyValue.key | firstUppercaseLocalize}}&nbsp;</div>
 
-        <div *ngFor="let item of groupKeyValue.value"
-             cdkDropList
-             cdkDropListSortingDisabled
-             [cdkDropListConnectedTo]="canvasDropList"
-             class="palette-droplist">
-            <nodes-palette-item [data]="item"
-                                class="editor-component mat-elevation-z2"
-                                cdkDrag
-                                [cdkDragData]="item | toRelationsDragData: newCompnentId: item.metadata.singleton: item.metadata.scope"
-                                (cdkDragDropped)="generateNewId()"></nodes-palette-item>
-        </div>
-    </ng-container>
+        @for(item of groupKeyValue.value; track item)
+        {
+            <div cdkDropList
+                 cdkDropListSortingDisabled
+                 [cdkDropListConnectedTo]="canvasDropList"
+                 class="palette-droplist">
+                <nodes-palette-item [data]="item"
+                                    class="editor-component mat-elevation-z2"
+                                    cdkDrag
+                                    [cdkDragData]="item | toRelationsDragData: newCompnentId: item.metadata.singleton: item.metadata.scope"
+                                    (cdkDragDropped)="generateNewId()"></nodes-palette-item>
+
+            </div>
+        }
+    }
 </div>

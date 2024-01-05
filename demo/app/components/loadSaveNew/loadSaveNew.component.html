@@ -31,7 +31,10 @@
 
 @if(customComponentsRegister)
 {
-    <button type="button" class="btn btn-primary" [showCustomComponentOptions]="available.value" [disabled]="!component.value">CC options</button>
+    @if(!isRelations)
+    {
+        <button type="button" class="btn btn-primary" [showCustomComponentOptions]="available.value" [disabled]="!component.value">CC options</button>
+    }
 
     <label class="margin-horizontal-extra-small" *ngIf="componentMarking"><input type="checkbox" [formControl]="component"> component</label>
 }

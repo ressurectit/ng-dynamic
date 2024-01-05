@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, nameof, WithSync} from '@jscrpt/common';
-import {Observable, Subscription, skip} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor} from '../../services';
 import {ComponentsPaletteItem, LayoutModuleTypes} from './componentsPalette.interface';
@@ -113,7 +113,6 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
     public async ngOnInit(): Promise<void>
     {
         this.initSubscriptions.add(toObservable(this.packageManager.usedPackages, {injector: this.injector})
-            .pipe(skip(1))
             .subscribe(() => this.initItems()));
 
         if(this.refreshObservables && Array.isArray(this.refreshObservables))
@@ -123,8 +122,6 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
                 this.initSubscriptions.add(obs.subscribe(() => this.initItems()));
             }
         }
-
-        await this.initItems();
     }
 
     //######################### public methods - implementation of OnChanges #########################

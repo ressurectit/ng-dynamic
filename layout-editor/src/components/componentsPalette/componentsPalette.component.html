@@ -1,16 +1,23 @@
 <div class="dynamic-flex-column">
-    <ng-container *ngFor="let groupKeyValue of groupedItems | keyvalue">
+    @for(groupKeyValue of groupedItems | keyvalue; track groupKeyValue)
+    {
         <div class="dynamic-text-spread dynamic-text-small-caps dynamic-margin-left-extra-small dynamic-margin-horizontal-small dynamic-bold">{{groupKeyValue.key|firstUppercaseLocalize}}&nbsp;</div>
+    
+        @for(item of groupKeyValue.value; track item)
+        {
+            <div class="palette-droplist">
+                <div class="editor-component mat-elevation-z2"
+                     [dndCorePaletteItem]="item | toLayoutDragData"
+                     [customDragType]="item.metadata.customDragType?.()?.layout"
+                     (itemDrop)="refreshPipe = !refreshPipe">
+                    <div class="editor-component-name">{{item.metadata.metaInfo?.name ?? item.itemSource.name|firstUppercaseLocalize}}</div>
 
-        <div *ngFor="let item of groupKeyValue.value"
-             class="palette-droplist">
-            <div class="editor-component mat-elevation-z2"
-                 [dndCorePaletteItem]="item | toLayoutDragData"
-                 [customDragType]="item.metadata.customDragType?.()?.layout"
-                 (itemDrop)="refreshPipe = !refreshPipe">
-                <div class="editor-component-name">{{item.metadata.metaInfo?.name ?? item.itemSource.name|firstUppercaseLocalize}}</div>
-                <div class="editor-component-description" *ngIf="item.metadata.metaInfo?.description">{{item.metadata.metaInfo?.description|firstUppercaseLocalize}}</div>
+                    @if(item.metadata.metaInfo?.description)
+                    {
+                        <div class="editor-component-description">{{item.metadata.metaInfo?.description|firstUppercaseLocalize}}</div>
+                    }
+                </div>
             </div>
-        </div>
-    </ng-container>
+        }
+    }
 </div>

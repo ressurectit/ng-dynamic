@@ -6,7 +6,6 @@ export * from './misc/constants';
 export * from './misc/extractors';
 export * from './misc/features';
 export * from './misc/models';
-export * from './misc/providers';
 export * from './misc/tokens';
 export * from './misc/types';
 export * from './misc/utils';

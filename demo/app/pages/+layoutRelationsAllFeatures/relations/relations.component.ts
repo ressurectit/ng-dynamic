@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Inject, ExistingProvider, inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {GoBackSADirective} from '@anglr/common';
-import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent, withStaticComponents} from '@anglr/dynamic/relations-editor';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent, withStaticComponents, withRelationsDefaultsOverride} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, CustomRelationsRegister, CustomDynamicItemsRegister, withLayoutRelationsEditor, withCustomComponents, withCustomRelations} from '@anglr/dynamic/layout-relations';
 import {MetadataHistoryManager, provideDynamic, withEditorHotkeys, withPackageManager} from '@anglr/dynamic';
 import {withRelationsMetadataStorage} from '@anglr/dynamic/relations';
@@ -25,6 +25,7 @@ import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponen
 import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelationsRegister';
 import {LoadSaveNewSAComponent} from '../../../components';
 import {MetadataStorageRelationsComplex} from '../../../services/metadataStorageRelationsComplex';
+import {DemoRelationsDefaultsOverrideService} from '../../../services/demoDefaultsOverride';
 
 /**
  * Layout editor component
@@ -46,7 +47,7 @@ import {MetadataStorageRelationsComplex} from '../../../services/metadataStorage
                        withPackageManager(DemoRelationsPackageManager),
                        withEditorHotkeys(),
                        withCustomComponents(DemoCustomComponentsRegister),
-                    //    withLayoutDefaultsOverride(DemoLayoutDefaultsOverrideService),
+                       withRelationsDefaultsOverride(DemoRelationsDefaultsOverrideService),
                        withRelationsMetadataStorage(MetadataStorageRelationsComplex),
                        withCustomRelations(DemoCustomRelationsRegister, () => (inject(CustomDynamicItemsRegister) as DemoCustomRelationsRegister).registeredChange),
                        withStaticComponents(ComplexStaticRegister),

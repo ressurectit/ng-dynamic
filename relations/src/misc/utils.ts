@@ -3,8 +3,7 @@ import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
 import {Dictionary, isBlank, isType} from '@jscrpt/common';
 
 import {RelationsComponentDef} from './types';
-import {DEFAULT_RELATIONS_COMPONENTS_EXTRACTOR, RELATIONS_COMPONENTS_LOADER_PROVIDER} from './providers';
-import {CodeExecutor, RelationsChangeDetector, RelationsComponentManager, RelationsDebugger, RelationsManager, RelationsProcessor} from '../services';
+import {RelationsDebugger} from '../services';
 import {RELATIONS_DEBUGGER_TYPE} from './tokens';
 
 //TODO: skip init as constant
@@ -48,23 +47,6 @@ export function provideRelationsDebugger(): Provider[]
             }
         ] :
         [];
-}
-
-/**
- * Default providers for relations subpackage
- */
-export function provideRelations(): Provider[]
-{
-    return [
-        DEFAULT_RELATIONS_COMPONENTS_EXTRACTOR,
-        RELATIONS_COMPONENTS_LOADER_PROVIDER,
-        RelationsComponentManager,
-        RelationsManager,
-        RelationsProcessor,
-        RelationsChangeDetector,
-        ...provideRelationsDebugger(),
-        CodeExecutor,
-    ];
 }
 
 /**

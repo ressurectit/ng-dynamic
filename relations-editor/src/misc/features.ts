@@ -1,8 +1,8 @@
 import {ClassProvider, ExistingProvider, FactoryProvider, Provider, Type, inject} from '@angular/core';
-import {CoreDynamicFeature, DynamicFeatureType, defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, EDITOR_METADATA_MANAGER, DynamicFeature, provideStaticPackageSource, FactoryFn} from '@anglr/dynamic';
+import {CoreDynamicFeature, DynamicFeatureType, defaultExportExtractor, DynamicItemLoader, DynamicModuleDataExtractor, MetadataHistoryManager, EDITOR_METADATA_MANAGER, DynamicFeature, provideStaticPackageSource, FactoryFn, DefaultsOverride} from '@anglr/dynamic';
 import {LOGGER} from '@anglr/common';
 
-import {RELATIONS_HISTORY_MANAGER, RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
+import {RELATIONS_DEFAULTS_OVERRIDE, RELATIONS_HISTORY_MANAGER, RELATIONS_MODULE_TYPES_DATA_EXTRACTORS, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_DATA_EXTRACTORS, RELATIONS_NODES_LOADER, RELATIONS_NODES_PROVIDERS} from './tokens';
 import {componentRelationsNodeExtractor, relationsNodeExtractor} from './extractors';
 import {StaticComponentsRelationsNodesProvider, StaticComponentsRelationsTypesProvider, RelationsNodeManager, ScopeRegister, StaticComponentsRegister} from '../services';
 import {isRelationsModuleTypes, isRelationsNodeDef} from './utils';
@@ -176,5 +176,31 @@ export function withStaticComponents(staticRegister: Type<StaticComponentsRegist
                 provideStaticPackageSource('static-components'),
             ]
         }
+    });
+}
+
+/**
+ * Enables use of defaults options overrides for relations components 
+ * @param defaultsOverride - Defaults override implementation
+ * 
+ * Works with:
+ * - **relations editor**
+ */
+export function withRelationsDefaultsOverride(defaultsOverride: Type<DefaultsOverride>): DynamicFeature
+{
+    return new DynamicFeature(
+    {
+        relationsEditor:
+        {
+            prependProviders: [],
+            providers:
+            [
+                <ClassProvider>
+                {
+                    provide: RELATIONS_DEFAULTS_OVERRIDE,
+                    useClass: defaultsOverride
+                },
+            ],
+        },
     });
 }

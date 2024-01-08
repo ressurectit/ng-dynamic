@@ -1,29 +1,29 @@
-import {NoopAction} from '@jscrpt/common';
+import {Func0} from '@jscrpt/common';
 
 /**
  * Wrapper for factory functions, that allows to pass factory function to provider and also "type" (which is function in javascript)
  */
-export class FactoryFn
+export class FactoryFn<TType>
 {
     //######################### protected fields #########################
 
     /**
      * Value of factory function
      */
-    protected factoryFnValue: NoopAction;
+    protected factoryFnValue: Func0<TType>;
 
     //######################### public properties #########################
 
     /**
      * Gets factory function
      */
-    public get factoryFn(): NoopAction
+    public get factoryFn(): Func0<TType>
     {
         return this.factoryFnValue;
     }
 
     //######################### constructor #########################
-    constructor(factoryFn: NoopAction)
+    constructor(factoryFn: Func0<TType>)
     {
         this.factoryFnValue = factoryFn;
     }
@@ -33,7 +33,7 @@ export class FactoryFn
  * Creates factory function class
  * @param factoryFn - Factory function for provider
  */
-export function factoryFn(factoryFn: NoopAction): FactoryFn
+export function factoryFn<TType>(factoryFn: Func0<TType>): FactoryFn<TType>
 {
-    return new FactoryFn(factoryFn);
+    return new FactoryFn<TType>(factoryFn);
 }

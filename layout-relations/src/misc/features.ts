@@ -4,7 +4,8 @@ import {LAYOUT_COMPONENTS_MODULE_PROVIDERS, withLayoutRuntime} from '@anglr/dyna
 import {RELATIONS_COMPONENTS_MODULE_PROVIDERS, withRelationsRuntime} from '@anglr/dynamic/relations';
 import {LAYOUT_MODULE_TYPES_PROVIDERS, LayoutComponentsIteratorService, REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/layout-editor';
 import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS, ScopeRegister as RelationsScopeRegister, withRelationsEditor, REFRESH_PALETTE_OBSERVABLES as RELATIONS_REFRESH_PALETTE_OBSERVABLES} from '@anglr/dynamic/relations-editor';
-import {NoopAction} from '@jscrpt/common';
+import {Func0} from '@jscrpt/common';
+import {Observable} from 'rxjs';
 
 import {CustomComponentsDynamicModuleItemsProvider, CustomComponentsDynamicModuleRelationsProvider, CustomComponentsDynamicModuleTypesProvider, CustomComponentsRegister, CustomRelationsDynamicModuleItemsProvider, CustomRelationsDynamicModuleRelationsProvider, CustomRelationsRegister, LayoutComponentsRegister, LayoutComponentsRelationsNodesProvider, LayoutComponentsRelationsTypesProvider, LayoutManager, ScopeRegister} from '../services';
 
@@ -143,9 +144,14 @@ export function withLayoutRelationsEditor(): CoreDynamicFeature
  * Enables use of custom components
  * @param customComponentRegister - Type that represents implementation of custom components register
  * @param layoutRefreshPaletteObservable - Array of factory functions for layout refresh palette observables
+ * 
+ * Works with:
+ * - **layout runtime**
+ * - **layout editor**
+ * - **relations editor**
  */
 export function withCustomComponents(customComponentRegister: Type<CustomComponentsRegister> = CustomComponentsRegister,
-                                     ...layoutRefreshPaletteObservable: NoopAction[]): DynamicFeature
+                                     ...layoutRefreshPaletteObservable: Func0<Observable<void>>[]): DynamicFeature
 {
     return new DynamicFeature(
     {
@@ -187,7 +193,6 @@ export function withCustomComponents(customComponentRegister: Type<CustomCompone
             [
                 CUSTOM_COMPONENTS_RELATIONS_NODES_PROVIDER,
                 CUSTOM_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
-                CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER,
                 provideStaticPackageSource('custom-components'),
                 <ClassProvider>
                 {
@@ -203,9 +208,13 @@ export function withCustomComponents(customComponentRegister: Type<CustomCompone
  * Enables use of custom relations
  * @param customRelationsRegister - Type that represents implementation of custom relations register
  * @param relationsRefreshPaletteObservable - Array of factory functions for relations refresh palette observables
+ * 
+ * Works with:
+ * - **relations runtime**
+ * - **relations editor**
  */
 export function withCustomRelations(customRelationsRegister: Type<CustomRelationsRegister> = CustomRelationsRegister,
-                                    ...relationsRefreshPaletteObservable: NoopAction[]): DynamicFeature
+                                    ...relationsRefreshPaletteObservable: Func0<Observable<void>>[]): DynamicFeature
 {
     return new DynamicFeature(
     {

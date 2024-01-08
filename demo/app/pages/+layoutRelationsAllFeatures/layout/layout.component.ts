@@ -6,7 +6,7 @@ import {LayoutComponentMetadata, withLayoutMetadataStorage} from '@anglr/dynamic
 import {LAYOUT_HISTORY_MANAGER, LayoutEditorSAComponent, withLayoutDefaultsOverride, withLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {MetadataHistoryManager, provideDynamic, withEditorHotkeys, withPackageManager} from '@anglr/dynamic';
-import {CustomComponentsRegister, CustomDynamicItemsRegister, withCustomComponents, withCustomRelations} from '@anglr/dynamic/layout-relations';
+import {CustomComponentsRegister, CustomDynamicItemsRegister, withCustomComponents} from '@anglr/dynamic/layout-relations';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
 import {withMaterialComponents} from '@anglr/dynamic/material-components';
 import {withCssComponents} from '@anglr/dynamic/css-components';
@@ -50,7 +50,6 @@ import {MetadataStorageLayoutComplex} from '../../../services/metadataStorageLay
                        withCustomComponents(DemoCustomComponentsRegister, () => (inject(CustomDynamicItemsRegister) as DemoCustomComponentsRegister).registeredChange),
                        withLayoutDefaultsOverride(DemoLayoutDefaultsOverrideService),
                        withLayoutMetadataStorage(MetadataStorageLayoutComplex),
-                       withCustomRelations(),
                        withBasicComponents(),
                        withCssComponents(),
                        withFormComponents(),

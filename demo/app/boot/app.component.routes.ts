@@ -36,8 +36,8 @@ export const routes: Routes =
         loadChildren: () => import('../pages/+layoutRelationsAllFeatures/layoutRelationsAllFeatures.module')
     },
     {
-        path: 'relationsLayoutForm',
-        loadChildren: () => import('../pages/+relationsLayoutForm/relationsLayoutForm.module').then(({RelationsLayoutFormModule}) => RelationsLayoutFormModule)
+        path: 'layoutRelationsForm',
+        loadChildren: () => import('../pages/+layoutRelationsForm/layoutRelationsForm.module')
     },
     ...extractRoutes(
     [

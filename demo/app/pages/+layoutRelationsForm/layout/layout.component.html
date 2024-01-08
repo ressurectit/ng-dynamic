@@ -1,0 +1,11 @@
+<div class="flex-row">
+    <button class="btn btn-primary margin-right-extra-small" type="button" goBack>
+        <span>go back</span>
+    </button>
+
+    <load-save-new [store]="store" [getMetadataCallback]="getMetadata" routePath="/layoutRelationsForm/layout" (metadataChange)="metadata = ($any($event?.layout) ?? emptyMetadata)" [history]="history"/>
+
+    <debug-data [copyClick]="metadata"><div class="margin-horizontal-small">metadata</div></debug-data>
+</div>
+
+<layout-editor class="flex-1" [metadata]="metadata"/>

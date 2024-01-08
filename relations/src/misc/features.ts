@@ -60,6 +60,9 @@ export function withRelationsRuntime(): CoreDynamicFeature
 /**
  * Enables use of custom relations metadata storage
  * @param metadataStorageType - Type that will be used as relations metadata storage
+ * 
+ * Works with:
+ * - **layout runtime**
  */
 export function withRelationsMetadataStorage<TMetadata>(metadataStorageType: Type<MetadataStorage<TMetadata>>): DynamicFeature
 {

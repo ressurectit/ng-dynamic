@@ -1,14 +1,16 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, Injector, ValueProvider, ChangeDetectorRef} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormControl, FormGroup} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {NgSelectModule} from '@anglr/select';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
-import {FormComponentControlBuilder, FORM_COMPONENT_CONTROL, provideFormLayout} from '@anglr/dynamic/form';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor} from '@anglr/dynamic/layout-editor';
-import {provideLayoutRelations} from '@anglr/dynamic/layout-relations';
+import {DebugDataCopyClickModule} from '@anglr/common/material';
+import {provideDynamic} from '@anglr/dynamic';
+import {FormComponentControlBuilder, FORM_COMPONENT_CONTROL, withFormComponents, withFormControlBuilder} from '@anglr/dynamic/form';
+import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {withLayoutRelationsRuntime} from '@anglr/dynamic/layout-relations';
 import {RelationsManager} from '@anglr/dynamic/relations';
-import {provideBasicLayout} from '@anglr/dynamic/basic-components';
-import {provideMaterialLayout} from '@anglr/dynamic/material-components';
+import {withBasicComponents} from '@anglr/dynamic/basic-components';
+import {withMaterialComponents} from '@anglr/dynamic/material-components';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
@@ -20,15 +22,22 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 {
     selector: 'form-preview-view',
     templateUrl: 'preview.component.html',
+    standalone: true,
+    imports:
+    [
+        ReactiveFormsModule,
+        NgSelectModule,
+        RouterLink,
+        DebugDataCopyClickModule,
+        LayoutComponentRendererSADirective,
+    ],
     providers:
     [
-        FormComponentControlBuilder,
-        LayoutComponentsIteratorService,
-        LayoutEditorMetadataExtractor,
-        provideLayoutRelations(),
-        provideBasicLayout(),
-        provideMaterialLayout(),
-        provideFormLayout(),
+        provideDynamic(withLayoutRelationsRuntime(),
+                       withBasicComponents(),
+                       withFormComponents(),
+                       withMaterialComponents(),
+                       withFormControlBuilder()),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -41,15 +50,15 @@ export class FormPreviewComponent implements OnInit, OnDestroy
     
     protected selectedMetadata: LayoutRelationsMetadata|null = null;
 
-    protected _formInjector: Injector;
+    protected formInjector: Injector;
 
-    protected _available: FormControl = new FormControl('');
+    protected available: FormControl = new FormControl('');
 
-    protected _metadata: LayoutComponentMetadata = null;
+    protected metadata: LayoutComponentMetadata = null;
 
-    protected _formGroup: FormGroup;
+    protected formGroup: FormGroup;
 
-    protected _availableNames: string[] = [];
+    protected availableNames: string[] = [];
 
     //######################### constructor #########################
     constructor(private _relationsManager: RelationsManager,
@@ -69,19 +78,19 @@ export class FormPreviewComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this._availableNames = this._store.getStored();
+        this.availableNames = this._store.getStored();
 
         this._route.params.subscribe(async ({id}) =>
         {
             if(id)
             {
-                this._available.setValue(id);
+                this.available.setValue(id);
                 const meta = this.selectedMetadata = this._store.getData(id);
-                this._metadata = meta?.layout;
+                this.metadata = meta?.layout;
                 this._relationsManager.setRelations(meta.relations ?? []);
 
-                this._formGroup = await this._formComponentControlBuilder.build(this._metadata);        
-                this._formInjector = Injector.create(
+                this.formGroup = await this._formComponentControlBuilder.build(this.metadata);        
+                this.formInjector = Injector.create(
                     {
                         parent: this._injector,
                         providers:
@@ -89,7 +98,7 @@ export class FormPreviewComponent implements OnInit, OnDestroy
                             <ValueProvider>
                             {
                                 provide: FORM_COMPONENT_CONTROL,
-                                useValue: this._formGroup,
+                                useValue: this.formGroup,
                             }
                         ]
                     }
@@ -102,9 +111,9 @@ export class FormPreviewComponent implements OnInit, OnDestroy
                 this._relationsManager.setRelations([]);
             }
 
-            this._available.valueChanges.subscribe(val =>
+            this.available.valueChanges.subscribe(val =>
             {
-                this._router.navigate(['/relationsLayoutForm', 'form-preview', val], {skipLocationChange: false, replaceUrl: true});
+                this._router.navigate(['/layoutRelationsForm', 'form-preview', val], {skipLocationChange: false, replaceUrl: true});
             });
         });
     }
@@ -123,8 +132,8 @@ export class FormPreviewComponent implements OnInit, OnDestroy
     /**
      * Form submission
      */
-    protected _submit(): void
+    protected submit(): void
     {
-        console.log(this._formGroup.value);
+        console.log(this.formGroup.value);
     }
 }

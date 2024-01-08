@@ -53,7 +53,7 @@ import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelations
                        withCustomRelations(DemoCustomRelationsRegister),
                        withLayoutMetadataStorage(MetadataStorageLayoutComplex),
                        withRelationsMetadataStorage(MetadataStorageRelationsComplex),
-                       withCustomRelations(),
+                       withCustomRelations(DemoCustomRelationsRegister),
                        withBasicComponents(),
                        withCssComponents(),
                        withFormComponents(),

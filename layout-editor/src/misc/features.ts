@@ -139,6 +139,9 @@ export function withLayoutEditor(): CoreDynamicFeature
 /**
  * Enables use of defaults options overrides for components 
  * @param defaultsOverride - Defaults override implementation
+ * 
+ * Works with:
+ * - **layout editor**
  */
 export function withLayoutDefaultsOverride(defaultsOverride: Type<DefaultsOverride>): DynamicFeature
 {

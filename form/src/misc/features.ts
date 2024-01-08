@@ -1,11 +1,11 @@
 import {ClassProvider} from '@angular/core';
 import {DynamicFeature, provideStaticPackageSource} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/layout';
-import {LAYOUT_MODULE_TYPES_PROVIDERS} from '@anglr/dynamic/layout-editor';
+import {LAYOUT_MODULE_TYPES_PROVIDERS, LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
 import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS} from '@anglr/dynamic/relations-editor';
 import {RELATIONS_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/relations';
 
-import {FormDynamicModuleItemsProvider, FormDynamicModuleRelationsProvider, FormDynamicModuleTypesProvider} from '../services';
+import {FormComponentControlBuilder, FormDynamicModuleItemsProvider, FormDynamicModuleRelationsProvider, FormDynamicModuleTypesProvider} from '../services';
 
 /**
  * Provider for form components providers
@@ -99,5 +99,27 @@ export function withFormComponents(): DynamicFeature
                 provideStaticPackageSource('form-components'),
             ],
         },
+    });
+}
+
+/**
+ * Enables use of form component control builder for dynamic forms
+ * 
+ * Works with:
+ * - **layout runtime**
+ */
+export function withFormControlBuilder(): DynamicFeature
+{
+    return new DynamicFeature(
+    {
+        layoutRuntime:
+        {
+            prependProviders: [],
+            providers:
+            [
+                FormComponentControlBuilder,
+                LayoutComponentsIteratorService,
+            ],
+        }
     });
 }

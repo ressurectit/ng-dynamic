@@ -1,0 +1,26 @@
+<div class="flex-row">
+    <a class="margin-horizontal-small" [routerLink]="['/layoutRelationsForm/layout', available.value]">layout</a>
+    <a class="margin-horizontal-small" [routerLink]="['/layoutRelationsForm/relations', available.value]">relations</a>
+
+    <ng-select [formControl]="available" class="flex-1">
+        @for(val of availableNames; track val)
+        {
+            <ng-option [value]="val" [text]="val"></ng-option>
+        }
+    </ng-select>
+
+    <debug-data [copyClick]="selectedMetadata"><div class="margin-horizontal-small">{{available.value}}</div></debug-data>
+</div>
+
+@if(formGroup)
+{
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
+        <div class="flex-row margin-top-big flex-1">
+            <div class="flex-1 overflow-vertical-scroll thin-scrollbar">
+                <ng-container *layoutComponentRenderer="metadata; injector: formInjector"/>
+            </div>
+        </div>
+        
+        <button type="submit">Submit</button>
+    </form>
+}

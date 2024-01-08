@@ -61,8 +61,11 @@ export function withLayoutRuntime(): CoreDynamicFeature
 }
 
 /**
- * Enables use of custom layout metadata storage
+ * Enables use of custom layout metadata storage, used for custom components and custom templates and other components that needs to read metadata of other components
  * @param metadataStorageType - Type that will be used as layout metadata storage
+ * 
+ * Works with:
+ * - **layout runtime**
  */
 export function withLayoutMetadataStorage<TMetadata>(metadataStorageType: Type<MetadataStorage<TMetadata>>): DynamicFeature
 {

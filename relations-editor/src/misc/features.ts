@@ -145,8 +145,11 @@ export function withRelationsEditor(): CoreDynamicFeature
 /**
  * Enables use of static components withing relations editor
  * @param staticRegister - Type that represents implementation of static components register
+ * 
+ * Works with:
+ * - **relations editor**
  */
-export function withStaticComponents(staticRegister: Type<StaticComponentsRegister>|FactoryFn): DynamicFeature
+export function withStaticComponents(staticRegister: Type<StaticComponentsRegister>|FactoryFn<StaticComponentsRegister>): DynamicFeature
 {
     const provider: Provider = staticRegister instanceof FactoryFn 
         ? <FactoryProvider>

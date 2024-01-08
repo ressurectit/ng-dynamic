@@ -8,7 +8,7 @@
                    [history]="history"
                    [componentMarking]="true"
                    routePath="/layoutRelationsAllFeatures/layout"
-                   (metadataChange)="metadata = ($any($event?.layout) ?? emptyMetadata)"></load-save-new>
+                   (metadataChange)="metadata = ($any($event?.layout) ?? emptyMetadata)"/>
     
     <button class="btn btn-primary" type="button" (click)="loadDemo()">
         <span>demo</span>
@@ -25,4 +25,4 @@
     <debug-data [copyClick]="metadata"><div class="margin-horizontal-small">metadata</div></debug-data>
 </div>
 
-<layout-editor class="flex-1" [metadata]="metadata"></layout-editor>
+<layout-editor class="flex-1" [metadata]="metadata"/>

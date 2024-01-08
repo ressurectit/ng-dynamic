@@ -21,7 +21,7 @@ export class CopyDesignerStylesSADirective<TOptions = any>
     /**
      * Designed component metadata
      */
-    public _metadata: LayoutComponentMetadata<TOptions>|undefined|null;
+    public ɵmetadata: LayoutComponentMetadata<TOptions>|undefined|null;
 
     //######################### public properties - inputs #########################
 
@@ -31,18 +31,18 @@ export class CopyDesignerStylesSADirective<TOptions = any>
     @Input('copyDesignerStyles')
     public get metadata(): LayoutComponentMetadata<TOptions>|undefined|null
     {
-        return this._metadata;
+        return this.ɵmetadata;
     }
     public set metadata(value: LayoutComponentMetadata<TOptions>|undefined|null)
     {
-        this._metadata = value;
+        this.ɵmetadata = value;
 
-        this._copyDesignerStyles();
+        this.copyDesignerStyles();
     }
 
     //######################### constructor #########################
-    constructor(protected _element: ElementRef<HTMLElement>,
-                protected _metadataExtractor: LayoutEditorMetadataExtractor,)
+    constructor(protected element: ElementRef<HTMLElement>,
+                protected metadataExtractor: LayoutEditorMetadataExtractor,)
     {
     }
 
@@ -51,19 +51,19 @@ export class CopyDesignerStylesSADirective<TOptions = any>
     /**
      * Copies designer styles if necessary
      */
-    protected async _copyDesignerStyles(): Promise<void>
+    protected async copyDesignerStyles(): Promise<void>
     {
-        if(!this._metadata)
+        if(!this.ɵmetadata)
         {
             return;
         }
 
-        const metadata = await this._metadataExtractor.extractMetadata(this._metadata);
+        const metadata = await this.metadataExtractor.extractMetadata(this.ɵmetadata);
         const applyDesignerStyles = metadata?.applyDesignerStyles;
 
         if(applyDesignerStyles)
         {
-            applyDesignerStyles(this._metadata.options, this._element.nativeElement.style);
+            applyDesignerStyles(this.ɵmetadata.options, this.element.nativeElement.style);
         }
     }
 }

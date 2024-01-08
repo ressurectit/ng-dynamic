@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, inject, Renderer2} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -10,8 +10,6 @@ import postcss, {Processor, Root} from 'postcss';
 import {StyleBlockComponentOptions} from './styleBlock.options';
 import {StyleBlockLayoutMetadataLoader} from './styleBlock.metadata';
 
-//TODO: optimize, debug, dual call of options set
-
 /**
  * Component used for displaying style block
  */
@@ -20,10 +18,6 @@ import {StyleBlockLayoutMetadataLoader} from './styleBlock.metadata';
     selector: 'style-block',
     templateUrl: 'styleBlock.component.html',
     styles: [HostDisplayBlockStyle],
-    host:
-    {
-        '[attr.id]': 'id'
-    },
     standalone: true,
     imports:
     [
@@ -57,6 +51,11 @@ export class StyleBlockSAComponent extends LayoutComponentBase<StyleBlockCompone
      */
     protected document: Document = inject(DOCUMENT);
 
+    /**
+     * Instance of renderer for html modifications
+     */
+    protected renderer: Renderer2 = inject(Renderer2);
+
     //######################### protected methods - overrides #########################
 
     /**
@@ -64,6 +63,8 @@ export class StyleBlockSAComponent extends LayoutComponentBase<StyleBlockCompone
      */
     protected override onInit(): void
     {
+        this.renderer.setAttribute(this.element.nativeElement, 'id', this.id);
+
         //TODO: check
         this.cssProcessor = postcss()
             .use((root: Root) =>

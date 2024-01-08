@@ -11,7 +11,7 @@ import {ComponentsPaletteSAComponent} from '../componentsPalette/componentsPalet
 import {ComponentsTreeSAComponent} from '../componentsTree/componentsTree.component';
 import {PropertiesEditorSAComponent} from '../propertiesEditor/propertiesEditor.component';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
-import {DndBusService, LayoutDndCoreModule} from '../../modules';
+import {LayoutDndCoreModule} from '../../modules';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 
 /**
@@ -22,10 +22,6 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
     selector: 'layout-editor',
     templateUrl: 'layoutEditor.component.html',
     styles: [HostDisplayFlexStyle],
-    providers:
-    [
-        DndBusService,
-    ],
     standalone: true,
     imports:
     [

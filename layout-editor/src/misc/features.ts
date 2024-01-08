@@ -8,6 +8,8 @@ import {layoutDesignerTypeExtractor} from './extractors';
 import {LAYOUT_DEFAULTS_OVERRIDE, LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_HISTORY_MANAGER, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
 import {LayoutPropertyMetadata} from './types';
 import {isLayoutModuleTypes} from './utils';
+import {DndBusService} from '../modules/layoutDndCore/services/dndBus/dndBus.service';
+import {PlaceholderRenderer} from '../modules/layoutDndCore/services/placeholderRenderer';
 
 /**
  * Provider for designer layout components extractor
@@ -114,6 +116,8 @@ export function withLayoutEditor(): CoreDynamicFeature
                                           LayoutEditorMetadataExtractor,
                                           LayoutEditorPropertyMetadataExtractor,
                                           LayoutEditorMetadataManager,
+                                          DndBusService,
+                                          PlaceholderRenderer,
                                           DragActiveService,
                                           //TODO: make it into feature
                                           LiveEventService,

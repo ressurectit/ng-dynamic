@@ -8,6 +8,7 @@
      [customDragType]="editorMetadata?.customDragType?.()?.layout"
      [customDropTypes]="editorMetadata?.customDropTypes?.()?.layout"
      [noHTML5Preview]="true"
+     [isDropZone]="canDrop"
      (dropMetadata)="addDescendant($event)"
      [copyDesignerStyles]="renderedType"
      (mouseleave)="hideOverlay($event)"

@@ -1,5 +1,4 @@
 import {LayoutComponentDragData} from '../../../../interfaces';
-import {LayoutDragPlaceholder} from '../../directives/dndCoreDesigner/dndCoreDesigner.interface';
 
 /**
  * Data that occured after drag ended
@@ -31,9 +30,4 @@ export interface DropPlaceholderPreview
      * Index at which should be preview displayed
      */
     index: number;
-
-    /**
-     * Data for displaying placeholder preview
-     */
-    placeholder: LayoutDragPlaceholder;
 }

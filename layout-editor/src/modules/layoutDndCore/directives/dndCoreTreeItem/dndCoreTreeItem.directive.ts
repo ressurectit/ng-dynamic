@@ -187,11 +187,6 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
                                                              {
                                                                  index,
                                                                  parentId,
-                                                                 placeholder:
-                                                                 {
-                                                                     height: 0,
-                                                                     width: 0
-                                                                 }
                                                              });
                                                          }
                                                      }
@@ -273,11 +268,6 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
                                                             {
                                                                 index,
                                                                 parentId,
-                                                                placeholder:
-                                                                {
-                                                                    height: 0,
-                                                                    width: 0
-                                                                }
                                                             });
                                                         }
                                                     }

@@ -8,7 +8,7 @@ import {DragActiveService} from '../../services';
  */
 @Directive(
 {
-    selector: '.designer-dropzone',
+    selector: '.designer-dropzone, .designer-overlay',
     standalone: true,
 })
 export class DesignerDropzoneSADirective implements OnInit, OnDestroy

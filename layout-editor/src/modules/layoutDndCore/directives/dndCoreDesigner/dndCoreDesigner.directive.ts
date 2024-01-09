@@ -1,5 +1,4 @@
-import {Directive, ElementRef, EventEmitter, Inject, Injector, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
+import {Directive, ElementRef, EventEmitter, Injector, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, inject} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {getHostElement} from '@anglr/common';
 import {BindThis, isBlank, isPresent, nameof} from '@jscrpt/common';
@@ -8,7 +7,7 @@ import {filter, Subscription} from 'rxjs';
 
 import {LayoutComponentDragData} from '../../../../interfaces';
 import {DragActiveService, LayoutEditorMetadataManager, LayoutEditorMetadataManagerComponent, LayoutEditorRendererItem} from '../../../../services';
-import {DndBusService, DropPlaceholderPreview} from '../../services';
+import {DndBusService, DropPlaceholderPreview, PlaceholderRenderer} from '../../services';
 import {LayoutDragItem, LayoutDropResult} from './dndCoreDesigner.interface';
 // import {registerDropzoneOverlay} from '../../misc/utils';
 
@@ -67,11 +66,6 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
     protected initSubscriptions: Subscription = new Subscription();
 
     /**
-     * Subscription for placeholder connection to DOM
-     */
-    protected placeholderConnection: Subscription|undefined|null;
-
-    /**
      * Subscription for container connection to DOM
      */
     protected containerConnection: Subscription|undefined|null;
@@ -80,11 +74,6 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
      * Current component element
      */
     protected componentElement: HTMLElement|undefined|null;
-
-    /**
-     * Element that represents placeholder preview
-     */
-    protected placeholderPreviewElement: HTMLElement|undefined|null;
 
     /**
      * Drop zone target for dropping over displayed placeholder, drops at exact location of placeholder
@@ -175,7 +164,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
                 protected manager: LayoutEditorMetadataManager,
                 protected bus: DndBusService,
                 protected injector: Injector,
-                @Inject(DOCUMENT) protected document: Document,)
+                protected placeholderRenderer: PlaceholderRenderer,)
     {
         this.placeholderDrop = this.dnd.dropTarget(DEFAULT_DROP_TYPES,
                                                    {
@@ -228,11 +217,6 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
                                                              {
                                                                  index,
                                                                  parentId,
-                                                                 placeholder:
-                                                                 {
-                                                                     height: 0,
-                                                                     width: 0
-                                                                 }
                                                              });
                                                          }
                                                      }
@@ -311,11 +295,6 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
                                                         {
                                                             index,
                                                             parentId,
-                                                            placeholder:
-                                                            {
-                                                                height: 0,
-                                                                width: 0
-                                                            }
                                                         });
                                                     }
                                                 }
@@ -349,18 +328,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
                                            this.ngZone.run(() => this.dropMetadata.emit(itm.data));
                                        }));
 
-        this.initSubscriptions.add(this.bus
-                                       .oldDropPlaceholderPreviewChange
-                                       .pipe(filter(itm => itm.parentId === this.metadata.id))
-                                       .subscribe(() =>
-                                       {
-                                           this.ngZone.run(() =>
-                                           {
-                                               this.placeholderPreviewElement?.remove();
-                                               this.placeholderPreviewElement = null;
-                                           });
-                                       }));
-
+        //create placeholder in this component
         this.initSubscriptions.add(this.bus
                                        .newDropPlaceholderPreviewChange
                                        .pipe(filter(itm => itm.parentId === this.metadata.id))
@@ -408,9 +376,6 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
     public ngOnDestroy(): void
     {
         this.initSubscriptions.unsubscribe();
-
-        this.placeholderConnection?.unsubscribe();
-        this.placeholderConnection = null;
 
         this.containerConnection?.unsubscribe();
         this.containerConnection = null;
@@ -512,12 +477,6 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
         {
             const child = this.containerElement.children[x];
 
-            //do nothing for placeholder
-            if(child.classList.contains('drag-placeholder'))
-            {
-                continue;
-            }
-
             //return index if less than half
             if(position <= getHalf(child))
             {
@@ -586,7 +545,6 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
      * Shows placeholder preview at specified location
      * @param preview - Instance of preview data
      */
-    @BindThis
     protected showPlaceholderPreview(preview: DropPlaceholderPreview): void
     {
         if(!this.containerElement)
@@ -594,28 +552,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
             return;
         }
 
-        this.placeholderPreviewElement ??= this.document.createElement('div');
-        this.placeholderPreviewElement.classList.add('drag-placeholder');
-        this.placeholderPreviewElement.remove();
-
-        this.connectDropToPlaceholder();
-        this.containerElement.insertBefore(this.placeholderPreviewElement, this.containerElement.children[preview.index]);
-    }
-
-    /**
-     * Connects placeholder preview element to placeholder drop
-     */
-    protected connectDropToPlaceholder(): void
-    {
-        this.ngZone.runOutsideAngular(() =>
-        {
-            this.placeholderConnection?.unsubscribe();
-
-            if(this.placeholderPreviewElement)
-            {
-                this.placeholderConnection = this.placeholderDrop.connectDropTarget(this.placeholderPreviewElement);
-            }
-        });
+        this.placeholderRenderer.renderPlaceholder(this.containerElement, preview.index, this.placeholderDrop, this.horizontal);
     }
 
     /**

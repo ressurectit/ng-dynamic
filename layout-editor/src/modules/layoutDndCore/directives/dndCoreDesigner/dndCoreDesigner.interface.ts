@@ -26,13 +26,3 @@ export interface LayoutDragItem
      */
     dragData: LayoutComponentDragData;
 }
-
-/**
- * Defines 
- */
-export interface LayoutDragPlaceholder
-{
-    width: number;
-    height: number;
-    
-}

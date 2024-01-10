@@ -6,32 +6,6 @@
     {
         display: contents;
 
-        .horizontal
-        {
-            &.placeholder-after
-            {
-                transform-origin: left;
-            }
-
-            &.placeholder-before
-            {
-                transform-origin: right;
-            }
-        }
-
-        .vertical
-        {
-            &.placeholder-after
-            {
-                transform-origin: top;
-            }
-
-            &.placeholder-before
-            {
-                transform-origin: bottom;
-            }
-        }
-
         .is-dragged
         {
             background: none;
@@ -59,7 +33,6 @@
         {
             position: relative;
             overflow: hidden;
-            transition: transform 250ms;
         }
 
         .designer-dropzone

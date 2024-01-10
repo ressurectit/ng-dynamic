@@ -10,6 +10,51 @@ import {DndBusService} from '../dndBus/dndBus.service';
 import type {LayoutDragItem, LayoutDropResult} from '../../directives';
 
 /**
+ * Class that applies css style update to element
+ */
+class CssStyleUpdates
+{
+    //######################### private fields #########################
+
+    /**
+     * Margin side that is set
+     */
+    private _marginSide: string;
+
+    //######################### constructor #########################
+    constructor(private _element: Element,
+                private _before: boolean,
+                private _requiredSpace: number,
+                private _renderer: Renderer2,
+                private _horizontal: boolean,)
+    {
+        this._marginSide = this._horizontal ? (this._before ? 'Left' : 'Right') : (this._before ? 'Top' : 'Bottom');
+
+        this.apply();
+    }
+
+    //######################### public methods #########################
+
+    /**
+     * Destroyes css update and removes changes applied to element
+     */
+    public destroy(): void
+    {
+        this._renderer.setStyle(this._element, `margin${this._marginSide}`, null);
+    }
+
+    //######################### private methods #########################
+
+    /**
+     * Applies css changes to element
+     */
+    private apply(): void
+    {
+        this._renderer.setStyle(this._element, `margin${this._marginSide}`, `${this._requiredSpace}px`);
+    }
+}
+
+/**
  * Service used for rendering placeholder
  */
 @Injectable()
@@ -58,6 +103,16 @@ export class PlaceholderRenderer implements OnDestroy
     protected placeholderConnection: Subscription|undefined|null;
 
     /**
+     * Css update applied to before element
+     */
+    protected cssUpdateBefore: CssStyleUpdates|undefined|null;
+
+    /**
+     * Css update applied to after element
+     */
+    protected cssUpdateAfter: CssStyleUpdates|undefined|null;
+
+    /**
      * Safely gets placeholder element
      */
     protected get placeholderElementSafe(): HTMLElement
@@ -99,14 +154,33 @@ export class PlaceholderRenderer implements OnDestroy
      */
     public async renderPlaceholder(containerElement: Element, index: number, placeholderDrop: DropTarget<LayoutDragItem, LayoutDropResult>, horizontal: boolean): Promise<void>
     {
-        this.createPlaceholder(placeholderDrop, horizontal);
-        const rect = containerElement.getBoundingClientRect();
-        this.renderer.setStyle(this.placeholderElementSafe, 'width', `${rect.width}px`);
+        this.createPlaceholder(placeholderDrop, containerElement, horizontal);
 
-        //empty container
-        if(!containerElement.children.length)
+        //empty container or first place in container
+        if(!containerElement.children.length || index == 0)
         {
-            applyPositionResult(await lastValueFrom(this.position.placeElement(this.placeholderElementSafe, containerElement, {offset: {mainAxis: -6}})));
+            this.applyPosition(containerElement, -6, horizontal ? PositionPlacement.LeftStart : PositionPlacement.TopStart);
+
+            let firstItem = containerElement.children.item(0);
+
+            //empty container
+            if(!firstItem)
+            {
+                return;
+            }
+
+            //node name is display content so use its first child
+            if(firstItem?.nodeName == 'LAYOUT-DESIGNER-COMPONENT')
+            {
+                firstItem = firstItem.firstElementChild;
+            }
+
+            if(!firstItem)
+            {
+                throw new Error('PlaceholderRenderer: missing element!');
+            }
+            
+            this.cssUpdateAfter = new CssStyleUpdates(firstItem, true, 6, this.renderer, horizontal);
         }
         //last place in container
         else if(!containerElement.children.item(index))
@@ -124,12 +198,14 @@ export class PlaceholderRenderer implements OnDestroy
                 throw new Error('PlaceholderRenderer: missing element!');
             }
             
-            applyPositionResult(await lastValueFrom(this.position.placeElement(this.placeholderElementSafe, lastItem, {placement: PositionPlacement.BottomStart})));
+            this.cssUpdateAfter = new CssStyleUpdates(lastItem, false, 6, this.renderer, horizontal);
+            this.applyPosition(lastItem, 0, horizontal ? PositionPlacement.RightStart : PositionPlacement.BottomStart);
         }
         //any other place in container
         else
         {
             let lastItem = containerElement.children.item(index);
+            let beforeLastItem = containerElement.children.item(index - 1);
 
             //node name is display content so use its first child
             if(lastItem?.nodeName == 'LAYOUT-DESIGNER-COMPONENT')
@@ -137,22 +213,38 @@ export class PlaceholderRenderer implements OnDestroy
                 lastItem = lastItem.firstElementChild;
             }
 
-            if(!lastItem)
+            //node name is display content so use its first child
+            if(beforeLastItem?.nodeName == 'LAYOUT-DESIGNER-COMPONENT')
+            {
+                beforeLastItem = beforeLastItem.firstElementChild;
+            }
+
+            if(!lastItem || !beforeLastItem)
             {
                 throw new Error('PlaceholderRenderer: missing element!');
             }
             
-            applyPositionResult(await lastValueFrom(this.position.placeElement(this.placeholderElementSafe, lastItem, {placement: PositionPlacement.TopStart})));
+            this.cssUpdateAfter = new CssStyleUpdates(beforeLastItem, false, 3, this.renderer, horizontal);
+            this.cssUpdateBefore = new CssStyleUpdates(lastItem, true, 3, this.renderer, horizontal);
+            this.applyPosition(lastItem, 0, horizontal ? PositionPlacement.LeftStart : PositionPlacement.TopStart);
         }
     }
 
     //######################### protected methods #########################
 
-    protected createPlaceholder(placeholderDrop: DropTarget<LayoutDragItem>, horizontal: boolean): void
+    /**
+     * Creates placeholder element and connects it to placeholder drop
+     * @param placeholderDrop - Placeholder drop that should be connnected to placeholder element
+     * @param containerElement - Container element that will display new placeholder
+     * @param horizontal - Indication whether is container element horizontaly displaying children
+     */
+    protected createPlaceholder(placeholderDrop: DropTarget<LayoutDragItem>, containerElement: Element, horizontal: boolean): void
     {
         this.placeholderElement = this.renderer.createElement('div');
         this.renderer.addClass(this.placeholderElement, 'layout-placeholder');
-        this.renderer.addClass(this.placeholderElementSafe, horizontal ? 'horizontal' : 'vertical');
+
+        const rect = containerElement.getBoundingClientRect();
+        this.renderer.setStyle(this.placeholderElementSafe, horizontal ? 'height' : 'width', `${horizontal ? rect.height : rect.width}px`);
 
         renderToBody(this.document, this.placeholderElementSafe);
 
@@ -167,6 +259,9 @@ export class PlaceholderRenderer implements OnDestroy
         });
     }
 
+    /**
+     * Removes placeholder and all changes
+     */
     protected removePlaceholder(): void
     {
         this.placeholderElement?.remove();
@@ -174,5 +269,33 @@ export class PlaceholderRenderer implements OnDestroy
 
         this.placeholderConnection?.unsubscribe();
         this.placeholderConnection = null;
+
+        this.cssUpdateBefore?.destroy();
+        this.cssUpdateBefore = null;
+
+        this.cssUpdateAfter?.destroy();
+        this.cssUpdateAfter = null;
+    }
+
+    /**
+     * Applies position to placeholder
+     * @param element - Element to be positioned
+     * @param offset - Offset that will be applied
+     * @param placement - Placement to be used
+     */
+    protected async applyPosition(element: Element, offset: number, placement: PositionPlacement): Promise<void>
+    {
+        //original placeholder element when applying changes
+        const placeholderElement = this.placeholderElement;
+
+        const result = await lastValueFrom(this.position.placeElement(this.placeholderElementSafe, element, {placement, offset: {mainAxis: offset}}));
+
+        //element was already removed, or changed
+        if(this.placeholderElement != placeholderElement || !result)
+        {
+            return;
+        }
+
+        applyPositionResult(result);
     }
 }

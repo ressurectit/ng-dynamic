@@ -1,8 +1,8 @@
 <div class="properties-form-group">
     <label class="properties-control-label">{{'tabs'|firstUppercaseLocalize}}</label>
-    <div>
-        <div class="dynamic-flex-row" *ngFor="let tabControl of tabsControls; let i = index" [formGroup]="tabControl">
-            <div>{{i+1}}.</div>
+    <div cdkDropList (cdkDropListDropped)="reorderTabs($event)">
+        <div class="dynamic-flex-row dynamic-align-items-center" *ngFor="let tabControl of tabsControls; let i = index" [formGroup]="tabControl" cdkDrag>
+            <div cdkDragHandle class="fas fa-bars"></div>
             <input class="properties-form-control dynamic-flex-1" type="text" formControlName="title">
             <button type="button" class="dynamic-btn-icon dynamic-margin-horizontal-extra-small" (click)="$event.preventDefault(); $event.stopPropagation(); removeTab(i)">
                 <span class="fas fa-times"></span>

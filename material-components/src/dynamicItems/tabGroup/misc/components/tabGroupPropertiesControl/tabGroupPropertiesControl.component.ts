@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {LayoutEditorMetadataExtractor, PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
@@ -21,6 +22,9 @@ import {MaterialTabGroupComponentOptions} from '../../../tabGroup.options';
         CommonModule,
         ReactiveFormsModule,
         FirstUppercaseLocalizeSAPipe,
+        CdkDrag,
+        CdkDragHandle,
+        CdkDropList
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -79,4 +83,20 @@ export class MaterialTabGroupPropertiesControlSAComponent extends PropertiesCont
     {
         this.tabsControl?.removeAt(index);
     }
+
+    /**
+     * Reorders material tabs
+     * @param event 
+     * @returns 
+     */
+    protected reorderTabs(event: CdkDragDrop<string[]>)
+    {
+        if (!this.tabsControls)
+        {
+            return;
+        }
+ 
+        moveItemInArray(this.tabsControls, event.previousIndex, event.currentIndex);
+        this.tabsControl?.updateValueAndValidity();
+      }
 }

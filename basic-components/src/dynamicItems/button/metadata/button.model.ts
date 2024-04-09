@@ -1,7 +1,7 @@
-import {DefaultKnownPropertyTypes, LayoutPropertyDescription, LayoutPropertyName, LayoutPropertyType} from '@anglr/dynamic/layout-editor';
+import {DefaultKnownPropertyTypes, LayoutPropertyDescription, LayoutPropertyName, LayoutPropertyType, LayoutPropertyValues} from '@anglr/dynamic/layout-editor';
 import {mapValuesToThis} from '@jscrpt/common';
 
-import {ButtonComponentOptions} from '../button.options';
+import {ButtonComponentOptions, ButtonType} from '../button.options';
 
 /**
  * Button model for properties editor
@@ -21,6 +21,14 @@ export class ButtonModel implements ButtonComponentOptions
     /**
      * @inheritdoc
      */
+    @LayoutPropertyName('Icon')
+    @LayoutPropertyDescription('Icon to be displayed')
+    @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
+    public icon: string|undefined|null = null;
+
+    /**
+     * @inheritdoc
+     */
     @LayoutPropertyName('Disabled')
     @LayoutPropertyDescription('Indication whether is button disabled')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('inputBoolean')
@@ -33,6 +41,23 @@ export class ButtonModel implements ButtonComponentOptions
     @LayoutPropertyDescription('Css class applied to button element itself')
     @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
     public buttonCssClass: string|undefined|null = null;
+
+    /**
+     * @inheritdoc
+     */
+    @LayoutPropertyName('Tooltip')
+    @LayoutPropertyDescription('Tooltip that is displayed over button')
+    @LayoutPropertyType<DefaultKnownPropertyTypes>('inputString')
+    public tooltip: string|undefined|null = null;
+
+    /**
+     * @inheritdoc
+     */
+    @LayoutPropertyName('Type')
+    @LayoutPropertyDescription('Type of button')
+    @LayoutPropertyType<DefaultKnownPropertyTypes>('selectValue')
+    @LayoutPropertyValues<ButtonType>(['button', 'submit'])
+    public type: ButtonType = 'button';
     
     //######################### constructor #########################
     constructor(value: ButtonComponentOptions|undefined|null)

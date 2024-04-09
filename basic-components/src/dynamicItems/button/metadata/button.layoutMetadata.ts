@@ -35,7 +35,7 @@ export class ButtonLayoutEditorMetadata implements LayoutEditorMetadataDescripto
                     propertiesControls: 
                     [
                         ButtonPresetsPropertiesControlSAComponent,
-                        genericPropertiesControlFor<ButtonModel>(['buttonCssClass', 'text', 'disabled']),
+                        genericPropertiesControlFor<ButtonModel>(['buttonCssClass', 'type', 'text', 'icon', 'tooltip', 'disabled']),
                     ],
                 },
             ],
@@ -45,6 +45,7 @@ export class ButtonLayoutEditorMetadata implements LayoutEditorMetadataDescripto
             text: 'Click me',
             disabled: false,
             buttonCssClass: 'btn btn-primary',
+            type: 'button',
         }
     };
 

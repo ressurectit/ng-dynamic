@@ -9,7 +9,6 @@ import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 {
     selector: 'button-node',
     templateUrl: 'buttonNode.component.html',
-    // styleUrls: ['buttonNode.component.css'],
     standalone: true,
     imports:
     [

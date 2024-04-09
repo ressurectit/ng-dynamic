@@ -1,13 +1,13 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {NgClass} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {DebugData, DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, VoidObject} from '@anglr/dynamic/relations-editor';
-import {HostDisplayBlockStyle} from '@anglr/common';
+import {HostDisplayBlockStyle, TooltipDirective} from '@anglr/common';
 import {nameof, PromiseOr} from '@jscrpt/common';
 
-import {ButtonComponentOptions} from './button.options';
+import {ButtonComponentOptions, ButtonComponentRelationsOptions} from './button.options';
 import {ButtonLayoutMetadataLoader, ButtonRelationsMetadataLoader} from './button.metadata';
 
 /**
@@ -21,7 +21,8 @@ import {ButtonLayoutMetadataLoader, ButtonRelationsMetadataLoader} from './butto
     standalone: true,
     imports:
     [
-        CommonModule,
+        NgClass,
+        TooltipDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -38,14 +39,14 @@ import {ButtonLayoutMetadataLoader, ButtonRelationsMetadataLoader} from './butto
 })
 @RelationsEditorMetadata(ButtonRelationsMetadataLoader)
 @LayoutEditorMetadata(ButtonLayoutMetadataLoader)
-export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOptions> implements LayoutComponent<ButtonComponentOptions>, RelationsComponent
+export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOptions> implements LayoutComponent<ButtonComponentOptions>, RelationsComponent<ButtonComponentRelationsOptions>
 {
     //######################### public properties - implementation of RelationsComponent #########################
 
     /**
      * @inheritdoc
      */
-    public relationsOptions: any;
+    public relationsOptions: ButtonComponentRelationsOptions|undefined|null;
 
     //######################### public properties - inputs #########################
 

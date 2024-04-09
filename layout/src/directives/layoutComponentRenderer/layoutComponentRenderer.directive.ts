@@ -1,4 +1,4 @@
-import {Directive, Injector, Input, OnChanges, OnDestroy, SimpleChanges, ValueProvider, ViewContainerRef, inject} from '@angular/core';
+import {Directive, Input, OnChanges, OnDestroy, Provider, SimpleChanges, ValueProvider, ViewContainerRef, inject} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
 import {DynamicItemExtensionType, SCOPE_ID} from '@anglr/dynamic';
 import {Action1, generateId, isBlank, isPresent, nameof} from '@jscrpt/common';
@@ -78,10 +78,10 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
     public renderedCallback: Action1<unknown>|undefined|null;
 
     /**
-     * Custom injector that will be used as parent of dynamic component
+     * Array of extra providers to be provided
      */
-    @Input('layoutComponentRendererInjector')
-    public customInjector: Injector|undefined|null;
+    @Input('layoutComponentRendererProviders')
+    public extraProviders: Provider[]|undefined|null;
 
     //######################### public methods - implementation of OnChanges #########################
 
@@ -116,7 +116,7 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
                                                this.scopeId,
                                                this.childExtensions,
                                                this.renderedCallback,
-                                               this.customInjector,);
+                                               this.extraProviders,);
             }
             //component changed
             else if(isPresent(change.currentValue) && isPresent(change.previousValue))
@@ -144,7 +144,7 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
                                                this.scopeId,
                                                this.childExtensions,
                                                this.renderedCallback,
-                                               this.customInjector,);
+                                               this.extraProviders,);
             }
             //component removed from renderer, unregister renderer
             else if(isBlank(change.currentValue) && isPresent(change.previousValue))

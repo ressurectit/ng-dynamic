@@ -1,4 +1,4 @@
-import {Injectable, Injector, SimpleChanges, ValueProvider, ViewContainerRef} from '@angular/core';
+import {Injectable, Injector, Provider, SimpleChanges, ValueProvider, ViewContainerRef} from '@angular/core';
 import {DynamicItemExtensionType, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {LAYOUT_COMPONENT_CHILD_EXTENSIONS, LayoutComponent, LayoutComponentMetadata, LayoutRendererBase, MissingTypeBehavior, NotFoundLayoutTypeSAComponent} from '@anglr/dynamic/layout';
 import {Action1, NoopAction} from '@jscrpt/common';
@@ -47,7 +47,7 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
                                            scopeId: string|undefined|null,
                                            childExtensions: DynamicItemExtensionType[]|undefined|null,
                                            renderedCallback: Action1<LayoutEditorRendererItem>|undefined|null,
-                                           customInjector: Injector|undefined|null,): Promise<void>
+                                           extraProviders: Provider[]|undefined|null,): Promise<void>
     {
         this.registeredCalls++;
 
@@ -103,7 +103,7 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
 
         this.logger.verbose('LayoutEditorRenderer: getting type "{{@id}}" isDesigner: {{isDesigner}} for {{@dynamicItem}}', {id: metadata?.id, isDesigner, dynamicItem: {package: metadata.package, name: metadata.name}});
 
-        const injector = customInjector ?? viewContainer.injector;
+        const injector = viewContainer.injector;
         const componentScopeId = metadata.scope;
         const layoutComponentType = await this.loader.loadItem(
             isDesigner
@@ -164,7 +164,8 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
                 {
                     provide: LAYOUT_COMPONENT_CHILD_EXTENSIONS,
                     useValue: layoutComponentType.childExtensions,
-                }
+                },
+                ...extraProviders ?? [],
             ]
         });
 

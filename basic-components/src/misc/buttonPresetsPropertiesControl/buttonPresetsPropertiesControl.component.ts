@@ -1,12 +1,12 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {ReactiveFormsModule} from '@angular/forms';
+import {NgClass} from '@angular/common';
 import {PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
 
 import {BUTTONS_PRESETS} from '../tokens';
 import {ButtonPreset} from '../../interfaces';
 
-const defaultPresets: ButtonPreset[] = [
+const defaultPresets: ButtonPreset[] = 
+[
     {
         text: 'primary',
         cssClass: 'btn btn-primary'
@@ -47,8 +47,7 @@ const defaultPresets: ButtonPreset[] = [
     standalone: true,
     imports:
     [
-        CommonModule,
-        ReactiveFormsModule,
+        NgClass,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

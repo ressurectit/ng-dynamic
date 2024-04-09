@@ -1,4 +1,4 @@
-import {Injectable, Injector, SimpleChanges, ValueProvider, ViewContainerRef} from '@angular/core';
+import {Injectable, Injector, Provider, SimpleChanges, ValueProvider, ViewContainerRef} from '@angular/core';
 import {DynamicItemExtensionType, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {Action1, NoopAction} from '@jscrpt/common';
 
@@ -40,7 +40,7 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
                                   scopeId: string|undefined|null,
                                   childExtensions: DynamicItemExtensionType[]|undefined|null,
                                   renderedCallback: Action1<LayoutRendererItem>|undefined|null,
-                                  customInjector: Injector|undefined|null,): Promise<void>
+                                  extraProviders: Provider[]|undefined|null,): Promise<void>
     {
         this.registeredCalls++;
 
@@ -73,7 +73,7 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
         this.components[metadata.id] = rendererItem;
         this.renderers[id] = rendererItem;
 
-        const injector = customInjector ?? viewContainer.injector;
+        const injector = viewContainer.injector;
         const componentScopeId = metadata.scope;
         const layoutComponentType = await this.loader.loadItem(metadata);
 
@@ -119,7 +119,8 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
                 {
                     provide: LAYOUT_COMPONENT_CHILD_EXTENSIONS,
                     useValue: layoutComponentType.childExtensions,
-                }
+                },
+                ...extraProviders ?? [],
             ]
         });
 

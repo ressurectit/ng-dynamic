@@ -1,10 +1,16 @@
-<div class="properties-form-group" *ngIf="buttonsPresets?.length">
-    <label class="properties-control-label"></label>
-    <div class="button-presets-wrapper">
-        <button 
-            type="button" 
-            *ngFor="let preset of buttonsPresets" 
-            [ngClass]="preset.cssClass"
-            (click)="_setPreset(preset.cssClass)">{{preset.text}}</button>
+@if(buttonsPresets?.length)
+{
+    <div class="properties-form-group">
+        <label class="properties-control-label"></label>
+        <div class="button-presets-wrapper">
+            @for(preset of buttonsPresets; track preset)
+            {
+                <button type="button" 
+                        [ngClass]="preset.cssClass"
+                        (click)="_setPreset(preset.cssClass)">
+                    <span>{{preset.text}}</span>
+                </button>
+            }
+        </div>
     </div>
-</div>
+}

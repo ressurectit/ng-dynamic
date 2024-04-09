@@ -1,4 +1,4 @@
-import {Injectable, Injector, ViewContainerRef, inject} from '@angular/core';
+import {Injectable, Provider, ViewContainerRef, inject} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {DynamicItemExtensionType, DynamicItemLoader} from '@anglr/dynamic';
 import {Action1} from '@jscrpt/common';
@@ -123,7 +123,7 @@ export abstract class LayoutRendererBase<TRendererItem extends LayoutRendererIte
      * @param scopeId - Id of scope in which is this component rendered
      * @param childExtensions - Array of child extensions applied to component
      * @param renderedCallback - Callback called when registered component is fully rendered
-     * @param customInjector - Instance of custom injector if provided
+     * @param extraProviders - Array of extra providers to be provided
      */
     public abstract registerRenderer(id: string,
                                      parentId: string|undefined|null,
@@ -133,7 +133,7 @@ export abstract class LayoutRendererBase<TRendererItem extends LayoutRendererIte
                                      scopeId: string|undefined|null,
                                      childExtensions: DynamicItemExtensionType[]|undefined|null,
                                      renderedCallback: Action1<LayoutRendererItem>|undefined|null,
-                                     customInjector: Injector|undefined|null,): Promise<void>;
+                                     extraProviders: Provider[]|undefined|null,): Promise<void>;
 
     /**
      * Destroyes renderer, removes it from register, destroyed renderer also destroys component, this is called when renderer is destroyed

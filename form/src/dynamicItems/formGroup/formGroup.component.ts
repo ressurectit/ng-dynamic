@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Injector, ValueProvider} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ValueProvider, Provider} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -31,7 +31,10 @@ export class FormGroupSAComponent extends FormComponentBase<FormGroupComponentOp
 {
     //######################### protected properties #########################
 
-    protected formInjector?: Injector;
+    /**
+     * Array of form specific providers
+     */
+    protected formProviders: Provider[] = [];
 
     //######################### protected methods #########################
 
@@ -40,17 +43,13 @@ export class FormGroupSAComponent extends FormComponentBase<FormGroupComponentOp
      */
     protected override onInit(): PromiseOr<void>
     {
-        this.formInjector = Injector.create(
-        {
-            parent: this.injector,
-            providers:
-            [
-                <ValueProvider>
-                {
-                    provide: FORM_COMPONENT_CONTROL,
-                    useValue: this.options?.controlName ? this.parentControl?.get(this.options.controlName) : null,
-                }
-            ]
-        });
+        this.formProviders =
+        [
+            <ValueProvider>
+            {
+                provide: FORM_COMPONENT_CONTROL,
+                useValue: this.options?.controlName ? this.parentControl?.get(this.options.controlName) : null,
+            }
+        ];
     }
 }

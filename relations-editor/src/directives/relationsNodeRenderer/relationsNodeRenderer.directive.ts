@@ -215,13 +215,13 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
             this.logger?.debug('RelationsNodeRendererSADirective: destroying node {{@id}}', {id: this.componentMetadata?.id});
     
             if(this.component)
-            {
+            {                
+                this.relationsNodeManager.unregisterNode(this.component);
+
                 if(this.componentMetadata)
                 {
                     this.destroy.next(this.componentMetadata);
                 }
-                
-                this.relationsNodeManager.unregisterNode(this.component);
             }
 
             this.componentRef?.destroy();

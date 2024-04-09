@@ -126,6 +126,7 @@ export class NodeRelationPath
                 this.end = null;
                 this.input = null;
                 this.output = null;
+                this.history.getNewState();
             }
             //drop on input peer
             else

@@ -42,6 +42,11 @@ export class RichTextBlockEditorDialogSAComponent
     //######################### protected properties - template bindings #########################
 
     /**
+     * Base url for obtaining tiny mce script
+     */
+    protected baseUrl: string = ngDynamicTinymcePath;
+
+    /**
      * Current content of editor
      */
     protected content: string|null = null;

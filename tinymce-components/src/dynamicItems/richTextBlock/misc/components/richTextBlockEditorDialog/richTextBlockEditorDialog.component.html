@@ -1,4 +1,4 @@
-<editor #editor [initialValue]="content ?? ''" [init]="{ base_url: 'tinymce', suffix: '.min'}"/>
+<editor #editor [initialValue]="content ?? ''" [init]="{base_url: baseUrl, suffix: '.min'}"/>
 
 <div class="dynamic-flex-row dynamic-flex-end dynamic-action-buttons">
     <button type="button" class="dynamic-btn dynamic-btn-info" type="button" [mat-dialog-close]="null">

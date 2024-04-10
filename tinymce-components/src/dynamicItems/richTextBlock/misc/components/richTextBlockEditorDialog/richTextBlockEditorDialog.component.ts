@@ -1,7 +1,18 @@
-import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, ValueProvider} from '@angular/core';
 import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
-import {EditorModule} from '@tinymce/tinymce-angular';
+import {globalDefine, isBlank} from '@jscrpt/common';
+import {EditorModule, TINYMCE_SCRIPT_SRC} from '@tinymce/tinymce-angular';
+
+declare let ngDynamicTinymcePath: string;
+
+globalDefine(global =>
+{
+    if(isBlank(global.ngDynamicTinymcePath))
+    {
+        global.ngDynamicTinymcePath = 'tinymce';
+    }
+});
 
 /**
  * Component used as dialog displaying rich text block editor
@@ -10,12 +21,19 @@ import {EditorModule} from '@tinymce/tinymce-angular';
 {
     selector: 'rich-text-block-editor-dialog',
     templateUrl: 'richTextBlockEditorDialog.component.html',
-    // styleUrls: ['codeEditorDialog.component.scss'],
     standalone: true,
     imports:
     [
         MatDialogModule,
         EditorModule,
+    ],
+    providers: 
+    [
+        <ValueProvider>
+        {
+            provide: TINYMCE_SCRIPT_SRC,
+            useValue: ngDynamicTinymcePath + '/tinymce.min.js'
+        },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -27,9 +45,6 @@ export class RichTextBlockEditorDialogSAComponent
      * Current content of editor
      */
     protected content: string|null = null;
-
-    //######################### protected properties - children #########################
-
 
     //######################### constructor #########################
     constructor(@Inject(TITLED_DIALOG_DATA) protected data: string,

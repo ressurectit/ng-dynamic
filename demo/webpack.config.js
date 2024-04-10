@@ -315,6 +315,11 @@ export default [function(options, args)
                         from: "**/*.*",
                         to: "../api"
                     },
+                    {
+                        context: "../node_modules/tinymce",
+                        from: "**/*.*",
+                        to: "../tinymce"
+                    },
                 ],
                 options: 
                 {
@@ -331,6 +336,7 @@ export default [function(options, args)
                 ngDesignerMetadata: true,
                 ngRelationsDebugger: false,
                 ngDynamicMonacoPath: JSON.stringify('dist'),
+                ngDynamicTinymcePath: JSON.stringify('tinymce'),
             }),
             new MiniCssExtractPlugin(
             {

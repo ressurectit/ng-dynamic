@@ -1,8 +1,8 @@
-import {Component, ChangeDetectionStrategy, Inject, inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Inject, inject, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {GoBackSADirective} from '@anglr/common';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent, withStaticComponents, withRelationsDefaultsOverride} from '@anglr/dynamic/relations-editor';
-import {LayoutManager, CustomDynamicItemsRegister, withLayoutRelationsEditor, withCustomComponents, withCustomRelations} from '@anglr/dynamic/layout-relations';
+import {LayoutManager, CustomDynamicItemsRegister, withLayoutRelationsEditor, withCustomComponents, withCustomRelations, CustomRelationsRegister} from '@anglr/dynamic/layout-relations';
 import {MetadataHistoryManager, provideDynamic, withEditorHotkeys, withPackageManager} from '@anglr/dynamic';
 import {withRelationsMetadataStorage} from '@anglr/dynamic/relations';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
@@ -60,11 +60,11 @@ import {DemoRelationsDefaultsOverrideService} from '../../../services/demoDefaul
                        withMathComponents(),
                        withRestComponents(),
                        withTinyMceComponents(),),
-        // <ExistingProvider>
-        // {
-        //     provide: CustomDynamicItemsRegister,
-        //     useExisting: CustomRelationsRegister,
-        // },
+        <ExistingProvider>
+        {
+            provide: CustomDynamicItemsRegister,
+            useExisting: CustomRelationsRegister,
+        },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

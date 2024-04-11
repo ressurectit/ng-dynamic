@@ -88,6 +88,19 @@ export class RelationsProcessor implements OnDestroy
     protected parent: RelationsProcessor|null = null;
 
     /**
+     * Gets root relations processor
+     */
+    protected get root(): RelationsProcessor
+    {
+        return this.parent?.root ?? this.parent ?? this;
+    }
+
+    /**
+     * Object storing all created scopes
+     */
+    protected scopes: Record<string, RelationsProcessor[]> = {};
+
+    /**
      * Id of scope
      */
     protected scopeId: string|null = null;
@@ -341,6 +354,9 @@ export class RelationsProcessor implements OnDestroy
         processor.scopeId = id;
         processor.parent = this;
 
+        this.root.scopes[id] ??= [];
+        this.root.scopes[id].push(processor);
+
         for(const componentId in this.relations)
         {
             const relationsDef = this.relations[componentId];
@@ -362,6 +378,20 @@ export class RelationsProcessor implements OnDestroy
      */
     public destroyScope(): void
     {
+        if(!this.scopeId)
+        {
+            throw new Error('RelationsProcessor: scope id must be present!');
+        }
+
+        const index = this.root.scopes[this.scopeId].indexOf(this);
+
+        if(index < 0)
+        {
+            throw new Error('RelationsProcessor: missing scope!');
+        }
+
+        this.root.scopes[this.scopeId].splice(index, 1);
+
         for(const componentId in this.relations)
         {
             const relationsDef = this.relations[componentId];
@@ -437,7 +467,7 @@ export class RelationsProcessor implements OnDestroy
                         const currentValue = (outputComponent as any)[inputOutput.outputName];
 
                         //ignore changes when previousValue equals to currentValue.
-                        if (!forceTransfer && isStrictEquals(previousValue, currentValue)) 
+                        if (!forceTransfer && isStrictEquals(previousValue, currentValue))
                         {
                             continue;
                         }
@@ -516,7 +546,8 @@ export class RelationsProcessor implements OnDestroy
     public transferInputsData(id: string, delayed: boolean = false, inputs?: string[]): null|RelationsDataTransferInstruction
     {
         const backwardRelations = this.backwardRelations[id];
-        const inputComponent = this.componentManager.get(id);
+        let inputComponents = this.componentManager.get(id);
+        const relation = this.relations[id];
 
         if(!backwardRelations)
         {
@@ -525,73 +556,83 @@ export class RelationsProcessor implements OnDestroy
             return delayed ? new RelationsDataTransferInstructionImpl([]) : null;
         }
 
-        if(!inputComponent)
+        if(!inputComponents)
         {
             this.logger?.warn('RelationsProcessor: Missing input components for {{@id}}', {id});
 
             return delayed ? new RelationsDataTransferInstructionImpl([]) : null;
         }
 
-        if(Array.isArray(inputComponent))
+        //only possibility of multiple inputComponents is if they are in scope
+        if(Array.isArray(inputComponents) && isBlank(relation.scope))
         {
             this.logger?.error('RelationsProcessor: Only one component must be available for id {{@id}}', {id});
 
             return delayed ? new RelationsDataTransferInstructionImpl([]) : null;
         }
 
-        const transfer: RelationsDataTransferInstructionImpl = new RelationsDataTransferInstructionImpl([inputComponent]);
-
-        //for each backward relation
-        for(const backwardRelation of backwardRelations)
+        if(!Array.isArray(inputComponents))
         {
-            //skip if input does not exists and inputs are specified
-            if(inputs && inputs.indexOf(backwardRelation.inputName) < 0)
+            inputComponents = [inputComponents];
+        }
+
+        const transfer: RelationsDataTransferInstructionImpl = new RelationsDataTransferInstructionImpl(inputComponents);
+
+        //for each input component
+        for(const inputComponent of inputComponents)
+        {
+            //for each backward relation
+            for(const backwardRelation of backwardRelations)
             {
-                continue;
-            }
-
-            const outputComponent = this.componentManager.get(backwardRelation.outputComponentId);
-
-            if((Array.isArray(outputComponent)))
-            {
-                this.logger?.error('RelationsProcessor: Only one output component must be available for id {{@id}}', {id});
-
-                continue;
-            }
-
-            if(!outputComponent || !inputComponent)
-            {
-                continue;
-            }
-
-            const previousValue = (inputComponent as any)[backwardRelation.inputName];
-            const currentValue = (outputComponent as any)[backwardRelation.outputName];
-
-            //ignore changes when previousValue equals to currentValue.
-            if (isStrictEquals(previousValue, currentValue)) 
-            {
-                continue;
-            }
-
-            const change = transfer.changes[backwardRelation.inputName] =
-            {
-                previousValue,
-                currentValue,
-                firstChange: false,
-                isFirstChange: () => false,
-            };
-
-            if(ngRelationsDebugger)
-            {
-                this.relationsDebugger?.transferData(transfer,
+                //skip if input does not exists and inputs are specified
+                if(inputs && inputs.indexOf(backwardRelation.inputName) < 0)
                 {
-                    change,
-                    inputComponentId: backwardRelation.inputComponentId,
-                    outputComponentId: backwardRelation.outputComponentId,
-                    outputName: backwardRelation.outputName,
-                    inputName: backwardRelation.inputName,
-                    scope: this.scopeId,
-                });
+                    continue;
+                }
+
+                const outputComponent = this.componentManager.get(backwardRelation.outputComponentId);
+
+                if((Array.isArray(outputComponent)))
+                {
+                    this.logger?.error('RelationsProcessor: Only one output component must be available for id {{@id}}', {id});
+
+                    continue;
+                }
+
+                if(!outputComponent || !inputComponent)
+                {
+                    continue;
+                }
+
+                const previousValue = (inputComponent as any)[backwardRelation.inputName];
+                const currentValue = (outputComponent as any)[backwardRelation.outputName];
+
+                //ignore changes when previousValue equals to currentValue.
+                if (isStrictEquals(previousValue, currentValue))
+                {
+                    continue;
+                }
+
+                const change = transfer.changes[backwardRelation.inputName] =
+                {
+                    previousValue,
+                    currentValue,
+                    firstChange: false,
+                    isFirstChange: () => false,
+                };
+
+                if(ngRelationsDebugger)
+                {
+                    this.relationsDebugger?.transferData(transfer,
+                    {
+                        change,
+                        inputComponentId: backwardRelation.inputComponentId,
+                        outputComponentId: backwardRelation.outputComponentId,
+                        outputName: backwardRelation.outputName,
+                        inputName: backwardRelation.inputName,
+                        scope: this.scopeId,
+                    });
+                }
             }
         }
 
@@ -668,7 +709,7 @@ export class RelationsProcessor implements OnDestroy
         }
 
         this.relationsChangeDetector.initialize(this.relations);
-        
+
         if(ngRelationsDebugger)
         {
             this.relationsDebugger?.initialize(this.relations, this.backwardRelations);
@@ -738,7 +779,7 @@ export class RelationsProcessor implements OnDestroy
         const transfer = new RelationsDataTransferInstructionImpl([target]);
 
         //ignore changes when previousValue equals to currentValue.
-        if (isStrictEquals(previousValue, currentValue)) 
+        if (isStrictEquals(previousValue, currentValue))
         {
             return false;
         }
@@ -780,7 +821,7 @@ export class RelationsProcessor implements OnDestroy
 
         if(component)
         {
-            this.initRelation(false, meta, outputs, null, null);
+            this.initRelation(false, meta, outputs, meta?.scope ?? null, null);
             this.updateRelations(meta.id);
 
             return;
@@ -790,7 +831,7 @@ export class RelationsProcessor implements OnDestroy
 
         if(!componentMeta)
         {
-            this.initRelation(false, meta, outputs, null, null);
+            this.initRelation(false, meta, outputs, meta?.scope ?? null, null);
 
             this.logger?.warn('RelationsProcessor: Unable to load relations component! {{@meta}}', {meta: {package: meta.package, name: meta.name}});
 
@@ -801,6 +842,14 @@ export class RelationsProcessor implements OnDestroy
         {
             const instance = new componentMeta.data(this.injector);
             this.componentManager.registerComponent(meta.id, instance);
+        }
+        else if(this.scopes[meta.scope])
+        {
+            for(const scope of this.scopes[meta.scope])
+            {
+                const instance = new componentMeta.data(scope.injector);
+                scope.componentManager.registerComponent(meta.id, instance);
+            }
         }
 
         this.initRelation(true, meta, outputs, meta.scope ?? null, meta.scope ? componentMeta.data : null);

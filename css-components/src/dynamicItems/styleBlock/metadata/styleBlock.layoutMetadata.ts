@@ -1,4 +1,4 @@
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {codePropertiesControlFor} from '@anglr/dynamic/layout-editor';
 import {CssLanguageModel} from '@anglr/dynamic';
@@ -26,6 +26,13 @@ export class StyleBlockLayoutEditorMetadata implements LayoutEditorMetadataDescr
         {
             propertiesMetadata: 
             [
+                {
+                    modelType: ComponentStylingModel,
+                    propertiesControls:
+                    [
+                        ComponentStylingPropertiesControlComponent,
+                    ],
+                },
                 {
                     modelType: StyleBlockModel,
                     propertiesControls: 

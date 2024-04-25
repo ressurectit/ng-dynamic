@@ -3,6 +3,7 @@
     nodes-palette
     {
         display: flex;
+        flex-direction: column;
 
         .editor-component
         {

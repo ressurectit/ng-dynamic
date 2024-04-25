@@ -5,6 +5,7 @@ import {CoreDynamicFeature, defaultExportExtractor, DynamicFeature, DynamicFeatu
 import {LAYOUT_COMPONENTS_LOADER, LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_METADATA_STORAGE} from './tokens';
 import {isLayoutComponentDef} from './utils';
 import {LayoutRenderer} from '../services';
+import {CodeExecutor} from '../../../relations/src';
 
 /**
  * Provider for default layout components extractor
@@ -56,6 +57,7 @@ export function withLayoutRuntime(): CoreDynamicFeature
                                               provide: LAYOUT_METADATA_STORAGE,
                                               useClass: MetadataStorage,
                                           },
+                                          CodeExecutor,
                                       ],
                                   });
 }

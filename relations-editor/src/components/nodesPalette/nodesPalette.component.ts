@@ -2,6 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, O
 import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, generateId, nameof, WithSync} from '@jscrpt/common';
@@ -13,6 +14,8 @@ import {RelationsModuleTypes, RelationsNodeDef} from '../../misc/types';
 import {RelationsNodeManager} from '../../services';
 import {ToRelationsDragDataSAPipe} from '../../pipes';
 import {NodesPaletteItemSAComponent} from './item/nodesPaletteItem.component';
+import {NodeGroupFilterSAPipe} from './pipes/nodeGroupFilter.pipe';
+import {NodeItemFilterSAPipe} from './pipes/nodeItemFilter.pipe';
 
 /**
  * Component displaying available nodes palette
@@ -26,11 +29,14 @@ import {NodesPaletteItemSAComponent} from './item/nodesPaletteItem.component';
     [
         CommonModule,
         DragDropModule,
+        ReactiveFormsModule,
         // LayoutEditorDragPreviewSAComponent,
         // LayoutEditorDragPlaceholderSAComponent,
         ToRelationsDragDataSAPipe,
         NodesPaletteItemSAComponent,
         FirstUppercaseLocalizeSAPipe,
+        NodeGroupFilterSAPipe,
+        NodeItemFilterSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -82,6 +88,11 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      * Array of whitelisted packages
      */
     protected whiteListedPackages: string[] = [];
+
+    /**
+     * Search bar form control
+     */
+    protected searchBar: FormControl = new FormControl();
 
     //######################### public properties - inputs #########################
 

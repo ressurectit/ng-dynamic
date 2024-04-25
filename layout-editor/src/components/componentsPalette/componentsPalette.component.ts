@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, OnChanges, SimpleChanges, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, nameof, WithSync} from '@jscrpt/common';
@@ -11,6 +12,8 @@ import {ComponentsPaletteItem, LayoutModuleTypes} from './componentsPalette.inte
 import {ToLayoutDragDataSAPipe} from '../../pipes';
 import {LAYOUT_MODULE_TYPES_LOADER, REFRESH_PALETTE_OBSERVABLES} from '../../misc/tokens';
 import {LayoutDndCoreModule} from '../../modules';
+import {ComponentGroupFilterSAPipe} from './pipes/componentGroupFilter.pipe';
+import {ComponentItemFilterSAPipe} from './pipes/componentItemFilter.pipe';
 
 /**
  * Component displaying available components palette
@@ -24,8 +27,11 @@ import {LayoutDndCoreModule} from '../../modules';
     [
         CommonModule,
         LayoutDndCoreModule,
+        ReactiveFormsModule,
         ToLayoutDragDataSAPipe,
         FirstUppercaseLocalizeSAPipe,
+        ComponentGroupFilterSAPipe,
+        ComponentItemFilterSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -74,6 +80,11 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
      * Used for refreshing pipe value
      */
     protected refreshPipe: boolean = false;
+
+    /**
+     * Search bar form control
+     */
+    protected searchBar: FormControl = new FormControl();
 
     //######################### public properties - inputs #########################
 

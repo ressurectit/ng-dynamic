@@ -1,10 +1,9 @@
-<input type="text" [placeholder]="'search component' | firstUppercaseLocalize" class="dynamic-form-control" [formControl]="searchBar">
 <div class="dynamic-flex-column">
-    @for(groupKeyValue of groupedItems | keyvalue | componentGroupFilter : searchBar.value; track groupKeyValue)
+    @for(groupKeyValue of groupedItems | keyvalue | componentGroupFilter : search; track groupKeyValue)
     {
         <div class="dynamic-text-spread dynamic-text-small-caps dynamic-margin-left-extra-small dynamic-margin-horizontal-small dynamic-bold">{{groupKeyValue.key|firstUppercaseLocalize}}&nbsp;</div>
     
-        @for(item of groupKeyValue.value | componentItemFilter : searchBar.value; track item)
+        @for(item of groupKeyValue.value | componentItemFilter : search; track item)
         {
             <div class="palette-droplist">
                 <div class="editor-component mat-elevation-z2"

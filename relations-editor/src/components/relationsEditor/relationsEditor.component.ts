@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnInit, Inject, ChangeDetectorRef, OnChanges, SimpleChanges, ViewChild, Optional} from '@angular/core';
 import {CdkDragDrop, DragDropModule} from '@angular/cdk/drag-drop';
-import {HostDisplayFlexStyle} from '@anglr/common';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {FirstUppercaseLocalizeSAPipe, HostDisplayFlexStyle} from '@anglr/common';
 import {DynamicItemSource, EditorHotkeys, MetadataHistoryManager, PackageManagerModule} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
@@ -25,6 +26,8 @@ import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
         RelationsCanvasSAComponent,
         DragDropModule,
         PackageManagerModule,
+        ReactiveFormsModule,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -37,6 +40,10 @@ export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
      */
     protected initSubscriptions: Subscription = new Subscription();
 
+    /**
+     * Search bar form control for components
+     */
+    protected searchBar: FormControl = new FormControl();
 
     //######################### protected properties - view children #########################
 

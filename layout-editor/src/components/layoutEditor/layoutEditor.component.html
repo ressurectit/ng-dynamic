@@ -5,8 +5,13 @@
         </mat-tab>
 
         <mat-tab [label]="'palette'|firstUppercaseLocalize|asRequired">
-            <package-manager *ngIf="!(packages | isPresent)"></package-manager>
-            <components-palette [packages]="packages" [whiteList]="whiteList" [blackList]="blackList"></components-palette>
+            <div class="max-height-full dynamic-flex-column">
+                <input type="text" [placeholder]="'search component' | firstUppercaseLocalize" class="dynamic-form-control" [formControl]="searchBar">
+                <div class="dynamic-flex-1 dynamic-thin-scrollbar overflow-vertical-auto">
+                    <package-manager *ngIf="!(packages | isPresent)"></package-manager>
+                    <components-palette [packages]="packages" [whiteList]="whiteList" [blackList]="blackList" [search]="searchBar.value"></components-palette>
+                </div>
+            </div>
         </mat-tab>
     </mat-tab-group>
 

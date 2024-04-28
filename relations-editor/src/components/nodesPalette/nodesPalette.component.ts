@@ -2,7 +2,6 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, O
 import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, generateId, nameof, WithSync} from '@jscrpt/common';
@@ -29,7 +28,6 @@ import {NodeItemFilterSAPipe} from './pipes/nodeItemFilter.pipe';
     [
         CommonModule,
         DragDropModule,
-        ReactiveFormsModule,
         // LayoutEditorDragPreviewSAComponent,
         // LayoutEditorDragPlaceholderSAComponent,
         ToRelationsDragDataSAPipe,
@@ -89,11 +87,6 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      */
     protected whiteListedPackages: string[] = [];
 
-    /**
-     * Search bar form control
-     */
-    protected searchBar: FormControl = new FormControl();
-
     //######################### public properties - inputs #########################
 
     /**
@@ -119,6 +112,12 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      */
     @Input()
     public blackList: DynamicItemSource[]|undefined|null;
+
+    /**
+     * Search value for relations components
+     */
+    @Input()
+    public search: string|null|undefined;
 
     //######################### constructor #########################
     constructor(@Inject(RELATIONS_MODULE_TYPES_LOADER) protected moduleTypesLoader: DynamicItemLoader<RelationsModuleTypes>,

@@ -1,7 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, OnChanges, SimpleChanges, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
 import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, nameof, WithSync} from '@jscrpt/common';
@@ -27,7 +26,6 @@ import {ComponentItemFilterSAPipe} from './pipes/componentItemFilter.pipe';
     [
         CommonModule,
         LayoutDndCoreModule,
-        ReactiveFormsModule,
         ToLayoutDragDataSAPipe,
         FirstUppercaseLocalizeSAPipe,
         ComponentGroupFilterSAPipe,
@@ -81,11 +79,6 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
      */
     protected refreshPipe: boolean = false;
 
-    /**
-     * Search bar form control
-     */
-    protected searchBar: FormControl = new FormControl();
-
     //######################### public properties - inputs #########################
 
     /**
@@ -105,6 +98,12 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
      */
     @Input()
     public blackList: DynamicItemSource[]|undefined|null;
+
+    /**
+     * Search value for layout components
+     */
+    @Input()
+    public search: string|undefined|null;
 
     //######################### constructor #########################
     constructor(@Inject(LAYOUT_MODULE_TYPES_LOADER) protected moduleTypesLoader: DynamicItemLoader<LayoutModuleTypes>,

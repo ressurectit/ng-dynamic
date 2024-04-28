@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnChanges, SimpleChanges, Inject, OnInit, ChangeDetectorRef, Optional} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {CastPipesModule, CommonUtilsModule, FirstUppercaseLocalizeSAPipe, HostDisplayFlexStyle} from '@anglr/common';
 import {EditorHotkeys, MetadataHistoryManager, PackageManagerModule, DynamicItemSource} from '@anglr/dynamic';
@@ -18,12 +19,12 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
  * Component that represents layout editor with palette, tree and properties
  */
 @Component(
-{
-    selector: 'layout-editor',
-    templateUrl: 'layoutEditor.component.html',
-    styles: [HostDisplayFlexStyle],
-    standalone: true,
-    imports:
+    {
+        selector: 'layout-editor',
+        templateUrl: 'layoutEditor.component.html',
+        styles: [HostDisplayFlexStyle],
+        standalone: true,
+        imports:
     [
         ComponentsTreeSAComponent,
         ComponentsPaletteSAComponent,
@@ -37,9 +38,10 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
         CommonUtilsModule,
         FirstUppercaseLocalizeSAPipe,
         CastPipesModule,
+        ReactiveFormsModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
-})
+        changeDetection: ChangeDetectionStrategy.OnPush
+    })
 export class LayoutEditorSAComponent implements OnDestroy, OnChanges, OnInit
 {
     //######################### protected properties #########################
@@ -48,6 +50,11 @@ export class LayoutEditorSAComponent implements OnDestroy, OnChanges, OnInit
      * Subscriptions created during initialization
      */
     protected initSubscriptions: Subscription = new Subscription();
+
+    /**
+     * Search bar form control for components
+     */
+    protected searchBar: FormControl = new FormControl();
 
     //######################### public properties - inputs #########################
 

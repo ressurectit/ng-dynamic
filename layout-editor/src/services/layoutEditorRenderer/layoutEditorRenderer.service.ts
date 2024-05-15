@@ -16,11 +16,6 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
     //######################### protected properties #########################
 
     /**
-     * Instance of promise that is used for sync async/await calls
-     */
-    protected syncPromise: Promise<void> = Promise.resolve();
-
-    /**
      * Number of register calls waiting
      */
     protected registeredCalls: number = 0;
@@ -241,49 +236,6 @@ export class LayoutEditorRenderer extends LayoutRendererBase<LayoutEditorRendere
         if(this.registeredCalls === 0)
         {
             this.renderingFinishedSubject.next();
-        }
-    }
-
-    /**
-     * Destroyes renderer, removes it from register, destroyed renderer also destroys component, this is called when renderer is destroyed
-     * @param id - Id of renderer
-     */
-    public override destroyRenderer(id: string): void
-    {
-        this.logger.debug('LayoutEditorRenderer: destroying renderer "{{id}}", current renderers register: {{@(4)renderers}}', {id, renderers: Object.keys(this.renderers)});
-        
-        const renderer = this.renderers[id];
-
-        //if renderer exists remove it from register
-        if(renderer)
-        {
-            this.logger.verbose('LayoutEditorRenderer: removing renderer from registry "{{id}}"', {id});
-
-            delete this.components[renderer.metadata.id];
-            delete this.renderers[id];
-        }
-    }
-
-    /**
-     * Unregisters renderer, removes it from register, destroys component, this is called when renderer is emptied
-     * @param id - Id of renderer that will be removed
-     */
-    public override unregisterRenderer(id: string): void
-    {
-        this.logger.debug('LayoutEditorRenderer: ungregistering renderer "{{id}}", current renderers register: {{@(4)renderers}}', {id, renderers: Object.keys(this.renderers)});
-
-        const renderer = this.renderers[id];
-
-        //if renderer exists remove it from register and destroy component
-        if(renderer)
-        {
-            this.logger.verbose('LayoutEditorRenderer: destroying component "{{id}}"', {id});
-            //destroys component
-            renderer.viewContainer.clear();
-            this.logger.verbose('LayoutEditorRenderer: component destroyed "{{id}}"', {id});
-
-            delete this.components[renderer.metadata.id];
-            delete this.renderers[id];
         }
     }
 }

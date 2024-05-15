@@ -1,7 +1,7 @@
 import {Injectable, Provider, ViewContainerRef, inject} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {DynamicItemExtensionType, DynamicItemLoader} from '@anglr/dynamic';
-import {Action1} from '@jscrpt/common';
+import {Action1, NoopAction, extend} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
 import {LayoutComponentMetadata} from '../../interfaces';
@@ -17,6 +17,11 @@ import {LayoutRendererOptions} from './layoutRenderer.options';
 export abstract class LayoutRendererBase<TRendererItem extends LayoutRendererItem>
 {
     //######################### protected properties #########################
+
+    /**
+     * Instance of promise that is used for sync async/await calls
+     */
+    protected syncPromise: Promise<void> = Promise.resolve();
 
     /**
      * Instance of logger used for creating logs
@@ -139,8 +144,14 @@ export abstract class LayoutRendererBase<TRendererItem extends LayoutRendererIte
      * Destroyes renderer, removes it from register, destroyed renderer also destroys component, this is called when renderer is destroyed
      * @param id - Id of renderer
      */
-    public destroyRenderer(id: string): void
+    public async destroyRenderer(id: string): Promise<void>
     {
+        //synchronization code
+        const syncPromise = this.syncPromise;
+        let syncResolve: NoopAction|undefined;
+        this.syncPromise = new Promise(resolve => syncResolve = resolve);
+        await syncPromise;
+
         this.logger.debug('LayoutRenderer: destroying renderer "{{id}}"', {id});
 
         const renderer = this.renderers[id];
@@ -153,14 +164,23 @@ export abstract class LayoutRendererBase<TRendererItem extends LayoutRendererIte
             delete this.components[renderer.metadata.id];
             delete this.renderers[id];
         }
+
+        //sync call finished
+        syncResolve?.();
     }
     
     /**
      * Unregisters renderer, removes it from register, destroys component, this is called when renderer is emptied
      * @param id - Id of renderer that will be removed
      */
-    public unregisterRenderer(id: string): void
+    public async unregisterRenderer(id: string): Promise<void>
     {
+        //synchronization code
+        const syncPromise = this.syncPromise;
+        let syncResolve: NoopAction|undefined;
+        this.syncPromise = new Promise(resolve => syncResolve = resolve);
+        await syncPromise;
+
         this.logger.debug('LayoutRenderer: ungregistering renderer "{{id}}"', {id});
 
         const renderer = this.renderers[id];
@@ -176,5 +196,8 @@ export abstract class LayoutRendererBase<TRendererItem extends LayoutRendererIte
             delete this.components[renderer.metadata.id];
             delete this.renderers[id];
         }
+
+        //sync call finished
+        syncResolve?.();
     }
 }

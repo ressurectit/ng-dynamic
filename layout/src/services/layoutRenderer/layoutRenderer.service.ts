@@ -18,11 +18,6 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
     //######################### protected properties #########################
 
     /**
-     * Instance of promise that is used for sync async/await calls
-     */
-    protected syncPromise: Promise<void> = Promise.resolve();
-
-    /**
      * Number of register calls waiting
      */
     protected registeredCalls: number = 0;
@@ -51,7 +46,7 @@ export class LayoutRenderer extends LayoutRendererBase<LayoutRendererItem>
         await syncPromise;
 
         this.logger.debug('LayoutRenderer: registering renderer {{@(4)renderer}}', {renderer: {id, parentId, metadata, parentMetadata, scopeId}});
-
+        
         //tests whether component already exists
         if(this.components[metadata.id])
         {

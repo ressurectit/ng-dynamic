@@ -3,6 +3,7 @@
 /docs
 temp/
 
+/schematics/**/*.js
 package-lock.json
 tsdoc-metadata.json
 *.d.ts

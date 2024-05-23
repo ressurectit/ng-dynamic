@@ -1,0 +1,12 @@
+<% if(isLayoutComponent(type)) { %>/**
+ * Options for <%= dasherize(name) %> component
+ */
+export interface <%= classify(name) %>ComponentOptions
+{
+}<% } if(isRelationsComponent(type)) { %>
+/**
+ * Options for <%= dasherize(name) %> component relations
+ */
+export interface <%= classify(name) %>ComponentRelationsOptions
+{
+}<% } %>

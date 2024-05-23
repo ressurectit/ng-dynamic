@@ -1,0 +1,51 @@
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+
+import {<%= classify(name) %>ComponentOptions} from '../<%= dasherize(name) %>.options';
+import {<%= classify(name) %>Model} from './<%= dasherize(name) %>.model';
+
+/**
+ * <%= classify(name) %> layout metadata
+ */
+export class <%= classify(name) %>LayoutEditorMetadata implements LayoutEditorMetadataDescriptor<<%= classify(name) %>ComponentOptions>
+{
+    //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
+
+    /**
+     * @inheritdoc
+     */
+    public metaInfo?: LayoutEditorMetadataInfo<ButtonComponentOptions> =
+    {
+        name: '<%= classify(name) %>',
+        description: '<%= dasherize(name) %>',
+        group: 'TODO',
+        optionsMetadata:
+        {
+            propertiesMetadata:
+            [
+                {
+                    modelType: ComponentStylingModel,
+                    propertiesControls: 
+                    [
+                        ComponentStylingPropertiesControlComponent,
+                    ],
+                },
+                {
+                    modelType: <%= classify(name) %>Model,
+                    propertiesControls: 
+                    [
+                        genericPropertiesControlFor<<%= classify(name) %>Model>([]),
+                    ],
+                },
+            ],
+        },
+        defaultOptions:
+        {
+        }
+    };
+
+    //######################### constructor #########################
+    constructor()
+    {
+        Object.freeze(this);
+    }
+}

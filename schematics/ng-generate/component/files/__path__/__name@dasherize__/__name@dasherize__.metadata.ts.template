@@ -1,0 +1,15 @@
+import {DynamicMetadataLoader} from '@anglr/dynamic';<% if(isLayoutComponent(type)) { %>
+import {LayoutEditorMetadataDescriptor} from '@anglr/dynamic/layout-editor';<% } if(isRelationsComponent(type)) { %>
+import {RelationsEditorMetadataDescriptor} from '@anglr/dynamic/relations-editor';<% } %>
+<% if(isLayoutComponent(type)) { %>
+import {<%= classify(name) %>ComponentOptions} from './<%= dasherize(name) %>.options';
+/**
+ * <%= dasherize(name) %> layout metadata loader
+ */
+export const <%= classify(name) %>LayoutMetadataLoader: DynamicMetadataLoader<LayoutEditorMetadataDescriptor<<%= classify(name) %>ComponentOptions>> = async () => new (await import('./metadata/<%= dasherize(name) %>.layoutMetadata')).<%= classify(name) %>LayoutEditorMetadata();
+<% } if(isRelationsComponent(type)) { %>
+/**
+ * <%= dasherize(name) %> relations metadata loader
+ */
+export const <%= classify(name) %>RelationsMetadataLoader: DynamicMetadataLoader<RelationsEditorMetadataDescriptor> = async () => new (await import('./metadata/<%= dasherize(name) %>.relationsMetadata')).<%= classify(name) %>RelationsEditorMetadata();
+<% } %>

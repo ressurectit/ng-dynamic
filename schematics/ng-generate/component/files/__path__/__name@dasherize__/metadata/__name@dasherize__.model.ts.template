@@ -1,0 +1,18 @@
+import {DefaultKnownPropertyTypes, LayoutPropertyDescription, LayoutPropertyName, LayoutPropertyType, LayoutPropertyValues} from '@anglr/dynamic/layout-editor';
+import {mapValuesToThis} from '@jscrpt/common';
+
+import {<%= classify(name) %>ComponentOptions, <%= classify(name) %>Type} from '../<%= dasherize(name) %>.options';
+
+/**
+ * <%= classify(name) %> model for properties editor
+ */
+export class <%= classify(name) %>Model implements <%= classify(name) %>ComponentOptions
+{
+    //######################### public properties #########################
+    
+    //######################### constructor #########################
+    constructor(value: <%= classify(name) %>ComponentOptions|undefined|null)
+    {
+        mapValuesToThis.bind(this)(value);
+    }
+}

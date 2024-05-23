@@ -1,0 +1,24 @@
+import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+
+/**
+ * Relations node component for <%= dasherize(name) %>
+ */
+@Component(
+{
+    selector: '<%= dasherize(name) %>-node',
+    templateUrl: '<%= dasherize(name) %>Node.component.html',
+    standalone: true,
+    imports:
+    [
+        RelationsNodeHeaderSAComponent,
+        RelationNodeInputSAComponent,
+        RelationNodeOutputSAComponent,
+        FirstUppercaseLocalizeSAPipe,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class <%= classify(name) %>NodeComponent extends RelationsNodeBase implements RelationsNode
+{
+}

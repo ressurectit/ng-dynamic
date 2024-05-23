@@ -1,0 +1,47 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "SchematicsDynamicComponent",
+    "title": "Dynamic component Options Schema",
+    "type": "object",
+    "properties": {
+        "path": {
+            "type": "string",
+            "format": "path",
+            "$default": {
+                "$source": "workingDirectory"
+            },
+            "description": "The path to create the component.",
+            "visible": false
+        },
+        "name": {
+            "type": "string",
+            "description": "The name of the component.",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            },
+            "x-prompt": "What should be the name of the component?"
+        },
+        "type": {
+            "description": "Specifies component type.",
+            "enum": [
+                "layout",
+                "relations",
+                "layout-relations"
+            ],
+            "type": "string",
+            "default": "layout-relations",
+            "alias": "t"
+        },
+        "project": {
+            "type": "string",
+            "description": "The name of the project.",
+            "$default": {
+                "$source": "projectName"
+            }
+        }
+    },
+    "required": [
+        "name"
+    ]
+}

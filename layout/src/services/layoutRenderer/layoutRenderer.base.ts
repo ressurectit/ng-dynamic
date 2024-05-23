@@ -1,7 +1,7 @@
 import {Injectable, Provider, ViewContainerRef, inject} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {DynamicItemExtensionType, DynamicItemLoader} from '@anglr/dynamic';
-import {Action1, NoopAction, extend} from '@jscrpt/common';
+import {Action1, NoopAction} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
 import {LayoutComponentMetadata} from '../../interfaces';

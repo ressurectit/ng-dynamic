@@ -1,0 +1,8 @@
+import {ComponentStylingExtension} from '@anglr/dynamic/layout';<% if(isRelationsComponent(type)) { %>
+import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';<% } %>
+
+import {<%= classify(name) %>Component} from './<%= dasherize(name) %>.component';
+
+export default <%= classify(name) %>Component;
+
+export const extensions = [ComponentStylingExtension<% if(isRelationsComponent(type)) { %>, RelationsRegistrationExtension<% } %>];

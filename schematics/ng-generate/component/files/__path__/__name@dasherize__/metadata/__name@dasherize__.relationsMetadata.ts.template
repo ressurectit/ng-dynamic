@@ -1,0 +1,33 @@
+import {Type} from '@angular/core';
+import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
+
+import {<%= classify(name) %>NodeComponent} from '../node/<%= dasherize(name) %>Node.component';
+
+/**
+ * <%= classify(name) %> relations metadata
+ */
+export class <%= classify(name) %>RelationsEditorMetadata implements RelationsEditorMetadataDescriptor
+{
+    //######################### public properties - implementation of RelationsEditorMetadataDescriptor #########################
+
+    /**
+     * @inheritdoc
+     */
+    public metaInfo?: RelationsEditorMetadataInfo =
+    {
+        name: '<%= classify(name) %>',
+        description: '<%= dasherize(name) %>',
+        group: 'TODO',
+    };
+
+    /**
+     * @inheritdoc
+     */
+    public nodeDefinition: Type<RelationsNode> = <%= classify(name) %>NodeComponent;
+
+    //######################### constructor #########################
+    constructor()
+    {
+        Object.freeze(this);
+    }
+}

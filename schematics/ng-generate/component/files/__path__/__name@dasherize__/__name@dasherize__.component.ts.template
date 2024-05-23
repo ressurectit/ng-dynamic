@@ -1,0 +1,45 @@
+import {Component, ChangeDetectionStrategy} from '@angular/core';<% if(isLayoutComponent(type)) { %>
+import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
+import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';<% } if(isRelationsComponent(type)) { %>
+import {RelationsComponent} from '@anglr/dynamic/relations';
+import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';<% } %>
+import {HostDisplayBlockStyle} from '@anglr/common';
+
+import {<% if(isLayoutComponent(type)) { %><%= classify(name) %>ComponentOptions<% } if(isRelationsComponent(type) && isLayoutComponent(type)) { %>, <% } if(isRelationsComponent(type)) { %><%= classify(name) %>ComponentRelationsOptions<% } %>} from './<%= dasherize(name) %>.options';
+import {<% if(isLayoutComponent(type)) { %><%= classify(name) %>LayoutMetadataLoader<% } if(isRelationsComponent(type) && isLayoutComponent(type)) { %>, <% } if(isRelationsComponent(type)) { %><%= classify(name) %>RelationsMetadataLoader<% } %>} from './<%= dasherize(name) %>.metadata';
+
+/**
+ * Component used for displaying <%= dasherize(name) %>
+ */
+@Component(
+{
+    selector: '<%= dasherize(name) %>-component',
+    templateUrl: './<%= dasherize(name) %>.component.html',
+    styles: [HostDisplayBlockStyle],
+    standalone: true,
+    imports:
+    [],
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+<% if(isRelationsComponent(type)) { %>@RelationsEditorMetadata(<%= classify(name) %>RelationsMetadataLoader)<% } if(isLayoutComponent(type)) { %>
+@LayoutEditorMetadata(<%= classify(name) %>LayoutMetadataLoader)<% } %>
+export class <%= classify(name) %>Component <% if(isLayoutComponent(type)) { %>extends LayoutComponentBase<<%= classify(name) %>ComponentOptions><% } %> implements <% if(isLayoutComponent(type)) { %>LayoutComponent<<%= classify(name) %>ComponentOptions><% } if(isRelationsComponent(type) && isLayoutComponent(type)) { %>, <% } if(isRelationsComponent(type)) { %>RelationsComponent<<%= classify(name) %>ComponentRelationsOptions><% } %>
+{
+    <% if(isRelationsComponent(type)) { %>
+    //######################### public properties - implementation of RelationsComponent #########################
+
+    /**
+     * @inheritdoc
+     */
+    relationsOptions: <%= classify(name) %>ComponentRelationsOptions | null | undefined;
+
+    //######################### public methods - implementation of RelationsComponent #########################
+
+    /**
+     * @inheritdoc
+     */
+    public invalidateVisuals(): void
+    {
+        throw new Error('Method not implemented.');
+    }<% } %>
+}

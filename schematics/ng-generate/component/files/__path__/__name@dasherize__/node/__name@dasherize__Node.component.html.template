@@ -1,0 +1,11 @@
+<relations-node-header [parent]="this" [destroySubject]="destroySubject"></relations-node-header>
+
+<div class="node-content">
+    <div class="inputs-outputs">
+        <div class="inputs">
+        </div>
+
+        <div class="outputs">
+        </div>
+    </div>
+</div>

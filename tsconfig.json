@@ -57,7 +57,8 @@
     "exclude":
     [
         "node_modules",
-        "demo"
+        "demo",
+        "schematics"
     ],
     "angularCompilerOptions":
     {

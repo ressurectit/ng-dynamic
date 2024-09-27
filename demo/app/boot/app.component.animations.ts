@@ -28,7 +28,7 @@ export const routeAnimationTrigger = trigger('routeAnimations',
                     width: '100%',
                     height: '100%'
                 })
-            ]),
+            ], {optional: true}),
             query(':enter',
             [
                 style(
@@ -36,8 +36,8 @@ export const routeAnimationTrigger = trigger('routeAnimations',
                     transform: 'rotateY(-90deg)',
                     opacity: 0
                 })
-            ]),
-            query(':leave', animateChild()),
+            ], {optional: true}),
+            query(':leave', animateChild(), {optional: true}),
             group(
             [
                 query(':leave',
@@ -47,7 +47,7 @@ export const routeAnimationTrigger = trigger('routeAnimations',
                         transform: 'rotateY(90deg)',
                         opacity: 0
                     }))
-                ]),
+                ], {optional: true}),
                 query(':enter',
                 [
                     animate('350ms 350ms ease-out', style(
@@ -55,10 +55,10 @@ export const routeAnimationTrigger = trigger('routeAnimations',
                         transform: 'rotateY(0)',
                         opacity: 1
                     }))
-                ])
+                ], {optional: true})
             ]),
-            query(':enter', animateChild())
-        ])
+            query(':enter', animateChild(), {optional: true})
+        ], {optional: true})
     ]),
     transition('login => *',
     [
@@ -79,7 +79,7 @@ export const routeAnimationTrigger = trigger('routeAnimations',
                     width: '100%',
                     height: '100%'
                 })
-            ]),
+            ], {optional: true}),
             query(':enter',
             [
                 style(
@@ -87,8 +87,8 @@ export const routeAnimationTrigger = trigger('routeAnimations',
                     transform: 'rotateY(-90deg)',
                     opacity: 0
                 })
-            ]),
-            query(':leave', animateChild()),
+            ], {optional: true}),
+            query(':leave', animateChild(), {optional: true}),
             group(
             [
                 query(':leave',
@@ -98,7 +98,7 @@ export const routeAnimationTrigger = trigger('routeAnimations',
                         transform: 'rotateY(90deg)',
                         opacity: 0
                     }))
-                ]),
+                ], {optional: true}),
                 query(':enter',
                 [
                     animate('350ms 350ms ease-out', style(
@@ -106,10 +106,10 @@ export const routeAnimationTrigger = trigger('routeAnimations',
                         transform: 'rotateY(0)',
                         opacity: 1
                     }))
-                ])
+                ], {optional: true})
             ]),
-            query(':enter', animateChild())
-        ])
+            query(':enter', animateChild(), {optional: true})
+        ], {optional: true})
     ]),
     transition('* => *',
     [
@@ -126,25 +126,25 @@ export const routeAnimationTrigger = trigger('routeAnimations',
                     width: '100%',
                     height: '100%'
                 })
-            ]),
+            ], {optional: true}),
             query(':enter',
             [
                 style({ opacity: 0})
-            ]),
-            query(':leave', animateChild()),
+            ], {optional: true}),
+            query(':leave', animateChild(), {optional: true}),
             group(
             [
                 query(':leave',
                 [
                     animate('350ms ease-out', style({ opacity: 0}))
-                ]),
+                ], {optional: true}),
                 query(':enter',
                 [
                     animate('350ms ease-out', style({ opacity: 1}))
-                ])
+                ], {optional: true})
             ]),
-            query(':enter', animateChild())
-        ])
+            query(':enter', animateChild(), {optional: true})
+        ], {optional: true})
     ])
 ]);
 
@@ -152,20 +152,19 @@ export const loaderTrigger = trigger('loaderAnimation',
 [
     transition(':leave',
     [
-        // group(
-        // [
-        //     query('.loading-card', 
-        //     [
-        //         animate('300ms', style(
-        //         {
-        //             transform: 'scale(4)'
-        //         }))
-        //     ]),
-        //     animate('200ms 100ms', style(
-        //     {
-        //         opacity: 0
-        //     }))
-            
-        // ])
+        group(
+        [
+            query('.loading-card', 
+            [
+                animate('300ms', style(
+                {
+                    transform: 'scale(4)'
+                }))
+            ], {optional: true}),
+            animate('200ms 100ms', style(
+            {
+                opacity: 0
+            }))
+        ])
     ])
 ]);

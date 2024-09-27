@@ -4,7 +4,7 @@ import {Dictionary} from '@jscrpt/common';
 /**
  * Service used for obtaining and storing data
  */
-export class StoreDataService<TData = any>
+export class StoreDataService<TData = unknown>
 {
     //######################### constructor #########################
     constructor(private _storage: PermanentStorage,
@@ -34,7 +34,7 @@ export class StoreDataService<TData = any>
      */
     public getData(name: string): TData|null
     {
-        return (this._storage.get(this._storeKey)?.[name]) ?? null;
+        return (this._storage.get<Dictionary<TData>>(this._storeKey)?.[name]) ?? null;
     }
 
     /**

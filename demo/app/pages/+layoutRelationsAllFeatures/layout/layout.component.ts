@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, Inject, ExistingProvider, inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {GoBackSADirective} from '@anglr/common';
+import {GoBackDirective} from '@anglr/common';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
 import {LayoutComponentMetadata, withLayoutMetadataStorage} from '@anglr/dynamic/layout';
 import {LAYOUT_HISTORY_MANAGER, LayoutEditorSAComponent, withLayoutDefaultsOverride, withLayoutEditor} from '@anglr/dynamic/layout-editor';
@@ -21,7 +21,7 @@ import {BindThis, generateId} from '@jscrpt/common';
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
-import {LoadSaveNewSAComponent} from '../../../components';
+import {LoadSaveNewComponent} from '../../../components';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager';
 import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
 import {DemoLayoutDefaultsOverrideService} from '../../../services/demoDefaultsOverride';
@@ -37,9 +37,9 @@ import {MetadataStorageLayoutComplex} from '../../../services/metadataStorageLay
     standalone: true,
     imports:
     [
-        GoBackSADirective,
+        GoBackDirective,
         DebugDataCopyClickModule,
-        LoadSaveNewSAComponent,
+        LoadSaveNewComponent,
         LayoutEditorSAComponent,
     ],
     providers:
@@ -82,7 +82,7 @@ export class LayoutComponent
             displayName: 'root',
             package: 'basic-components',
             name: 'stackPanel',
-            options: <StackPanelComponentOptions>
+            options: <Partial<StackPanelComponentOptions>>
             {
                 children: [],
             },

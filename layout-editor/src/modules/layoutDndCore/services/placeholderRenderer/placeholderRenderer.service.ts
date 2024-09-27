@@ -85,7 +85,7 @@ export class PlaceholderRenderer implements OnDestroy
     /**
      * Instance of position plugin
      */
-    protected position: Position = inject(POSITION);
+    protected position: Position<HTMLElement> = inject(POSITION) as Position<HTMLElement>;
 
     /**
      * Instance of html document

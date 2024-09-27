@@ -30,8 +30,9 @@ export class DemoLayoutDefaultsOverrideService implements DefaultsOverride
     /**
      * @inheritdoc
      */
-    public getDisplayName(packageName: string, name: string, displayName?: string): string 
+    public getDisplayName(_packageName: string, _name: string, displayName?: string): string 
     {
-        return displayName;
+        //TODO: fix typings
+        return displayName as string;
     }        
 }

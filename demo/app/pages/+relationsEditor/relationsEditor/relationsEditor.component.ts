@@ -12,7 +12,7 @@ import {BindThis} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
-import {LoadSaveNewSAComponent} from '../../../components';
+import {LoadSaveNewComponent} from '../../../components';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager';
 import {StaticComponentsRegister} from '../../../services/staticComponentsRegister';
@@ -27,7 +27,7 @@ import {StaticComponentsRegister} from '../../../services/staticComponentsRegist
     standalone: true,
     imports:
     [
-        LoadSaveNewSAComponent,
+        LoadSaveNewComponent,
         RelationsEditorSAComponent,
         DebugDataCopyClickModule,
     ],

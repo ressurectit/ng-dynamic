@@ -34,7 +34,7 @@ export class RelationsResultSAComponent implements RelationsComponent, OnInit, O
     /**
      * @inheritdoc
      */
-    public relationsOptions: any;
+    public relationsOptions: unknown;
 
     //######################### public properties - inputs #########################
 
@@ -42,7 +42,7 @@ export class RelationsResultSAComponent implements RelationsComponent, OnInit, O
      * Test input for data
      */
     @Input()
-    public vstup: string;
+    public vstup: string|undefined|null;
 
     //######################### constructor #########################
     constructor(private _changeDetector: ChangeDetectorRef,

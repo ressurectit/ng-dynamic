@@ -1,8 +1,8 @@
-import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Inject, OnInit} from '@angular/core';
-import {CommonModule, DOCUMENT} from '@angular/common';
-import {RouterModule, RouterOutlet} from '@angular/router';
+import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, Inject, WritableSignal, signal} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
+import {RouterOutlet} from '@angular/router';
 import {ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
-import {AppHotkeysService, HotkeysCheatsheetSAComponent} from '@anglr/common/hotkeys';
+import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
 import {InternalServerErrorSAComponent} from '@anglr/error-handling';
 import {fadeInOutTrigger} from '@anglr/animations';
 import {NotificationsGlobalModule} from '@anglr/notifications';
@@ -18,30 +18,29 @@ import version from '../../config/version.json';
 import {MenuModule} from '../modules';
 
 /**
- * Application entry component
+ * Application root component
  */
 @Component(
 {
     selector: 'app',
     templateUrl: 'app.component.html',
-    styleUrls: ['app.component.scss'],
+    styleUrl: 'app.component.scss',
     standalone: true,
     imports:
     [
-        CommonModule,
-        RouterModule,
+        RouterOutlet,
         InternalServerErrorSAComponent,
         ProgressIndicatorModule,
         NotificationsGlobalModule,
         MenuModule,
         ConsoleSAComponent,
-        HotkeysCheatsheetSAComponent,
+        HotkeysCheatsheetComponent,
     ],
     animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger, loaderTrigger],
     providers: [AppHotkeysService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
+export class AppComponent implements AfterViewInit, OnDestroy
 {
     //######################### private fields #########################
     
@@ -70,7 +69,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Indication whether is console visible
      */
-    public consoleVisible: boolean = false;
+    public consoleVisible: WritableSignal<boolean> = signal(false);
 
     /**
      * Name of state for routed component animation
@@ -93,15 +92,14 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
      * Router outlet that is used for loading routed components
      */
     @ViewChild('outlet')
-    public routerOutlet: RouterOutlet;
+    public routerOutlet: RouterOutlet|undefined|null;
 
     //######################### constructor #########################
     constructor(translateSvc: TranslateService,
-                private _changeDetector: ChangeDetectorRef,
                 private _appHotkeys: AppHotkeysService,
                 settings: SettingsService,
                 @Inject(LOGGER) logger: Logger,
-                @Inject(DOCUMENT) document: Document)
+                @Inject(DOCUMENT) document: Document,)
     {
         logger.verbose('Application is starting, main component constructed.');
 
@@ -121,7 +119,6 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
                 if(itm == nameof<SettingsGeneral>('language'))
                 {
                     translateSvc.use(settings.settings.language);
-                    this._changeDetector.detectChanges();
                 }
             });
 
@@ -143,29 +140,19 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
         }
     }
 
-    //######################### public methods - implementation of OnInit #########################
-    
-    /**
-     * Initialize component
-     */
-    public async ngOnInit(): Promise<void>
-    {
-        this._changeDetector.detectChanges();
-    }
-
     //######################### public methods - implementation of AfterViewInit #########################
     
     /**
      * Called when view was initialized
      */
-    public ngAfterViewInit()
+    public ngAfterViewInit(): void
     {
-        this._routerOutletActivatedSubscription = this.routerOutlet?.activateEvents.subscribe(() =>
-        {
-            this.routeComponentState = this.routerOutlet?.activatedRouteData['animation'] || (<any>this.routerOutlet?.activatedRoute.component).name;
-        });
+        // this._routerOutletActivatedSubscription = this.routerOutlet?.activateEvents.subscribe(() =>
+        // {
+        //     this.routeComponentState = this.routerOutlet?.activatedRouteData['animation'] || (<any>this.routerOutlet?.activatedRoute.component).name;
+        // });
 
-        this.initialized = true;
+        // this.initialized = true;
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -173,7 +160,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
         this._routerOutletActivatedSubscription?.unsubscribe();
         this._routerOutletActivatedSubscription = null;
@@ -201,8 +188,7 @@ export class AppSAComponent implements OnInit, AfterViewInit, OnDestroy
         {
             this._appHotkeys.hotkeys.add(new Hotkey('~', () =>
             {
-                this.consoleVisible = !this.consoleVisible;
-                this._changeDetector.detectChanges();
+                this.consoleVisible.update(val => !val);
 
                 return false;
             }, undefined, 'Show console'));

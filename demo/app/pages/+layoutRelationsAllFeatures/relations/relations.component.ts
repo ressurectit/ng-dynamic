@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, Inject, inject, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {GoBackSADirective} from '@anglr/common';
+import {GoBackDirective} from '@anglr/common';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent, withStaticComponents, withRelationsDefaultsOverride} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, CustomDynamicItemsRegister, withLayoutRelationsEditor, withCustomComponents, withCustomRelations, CustomRelationsRegister} from '@anglr/dynamic/layout-relations';
 import {MetadataHistoryManager, provideDynamic, withEditorHotkeys, withPackageManager} from '@anglr/dynamic';
@@ -23,7 +23,7 @@ import {ComplexStaticRegister} from '../misc';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
 import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
 import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelationsRegister';
-import {LoadSaveNewSAComponent} from '../../../components';
+import {LoadSaveNewComponent} from '../../../components';
 import {MetadataStorageRelationsComplex} from '../../../services/metadataStorageRelationsComplex';
 import {DemoRelationsDefaultsOverrideService} from '../../../services/demoDefaultsOverride';
 
@@ -37,8 +37,8 @@ import {DemoRelationsDefaultsOverrideService} from '../../../services/demoDefaul
     standalone: true,
     imports:
     [
-        GoBackSADirective,
-        LoadSaveNewSAComponent,
+        GoBackDirective,
+        LoadSaveNewComponent,
         RelationsEditorSAComponent,
     ],
     providers:
@@ -113,9 +113,9 @@ export class RelationsComponent
         this._metadata = DemoData.complexDemoFullRelations;
     }
 
-    protected setMetadata(metadata: LayoutRelationsMetadata): void
+    protected setMetadata(metadata: LayoutRelationsMetadata|null): void
     {
         this._metadata = metadata?.relations ?? this.emptyMetadata;
-        this._layoutManager.setLayout(metadata?.layout);
+        this._layoutManager.setLayout(metadata?.layout ?? null);
     }
 }

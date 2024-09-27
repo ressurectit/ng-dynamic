@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
-import {GoBackSADirective} from '@anglr/common';
+import {GoBackDirective} from '@anglr/common';
 import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, withLayoutRelationsEditor} from '@anglr/dynamic/layout-relations';
@@ -13,7 +13,7 @@ import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager/demoRelationsPackageManager.service';
-import {LoadSaveNewSAComponent} from '../../../components';
+import {LoadSaveNewComponent} from '../../../components';
 
 /**
  * Layout editor component
@@ -25,8 +25,8 @@ import {LoadSaveNewSAComponent} from '../../../components';
     standalone: true,
     imports:
     [
-        GoBackSADirective,
-        LoadSaveNewSAComponent,
+        GoBackDirective,
+        LoadSaveNewComponent,
         RelationsEditorSAComponent,
     ],
     providers:
@@ -85,9 +85,9 @@ export class FormRelationsComponent
         this.metadata = DemoData.complexDemoFullRelations;
     }
 
-    protected setMetadata(metadata: LayoutRelationsMetadata): void
+    protected setMetadata(metadata: LayoutRelationsMetadata|null): void
     {
         this.metadata = metadata?.relations ?? this.emptyMetadata;
-        this.layoutManager.setLayout(metadata?.layout);
+        this.layoutManager.setLayout(metadata?.layout ?? null);
     }
 }

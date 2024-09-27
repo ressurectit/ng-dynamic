@@ -73,7 +73,7 @@ export class PreviewComponent implements OnInit, OnDestroy
 
     protected available: FormControl = new FormControl('');
 
-    protected metadata: LayoutComponentMetadata = null;
+    protected metadata: LayoutComponentMetadata|undefined|null = null;
 
     protected relations: RelationsNodeMetadata[] = [];
 
@@ -106,7 +106,7 @@ export class PreviewComponent implements OnInit, OnDestroy
                 const meta = this.selectedMetadata = this.store.getData(id);
                 this.metadata = meta?.layout;
                 this.relations = meta?.relations ?? [];
-                this.relationsManager.setRelations(meta.relations ?? []);
+                this.relationsManager.setRelations(meta?.relations ?? []);
             }
             else
             {

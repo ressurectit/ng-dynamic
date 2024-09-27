@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {GoBackSADirective} from '@anglr/common';
+import {GoBackDirective} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LAYOUT_HISTORY_MANAGER, LayoutEditorSAComponent, withLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
@@ -20,7 +20,7 @@ import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager';
-import {LoadSaveNewSAComponent} from '../../../components';
+import {LoadSaveNewComponent} from '../../../components';
 
 /**
  * Layout editor component
@@ -32,9 +32,9 @@ import {LoadSaveNewSAComponent} from '../../../components';
     standalone: true,
     imports:
     [
-        GoBackSADirective,
+        GoBackDirective,
         LayoutEditorSAComponent,
-        LoadSaveNewSAComponent,
+        LoadSaveNewComponent,
     ],
     providers:
     [
@@ -67,7 +67,7 @@ export class LayoutComponent
             displayName: 'root',
             package: 'basic-components',
             name: 'stackPanel',
-            options: <StackPanelComponentOptions>
+            options: <Partial<StackPanelComponentOptions>>
             {
                 children: [],
             },

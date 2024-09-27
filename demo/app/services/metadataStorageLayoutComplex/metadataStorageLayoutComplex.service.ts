@@ -26,6 +26,6 @@ export class MetadataStorageLayoutComplex extends MetadataStorage<LayoutComponen
      */
     public override getMetadata(id: string): LayoutComponentMetadata|null
     {
-        return this.storage.getData(id).layout;
+        return this.storage.getData(id)?.layout ?? null;
     }
 }

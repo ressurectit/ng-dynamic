@@ -38,19 +38,19 @@ export class StaticInputSAComponent implements RelationsComponent, OnInit, OnDes
     /**
      * @inheritdoc
      */
-    public relationsOptions: any;
+    public relationsOptions: unknown;
 
     //######################### protected properties - template bindings #########################
 
     /**
      * Defines form control for string value
      */
-    protected stringForm: FormControl<string> = new FormControl<string>('');
+    protected stringForm: FormControl<string> = new FormControl<string>('', {nonNullable: true});
 
     /**
      * Defines form control for boolean value
      */
-    protected booleanForm: FormControl<boolean> = new FormControl<boolean>(false);
+    protected booleanForm: FormControl<boolean> = new FormControl<boolean>(false, {nonNullable: true});
 
     //######################### public properties - outputs #########################
 
@@ -58,13 +58,13 @@ export class StaticInputSAComponent implements RelationsComponent, OnInit, OnDes
      * String output
      */
     @DynamicOutput()
-    public stringOutput: string;
+    public stringOutput: string|undefined|null;
 
     /**
      * Boolean output
      */
     @DynamicOutput()
-    public booleanOutput: boolean;
+    public booleanOutput: boolean|undefined|null;
 
     //######################### constructor #########################
     constructor(private _changeDetector: ChangeDetectorRef,

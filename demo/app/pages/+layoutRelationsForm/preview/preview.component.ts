@@ -47,22 +47,22 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 export class FormPreviewComponent implements OnInit, OnDestroy
 {
     //######################### protected properties - template bindings #########################
-    
+
     protected selectedMetadata: LayoutRelationsMetadata|null = null;
 
-    protected formInjector: Injector;
+    protected formInjector: Injector|undefined|null;
 
     protected available: FormControl = new FormControl('');
 
-    protected metadata: LayoutComponentMetadata = null;
+    protected metadata: LayoutComponentMetadata|undefined|null = null;
 
-    protected formGroup: FormGroup;
+    protected formGroup: FormGroup|undefined|null;
 
     protected availableNames: string[] = [];
 
     //######################### constructor #########################
     constructor(private _relationsManager: RelationsManager,
-                private _store: StoreDataService,
+                private _store: StoreDataService<LayoutRelationsMetadata>,
                 private _router: Router,
                 private _route: ActivatedRoute,
                 private _injector: Injector,
@@ -72,7 +72,7 @@ export class FormPreviewComponent implements OnInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -87,9 +87,13 @@ export class FormPreviewComponent implements OnInit, OnDestroy
                 this.available.setValue(id);
                 const meta = this.selectedMetadata = this._store.getData(id);
                 this.metadata = meta?.layout;
-                this._relationsManager.setRelations(meta.relations ?? []);
+                this._relationsManager.setRelations(meta?.relations ?? []);
 
-                this.formGroup = await this._formComponentControlBuilder.build(this.metadata);        
+                if(this.metadata)
+                {
+                    this.formGroup = await this._formComponentControlBuilder.build(this.metadata);
+                }
+
                 this.formInjector = Injector.create(
                     {
                         parent: this._injector,
@@ -119,7 +123,7 @@ export class FormPreviewComponent implements OnInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -134,6 +138,6 @@ export class FormPreviewComponent implements OnInit, OnDestroy
      */
     protected submit(): void
     {
-        console.log(this.formGroup.value);
+        console.log(this.formGroup?.value);
     }
 }

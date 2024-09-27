@@ -39,22 +39,22 @@ export class RelationsSampleClickSAComponent implements RelationsComponent, OnIn
     /**
      * @inheritdoc
      */
-    public relationsOptions: any;
+    public relationsOptions: unknown;
 
     //######################### protected properties - template bindings #########################
 
     /**
      * Defines form control for vystup value
      */
-    protected _vystupForm: FormControl<string> = new FormControl<string>('');
+    protected _vystupForm: FormControl<string> = new FormControl<string>('', {nonNullable: true});
 
     //######################### public properties - inputs #########################
 
     /**
      * Test input for data
      */
-    @Input()
-    public vstup: string;
+    @Input({required: true})
+    public vstup!: string;
 
     //######################### public properties - outputs #########################
 
@@ -62,7 +62,7 @@ export class RelationsSampleClickSAComponent implements RelationsComponent, OnIn
      * Test output
      */
     @DynamicOutput()
-    public vystup: string;
+    public vystup: string|undefined|null;
 
     //######################### constructor #########################
     constructor(private _changeDetector: ChangeDetectorRef,

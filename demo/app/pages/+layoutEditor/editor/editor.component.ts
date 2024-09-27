@@ -14,7 +14,7 @@ import {BindThis, generateId} from '@jscrpt/common';
 
 import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
-import {LoadSaveNewSAComponent} from '../../../components';
+import {LoadSaveNewComponent} from '../../../components';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager';
 
@@ -28,7 +28,7 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
     standalone: true,
     imports:
     [
-        LoadSaveNewSAComponent,
+        LoadSaveNewComponent,
         LayoutEditorSAComponent,
         DebugDataCopyClickModule,
     ],
@@ -60,7 +60,7 @@ export class EditorComponent
             displayName: 'root',
             package: 'basic-components',
             name: 'stackPanel',
-            options: <StackPanelComponentOptions>
+            options: <Partial<StackPanelComponentOptions>>
             {
                 children: [],
             },

@@ -1,7 +1,7 @@
 {
     "compilerOptions":
     {
-        "target": "ES2020",
+        "target": "ES2022",
         "module": "ES2022",
         "moduleResolution": "node",
         "sourceMap": true,
@@ -19,28 +19,30 @@
         "strictNullChecks": true,
         "esModuleInterop": true,
         "importHelpers": true,
+        "useDefineForClassFields": false,
+        "skipLibCheck": false,
+        "forceConsistentCasingInFileNames": true,
         "newLine": "lf",
         "rootDir": ".",
         "outDir": "es2022",
-        "baseUrl": "src",
         "paths":
         {
-            "@anglr/dynamic/layout": ["../layout/src/index.ts"],
-            "@anglr/dynamic/layout-editor": ["../layout-editor/src/index.ts"],
-            "@anglr/dynamic/layout-relations": ["../layout-relations/src/index.ts"],
-            "@anglr/dynamic/form": ["../form/src/index.ts"],
-            "@anglr/dynamic/relations": ["../relations/src/index.ts"],
-            "@anglr/dynamic/relations-editor": ["../relations-editor/src/index.ts"],
-            "@anglr/dynamic/relations-debugger": ["../relations-debugger/src/index.ts"],
-            "@anglr/dynamic/basic-components": ["../basic-components/src/index.ts"],
-            "@anglr/dynamic/material-components": ["../material-components/src/index.ts"],
-            "@anglr/dynamic/css-components": ["../css-components/src/index.ts"],
-            "@anglr/dynamic/handlebars-components": ["../handlebars-components/src/index.ts"],
-            "@anglr/dynamic/rest-components": ["../rest-components/src/index.ts"],
-            "@anglr/dynamic/tinymce-components": ["../tinymce-components/src/index.ts"],
-            "@anglr/dynamic/math-components": ["../math-components/src/index.ts"],
-            "@anglr/dynamic/grid-components": ["../grid-components/src/index.ts"],
-            "@anglr/dynamic": ["index.ts"],
+            "@anglr/dynamic/layout": ["./layout/src/index.ts"],
+            "@anglr/dynamic/layout-editor": ["./layout-editor/src/index.ts"],
+            "@anglr/dynamic/layout-relations": ["./layout-relations/src/index.ts"],
+            "@anglr/dynamic/form": ["./form/src/index.ts"],
+            "@anglr/dynamic/relations": ["./relations/src/index.ts"],
+            "@anglr/dynamic/relations-editor": ["./relations-editor/src/index.ts"],
+            "@anglr/dynamic/relations-debugger": ["./relations-debugger/src/index.ts"],
+            "@anglr/dynamic/basic-components": ["./basic-components/src/index.ts"],
+            "@anglr/dynamic/material-components": ["./material-components/src/index.ts"],
+            "@anglr/dynamic/css-components": ["./css-components/src/index.ts"],
+            "@anglr/dynamic/handlebars-components": ["./handlebars-components/src/index.ts"],
+            "@anglr/dynamic/rest-components": ["./rest-components/src/index.ts"],
+            "@anglr/dynamic/tinymce-components": ["./tinymce-components/src/index.ts"],
+            "@anglr/dynamic/math-components": ["./math-components/src/index.ts"],
+            "@anglr/dynamic/grid-components": ["./grid-components/src/index.ts"],
+            "@anglr/dynamic": ["./src/index.ts"],
         },
         "lib":
         [
@@ -65,6 +67,13 @@
         "strictTemplates": true,
         "compilationMode": "partial",
         "enableResourceInlining": true,
-        "strictInjectionParameters": true
+        "strictInjectionParameters": true,
+        "extendedDiagnostics":
+        {
+            "checks":
+            {
+                "interpolatedSignalNotInvoked": "error"
+            }
+        }
     }
 }

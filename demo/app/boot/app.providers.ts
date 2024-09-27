@@ -1,4 +1,4 @@
-import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
+import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideExperimentalZonelessChangeDetection} from '@angular/core';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding, withHashLocation} from '@angular/router';
@@ -13,10 +13,13 @@ import {DialogMetadataSelectorOptions, DialogMetadataSelectorSAComponent} from '
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
 import {MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService, provideConfirmationDialogOptions} from '@anglr/common/material';
 import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
-import {MD_HELP_NOTIFICATIONS, RenderMarkdownConfig, RENDER_MARKDOWN_CONFIG} from '@anglr/md-help/web';
 import {CatchHttpClientErrorMiddleware, HttpClientErrorProcessingMiddleware, REST_ERROR_HANDLING_MIDDLEWARE_ORDER} from '@anglr/error-handling/rest';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {provideGlobalNotifications} from '@anglr/notifications';
+import {baseUrlExtension} from '@anglr/md-help/baseurl';
+import {assetsPathPrefixExtension, GfmHeadingIdExtension, IncludeMarkdownExtension, provideMarkdownRendererExtensions} from '@anglr/md-help';
+import {HighlightJsExtension} from '@anglr/md-help/highlightjs';
+import {MermaidExtension} from '@anglr/md-help/mermaid';
 import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, MockLoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, provideRestMethodMiddlewares} from '@anglr/rest';
@@ -53,8 +56,8 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     //######################### HTTP CLIENT #########################
     provideHttpClient(withInterceptorsFromDi(),),
 
-    //######################### ZONE #########################
-    provideZoneChangeDetection({eventCoalescing: true, runCoalescing: true}),
+    //######################### ZONELESS #########################
+    provideExperimentalZonelessChangeDetection(),
 
     //######################### TRANSLATIONS #########################
     importProvidersFrom(TranslateModule.forRoot(
@@ -279,11 +282,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     DEFAULT_NOTIFICATIONS,
     <ExistingProvider>
     {
-        provide: MD_HELP_NOTIFICATIONS,
-        useExisting: NOTIFICATIONS
-    },
-    <ExistingProvider>
-    {
         provide: ERROR_HANDLING_NOTIFICATIONS,
         useExisting: NOTIFICATIONS
     },
@@ -318,15 +316,12 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     providePosition(FloatingUiDomPosition),
 
     //######################### MARKDOWN #########################
-    <ValueProvider>
-    {
-        provide: RENDER_MARKDOWN_CONFIG,
-        useValue: <RenderMarkdownConfig>
-        {
-            assetsPathPrefix: 'dist/md',
-            baseUrl: '/pomoc'
-        }
-    },
+    provideMarkdownRendererExtensions(GfmHeadingIdExtension,
+                                      HighlightJsExtension,
+                                      baseUrlExtension('pomoc/'),
+                                      MermaidExtension,
+                                      assetsPathPrefixExtension('md'),
+                                      IncludeMarkdownExtension,),
 
     //######################### REST CONFIG #########################
     provideRestDateTime(),

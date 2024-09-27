@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, inject, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BodyRenderSADirective, PositionPlacement, PositionToSADirective, TooltipModule, TooltipOptions} from '@anglr/common';
+import {BodyRenderDirective, PositionPlacement, PositionToSADirective, TooltipModule, TooltipOptions} from '@anglr/common';
 import {RelationsComponentEndpoints, RelationsComponentStateDebugInfo, RelationsDebugger, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
 import {RelationsNode, RelationsNodeBase} from '@anglr/dynamic/relations-editor';
 import {Subscription} from 'rxjs';
@@ -24,7 +24,7 @@ import {RelationNodeInputDebugSAComponent, RelationNodeOutputDebugSAComponent} f
         RelationNodeOutputDebugSAComponent,
         JsonFormattedSAPipe,
         PositionToSADirective,
-        BodyRenderSADirective,
+        BodyRenderDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

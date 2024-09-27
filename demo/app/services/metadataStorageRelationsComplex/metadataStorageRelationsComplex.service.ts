@@ -25,6 +25,6 @@ export class MetadataStorageRelationsComplex extends MetadataStorage<RelationsNo
      */
     public override getMetadata(id: string): RelationsNodeMetadata[]|null
     {
-        return this.storage.getData(id).relations;
+        return this.storage.getData(id)?.relations ?? null;
     }
 }

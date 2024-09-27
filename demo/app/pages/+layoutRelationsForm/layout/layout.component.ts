@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
-import {GoBackSADirective} from '@anglr/common';
+import {GoBackDirective} from '@anglr/common';
 import {ComponentRoute} from '@anglr/common/router';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
@@ -13,7 +13,7 @@ import {BindThis, generateId} from '@jscrpt/common';
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager';
-import {LoadSaveNewSAComponent} from '../../../components';
+import {LoadSaveNewComponent} from '../../../components';
 
 /**
  * Layout editor component
@@ -25,9 +25,9 @@ import {LoadSaveNewSAComponent} from '../../../components';
     standalone: true,
     imports:
     [
-        GoBackSADirective,
+        GoBackDirective,
         DebugDataCopyClickModule,
-        LoadSaveNewSAComponent,
+        LoadSaveNewComponent,
         LayoutEditorSAComponent,
     ],
     providers:
@@ -56,7 +56,7 @@ export class FormLayoutComponent
             displayName: 'root',
             package: 'basic-components',
             name: 'stackPanel',
-            options: <StackPanelComponentOptions>
+            options: <Partial<StackPanelComponentOptions>>
             {
                 children: [],
             },

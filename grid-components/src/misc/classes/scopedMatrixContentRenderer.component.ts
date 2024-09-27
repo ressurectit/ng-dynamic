@@ -164,7 +164,7 @@ export class ScopedMatrixContentRendererSAComponent extends MatrixContentRendere
                 return injector;
             };
 
-            this.renderRowContainer(metadata?.contentRowContainer?.length ? metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null, columns: null}],
+            this.renderRowContainer(metadata?.contentRowContainer?.length ? metadata?.contentRowContainer : [{template: this.defaultsSafe.contentRowContainer, predicate: null, columns: null, exclude: false}],
                                     column => column.bodyTemplate,
                                     this.renderContentOrFooterCell,
                                     (_, columns) => this.getGridDataRowContext(datumIndex, datum, columns));

@@ -1,28 +1,32 @@
 {
     "compilerOptions":
     {
-        "target": "es2020",
-        "module": "es2020",
+        "target": "ES2022",
+        "module": "ES2022",
         "sourceMap": true,
-        "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "declaration": false,
         "removeComments": true,
-        "noImplicitAny": false,
-        "noImplicitReturns": false,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
         "noImplicitOverride": true,
-        "noImplicitThis": false,
+        "noImplicitThis": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": false,
-        "strict": false,
-        "strictNullChecks": false,
+        "noUnusedParameters": true,
+        "strict": true,
+        "strictNullChecks": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "importHelpers": true,
+        "useDefineForClassFields": false,
+        "skipLibCheck": false,
+        "forceConsistentCasingInFileNames": true,
+        "newLine": "lf",
         "moduleResolution": "node",
-        "outDir": "wwwroot/app",
-        "baseUrl": ".",
-        "paths": 
+        "outDir": "wwwroot/app-tsc",
+        "paths":
         {
+            "modernizr": ["./content/external/scripts/modernizr-custom.js"],
             "@anglr/dynamic/layout": ["../layout/src/index.ts"],
             "@anglr/dynamic/layout-editor": ["../layout-editor/src/index.ts"],
             "@anglr/dynamic/layout-relations": ["../layout-relations/src/index.ts"],
@@ -42,7 +46,7 @@
         },
         "lib":
         [
-            "es2020",
+            "ES2022",
             "dom"
         ],
         "types":
@@ -63,15 +67,7 @@
     "include":
     [
         "app/**/*.ts",
-        "../basic-components/**/*.ts",
-        "../material-components/**/*.ts",
-        "../css-components/**/*.ts",
-        "../handlebars-components/**/*.ts",
-        "../rest-components/**/*.ts",
-        "../tinymce-components/**/*.ts",
-        "../math-components/**/*.ts",
-        "../grid-components/**/*.ts",
-        "../form/**/*.ts",
+        "server.ts"
     ],
     "exclude":
     [
@@ -80,6 +76,14 @@
     "angularCompilerOptions":
     {
         "strictInjectionParameters": true,
-        "strictTemplates": true
+        "strictInputAccessModifiers": true,
+        "strictTemplates": true,
+        "extendedDiagnostics":
+        {
+            "checks":
+            {
+                "interpolatedSignalNotInvoked": "error"
+            }
+        }
     }
 }

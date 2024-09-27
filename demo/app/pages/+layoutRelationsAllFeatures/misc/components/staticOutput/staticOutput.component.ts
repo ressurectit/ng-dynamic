@@ -38,7 +38,7 @@ export class StaticOutputSAComponent implements RelationsComponent, OnInit, OnDe
     /**
      * @inheritdoc
      */
-    public relationsOptions: any;
+    public relationsOptions: unknown;
 
     //######################### public properties - inputs #########################
 
@@ -46,13 +46,13 @@ export class StaticOutputSAComponent implements RelationsComponent, OnInit, OnDe
      * Boolean input
      */
     @Input()
-    public booleanInput: boolean;
+    public booleanInput: boolean|undefined|null;
 
     /**
      * String input
      */
     @Input()
-    public stringInput: string;
+    public stringInput: string|undefined|null;
 
     //######################### constructor #########################
     constructor(private _changeDetector: ChangeDetectorRef,

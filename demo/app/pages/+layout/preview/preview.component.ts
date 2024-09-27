@@ -48,12 +48,12 @@ export class PreviewComponent implements OnInit, OnDestroy
 
     protected available: FormControl = new FormControl('');
 
-    protected metadata: LayoutComponentMetadata = null;
+    protected metadata: LayoutComponentMetadata|null = null;
 
     protected availableNames: string[] = [];
 
     //######################### constructor #########################
-    constructor(private store: StoreDataService,
+    constructor(private store: StoreDataService<LayoutComponentMetadata>,
                 private router: Router,
                 private route: ActivatedRoute,)
     {

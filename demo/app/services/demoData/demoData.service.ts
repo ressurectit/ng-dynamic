@@ -378,7 +378,7 @@ export class DemoData
                             id: 'stackPanelxxx',
                             package: 'basic-components',
                             name: 'stackPanel',
-                            options: <StackPanelComponentOptions>
+                            options: <Partial<StackPanelComponentOptions>>
                             {
                                 horizontal: true,
                                 children: []

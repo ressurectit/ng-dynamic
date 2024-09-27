@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ElementRef, SkipSelf, Optional, Inject, OnDestroy, ViewChild, SimpleChanges} from '@angular/core';
-import {BodyRenderSADirective, PositionToSADirective} from '@anglr/common';
+import {BodyRenderDirective, PositionToSADirective} from '@anglr/common';
 import {LayoutComponent, LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {MetadataHistoryManager, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
@@ -35,7 +35,7 @@ import {CombineRenderersCallbacksSAPipe} from '../../pipes';
         CopyDesignerStylesSADirective,
         DesignerDropzoneSADirective,
         PositionToSADirective,
-        BodyRenderSADirective,
+        BodyRenderDirective,
         CombineRenderersCallbacksSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,3 +1,15 @@
-@use '@anglr/dynamic/styles/themes/dark' as dynamicTheme;
-@use '@anglr/grid/styles/themes/light' as gridTheme;
-@use 'scss/theme/theme' with ($themeName: 'dark', $dynamicTheme: dynamicTheme.defineTheme(), $gridTheme: gridTheme.defineTheme());
+@use '@anglr/common/styles/themes/dark' as anglrCommonTheme;
+@use '@anglr/datetime/styles/themes/dark' as dateTimeTheme;
+@use '@anglr/grid/styles/themes/dark' as gridTheme;
+@use '@css-styles/themes' as themes;
+
+@use './scss/theme/defaultTheme' as defaultTheme;
+@use './scss/theme/dark' as appTheme;
+
+@use 'scss/theme/theme' with ($fontSize: appTheme.$fontSize,
+                              $theme: themes.defineTheme(),
+                              $appTheme: defaultTheme.defineTheme(appTheme.$appTheme),
+                              $themeName: 'dark',
+                              $anglrCommonTheme: anglrCommonTheme.defineTheme(),
+                              $dateTimeTheme: dateTimeTheme.defineTheme(),
+                              $gridTheme: gridTheme.defineTheme());

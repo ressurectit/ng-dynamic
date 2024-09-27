@@ -7,7 +7,7 @@ export class DemoRelationsDefaultsOverrideService implements DefaultsOverride
     /**
      * @inheritdoc
      */
-    public getOptions(packageName: string, name: string, defaultOptions: any)
+    public getOptions(_packageName: string, _name: string, defaultOptions: any)
     {
         return defaultOptions;
     }
@@ -15,7 +15,7 @@ export class DemoRelationsDefaultsOverrideService implements DefaultsOverride
     /**
      * @inheritdoc
      */
-    public getDisplayName(packageName: string, name: string, displayName?: string): string 
+    public getDisplayName(packageName: string, name: string, _displayName?: string): string
     {
         switch (packageName)
         {
@@ -28,6 +28,8 @@ export class DemoRelationsDefaultsOverrideService implements DefaultsOverride
                 break;
         }
 
-        return null;
-    }    
+        //TODO: fix typings
+
+        return null as any;
+    }
 }

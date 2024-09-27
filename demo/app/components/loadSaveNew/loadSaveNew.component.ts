@@ -7,7 +7,7 @@ import {NgSelectModule} from '@anglr/select';
 import {EditorHotkeys, MetadataHistoryManager, EditorMetadataManager, EDITOR_METADATA_MANAGER} from '@anglr/dynamic';
 import {CustomDynamicItemsRegister, ShowCustomComponentOptionsSADirective} from '@anglr/dynamic/layout-relations';
 import {LiveEventService} from '@anglr/dynamic/layout-editor';
-import {extend, Func} from '@jscrpt/common';
+import {extend, Func, isBlank} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {StoreDataService} from '../../services/storeData';
@@ -33,15 +33,15 @@ import {DemoCustomRelationsRegister} from '../../services/demoCustomRelationsReg
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> implements OnInit, OnDestroy
+export class LoadSaveNewComponent<TStoreMetadata = unknown, TMetadata = unknown> implements OnInit, OnDestroy
 {
     //######################### protected properties - template bindings #########################
 
     protected metadata: TStoreMetadata|null = null;
     
-    protected available: FormControl<string> = new FormControl('');
+    protected available: FormControl<string> = new FormControl<string>('', {nonNullable: true});
 
-    protected component: FormControl<boolean> = new FormControl(false);
+    protected component: FormControl<boolean> = new FormControl<boolean>(false, {nonNullable: true});
 
     protected name: FormControl = new FormControl(null);
 
@@ -54,17 +54,17 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
 
     //######################### public properties - inputs #########################
 
-    @Input()
-    public store: StoreDataService<TStoreMetadata>;
+    @Input({required: true})
+    public store!: StoreDataService<TStoreMetadata>;
 
     @Input()
     public history: MetadataHistoryManager|null = null;
 
-    @Input()
-    public routePath: string;
+    @Input({required: true})
+    public routePath!: string;
 
-    @Input()
-    public getMetadataCallback: Func<TStoreMetadata, [TMetadata]>;
+    @Input({required: true})
+    public getMetadataCallback!: Func<TStoreMetadata, [TMetadata]>;
 
     @Input()
     public componentMarking: boolean = false;
@@ -106,6 +106,11 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
                 }
     
                 const components = await this.customComponentsRegister?.getRegisteredComponents();
+
+                if(isBlank(components))
+                {
+                    throw new Error('LoadSaveNewSAComponent: missing components!');
+                }
     
                 this.component.setValue(components.indexOf(value) >= 0, {emitEvent: false});
             });
@@ -169,7 +174,12 @@ export class LoadSaveNewSAComponent<TStoreMetadata = any, TMetadata = any> imple
 
     protected save(): void
     {
-        this.saveData(this._metaManager.getMetadata());
+        const metadata = this._metaManager.getMetadata();
+
+        if(metadata)
+        {
+            this.saveData(metadata);
+        }
     }
 
     protected delete(): void

@@ -14,6 +14,7 @@ import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager';
 import {LoadSaveNewComponent} from '../../../components';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Layout editor component
@@ -43,6 +44,7 @@ import {LoadSaveNewComponent} from '../../../components';
 })
 @ComponentRoute({path: 'layout'})
 @ComponentRoute({path: 'layout/:id'})
+@WithFullscreenContentCssClass()
 export class FormLayoutComponent
 {
     //######################### protected properties - template bindings #########################

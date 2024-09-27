@@ -28,7 +28,7 @@ export class MathDynamicModuleItemsProvider implements DynamicModuleProvider
                 {
                     this._logger?.debug('MathDynamicModuleItemsProvider: trying to get item {{@item}}', {item: {name: source.name, package: source.package}});
 
-                    const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type`);
+                    const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type.ts`);
 
                     return dynamicItemModule;
                 }

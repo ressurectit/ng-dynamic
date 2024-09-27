@@ -28,7 +28,8 @@
                         "inlineStyleLanguage": "scss",
                         "polyfills":
                         [
-                            "modernizr"
+                            "modernizr",
+                            "zone.js"
                         ],
                         "styles":
                         [
@@ -54,7 +55,12 @@
                                 "bundleName": "configBrowserOverride"
                             }
                         ],
-                        "serviceWorker": false
+                        "serviceWorker": false,
+                        "define":
+                        {
+                            "ngDesignerMetadata": "true",
+                            "ngRelationsDebugger": "true"
+                        }
                     },
                     "configurations":
                     {

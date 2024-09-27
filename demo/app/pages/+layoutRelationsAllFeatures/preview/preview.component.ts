@@ -26,6 +26,7 @@ import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponen
 import {MetadataStorageLayoutComplex} from '../../../services/metadataStorageLayoutComplex';
 import {MetadataStorageRelationsComplex} from '../../../services/metadataStorageRelationsComplex';
 import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelationsRegister';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Layout preview component
@@ -67,6 +68,7 @@ import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelations
 })
 @ComponentRoute({path: 'preview'})
 @ComponentRoute({path: 'preview/:id'})
+@WithFullscreenContentCssClass()
 export class PreviewComponent implements OnInit, OnDestroy
 {
     //######################### protected properties - template bindings #########################

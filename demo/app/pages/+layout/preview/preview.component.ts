@@ -13,6 +13,7 @@ import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
 
 import {StoreDataService} from '../../../services/storeData';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Layout preview component
@@ -42,6 +43,7 @@ import {createStoreDataServiceFactory} from '../../../misc/factories';
 })
 @ComponentRoute({path: 'preview'})
 @ComponentRoute({path: 'preview/:id'})
+@WithFullscreenContentCssClass()
 export class PreviewComponent implements OnInit, OnDestroy
 {
     //######################### protected properties - template bindings #########################

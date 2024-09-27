@@ -1,5 +1,5 @@
 <div class="flex-row">
-    <load-save-new [store]="store" [getMetadataCallback]="getMetadata" routePath="/layout/editor" (metadataChange)="metadata = ($any($event) ?? emptyMetadata)" [history]="history"></load-save-new>
+    <load-save-new [store]="store" [getMetadataCallback]="getMetadata" routePath="/layout/editor" (metadataChange)="metadata = ($any($event) ?? emptyMetadata)" [history]="history"/>
 
     <button class="btn btn-primary" type="button" (click)="loadDemo()">
         <span>demo</span>
@@ -8,4 +8,4 @@
     <debug-data [copyClick]="metadata">metadata</debug-data>
 </div>
 
-<layout-editor class="flex-1" [metadata]="metadata"></layout-editor>
+<layout-editor class="flex-1" [metadata]="metadata"/>

@@ -14,6 +14,7 @@ import {withMaterialComponents} from '@anglr/dynamic/material-components';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Form preview component
@@ -44,6 +45,7 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 @ComponentRedirectRoute('', 'form-preview')
 @ComponentRoute({path: 'form-preview'})
 @ComponentRoute({path: 'form-preview/:id'})
+@WithFullscreenContentCssClass()
 export class FormPreviewComponent implements OnInit, OnDestroy
 {
     //######################### protected properties - template bindings #########################

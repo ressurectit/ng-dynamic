@@ -20,6 +20,7 @@ import {DebugDataCopyClickModule} from '@anglr/common/material';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Layout preview component
@@ -54,6 +55,7 @@ import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 })
 @ComponentRoute({path: 'preview'})
 @ComponentRoute({path: 'preview/:id'})
+@WithFullscreenContentCssClass()
 export class PreviewComponent implements OnInit, OnDestroy
 {
     //######################### protected properties - template bindings #########################

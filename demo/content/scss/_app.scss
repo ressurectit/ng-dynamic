@@ -3,6 +3,7 @@
 @use '@css-styles/themes' as themes;
 @use '@anglr/common/styles' as anglrCommon;
 @use '@anglr/datetime/styles' as datetime;
+@use '@anglr/dynamic/styles' as dynamic;
 @use '@anglr/grid/styles' as gridPackage;
 
 @use 'parts/app' as app;
@@ -20,6 +21,7 @@
 
     @include anglrCommon.buildThemeCss;
     @include datetime.buildThemeCss;
+    @include dynamic.buildThemeCss;
     @include gridPackage.buildThemeCss;
 
     //############## SCROLLBAR ##############

@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 
 /**
  * Component used for displaying application main menu
@@ -7,7 +8,13 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 {
     selector: 'main-menu',
     templateUrl: 'mainMenu.component.html',
-    styleUrls: ['mainMenu.component.scss'],
+    styleUrl: 'mainMenu.component.scss',
+    standalone: true,
+    imports:
+    [
+        RouterLink,
+        RouterLinkActive,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainMenuComponent

@@ -26,6 +26,7 @@ import {DemoCustomRelationsRegister} from '../../../services/demoCustomRelations
 import {LoadSaveNewComponent} from '../../../components';
 import {MetadataStorageRelationsComplex} from '../../../services/metadataStorageRelationsComplex';
 import {DemoRelationsDefaultsOverrideService} from '../../../services/demoDefaultsOverride';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Layout editor component
@@ -70,6 +71,7 @@ import {DemoRelationsDefaultsOverrideService} from '../../../services/demoDefaul
 })
 @ComponentRoute({path: 'relations'})
 @ComponentRoute({path: 'relations/:id'})
+@WithFullscreenContentCssClass()
 export class RelationsComponent
 {
     //######################### protected properties - template bindings #########################

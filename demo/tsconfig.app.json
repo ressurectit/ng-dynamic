@@ -14,6 +14,15 @@
     ],
     "include": 
     [
-        "app/**/*.d.ts"
+        "app/**/*.d.ts",
+        "../basic-components/src/**/*.ts",
+        "../css-components/src/**/*.ts",
+        "../form/src/**/*.ts",
+        "../grid-components/src/**/*.ts",
+        "../handlebars-components/src/**/*.ts",
+        "../material-components/src/**/*.ts",
+        "../math-components/src/**/*.ts",
+        "../rest-components/src/**/*.ts",
+        "../tinymce-components/src/**/*.ts"
     ]
 }

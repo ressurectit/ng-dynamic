@@ -26,6 +26,7 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
 import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
 import {DemoLayoutDefaultsOverrideService} from '../../../services/demoDefaultsOverride';
 import {MetadataStorageLayoutComplex} from '../../../services/metadataStorageLayoutComplex';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Layout editor component
@@ -69,6 +70,7 @@ import {MetadataStorageLayoutComplex} from '../../../services/metadataStorageLay
 })
 @ComponentRoute({path: 'layout'})
 @ComponentRoute({path: 'layout/:id'})
+@WithFullscreenContentCssClass()
 export class LayoutComponent
 {
     //######################### protected properties - template bindings #########################

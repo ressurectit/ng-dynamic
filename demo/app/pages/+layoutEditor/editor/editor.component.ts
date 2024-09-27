@@ -17,6 +17,7 @@ import {StoreDataService} from '../../../services/storeData';
 import {LoadSaveNewComponent} from '../../../components';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
 import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManager';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Layout editor component
@@ -47,6 +48,7 @@ import {DemoLayoutPackageManager} from '../../../services/demoLayoutPackageManag
 })
 @ComponentRoute({path: 'editor'})
 @ComponentRoute({path: 'editor/:id'})
+@WithFullscreenContentCssClass()
 export class EditorComponent
 {
     //######################### protected properties - template bindings #########################

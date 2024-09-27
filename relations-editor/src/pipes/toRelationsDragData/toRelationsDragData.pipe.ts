@@ -44,7 +44,7 @@ export class ToRelationsDragDataSAPipe implements PipeTransform
                 outputs: [],
                 nodeMetadata:
                 {
-                    scopeConfigurable: !singleton ?? false,
+                    scopeConfigurable: !(singleton ?? false),
                     coordinates:
                     {
                         x: 0,

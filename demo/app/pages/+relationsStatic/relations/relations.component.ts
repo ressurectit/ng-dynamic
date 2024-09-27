@@ -5,6 +5,7 @@ import {RelationsManager, withRelationsRuntime} from '@anglr/dynamic/relations';
 
 import {DemoData} from '../../../services/demoData';
 import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../../../components';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Page for displaying relations
@@ -26,6 +27,7 @@ import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../..
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: ''})
+@WithFullscreenContentCssClass()
 export class RelationsComponent implements OnInit
 {
     //######################### protected properties - template bindings #########################

@@ -5,6 +5,7 @@
 @use '@css-styles/themes' as themes;
 @use '@anglr/common/styles' as anglrCommon;
 @use '@anglr/datetime/styles' as datetime;
+@use '@anglr/dynamic/styles' as dynamic;
 @use '@anglr/grid/styles' as grid;
 
 @use './themeColors';
@@ -14,6 +15,7 @@ $theme: () !default;
 $appTheme: () !default;
 $themeName: null !default;
 $dateTimeTheme: null !default;
+$dynamicTheme: null !default;
 $anglrCommonTheme: null !default;
 $gridTheme: null !default;
 
@@ -42,6 +44,7 @@ $gridTheme: null !default;
     @include anglrCommon.buildThemeColorsMultiButton($anglrCommonTheme);
     @include anglrCommon.buildThemeColorsDebugData($anglrCommonTheme);
     @include datetime.buildThemeColors($dateTimeTheme);
+    @include dynamic.buildThemeColors($dynamicTheme);
     @include grid.buildThemeColors($gridTheme);
 
     //############## EXTERNALS ##############

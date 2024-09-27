@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {TitledDialogModule} from '@anglr/common/material';
 
 import {MainMenuComponent} from '../components';
 
@@ -10,11 +9,7 @@ import {MainMenuComponent} from '../components';
 {
     imports:
     [
-        TitledDialogModule,
-    ],
-    declarations:
-    [
-        MainMenuComponent
+        MainMenuComponent,
     ],
     exports:
     [

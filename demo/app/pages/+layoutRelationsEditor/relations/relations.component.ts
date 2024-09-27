@@ -20,6 +20,7 @@ import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
 import {LoadSaveNewComponent} from '../../../components';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Layout editor component
@@ -53,6 +54,7 @@ import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackag
 })
 @ComponentRoute({path: 'relations'})
 @ComponentRoute({path: 'relations/:id'})
+@WithFullscreenContentCssClass()
 export class RelationsComponent
 {
     //######################### protected properties - template bindings #########################

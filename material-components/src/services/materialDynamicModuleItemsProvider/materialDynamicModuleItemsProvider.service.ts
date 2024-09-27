@@ -28,7 +28,7 @@ export class MaterialDynamicModuleItemsProvider implements DynamicModuleProvider
                 {
                     this._logger?.debug('MaterialDynamicModuleItemsProvider: trying to get item {{@item}}', {item: {name: source.name, package: source.package}});
 
-                    const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type`);
+                    const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type.ts`);
 
                     return dynamicItemModule;
                 }

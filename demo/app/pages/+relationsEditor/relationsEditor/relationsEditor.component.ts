@@ -16,6 +16,7 @@ import {LoadSaveNewComponent} from '../../../components';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
 import {DemoRelationsPackageManager} from '../../../services/demoRelationsPackageManager';
 import {StaticComponentsRegister} from '../../../services/staticComponentsRegister';
+import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
  * Layout editor component
@@ -47,6 +48,7 @@ import {StaticComponentsRegister} from '../../../services/staticComponentsRegist
 })
 @ComponentRoute({path: ''})
 @ComponentRoute({path: ':id'})
+@WithFullscreenContentCssClass()
 export class RelationsEditorComponent
 {
     //######################### protected properties - template bindings #########################

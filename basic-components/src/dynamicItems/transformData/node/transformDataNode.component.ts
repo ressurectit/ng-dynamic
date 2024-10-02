@@ -3,14 +3,13 @@ import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, Type
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import typings from '@anglr/dynamic/typings/transformData/monaco-type';
 import {generateId} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
-import {languages} from 'monaco-editor';
-import typings from '!!raw-loader?esModule!@anglr/dynamic/typings/transformData';
 
 import {TransformDataRelationsEditorOptions, TransformDataRelationsOptions} from '../transformData.options';
 
-languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modules/@types/transformData/index.d.ts');
+monaco.languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modules/@types/transformData/index.d.ts');
 
 /**
  * Relations node component for transform data

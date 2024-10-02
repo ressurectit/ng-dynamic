@@ -1,8 +1,7 @@
 {
     "name": "@anglr/dynamic-css-components",
     "sideEffects": false,
-    "module": "../es2015/css-components/src/index.js",
-    "es2015": "../es2015/css-components/src/index.js",
+    "module": "../es2020/css-components/src/index.js",
     "es2020": "../es2020/css-components/src/index.js",
     "esm2020": "../es2020/css-components/src/index.js",
     "typings": "./src/index.d.ts"

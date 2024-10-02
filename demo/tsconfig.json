@@ -27,6 +27,8 @@
         "paths":
         {
             "modernizr": ["./content/external/scripts/modernizr-custom.js"],
+            "@anglr/dynamic/typings/transformData/monaco-type": ["../basic-components/src/dynamicItems/transformData/transformData.interface.monaco-type"],
+            "@anglr/dynamic/typings/state/monaco-type": ["../basic-components/src/dynamicItems/state/state.interface.monaco-type"],
             "@anglr/dynamic/layout": ["../layout/src/index.ts"],
             "@anglr/dynamic/layout-editor": ["../layout-editor/src/index.ts"],
             "@anglr/dynamic/layout-relations": ["../layout-relations/src/index.ts"],

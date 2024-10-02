@@ -5,14 +5,13 @@ import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, Relatio
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
 import {TitledDialogService} from '@anglr/common/material';
 import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import typings from '@anglr/dynamic/typings/state/monaco-type';
 import {generateId} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
-import typings from '!!raw-loader?esModule!@anglr/dynamic/typings/state';
-import {languages} from 'monaco-editor';
 
 import {StateRelationsEditorOptions, StateRelationsInputFunctionData, StateRelationsOptions} from '../state.options';
 
-languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modules/@types/state/index.d.ts');
+monaco.languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modules/@types/state/index.d.ts');
 
 /**
  * Relations node component for state

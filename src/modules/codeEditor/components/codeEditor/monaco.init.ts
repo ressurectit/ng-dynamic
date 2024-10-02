@@ -1,5 +1,6 @@
 import {globalDefine, isBlank} from '@jscrpt/common';
-import {languages} from 'monaco-editor';
+
+import monaco from '../../../../monaco-typings';
 
 declare let ngDynamicMonacoPath: string;
 
@@ -7,45 +8,44 @@ globalDefine(global =>
 {
     if(isBlank(global.ngDynamicMonacoPath))
     {
-        global.ngDynamicMonacoPath = 'dist';
+        global.ngDynamicMonacoPath = 'monaco-editor/vs';
     }
 });
 
 //TODO: sideeffect
 
-(self as any).MonacoEnvironment = 
-{
-    getWorkerUrl: function(_: string, label: string)
-    {
-        if (label === 'json')
-        {
-            return `${ngDynamicMonacoPath}/json.worker.js`;
-        }
+// (self as any).MonacoEnvironment = 
+// {
+//     getWorkerUrl: function(_: string, label: string)
+//     {
+//         if (label === 'json')
+//         {
+//             return `${ngDynamicMonacoPath}/language/json/jsonWorker.js`;
+//         }
         
-        if (label === 'css' || label === 'scss' || label === 'less')
-        {
-            return `${ngDynamicMonacoPath}/css.worker.js`;
-        }
+//         if (label === 'css' || label === 'scss' || label === 'less')
+//         {
+//             return `${ngDynamicMonacoPath}/language/css/cssWorker.js`;
+//         }
 
-        if (label === 'html' || label == 'handlebars')
-        {
-            return `${ngDynamicMonacoPath}/html.worker.js`;
-        }
+//         if (label === 'html' || label == 'handlebars')
+//         {
+//             return `${ngDynamicMonacoPath}/language/html/htmlWorker.js`;
+//         }
 
-        if (label === 'typescript' || label === 'javascript')
-        {
-            return `${ngDynamicMonacoPath}/ts.worker.js`;
-        }
+//         if (label === 'typescript' || label === 'javascript')
+//         {
+//             return `${ngDynamicMonacoPath}/language/typescript/tsWorker.js`;
+//         }
 
-        return `${ngDynamicMonacoPath}/editor.worker.js`;
-    }
-};
+//         return `${ngDynamicMonacoPath}/base/worker/workerMain.js`;
+//     }
+// };
 
-const options: languages.typescript.CompilerOptions =
+const options: monaco.languages.typescript.CompilerOptions =
 {
-    target: languages.typescript.ScriptTarget.ES2020,
-    module: languages.typescript.ModuleKind.CommonJS,
-    moduleResolution: languages.typescript.ModuleResolutionKind.NodeJs,
+    target: monaco.languages.typescript.ScriptTarget.ES2020,
+    module: monaco.languages.typescript.ModuleKind.CommonJS,
     allowNonTsExtensions: true,
     removeComments: true,
     noEmitOnError: true,
@@ -57,18 +57,24 @@ const options: languages.typescript.CompilerOptions =
     noUnusedParameters: true,
     strict: true,
     strictNullChecks: true,
+    resolveJsonModule: true,
     esModuleInterop: true,
-    newLine: languages.typescript.NewLineKind.LineFeed,
+    importHelpers: true,
+    useDefineForClassFields: false,
+    skipLibCheck: false,
+    forceConsistentCasingInFileNames: true,
+    newLine: monaco.languages.typescript.NewLineKind.LineFeed,
+    moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
     typeRoots: ['node_modules/@types']
 };
 
-languages.typescript.typescriptDefaults.setDiagnosticsOptions(
+monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions(
 {
     noSemanticValidation: false,
     noSyntaxValidation: false,
 });
 
-languages.typescript.typescriptDefaults.setCompilerOptions(options);
+monaco.languages.typescript.typescriptDefaults.setCompilerOptions(options);
 
 /**
  * Indication that monaco init code was called

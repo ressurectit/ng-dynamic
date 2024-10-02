@@ -1,5 +1,3 @@
-import {languages} from 'monaco-editor';
-
 import {LanguageModel} from './languageModel';
 
 /**
@@ -17,7 +15,7 @@ export const TypescriptLanguageModel = (initialValue: string): LanguageModel => 
                                                                                                           return '';
                                                                                                       }
                                                                                                   
-                                                                                                      const worker = await languages.typescript.getTypeScriptWorker();
+                                                                                                      const worker = await monaco.languages.typescript.getTypeScriptWorker();
                                                                                                       const client = await worker(uri);
                                                                                                       const result = await client.getEmitOutput(uri.toString());
                                                                                                   

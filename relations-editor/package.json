@@ -1,8 +1,7 @@
 {
     "name": "@anglr/dynamic-relations-editor",
     "sideEffects": false,
-    "module": "../es2015/relations-editor/src/index.js",
-    "es2015": "../es2015/relations-editor/src/index.js",
+    "module": "../es2020/relations-editor/src/index.js",
     "es2020": "../es2020/relations-editor/src/index.js",
     "esm2020": "../es2020/relations-editor/src/index.js",
     "typings": "./src/index.d.ts"

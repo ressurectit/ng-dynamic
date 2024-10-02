@@ -12,9 +12,10 @@
         "build": "ngc --declaration --declarationDir . --declarationMap && npm run build:schematics",
         "build:schematics": "tsc -p tsconfig.schematics.json",
         "api": "api-extractor run --local --verbose -c",
-        "clean": "rimraf --glob */temp temp es2022 **/tsdoc-metadata.json src/**/*.d.ts src/**/*.d.ts.map */src/**/*.d.ts */src/**/*.d.ts.map ./*.d.ts ./*.d.ts.map */*.d.ts schematics/**/*{.d.ts,.d.ts.map,.js,.js.map}",
+        "clean": "rimraf --glob */temp temp es2022 **/tsdoc-metadata.json src/**/*.d.ts src/**/*.d.ts.map */src/**/*.d.ts */src/**/*.monaco-type */src/**/*.d.ts.map ./*.d.ts ./*.d.ts.map */*.d.ts schematics/**/*{.d.ts,.d.ts.map,.js,.js.map}",
         "clean:deps": "rimraf package-lock.json node_modules || echo 'node_modules removed'",
         "clean:all": "npm run clean && npm run clean:deps",
+        "prebuild": "node .utils/createSymLinks.js",
         "ngc": "ngc",
         "version:placeholder": "replace-in-file /\\\"version\\\":\\s\\\".*?\\\"/g \"\\\"version\\\": \\\"0.0.0-placeholder\\\"\" package.json",
         "version:git": "ngv -e \"replace-in-file 0.0.0-placeholder $GIT_VERSION package.json && echo $GIT_VERSION > version.bak\"",
@@ -26,6 +27,7 @@
         "deploy:next": "npm publish --tag next --loglevel error",
         "lint": "eslint src/**/*.ts",
         "preclean:all": "lerna run clean:all --scope=ng-universal-demo",
+        "prestart": "npm run prebuild -- --start",
         "start": "lerna run start --scope=ng-universal-demo",
         "doc": "path-exists docs && npm run doc:generate || echo \"No docs generated!\"",
         "predoc:generate": "cd docs && git pull && cd ..",
@@ -88,15 +90,14 @@
         "@angular/forms": ">=18.2.6",
         "@angular/material": ">=18.2.6",
         "@jscrpt/common": ">=6.2.1",
-        "@ng-dnd/core": "^3.1.0",
+        "@ng-dnd/core": "^4.0.0",
         "angular2-hotkeys": "^16.0.1",
         "d3": "^7.9.0",
         "lodash-es": "^4.17.21",
-        "monaco-editor": "^0.33.0",
+        "monaco-editor": "^0.52.0",
         "react-dnd-html5-backend": "^16.0.1",
         "rxjs": ">=7.5.7",
-        "tslib": "^2.7.0",
-        "zone.js": "0.15.0"
+        "tslib": "^2.7.0"
     },
     "optionalDependencies": {
         "@anglr/grid": ">=10.1.1",
@@ -124,6 +125,7 @@
         "@typescript-eslint/eslint-plugin": "6.10.0",
         "@typescript-eslint/parser": "6.10.0",
         "copyfiles": "2.4.1",
+        "create-symlink": "1.0.0",
         "eslint": "7.32.0",
         "eslint-plugin-ressurectit": "0.1.0",
         "highlight.js": "10.6.0",
@@ -261,11 +263,11 @@
             "node": "./es2022/grid-components/src/index.js",
             "default": "./es2022/grid-components/src/index.js"
         },
-        "./typings/transformData": {
-            "default": "./basic-components/src/dynamicItems/transformData/transformData.interface.d.ts"
+        "./typings/transformData/monaco-type": {
+            "default": "./basic-components/src/dynamicItems/transformData/transformData.interface.monaco-type"
         },
-        "./typings/state": {
-            "default": "./basic-components/src/dynamicItems/state/state.interface.d.ts"
+        "./typings/state/monaco-type": {
+            "default": "./basic-components/src/dynamicItems/state/state.interface.monaco-type"
         }
     }
 }

@@ -1,5 +1,5 @@
-declare module '!!raw-loader?esModule!*'
+declare module '*/monaco-type' 
 {
-    const value: string;
-    export default value;
+    const content: string;
+    export default content;
 }

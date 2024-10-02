@@ -1,5 +1,5 @@
 {
-    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "$schema": "../node_modules/@angular/cli/lib/config/schema.json",
     "version": 1,
     "projects":
     {
@@ -26,10 +26,17 @@
                         "browser": "app/main.browser.ts",
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
+                        "assets": 
+                        [
+                            {
+                                "input": "../node_modules/monaco-editor/min",
+                                "glob": "**/*.*",
+                                "output": "monaco-editor"
+                            }
+                        ],
                         "polyfills":
                         [
-                            "modernizr",
-                            "zone.js"
+                            "modernizr"
                         ],
                         "styles":
                         [
@@ -55,11 +62,11 @@
                                 "bundleName": "configBrowserOverride"
                             }
                         ],
+                        "preserveSymlinks": true,
                         "serviceWorker": false,
-                        "define":
+                        "loader": 
                         {
-                            "ngDesignerMetadata": "true",
-                            "ngRelationsDebugger": "true"
+                            ".monaco-type": "text"
                         }
                     },
                     "configurations":
@@ -69,14 +76,16 @@
                             "define":
                             {
                                 "isProduction": "true",
-                                "jsDevMode": "false"
+                                "jsDevMode": "false",
+                                "ngDesignerMetadata": "true",
+                                "ngRelationsDebugger": "true"
                             },
                             "budgets":
                             [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "1mb",
-                                    "maximumError": "2mb"
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "4mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
@@ -91,7 +100,9 @@
                             "define":
                             {
                                 "isProduction": "false",
-                                "jsDevMode": "true"
+                                "jsDevMode": "true",
+                                "ngDesignerMetadata": "true",
+                                "ngRelationsDebugger": "true"
                             },
                             "optimization": false,
                             "extractLicenses": false,

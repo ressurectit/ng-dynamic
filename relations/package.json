@@ -1,9 +1,11 @@
 {
     "name": "@anglr/dynamic-relations",
-    "sideEffects": false,
-    "module": "../es2015/relations/src/index.js",
-    "es2015": "../es2015/relations/src/index.js",
+    "sideEffects": [
+        "../es2020/relations/src/init.debugger.js",
+        "../relations/src/init.debugger.ts"
+    ],
+    "module": "../es2020/relations/src/index.js",
     "es2020": "../es2020/relations/src/index.js",
     "esm2020": "../es2020/relations/src/index.js",
     "typings": "./src/index.d.ts"
-  }
+}

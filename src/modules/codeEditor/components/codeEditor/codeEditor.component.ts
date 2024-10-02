@@ -1,10 +1,12 @@
 import {Component, ChangeDetectionStrategy, ElementRef, OnDestroy, AfterViewInit, Input, OnChanges, SimpleChanges, EventEmitter, Output} from '@angular/core';
 import {isBlank, isPresent, nameof} from '@jscrpt/common';
-import {editor, IDisposable, KeyCode, KeyMod, Uri} from 'monaco-editor';
 
 import {LanguageModel} from '../../misc/types';
 import {CodeEditorContent} from './codeEditor.interface';
 import {monacoInit} from './monaco.init';
+import monaco from '../../../../monaco-typings';
+
+const {editor, KeyCode, KeyMod, Uri} = monaco;
 
 /**
  * Component used for editing code
@@ -29,17 +31,17 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
     /**
      * Instance of code editor
      */
-    protected codeEditor: editor.IStandaloneCodeEditor|null = null;
+    protected codeEditor: monaco.editor.IStandaloneCodeEditor|null = null;
 
     /**
      * Opened file in editor
      */
-    protected openedFile: editor.ITextModel|null = null;
+    protected openedFile: monaco.editor.ITextModel|null = null;
 
     /**
      * Handler for event of change of model
      */
-    protected changeEvent: IDisposable|null = null;
+    protected changeEvent: monaco.IDisposable|null = null;
 
     //######################### public properties - inputs #########################
 
@@ -145,7 +147,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
             model: this.openedFile,
             lightbulb:
             {
-                enabled: true
+                enabled: editor.ShowLightbulbIconMode.OnCode,
             },
             bracketPairColorization: 
             {
@@ -188,7 +190,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
             return;
         }
 
-        this.openedFile = editor.createModel((this.content || this.languageModel.initialData) ?? '', this.languageModel.language, Uri.file(`file:///index.${this.languageModel.extension}`));
+        this.openedFile = editor.createModel((this.content || this.languageModel.initialData) ?? '', this.languageModel.language, Uri.file(`index.${this.languageModel.extension}`));
         this.codeEditor?.setModel(this.openedFile);
     }
 }

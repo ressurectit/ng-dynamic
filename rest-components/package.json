@@ -1,8 +1,7 @@
 {
     "name": "@anglr/dynamic-rest-components",
     "sideEffects": false,
-    "module": "../es2015/rest-components/src/index.js",
-    "es2015": "../es2015/rest-components/src/index.js",
+    "module": "../es2020/rest-components/src/index.js",
     "es2020": "../es2020/rest-components/src/index.js",
     "esm2020": "../es2020/rest-components/src/index.js",
     "typings": "./src/index.d.ts"

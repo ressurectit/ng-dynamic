@@ -16,3 +16,8 @@ export const PACKAGE_SOURCES: InjectionToken<PackageSource[]> = new InjectionTok
  * Injection token used for injecting current scope id
  */
 export const SCOPE_ID: InjectionToken<string> = new InjectionToken<string>('SCOPE_ID');
+
+/**
+ * Injection token used for injecting monaco editor resources 'path', defaults to 'monaco-editor/vs'
+ */
+export const MONACO_EDITOR_RESOURCES_PATH: InjectionToken<string> = new InjectionToken<string>('MONACO_EDITOR_RESOURCES_PATH', {providedIn: 'root', factory: () => 'monaco-editor/vs'});

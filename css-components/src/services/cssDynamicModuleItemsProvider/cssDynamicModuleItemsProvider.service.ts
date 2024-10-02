@@ -28,7 +28,7 @@ export class CssDynamicModuleItemsProvider implements DynamicModuleProvider
                 {
                     this._logger?.debug('CssDynamicModuleItemsProvider: trying to get item {{@item}}', {item: {name: source.name, package: source.package}});
 
-                    const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type.ts`);
+                    const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type.js`);
 
                     return dynamicItemModule;
                 }

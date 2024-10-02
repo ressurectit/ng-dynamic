@@ -1,4 +1,5 @@
 /.vscode
+/.utils
 temp/
 demo/
 .eslintrc.json

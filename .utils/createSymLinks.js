@@ -9,8 +9,6 @@ import {hideBin} from 'yargs/helpers';
 const argv = yargs(hideBin(process.argv)).argv;
 const dirName = dirname(fileURLToPath(import.meta.url));
 
-const extension = argv.start ? 'ts' : 'd.ts';
-
 const paths = 
 [
     'basic-components/src/dynamicItems/transformData/transformData.interface',
@@ -19,6 +17,7 @@ const paths =
 
 for(const dir of paths)
 {
+    const source = path.join(dirName, '..', `${dir}.ts`);
     const target = path.join(dirName, '..', `${dir}.monaco-type`);
 
     if(fs.existsSync(target))
@@ -26,5 +25,15 @@ for(const dir of paths)
         fs.unlinkSync(target);
     }
 
-    createSymlink(path.join(dirName, '..', `${dir}.${extension}`), target);
+    if(argv.start)
+    {
+        createSymlink(source, target);
+    }
+    else
+    {
+        const content = fs.readFileSync(source);
+        fs.writeFileSync(target, content);
+
+        console.log(`File '${source}' copied to '${target}'!`);
+    }
 }

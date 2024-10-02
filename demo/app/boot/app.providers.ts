@@ -1,4 +1,4 @@
-import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideExperimentalZonelessChangeDetection, APP_INITIALIZER} from '@angular/core';
+import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideExperimentalZonelessChangeDetection} from '@angular/core';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding, withHashLocation} from '@angular/router';
@@ -24,7 +24,6 @@ import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, MockLoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, provideRestMethodMiddlewares} from '@anglr/rest';
 import {provideRestDateTime} from '@anglr/rest/datetime';
-import {AmdMonacoEditorLoader} from '@anglr/dynamic';
 import {provideRelationsDebuggerImplementation} from '@anglr/dynamic/relations-debugger';
 import {isString} from '@jscrpt/common';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -59,20 +58,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
 
     //######################### ZONELESS #########################
     provideExperimentalZonelessChangeDetection(),
-
-    //######################### APP INITIALIZER #########################
-
-    <FactoryProvider>
-    {
-        provide: APP_INITIALIZER,
-        useFactory: () =>
-        {
-            const amdMonacoEditorLoader = inject(AmdMonacoEditorLoader);
-
-            return async () => await amdMonacoEditorLoader.loadMonacoEditor();
-        },
-        multi: true,
-    },
 
     //######################### TRANSLATIONS #########################
     importProvidersFrom(TranslateModule.forRoot(

@@ -1,8 +1,9 @@
 import {inject, Injectable, OnDestroy} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {Action1, Action2, NoopAction} from '@jscrpt/common';
+import {Action1, Action2, NoopAction, WithSync} from '@jscrpt/common';
 
 import {MONACO_EDITOR_RESOURCES_PATH} from '../../misc/tokens';
+import {MonacoEditorType} from './amdMonacoEditorLoader.interface';
 
 declare const require: Action2<string[], NoopAction>&{config: Action1<unknown>};
 
@@ -13,6 +14,11 @@ declare const require: Action2<string[], NoopAction>&{config: Action1<unknown>};
 export class AmdMonacoEditorLoader implements OnDestroy
 {
     //######################### protected fields #########################
+
+    /**
+     * Indication whether is loader initialized
+     */
+    protected initialized: boolean = false;
 
     /**
      * Instance of HTML document
@@ -34,9 +40,15 @@ export class AmdMonacoEditorLoader implements OnDestroy
     /**
      * Loads monaco editor using "AMD"
      */
-    public loadMonacoEditor(): Promise<void>
+    @WithSync()
+    public loadMonacoEditor(): Promise<MonacoEditorType>
     {
-        return new Promise<void>(resolve =>
+        if(this.initialized)
+        {
+            return Promise.resolve((self as unknown as {monaco: MonacoEditorType}).monaco);
+        }
+
+        return new Promise<MonacoEditorType>(resolve =>
         {
             this.loaderScript = this.document.createElement('script');
             this.loaderScript.src = `${this.resourcesPath}/loader.js`;
@@ -44,9 +56,12 @@ export class AmdMonacoEditorLoader implements OnDestroy
             this.loaderScript.onload = () =>
             {
                 require.config({ paths: { vs: this.resourcesPath }, baseUrl: self.location.origin });
-                require(['vs/editor/editor.main'], function () {});
+                require(['vs/editor/editor.main'], () =>
+                {
+                    this.initialized = true;
 
-                resolve();
+                    resolve((self as unknown as {monaco: MonacoEditorType}).monaco);
+                });
             };
 
             this.loaderScript.onerror = event =>

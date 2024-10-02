@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, TypescriptLanguageModel} from '@anglr/dynamic';
+import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, MonacoEditorApi, TypescriptLanguageModel} from '@anglr/dynamic';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
 import {TitledDialogService} from '@anglr/common/material';
@@ -8,10 +8,9 @@ import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import typings from '@anglr/dynamic/typings/state/monaco-type';
 import {generateId} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
+import type {IDisposable} from 'monaco-editor';
 
 import {StateRelationsEditorOptions, StateRelationsInputFunctionData, StateRelationsOptions} from '../state.options';
-
-monaco.languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modules/@types/state/index.d.ts');
 
 /**
  * Relations node component for state
@@ -33,6 +32,13 @@ monaco.languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///nod
 })
 export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOptions, StateRelationsEditorOptions> implements RelationsNode<StateRelationsOptions, StateRelationsEditorOptions>
 {
+    //######################### protected fields #########################
+
+    /**
+     * Disposable for added typings
+     */
+    protected typingsDisposable: IDisposable|undefined|null;
+
     //######################### protected properties - template bindings #########################
 
     /**
@@ -45,9 +51,9 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
             return [];
         }
 
-        this.metadata.relationsOptions ??= 
+        this.metadata.relationsOptions ??=
         {
-        inputFunctions: {},
+            inputFunctions: {},
         };
 
         return Object.keys(this.metadata.relationsOptions.inputFunctions ?? {});
@@ -56,9 +62,27 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
                 element: ElementRef<HTMLElement>,
+                monacoEditorApi: MonacoEditorApi,
                 protected dialog: TitledDialogService,)
     {
         super(changeDetector, element);
+
+        (async() =>
+        {
+            this.typingsDisposable = (await monacoEditorApi.languagesTypescript).typescriptDefaults.addExtraLib(typings, 'file:///node_modules/@types/state/index.d.ts');
+        })();
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+
+    /**
+     * @inheritdoc
+     */
+    public override ngOnDestroy(): void
+    {
+        super.ngOnDestroy();
+
+        this.typingsDisposable?.dispose();
     }
 
     //######################### protected methods - template bindings #########################
@@ -68,7 +92,7 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
      */
     protected async addInputFunc(): Promise<void>
     {
-        const inputFunc: StateRelationsInputFunctionData = 
+        const inputFunc: StateRelationsInputFunctionData =
         {
             id: generateId(12),
             code: null,
@@ -92,7 +116,7 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
             this.metadata.relationsOptions.inputFunctions ??= {};
             this.metadata.relationsOptions.inputFunctions[name.name] = inputFunc;
 
-            this.metadata.nodeMetadata.options ??= 
+            this.metadata.nodeMetadata.options ??=
             {
                 contents: {}
             };
@@ -149,7 +173,7 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
     protected async configureEndpoint(endpoint: ConfigureNodeEndpointData): Promise<boolean>
     {
         const copy = JSON.parse(JSON.stringify(endpoint));
-        
+
         const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
         {
             title: 'configure input function',
@@ -164,10 +188,10 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
             {
                 this.metadata.relationsOptions.inputFunctions[copy.name] = this.metadata.relationsOptions.inputFunctions[endpoint.name];
                 delete this.metadata.relationsOptions.inputFunctions[endpoint.name];
-    
+
                 this.metadata.nodeMetadata.options.contents[copy.name] = this.metadata.nodeMetadata.options.contents[endpoint.name];
                 delete this.metadata.nodeMetadata.options.contents[endpoint.name];
-    
+
                 this.history.getNewState();
             }
             else
@@ -190,7 +214,7 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
             title: 'Code editor',
             width: '75vw',
             height: '75vh',
-            data: 
+            data:
             {
                 content: this.metadata?.nodeMetadata?.options?.contents?.[name] ?? '',
                 languageModel: TypescriptLanguageModel(
@@ -215,7 +239,7 @@ export default inputFunc;
         }
 
         this.metadata.relationsOptions.inputFunctions ??= {};
-        this.metadata.nodeMetadata.options ??= 
+        this.metadata.nodeMetadata.options ??=
         {
             contents: {}
         };

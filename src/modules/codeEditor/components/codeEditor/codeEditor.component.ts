@@ -1,12 +1,10 @@
 import {Component, ChangeDetectionStrategy, ElementRef, OnDestroy, AfterViewInit, Input, OnChanges, SimpleChanges, EventEmitter, Output} from '@angular/core';
 import {isBlank, isPresent, nameof} from '@jscrpt/common';
+import type {editor, IDisposable} from 'monaco-editor';
 
 import {LanguageModel} from '../../misc/types';
 import {CodeEditorContent} from './codeEditor.interface';
-import {monacoInit} from './monaco.init';
-import monaco from '../../../../monaco-typings';
-
-const {editor, KeyCode, KeyMod, Uri} = monaco;
+import {MonacoEditorApi} from '../../../../services';
 
 /**
  * Component used for editing code
@@ -19,29 +17,22 @@ const {editor, KeyCode, KeyMod, Uri} = monaco;
 })
 export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
 {
-    //######################### public static properties #########################
-
-    /**
-     * Indication whether was monaco init called
-     */
-    public static monacoInit: boolean = monacoInit;
-
     //######################### protected fields #########################
 
     /**
      * Instance of code editor
      */
-    protected codeEditor: monaco.editor.IStandaloneCodeEditor|null = null;
+    protected codeEditor: editor.IStandaloneCodeEditor|null = null;
 
     /**
      * Opened file in editor
      */
-    protected openedFile: monaco.editor.ITextModel|null = null;
+    protected openedFile: editor.ITextModel|null = null;
 
     /**
      * Handler for event of change of model
      */
-    protected changeEvent: monaco.IDisposable|null = null;
+    protected changeEvent: IDisposable|null = null;
 
     //######################### public properties - inputs #########################
 
@@ -72,7 +63,9 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
     public contentChange: EventEmitter<CodeEditorContent> = new EventEmitter<CodeEditorContent>();
 
     //######################### constructor #########################
-    constructor(protected element: ElementRef<HTMLElement>)
+    constructor(protected element: ElementRef<HTMLElement>,
+                protected monacoEditorApi: MonacoEditorApi,
+    )
     {
     }
 
@@ -81,12 +74,17 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
     /**
      * Called when input value changes
      */
-    public ngOnChanges(changes: SimpleChanges): void
+    public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
         if(nameof<CodeEditorComponent>('languageModel') in changes && this.languageModel &&
            nameof<CodeEditorComponent>('content') in changes && isPresent(this.content))
         {
-            this.updateContent();
+            if(this.languageModel)
+            {
+                await this.languageModel.initLanguage?.(this.monacoEditorApi);
+            }
+
+            await this.updateContent();
         }
     }
 
@@ -112,7 +110,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
             this.save.emit(
             {
                 content: this.openedFile.getValue(),
-                code: await this.languageModel.compiledCode(this.codeEditor)
+                code: await this.languageModel.compiledCode(this.codeEditor, this.monacoEditorApi)
             });
         }
     }
@@ -139,15 +137,15 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
     /**
      * Creates editor
      */
-    protected createEditor(): void
+    protected async createEditor(): Promise<void>
     {
-        this.codeEditor = editor.create(this.element.nativeElement,
+        this.codeEditor = (await this.monacoEditorApi.editor).create(this.element.nativeElement,
         {
             theme: 'vs-dark',
             model: this.openedFile,
             lightbulb:
             {
-                enabled: editor.ShowLightbulbIconMode.OnCode,
+                enabled: (await this.monacoEditorApi.editor).ShowLightbulbIconMode.OnCode,
             },
             bracketPairColorization: 
             {
@@ -159,7 +157,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
             },
         });
 
-        this.codeEditor.addCommand(KeyMod.CtrlCmd | KeyCode.KeyS, () =>
+        this.codeEditor.addCommand((await this.monacoEditorApi.KeyMod).CtrlCmd | (await this.monacoEditorApi.KeyCode).KeyS, () =>
         {
             this.saveContent();
         });
@@ -171,7 +169,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
                 this.contentChange.emit(
                 {
                     content: this.openedFile.getValue(),
-                    code: await this.languageModel.compiledCode(this.codeEditor)
+                    code: await this.languageModel.compiledCode(this.codeEditor, this.monacoEditorApi)
                 });
             }
         });
@@ -180,7 +178,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
     /**
      * Updates content of code editor
      */
-    protected updateContent(): void
+    protected async updateContent(): Promise<void>
     {
         this.openedFile?.dispose();
         this.openedFile = null;
@@ -190,7 +188,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
             return;
         }
 
-        this.openedFile = editor.createModel((this.content || this.languageModel.initialData) ?? '', this.languageModel.language, Uri.file(`index.${this.languageModel.extension}`));
+        this.openedFile = (await this.monacoEditorApi.editor).createModel((this.content || this.languageModel.initialData) ?? '', this.languageModel.language, (await this.monacoEditorApi.Uri).file(`index.${this.languageModel.extension}`));
         this.codeEditor?.setModel(this.openedFile);
     }
 }

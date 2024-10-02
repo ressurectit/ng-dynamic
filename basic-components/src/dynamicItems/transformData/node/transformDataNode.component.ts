@@ -1,15 +1,14 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, TypescriptLanguageModel} from '@anglr/dynamic';
+import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, MonacoEditorApi, TypescriptLanguageModel} from '@anglr/dynamic';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import typings from '@anglr/dynamic/typings/transformData/monaco-type';
 import {generateId} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
+import type {IDisposable} from 'monaco-editor';
 
 import {TransformDataRelationsEditorOptions, TransformDataRelationsOptions} from '../transformData.options';
-
-monaco.languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///node_modules/@types/transformData/index.d.ts');
 
 /**
  * Relations node component for transform data
@@ -30,12 +29,37 @@ monaco.languages.typescript.typescriptDefaults.addExtraLib(typings, 'file:///nod
 })
 export class TransformDataNodeSAComponent extends RelationsNodeBase<TransformDataRelationsOptions, TransformDataRelationsEditorOptions> implements RelationsNode<TransformDataRelationsOptions, TransformDataRelationsEditorOptions>
 {
-//######################### constructor #########################
+    //######################### protected fields #########################
+
+    /**
+     * Disposable for added typings
+     */
+    protected typingsDisposable: IDisposable|undefined|null;
+
+    //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
                 element: ElementRef<HTMLElement>,
+                monacoEditorApi: MonacoEditorApi,
                 protected dialog: TitledDialogService,)
     {
         super(changeDetector, element);
+
+        (async() =>
+        {
+            this.typingsDisposable = (await monacoEditorApi.languagesTypescript).typescriptDefaults.addExtraLib(typings, 'file:///node_modules/@types/transformData/index.d.ts');
+        })();
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+
+    /**
+     * @inheritdoc
+     */
+    public override ngOnDestroy(): void
+    {
+        super.ngOnDestroy();
+
+        this.typingsDisposable?.dispose();
     }
 
     //######################### protected methods - template bindings #########################

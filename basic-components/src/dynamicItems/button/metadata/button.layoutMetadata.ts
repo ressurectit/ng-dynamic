@@ -2,7 +2,7 @@ import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, gener
 
 import {ButtonComponentOptions} from '../button.options';
 import {ButtonModel} from './button.model';
-import {ButtonPresetsPropertiesControlSAComponent} from '../../../misc/buttonPresetsPropertiesControl/buttonPresetsPropertiesControl.component';
+import {ButtonPresetsPropertiesControlSAComponent} from '../../../misc/components';
 
 /**
  * Button layout metadata

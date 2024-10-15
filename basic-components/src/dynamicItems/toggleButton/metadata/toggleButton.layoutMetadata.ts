@@ -2,7 +2,7 @@ import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, gener
 
 import {ToggleButtonComponentOptions} from '../toggleButton.options';
 import {ToggleButtonModel} from './toggleButton.model';
-import {ButtonPresetsPropertiesControlSAComponent} from '../../../misc/buttonPresetsPropertiesControl/buttonPresetsPropertiesControl.component';
+import {ButtonPresetsPropertiesControlSAComponent} from '../../../misc/components';
 
 /**
  * Toggle button layout metadata

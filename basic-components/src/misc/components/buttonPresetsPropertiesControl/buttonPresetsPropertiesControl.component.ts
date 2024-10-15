@@ -2,8 +2,8 @@ import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
 
-import {BUTTONS_PRESETS} from '../tokens';
-import {ButtonPreset} from '../../interfaces';
+import {ButtonPreset} from '../../../interfaces';
+import {BUTTONS_PRESETS} from '../../tokens';
 
 const defaultPresets: ButtonPreset[] = 
 [

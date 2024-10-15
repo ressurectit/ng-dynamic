@@ -1,11 +1,9 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
-//TODO: aligning add
-
 /**
- * Options for grid panel cell component
+ * Options for grid panel area component
  */
-export interface GridPanelCellComponentOptions
+export interface GridPanelAreaComponentOptions
 {
     /**
      * Coordinate of grid row start

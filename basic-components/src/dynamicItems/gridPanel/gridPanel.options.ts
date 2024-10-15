@@ -1,6 +1,6 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
-import {GridPanelCellComponentOptions} from '../gridPanelCell';
+import {GridPanelAreaComponentOptions} from '../gridPanelArea';
 
 /**
  * Definition of grid panel column
@@ -42,7 +42,7 @@ export interface GridPanelComponentOptions
     columns: GridPanelColumn[];
 
     /**
-     * Definition of grid cells content
+     * Definition of grid areas content
      */
-    cells: LayoutComponentMetadata<GridPanelCellComponentOptions>[];
+    areas: LayoutComponentMetadata<GridPanelAreaComponentOptions>[];
 }

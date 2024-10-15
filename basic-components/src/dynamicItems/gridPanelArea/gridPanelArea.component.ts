@@ -2,17 +2,17 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
-import {GridPanelCellComponentOptions} from './gridPanelCell.options';
-import {GridPanelCellLayoutMetadataLoader} from './gridPanelCell.metadata';
-import {applyGridCoordinates} from './gridPanelCell.utils';
+import {GridPanelAreaComponentOptions} from './gridPanelArea.options';
+import {GridPanelAreaLayoutMetadataLoader} from './gridPanelArea.metadata';
+import {applyGridCoordinates} from './gridPanelArea.utils';
 
 /**
- * Component used for displaying grid panel cell
+ * Component used for displaying grid panel area
  */
 @Component(
 {
-    selector: 'grid-panel-cell',
-    templateUrl: 'gridPanelCell.component.html',
+    selector: 'grid-panel-area',
+    templateUrl: 'gridPanelArea.component.html',
     standalone: true,
     imports:
     [
@@ -20,9 +20,9 @@ import {applyGridCoordinates} from './gridPanelCell.utils';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@DescendantsGetter<GridPanelCellComponentOptions>(options => options?.component ? [options.component] : [])
-@LayoutEditorMetadata(GridPanelCellLayoutMetadataLoader)
-export class GridPanelCellSAComponent extends LayoutComponentBase<GridPanelCellComponentOptions> implements LayoutComponent<GridPanelCellComponentOptions>
+@DescendantsGetter<GridPanelAreaComponentOptions>(options => options?.component ? [options.component] : [])
+@LayoutEditorMetadata(GridPanelAreaLayoutMetadataLoader)
+export class GridPanelAreaSAComponent extends LayoutComponentBase<GridPanelAreaComponentOptions> implements LayoutComponent<GridPanelAreaComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

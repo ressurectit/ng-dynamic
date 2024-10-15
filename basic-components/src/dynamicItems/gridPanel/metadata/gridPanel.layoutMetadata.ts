@@ -14,8 +14,8 @@ export class GridPanelLayoutEditorMetadata implements LayoutEditorMetadataDescri
      */
     public metaInfo?: LayoutEditorMetadataInfo =
     {
-        name: 'Grid',
-        description: 'Layout component with rows, and columns',
+        name: 'Grid panel',
+        description: 'Layout component with rows, and columns and areas',
         group: 'Layout',
     };
 

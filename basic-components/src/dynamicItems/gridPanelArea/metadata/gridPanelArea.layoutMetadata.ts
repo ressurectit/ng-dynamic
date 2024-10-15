@@ -2,13 +2,13 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {Action, Func} from '@jscrpt/common';
 
-import {GridPanelCellComponentOptions} from '../gridPanelCell.options';
-import {applyGridCoordinates} from '../gridPanelCell.utils';
+import {GridPanelAreaComponentOptions} from '../gridPanelArea.options';
+import {applyGridCoordinates} from '../gridPanelArea.utils';
 
 /**
- * Grid panel layout metadata
+ * Grid panel area metadata
  */
-export class GridPanelCellLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<GridPanelCellComponentOptions>
+export class GridPanelAreaLayoutEditorMetadata implements LayoutEditorMetadataDescriptor<GridPanelAreaComponentOptions>
 {
     //######################### public properties - implementation of LayoutEditorMetadataDescriptor #########################
 
@@ -17,14 +17,14 @@ export class GridPanelCellLayoutEditorMetadata implements LayoutEditorMetadataDe
      */
     public metaInfo?: LayoutEditorMetadataInfo =
     {
-        name: 'Grid cell',
+        name: 'Grid area',
         dragDisabled: true,
     };
 
     /**
      * @inheritdoc
      */
-    public addDescendant: Action<[LayoutComponentMetadata, GridPanelCellComponentOptions, number]> = (metadata, options, _index) =>
+    public addDescendant: Action<[LayoutComponentMetadata, GridPanelAreaComponentOptions, number]> = (metadata, options, _index) =>
     {
         options.component = metadata;
     };
@@ -32,17 +32,17 @@ export class GridPanelCellLayoutEditorMetadata implements LayoutEditorMetadataDe
     /**
      * @inheritdoc
      */
-    public applyDesignerStyles: Action<[GridPanelCellComponentOptions|null|undefined, CSSStyleDeclaration]> = applyGridCoordinates;
+    public applyDesignerStyles: Action<[GridPanelAreaComponentOptions|null|undefined, CSSStyleDeclaration]> = applyGridCoordinates;
 
     /**
      * @inheritdoc
      */
-    public canDropMetadata: Func<boolean, [GridPanelCellComponentOptions|undefined|null]> = options => !options?.component;
+    public canDropMetadata: Func<boolean, [GridPanelAreaComponentOptions|undefined|null]> = options => !options?.component;
 
     /**
      * @inheritdoc
      */
-    public removeDescendant: Action<[string, GridPanelCellComponentOptions]> = (id, options) =>
+    public removeDescendant: Action<[string, GridPanelAreaComponentOptions]> = (id, options) =>
     {
         if(options.component?.id === id)
         {

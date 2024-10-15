@@ -12,7 +12,6 @@ import {withHandlebarsComponents} from '@anglr/dynamic/handlebars-components';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
 import {BindThis, generateId} from '@jscrpt/common';
 
-import {DemoData} from '../../../services/demoData';
 import {StoreDataService} from '../../../services/storeData';
 import {LoadSaveNewComponent} from '../../../components';
 import {createStoreDataServiceFactory} from '../../../misc/factories';
@@ -86,6 +85,5 @@ export class EditorComponent
 
     protected loadDemo(): void
     {
-        this.metadata = DemoData.demoLayout;
     }
 }

@@ -1,3 +1,4 @@
-<ng-container *ngFor="let type of options?.cells">
+@for(type of optionsSafe.areas; track type)
+{
     <ng-container *layoutComponentRenderer="type"/>
-</ng-container>
+}

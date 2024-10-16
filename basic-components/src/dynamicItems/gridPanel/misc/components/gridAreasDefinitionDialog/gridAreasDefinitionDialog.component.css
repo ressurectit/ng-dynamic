@@ -1,0 +1,39 @@
+.grid-preview
+{
+    display: grid;
+    gap: 2px;
+    background-color: #aaa;
+    border: 2px solid #aaa;
+    flex: 1;
+}
+
+.grid-preview-cell
+{
+    background-color: #fff;
+}
+
+.grid-preview-cell:empty
+{
+    min-width: 10px;
+    min-height: 10px;
+}
+
+.grid-preview-cell.editing
+{
+    cursor: pointer;
+}
+
+.grid-preview-cell.editing:hover
+{
+    background-color: #999;
+}
+
+.grid-area
+{
+    opacity: .6;
+}
+
+.grid-area.editing
+{
+    pointer-events: none;
+}

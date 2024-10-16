@@ -46,8 +46,14 @@ export class GridAreasPropertiesControlComponent extends PropertiesControlBase<G
         const result = await lastValueFrom(this.dialog.open<GridAreasDefinitionDialogComponent, GridPanelComponentOptions, GridPanelComponentOptions|undefined>(GridAreasDefinitionDialogComponent,
         {
             title: 'define grid areas',
-            data: this.form.value as GridPanelComponentOptions,
+            data:
+            {
+                areas: this.form.value.areas ?? [],
+                columns: this.options?.columns ?? [],
+                rows: this.options?.rows ?? [],
+            },
             width: '75vw',
+            height: '75vh',
         }).afterClosed());
 
         if(result)

@@ -37,6 +37,13 @@
     min-height: 0;
 }
 
+%flex-5
+{
+    flex: 5;
+    min-width: 0;
+    min-height: 0;
+}
+
 %align-self-center
 {
     align-self: center;
@@ -181,6 +188,11 @@
     .dynamic-flex-1
     {
         @extend %flex-1;
+    }
+
+    .dynamic-flex-5
+    {
+        @extend %flex-5;
     }
 
     .dynamic-align-self-center

@@ -1,0 +1,74 @@
+<div class="dynamic-flex-1 dynamic-margin-small dynamic-flex-column">
+    <div class="dynamic-flex-row dynamic-column-gap-extra-small dynamic-margin-bottom-small">
+        <div>{{'areas' | firstUppercaseLocalize}}</div>
+
+        <button type="button" class="dynamic-btn-icon" (click)="addArea()" [disabled]="editing()" [tooltip]="'add area' | firstUppercaseLocalize">
+            <span class="fas fa-plus"></span>
+        </button>
+    
+        @for(area of areas; track area)
+        {
+            <div [style.background-color]="area.id | stringToColor" class="dynamic-flex-row dynamic-column-gap-extra-small">
+                <div>{{area.displayName}}</div>
+
+                <button type="button" class="dynamic-btn-icon" [disabled]="editing()" (click)="editArea($index)">
+                    <span class="fas fa-pencil"></span>
+                </button>
+
+                <button type="button" class="dynamic-btn-icon" (click)="removeArea($index)">
+                    <span class="fas fa-trash"></span>
+                </button>
+            </div>
+        }
+    </div>
+
+    @if(editing())
+    {
+        <div class="dynamic-flex-row dynamic-column-gap-extra-small dynamic-margin-bottom-small">
+            <input class="dynamic-form-control dynamic-flex-1" [formControl]="displayNameForm">
+    
+            <button type="button" class="dynamic-btn-icon" [tooltip]="'confirm changes to area' | firstUppercaseLocalize" (click)="endEditation()">
+                <span class="fas fa-check"></span>
+            </button>
+    
+            <div class="dynamic-flex-5"></div>
+        </div>
+    }
+
+    <div class="grid-preview"
+         [style.grid-template-rows]="options.rows | toGridRowsTemplate"
+         [style.grid-template-columns]="options.columns | toGridColumnsTemplate">
+
+        @for(row of (options.rows.length ? options.rows : [{height: 'auto'}]); track row; let rowIndex=$index)
+        {
+            @for(column of (options.columns.length ? options.columns : [{width: 'auto'}]); track column; let columnIndex=$index)
+            {
+                <div class="grid-preview-cell"
+                     [class.editing]="editing()"
+                     [style.grid-row]="(rowIndex + 1) + '/' + (rowIndex + 2)"
+                     [style.grid-column]="(columnIndex + 1) + '/' + (columnIndex + 2)"
+                     (click)="selectArea(rowIndex, columnIndex)"
+                     (mouseenter)="setAreaEnd(rowIndex, columnIndex)"></div>
+            }
+        }
+
+        @for(area of areas; track area)
+        {
+            <div class="grid-area"
+                 [class.editing]="editing() && editedIndex() === $index"
+                 [style.background-color]="area.id | stringToColor"
+                 [style.grid-row]="(editedIndex() === $index ? (editedArea()?.gridRowStart ?? area.options?.gridRowStart) : area.options?.gridRowStart) + '/' + (editedIndex() === $index ? (editedArea()?.gridRowEnd ?? area.options?.gridRowEnd) : area.options?.gridRowEnd)"
+                 [style.grid-column]="(editedIndex() === $index ? (editedArea()?.gridColumnStart ?? area.options?.gridColumnStart) : area.options?.gridColumnStart) + '/' + (editedIndex() === $index ? (editedArea()?.gridColumnEnd ?? area.options?.gridColumnEnd) : area.options?.gridColumnEnd)"></div>
+        }
+    </div>
+</div>
+
+<div class="dynamic-flex-row dynamic-flex-end dynamic-buttons-gap">
+    <button type="button" class="dynamic-btn dynamic-btn-danger" mat-dialog-close>
+        <span>{{'cancel' | firstUppercaseLocalize}}</span>
+    </button>
+
+    <button type="button" class="dynamic-btn dynamic-btn-success" [mat-dialog-close]="{areas, rows: options.rows, columns: options.columns}">
+        <span>{{'save' | firstUppercaseLocalize}}</span>
+    </button>
+</div>

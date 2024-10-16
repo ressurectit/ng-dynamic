@@ -139,6 +139,13 @@
     }
 }
 
+%buttons-gap
+{
+    gap: 10px;
+}
+
+
+
 @mixin misc
 {
     .dynamic-hidden
@@ -244,6 +251,11 @@
     {
         @extend %large-text;
     }
+
+    .dynamic-buttons-gap
+    {
+        @extend %buttons-gap;
+    }
 }
 
 @mixin overrides
@@ -273,6 +285,27 @@
     {
         width: 6px;
         background-color: transparent;
+    }
+}
+
+@mixin generate-gap($sizes)
+{
+    @each $sizeType, $size in $sizes
+    {
+        .dynamic-gap-#{$sizeType}
+        {
+            gap: $size;
+        }
+
+        .dynamic-row-gap-#{$sizeType}
+        {
+            row-gap: $size;
+        }
+
+        .dynamic-column-gap-#{$sizeType}
+        {
+            column-gap: $size;
+        }
     }
 }
 

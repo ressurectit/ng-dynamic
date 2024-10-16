@@ -40,6 +40,28 @@
     }
 }
 
+@mixin btn-success
+{
+    .dynamic-btn.dynamic-btn-success
+    {
+        font-family: var(--dynamic-font-family);
+        background-color: var(--dynamic-btn-success-background);
+        border-color: var(--dynamic-btn-success-border);
+        color: var(--dynamic-btn-success-foreground);
+    }
+}
+
+@mixin btn-danger
+{
+    .dynamic-btn.dynamic-btn-danger
+    {
+        font-family: var(--dynamic-font-family);
+        background-color: var(--dynamic-btn-danger-background);
+        border-color: var(--dynamic-btn-danger-border);
+        color: var(--dynamic-btn-danger-foreground);
+    }
+}
+
 @mixin btn-icon
 {
     .dynamic-btn-icon

@@ -1,7 +1,7 @@
 /**
  * Definition of column
  */
-export interface ColumnDefintion
+export interface ColumnDefinition
 {
     /**
      * Width of column
@@ -12,7 +12,7 @@ export interface ColumnDefintion
 /**
  * Definition of row
  */
-export interface RowDefition
+export interface RowDefinition
 {
     /**
      * Height of row
@@ -30,10 +30,10 @@ export interface RowsColumnsOptions
     /**
      * Definition of rows
      */
-    rows: RowDefition[];
+    rows: RowDefinition[];
 
     /**
      * Definition of columns
      */
-    columns: ColumnDefintion[];
+    columns: ColumnDefinition[];
 }

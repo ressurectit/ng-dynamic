@@ -16,7 +16,6 @@ $defaultTheme:
         background: #009dd8,
         foreground: #fff,
     ),
-
     btnPrimary:
     (
         background: #6aba4f,
@@ -29,6 +28,18 @@ $defaultTheme:
         foreground: #fff,
         border: #5bc0de,
     ),
+    btnSuccess:
+    (
+        background: #6aba4f,
+        foreground: #fff,
+        border: #6aba4f,
+    ),
+    btnDanger:
+    (
+        background: #e42626,
+        foreground: #fff,
+        border: #e42626,
+    ),
     btnIcon:
     (
         foreground: #737373,
@@ -39,7 +50,6 @@ $defaultTheme:
         background: #f0f0f0,
         border: #cccccc,
     ),
-
     layoutDesignerComponent: 
     (
         dragged:

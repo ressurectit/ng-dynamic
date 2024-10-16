@@ -38,6 +38,12 @@
     --dynamic-btn-info-background: #{map.get(map.get($theme, 'btnInfo'), 'background')};
     --dynamic-btn-info-foreground: #{map.get(map.get($theme, 'btnInfo'), 'foreground')};
     --dynamic-btn-info-border: #{map.get(map.get($theme, 'btnInfo'), 'border')};
+    --dynamic-btn-success-background: #{map.get(map.get($theme, 'btnSuccess'), 'background')};
+    --dynamic-btn-success-foreground: #{map.get(map.get($theme, 'btnSuccess'), 'foreground')};
+    --dynamic-btn-success-border: #{map.get(map.get($theme, 'btnSuccess'), 'border')};
+    --dynamic-btn-danger-background: #{map.get(map.get($theme, 'btnDanger'), 'background')};
+    --dynamic-btn-danger-foreground: #{map.get(map.get($theme, 'btnDanger'), 'foreground')};
+    --dynamic-btn-danger-border: #{map.get(map.get($theme, 'btnDanger'), 'border')};
     --dynamic-btn-icon-foreground: #{map.get(map.get($theme, 'btnIcon'), 'foreground')};
     --dynamic-form-control-foreground: #{map.get(map.get($theme, 'formControl'), 'foreground')};
     --dynamic-form-control-background: #{map.get(map.get($theme, 'formControl'), 'background')};
@@ -116,6 +122,8 @@
     @include buttons.btn;
     @include buttons.btn-primary;
     @include buttons.btn-info;
+    @include buttons.btn-success;
+    @include buttons.btn-danger;
     @include buttons.btn-icon;
     @include codeEditor.css;
     @include codePropertiesControl.css;
@@ -144,6 +152,7 @@
 
     @include misc.misc;
     @include misc.generate-margin-padding('margin', (none: 0, extra-small: 4px, small: 10px, medium: 15px, big: 20px));
+    @include misc.generate-gap((extra-small: 4px, small: 10px, medium: 15px, big: 20px));
     @include misc.thin-scrollbar('--dynamic-thin-scrollbar');
     @include misc.overrides;
 }

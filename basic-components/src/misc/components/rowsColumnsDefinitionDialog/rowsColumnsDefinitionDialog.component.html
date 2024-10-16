@@ -1,0 +1,64 @@
+<div [formGroup]="form">
+    <div class="dynamic-flex-row dynamic-column-gap-extra-small">
+        <div class="dynamic-bold">{{'columns' | firstUppercaseLocalize}}:</div>
+
+        @for(column of form.controls.columns.controls; track column)
+        {
+            <div class="flex-row flex-1">
+                <input class="column-control" columnDefinition [formControl]="form.controls.columns.controls[$index]">
+
+                <button class="dynamic-btn-icon" (click)="removeColumn($index)">
+                    <span class="fas fa-trash"></span>
+                </button>
+            </div>
+        }
+
+        <button type="button" class="dynamic-btn-icon" [tooltip]="'add new row' | firstUppercaseLocalize" (click)="addColumn()">
+            <span class="fas fa-plus"></span>
+        </button>
+    </div>
+    
+    <div class="dynamic-flex-row">
+        <div class="dynamic-flex-column dynamic-row-gap-extra-small dynamic-align-items-start rows-definition">
+            <div class="dynamic-bold">{{'rows' | firstUppercaseLocalize}}:</div>
+    
+            @for(row of form.controls.rows.controls; track row)
+            {
+                <div class="flex-row">
+                    <input class="row-control" rowDefinition [formControl]="form.controls.rows.controls[$index]">
+
+                    <button class="dynamic-btn-icon" (click)="removeRow($index)">
+                        <span class="fas fa-trash"></span>
+                    </button>
+                </div>
+            }
+
+            <button type="button" class="dynamic-btn-icon" [tooltip]="'add new column' | firstUppercaseLocalize" (click)="addRow()">
+                <span class="fas fa-plus"></span>
+            </button>
+        </div>
+
+        <div class="dynamic-flex-1 dynamic-margin-small dynamic-flex-column">
+            <div>{{'preview' | firstUppercaseLocalize}}</div>
+
+            <div class="grid-preview" 
+                 [style.grid-template-rows]="form.value.rows | toGridRowsTemplate"
+                 [style.grid-template-columns]="form.value.columns | toGridColumnsTemplate">
+                @for(index of cellsCount(); track index)
+                {
+                    <div class="grid-preview-cell"></div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dynamic-flex-row dynamic-flex-end dynamic-buttons-gap">
+    <button type="button" class="dynamic-btn dynamic-btn-danger" mat-dialog-close>
+        <span>{{'cancel' | firstUppercaseLocalize}}</span>
+    </button>
+
+    <button type="button" class="dynamic-btn dynamic-btn-success" [mat-dialog-close]="form.value">
+        <span>{{'save' | firstUppercaseLocalize}}</span>
+    </button>
+</div>

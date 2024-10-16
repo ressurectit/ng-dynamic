@@ -1,0 +1,50 @@
+.grid-preview
+{
+    display: grid;
+    gap: 2px;
+    background-color: #aaa;
+    border: 2px solid #aaa;
+    flex: 1;
+}
+
+.grid-preview-cell
+{
+    background-color: #fff;
+
+    &:empty
+    {
+        min-width: 10px;
+        min-height: 10px;
+    }
+}
+
+.rows-definition
+{
+    flex: 0 0 100px;
+}
+
+.row-control
+{
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 2px 6px;
+
+    &:focus-visible
+    {
+        outline: none;
+    }
+}
+
+.column-control
+{
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 2px 6px;
+
+    &:focus-visible
+    {
+        outline: none;
+    }
+}

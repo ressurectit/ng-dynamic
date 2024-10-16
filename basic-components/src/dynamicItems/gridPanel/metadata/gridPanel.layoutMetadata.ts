@@ -1,6 +1,8 @@
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {GridPanelComponentOptions} from '../gridPanel.options';
+import {RowsColumnsModel} from '../../../misc/model';
+import {RowsColumnsPropertiesControlComponent} from '../../../misc/components';
 
 /**
  * Grid panel layout metadata
@@ -17,6 +19,19 @@ export class GridPanelLayoutEditorMetadata implements LayoutEditorMetadataDescri
         name: 'Grid panel',
         description: 'Layout component with rows, and columns and areas',
         group: 'Layout',
+        optionsMetadata:
+        {
+            propertiesMetadata:
+            [
+                {
+                    modelType: RowsColumnsModel,
+                    propertiesControls:
+                    [
+                        RowsColumnsPropertiesControlComponent,
+                    ],
+                },
+            ]
+        },
     };
 
     //######################### constructor #########################

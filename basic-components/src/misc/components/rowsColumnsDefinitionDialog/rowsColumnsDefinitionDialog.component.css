@@ -10,12 +10,12 @@
 .grid-preview-cell
 {
     background-color: #fff;
+}
 
-    &:empty
-    {
-        min-width: 10px;
-        min-height: 10px;
-    }
+.grid-preview-cell:empty
+{
+    min-width: 10px;
+    min-height: 10px;
 }
 
 .rows-definition
@@ -29,11 +29,11 @@
     border: none;
     border-bottom: 1px solid #ccc;
     padding: 2px 6px;
+}
 
-    &:focus-visible
-    {
-        outline: none;
-    }
+.row-control:focus-visible
+{
+    outline: none;
 }
 
 .column-control
@@ -42,9 +42,9 @@
     border: none;
     border-bottom: 1px solid #ccc;
     padding: 2px 6px;
+}
 
-    &:focus-visible
-    {
-        outline: none;
-    }
+.column-control:focus-visible
+{
+    outline: none;
 }

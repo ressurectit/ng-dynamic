@@ -4,17 +4,17 @@ import {PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-ed
 import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
-import {RowsColumnsOptions} from '../../../interfaces';
-import {RowsColumnsDefinitionDialogComponent} from '../rowsColumnsDefinitionDialog/rowsColumnsDefinitionDialog.component';
+import {GridPanelComponentOptions} from '../../../gridPanel.options';
+import {GridAreasDefinitionDialogComponent} from '../gridAreasDefinitionDialog/gridAreasDefinitionDialog.component';
 
 /**
- * Component used for displaying editation of rows and columns
+ * Component used for displaying editation of grid areas
  */
 @Component(
 {
-    selector: 'rows-columns-properties-control',
-    templateUrl: 'rowsColumnsPropertiesControl.component.html',
-    styleUrl: 'rowsColumnsPropertiesControl.component.css',
+    selector: 'grid-areas-properties-control',
+    templateUrl: 'gridAreasPropertiesControl.component.html',
+    styleUrl: 'gridAreasPropertiesControl.component.css',
     standalone: true,
     imports:
     [
@@ -22,7 +22,7 @@ import {RowsColumnsDefinitionDialogComponent} from '../rowsColumnsDefinitionDial
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RowsColumnsPropertiesControlComponent extends PropertiesControlBase<RowsColumnsOptions> implements PropertiesControl<RowsColumnsOptions>
+export class GridAreasPropertiesControlComponent extends PropertiesControlBase<GridPanelComponentOptions> implements PropertiesControl<GridPanelComponentOptions>
 {
     //######################### protected properties #########################
 
@@ -34,19 +34,19 @@ export class RowsColumnsPropertiesControlComponent extends PropertiesControlBase
     //######################### protected properties - template bindings #########################
 
     /**
-     * Shows dialog used for defining rows and columns
+     * Shows dialog used for defining grid areas
      */
     protected async showDialog(): Promise<void>
     {
         if(!this.form)
         {
-            throw new Error('RowsColumnsPropertiesControlComponent: missing form!');
+            throw new Error('GridAreasPropertiesControlComponent: missing form!');
         }
 
-        const result = await lastValueFrom(this.dialog.open<RowsColumnsDefinitionDialogComponent, RowsColumnsOptions, RowsColumnsOptions|undefined>(RowsColumnsDefinitionDialogComponent,
+        const result = await lastValueFrom(this.dialog.open<GridAreasDefinitionDialogComponent, GridPanelComponentOptions, GridPanelComponentOptions|undefined>(GridAreasDefinitionDialogComponent,
         {
-            title: 'define rows and columns',
-            data: this.form.value as RowsColumnsOptions,
+            title: 'define grid areas',
+            data: this.form.value as GridPanelComponentOptions,
             width: '75vw',
         }).afterClosed());
 

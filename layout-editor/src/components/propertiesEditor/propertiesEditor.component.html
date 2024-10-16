@@ -38,7 +38,7 @@
                 {
                     @for(propertiesCtrl of props.controls; track propertiesCtrl)
                     {
-                        <ng-container [propertiesControl]="propertiesCtrl" [form]="props.form" [propertiesMetadata]="props.metadata"></ng-container>
+                        <ng-container [propertiesControl]="propertiesCtrl" [form]="props.form" [propertiesMetadata]="props.metadata" [options]="componentOptions"/>
                     }
                 }
             </div>

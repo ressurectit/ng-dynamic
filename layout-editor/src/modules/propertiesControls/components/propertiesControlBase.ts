@@ -35,6 +35,12 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
     @Input()
     public propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata&LayoutPropertyTypeData>|null = null;
 
+    /**
+     * @inheritdoc
+     */
+    @Input()
+    public options: TOptions|undefined|null;
+
     //######################### constructor #########################
     constructor(protected _changeDetector: ChangeDetectorRef,
                 protected _extractor: LayoutEditorMetadataExtractor,)

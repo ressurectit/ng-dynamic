@@ -44,6 +44,12 @@ export class PropertiesControlRendererDirective<TComponent extends PropertiesCon
     @Input('propertiesControl')
     public type: Type<PropertiesControl>|undefined;
 
+    /**
+     * Instance of all options available for component (not only edited one)
+     */
+    @Input()
+    public options: TOptions|undefined|null;
+
     //######################### constructor #########################
     constructor(protected _viewContainerRef: ViewContainerRef,
                 @Inject(LOGGER) @Optional() protected _logger?: Logger,)
@@ -77,6 +83,7 @@ export class PropertiesControlRendererDirective<TComponent extends PropertiesCon
                 const component = this._componentRef.instance;
                 component.propertiesMetadata = this.propertiesMetadata;
                 component.form = this.form;
+                component.options = this.options;
 
                 await component.initialize();
                 component.invalidateVisuals();

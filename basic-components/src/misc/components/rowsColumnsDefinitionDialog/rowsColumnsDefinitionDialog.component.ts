@@ -32,7 +32,7 @@ interface FormType
 {
     selector: 'columns-rows-definition-dialog',
     templateUrl: 'rowsColumnsDefinitionDialog.component.html',
-    styleUrl: 'rowsColumnsDefinitionDialog.component.scss',
+    styleUrl: 'rowsColumnsDefinitionDialog.component.css',
     standalone: true,
     imports:
     [

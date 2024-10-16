@@ -112,6 +112,11 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     protected component: LayoutDesignerSAComponent|null = null;
 
     /**
+     * Instance of current component options
+     */
+    protected componentOptions: unknown;
+
+    /**
      * Instance of metadata for selected designed component
      */
     protected metadata: LayoutEditorMetadataDescriptor|null = null;
@@ -248,6 +253,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
             if(component)
             {
                 this.component = component;
+                this.componentOptions = {...this.component.options?.typeMetadata.options};
 
                 await this.getMetadata();
             }
@@ -360,6 +366,10 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                     {
                         return;
                     }
+
+                    //invalidate properties editor itself to have current value of options
+                    this.componentOptions = {...this.component.options?.typeMetadata.options};
+                    this.changeDetector.detectChanges();
 
                     //options for layout designer component
                     const changes: SimpleChanges = {};

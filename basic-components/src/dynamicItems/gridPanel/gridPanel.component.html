@@ -1,8 +1,4 @@
-<div class="grid-panel"
-     [style.grid-template-rows]="optionsSafe.rows | toGridRowsTemplate"
-     [style.grid-template-columns]="optionsSafe.columns | toGridColumnsTemplate">
-    @for(type of optionsSafe.areas; track type)
-    {
-        <ng-container *layoutComponentRenderer="type"/>
-    }
-</div>
+@for(type of optionsSafe.areas; track type)
+{
+    <ng-container *layoutComponentRenderer="type"/>
+}

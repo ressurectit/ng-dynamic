@@ -3,5 +3,6 @@ export * from './misc/components';
 export * from './misc/features';
 export * from './misc/model';
 export * from './misc/tokens';
+export * from './misc/utils';
 export * from './interfaces';
 export * from './services';

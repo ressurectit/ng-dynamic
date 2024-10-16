@@ -1,6 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 import {RowDefinition} from '../../../interfaces';
+import {toGridRowsTemplate} from '../../utils';
 
 /**
  * Gets css rows template
@@ -16,6 +17,6 @@ export class ToGridRowsTemplatePipe implements PipeTransform
      */
     public transform(rows: RowDefinition[]|undefined|null): string
     {
-        return rows?.map(row => row.height).join(' ') || 'auto';
+        return toGridRowsTemplate(rows);
     }
-}
+}   

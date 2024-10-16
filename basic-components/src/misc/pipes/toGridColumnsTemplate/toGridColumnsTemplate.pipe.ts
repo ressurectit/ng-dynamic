@@ -1,6 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 import {ColumnDefinition} from '../../../interfaces';
+import {toGridColumnsTemplate} from '../../utils';
 
 /**
  * Gets css columns template
@@ -16,6 +17,6 @@ export class ToGridColumnsTemplatePipe implements PipeTransform
      */
     public transform(columns: ColumnDefinition[]|undefined|null): string
     {
-        return columns?.map(column => column.width).join(' ') || 'auto';
+        return toGridColumnsTemplate(columns);
     }
 }

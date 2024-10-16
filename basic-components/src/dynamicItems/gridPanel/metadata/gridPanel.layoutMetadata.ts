@@ -1,5 +1,4 @@
 import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
-import {Func1} from '@jscrpt/common';
 
 import {GridPanelComponentOptions} from '../gridPanel.options';
 import {RowsColumnsModel} from '../../../misc/model';
@@ -43,11 +42,6 @@ export class GridPanelLayoutEditorMetadata implements LayoutEditorMetadataDescri
             ]
         },
     };
-
-    /**
-     * @inheritdoc
-     */
-    readonly getChildrenContainer: Func1<Element|null, Element> = element => element.querySelector('.grid-panel');
 
     //######################### constructor #########################
     constructor()

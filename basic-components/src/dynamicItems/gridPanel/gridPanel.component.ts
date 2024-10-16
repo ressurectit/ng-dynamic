@@ -6,6 +6,7 @@ import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-edi
 import {GridPanelComponentOptions} from './gridPanel.options';
 import {GridPanelLayoutMetadataLoader} from './gridPanel.metadata';
 import {ToGridColumnsTemplatePipe, ToGridRowsTemplatePipe} from '../../misc/pipes';
+import {toGridColumnsTemplate, toGridRowsTemplate} from '../../misc/utils';
 
 /**
  * Component used for displaying grid panel layout
@@ -14,7 +15,6 @@ import {ToGridColumnsTemplatePipe, ToGridRowsTemplatePipe} from '../../misc/pipe
 {
     selector: 'grid-panel',
     templateUrl: 'gridPanel.component.html',
-    styleUrl: 'gridPanel.component.css',
     standalone: true,
     imports:
     [
@@ -29,4 +29,14 @@ import {ToGridColumnsTemplatePipe, ToGridRowsTemplatePipe} from '../../misc/pipe
 @LayoutEditorMetadata(GridPanelLayoutMetadataLoader)
 export class GridPanelSAComponent extends LayoutComponentBase<GridPanelComponentOptions> implements LayoutComponent<GridPanelComponentOptions>
 {
+    //######################### protected - overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override onOptionsSet(): void
+    {
+        this.componentElement.nativeElement.style.gridTemplateRows = toGridRowsTemplate(this.optionsSafe.rows);
+        this.componentElement.nativeElement.style.gridTemplateColumns = toGridColumnsTemplate(this.optionsSafe.columns);
+    }
 }

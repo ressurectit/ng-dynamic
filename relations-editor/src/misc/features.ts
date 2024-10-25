@@ -84,8 +84,7 @@ const RELATIONS_MODULE_TYPES_LOADER_PROVIDER: FactoryProvider =
     useFactory: () => new DynamicItemLoader(inject(RELATIONS_MODULE_TYPES_PROVIDERS, {optional: true}) ?? [],
                                             inject(RELATIONS_MODULE_TYPES_DATA_EXTRACTORS),
                                             isRelationsModuleTypes,
-                                            inject(LOGGER),
-                                            true)
+                                            true,)
 };
 
 /**
@@ -96,8 +95,7 @@ const RELATIONS_NODES_LOADER_PROVIDER: FactoryProvider =
     provide: RELATIONS_NODES_LOADER,
     useFactory: () => new DynamicItemLoader(inject(RELATIONS_NODES_PROVIDERS, {optional: true}) ?? [],
                                             inject(RELATIONS_NODES_DATA_EXTRACTORS),
-                                            isRelationsNodeDef,
-                                            inject(LOGGER))
+                                            isRelationsNodeDef,)
 };
 
 //TODO: rename it correctly

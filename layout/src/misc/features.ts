@@ -34,8 +34,7 @@ const LAYOUT_COMPONENTS_LOADER_PROVIDER: FactoryProvider =
     {
         return new DynamicItemLoader(inject(LAYOUT_COMPONENTS_MODULE_PROVIDERS, {optional: true}) ?? [],
                                      inject(LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS),
-                                     isLayoutComponentDef,
-                                     inject(LOGGER));
+                                     isLayoutComponentDef,);
     }
 };
 

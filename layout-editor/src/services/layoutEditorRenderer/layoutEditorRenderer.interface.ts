@@ -1,6 +1,8 @@
 import {ComponentRef, ViewContainerRef} from '@angular/core';
 import {LayoutComponent, LayoutRendererItem} from '@anglr/dynamic/layout';
 
+//TODO: remove this
+
 /**
  * Represents layout renderer item storing info about rendered component and its hierarchy
  */

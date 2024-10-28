@@ -1,6 +1,8 @@
 import {ɵɵclassProp, ɵComponentType, ɵComponentDef} from '@angular/core';
 import {Writable} from '@jscrpt/common';
 
+//TODO: move into common
+
 /**
  * Applies 'fullscreen-content' css class to components host
  */

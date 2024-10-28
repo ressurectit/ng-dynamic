@@ -4,17 +4,6 @@ import {DynamicItemExtensionType} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '../../interfaces';
 
 /**
- * Special type that contains flag that should be removed when rendering with designer
- */
-export interface LayoutRendererRemoveType
-{
-    /**
-     * Indication that this type should be removed from modifications
-     */
-    ɵɵRemoveThis?: true;
-}
-
-/**
  * Represents layout renderer item storing info about rendered component and its hierarchy
  */
 export interface LayoutRendererItem<TAdditionalData = unknown>

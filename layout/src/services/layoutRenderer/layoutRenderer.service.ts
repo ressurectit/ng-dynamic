@@ -1,16 +1,17 @@
-import {inject, Injectable, Injector, Provider, SimpleChanges, Type, ValueProvider, ViewContainerRef, ɵComponentDef, ɵComponentType} from '@angular/core';
+import {inject, Injectable, Injector, Provider, SimpleChanges, Type, ValueProvider, ViewContainerRef} from '@angular/core';
 import {DynamicItemExtensionType, DynamicItemLoader, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
 import {Action1, globalDefine, isBlank, NoopAction} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
 import {LayoutComponent, LayoutComponentMetadata} from '../../interfaces';
-import {LayoutRendererItem, LayoutRendererRemoveType} from './layoutRenderer.interface';
+import {LayoutRendererItem} from './layoutRenderer.interface';
 import {LAYOUT_COMPONENT_CHILD_EXTENSIONS, LAYOUT_COMPONENTS_LOADER} from '../../misc/tokens';
 import {MissingTypeBehavior} from '../../misc/enums';
 import {NotFoundLayoutTypeSAComponent} from '../../components';
 import {LayoutComponentDef} from '../../misc/types';
 import {LayoutRendererOptions} from './layoutRenderer.options';
+import {applyDynamicHostDirective} from '../../misc/utils';
 
 declare const ngDesignerMetadata: boolean;
 
@@ -224,8 +225,6 @@ export class LayoutRenderer
 
         this.updateTypeBeforeRender(layoutComponentType.data);
 
-        console.log(layoutComponentType.data);
-
         const component = viewContainer.createComponent(layoutComponentType.data,
                                                         {
                                                             injector: usedInjector,
@@ -366,41 +365,12 @@ export class LayoutRenderer
      * Updates rendered type before its renders
      * @param type - Type to be updated
      */
-    protected updateTypeBeforeRender(type: Type<LayoutComponent<any>>): void
+    protected updateTypeBeforeRender(type: Type<LayoutComponent>): void
     {
         //special code that cleans host directives used for designer, when running outside of designer but designer is present
         if(ngDesignerMetadata)
         {
-            const componentDef = ((type as unknown as ɵComponentType<unknown>).ɵcmp as ɵComponentDef<unknown>);
-
-            if(isBlank(componentDef.hostDirectives))
-            {
-                return;
-            }
-
-            if(!Array.isArray(componentDef.hostDirectives))
-            {
-                return;
-            }
-
-            const hostDirectives = [...componentDef.hostDirectives].reverse();
-
-            for(const hostDir of hostDirectives)
-            {
-                const removable = hostDir as LayoutRendererRemoveType;
-
-                if(removable.ɵɵRemoveThis !== true)
-                {
-                    continue;
-                }
-
-                const index = componentDef.hostDirectives.indexOf(hostDir);
-
-                if(index >= 0)
-                {
-                    componentDef.hostDirectives.splice(index, 1);
-                }
-            }
+            applyDynamicHostDirective(type);
         }
     }
 }

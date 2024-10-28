@@ -13,3 +13,4 @@ export * from './layoutPropertyType/propertyType.decorator';
 export * from './layoutPropertyType/propertyType.interface';
 export * from './layoutPropertyValues/propertyValues.decorator';
 export * from './layoutPropertyValues/propertyValues.interface';
+export * from './withDynamicHostDirectives/withDynamicHostDirectives.decorator';

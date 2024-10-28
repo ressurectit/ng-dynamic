@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {LayoutRenderer, LayoutRendererItem} from '@anglr/dynamic/layout';
+import {Injectable, Type} from '@angular/core';
+import {applyDynamicHostDirective, LayoutComponent, LayoutRenderer, LayoutRendererItem} from '@anglr/dynamic/layout';
 
 /**
- * Service used for handling rendering of layout
+ * Service used for handling rendering of layout for designer
  */
 @Injectable()
 export class LayoutEditorRenderer extends LayoutRenderer
@@ -16,5 +16,15 @@ export class LayoutEditorRenderer extends LayoutRenderer
     public get(id: string): LayoutRendererItem|undefined|null
     {
         return this.components[id];
+    }
+
+    //######################### protected overrides #########################
+
+    /**
+     * @inheritdoc
+     */
+    protected override updateTypeBeforeRender(type: Type<LayoutComponent>): void
+    {
+        applyDynamicHostDirective(type, []);
     }
 }

@@ -1,5 +1,8 @@
-import {Injectable, Type} from '@angular/core';
-import {applyDynamicHostDirective, LayoutComponent, LayoutRenderer, LayoutRendererItem} from '@anglr/dynamic/layout';
+import {ComponentRef, Injectable, Type} from '@angular/core';
+import {applyDynamicHostDirective, LayoutComponent, LayoutComponentMetadata, LayoutRenderer, LayoutRendererItem} from '@anglr/dynamic/layout';
+import {PromiseOr} from '@jscrpt/common';
+
+import {LayoutDesignerDirective} from '../../directives';
 
 /**
  * Service used for handling rendering of layout for designer
@@ -25,6 +28,21 @@ export class LayoutEditorRenderer extends LayoutRenderer
      */
     protected override updateTypeBeforeRender(type: Type<LayoutComponent>): void
     {
-        applyDynamicHostDirective(type, []);
+        applyDynamicHostDirective(type, [LayoutDesignerDirective]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected override postProcessCreatedComponent(component: ComponentRef<LayoutComponent>, metadata: LayoutComponentMetadata): PromiseOr<void>
+    {
+        const designer = component.injector.get(LayoutDesignerDirective, null, {optional: true});
+
+        if(!designer)
+        {
+            throw new Error('LayoutEditorRenderer: missing designer directive!');
+        }
+
+        designer.initializeDesigner(component, metadata);
     }
 }

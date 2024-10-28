@@ -1,11 +1,11 @@
 import {ClassProvider, FactoryProvider, Type, inject} from '@angular/core';
 import {LOGGER} from '@anglr/common';
 import {CoreDynamicFeature, defaultExportExtractor, DynamicFeature, DynamicFeatureType, DynamicItemLoader, DynamicModuleDataExtractor, extensionsExportsExtractor, MetadataStorage} from '@anglr/dynamic';
+import {CodeExecutor} from '@anglr/dynamic/relations';
 
 import {LAYOUT_COMPONENTS_LOADER, LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LAYOUT_METADATA_STORAGE} from './tokens';
 import {isLayoutComponentDef} from './utils';
 import {LayoutRenderer} from '../services';
-import {CodeExecutor} from '../../../relations/src';
 
 /**
  * Provider for default layout components extractor

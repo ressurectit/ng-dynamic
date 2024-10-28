@@ -1,15 +1,16 @@
 <div class="dynamic-flex-row dynamic-margin-top-big dynamic-flex-1">
     <mat-tab-group>
         <mat-tab [label]="'hierarchy'|firstUppercaseLocalize|asRequired">
-            <components-tree></components-tree>
+            <components-tree/>
         </mat-tab>
 
         <mat-tab [label]="'palette'|firstUppercaseLocalize|asRequired">
             <div class="max-height-full dynamic-flex-column">
                 <input type="text" [placeholder]="'search component' | firstUppercaseLocalize" class="dynamic-form-control" [formControl]="searchBar">
+
                 <div class="dynamic-flex-1 dynamic-thin-scrollbar overflow-vertical-auto">
-                    <package-manager *ngIf="!(packages | isPresent)"></package-manager>
-                    <components-palette [packages]="packages" [whiteList]="whiteList" [blackList]="blackList" [search]="searchBar.value"></components-palette>
+                    <package-manager *ngIf="!(packages | isPresent)"/>
+                    <components-palette [packages]="packages" [whiteList]="whiteList" [blackList]="blackList" [search]="searchBar.value"/>
                 </div>
             </div>
         </mat-tab>
@@ -19,9 +20,9 @@
         <ng-container *layoutComponentRenderer="metadata"/>
     </div>
 
-    <properties-editor></properties-editor>
+    <properties-editor/>
 </div>
 
 <dnd-core-drag-preview>
-    <layout-editor-drag-preview class="mat-elevation-z4" *dndCorePreviewTemplate="let data" [layoutMetadata]="data.dragData.metadata"></layout-editor-drag-preview>
+    <layout-editor-drag-preview class="mat-elevation-z4" *dndCorePreviewTemplate="let data" [layoutMetadata]="data.dragData.metadata"/>
 </dnd-core-drag-preview>

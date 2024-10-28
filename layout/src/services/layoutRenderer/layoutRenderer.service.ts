@@ -1,7 +1,7 @@
-import {inject, Injectable, Injector, Provider, SimpleChanges, Type, ValueProvider, ViewContainerRef} from '@angular/core';
+import {ComponentRef, inject, Injectable, Injector, Provider, SimpleChanges, Type, ValueProvider, ViewContainerRef} from '@angular/core';
 import {DynamicItemExtensionType, DynamicItemLoader, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
-import {Action1, globalDefine, isBlank, NoopAction} from '@jscrpt/common';
+import {Action1, globalDefine, isBlank, NoopAction, PromiseOr} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
 import {LayoutComponent, LayoutComponentMetadata} from '../../interfaces';
@@ -267,6 +267,7 @@ export class LayoutRenderer
         this.logger.verbose('LayoutRenderer: after view initialized {{id}}', {id: metadata?.id});
 
         renderedCallback?.(rendererItem);
+        await this.postProcessCreatedComponent(component, metadata);
 
         component.changeDetectorRef.reattach();
 
@@ -372,5 +373,14 @@ export class LayoutRenderer
         {
             applyDynamicHostDirective(type);
         }
+    }
+
+    /**
+     * Called after dynamic component has been rendered and there is postprocessing of data
+     * @param component - Component reference to be processed
+     * @param metadata - Metadata of rendered component
+     */
+    protected postProcessCreatedComponent(_component: ComponentRef<LayoutComponent>, _metadata: LayoutComponentMetadata): PromiseOr<void>
+    {
     }
 }

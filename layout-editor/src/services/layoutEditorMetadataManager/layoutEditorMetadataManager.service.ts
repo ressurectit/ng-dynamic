@@ -122,7 +122,6 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
     {
         if(this.editorHotkeys)
         {
-
             this.initSubscriptions.add(this.editorHotkeys.delete.subscribe(() =>
             {
                 const selectedComponent = this.selectedComponent();

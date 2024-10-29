@@ -6,16 +6,6 @@ $defaultTheme:
     (
         background: #3333331c,
     ),
-    designerOverlayTitle:
-    (
-        background: #009dd8,
-        foreground: #fff,
-    ),
-    designerOverlayRemove:
-    (
-        background: #009dd8,
-        foreground: #fff,
-    ),
     btnPrimary:
     (
         background: #6aba4f,
@@ -50,15 +40,25 @@ $defaultTheme:
         background: #f0f0f0,
         border: #cccccc,
     ),
-    layoutDesignerComponent: 
+    layoutDesigner: 
     (
+        title:
+        (
+            background: #009dd8,
+            foreground: #fff,
+        ),
+        removeBtn:
+        (
+            background: #009dd8,
+            foreground: #fff,
+        ),
         dragged:
         (
             background: #bbb,
             shadow1: #00000021,
             shadow2: #00000038,
         ),
-        designerOverlayBorder:
+        overlay:
         (
             border: #009dd8,
         ),

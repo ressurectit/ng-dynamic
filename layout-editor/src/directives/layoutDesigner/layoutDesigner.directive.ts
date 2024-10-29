@@ -124,7 +124,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy
         this.overlayVisible = true;
 
         this.hideParentOverlay();
-        this.overlay.showOverlay();
+        this.overlay.showOverlay(this.metadataSafe.displayName || this.metadataSafe.id);
     }
 
     /**
@@ -162,11 +162,11 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy
         if(this.parent)
         {
             this.parent.hideParentOverlay();
-        }
 
-        if(this.overlayVisible)
-        {
-            this.hideDesignerOverlay();
+            if(this.parent.overlayVisible)
+            {
+                this.parent.hideDesignerOverlay();
+            }
         }
     }
 }

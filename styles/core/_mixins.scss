@@ -12,7 +12,7 @@
 @use '../components/content-options' as contentOptions;
 @use '../components/data-table' as dataTable;
 @use '../components/grid-panel' as gridPanel;
-@use '../components/layout-designer-component' as layoutDesignerComponent;
+@use '../components/layout-designer' as layoutDesigner;
 @use '../components/layout-designer-overlay-for' as layoutDesignerOverlayFor;
 @use '../components/layout-editor-drag-preview' as layoutEditorDragPreview;
 @use '../components/layout-editor' as layoutEditor;
@@ -51,11 +51,11 @@
     --dynamic-thin-scrollbar: #{map.get($theme, 'scrollbar')};
     --dynamic-drag-placeholder: #{map.get($theme, 'dragPlaceholder')};
     --dynamic-dropzone-overlay-background: #{map.get(map.get($theme, 'dropzoneOverlay'), 'background')};
-    --dynamic-layout-designer-component-dragged-background: #{map.get(map.get(map.get($theme, 'layoutDesignerComponent'), 'dragged'), 'background')};
-    --dynamic-layout-designer-component-dragged-shadow1: #{map.get(map.get(map.get($theme, 'layoutDesignerComponent'), 'dragged'), 'shadow1')};
-    --dynamic-layout-designer-component-dragged-shadow2: #{map.get(map.get(map.get($theme, 'layoutDesignerComponent'), 'dragged'), 'shadow2')};
-    --dynamic-layout-designer-component-designer-overlay-border-border: #{map.get(map.get(map.get($theme, 'layoutDesignerComponent'), 'designerOverlayBorder'), 'border')};
-    --dynamic-layout-designer-component-designer-dropzone-drag-active-border: #{map.get(map.get(map.get($theme, 'layoutDesignerComponent'), 'designerDropzoneDragActive'), 'border')};
+    --dynamic-layoutDesigner-dragged-background: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'dragged'), 'background')};
+    --dynamic-layoutDesigner-dragged-shadow1: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'dragged'), 'shadow1')};
+    --dynamic-layoutDesigner-dragged-shadow2: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'dragged'), 'shadow2')};
+    --dynamic-layoutDesigner-overlay-border: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'overlay'), 'border')};
+    --dynamic-layoutDesigner-designerDropzoneDragActive-border: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'designerDropzoneDragActive'), 'border')};
     --dynamic-properties-editor-properties-form-control-foreground: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesFormControl'), 'foreground')};
     --dynamic-properties-editor-properties-form-control-border: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesFormControl'), 'border')};
     --dynamic-properties-editor-properties-form-control-background: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesFormControl'), 'background')};
@@ -86,10 +86,10 @@
     --dynamic-components-tree-border: #{map.get(map.get($theme, 'componentsTree'), 'border')};
     --dynamic-components-tree-item-highlighted-text-shadow: #{map.get(map.get(map.get($theme, 'componentsTreeItem'), 'highlighted'), 'textShadow')};
     --dynamic-components-tree-item-selected-text-shadow: #{map.get(map.get(map.get($theme, 'componentsTreeItem'), 'selected'), 'textShadow')};
-    --dynamic-designer-overlay-title-background: #{map.get(map.get($theme, 'designerOverlayTitle'), 'background')};
-    --dynamic-designer-overlay-title-foreground: #{map.get(map.get($theme, 'designerOverlayTitle'), 'foreground')};
-    --dynamic-designer-overlay-remove-background: #{map.get(map.get($theme, 'designerOverlayRemove'), 'background')};
-    --dynamic-designer-overlay-remove-foreground: #{map.get(map.get($theme, 'designerOverlayRemove'), 'foreground')};
+    --dynamic-layoutDesigner-title-background: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'title'), 'background')};
+    --dynamic-layoutDesigner-title-foreground: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'title'), 'foreground')};
+    --dynamic-layoutDesigner-removeBtn-background: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'removeBtn'), 'background')};
+    --dynamic-layoutDesigner-removeBtn-foreground: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'removeBtn'), 'foreground')};
     --dynamic-layout-designer-overlay-for-margin-background: #{map.get(map.get($theme, 'layoutDesignerOverlayFor'), 'marginBackground')};
     --dynamic-layout-designer-overlay-for-padding-background: #{map.get(map.get($theme, 'layoutDesignerOverlayFor'), 'paddingBackground')};
     --dynamic-layout-designer-overlay-for-border-background: #{map.get(map.get($theme, 'layoutDesignerOverlayFor'), 'borderBackground')};
@@ -116,6 +116,8 @@
     --dynamic-data-table-designer-plugin-shadow: #{map.get(map.get(map.get($theme, 'dataTableDesigner'), 'plugin'), 'shadow')};
 }
 
+//TODO: add suppport for global css class name
+
 @mixin buildThemeCss
 {
     @include global.dropzone-overlay;
@@ -133,7 +135,7 @@
     @include contentOptions.css;
     @include dataTable.css;
     @include gridPanel.css;
-    @include layoutDesignerComponent.css;
+    @include layoutDesigner.css;
     @include layoutDesignerOverlayFor.css;
     @include layoutEditorDragPreview.css;
     @include layoutEditor.css;

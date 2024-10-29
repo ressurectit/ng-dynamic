@@ -27,9 +27,24 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     protected overlayDiv: HTMLDivElement|undefined|null;
 
     /**
-     * Subscription for position changes
+     * Instance of title div element
      */
-    protected positionSubscription: Subscription|undefined|null;
+    protected titleDiv: HTMLDivElement|undefined|null;
+
+    /**
+     * Subscription for position changes for overlay div
+     */
+    protected overlayPositionSubscriptions: Subscription|undefined|null;
+
+    /**
+     * Subscription for position changes for title
+     */
+    protected titlePositionSubscriptions: Subscription|undefined|null;
+
+    /**
+     * Instance of resize observer watching for changes of component
+     */
+    protected resizeObserver: ResizeObserver|undefined|null;
 
     /**
      * Instance of components element
@@ -60,20 +75,36 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
 
     /**
      * Displays designer overlay
+     * @param title - Title for displaying component
      */
-    public showOverlay(): void
+    public showOverlay(title: string): void
     {
-        console.log('renderin', this.element.nativeElement);
-
         this.overlayDiv = this.document.createElement('div');
-        this.overlayDiv.style.backgroundColor = '#aaa';
-        this.overlayDiv.style.position = 'absolute';
-        this.overlayDiv.style.width = `${this.element.nativeElement.clientWidth}px`;
-        this.overlayDiv.style.height = `${this.element.nativeElement.clientHeight}px`;
+        this.overlayDiv.classList.add('designer-overlay-border');
+        this.overlayDiv.style.width = `${this.element.nativeElement.offsetWidth}px`;
+        this.overlayDiv.style.height = `${this.element.nativeElement.offsetHeight}px`;
 
         renderToBody(this.document, this.overlayDiv, DYNAMIC_BODY_CONTAINER);
 
-        this.positionSubscription = this.position.placeElement(this.overlayDiv, this.element.nativeElement, {autoUpdate: true}).subscribe(applyPositionResult);
+        this.overlayPositionSubscriptions = this.position.placeElement(this.overlayDiv, this.element.nativeElement, {autoUpdate: true, offset: {mainAxis: -this.element.nativeElement.offsetHeight}}).subscribe(applyPositionResult);
+
+        this.resizeObserver = new ResizeObserver(changes =>
+        {
+            for(const change of changes)
+            {
+                if(change.target != this.element.nativeElement || !this.overlayDiv)
+                {
+                    continue;
+                }
+
+                this.overlayDiv.style.width = `${this.element.nativeElement.offsetWidth}px`;
+                this.overlayDiv.style.height = `${this.element.nativeElement.offsetHeight}px`;
+            }
+        });
+
+        this.resizeObserver.observe(this.element.nativeElement);
+
+        this.showTitle(title);
     }
 
     /**
@@ -81,11 +112,40 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      */
     public hideOverlay(): void
     {
-        console.log('hiding', this.element.nativeElement, this.overlayDiv);
-
-        this.positionSubscription?.unsubscribe();
-        this.positionSubscription = null;
+        this.overlayPositionSubscriptions?.unsubscribe();
+        this.overlayPositionSubscriptions = null;
         this.overlayDiv?.remove();
         this.overlayDiv = null;
+        this.resizeObserver?.disconnect();
+        this.resizeObserver = null;
+        this.hideTitle();
+    }
+
+    //######################### protected methods #########################
+
+    /**
+     * Shows overlay title for component
+     * @param title - Title to be displayed
+     */
+    protected showTitle(title: string): void
+    {
+        this.titleDiv = this.document.createElement('div');
+        this.titleDiv.classList.add('designer-overlay-title');
+        this.titleDiv.innerText = title;
+
+        renderToBody(this.document, this.titleDiv, DYNAMIC_BODY_CONTAINER);
+
+        this.titlePositionSubscriptions = this.position.placeElement(this.titleDiv, this.element.nativeElement, {autoUpdate: true}).subscribe(applyPositionResult);
+    }
+
+    /**
+     * Hides overlay title for component
+     */
+    protected hideTitle(): void
+    {
+        this.titleDiv?.remove();
+        this.titleDiv = null;
+        this.titlePositionSubscriptions?.unsubscribe();
+        this.titlePositionSubscriptions = null;
     }
 }

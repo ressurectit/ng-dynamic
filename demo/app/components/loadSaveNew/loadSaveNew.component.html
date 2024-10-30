@@ -26,7 +26,7 @@
 
 @if(liveEvents)
 {
-    <mat-slide-toggle [checked]="liveEvents.enabled" (change)="liveEvents.setEnabled(!liveEvents.enabled)">live events</mat-slide-toggle>
+    <mat-slide-toggle [checked]="liveEvents.enabled()" (change)="liveEvents.setEnabled(!liveEvents.enabled())">live events</mat-slide-toggle>
 }
 
 @if(customComponentsRegister)

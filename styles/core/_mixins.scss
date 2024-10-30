@@ -13,7 +13,6 @@
 @use '../components/data-table' as dataTable;
 @use '../components/grid-panel' as gridPanel;
 @use '../components/layout-designer' as layoutDesigner;
-@use '../components/layout-designer-overlay-for' as layoutDesignerOverlayFor;
 @use '../components/layout-editor-drag-preview' as layoutEditorDragPreview;
 @use '../components/layout-editor' as layoutEditor;
 @use '../components/nodes-palette-item' as nodesPaletteItem;
@@ -90,9 +89,9 @@
     --dynamic-layoutDesigner-title-foreground: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'title'), 'foreground')};
     --dynamic-layoutDesigner-removeBtn-background: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'removeBtn'), 'background')};
     --dynamic-layoutDesigner-removeBtn-foreground: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'removeBtn'), 'foreground')};
-    --dynamic-layout-designer-overlay-for-margin-background: #{map.get(map.get($theme, 'layoutDesignerOverlayFor'), 'marginBackground')};
-    --dynamic-layout-designer-overlay-for-padding-background: #{map.get(map.get($theme, 'layoutDesignerOverlayFor'), 'paddingBackground')};
-    --dynamic-layout-designer-overlay-for-border-background: #{map.get(map.get($theme, 'layoutDesignerOverlayFor'), 'borderBackground')};
+    --dynamic-layoutDesigner-layout-margin-background: #{map.get(map.get(map.get(map.get($theme, 'layoutDesigner'), 'layout'), 'margin'), 'background')};
+    --dynamic-layoutDesigner-layout-padding-background: #{map.get(map.get(map.get(map.get($theme, 'layoutDesigner'), 'layout'), 'padding'), 'background')};
+    --dynamic-layoutDesigner-layout-border-background: #{map.get(map.get(map.get(map.get($theme, 'layoutDesigner'), 'layout'), 'border'), 'background')};
     --dynamic-layout-editor-drag-preview-background: #{map.get(map.get($theme, 'layoutEditorDragPreview'), 'background')};
     --dynamic-nodes-palette-editor-component-border: #{map.get(map.get(map.get($theme, 'nodesPalette'), 'editorComponent'), 'border')};
     --dynamic-nodes-palette-editor-component-background: #{map.get(map.get(map.get($theme, 'nodesPalette'), 'editorComponent'), 'background')};
@@ -136,7 +135,6 @@
     @include dataTable.css;
     @include gridPanel.css;
     @include layoutDesigner.css;
-    @include layoutDesignerOverlayFor.css;
     @include layoutEditorDragPreview.css;
     @include layoutEditor.css;
     @include nodesPaletteItem.css;

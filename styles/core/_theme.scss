@@ -42,6 +42,21 @@ $defaultTheme:
     ),
     layoutDesigner: 
     (
+        layout:
+        (
+            margin:
+            (
+                background: #d0ff0060,
+            ),
+            padding:
+            (
+                background: #613eff60,
+            ),
+            border:
+            (
+                background: #0011ff62,
+            ),
+        ),
         title:
         (
             background: #009dd8,
@@ -147,12 +162,6 @@ $defaultTheme:
         (
             textShadow: #009cd7,
         ),
-    ),
-    layoutDesignerOverlayFor:
-    (
-        marginBackground: #d0ff0060,
-        paddingBackground: #613eff60,
-        borderBackground: #0011ff62,
     ),
     layoutEditorDragPreview:
     (

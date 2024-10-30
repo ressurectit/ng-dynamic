@@ -1,41 +1,41 @@
-<div
-    #dndCoreTree="dndCoreTreeItem"
-    #dropzone
-    [dndCoreTreeItem]="{metadata: data, parentId: parentId, index: index}"
-    [dropzoneElement]="dropzone"
-    [containerElement]="childrenContainer"
-    [dragDisabled]="dragDisabled"
-    [dragSource]="dndCoreTree.drag"
-    [noHTML5Preview]="true"
-    (dropMetadata)="addDescendant($event)">
+<div #dndCoreTree="dndCoreTreeItem"
+     #dropzone
+     [dndCoreTreeItem]="{metadata: data, parentId: parentId, index: index}"
+     [dropzoneElement]="dropzone"
+     [containerElement]="childrenContainer"
+     [dragDisabled]="dragDisabled"
+     [dragSource]="dndCoreTree.drag"
+     [noHTML5Preview]="true"
+     (dropMetadata)="addDescendant($event)">
 
-    <div 
-        class="designer-dropzone" 
-        [dropTarget]="dndCoreTree.dropzone">
+    <div class="designer-dropzone" 
+         [dropTarget]="dndCoreTree.dropzone">
         <div class="flex dynamic-align-items-center" [ngClass]="hasChildren ? 'nested-node-tree' : 'node-tree'">
-            <button type="button" mat-icon-button [disabled]="!hasChildren" (click)="toggle()"
-                [attr.aria-label]="'Toggle'">
+            <button type="button" 
+                    mat-icon-button
+                    [disabled]="!hasChildren" 
+                    [attr.aria-label]="'Toggle'"
+                    (click)="toggle()">
                 <span class="fa" *ngIf="hasChildren" [ngClass]="open ? 'fa-chevron-down' : 'fa-chevron-right'"></span>
             </button>
-            <div 
-                [class.selected]="data?.id === manager.selectedComponent()"
-                [class.highlighted]="data?.id === manager.highlightedComponent()"
-                (mouseover)="highlight($event, data?.id)"
-                (click)="manager.selectComponent(data?.id)">{{data?.displayName || data?.id}}</div>
+
+            <div [class.selected]="data?.id === manager.selectedComponent()"
+                 [class.highlighted]="data?.id === manager.highlightedComponent()"
+                 (mouseover)="highlight($event, data?.id)"
+                 (click)="manager.selectComponent(data?.id)">{{data?.displayName || data?.id}}</div>
         </div>
     
-        <div 
-            #childrenContainer
-            class="node-children"
-            [class.hidden]="!open">
-            <div 
-                *ngFor="let child of children; let i = index;"
-                class="node-child">
-                <components-tree-item 
-                    [data]="child"
-                    [parentId]="data?.id"
-                    [index]="i"></components-tree-item>
-            </div>
+        <div #childrenContainer
+             class="node-children"
+             [class.hidden]="!open">
+            @for(child of children; track child)
+            {
+                <div class="node-child">
+                    <components-tree-item [data]="child"
+                                          [parentId]="data?.id"
+                                          [index]="$index"/>
+                </div>
+            }
         </div>
     </div>    
 </div>

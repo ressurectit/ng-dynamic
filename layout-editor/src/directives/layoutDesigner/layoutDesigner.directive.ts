@@ -5,7 +5,9 @@ import {BindThis, Invalidatable, isDescendant} from '@jscrpt/common';
 import {LayoutDesignerOverlayDirective} from '../layoutDesignerOverlay/layoutDesignerOverlay.directive';
 import {LayoutDesignerEditorMetadataDirective} from '../layoutDesignerEditorMetadata/layoutDesignerEditorMetadata.directive';
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
-import {LayoutEditorMetadataManager} from '../../services';
+import {LayoutComponentsIteratorService, LayoutEditorMetadataManager} from '../../services';
+import {LayoutComponentDragData} from '../../interfaces';
+import type {DndCoreDesignerDirective} from '../../modules/layoutDndCore/directives/dndCoreDesigner/dndCoreDesigner.directive';
 
 /**
  * Directive that is used for rendering all needed for layout designer
@@ -54,6 +56,11 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      * Instance of layout editor manager
      */
     protected layoutEditorManager: LayoutEditorMetadataManager = inject(LayoutEditorMetadataManager);
+
+    /**
+     * Instance of service used for iterating through children of component
+     */
+    protected iteratorSvc: LayoutComponentsIteratorService = inject(LayoutComponentsIteratorService);
 
     /**
      * Component reference for which is this designer
@@ -140,6 +147,11 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         return this.metadata;
     }
 
+    /**
+     * Instance of designer dnd core directive
+     */
+    public dndCoreDesigner!: DndCoreDesignerDirective;
+
     //######################### constructor #########################
     constructor()
     {
@@ -161,6 +173,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     {
         this.common.element.nativeElement.removeEventListener('mouseover', this.showDesignerOverlay);
         this.common.element.nativeElement.removeEventListener('mouseleave', this.hideDesignerOverlay);
+        this.layoutEditorManager.unregisterLayoutDesignerComponent(this.metadataSafe.id);
     }
 
     //######################### public methods - implementation of Invalidatable #########################
@@ -190,6 +203,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         this.common.element.nativeElement.addEventListener('mouseleave', this.hideDesignerOverlay);
 
         await this.editorMetadata.initialize(metadata);
+        this.layoutEditorManager.registerLayoutDesignerComponent(this, metadata.id, this.parent?.metadataSafe.id);
     }
 
     /**
@@ -200,6 +214,100 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     {
         this.metadataSafe.displayName = displayName;
         this.displayNameSignal.set(displayName);
+    }
+
+    /**
+     * Adds descentant component metadata to this component metadata
+     * @param dragData - Data from drag n drop event
+     */
+    public addDescendant(dragData: LayoutComponentDragData): void
+    {
+        console.log(dragData);
+        // const options = this.optionsSafe;
+        // let triggerLayoutChange = false;
+        // const parentId = dragData.parentId;
+        // this.logger.debug('LayoutDesignerSAComponent: Adding descendant {{@data}}', {data: {id: dragData.metadata?.id, parent: this.id}});
+
+        // if(!dragData.metadata)
+        // {
+        //     this.logger.warn('LayoutDesignerSAComponent: Missing metadata while adding descendant');
+
+        //     return;
+        // }
+
+        // //already added to tree, removing old reference
+        // if(parentId)
+        // {
+        //     //only changing order in same parent
+        //     if(parentId == this.id)
+        //     {
+        //         this.logger.verbose('LayoutDesignerSAComponent: Swapping child component {{@(4)data}}', {data: {id: this.id}});
+
+        //         this.editorMetadata?.removeDescendant?.(dragData.metadata.id, options.typeMetadata.options);
+        //         triggerLayoutChange = true;
+        //     }
+        //     else
+        //     {
+        //         this.history.disable();
+        //         this.layoutEditorMetadataManager.getComponent(parentId)?.removeDescendant(dragData.metadata.id);
+        //         this.history.enable();
+        //     }
+        // }
+
+        // this.editorMetadata?.addDescendant?.(dragData?.metadata, options.typeMetadata.options, dragData.index ?? 0);
+        // this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
+
+        // const changes: SimpleChanges = {};
+        // addSimpleChange<LayoutComponent>(changes, 'options', options.typeMetadata.options, options.typeMetadata.options, false);
+        // this.componentInstance.dynamicOnChanges?.(changes);
+        // this.componentInstance.invalidateVisuals();
+
+        // if(triggerLayoutChange)
+        // {
+        //     this.layoutEditorMetadataManager.updateLayout();
+        // }
+
+        // const layoutDesigners = this.layoutEditorMetadataManager.getChildren(this.id);
+        
+        // //update indexes of children
+        // for(const designer of layoutDesigners)
+        // {
+        //     designer?.updateIndex();
+        //     designer?.invalidateVisuals();
+        // }
+
+        // this.history.getNewState();
+    }
+
+    /**
+     * Removes descendant metadata from this component metadata
+     * @param id - Id of descendant to be removed
+     */
+    public removeDescendant(id: string): void
+    {
+        console.log(id);
+        // const options = this.optionsSafe;
+
+        // this.logger.debug('LayoutDesignerSAComponent: Removing descendant {{@(4)data}}', {data: {id: this.id, child: id}});
+
+        // this.editorMetadata?.removeDescendant?.(id, options.typeMetadata.options);
+        // this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
+        
+        // const changes: SimpleChanges = {};
+        // addSimpleChange<LayoutComponent>(changes, 'options', options.typeMetadata.options, options.typeMetadata.options, false);
+        // this.componentInstance.dynamicOnChanges?.(changes);
+        // this.componentInstance.invalidateVisuals();
+
+        // const layoutDesigners = this.layoutEditorMetadataManager.getChildren(this.id);
+        
+        // //update indexes of children
+        // for(const designer of layoutDesigners)
+        // {
+        //     designer?.updateIndex();
+        //     designer?.invalidateVisuals();
+        // }
+
+        // this.history.getNewState();
     }
 
     //######################### protected methods #########################
@@ -265,6 +373,28 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         else
         {
             hideDesignerOverlayFn();
+        }
+    }
+
+    /**
+     * Updates its own index in parent
+     */
+    protected async updateIndex(): Promise<void>
+    {
+        const metadata = this.metadataSafe;
+
+        //obtains index of itself in parent
+        if(this.parent?.metadataSafe)
+        {
+            for await(const child of this.iteratorSvc.getChildrenIteratorFor(this.parent.metadataSafe))
+            {
+                if(metadata.id === child.metadata.id)
+                {
+                    this.ɵindex = child.index;
+
+                    break;
+                }
+            }
         }
     }
 

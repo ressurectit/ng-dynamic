@@ -1,7 +1,9 @@
-import {Inject, Injectable} from '@angular/core';
+import {Inject, Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
-import {Observable, Subject} from 'rxjs';
 
+/**
+ * Name of store storing live events status
+ */
 const LIVE_EVENTS_STATUS = 'LIVE_EVENTS_STATUS';
 
 /**
@@ -13,37 +15,24 @@ export class LiveEventService
     //######################### protected fields #########################
     
     /**
-     * Current enabled value
+     * Indication whether are live events enabled
      */
-    protected ɵenabled: boolean = false;
-    
-    /**
-     * Used for emitting enabled changes
-     */
-    protected ɵenabledChange: Subject<void> = new Subject<void>();
+    protected ɵenabled: WritableSignal<boolean> = signal(false);
     
     //######################### public properties #########################
     
     /**
-     * Gets current enabled value
+     * Gets indication whether are live events enabled
      */
-    public get enabled(): boolean
+    public get enabled(): Signal<boolean>
     {
-        return this.ɵenabled;
-    }
-    
-    /**
-     * Occurs when enabled changes
-     */
-    public get enabledChange(): Observable<void>
-    {
-        return this.ɵenabledChange.asObservable();
+        return this.ɵenabled.asReadonly();
     }
 
     //######################### constructor #########################
     constructor(@Inject(PERMANENT_STORAGE) protected storage: PermanentStorage,)
     {
-        this.ɵenabled = this.storage.get<boolean|undefined>(LIVE_EVENTS_STATUS) ?? false;
+        this.ɵenabled.set(this.storage.get<boolean|undefined>(LIVE_EVENTS_STATUS) ?? false);
     }
     
     //######################### public methods #########################
@@ -54,14 +43,7 @@ export class LiveEventService
      */
     public setEnabled(enabled: boolean): void
     {
-        if(this.ɵenabled == enabled)
-        {
-            return;
-        }
-    
         this.storage.set(LIVE_EVENTS_STATUS, enabled);
-
-        this.ɵenabled = enabled;
-        this.ɵenabledChange.next();
+        this.ɵenabled.set(enabled);
     }
 }

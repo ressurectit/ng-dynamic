@@ -10,7 +10,6 @@ import {Subscription} from 'rxjs';
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
 import {CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
 import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorRenderer} from '../../services';
-import {LayoutDesignerOverlayForSAComponent} from '../layoutDesignerOverlayFor/layoutDesignerOverlayFor.component';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 import {DndCoreDesignerDirective, LayoutDndCoreModule} from '../../modules';
@@ -29,7 +28,6 @@ import {CombineRenderersCallbacksSAPipe} from '../../pipes';
     [
         LayoutDndCoreModule,
         DndModule,
-        LayoutDesignerOverlayForSAComponent,
         LayoutComponentRendererSADirective,
         DesignerMinDimensionSADirective,
         CopyDesignerStylesSADirective,
@@ -247,7 +245,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         //update indexes of children
         for(const designer of layoutDesigners)
         {
-            designer?.updateIndex();
+            // designer?.updateIndex();
             designer?.invalidateVisuals();
         }
 
@@ -277,7 +275,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         //update indexes of children
         for(const designer of layoutDesigners)
         {
-            designer?.updateIndex();
+            // designer?.updateIndex();
             designer?.invalidateVisuals();
         }
 
@@ -403,7 +401,7 @@ export class LayoutDesignerSAComponent extends LayoutComponentBase<LayoutDesigne
         this.canDrop = this.editorMetadata?.canDropMetadata?.(options.typeMetadata.options) ?? false;
         this.renderedType = options.typeMetadata;
 
-        this.layoutEditorMetadataManager.registerLayoutDesignerComponent(this, options.typeMetadata.id, this.parent?.options?.typeMetadata.id);
+        // this.layoutEditorMetadataManager.registerLayoutDesignerComponent(this, options.typeMetadata.id, this.parent?.options?.typeMetadata.id);
     }
 
     /**

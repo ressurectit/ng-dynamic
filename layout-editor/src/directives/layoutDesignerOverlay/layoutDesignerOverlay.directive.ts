@@ -1,10 +1,11 @@
-import {Directive, inject, OnDestroy, Signal, signal, WritableSignal} from '@angular/core';
+import {ComponentRef, Directive, inject, Injector, OnDestroy, Signal, signal, ViewContainerRef, WritableSignal} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {applyPositionResult, Position, POSITION, PositionPlacement} from '@anglr/common';
+import {applyPositionResult, getHostElement, Position, POSITION, PositionPlacement} from '@anglr/common';
 import {BindThis, renderToBody} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
+import {LayoutDesignerLayoutComponent} from '../../components/layoutDesignerLayout/layoutDesignerLayout.component';
 
 /**
  * Name of container for dynamic body elements
@@ -44,6 +45,11 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     protected removeBtnDiv: HTMLDivElement|undefined|null;
 
     /**
+     * Instance of layout component displaying layout overlay
+     */
+    protected layoutComponent: ComponentRef<LayoutDesignerLayoutComponent>|undefined|null;
+
+    /**
      * Subscription for position changes for overlay div
      */
     protected overlayPositionSubscriptions: Subscription|undefined|null;
@@ -59,6 +65,11 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     protected removeBtnPositionSubscriptions: Subscription|undefined|null;
 
     /**
+     * Subscription for position changes for layout overlay
+     */
+    protected layoutOverlayPositionSubscriptions: Subscription|undefined|null;
+
+    /**
      * Instance of resize observer watching for changes of component
      */
     protected resizeObserver: ResizeObserver|undefined|null;
@@ -69,6 +80,11 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     protected common: LayoutDesignerCommonDirective = inject(LayoutDesignerCommonDirective);
 
     /**
+     * Instance of view container ref used for creating dynamic content
+     */
+    protected viewContainerRef: ViewContainerRef = inject(ViewContainerRef);
+
+    /**
      * Service used for absolute positioning
      */
     protected position: Position<HTMLElement> = inject<Position<HTMLElement>>(POSITION);
@@ -77,6 +93,11 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      * Instance of HTML document
      */
     protected document: Document = inject(DOCUMENT);
+
+    /**
+     * Instance of angular injector
+     */
+    protected injector: Injector = inject(Injector);
 
     //######################### public properties #########################
 
@@ -133,6 +154,7 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
 
         this.showTitle(title);
         this.showRemoveBtn();
+        this.showLayout();
     }
 
     /**
@@ -148,6 +170,7 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
         this.resizeObserver = null;
         this.hideTitle();
         this.hideRemoveBtn();
+        this.hideLayout();
     }
 
     //######################### protected methods #########################
@@ -227,5 +250,38 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     protected removeBtnLeave(): void
     {
         this.preventOverlayHideSignal.set(false);
+    }
+
+    /**
+     * Shows layout overlay
+     */
+    protected showLayout(): void
+    {
+        this.layoutComponent = this.viewContainerRef.createComponent(LayoutDesignerLayoutComponent, {injector: this.injector});
+        const element = getHostElement(this.layoutComponent);
+
+        if(element)
+        {
+            const computedStyles = getComputedStyle(this.common.element.nativeElement);
+            const marginLeft = +computedStyles.marginLeft.replace('px', '');
+
+            element.style.width = `calc(${computedStyles.marginLeft} + ${this.common.element.nativeElement.offsetWidth}px + ${computedStyles.marginRight})`;
+            element.style.height = `calc(${computedStyles.marginTop} + ${this.common.element.nativeElement.offsetHeight}px + ${computedStyles.marginBottom})`;
+
+            renderToBody(this.document, element, DYNAMIC_BODY_CONTAINER);
+
+            this.layoutOverlayPositionSubscriptions = this.position.placeElement(element, this.common.element.nativeElement, {autoUpdate: true, offset: {mainAxis: -this.common.element.nativeElement.offsetHeight, crossAxis: -marginLeft}}).subscribe(applyPositionResult);
+        }
+    }
+
+    /**
+     * Hides layout overlay
+     */
+    protected hideLayout(): void
+    {
+        this.layoutComponent?.destroy();
+        this.layoutComponent = null;
+        this.layoutOverlayPositionSubscriptions?.unsubscribe();
+        this.layoutOverlayPositionSubscriptions = null;
     }
 }

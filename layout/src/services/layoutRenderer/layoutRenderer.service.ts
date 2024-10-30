@@ -1,7 +1,7 @@
 import {ComponentRef, inject, Injectable, Injector, Provider, SimpleChanges, Type, ValueProvider, ViewContainerRef} from '@angular/core';
 import {DynamicItemExtensionType, DynamicItemLoader, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
-import {Action1, globalDefine, isBlank, NoopAction, PromiseOr} from '@jscrpt/common';
+import {Action1, NoopAction, PromiseOr} from '@jscrpt/common';
 import {Observable, Subject} from 'rxjs';
 
 import {LayoutComponent, LayoutComponentMetadata} from '../../interfaces';
@@ -11,17 +11,6 @@ import {MissingTypeBehavior} from '../../misc/enums';
 import {NotFoundLayoutTypeSAComponent} from '../../components';
 import {LayoutComponentDef} from '../../misc/types';
 import {LayoutRendererOptions} from './layoutRenderer.options';
-import {applyDynamicHostDirective} from '../../misc/utils';
-
-declare const ngDesignerMetadata: boolean;
-
-globalDefine(global =>
-{
-    if(isBlank(global.ngDesignerMetadata))
-    {
-        global.ngDesignerMetadata = true;
-    }
-});
 
 /**
  * Service used for handling rendering of layout
@@ -229,6 +218,9 @@ export class LayoutRenderer
                                                         {
                                                             injector: usedInjector,
                                                         });
+
+        this.updateTypeAfterRender(layoutComponentType.data);
+
         rendererItem.component = component;
         component.changeDetectorRef.detach();
 
@@ -366,13 +358,16 @@ export class LayoutRenderer
      * Updates rendered type before its renders
      * @param type - Type to be updated
      */
-    protected updateTypeBeforeRender(type: Type<LayoutComponent>): void
+    protected updateTypeBeforeRender(_type: Type<LayoutComponent>): void
     {
-        //special code that cleans host directives used for designer, when running outside of designer but designer is present
-        if(ngDesignerMetadata)
-        {
-            applyDynamicHostDirective(type);
-        }
+    }
+
+    /**
+     * Updates rendered type after its renders
+     * @param type - Type to be updated
+     */
+    protected updateTypeAfterRender(_type: Type<LayoutComponent>): void
+    {
     }
 
     /**

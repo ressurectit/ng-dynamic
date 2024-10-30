@@ -1,6 +1,6 @@
-import {ComponentRef, Directive, inject, Injector, OnDestroy, Signal, signal, ViewContainerRef, WritableSignal} from '@angular/core';
+import {ComponentRef, Directive, inject, Injector, OnDestroy, signal, ViewContainerRef, WritableSignal} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {applyPositionResult, getHostElement, Position, POSITION, PositionPlacement} from '@anglr/common';
+import {applyPositionResult, getHostElement, Position, POSITION} from '@anglr/common';
 import {BindThis, renderToBody} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -99,16 +99,6 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      */
     protected injector: Injector = inject(Injector);
 
-    //######################### public properties #########################
-
-    /**
-     * Gets indication whether hiding overlay is enabled
-     */
-    public get preventOverlayHide(): Signal<boolean>
-    {
-        return this.preventOverlayHideSignal.asReadonly();
-    }
-
     //######################### public methods - implementation of OnDestroy #########################
     
     /**
@@ -145,8 +135,20 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
                     continue;
                 }
 
+                //update border
                 this.overlayDiv.style.width = `${this.common.element.nativeElement.offsetWidth}px`;
                 this.overlayDiv.style.height = `${this.common.element.nativeElement.offsetHeight}px`;
+
+                //update layout
+                const element = getHostElement(this.layoutComponent);
+
+                if(element)
+                {
+                    const computedStyles = getComputedStyle(this.common.element.nativeElement);
+    
+                    element.style.width = `calc(${computedStyles.marginLeft} + ${this.common.element.nativeElement.offsetWidth}px + ${computedStyles.marginRight})`;
+                    element.style.height = `calc(${computedStyles.marginTop} + ${this.common.element.nativeElement.offsetHeight}px + ${computedStyles.marginBottom})`;
+                }
             }
         });
 
@@ -206,19 +208,19 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      */
     protected showRemoveBtn(): void
     {
-        this.removeBtnDiv = this.document.createElement('div');
-        this.removeBtnDiv.classList.add('designer-overlay-remove');
-        this.removeBtnDiv.addEventListener('mouseenter', this.removeBtnEnter);
-        this.removeBtnDiv.addEventListener('mouseleave', this.removeBtnLeave);
+        // this.removeBtnDiv = this.document.createElement('div');
+        // this.removeBtnDiv.classList.add('designer-overlay-remove');
+        // this.removeBtnDiv.addEventListener('mouseenter', this.removeBtnEnter);
+        // this.removeBtnDiv.addEventListener('mouseleave', this.removeBtnLeave);
 
-        const button = this.document.createElement('a');
-        button.innerText = 'X';
+        // const button = this.document.createElement('a');
+        // button.innerText = 'X';
 
-        this.removeBtnDiv.appendChild(button);
+        // this.removeBtnDiv.appendChild(button);
 
-        renderToBody(this.document, this.removeBtnDiv, DYNAMIC_BODY_CONTAINER);
+        // renderToBody(this.document, this.removeBtnDiv, DYNAMIC_BODY_CONTAINER);
 
-        this.removeBtnPositionSubscriptions = this.position.placeElement(this.removeBtnDiv, this.common.element.nativeElement, {autoUpdate: true, placement: PositionPlacement.TopEnd, offset: {mainAxis: -18}}).subscribe(applyPositionResult);
+        // this.removeBtnPositionSubscriptions = this.position.placeElement(this.removeBtnDiv, this.common.element.nativeElement, {autoUpdate: true, placement: PositionPlacement.TopEnd, offset: {mainAxis: -18}}).subscribe(applyPositionResult);
     }
 
     /**
@@ -226,12 +228,12 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      */
     protected hideRemoveBtn(): void
     {
-        this.removeBtnDiv?.removeEventListener('mouseenter', this.removeBtnEnter);
-        this.removeBtnDiv?.removeEventListener('mouseleave', this.removeBtnLeave);
-        this.removeBtnDiv?.remove();
-        this.removeBtnDiv = null;
-        this.removeBtnPositionSubscriptions?.unsubscribe();
-        this.removeBtnPositionSubscriptions = null;
+        // this.removeBtnDiv?.removeEventListener('mouseenter', this.removeBtnEnter);
+        // this.removeBtnDiv?.removeEventListener('mouseleave', this.removeBtnLeave);
+        // this.removeBtnDiv?.remove();
+        // this.removeBtnDiv = null;
+        // this.removeBtnPositionSubscriptions?.unsubscribe();
+        // this.removeBtnPositionSubscriptions = null;
     }
 
     /**
@@ -264,13 +266,14 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
         {
             const computedStyles = getComputedStyle(this.common.element.nativeElement);
             const marginLeft = +computedStyles.marginLeft.replace('px', '');
+            const marginBottom = +computedStyles.marginBottom.replace('px', '');
 
             element.style.width = `calc(${computedStyles.marginLeft} + ${this.common.element.nativeElement.offsetWidth}px + ${computedStyles.marginRight})`;
             element.style.height = `calc(${computedStyles.marginTop} + ${this.common.element.nativeElement.offsetHeight}px + ${computedStyles.marginBottom})`;
 
             renderToBody(this.document, element, DYNAMIC_BODY_CONTAINER);
 
-            this.layoutOverlayPositionSubscriptions = this.position.placeElement(element, this.common.element.nativeElement, {autoUpdate: true, offset: {mainAxis: -this.common.element.nativeElement.offsetHeight, crossAxis: -marginLeft}}).subscribe(applyPositionResult);
+            this.layoutOverlayPositionSubscriptions = this.position.placeElement(element, this.common.element.nativeElement, {autoUpdate: true, offset: {mainAxis: -marginBottom-this.common.element.nativeElement.offsetHeight, crossAxis: -marginLeft}}).subscribe(applyPositionResult);
         }
     }
 

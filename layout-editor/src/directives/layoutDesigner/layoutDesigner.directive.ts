@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, ComponentRef, Directive, effect, inject, OnDestroy, Signal, signal, WritableSignal} from '@angular/core';
+import {ChangeDetectorRef, ComponentRef, computed, Directive, effect, inject, OnDestroy, Signal, signal, WritableSignal} from '@angular/core';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {BindThis, Invalidatable, isDescendant} from '@jscrpt/common';
 
@@ -26,6 +26,21 @@ import type {DndCoreDesignerDirective} from '../../modules/layoutDndCore/directi
 export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, Invalidatable
 {
     //######################### protected fields #########################
+
+    /**
+     * Indication whether is current component selected
+     */
+    protected selected: Signal<boolean>;
+
+    /**
+     * Indication whether is current component highlighted
+     */
+    protected highlighted: Signal<boolean>;
+
+    /**
+     * Indication whether is overlay visible for this component
+     */
+    protected overlayVisible: Signal<boolean>;
 
     /**
      * Instance of change detector for component
@@ -71,11 +86,6 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      * Metadata of rendered component
      */
     protected metadata: LayoutComponentMetadata<TOptions>|undefined|null;
-
-    /**
-     * Indication whether is overlay visible
-     */
-    protected overlayVisible: boolean = false;
 
     /**
      * Index of current layout designer in its parent
@@ -155,11 +165,19 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     //######################### constructor #########################
     constructor()
     {
+        this.selected = computed(() => this.layoutEditorManager.selectedComponent() === this.metadata?.id);
+        this.highlighted = computed(() => this.layoutEditorManager.highlightedComponent() === this.metadata?.id);
+        this.overlayVisible = computed(() => this.selected() || this.highlighted());
+
         effect(() =>
         {
-            if(!this.overlay.preventOverlayHide())
+            if(this.overlayVisible())
             {
-                this.hideDesignerOverlay();
+                this.showOverlay();
+            }
+            else
+            {
+                this.hideOverlay();
             }
         });
     }
@@ -171,8 +189,9 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      */
     public ngOnDestroy(): void
     {
-        this.common.element.nativeElement.removeEventListener('mouseover', this.showDesignerOverlay);
-        this.common.element.nativeElement.removeEventListener('mouseleave', this.hideDesignerOverlay);
+        this.common.element.nativeElement.removeEventListener('mouseover', this.highlightComponent);
+        this.common.element.nativeElement.removeEventListener('mouseleave', this.cancelHighlightComponent);
+        this.common.element.nativeElement.removeEventListener('click', this.selectComponent);
         this.layoutEditorManager.unregisterLayoutDesignerComponent(this.metadataSafe.id);
     }
 
@@ -199,9 +218,11 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         this.metadata = metadata;
         this.displayNameSignal.set(metadata.displayName ?? metadata.id);
 
-        this.common.element.nativeElement.addEventListener('mouseover', this.showDesignerOverlay);
-        this.common.element.nativeElement.addEventListener('mouseleave', this.hideDesignerOverlay);
+        this.common.element.nativeElement.addEventListener('mouseover', this.highlightComponent);
+        this.common.element.nativeElement.addEventListener('mouseleave', this.cancelHighlightComponent);
+        this.common.element.nativeElement.addEventListener('click', this.selectComponent);
 
+        await this.updateIndex();
         await this.editorMetadata.initialize(metadata);
         this.layoutEditorManager.registerLayoutDesignerComponent(this, metadata.id, this.parent?.metadataSafe.id);
     }
@@ -313,67 +334,65 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     //######################### protected methods #########################
 
     /**
-     * Shows designer overlay on 'hover'
+     * Marks component as selected on 'hover'
      * @param event - Event that occured
      */
     @BindThis
-    protected showDesignerOverlay(event: MouseEvent): void
+    protected selectComponent(event: MouseEvent): void
     {
         event.stopPropagation();
 
-        if(this.overlayVisible)
+        this.layoutEditorManager.selectComponent(this.metadataSafe.id);
+    }
+
+    /**
+     * Marks component as highlighted on 'hover'
+     * @param event - Event that occured
+     */
+    @BindThis
+    protected highlightComponent(event: MouseEvent): void
+    {
+        event.stopPropagation();
+
+        this.layoutEditorManager.highlightComponent(this.metadataSafe.id);
+    }
+
+    /**
+     * Cancel highlight on component on 'blur'
+     * @param event - Event that occured
+     */
+    @BindThis
+    protected cancelHighlightComponent(event: MouseEvent): void
+    {
+        event.stopPropagation();
+
+        if(!event.target)
+        {
+            throw new Error('LayoutDesignerDirective: missing event target!');
+        }
+
+        if(isDescendant(this.common.element.nativeElement, event.target as HTMLElement))
         {
             return;
         }
 
-        this.overlayVisible = true;
+        this.layoutEditorManager.cancelHighlightedComponent();
+    }
 
-        this.hideParentOverlay();
+    /**
+     * Shows overlay over component
+     */
+    protected showOverlay(): void
+    {
         this.overlay.showOverlay(this.metadataSafe.displayName || this.metadataSafe.id);
     }
 
     /**
-     * Hides desiner overlay on 'blur'
-     * @param event - Event that occured
+     * Hides overlay over component
      */
-    @BindThis
-    protected hideDesignerOverlay(event?: MouseEvent|undefined|null): void
+    protected hideOverlay(): void
     {
-        const hideDesignerOverlayFn = () =>
-        {
-            if(this.overlay.preventOverlayHide())
-            {
-                return;
-            }
-
-            if(event)
-            {
-                event.stopPropagation();
-
-                if(!event.target)
-                {
-                    throw new Error('LayoutDesignerDirective: missing event target!');
-                }
-
-                if(!this.overlayVisible || isDescendant(this.common.element.nativeElement, event.target as HTMLElement))
-                {
-                    return;
-                }
-            }
-
-            this.overlayVisible = false;
-
-            this.overlay.hideOverlay();
-        };
-
-        if(event)
-        {
-            setTimeout(hideDesignerOverlayFn, 1);
-        }
-        else
-        {
-            hideDesignerOverlayFn();
-        }
+        this.overlay.hideOverlay();
     }
 
     /**
@@ -394,22 +413,6 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
 
                     break;
                 }
-            }
-        }
-    }
-
-    /**
-     * Hides all parents overlays
-     */
-    protected hideParentOverlay(): void
-    {
-        if(this.parent)
-        {
-            this.parent.hideParentOverlay();
-
-            if(this.parent.overlayVisible)
-            {
-                this.parent.hideDesignerOverlay();
             }
         }
     }

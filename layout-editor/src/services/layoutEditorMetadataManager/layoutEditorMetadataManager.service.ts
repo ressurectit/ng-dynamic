@@ -2,7 +2,7 @@ import {Inject, Injectable, OnDestroy, Optional, Signal, WritableSignal, signal}
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {EditorHotkeys, EditorMetadataManager} from '@anglr/dynamic';
-import {Dictionary, isBlank, isPresent} from '@jscrpt/common';
+import {Dictionary, isBlank} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataManagerComponent} from './layoutEditorMetadataManager.interface';
@@ -27,7 +27,7 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
     protected metadataClipboard: LayoutComponentMetadata|undefined|null;
 
     /**
-     * Array of all registered layout designer components
+     * Array of all registered layout designers
      */
     protected components: Dictionary<LayoutEditorMetadataManagerComponent> = {};
 
@@ -50,11 +50,6 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
      * Used for emitting layout changes
      */
     protected layoutChangeSubject: Subject<void> = new Subject<void>();
-
-    /**
-     * Used for emitting changes in components display name
-     */
-    protected displayNameChangesSubject: Subject<void> = new Subject<void>();
 
     /**
      * Id of dragged over component
@@ -106,14 +101,6 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
     public get layoutChange(): Observable<void>
     {
         return this.layoutChangeSubject.asObservable();
-    }
-
-    /**
-     * Occurs when display name of component changes
-     */
-    public get displayNameChange(): Observable<void>
-    {
-        return this.displayNameChangesSubject.asObservable();
     }
 
     //######################### constructor #########################
@@ -237,20 +224,23 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
      */
     public selectComponent(id?: string): void
     {
-        const selected = this.ɵselectedComponent();
         this.ɵselectedComponent.set(id ?? null);
 
-        //clear selection
-        if(isPresent(selected))
-        {
-            this.components[selected]?.component.invalidateVisuals();
-        }
+        //TODO: remove if works
+        // const selected = this.ɵselectedComponent();
+        // this.ɵselectedComponent.set(id ?? null);
 
-        //select new one
-        if(isPresent(id))
-        {
-            this.components[id]?.component.invalidateVisuals();
-        }
+        // //clear selection
+        // if(isPresent(selected))
+        // {
+        //     this.components[selected]?.component.invalidateVisuals();
+        // }
+
+        // //select new one
+        // if(isPresent(id))
+        // {
+        //     this.components[id]?.component.invalidateVisuals();
+        // }
     }
 
     /**
@@ -258,14 +248,17 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
      */
     public unselectComponent(): void
     {
-        const selected = this.ɵselectedComponent();
         this.ɵselectedComponent.set(null);
 
-        //clear selection
-        if(isPresent(selected))
-        {
-            this.components[selected]?.component.invalidateVisuals();
-        }
+        //TODO: remove if works
+        // const selected = this.ɵselectedComponent();
+        // this.ɵselectedComponent.set(null);
+
+        // //clear selection
+        // if(isPresent(selected))
+        // {
+        //     this.components[selected]?.component.invalidateVisuals();
+        // }
     }
 
     /**
@@ -274,20 +267,23 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
      */
     public highlightComponent(id?: string): void
     {
-        const highlighted = this.ɵhighlightedComponent();
         this.ɵhighlightedComponent.set(id ?? null);
 
-        //clear highlighted
-        if(isPresent(highlighted))
-        {
-            this.components[highlighted]?.component.invalidateVisuals();
-        }
+        //TODO: remove if works
+        // const highlighted = this.ɵhighlightedComponent();
+        // this.ɵhighlightedComponent.set(id ?? null);
 
-        //highlight new one
-        if(isPresent(id))
-        {
-            this.components[id]?.component.invalidateVisuals();
-        }
+        // //clear highlighted
+        // if(isPresent(highlighted))
+        // {
+        //     this.components[highlighted]?.component.invalidateVisuals();
+        // }
+
+        // //highlight new one
+        // if(isPresent(id))
+        // {
+        //     this.components[id]?.component.invalidateVisuals();
+        // }
     }
 
     /**
@@ -295,14 +291,17 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
      */
     public cancelHighlightedComponent(): void
     {
-        const highlighted = this.ɵhighlightedComponent();
         this.ɵhighlightedComponent.set(null);
 
-        //clear highlight
-        if(isPresent(highlighted))
-        {
-            this.components[highlighted]?.component.invalidateVisuals();
-        }
+        //TODO: remove if works
+        // const highlighted = this.ɵhighlightedComponent();
+        // this.ɵhighlightedComponent.set(null);
+
+        // //clear highlight
+        // if(isPresent(highlighted))
+        // {
+        //     this.components[highlighted]?.component.invalidateVisuals();
+        // }
     }
 
 
@@ -331,13 +330,16 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
     }
 
     /**
-     * Registers layout designer component and returns true if component was registered successfuly, otherwise false
-     * @param component - Component instance that is being registered
+     * Registers layout designer and returns true if component was registered successfuly, otherwise false
+     * @param component - Component layout designer instance that is being registered
      * @param id - Id of registered component
      * @param parentId - Id of parent that holds this component
      */
     public registerLayoutDesignerComponent(component: LayoutDesignerDirective, id: string, parentId: string|undefined): boolean
     {
+        this.logger.debug('LayoutEditorMetadataManager: Registering component {{@id}}', {id: id});
+
+        //no parent specified, its root component
         if(isBlank(parentId))
         {
             this.rootComponentId = id;
@@ -369,7 +371,7 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
 
         this.layoutChangeSubject.next();
 
-        this.logger.debug('LayoutEditorMetadataManager: Registering component {{@id}}', {id: id});
+        this.logger.debug('LayoutEditorMetadataManager: Registering component completed {{@id}}', {id: id});
 
         return true;
     }
@@ -411,11 +413,13 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
     }
 
     /**
-     * Unregisters layout designer component
+     * Unregisters layout designer
      * @param id - Id of component that will be unregistered
      */
     public unregisterLayoutDesignerComponent(id: string): void
     {
+        this.logger.debug('LayoutEditorMetadataManager: Unregistering component {{@id}}', {id: id});
+
         const componentItem = this.components[id];
         delete this.components[id];
 
@@ -433,15 +437,7 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
 
         this.layoutChangeSubject.next();
 
-        this.logger.debug('LayoutEditorMetadataManager: Unregistering component {{@id}}', {id: id});
-    }
-
-    /**
-     * Fires event indicating that display name of any component has changed
-     */
-    public displayNameUpdated(): void
-    {
-        this.displayNameChangesSubject.next();
+        this.logger.debug('LayoutEditorMetadataManager: Unregistering component completed {{@id}}', {id: id});
     }
 
     /**

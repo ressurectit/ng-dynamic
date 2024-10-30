@@ -33,6 +33,14 @@ export class LayoutEditorRenderer extends LayoutRenderer
     /**
      * @inheritdoc
      */
+    protected override updateTypeAfterRender(type: Type<LayoutComponent>): void
+    {
+        applyDynamicHostDirective(type);
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected override async postProcessCreatedComponent(component: ComponentRef<LayoutComponent>, metadata: LayoutComponentMetadata): Promise<void>
     {
         const designer = component.injector.get(LayoutDesignerDirective, null, {optional: true});

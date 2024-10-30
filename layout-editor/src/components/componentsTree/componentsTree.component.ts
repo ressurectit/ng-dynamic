@@ -89,7 +89,9 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
         this.initSubscriptions.add(toObservable(this.manager.highlightedComponent, {injector: this.injector})
             .pipe(skip(1))
             .subscribe(() => this.changeDetector.detectChanges()));
-        this.initSubscriptions.add(this.manager.displayNameChange.subscribe(() => this.changeDetector.detectChanges()));
+
+        //TODO: update display name if changed
+        // this.initSubscriptions.add(this.manager.displayNameChange.subscribe(() => this.changeDetector.detectChanges()));
 
         this.root = this.manager.getMetadata();
     }

@@ -1,6 +1,5 @@
-import {Component, ChangeDetectionStrategy, ElementRef, OnDestroy, ChangeDetectorRef, effect} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ElementRef, OnDestroy, ChangeDetectorRef} from '@angular/core';
 
-import {LiveEventService} from '../../services';
 import {LayoutDesignerCommonDirective} from '../../directives/layoutDesignerCommon/layoutDesignerCommon.directive';
 
 /**
@@ -25,11 +24,8 @@ export class LayoutDesignerLayoutComponent implements OnDestroy
     //######################### constructor #########################
     constructor(protected element: ElementRef<HTMLElement>,
                 protected common: LayoutDesignerCommonDirective,
-                protected changeDetector: ChangeDetectorRef,
-                protected liveEvents: LiveEventService,)
+                protected changeDetector: ChangeDetectorRef,)
     {
-        effect(() => this.toggleLiveEvents());
-
         this.observer = new MutationObserver(() => this.changeDetector.detectChanges());
         this.observer.observe(this.common.element.nativeElement, {attributeFilter: ['style']});
     }
@@ -42,23 +38,5 @@ export class LayoutDesignerLayoutComponent implements OnDestroy
     public ngOnDestroy(): void
     {
         this.observer?.disconnect();
-    }
-
-    //######################### protected methods #########################
-
-    /**
-     * Toggles live events for element
-     */
-    protected toggleLiveEvents(): void
-    {
-        //TODO: move into designer
-        // if(this.liveEvents.enabled())
-        // {
-        //     this.element.nativeElement.style.pointerEvents = 'none';
-        // }
-        // else
-        // {
-        //     this.element.nativeElement.style.pointerEvents = 'all';
-        // }
     }
 }

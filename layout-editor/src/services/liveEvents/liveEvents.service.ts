@@ -6,6 +6,8 @@ import {PermanentStorage, PERMANENT_STORAGE} from '@anglr/common';
  */
 const LIVE_EVENTS_STATUS = 'LIVE_EVENTS_STATUS';
 
+//TODO: reenable live events again
+
 /**
  * Service used for handling state of layout live events
  */

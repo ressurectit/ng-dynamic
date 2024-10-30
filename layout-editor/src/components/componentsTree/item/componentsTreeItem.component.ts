@@ -144,7 +144,9 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
         this.initSubscriptions.add(toObservable(this.manager.draggedOverComponent, {injector: this.injector})
             .pipe(skip(1))
             .subscribe(() => this.handleDragOver()));
-        this.initSubscriptions.add(this.manager.displayNameChange.subscribe(() => this.changeDetector.detectChanges()));
+
+        //TODO: update display name if changes
+        // this.initSubscriptions.add(this.manager.displayNameChange.subscribe(() => this.changeDetector.detectChanges()));
 
         this.initChildren();
     }

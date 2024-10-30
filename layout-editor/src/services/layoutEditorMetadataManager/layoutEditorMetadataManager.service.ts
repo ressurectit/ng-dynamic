@@ -2,11 +2,11 @@ import {Inject, Injectable, OnDestroy, Optional, Signal, WritableSignal, signal}
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {EditorHotkeys, EditorMetadataManager} from '@anglr/dynamic';
-import {Dictionary, extend, generateId, isBlank, isPresent} from '@jscrpt/common';
+import {Dictionary, isBlank, isPresent} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
-import type {LayoutDesignerSAComponent} from '../../components';
 import {LayoutEditorMetadataManagerComponent} from './layoutEditorMetadataManager.interface';
+import type {LayoutDesignerDirective} from '../../directives';
 
 /**
  * Class used for handling layout metadata
@@ -138,82 +138,83 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
                     return;
                 }
     
-                component.parent.component.removeDescendant(selectedComponent);
-                component.parent.component.invalidateVisuals();
+                // component.parent.component.removeDescendant(selectedComponent);
+                // component.parent.component.invalidateVisuals();
             }));
     
             this.initSubscriptions.add(this.editorHotkeys.copy.subscribe(() =>
             {
-                const selectedComponent = this.selectedComponent();
+                // const selectedComponent = this.selectedComponent();
     
-                if(!selectedComponent)
-                {
-                    return;
-                }
+                // if(!selectedComponent)
+                // {
+                //     return;
+                // }
     
-                const component = this.components[selectedComponent];
-                this.metadataClipboard = component.component.options?.typeMetadata;
+                // const component = this.components[selectedComponent];
+                // this.metadataClipboard = component.component.options?.typeMetadata;
             }));
     
             this.initSubscriptions.add(this.editorHotkeys.cut.subscribe(() =>
             {
-                const selectedComponent = this.selectedComponent();
+                // const selectedComponent = this.selectedComponent();
     
-                if(!selectedComponent)
-                {
-                    return;
-                }
+                // if(!selectedComponent)
+                // {
+                //     return;
+                // }
     
-                const component = this.components[selectedComponent];
+                // const component = this.components[selectedComponent];
     
-                if(!component?.parent)
-                {
-                    return;
-                }
+                // if(!component?.parent)
+                // {
+                //     return;
+                // }
     
-                this.metadataClipboard = component.component.options?.typeMetadata;
-                component.parent.component.removeDescendant(selectedComponent);
-                component.parent.component.invalidateVisuals();
+                // this.metadataClipboard = component.component.options?.typeMetadata;
+                // component.parent.component.removeDescendant(selectedComponent);
+                // component.parent.component.invalidateVisuals();
             }));
     
             this.initSubscriptions.add(this.editorHotkeys.paste.subscribe(() =>
             {
-                const selectedComponent = this.selectedComponent();
+                // const selectedComponent = this.selectedComponent();
     
-                if(!selectedComponent || !this.metadataClipboard)
-                {
-                    return;
-                }
+                // if(!selectedComponent || !this.metadataClipboard)
+                // {
+                //     return;
+                // }
     
-                const component = this.components[selectedComponent];
-                const newId = `${this.metadataClipboard.name}-${generateId(12)}`;
+                // const component = this.components[selectedComponent];
+                // const newId = `${this.metadataClipboard.name}-${generateId(12)}`;
+                
     
-                if(component.component.canDrop)
-                {
-                    component.component.addDescendant(
-                    {
-                        index: 0,
-                        metadata: extend({}, this.metadataClipboard,
-                        {
-                            id: newId,
-                            displayName: newId,
-                        }),
-                        parentId: null,
-                    });
-                }
-                else if(component.parent?.component.canDrop)
-                {
-                    component.parent.component.addDescendant(
-                    {
-                        index: component.component.index + 1,
-                        metadata: extend({}, this.metadataClipboard,
-                        {
-                            id: newId,
-                            displayName: newId,
-                        }),
-                        parentId: null,
-                    });
-                }
+                // if(component.component.canDrop)
+                // {
+                //     component.component.addDescendant(
+                //     {
+                //         index: 0,
+                //         metadata: extend({}, this.metadataClipboard,
+                //         {
+                //             id: newId,
+                //             displayName: newId,
+                //         }),
+                //         parentId: null,
+                //     });
+                // }
+                // else if(component.parent?.component.canDrop)
+                // {
+                //     component.parent.component.addDescendant(
+                //     {
+                //         index: component.component.index + 1,
+                //         metadata: extend({}, this.metadataClipboard,
+                //         {
+                //             id: newId,
+                //             displayName: newId,
+                //         }),
+                //         parentId: null,
+                //     });
+                // }
             }));
         }
     }
@@ -335,7 +336,7 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
      * @param id - Id of registered component
      * @param parentId - Id of parent that holds this component
      */
-    public registerLayoutDesignerComponent(component: LayoutDesignerSAComponent, id: string, parentId: string|undefined): boolean
+    public registerLayoutDesignerComponent(component: LayoutDesignerDirective, id: string, parentId: string|undefined): boolean
     {
         if(isBlank(parentId))
         {
@@ -377,7 +378,7 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
      * Gets component from designer component tree
      * @param id - Id of component to be get
      */
-    public getComponent(id: string): LayoutDesignerSAComponent|null
+    public getComponent(id: string): LayoutDesignerDirective|null
     {
         return this.components[id]?.component ?? null;
     }
@@ -386,7 +387,7 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
      * Gets parent of component by id
      * @param id - Id of component which parent will be get
      */
-    public getParent(id: string): LayoutDesignerSAComponent|null
+    public getParent(id: string): LayoutDesignerDirective|null
     {
         return this.components[id]?.parent?.component ?? null;
     }
@@ -395,7 +396,7 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
      * Gets children of component
      * @param id - Id of component whose children are going to be get
      */
-    public getChildren(id: string): LayoutDesignerSAComponent[]
+    public getChildren(id: string): LayoutDesignerDirective[]
     {
         return this.components[id]?.children?.map(itm => itm.component) ?? [];
     }
@@ -461,6 +462,6 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
             return null;
         }
 
-        return this.components[this.rootComponentId].component.options?.typeMetadata ?? null;
+        return this.components[this.rootComponentId].component.metadataSafe;
     }
 }

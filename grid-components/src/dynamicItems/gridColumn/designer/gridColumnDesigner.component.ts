@@ -51,7 +51,7 @@ export class GridColumnDesignerSAComponent extends GridColumnSAComponent impleme
             throw new Error('GridColumnDesignerSAComponent: component without parent!');
         }
 
-        const parentComponent = this.layoutRenderer.get(parent.id)?.component?.instance;
+        const parentComponent = this.layoutRenderer.get(parent.metadataSafe.id)?.component?.instance;
 
         if(!parentComponent)
         {

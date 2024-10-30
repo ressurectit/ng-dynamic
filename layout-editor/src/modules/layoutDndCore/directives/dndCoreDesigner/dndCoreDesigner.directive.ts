@@ -49,7 +49,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
      */
     protected get canDrop(): boolean
     {
-        return this.manager.getComponent(this.metadata.id)?.canDrop ?? false;
+        return this.manager.getComponent(this.metadata.id)?.editorMetadata.canDrop ?? false;
     }
 
     /**
@@ -57,7 +57,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
      */
     protected get horizontal(): boolean
     {
-        return this.manager.getComponent(this.metadata.id)?.horizontal ?? false;
+        return this.manager.getComponent(this.metadata.id)?.editorMetadata.horizontal ?? false;
     }
 
     /**
@@ -97,12 +97,12 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
 
         const component = this.manager.getComponent(this.metadata.id);
 
-        if(!component?.editorMetadata?.getChildrenContainer)
+        if(!component?.editorMetadata?.metadata?.getChildrenContainer)
         {
             return this.componentElement;
         }
 
-        return component.editorMetadata.getChildrenContainer(this.componentElement) ?? this.componentElement;
+        return component.editorMetadata.metadata.getChildrenContainer(this.componentElement) ?? this.componentElement;
     }
 
     //######################### public properties #########################
@@ -440,7 +440,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
             return [null, null];
         }
 
-        return [componentIndex + parentComponent.dndCoreDesigner.getIndexIncrement(monitor, parentComponent.horizontal), ancestorId];
+        return [componentIndex + parentComponent.dndCoreDesigner.getIndexIncrement(monitor, parentComponent.editorMetadata.horizontal), ancestorId];
     }
 
     /**
@@ -584,7 +584,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
 
         do
         {
-            if(componentDef?.component.id == metadata.id)
+            if(componentDef?.component.metadataSafe.id == metadata.id)
             {
                 return false;
             }
@@ -620,14 +620,14 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
                 : [component.parent.component.dndCoreDesigner.customDropTypes]
             : DEFAULT_DROP_TYPES;
 
-        if(component.parent.component.canDrop &&
+        if(component.parent.component.editorMetadata.canDrop &&
            dropTypes.indexOf(dragType) >= 0)
         {
-            return [true, component.parent.component.id, id];
+            return [true, component.parent.component.metadataSafe.id, id];
         }
         else
         {
-            return this.canDropAncestors(monitor, component.parent.component.id);
+            return this.canDropAncestors(monitor, component.parent.component.metadataSafe.id);
         }
     }
 }

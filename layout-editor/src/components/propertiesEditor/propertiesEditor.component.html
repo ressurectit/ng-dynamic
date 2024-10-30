@@ -22,10 +22,10 @@
             <div class="static-properties">
                 <div class="properties-form-group">
                     <label class="properties-control-label">{{'type'|firstUppercaseLocalize}}</label>
-                    <div class="properties-form-static">{{metadata?.metaInfo?.name ?? component.options?.typeMetadata?.name}}</div>
+                    <div class="properties-form-static">{{metadata?.metaInfo?.name ?? component.metadataSafe.name}}</div>
     
                     <label class="properties-control-label">{{'id'|firstUppercaseLocalize}}</label>
-                    <div class="properties-form-static">{{component.options?.typeMetadata?.id}}</div>
+                    <div class="properties-form-static">{{component.metadataSafe.id}}</div>
     
                     <label class="properties-control-label">{{'display name'|firstUppercaseLocalize}}</label>
                     <input class="properties-form-control" type="text" [formControl]="displayName">

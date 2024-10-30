@@ -1,6 +1,5 @@
 import {ComponentRef, Injectable, Type} from '@angular/core';
 import {applyDynamicHostDirective, LayoutComponent, LayoutComponentMetadata, LayoutRenderer, LayoutRendererItem} from '@anglr/dynamic/layout';
-import {PromiseOr} from '@jscrpt/common';
 
 import {LayoutDesignerDirective} from '../../directives';
 
@@ -34,7 +33,7 @@ export class LayoutEditorRenderer extends LayoutRenderer
     /**
      * @inheritdoc
      */
-    protected override postProcessCreatedComponent(component: ComponentRef<LayoutComponent>, metadata: LayoutComponentMetadata): PromiseOr<void>
+    protected override async postProcessCreatedComponent(component: ComponentRef<LayoutComponent>, metadata: LayoutComponentMetadata): Promise<void>
     {
         const designer = component.injector.get(LayoutDesignerDirective, null, {optional: true});
 
@@ -43,6 +42,6 @@ export class LayoutEditorRenderer extends LayoutRenderer
             throw new Error('LayoutEditorRenderer: missing designer directive!');
         }
 
-        designer.initializeDesigner(component, metadata);
+        await designer.initializeDesigner(component, metadata);
     }
 }

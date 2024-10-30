@@ -47,7 +47,7 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
      */
     public get canDrop(): boolean
     {
-        return this.manager.getComponent(this.metadata.id)?.canDrop ?? false;
+        return this.manager.getComponent(this.metadata.id)?.editorMetadata.canDrop ?? false;
     }
 
     /**
@@ -286,15 +286,15 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
     {
         const component = this.manager.getComponent(this.metadata.id);
 
-        if(component?.editorMetadata?.customDragType)
+        if(component?.editorMetadata?.metadata?.customDragType)
         {
-            const dragType = component.editorMetadata.customDragType();
+            const dragType = component.editorMetadata.metadata.customDragType();
             this.drag.setType(dragType.tree);
         }
 
-        if(component?.editorMetadata?.customDropTypes)
+        if(component?.editorMetadata?.metadata?.customDropTypes)
         {
-            const dropTypes = component.editorMetadata.customDropTypes();
+            const dropTypes = component.editorMetadata.metadata.customDropTypes();
             this.dropzone.setTypes(dropTypes.tree);
             this.placeholderDrop.setTypes(dropTypes.tree);
         }
@@ -576,18 +576,18 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
 
 
         if(!component?.parent ||
-            isPresent(ancestorId) && this.hasAncestor(component.component.id, ancestorId))
+            isPresent(ancestorId) && this.hasAncestor(component.component.metadataSafe.id, ancestorId))
         {
             return [false, null, id];
         }
 
-        if(component.parent.component.canDrop)
+        if(component.parent.component.editorMetadata.canDrop)
         {
-            return [true, component.parent.component.id, id];
+            return [true, component.parent.component.metadataSafe.id, id];
         }
         else
         {
-            return this.canDropAncestors(component.parent.component.id, ancestorId);
+            return this.canDropAncestors(component.parent.component.metadataSafe.id, ancestorId);
         }
     }
 
@@ -606,14 +606,14 @@ export class DndCoreTreeItemDirective implements OnInit, OnDestroy
 
         const component = this.manager.getComponentDef(id);
 
-        if (component?.component?.id === ancestorId)
+        if (component?.component?.metadataSafe.id === ancestorId)
         {
             return true;
         }
 
         if (component?.parent)
         {
-            return this.hasAncestor(component.parent.component?.id, ancestorId);
+            return this.hasAncestor(component.parent.component?.metadataSafe.id, ancestorId);
         }
 
         return false;

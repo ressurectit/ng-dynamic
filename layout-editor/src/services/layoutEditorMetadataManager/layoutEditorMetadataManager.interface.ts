@@ -1,4 +1,4 @@
-import type {LayoutDesignerSAComponent} from '../../components';
+import type {LayoutDesignerDirective} from '../../directives';
 
 /**
  * Definition of component for LayoutEditorMetadataManager
@@ -18,5 +18,5 @@ export interface LayoutEditorMetadataManagerComponent
     /**
      * Instance of component itself
      */
-    component: LayoutDesignerSAComponent;
+    component: LayoutDesignerDirective;
 }

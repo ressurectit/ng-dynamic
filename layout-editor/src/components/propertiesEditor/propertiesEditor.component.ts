@@ -10,13 +10,12 @@ import {Subscription, skip} from 'rxjs';
 import {isEqual} from 'lodash-es';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor, LayoutEditorRenderer} from '../../services';
-import {LayoutDesignerSAComponent} from '../layoutDesigner/layoutDesigner.component';
 import {LayoutEditorMetadataDescriptor, LayoutEditorPropertiesDefinitionMetadata, LayoutPropertyTypeData} from '../../decorators';
 import {PropertiesControlsModule} from '../../modules';
 import {LayoutEditorPropertyMetadata} from '../../misc/types';
 import {PropertiesControl} from '../../interfaces';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
-import {WidthResizerSADirective} from '../../directives';
+import {LayoutDesignerDirective, WidthResizerSADirective} from '../../directives';
 
 const PROPERTIES_EDITOR_STATE = 'PROPERTIES_EDITOR_STATE';
 
@@ -97,7 +96,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     /**
      * Instance of last component that was used for property editation
      */
-    protected lastComponent: LayoutDesignerSAComponent|null = null;
+    protected lastComponent: LayoutDesignerDirective|null = null;
 
     /**
      * Injector used for obtaining dependencies
@@ -109,7 +108,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
     /**
      * Instance of selected designer component
      */
-    protected component: LayoutDesignerSAComponent|null = null;
+    protected component: LayoutDesignerDirective|null = null;
 
     /**
      * Instance of current component options
@@ -172,18 +171,9 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
             .valueChanges
             .subscribe(async displayName =>
             {
-                if(this.component?.options?.typeMetadata && isPresent(displayName))
+                if(this.component?.metadataSafe && isPresent(displayName))
                 {
-                    this.component.options.typeMetadata.displayName = displayName;
-
-                    const changes: SimpleChanges = {};
-                    addSimpleChange<LayoutComponent>(changes, 'options', this.component.options, this.component.options);
-
-                    // eslint-disable-next-line no-self-assign
-                    this.component.options = this.component.options;
-                    await this.component.dynamicOnChanges?.(changes);
-                    this.component.invalidateVisuals();
-                    this.manager.displayNameUpdated();
+                    this.component.updateDisplayName(displayName);
                     this.history.getNewState();
                 }
             });
@@ -253,7 +243,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
             if(component)
             {
                 this.component = component;
-                this.componentOptions = {...this.component.options?.typeMetadata.options};
+                this.componentOptions = {...this.component.metadataSafe.options as Record<string, unknown>};
 
                 await this.getMetadata();
             }
@@ -277,15 +267,15 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
         this.optionsFormSubscription = new Subscription();
         this.propertiesData = [];
 
-        if(this.component?.options?.typeMetadata)
+        if(this.component?.metadataSafe)
         {
-            this.displayName.setValue(this.component.options.typeMetadata.displayName || this.component.options.typeMetadata.id, {emitEvent: false});
+            this.displayName.setValue(this.component.metadataSafe.displayName || this.component.metadataSafe.id, {emitEvent: false});
 
-            this.metadata = await this.metadataExtractor.extractMetadata(this.component.options?.typeMetadata);
+            this.metadata = await this.metadataExtractor.extractMetadata(this.component.metadataSafe);
 
             if(!this.metadata)
             {
-                this.logger.error('PropertiesEditorSAComponent: unable to get metadata {{@source}}', {source: {package: this.component.options?.typeMetadata.package, name: this.component.options?.typeMetadata.name}});
+                this.logger.error('PropertiesEditorSAComponent: unable to get metadata {{@source}}', {source: {package: this.component.metadataSafe.package, name: this.component.metadataSafe.name}});
 
                 this.hide();
             }
@@ -301,12 +291,12 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
             if(this.component)
             {
-                const parent = this.manager.getParent(this.component.id);
+                const parent = this.manager.getParent(this.component.metadataSafe.id);
 
                 //gets parent metadata
-                if(parent?.options?.typeMetadata)
+                if(parent?.metadataSafe)
                 {
-                    const parentMetadata = await this.metadataExtractor.extractMetadata(parent.options?.typeMetadata);
+                    const parentMetadata = await this.metadataExtractor.extractMetadata(parent.metadataSafe);
                     
                     //parent extensions properties metadata
                     if(parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata?.length)
@@ -348,38 +338,38 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
      */
     protected initDynamicProperty(props: LayoutEditorPropertiesDefinitionMetadata): void
     {
-        const form = this.formModelBuilder.build(new props.modelType(this.component?.options?.typeMetadata.options));
+        const form = this.formModelBuilder.build(new props.modelType(this.component?.metadataSafe.options));
         const metadata = this.propertyExtractor.extract(props.modelType);
 
         if(this.optionsFormSubscription)
         {
             this.optionsFormSubscription.add(form.valueChanges.subscribe(async data =>
             {
-                if(this.component?.options?.typeMetadata)
+                if(this.component?.metadataSafe)
                 {
-                    const originalOptions = extend(true, {}, this.component.options.typeMetadata.options);
+                    const originalOptions = extend(true, {}, this.component.metadataSafe.options);
 
-                    extend(this.component.options.typeMetadata.options, extend(true, {}, data));
+                    extend(this.component.metadataSafe.options, extend(true, {}, data));
 
                     //options did not changed
-                    if(isEqual(originalOptions, this.component.options.typeMetadata.options))
+                    if(isEqual(originalOptions, this.component.metadataSafe.options))
                     {
                         return;
                     }
 
                     //invalidate properties editor itself to have current value of options
-                    this.componentOptions = {...this.component.options?.typeMetadata.options};
+                    this.componentOptions = {...this.component.metadataSafe.options as Record<string, unknown>};
                     this.changeDetector.detectChanges();
 
                     //options for layout designer component
                     const changes: SimpleChanges = {};
-                    addSimpleChange<LayoutComponent>(changes, 'options', this.component.options, this.component.options);
+                    addSimpleChange<LayoutComponent>(changes, 'options', this.component.metadataSafe.options, this.component.metadataSafe.options);
 
-                    await this.component.dynamicOnChanges?.(changes);
+                    await this.component.componentSafe.instance.dynamicOnChanges?.(changes);
                     this.component.invalidateVisuals();
 
                     //options for component itself
-                    const component = this.layoutEditorRenderer.get(this.component.id);
+                    const component = this.layoutEditorRenderer.get(this.component.metadataSafe.id);
 
                     if(!component?.component)
                     {
@@ -387,7 +377,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                     }
 
                     const componentChanges: SimpleChanges = {};
-                    addSimpleChange<LayoutComponent>(componentChanges, 'options', this.component.options.typeMetadata.options, this.component.options.typeMetadata.options);
+                    addSimpleChange<LayoutComponent>(componentChanges, 'options', this.component.metadataSafe.options, this.component.metadataSafe.options);
 
                     await component.component.instance.dynamicOnChanges?.(componentChanges);
                     component.component.instance.invalidateVisuals();

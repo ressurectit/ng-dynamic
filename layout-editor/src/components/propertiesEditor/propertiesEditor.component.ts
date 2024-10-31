@@ -74,7 +74,7 @@ interface PropertiesEditorData
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PropertiesEditorSAComponent implements OnInit, OnDestroy
+export class PropertiesEditorComponent implements OnInit, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -275,7 +275,7 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
 
             if(!this.metadata)
             {
-                this.logger.error('PropertiesEditorSAComponent: unable to get metadata {{@source}}', {source: {package: this.component.metadataSafe.package, name: this.component.metadataSafe.name}});
+                this.logger.error('PropertiesEditorComponent: unable to get metadata {{@source}}', {source: {package: this.component.metadataSafe.package, name: this.component.metadataSafe.name}});
 
                 this.hide();
             }
@@ -347,6 +347,9 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
             {
                 if(this.component?.metadataSafe)
                 {
+                    //TODO: play with deepCopy!
+                    // const originalOptions = deepCopyWithArrayOverride({}, this.component.metadataSafe.options);
+                    // deepCopyWithArrayOverride(this.component.metadataSafe.options, data);
                     const originalOptions = extend(true, {}, this.component.metadataSafe.options);
 
                     extend(this.component.metadataSafe.options, extend(true, {}, data));
@@ -361,26 +364,12 @@ export class PropertiesEditorSAComponent implements OnInit, OnDestroy
                     this.componentOptions = {...this.component.metadataSafe.options as Record<string, unknown>};
                     this.changeDetector.detectChanges();
 
-                    //options for layout designer component
-                    const changes: SimpleChanges = {};
-                    addSimpleChange<LayoutComponent>(changes, 'options', this.component.metadataSafe.options, this.component.metadataSafe.options);
-
-                    await this.component.componentSafe.instance.dynamicOnChanges?.(changes);
-                    this.component.invalidateVisuals();
-
                     //options for component itself
-                    const component = this.layoutEditorRenderer.get(this.component.metadataSafe.id);
-
-                    if(!component?.component)
-                    {
-                        throw new Error('PropertiesEditorSAComponent: missing component!');
-                    }
-
                     const componentChanges: SimpleChanges = {};
-                    addSimpleChange<LayoutComponent>(componentChanges, 'options', this.component.metadataSafe.options, this.component.metadataSafe.options);
+                    addSimpleChange<LayoutComponent>(componentChanges, 'options', this.component.metadataSafe.options, originalOptions);
 
-                    await component.component.instance.dynamicOnChanges?.(componentChanges);
-                    component.component.instance.invalidateVisuals();
+                    await this.component.componentSafe.instance.dynamicOnChanges?.(componentChanges);
+                    this.component.invalidateVisuals();
 
                     this.history.getNewState();
                 }

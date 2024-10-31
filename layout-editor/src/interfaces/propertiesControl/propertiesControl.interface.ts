@@ -17,7 +17,7 @@ export interface PropertiesControl<TOptions = any> extends OnInit
     /**
      * Form group representing whole options
      */
-    form: FormGroup<FormModelGroup<TOptions>>|undefined;
+    form: FormGroup<FormModelGroup<TOptions>>|undefined|null;
 
     /**
      * All current options for componet
@@ -27,7 +27,7 @@ export interface PropertiesControl<TOptions = any> extends OnInit
     /**
      * Properties metadata that are being rendered
      */
-    propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata&LayoutPropertyTypeData>|null;
+    propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata&LayoutPropertyTypeData>|undefined|null;
 
     /**
      * Initialize component

@@ -1,11 +1,14 @@
-<ng-container *ngFor="let cmp of usedProperties | keyvalue">
+@for(cmp of usedProperties | keyvalue; track cmp)
+{
     <div class="dynamic-margin-top-small dynamic-bold dynamic-text-uppercase dynamic-margin-left-extra-small">{{customComponentContentMetadata[cmp.key]?.metadata?.displayName}}</div>
 
-    <ng-container *ngFor="let modelName of cmp.value | keyvalue">
-        <ng-container *ngFor="let ctrl of modelName.key | getControls: customComponentContentMetadata[cmp.key]">
-            <ng-container [propertiesControl]="ctrl" [form]="usedComponentsForms[cmp.key][modelName.key]" [propertiesMetadata]="modelName.key | getModel: customComponentContentMetadata[cmp.key] | propertiesMetadata"></ng-container>
-        </ng-container>
-    </ng-container>
+    @for(modelName of cmp.value | keyvalue; track modelName)
+    {
+        @for(ctrl of modelName.key | getControls: customComponentContentMetadata[cmp.key]; track ctrl)
+        {
+            <ng-container [propertiesControl]="ctrl" [form]="usedComponentsForms[cmp.key][modelName.key]" [propertiesMetadata]="modelName.key | getModel: customComponentContentMetadata[cmp.key] | propertiesMetadata"/>
+        }
+    }
 
     <div class="component-separator"></div>
-</ng-container>
+}

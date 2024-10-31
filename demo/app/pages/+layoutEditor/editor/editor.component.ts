@@ -3,7 +3,7 @@ import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
 import {MetadataHistoryManager, provideDynamic, withPackageManager} from '@anglr/dynamic';
-import {LAYOUT_HISTORY_MANAGER, LayoutEditorSAComponent, withLayoutEditor} from '@anglr/dynamic/layout-editor';
+import {LAYOUT_HISTORY_MANAGER, LayoutEditorComponent, withLayoutEditor} from '@anglr/dynamic/layout-editor';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
 import {withMaterialComponents} from '@anglr/dynamic/material-components';
 import {withCssComponents} from '@anglr/dynamic/css-components';
@@ -29,7 +29,7 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
     imports:
     [
         LoadSaveNewComponent,
-        LayoutEditorSAComponent,
+        LayoutEditorComponent,
         DebugDataCopyClickModule,
     ],
     providers:

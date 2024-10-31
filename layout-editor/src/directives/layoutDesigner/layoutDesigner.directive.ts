@@ -192,6 +192,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         this.common.element.nativeElement.removeEventListener('mouseover', this.highlightComponent);
         this.common.element.nativeElement.removeEventListener('mouseleave', this.cancelHighlightComponent);
         this.common.element.nativeElement.removeEventListener('click', this.selectComponent);
+        this.common.element.nativeElement.removeEventListener('dblclick', this.deselectComponent);
         this.layoutEditorManager.unregisterLayoutDesignerComponent(this.metadataSafe.id);
     }
 
@@ -221,6 +222,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         this.common.element.nativeElement.addEventListener('mouseover', this.highlightComponent);
         this.common.element.nativeElement.addEventListener('mouseleave', this.cancelHighlightComponent);
         this.common.element.nativeElement.addEventListener('click', this.selectComponent);
+        this.common.element.nativeElement.addEventListener('dblclick', this.deselectComponent);
 
         await this.updateIndex();
         await this.editorMetadata.initialize(metadata);
@@ -334,7 +336,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     //######################### protected methods #########################
 
     /**
-     * Marks component as selected on 'hover'
+     * Marks component as selected on 'click'
      * @param event - Event that occured
      */
     @BindThis
@@ -343,6 +345,18 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         event.stopPropagation();
 
         this.layoutEditorManager.selectComponent(this.metadataSafe.id);
+    }
+
+    /**
+     * Deselects component on 'double click'
+     * @param event - Event that occured
+     */
+    @BindThis
+    protected deselectComponent(event: MouseEvent): void
+    {
+        event.stopPropagation();
+
+        this.layoutEditorManager.unselectComponent();
     }
 
     /**

@@ -1,4 +1,4 @@
-import {ComponentRef, Directive, Inject, Input, Optional, Type, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, effect, Inject, input, InputSignal, Optional, Type, ViewContainerRef} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
 import {FormModelGroup} from '@anglr/common/forms';
@@ -13,82 +13,77 @@ import {LayoutPropertyTypeData} from '../../../../decorators';
  */
 @Directive(
 {
-    selector: '[propertiesControl]'
+    selector: '[propertiesControl]',
+    standalone: true,
 })
-export class PropertiesControlRendererDirective<TComponent extends PropertiesControl<TOptions> = any, TOptions = any>
+export class PropertiesControlRendererDirective<TOptions = unknown, TComponent extends PropertiesControl<TOptions> = PropertiesControl<TOptions>>
 {
     //######################### protected fields #########################
 
     /**
      * Created component reference
      */
-    protected _componentRef: ComponentRef<TComponent>|null = null;
+    protected componentRef: ComponentRef<TComponent>|null = null;
 
     //######################### public properties - inputs #########################
 
     /**
      * Form group representing whole options
      */
-    @Input()
-    public form: FormGroup<FormModelGroup<TOptions>>|undefined;
+    public form: InputSignal<FormGroup<FormModelGroup<TOptions>>|undefined|null> = input.required();
 
     /**
      * Properties metadata that are being rendered
      */
-    @Input()
-    public propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata&LayoutPropertyTypeData>|null = null;
+    public propertiesMetadata: InputSignal<Dictionary<LayoutEditorPropertyMetadata&LayoutPropertyTypeData>|undefined|null> = input.required();
 
     /**
      * Type that will be rendered
      */
-    @Input('propertiesControl')
-    public type: Type<PropertiesControl>|undefined;
+    public type: InputSignal<Type<PropertiesControl>|undefined|null> = input.required({alias: 'propertiesControl'});
 
     /**
      * Instance of all options available for component (not only edited one)
      */
-    @Input()
-    public options: TOptions|undefined|null;
+    public options: InputSignal<TOptions|undefined|null> = input();
 
     //######################### constructor #########################
-    constructor(protected _viewContainerRef: ViewContainerRef,
-                @Inject(LOGGER) @Optional() protected _logger?: Logger,)
+    constructor(protected viewContainerRef: ViewContainerRef,
+                @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
-    }
-
-    //######################### public methods - implementation of OnChanges #########################
-
-    /**
-     * Called when input value changes
-     */
-    public async ngOnChanges(): Promise<void>
-    {
-        this._logger?.debug('PropertiesControlRendererDirective: rendering properties control {{@type}}', {type: this.type?.name});
-
-        this.ngOnDestroy();
-        this._viewContainerRef.clear();
-
-        // metadata are present
-        if(this.type)
+        effect(async () =>
         {
-            const injector = this._viewContainerRef.injector;
+            const type = this.type();
+            this.logger?.debug('PropertiesControlRendererDirective: rendering properties control {{@type}}', {type: type?.name});
 
-            this._componentRef = this._viewContainerRef.createComponent(this.type,
-                                                                        {
-                                                                            injector,
-                                                                        }) as ComponentRef<TComponent>;
-
-            if(this._componentRef)
+            if(this.componentRef?.componentType !== type)
             {
-                const component = this._componentRef.instance;
-                component.propertiesMetadata = this.propertiesMetadata;
-                component.form = this.form;
-                component.options = this.options;
+                this.ngOnDestroy();
+                this.viewContainerRef.clear();
+            }
+    
+            // metadata are present
+            if(type)
+            {
+                if(this.componentRef?.componentType !== type)
+                {
+                    const injector = this.viewContainerRef.injector;
+        
+                    this.componentRef = this.viewContainerRef.createComponent(type,
+                                                                              {
+                                                                                  injector,
+                                                                              }) as ComponentRef<TComponent>;
+                }
+    
+                const component = this.componentRef.instance;
+                component.propertiesMetadata = this.propertiesMetadata();
+                component.form = this.form();
+                component.options = this.options();
 
                 await component.initialize();
                 component.invalidateVisuals();
             }
-        }
+        });
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -98,12 +93,12 @@ export class PropertiesControlRendererDirective<TComponent extends PropertiesCon
      */
     public ngOnDestroy(): void
     {
-        if(this._componentRef)
+        if(this.componentRef)
         {
-            this._logger?.debug('PropertiesControlRendererDirective: destroying properties control {{@type}}', {type: this.type?.name});
+            this.logger?.debug('PropertiesControlRendererDirective: destroying properties control {{@type}}', {type: this.type()?.name});
     
-            this._componentRef?.destroy();
-            this._componentRef = null;
+            this.componentRef?.destroy();
+            this.componentRef = null;
         }
     }
 }

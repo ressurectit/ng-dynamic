@@ -19,7 +19,7 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
     /**
      * Indication whether was component initialized or not
      */
-    protected _initialized: boolean = false;
+    protected initialized: boolean = false;
 
     //######################### public properties - implementation of PropertiesControl #########################
 
@@ -27,13 +27,13 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
      * @inheritdoc
      */
     @Input()
-    public form: FormGroup<FormModelGroup<TOptions>>|undefined;
+    public form: FormGroup<FormModelGroup<TOptions>>|undefined|null;
 
     /**
      * @inheritdoc
      */
     @Input()
-    public propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata&LayoutPropertyTypeData>|null = null;
+    public propertiesMetadata: Dictionary<LayoutEditorPropertyMetadata&LayoutPropertyTypeData>|undefined|null = null;
 
     /**
      * @inheritdoc
@@ -42,8 +42,8 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
     public options: TOptions|undefined|null;
 
     //######################### constructor #########################
-    constructor(protected _changeDetector: ChangeDetectorRef,
-                protected _extractor: LayoutEditorMetadataExtractor,)
+    constructor(protected changeDetector: ChangeDetectorRef,
+                protected extractor: LayoutEditorMetadataExtractor,)
     {
     }
 
@@ -54,12 +54,12 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
      */
     public async ngOnInit(): Promise<void>
     {
-        if(this._initialized)
+        if(this.initialized)
         {
             return;
         }
 
-        this._initialized = true;
+        this.initialized = true;
 
         await this._initialize();
     }
@@ -79,7 +79,7 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
      */
     public invalidateVisuals(): void
     {
-        this._changeDetector.detectChanges();
+        this.changeDetector.detectChanges();
     }
 
     //######################### protected methods #########################

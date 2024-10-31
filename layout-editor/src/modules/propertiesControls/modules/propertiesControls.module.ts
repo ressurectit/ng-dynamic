@@ -16,26 +16,27 @@ import {PropertiesControlRendererDirective} from '../directives';
     [
         CommonModule,
         TooltipModule,
-        PropertyTypeControlsModule,
         FormPipesModule,
         CastPipesModule,
+        PropertyTypeControlsModule,
         FirstUppercaseLocalizeSAPipe,
+        PropertiesControlRendererDirective,
     ],
     declarations:
     [
-        ComponentStylingPropertiesControlComponent,
-        DefaultGenericPropertiesControlComponent,
         MarginControlComponent,
         PaddingControlComponent,
-        PropertiesControlRendererDirective,
+        DefaultGenericPropertiesControlComponent,
+        ComponentStylingPropertiesControlComponent,
+        
     ],
     exports:
     [
-        ComponentStylingPropertiesControlComponent,
-        DefaultGenericPropertiesControlComponent,
         MarginControlComponent,
         PaddingControlComponent,
         PropertiesControlRendererDirective,
+        DefaultGenericPropertiesControlComponent,
+        ComponentStylingPropertiesControlComponent,
     ]
 })
 export class PropertiesControlsModule

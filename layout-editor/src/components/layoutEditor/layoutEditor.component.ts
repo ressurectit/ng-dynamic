@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs';
 
 import {ComponentsPaletteSAComponent} from '../componentsPalette/componentsPalette.component';
 import {ComponentsTreeSAComponent} from '../componentsTree/componentsTree.component';
-import {PropertiesEditorSAComponent} from '../propertiesEditor/propertiesEditor.component';
+import {PropertiesEditorComponent} from '../propertiesEditor/propertiesEditor.component';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 import {LayoutDndCoreModule} from '../../modules';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
@@ -19,16 +19,16 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
  * Component that represents layout editor with palette, tree and properties
  */
 @Component(
-    {
-        selector: 'layout-editor',
-        templateUrl: 'layoutEditor.component.html',
-        styles: [HostDisplayFlexStyle],
-        standalone: true,
-        imports:
+{
+    selector: 'layout-editor',
+    templateUrl: 'layoutEditor.component.html',
+    styles: [HostDisplayFlexStyle],
+    standalone: true,
+    imports:
     [
         ComponentsTreeSAComponent,
         ComponentsPaletteSAComponent,
-        PropertiesEditorSAComponent,
+        PropertiesEditorComponent,
         LayoutDndCoreModule,
         LayoutEditorDragPreviewSAComponent,
         LayoutComponentRendererSADirective,
@@ -40,9 +40,9 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
         CastPipesModule,
         ReactiveFormsModule,
     ],
-        changeDetection: ChangeDetectionStrategy.OnPush
-    })
-export class LayoutEditorSAComponent implements OnDestroy, OnChanges, OnInit
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class LayoutEditorComponent implements OnDestroy, OnChanges, OnInit
 {
     //######################### protected properties #########################
 
@@ -117,7 +117,7 @@ export class LayoutEditorSAComponent implements OnDestroy, OnChanges, OnInit
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<LayoutEditorSAComponent>('metadata') in changes)
+        if(nameof<LayoutEditorComponent>('metadata') in changes)
         {
             this.history.clean();
             

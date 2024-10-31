@@ -2,6 +2,22 @@
 
 @mixin css
 {
+    .designer-overlay-remove
+    {
+        position: absolute;
+        cursor: pointer;
+        background-color: var(--dynamic-layoutDesigner-removeBtn-background);
+        padding: 1px;
+        opacity: .45;
+        font-weight: 700;
+        color: var(--dynamic-layoutDesigner-removeBtn-foreground);
+
+        &:hover
+        {
+            opacity: .9;
+        }
+    }
+
     @at-root
     {
         .dynamic-body-container
@@ -25,19 +41,6 @@
                 z-index: 500;
                 padding: 2px 6px;
                 opacity: .7;
-            }
-
-            .designer-overlay-remove
-            {
-                position: absolute;
-                cursor: pointer;
-                border-radius: 50%;
-                background-color: var(--dynamic-layoutDesigner-removeBtn-background);
-                padding: 1px 5px;
-                opacity: .55;
-                font-size: 0.85em;
-                font-weight: 700;
-                color: var(--dynamic-layoutDesigner-removeBtn-foreground);
             }
 
             .designer-overlay-layout

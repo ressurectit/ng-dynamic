@@ -38,5 +38,6 @@ export class LayoutDesignerLayoutComponent implements OnDestroy
     public ngOnDestroy(): void
     {
         this.observer?.disconnect();
+        this.observer = null;
     }
 }

@@ -33,6 +33,7 @@ function getEmptyImage()
 @Directive(
 {
     selector: '[dndCorePaletteItem]',
+    standalone: true,
 })
 export class DndCorePaletteItemDirective implements OnInit, OnChanges, OnDestroy
 {

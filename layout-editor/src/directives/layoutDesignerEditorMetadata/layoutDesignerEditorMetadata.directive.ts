@@ -1,8 +1,8 @@
 import {Directive, inject} from '@angular/core';
-import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
 import {LayoutEditorMetadataExtractor} from '../../services';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
+import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
 
 /**
  * Directive that is used for accessing editor metadata for component
@@ -22,6 +22,11 @@ export class LayoutDesignerEditorMetadataDirective
     protected metadataExtractor: LayoutEditorMetadataExtractor = inject(LayoutEditorMetadataExtractor);
 
     /**
+     * Instance of common designer directive storing common stuff
+     */
+    protected common: LayoutDesignerCommonDirective = inject(LayoutDesignerCommonDirective);
+
+    /**
      * Layout editor metadata
      */
     protected ɵeditorMetadata: LayoutEditorMetadataDescriptor|null = null;
@@ -35,26 +40,6 @@ export class LayoutDesignerEditorMetadataDirective
      * Indication whether drop list is horizontally oriented
      */
     protected ɵhorizontal: boolean = false;
-
-    /**
-     * Instance of layout component metadata
-     */
-    protected layoutComponentMetadata: LayoutComponentMetadata|undefined|null;
-
-    //######################### protected properties #########################
-
-    /**
-     * Gets instance of layout component metadata safely
-     */
-    protected get layoutComponentMetadataSafe(): LayoutComponentMetadata
-    {
-        if(!this.layoutComponentMetadata)
-        {
-            throw new Error('LayoutDesignerEditorMetadataDirective: missing metadata!');
-        }
-
-        return this.layoutComponentMetadata;
-    }
 
     //######################### public properties #########################
 
@@ -86,15 +71,13 @@ export class LayoutDesignerEditorMetadataDirective
 
     /**
      * Initialize editor metadata for rendered component
-     * @param metadata - Metadata of rendered component
      */
-    public async initialize(metadata: LayoutComponentMetadata): Promise<void>
+    public async initialize(): Promise<void>
     {
-        this.layoutComponentMetadata = metadata;
         //TODO: SCOPE: use parent scope for settings this
         // options.typeMetadata.scope = this.scopeId;
 
-        this.ɵeditorMetadata = await this.metadataExtractor.extractMetadata(metadata);
+        this.ɵeditorMetadata = await this.metadataExtractor.extractMetadata(this.common.designer.metadataSafe);
         this.updateCanDrop();
     }
 
@@ -103,6 +86,6 @@ export class LayoutDesignerEditorMetadataDirective
      */
     public updateCanDrop(): void
     {
-        this.ɵcanDrop =this.metadata?.canDropMetadata?.(this.layoutComponentMetadataSafe.options) ?? false;
+        this.ɵcanDrop =this.metadata?.canDropMetadata?.(this.common.designer.metadataSafe.options) ?? false;
     }
 }

@@ -1,4 +1,4 @@
-import {ComponentRef, Directive, inject, Injector, OnDestroy, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, inject, OnDestroy, ViewContainerRef} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {applyPositionResult, getHostElement, Position, POSITION, PositionPlacement} from '@anglr/common';
 import {BindThis, renderToBody} from '@jscrpt/common';
@@ -6,7 +6,6 @@ import {Observable, Subject, Subscription} from 'rxjs';
 
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
 import {LayoutDesignerLayoutComponent} from '../../components/layoutDesignerLayout/layoutDesignerLayout.component';
-import {LayoutDesignerDirective} from '../layoutDesigner/layoutDesigner.directive';
 
 /**
  * Name of container for dynamic body elements
@@ -81,11 +80,6 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     protected styleObserver: MutationObserver|undefined|null;
 
     /**
-     * Instance of layout designer component
-     */
-    protected ɵdesigner: LayoutDesignerDirective|undefined|null;
-
-    /**
      * Instance of common designer directive storing common stuff
      */
     protected common: LayoutDesignerCommonDirective = inject(LayoutDesignerCommonDirective);
@@ -104,21 +98,6 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      * Instance of HTML document
      */
     protected document: Document = inject(DOCUMENT);
-
-    /**
-     * Instance of angular injector
-     */
-    protected injector: Injector = inject(Injector);
-
-    //######################### protected properties #########################
-
-    /**
-     * Gets instance of layout designer component
-     */
-    protected get designer(): LayoutDesignerDirective
-    {
-        return (this.ɵdesigner ??= this.injector.get(LayoutDesignerDirective));
-    }
 
     //######################### public properties #########################
 
@@ -148,6 +127,8 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      */
     public showOverlay(title: string): void
     {
+        //TODO: cleanup title, take it from designer
+
         this.overlayDiv = this.document.createElement('div');
         this.overlayDiv.classList.add('designer-overlay-border');
         
@@ -255,7 +236,7 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      */
     protected showRemoveBtn(): void
     {
-        if(!this.designer.parent || !this.designer.parent.editorMetadata.metadata?.removeDescendant)
+        if(!this.common.designer.parent || !this.common.designer.parent.editorMetadata.metadata?.removeDescendant)
         {
             return;
         }
@@ -302,7 +283,7 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      */
     protected showLayout(): void
     {
-        this.layoutComponent = this.viewContainerRef.createComponent(LayoutDesignerLayoutComponent, {injector: this.injector});
+        this.layoutComponent = this.viewContainerRef.createComponent(LayoutDesignerLayoutComponent, {injector: this.common.injector});
         const element = getHostElement(this.layoutComponent);
 
         if(element)

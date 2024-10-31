@@ -7,7 +7,8 @@ import {DndCorePreviewTemplateContext} from './dndCorePreviewTemplate.context';
  */
 @Directive(
 {
-    selector: '[dndCorePreviewTemplate]'
+    selector: '[dndCorePreviewTemplate]',
+    standalone: true,
 })
 export class DndCorePreviewTemplateDirective
 {

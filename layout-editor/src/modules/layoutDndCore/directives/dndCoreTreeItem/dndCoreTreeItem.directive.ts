@@ -19,6 +19,7 @@ const DEFAULT_DRAG_DROP_TYPE = 'TREE_COMPONENT';
 {
     selector: '[dndCoreTreeItem]',
     exportAs: 'dndCoreTreeItem',
+    standalone: true,
 })
 export class DndCoreTreeItemDirective implements OnInit, OnDestroy
 {

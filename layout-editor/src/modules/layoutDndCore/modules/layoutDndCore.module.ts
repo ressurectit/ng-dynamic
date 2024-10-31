@@ -8,7 +8,7 @@ import {DndCoreDesignerDirective, DndCorePaletteItemDirective, DndCorePreviewTem
  */
 @NgModule(
 {
-    declarations:
+    imports:
     [
         DndCorePreviewComponent,
         DndCoreDesignerDirective,

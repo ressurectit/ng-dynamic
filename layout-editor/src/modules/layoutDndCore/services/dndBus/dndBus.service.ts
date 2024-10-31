@@ -3,6 +3,8 @@ import {Observable, Subject} from 'rxjs';
 
 import {DropPlaceholderPreview, DropTargetData} from './dndBus.interface';
 
+//TODO: rework with signals
+
 /**
  * Service that serves as communication bus for dnd
  */

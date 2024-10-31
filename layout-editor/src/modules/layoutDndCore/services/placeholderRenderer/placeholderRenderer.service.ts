@@ -14,21 +14,21 @@ import type {LayoutDragItem, LayoutDropResult} from '../../directives';
  */
 class CssStyleUpdates
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Margin side that is set
      */
-    private _marginSide: string;
+    protected marginSide: string;
 
     //######################### constructor #########################
-    constructor(private _element: Element,
-                private _before: boolean,
-                private _requiredSpace: number,
-                private _renderer: Renderer2,
-                private _horizontal: boolean,)
+    constructor(protected element: Element,
+                protected before: boolean,
+                protected requiredSpace: number,
+                protected renderer: Renderer2,
+                protected horizontal: boolean,)
     {
-        this._marginSide = this._horizontal ? (this._before ? 'Left' : 'Right') : (this._before ? 'Top' : 'Bottom');
+        this.marginSide = this.horizontal ? (this.before ? 'Left' : 'Right') : (this.before ? 'Top' : 'Bottom');
 
         this.apply();
     }
@@ -40,17 +40,17 @@ class CssStyleUpdates
      */
     public destroy(): void
     {
-        this._renderer.setStyle(this._element, `margin${this._marginSide}`, null);
+        this.renderer.setStyle(this.element, `margin${this.marginSide}`, null);
     }
 
-    //######################### private methods #########################
+    //######################### protected methods #########################
 
     /**
      * Applies css changes to element
      */
-    private apply(): void
+    protected apply(): void
     {
-        this._renderer.setStyle(this._element, `margin${this._marginSide}`, `${this._requiredSpace}px`);
+        this.renderer.setStyle(this.element, `margin${this.marginSide}`, `${this.requiredSpace}px`);
     }
 }
 

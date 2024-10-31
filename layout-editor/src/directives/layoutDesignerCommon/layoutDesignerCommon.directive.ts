@@ -1,7 +1,9 @@
-import {Directive, ElementRef, inject} from '@angular/core';
+import {Directive, ElementRef, inject, Injector} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 
 import {LayoutDesignerEditorMetadataDirective} from '../layoutDesignerEditorMetadata/layoutDesignerEditorMetadata.directive';
+import {LayoutDesignerDirective} from '../layoutDesigner/layoutDesigner.directive';
+import {LayoutEditorMetadataManager} from '../../services';
 
 /**
  * Directive for shared properties among all layout designer directives
@@ -30,6 +32,21 @@ export class LayoutDesignerCommonDirective
      */
     protected ɵeditorMetadata: LayoutDesignerEditorMetadataDirective = inject(LayoutDesignerEditorMetadataDirective);
 
+    /**
+     * Instance of layout designer component
+     */
+    protected ɵdesigner: LayoutDesignerDirective|undefined|null;
+
+    /**
+     * Instance of angular injector
+     */
+    protected ɵinjector: Injector = inject(Injector);
+
+    /**
+     * Instance of layout editor manager
+     */
+    protected ɵlayoutEditorManager: LayoutEditorMetadataManager = inject(LayoutEditorMetadataManager);
+
     //######################### public properties #########################
     
     /**
@@ -54,5 +71,29 @@ export class LayoutDesignerCommonDirective
     public get editorMetadata(): LayoutDesignerEditorMetadataDirective
     {
         return this.ɵeditorMetadata;
+    }
+    
+    /**
+     * Gets instance of layout designer component
+     */
+    public get designer(): LayoutDesignerDirective
+    {
+        return (this.ɵdesigner ??= this.injector.get(LayoutDesignerDirective));
+    }
+
+    /**
+     * Instance of angular injector
+     */
+    public get injector(): Injector
+    {
+        return this.ɵinjector;
+    }
+
+    /**
+     * Instance of layout editor manager
+     */
+    public get layoutEditorManager(): LayoutEditorMetadataManager
+    {
+        return this.ɵlayoutEditorManager;
     }
 }

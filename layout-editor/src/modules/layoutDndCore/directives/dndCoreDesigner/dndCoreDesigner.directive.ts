@@ -21,6 +21,7 @@ const DEFAULT_DRAG_TYPE = 'COMPONENT';
 {
     selector: '[dndCoreDesigner]',
     exportAs: 'dndCoreDesigner',
+    standalone: true,
 })
 export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
 {

@@ -9,7 +9,7 @@ import {LayoutDesignerOverlayDirective} from '../layoutDesignerOverlay/layoutDes
 import {LayoutDesignerEditorMetadataDirective} from '../layoutDesignerEditorMetadata/layoutDesignerEditorMetadata.directive';
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
 import {LayoutDesignerDnDDirective} from '../layoutDesignerDnD/layoutDesignerDnD.directive';
-import {LayoutComponentsIteratorService, LayoutEditorMetadataManager, LiveEventService} from '../../services';
+import {LayoutComponentsIteratorService, LiveEventService} from '../../services';
 import {LayoutComponentDragData} from '../../interfaces';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 
@@ -81,11 +81,11 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      * Instance of parent layout designer
      */
     protected ɵparent: LayoutDesignerDirective|undefined|null = inject(LayoutDesignerDirective, {optional: true, skipSelf: true,});
-
+    
     /**
-     * Instance of layout editor manager
+     * Instance of dnd designer directive
      */
-    protected layoutEditorManager: LayoutEditorMetadataManager = inject(LayoutEditorMetadataManager);
+    protected ɵdnd: LayoutDesignerDnDDirective = inject(LayoutDesignerDnDDirective);
 
     /**
      * Instance of service used for iterating through children of component
@@ -113,6 +113,14 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     protected displayNameSignal: WritableSignal<string> = signal('');
 
     //######################### public properties #########################
+
+    /**
+     * Gets instance of dnd designer directive
+     */
+    public get dnd(): LayoutDesignerDnDDirective
+    {
+        return this.ɵdnd;
+    }
 
     /**
      * Gets instance of parent layout designer
@@ -188,8 +196,8 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     //######################### constructor #########################
     constructor()
     {
-        this.selected = computed(() => this.layoutEditorManager.selectedComponent() === this.metadata?.id);
-        this.highlighted = computed(() => this.layoutEditorManager.highlightedComponent() === this.metadata?.id);
+        this.selected = computed(() => this.common.layoutEditorManager.selectedComponent() === this.metadata?.id);
+        this.highlighted = computed(() => this.common.layoutEditorManager.highlightedComponent() === this.metadata?.id);
         this.overlayVisible = computed(() => this.selected() || this.highlighted());
 
         effect(() =>
@@ -234,7 +242,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         this.common.element.nativeElement.removeEventListener('mouseleave', this.cancelHighlightComponent);
         this.common.element.nativeElement.removeEventListener('click', this.selectComponent);
         this.common.element.nativeElement.removeEventListener('dblclick', this.deselectComponent);
-        this.layoutEditorManager.unregisterLayoutDesignerComponent(this.metadataSafe.id);
+        this.common.layoutEditorManager.unregisterLayoutDesignerComponent(this.metadataSafe.id);
         this.removeSubscription?.unsubscribe();
         this.removeSubscription = null;
     }
@@ -268,8 +276,9 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         this.common.element.nativeElement.addEventListener('dblclick', this.deselectComponent);
 
         await this.updateIndex();
-        await this.editorMetadata.initialize(metadata);
-        this.layoutEditorManager.registerLayoutDesignerComponent(this, metadata.id, this.ɵparent?.metadataSafe.id);
+        await this.editorMetadata.initialize();
+        this.dnd.initalize();
+        this.common.layoutEditorManager.registerLayoutDesignerComponent(this, metadata.id, this.ɵparent?.metadataSafe.id);
     }
 
     /**
@@ -316,7 +325,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
             else
             {
                 this.history.disable();
-                this.layoutEditorManager.getComponent(parentId)?.removeDescendant(dragData.metadata.id);
+                this.common.layoutEditorManager.getComponent(parentId)?.removeDescendant(dragData.metadata.id);
                 this.history.enable();
             }
         }
@@ -331,10 +340,10 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
 
         if(triggerLayoutChange)
         {
-            this.layoutEditorManager.updateLayout();
+            this.common.layoutEditorManager.updateLayout();
         }
 
-        const layoutDesigners = this.layoutEditorManager.getChildren(metadata.id);
+        const layoutDesigners = this.common.layoutEditorManager.getChildren(metadata.id);
         
         //update indexes of children
         for(const designer of layoutDesigners)
@@ -364,7 +373,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         this.componentSafe.instance.dynamicOnChanges?.(changes);
         this.componentSafe.instance.invalidateVisuals();
 
-        const layoutDesigners = this.layoutEditorManager.getChildren(metadata.id);
+        const layoutDesigners = this.common.layoutEditorManager.getChildren(metadata.id);
         
         //update indexes of children
         for(const designer of layoutDesigners)
@@ -387,7 +396,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     {
         event.stopPropagation();
 
-        this.layoutEditorManager.selectComponent(this.metadataSafe.id);
+        this.common.layoutEditorManager.selectComponent(this.metadataSafe.id);
     }
 
     /**
@@ -399,7 +408,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     {
         event.stopPropagation();
 
-        this.layoutEditorManager.unselectComponent();
+        this.common.layoutEditorManager.unselectComponent();
     }
 
     /**
@@ -411,7 +420,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     {
         event.stopPropagation();
 
-        this.layoutEditorManager.highlightComponent(this.metadataSafe.id);
+        this.common.layoutEditorManager.highlightComponent(this.metadataSafe.id);
     }
 
     /**
@@ -433,7 +442,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
             return;
         }
 
-        this.layoutEditorManager.cancelHighlightedComponent();
+        this.common.layoutEditorManager.cancelHighlightedComponent();
     }
 
     /**

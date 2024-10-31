@@ -26,6 +26,13 @@
         }
     }
 
+    .designer-element:empty,
+    .designer-element:has(>.designer-overlay-remove:only-child)
+    {
+        min-width: 10px;
+        min-height: 10px;
+    }
+
     @at-root
     {
         .dynamic-body-container

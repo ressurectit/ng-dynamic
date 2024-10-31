@@ -1,6 +1,8 @@
 import {Directive, ElementRef, inject} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 
+import {LayoutDesignerEditorMetadataDirective} from '../layoutDesignerEditorMetadata/layoutDesignerEditorMetadata.directive';
+
 /**
  * Directive for shared properties among all layout designer directives
  */
@@ -23,6 +25,11 @@ export class LayoutDesignerCommonDirective
      */
     protected ɵlogger: Logger = inject(LOGGER);
 
+    /**
+     * Instance of editor medata directive
+     */
+    protected ɵeditorMetadata: LayoutDesignerEditorMetadataDirective = inject(LayoutDesignerEditorMetadataDirective);
+
     //######################### public properties #########################
     
     /**
@@ -39,5 +46,13 @@ export class LayoutDesignerCommonDirective
     public get logger(): Logger
     {
         return this.ɵlogger;
+    }
+
+    /**
+     * Gets instance of editor medata directive
+     */
+    public get editorMetadata(): LayoutDesignerEditorMetadataDirective
+    {
+        return this.ɵeditorMetadata;
     }
 }

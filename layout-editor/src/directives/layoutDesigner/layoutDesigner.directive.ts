@@ -4,12 +4,13 @@ import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {BindThis, Invalidatable, isDescendant} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
+import type {DndCoreDesignerDirective} from '../../modules/layoutDndCore/directives/dndCoreDesigner/dndCoreDesigner.directive';
 import {LayoutDesignerOverlayDirective} from '../layoutDesignerOverlay/layoutDesignerOverlay.directive';
 import {LayoutDesignerEditorMetadataDirective} from '../layoutDesignerEditorMetadata/layoutDesignerEditorMetadata.directive';
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
+import {LayoutDesignerDnDDirective} from '../layoutDesignerDnD/layoutDesignerDnD.directive';
 import {LayoutComponentsIteratorService, LayoutEditorMetadataManager, LiveEventService} from '../../services';
 import {LayoutComponentDragData} from '../../interfaces';
-import type {DndCoreDesignerDirective} from '../../modules/layoutDndCore/directives/dndCoreDesigner/dndCoreDesigner.directive';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 
 /**
@@ -24,6 +25,7 @@ import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
         LayoutDesignerEditorMetadataDirective,
         LayoutDesignerOverlayDirective,
         LayoutDesignerCommonDirective,
+        LayoutDesignerDnDDirective,
     ],
 })
 export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, Invalidatable
@@ -71,11 +73,6 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     protected overlay: LayoutDesignerOverlayDirective = inject(LayoutDesignerOverlayDirective);
 
     /**
-     * Instance of editor medata directive
-     */
-    protected ɵeditorMetadata: LayoutDesignerEditorMetadataDirective = inject(LayoutDesignerEditorMetadataDirective);
-
-    /**
      * Instance of common designer directive storing common stuff
      */
     protected common: LayoutDesignerCommonDirective = inject(LayoutDesignerCommonDirective);
@@ -83,7 +80,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     /**
      * Instance of parent layout designer
      */
-    protected parent: LayoutDesignerDirective|undefined|null = inject(LayoutDesignerDirective, {optional: true, skipSelf: true,});
+    protected ɵparent: LayoutDesignerDirective|undefined|null = inject(LayoutDesignerDirective, {optional: true, skipSelf: true,});
 
     /**
      * Instance of layout editor manager
@@ -118,6 +115,14 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     //######################### public properties #########################
 
     /**
+     * Gets instance of parent layout designer
+     */
+    public get parent(): LayoutDesignerDirective|undefined|null
+    {
+        return this.ɵparent;
+    }
+
+    /**
      * Gets display name signal wrapper for passing changes into editor
      */
     public get displayName(): Signal<string>
@@ -130,7 +135,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      */
     public get dragDisabled(): boolean
     {
-        return !this.parent || !!this.editorMetadata.metadata?.metaInfo?.dragDisabled;
+        return !this.ɵparent || !!this.editorMetadata.metadata?.metaInfo?.dragDisabled;
     }
 
     /**
@@ -146,7 +151,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      */
     public get editorMetadata(): LayoutDesignerEditorMetadataDirective
     {
-        return this.ɵeditorMetadata;
+        return this.common.editorMetadata;
     }
 
     /**
@@ -213,7 +218,8 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
             }
         });
 
-        this.removeSubscription = this.overlay.remove.subscribe(() => this.parent?.removeDescendant(this.metadataSafe.id));
+        this.removeSubscription = this.overlay.remove.subscribe(() => this.ɵparent?.removeDescendant(this.metadataSafe.id));
+        this.common.element.nativeElement.classList.add('designer-element');
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -223,6 +229,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      */
     public ngOnDestroy(): void
     {
+        this.common.element.nativeElement.classList.remove('designer-element');
         this.common.element.nativeElement.removeEventListener('mouseover', this.highlightComponent);
         this.common.element.nativeElement.removeEventListener('mouseleave', this.cancelHighlightComponent);
         this.common.element.nativeElement.removeEventListener('click', this.selectComponent);
@@ -262,7 +269,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
 
         await this.updateIndex();
         await this.editorMetadata.initialize(metadata);
-        this.layoutEditorManager.registerLayoutDesignerComponent(this, metadata.id, this.parent?.metadataSafe.id);
+        this.layoutEditorManager.registerLayoutDesignerComponent(this, metadata.id, this.ɵparent?.metadataSafe.id);
     }
 
     /**
@@ -453,9 +460,9 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         const metadata = this.metadataSafe;
 
         //obtains index of itself in parent
-        if(this.parent?.metadataSafe)
+        if(this.ɵparent?.metadataSafe)
         {
-            for await(const child of this.iteratorSvc.getChildrenIteratorFor(this.parent.metadataSafe))
+            for await(const child of this.iteratorSvc.getChildrenIteratorFor(this.ɵparent.metadataSafe))
             {
                 if(metadata.id === child.metadata.id)
                 {

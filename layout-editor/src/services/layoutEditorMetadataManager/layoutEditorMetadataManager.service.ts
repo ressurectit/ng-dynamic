@@ -2,7 +2,7 @@ import {Inject, Injectable, OnDestroy, Optional, Signal, WritableSignal, signal}
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {EditorHotkeys, EditorMetadataManager} from '@anglr/dynamic';
-import {Dictionary, isBlank} from '@jscrpt/common';
+import {Dictionary, extend, generateId, isBlank} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataManagerComponent} from './layoutEditorMetadataManager.interface';
@@ -125,83 +125,82 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
                     return;
                 }
     
-                // component.parent.component.removeDescendant(selectedComponent);
-                // component.parent.component.invalidateVisuals();
+                component.parent.component.removeDescendant(selectedComponent);
+                component.parent.component.invalidateVisuals();
             }));
     
             this.initSubscriptions.add(this.editorHotkeys.copy.subscribe(() =>
             {
-                // const selectedComponent = this.selectedComponent();
+                const selectedComponent = this.selectedComponent();
     
-                // if(!selectedComponent)
-                // {
-                //     return;
-                // }
+                if(!selectedComponent)
+                {
+                    return;
+                }
     
-                // const component = this.components[selectedComponent];
-                // this.metadataClipboard = component.component.options?.typeMetadata;
+                const component = this.components[selectedComponent];
+                this.metadataClipboard = component.component.metadataSafe;
             }));
     
             this.initSubscriptions.add(this.editorHotkeys.cut.subscribe(() =>
             {
-                // const selectedComponent = this.selectedComponent();
+                const selectedComponent = this.selectedComponent();
     
-                // if(!selectedComponent)
-                // {
-                //     return;
-                // }
+                if(!selectedComponent)
+                {
+                    return;
+                }
     
-                // const component = this.components[selectedComponent];
+                const component = this.components[selectedComponent];
     
-                // if(!component?.parent)
-                // {
-                //     return;
-                // }
+                if(!component?.parent)
+                {
+                    return;
+                }
     
-                // this.metadataClipboard = component.component.options?.typeMetadata;
-                // component.parent.component.removeDescendant(selectedComponent);
-                // component.parent.component.invalidateVisuals();
+                this.metadataClipboard = component.component.metadataSafe;
+                component.parent.component.removeDescendant(selectedComponent);
+                component.parent.component.invalidateVisuals();
             }));
     
             this.initSubscriptions.add(this.editorHotkeys.paste.subscribe(() =>
             {
-                // const selectedComponent = this.selectedComponent();
+                const selectedComponent = this.selectedComponent();
     
-                // if(!selectedComponent || !this.metadataClipboard)
-                // {
-                //     return;
-                // }
+                if(!selectedComponent || !this.metadataClipboard)
+                {
+                    return;
+                }
     
-                // const component = this.components[selectedComponent];
-                // const newId = `${this.metadataClipboard.name}-${generateId(12)}`;
-                
+                const component = this.components[selectedComponent];
+                const newId = `${this.metadataClipboard.name}-${generateId(12)}`;
     
-                // if(component.component.canDrop)
-                // {
-                //     component.component.addDescendant(
-                //     {
-                //         index: 0,
-                //         metadata: extend({}, this.metadataClipboard,
-                //         {
-                //             id: newId,
-                //             displayName: newId,
-                //         }),
-                //         parentId: null,
-                //     });
-                // }
-                // else if(component.parent?.component.canDrop)
-                // {
-                //     component.parent.component.addDescendant(
-                //     {
-                //         index: component.component.index + 1,
-                //         metadata: extend({}, this.metadataClipboard,
-                //         {
-                //             id: newId,
-                //             displayName: newId,
-                //         }),
-                //         parentId: null,
-                //     });
-                // }
+                if(component.component.editorMetadata.canDrop)
+                {
+                    component.component.addDescendant(
+                    {
+                        index: 0,
+                        metadata: extend({}, this.metadataClipboard,
+                        {
+                            id: newId,
+                            displayName: newId,
+                        }),
+                        parentId: null,
+                    });
+                }
+                else if(component.parent?.component.editorMetadata.canDrop)
+                {
+                    component.parent.component.addDescendant(
+                    {
+                        index: component.component.index + 1,
+                        metadata: extend({}, this.metadataClipboard,
+                        {
+                            id: newId,
+                            displayName: newId,
+                        }),
+                        parentId: null,
+                    });
+                }
             }));
         }
     }

@@ -27,14 +27,6 @@
 
         @if(highlighted || selected)
         {
-            <div class="designer-overlay-border"></div>
-            <!-- <div class="designer-overlay-layout" [layoutDesignerOverlayFor]="options?.typeMetadata?.id"></div> -->
-
-            <div class="designer-overlay-title"
-                 *bodyRender
-                 [positionTo]="layoutDesigner"
-                 placement="TopStart">{{renderedType?.displayName ?? editorMetadata?.metaInfo?.name ?? renderedType?.name}}</div>
-
             @if(!!parent && parent.editorMetadata?.removeDescendant)
             {
                 <div *bodyRender

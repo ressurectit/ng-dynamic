@@ -6,6 +6,7 @@ import {Observable, Subject, Subscription} from 'rxjs';
 
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
 import {LayoutDesignerLayoutComponent} from '../../components/layoutDesignerLayout/layoutDesignerLayout.component';
+import {LayoutDesignerDirective} from '../layoutDesigner/layoutDesigner.directive';
 
 /**
  * Name of container for dynamic body elements
@@ -80,6 +81,11 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     protected styleObserver: MutationObserver|undefined|null;
 
     /**
+     * Instance of layout designer component
+     */
+    protected ɵdesigner: LayoutDesignerDirective|undefined|null;
+
+    /**
      * Instance of common designer directive storing common stuff
      */
     protected common: LayoutDesignerCommonDirective = inject(LayoutDesignerCommonDirective);
@@ -103,6 +109,16 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      * Instance of angular injector
      */
     protected injector: Injector = inject(Injector);
+
+    //######################### protected properties #########################
+
+    /**
+     * Gets instance of layout designer component
+     */
+    protected get designer(): LayoutDesignerDirective
+    {
+        return (this.ɵdesigner ??= this.injector.get(LayoutDesignerDirective));
+    }
 
     //######################### public properties #########################
 
@@ -239,6 +255,11 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      */
     protected showRemoveBtn(): void
     {
+        if(!this.designer.parent || !this.designer.parent.editorMetadata.metadata?.removeDescendant)
+        {
+            return;
+        }
+
         this.removeBtnDiv = this.document.createElement('div');
         this.removeBtnDiv.classList.add('designer-overlay-remove');
 

@@ -8,7 +8,7 @@ import {DndModule} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
 
 import {LayoutDesignerComponentOptions} from './layoutDesigner.options';
-import {CopyDesignerStylesSADirective, DesignerDropzoneSADirective, DesignerMinDimensionSADirective} from '../../directives';
+import {DesignerDropzoneSADirective} from '../../directives';
 import {LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorRenderer} from '../../services';
 import {LayoutEditorMetadataDescriptor} from '../../decorators';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
@@ -29,8 +29,6 @@ import {CombineRenderersCallbacksSAPipe} from '../../pipes';
         LayoutDndCoreModule,
         DndModule,
         LayoutComponentRendererSADirective,
-        DesignerMinDimensionSADirective,
-        CopyDesignerStylesSADirective,
         DesignerDropzoneSADirective,
         PositionToSADirective,
         BodyRenderDirective,

@@ -102,13 +102,6 @@ export interface LayoutEditorMetadataDescriptor<TOptions = any>
      * @param index - Index where should be new item added
      */
     readonly addDescendant?: Action3<LayoutComponentMetadata, TOptions, number>;
-
-    /**
-     * Applies designer styles that are required to be applied to drag n drop div
-     * @param options - Options containing styles to be applied
-     * @param styles - Css object storing html element styles
-     */
-    readonly applyDesignerStyles?: Action2<TOptions|null|undefined, CSSStyleDeclaration>;
     
     /**
      * Tests whether component can accept new metadata to be dropped in, or not (whether child, children can be added)

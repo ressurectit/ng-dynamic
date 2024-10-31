@@ -3,7 +3,6 @@ import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/d
 import {Action, Func} from '@jscrpt/common';
 
 import {GridPanelAreaComponentOptions} from '../gridPanelArea.options';
-import {applyGridCoordinates} from '../gridPanelArea.utils';
 
 /**
  * Grid panel area metadata
@@ -28,11 +27,6 @@ export class GridPanelAreaLayoutEditorMetadata implements LayoutEditorMetadataDe
     {
         options.component = metadata;
     };
-
-    /**
-     * @inheritdoc
-     */
-    public applyDesignerStyles: Action<[GridPanelAreaComponentOptions|null|undefined, CSSStyleDeclaration]> = applyGridCoordinates;
 
     /**
      * @inheritdoc

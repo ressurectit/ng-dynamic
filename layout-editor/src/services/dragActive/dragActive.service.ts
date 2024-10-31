@@ -1,23 +1,25 @@
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
+//TODO: rework with signals
+
 /**
  * Service that holds information whether is currently drag active
  */
 @Injectable()
 export class DragActiveService
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
     
     /**
      * Current dragging value
      */
-    private _dragging: boolean = false;
+    protected ɵdragging: boolean = false;
     
     /**
      * Used for emitting dragging changes
      */
-    private _draggingChange: Subject<void> = new Subject<void>();
+    protected ɵdraggingChange: Subject<void> = new Subject<void>();
     
     //######################### public properties #########################
     
@@ -26,7 +28,7 @@ export class DragActiveService
      */
     public get dragging(): boolean
     {
-        return this._dragging;
+        return this.ɵdragging;
     }
     
     /**
@@ -34,7 +36,7 @@ export class DragActiveService
      */
     public get draggingChange(): Observable<void>
     {
-        return this._draggingChange.asObservable();
+        return this.ɵdraggingChange.asObservable();
     }
     
     //######################### public methods #########################
@@ -45,12 +47,12 @@ export class DragActiveService
      */
     public setDragging(dragging: boolean): void
     {
-        if(this._dragging == dragging)
+        if(this.ɵdragging == dragging)
         {
             return;
         }
     
-        this._dragging = dragging;
-        this._draggingChange.next();
+        this.ɵdragging = dragging;
+        this.ɵdraggingChange.next();
     }
 }

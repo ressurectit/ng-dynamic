@@ -10,36 +10,15 @@
      [noHTML5Preview]="true"
      [isDropZone]="canDrop"
      (dropMetadata)="addDescendant($event)"
-     [copyDesignerStyles]="renderedType"
      (mouseleave)="hideOverlay($event)"
      (mouseover)="showOverlay($event)"
      (click)="selectComponent($event)"
      (dblclick)="unselectComponent($event)">
     <div class="designer-dropzone"
          #layoutDropzone
-         designerMinWidth
-         #minWidthDirective="designerMinWidth"
-         [canDrop]="canDrop"
-         [editorMetadata]="editorMetadata"
-         [horizontal]="parent?.horizontal ?? false"
          [dropTarget]="dndCore.dropzone"
          [isDropZone]="canDrop">
 
-        @if(highlighted || selected)
-        {
-            @if(!!parent && parent.editorMetadata?.removeDescendant)
-            {
-                <div *bodyRender
-                     class="designer-overlay-remove"
-                     [positionTo]="layoutDesigner"
-                     [offset]="{mainAxis: -14}"
-                     placement="TopEnd"
-                     (click)="remove()">
-                    <span class="fas fa-times"></span>
-                </div>
-            }
-        }
-
-        <ng-container *layoutComponentRenderer="renderedType; callback: [dndCore.renderedComponentCallback, minWidthDirective.renderedComponentCallback] | combineRenderersCallbacks"/>
+        <ng-container *layoutComponentRenderer="renderedType; callback: [dndCore.renderedComponentCallback] | combineRenderersCallbacks"/>
     </div>
 </div>

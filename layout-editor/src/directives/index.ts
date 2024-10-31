@@ -1,6 +1,4 @@
-export * from './copyDesignerStyles/copyDesignerStyles.directive';
 export * from './designerDropzone/designerDropzone.directive';
-export * from './designerMinDimension/designerMinDimension.directive';
 export * from './layoutDesigner/layoutDesigner.directive';
 export * from './layoutDesignerCommon/layoutDesignerCommon.directive';
 export * from './layoutDesignerDnD/layoutDesignerDnD.directive';

@@ -1,9 +1,9 @@
 import {ClassProvider, ExistingProvider, FactoryProvider, Type, ValueProvider, inject} from '@angular/core';
 import {LOGGER} from '@anglr/common';
 import {CoreDynamicFeature, defaultExportExtractor, DefaultsOverride, DynamicFeature, DynamicFeatureType, DynamicItemLoader, DynamicModuleDataExtractor, EDITOR_METADATA_MANAGER, MetadataHistoryManager, PackageManager} from '@anglr/dynamic';
-import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LAYOUT_COMPONENTS_MODULE_PROVIDERS, LayoutRenderer, withLayoutRuntime} from '@anglr/dynamic/layout';
+import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LayoutRenderer, withLayoutRuntime} from '@anglr/dynamic/layout';
 
-import {DragActiveService, LayoutComponentsIteratorService, LayoutDesignerDynamicModuleItemsProvider, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor, LayoutEditorRenderer, LiveEventService} from '../services';
+import {DragActiveService, LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor, LayoutEditorRenderer, LiveEventService} from '../services';
 import {layoutDesignerTypeExtractor} from './extractors';
 import {LAYOUT_DEFAULTS_OVERRIDE, LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_HISTORY_MANAGER, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
 import {LayoutPropertyMetadata} from './types';
@@ -24,16 +24,6 @@ const DESIGNER_LAYOUT_COMPONENTS_EXTRACTOR: FactoryProvider =
                                               ],
                                               inject(LOGGER));
     },
-    multi: true
-};
-
-/**
- * Provider for layout designer components providers
- */
-const LAYOUT_DESIGNER_COMPONENTS_PROVIDER: ClassProvider =
-{
-    provide: LAYOUT_COMPONENTS_MODULE_PROVIDERS,
-    useClass: LayoutDesignerDynamicModuleItemsProvider,
     multi: true
 };
 
@@ -108,7 +98,6 @@ export function withLayoutEditor(): CoreDynamicFeature
                                       ],
                                       providers: 
                                       [
-                                          LAYOUT_DESIGNER_COMPONENTS_PROVIDER,
                                           LAYOUT_MODULE_TYPES_LOADER_PROVIDER,
                                           DEFAULT_LAYOUT_MODULE_TYPES_EXTRACTOR,
                                           LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES_PROVIDER,

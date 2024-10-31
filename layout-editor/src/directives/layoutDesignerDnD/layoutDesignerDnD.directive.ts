@@ -1,4 +1,4 @@
-import {Directive, inject, OnDestroy} from '@angular/core';
+import {Directive, inject, NgZone, OnDestroy} from '@angular/core';
 import {isBlank, isPresent} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
@@ -76,6 +76,11 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      * Service used for rendering placeholder
      */
     protected placeholderRenderer: PlaceholderRenderer = inject(PlaceholderRenderer);
+
+    /**
+     * Instance of angular Zone
+     */
+    protected ngZone: NgZone = inject(NgZone);
 
     //######################### protected properties #########################
 
@@ -286,9 +291,22 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                                      }
                                                  }
                                              }, this.initSubscriptions);
+
+        this.connectDragSource();
     }
 
     //######################### protected methods #########################
+
+    /**
+     * Connects drag element to drag source
+     */
+    protected connectDragSource(): void
+    {
+        this.ngZone.runOutsideAngular(() =>
+        {
+            this.initSubscriptions.add(this.drag.connectDragSource(this.common.element.nativeElement));
+        });
+    }
 
     /**
      * Gets drop coordinates

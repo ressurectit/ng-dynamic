@@ -30,7 +30,7 @@ export class LayoutDesignerCommonDirective
     /**
      * Instance of editor medata directive
      */
-    protected ɵeditorMetadata: LayoutDesignerEditorMetadataDirective = inject(LayoutDesignerEditorMetadataDirective);
+    protected ɵeditorMetadata: LayoutDesignerEditorMetadataDirective|undefined|null;
 
     /**
      * Instance of layout designer component
@@ -45,7 +45,7 @@ export class LayoutDesignerCommonDirective
     /**
      * Instance of layout editor manager
      */
-    protected ɵlayoutEditorManager: LayoutEditorMetadataManager = inject(LayoutEditorMetadataManager);
+    protected ɵlayoutEditorManager: LayoutEditorMetadataManager|undefined|null;
 
     //######################### public properties #########################
     
@@ -70,7 +70,7 @@ export class LayoutDesignerCommonDirective
      */
     public get editorMetadata(): LayoutDesignerEditorMetadataDirective
     {
-        return this.ɵeditorMetadata;
+        return(this.ɵeditorMetadata ??= this.injector.get(LayoutDesignerEditorMetadataDirective));
     }
     
     /**
@@ -94,6 +94,6 @@ export class LayoutDesignerCommonDirective
      */
     public get layoutEditorManager(): LayoutEditorMetadataManager
     {
-        return this.ɵlayoutEditorManager;
+        return (this.ɵlayoutEditorManager ??= this.injector.get(LayoutEditorMetadataManager));
     }
 }

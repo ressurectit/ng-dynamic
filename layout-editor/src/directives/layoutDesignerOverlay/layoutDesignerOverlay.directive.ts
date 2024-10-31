@@ -1,8 +1,8 @@
-import {ComponentRef, Directive, inject, Injector, OnDestroy, signal, ViewContainerRef, WritableSignal} from '@angular/core';
+import {ComponentRef, Directive, inject, Injector, OnDestroy, ViewContainerRef} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {applyPositionResult, getHostElement, Position, POSITION, PositionPlacement} from '@anglr/common';
 import {BindThis, renderToBody} from '@jscrpt/common';
-import {Subscription} from 'rxjs';
+import {Observable, Subject, Subscription} from 'rxjs';
 
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
 import {LayoutDesignerLayoutComponent} from '../../components/layoutDesignerLayout/layoutDesignerLayout.component';
@@ -25,9 +25,9 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     //######################### protected fields #########################
 
     /**
-     * Indication whether hiding overlay is enabled
+     * Subject used for emitting remove component event
      */
-    protected preventOverlayHideSignal: WritableSignal<boolean> = signal(false);
+    protected removeSubject: Subject<void> = new Subject<void>();
 
     /**
      * Instance of overlay div element
@@ -103,6 +103,16 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      * Instance of angular injector
      */
     protected injector: Injector = inject(Injector);
+
+    //######################### public properties #########################
+
+    /**
+     * Occurs when user is trying to remove component
+     */
+    public get remove(): Observable<void>
+    {
+        return this.removeSubject.asObservable();
+    }
 
     //######################### public methods - implementation of OnDestroy #########################
 
@@ -240,6 +250,8 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
         this.removeBtnDiv.appendChild(button);
         this.common.element.nativeElement.append(this.removeBtnDiv);
 
+        button.addEventListener('click', this.removeComponent);
+
         this.removeBtnPositionSubscriptions = this.position.placeElement(this.removeBtnDiv, this.common.element.nativeElement, {autoUpdate: true, placement: PositionPlacement.TopEnd, offset: {mainAxis: -19, crossAxis: -2}}).subscribe(applyPositionResult);
     }
 
@@ -248,10 +260,20 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      */
     protected hideRemoveBtn(): void
     {
+        this.removeBtnDiv?.querySelector('button')?.removeEventListener('click', this.removeComponent);
         this.removeBtnDiv?.remove();
         this.removeBtnDiv = null;
         this.removeBtnPositionSubscriptions?.unsubscribe();
         this.removeBtnPositionSubscriptions = null;
+    }
+
+    /**
+     * Removes component from tree
+     */
+    @BindThis
+    protected removeComponent(): void
+    {
+        this.removeSubject.next();
     }
 
     /**

@@ -36,6 +36,26 @@ export class LayoutDesignerEditorMetadataDirective
      */
     protected ɵhorizontal: boolean = false;
 
+    /**
+     * Instance of layout component metadata
+     */
+    protected layoutComponentMetadata: LayoutComponentMetadata|undefined|null;
+
+    //######################### protected properties #########################
+
+    /**
+     * Gets instance of layout component metadata safely
+     */
+    protected get layoutComponentMetadataSafe(): LayoutComponentMetadata
+    {
+        if(!this.layoutComponentMetadata)
+        {
+            throw new Error('LayoutDesignerEditorMetadataDirective: missing metadata!');
+        }
+
+        return this.layoutComponentMetadata;
+    }
+
     //######################### public properties #########################
 
     /**
@@ -70,12 +90,19 @@ export class LayoutDesignerEditorMetadataDirective
      */
     public async initialize(metadata: LayoutComponentMetadata): Promise<void>
     {
+        this.layoutComponentMetadata = metadata;
         //TODO: SCOPE: use parent scope for settings this
         // options.typeMetadata.scope = this.scopeId;
 
-        // await this.updateIndex();
-
         this.ɵeditorMetadata = await this.metadataExtractor.extractMetadata(metadata);
-        this.ɵcanDrop = this.metadata?.canDropMetadata?.(metadata.options) ?? false;
+        this.updateCanDrop();
+    }
+
+    /**
+     * Updates can drop value
+     */
+    public updateCanDrop(): void
+    {
+        this.ɵcanDrop =this.metadata?.canDropMetadata?.(this.layoutComponentMetadataSafe.options) ?? false;
     }
 }

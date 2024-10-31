@@ -225,22 +225,6 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
     public selectComponent(id?: string): void
     {
         this.ɵselectedComponent.set(id ?? null);
-
-        //TODO: remove if works
-        // const selected = this.ɵselectedComponent();
-        // this.ɵselectedComponent.set(id ?? null);
-
-        // //clear selection
-        // if(isPresent(selected))
-        // {
-        //     this.components[selected]?.component.invalidateVisuals();
-        // }
-
-        // //select new one
-        // if(isPresent(id))
-        // {
-        //     this.components[id]?.component.invalidateVisuals();
-        // }
     }
 
     /**
@@ -249,16 +233,6 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
     public unselectComponent(): void
     {
         this.ɵselectedComponent.set(null);
-
-        //TODO: remove if works
-        // const selected = this.ɵselectedComponent();
-        // this.ɵselectedComponent.set(null);
-
-        // //clear selection
-        // if(isPresent(selected))
-        // {
-        //     this.components[selected]?.component.invalidateVisuals();
-        // }
     }
 
     /**
@@ -268,22 +242,6 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
     public highlightComponent(id?: string): void
     {
         this.ɵhighlightedComponent.set(id ?? null);
-
-        //TODO: remove if works
-        // const highlighted = this.ɵhighlightedComponent();
-        // this.ɵhighlightedComponent.set(id ?? null);
-
-        // //clear highlighted
-        // if(isPresent(highlighted))
-        // {
-        //     this.components[highlighted]?.component.invalidateVisuals();
-        // }
-
-        // //highlight new one
-        // if(isPresent(id))
-        // {
-        //     this.components[id]?.component.invalidateVisuals();
-        // }
     }
 
     /**
@@ -292,16 +250,6 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
     public cancelHighlightedComponent(): void
     {
         this.ɵhighlightedComponent.set(null);
-
-        //TODO: remove if works
-        // const highlighted = this.ɵhighlightedComponent();
-        // this.ɵhighlightedComponent.set(null);
-
-        // //clear highlight
-        // if(isPresent(highlighted))
-        // {
-        //     this.components[highlighted]?.component.invalidateVisuals();
-        // }
     }
 
 

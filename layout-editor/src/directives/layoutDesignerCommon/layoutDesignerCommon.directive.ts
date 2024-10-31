@@ -1,4 +1,5 @@
 import {Directive, ElementRef, inject} from '@angular/core';
+import {LOGGER, Logger} from '@anglr/common';
 
 /**
  * Directive for shared properties among all layout designer directives
@@ -17,6 +18,11 @@ export class LayoutDesignerCommonDirective
      */
     protected ɵelement: ElementRef<HTMLElement> = inject(ElementRef);
 
+    /**
+     * Instance of logger
+     */
+    protected ɵlogger: Logger = inject(LOGGER);
+
     //######################### public properties #########################
     
     /**
@@ -25,5 +31,13 @@ export class LayoutDesignerCommonDirective
     public get element(): ElementRef<HTMLElement>
     {
         return this.ɵelement;
+    }
+
+    /**
+     * Gets instance of logger
+     */
+    public get logger(): Logger
+    {
+        return this.ɵlogger;
     }
 }

@@ -5,7 +5,7 @@ import {BindThis, Invalidatable, isDescendant} from '@jscrpt/common';
 import {LayoutDesignerOverlayDirective} from '../layoutDesignerOverlay/layoutDesignerOverlay.directive';
 import {LayoutDesignerEditorMetadataDirective} from '../layoutDesignerEditorMetadata/layoutDesignerEditorMetadata.directive';
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
-import {LayoutComponentsIteratorService, LayoutEditorMetadataManager} from '../../services';
+import {LayoutComponentsIteratorService, LayoutEditorMetadataManager, LiveEventService} from '../../services';
 import {LayoutComponentDragData} from '../../interfaces';
 import type {DndCoreDesignerDirective} from '../../modules/layoutDndCore/directives/dndCoreDesigner/dndCoreDesigner.directive';
 
@@ -41,6 +41,11 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      * Indication whether is overlay visible for this component
      */
     protected overlayVisible: Signal<boolean>;
+
+    /**
+     * Instance of live events service
+     */
+    protected liveEvents: LiveEventService = inject(LiveEventService);
 
     /**
      * Instance of change detector for component
@@ -180,6 +185,20 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
                 this.hideOverlay();
             }
         });
+
+        effect(() =>
+        {
+            const liveEventsEnabled = this.liveEvents.enabled();
+
+            if(!liveEventsEnabled)
+            {
+                this.common.element.nativeElement.classList.add('designer-live-events-off');
+            }
+            else
+            {
+                this.common.element.nativeElement.classList.remove('designer-live-events-off');
+            }
+        });
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -237,6 +256,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     {
         this.metadataSafe.displayName = displayName;
         this.displayNameSignal.set(displayName);
+        this.overlay.updateTitle(displayName || this.metadataSafe.id);
     }
 
     /**

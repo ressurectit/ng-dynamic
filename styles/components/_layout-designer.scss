@@ -18,6 +18,14 @@
         }
     }
 
+    .designer-live-events-off
+    {
+        .live-events-supported
+        {
+            pointer-events: none;
+        }
+    }
+
     @at-root
     {
         .dynamic-body-container

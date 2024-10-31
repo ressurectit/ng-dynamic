@@ -1,6 +1,6 @@
 <div #dndCoreTree="dndCoreTreeItem"
      #dropzone
-     [dndCoreTreeItem]="{metadata: data, parentId: parentId, index: index}"
+     [dndCoreTreeItem]="{metadata: data(), parentId: parentId, index: index}"
      [dropzoneElement]="dropzone"
      [containerElement]="childrenContainer"
      [dragDisabled]="dragDisabled"
@@ -19,10 +19,10 @@
                 <span class="fa" *ngIf="hasChildren" [ngClass]="open ? 'fa-chevron-down' : 'fa-chevron-right'"></span>
             </button>
 
-            <div [class.selected]="data?.id === manager.selectedComponent()"
-                 [class.highlighted]="data?.id === manager.highlightedComponent()"
-                 (mouseover)="highlight($event, data?.id)"
-                 (click)="manager.selectComponent(data?.id)">{{data?.displayName || data?.id}}</div>
+            <div [class.selected]="data()?.id === manager.selectedComponent()"
+                 [class.highlighted]="data()?.id === manager.highlightedComponent()"
+                 (mouseover)="highlight($event, data()?.id)"
+                 (click)="manager.selectComponent(data()?.id)">{{displayName()}}</div>
         </div>
     
         <div #childrenContainer
@@ -32,7 +32,7 @@
             {
                 <div class="node-child">
                     <components-tree-item [data]="child"
-                                          [parentId]="data?.id"
+                                          [parentId]="data()?.id"
                                           [index]="$index"/>
                 </div>
             }

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, Input, OnInit, OnDestroy, ViewChildren, QueryList, Injector, inject} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, Input, OnInit, OnDestroy, ViewChildren, QueryList, Injector, inject, Signal, computed, InputSignal, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
@@ -57,12 +57,11 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     protected injector: Injector = inject(Injector);
 
-    //######################### protected fields - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Indicates whether layout component has children
      * @param node layout component to check
-     * @returns 
      */
     protected get hasChildren(): boolean
     {
@@ -74,7 +73,9 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     protected get dragDisabled(): boolean
     {
-        return !this.parentId || !this.data || this.manager.getComponent(this.data.id)?.dragDisabled === true;
+        const data = this.data();
+
+        return !this.parentId || !data || this.manager.getComponent(data.id)?.dragDisabled === true;
     }
 
     /**
@@ -83,13 +84,17 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     @ViewChildren(ComponentsTreeItemSAComponent)
     protected childrenNodes!: QueryList<ComponentsTreeItemSAComponent>;
 
+    /**
+     * Display name to be displayed
+     */
+    protected displayName: Signal<string>;
+
     //######################### public properties - inputs and outputs #########################
 
     /**
-     * Instance component tree item
+     * Instance of component tree item
      */
-    @Input()
-    public data: LayoutComponentMetadata|undefined|null;
+    public data: InputSignal<LayoutComponentMetadata|undefined|null> = input();
 
     /**
      * Tree item index
@@ -113,9 +118,26 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     constructor(protected manager: LayoutEditorMetadataManager,
                 protected changeDetector: ChangeDetectorRef,
                 protected draggingSvc: DragActiveService,
-                protected iteratorSvc: LayoutComponentsIteratorService,
-    )
+                protected iteratorSvc: LayoutComponentsIteratorService,)
     {
+        this.displayName = computed(() =>
+        {
+            const data = this.data();
+
+            if(!data)
+            {
+                return '';
+            }
+
+            const component = manager.getComponent(data.id);
+
+            if(!component)
+            {
+                return '';
+            }
+
+            return (component.displayName() || component.metadataSafe.id) ?? '';
+        });
     }
 
     //######################### public methods - implementation of OnInit #########################
@@ -125,10 +147,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public ngOnInit(): void
     {
-        this.initSubscriptions.add(this.manager.layoutChange.subscribe(() => 
-        {
-            this.initChildren();
-        }));
+        this.initSubscriptions.add(this.manager.layoutChange.subscribe(() => this.initChildren()));
         
         this.initSubscriptions.add(toObservable(this.manager.selectedComponent, {injector: this.injector})
             .pipe(skip(1))
@@ -144,9 +163,6 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
         this.initSubscriptions.add(toObservable(this.manager.draggedOverComponent, {injector: this.injector})
             .pipe(skip(1))
             .subscribe(() => this.handleDragOver()));
-
-        //TODO: update display name if changes
-        // this.initSubscriptions.add(this.manager.displayNameChange.subscribe(() => this.changeDetector.detectChanges()));
 
         this.initChildren();
     }
@@ -184,7 +200,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
             return true;
         }
 
-        if (this.data?.id === nodeId)
+        if (this.data()?.id === nodeId)
         {
             return true;
         }
@@ -210,9 +226,11 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public addDescendant(dragData: LayoutComponentDragData): void
     {
-        if (this.data)
+        const data = this.data();
+
+        if (data)
         {
-            this.manager.getComponent(this.data.id)?.addDescendant(dragData);
+            this.manager.getComponent(data.id)?.addDescendant(dragData);
         }
     }
     
@@ -246,15 +264,19 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
 
     //######################### protected methods #########################
 
+    /**
+     * Initialize children of component tree item
+     */
     @DebounceCall(10)
     @WithSync()
     protected async initChildren(): Promise<void>
     {
         this.children = [];
+        const data = this.data();
 
-        if (this.data)
+        if (data)
         {
-            for await(const child of this.iteratorSvc.getChildrenIteratorFor(this.data))
+            for await(const child of this.iteratorSvc.getChildrenIteratorFor(data))
             {
                 this.children.push(child.metadata);
             }
@@ -283,7 +305,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     protected handleDragOver(): void
     {
-        if (this.manager.draggedOverComponent() != this.data?.id)
+        if (this.manager.draggedOverComponent() != this.data()?.id)
         {
             this.dragOverSubscription?.unsubscribe();
             this.dragOverSubscription = null;

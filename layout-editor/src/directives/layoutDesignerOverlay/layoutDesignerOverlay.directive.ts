@@ -139,17 +139,12 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
                 }
 
                 //update border
-                this.updateBorderDimensions();
+                this.updateBorderPosition();
 
                 //update layout
-                const element = getHostElement(this.layoutComponent);
+                const computedStyles = getComputedStyle(this.common.element.nativeElement);
 
-                if(element)
-                {
-                    const computedStyles = getComputedStyle(this.common.element.nativeElement);
-
-                    this.updateLayoutDimensions(element, computedStyles);
-                }
+                this.updateLayoutPosition(computedStyles);
             }
         });
 
@@ -165,6 +160,8 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
 
         this.styleObserver.observe(this.common.element.nativeElement, {attributeFilter: ['style']});
 
+        this.common.element.nativeElement.addEventListener('transitionend', this.transitionEndHandler);
+
         this.showTitle(title);
         this.showRemoveBtn();
         this.showLayout();
@@ -175,6 +172,7 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
      */
     public hideOverlay(): void
     {
+        this.common.element.nativeElement.removeEventListener('transitionend', this.transitionEndHandler);
         this.overlayPositionSubscriptions?.unsubscribe();
         this.overlayPositionSubscriptions = null;
         this.overlayDiv?.remove();
@@ -184,6 +182,18 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
         this.hideTitle();
         this.hideRemoveBtn();
         this.hideLayout();
+    }
+
+    /**
+     * Updates component title
+     * @param title - Title to be updated
+     */
+    public updateTitle(title: string): void
+    {
+        if(this.titleDiv)
+        {
+            this.titleDiv.innerText = title;
+        }
     }
 
     //######################### protected methods #########################
@@ -242,24 +252,6 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
         this.removeBtnDiv = null;
         this.removeBtnPositionSubscriptions?.unsubscribe();
         this.removeBtnPositionSubscriptions = null;
-    }
-
-    /**
-     * Handles mouse enter for 'remove button'
-     */
-    @BindThis
-    protected removeBtnEnter(): void
-    {
-        this.preventOverlayHideSignal.set(true);
-    }
-
-    /**
-     * Handles mouse leave for 'remove button'
-     */
-    @BindThis
-    protected removeBtnLeave(): void
-    {
-        this.preventOverlayHideSignal.set(false);
     }
 
     /**
@@ -362,5 +354,17 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
                 this.overlayPositionSubscriptions = this.position.placeElement(this.overlayDiv, this.common.element.nativeElement, {autoUpdate: true, offset: {mainAxis: -this.common.element.nativeElement.offsetHeight}}).subscribe(applyPositionResult);
             }
         });
+    }
+
+    /**
+     * Handles finished css transition
+     */
+    @BindThis
+    protected transitionEndHandler(): void
+    {
+        const computedStyles = getComputedStyle(this.common.element.nativeElement);
+
+        this.updateBorderPosition();
+        this.updateLayoutPosition(computedStyles);
     }
 }

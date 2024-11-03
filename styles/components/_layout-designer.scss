@@ -2,13 +2,6 @@
 
 @mixin css
 {
-    .designer-element.drag-active
-    {
-        padding: 8px;
-        margin: 8px;
-        border: solid 1px var(--dynamic-layoutDesigner-designerDropzoneDragActive-border);
-    }
-
     .designer-overlay-remove
     {
         position: absolute;
@@ -33,15 +26,56 @@
         }
     }
 
-    .designer-element:empty,
-    .designer-element:has(>.designer-overlay-remove:only-child)
+    .designer-element
     {
-        min-width: 10px;
-        min-height: 10px;
+        &:empty,
+        &:has(>.designer-overlay-remove:only-child)
+        {
+            min-width: 10px;
+            min-height: 10px;
+        }
+
+        &.drag-active
+        {
+            padding: 8px;
+            margin: 8px;
+            border: solid 1px var(--dynamic-layoutDesigner-designerDropzoneDragActive-border);
+        }
+
+        &.is-dragged
+        {
+            background: none;
+            box-shadow: none;
+    
+            &::before
+            {
+                content: "";
+                background: var(--dynamic-layoutDesigner-dragged-background);
+                box-shadow: inset 0 3px 7px var(--dynamic-layoutDesigner-dragged-shadow1), inset 0 1px 3px var(--dynamic-layoutDesigner-dragged-shadow2);
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+    
+            &.drag-active
+            {
+                border: none;
+            }
+        }
     }
 
     @at-root
     {
+        .layout-placeholder
+        {
+            @extend %drag-placeholder;
+
+            z-index: 2345;
+            position: absolute;
+        }
+
         .dynamic-body-container
         {
             .designer-overlay-border
@@ -168,28 +202,7 @@
     // {
     //     display: contents;
 
-    //     .is-dragged
-    //     {
-    //         background: none;
-    //         box-shadow: none;
-    
-    //         &::before
-    //         {
-    //             content: "";
-    //             background: var(--dynamic-layoutDesigner-dragged-background);
-    //             box-shadow: inset 0 3px 7px var(--dynamic-layoutDesigner-dragged-shadow1), inset 0 1px 3px var(--dynamic-layoutDesigner-dragged-shadow2);
-    //             position: absolute;
-    //             top: 0;
-    //             left: 0;
-    //             width: 100%;
-    //             height: 100%;
-    //         }
 
-    //         .designer-dropzone.drag-active
-    //         {
-    //             border: none;
-    //         }
-    //     }
     
     //     .designer-overlay
     //     {
@@ -229,13 +242,5 @@
     //         pointer-events: none;
     //         border: 1px solid var(--dynamic-layoutDesigner-overlay-border);
     //     }
-    // }
-
-    // .layout-placeholder
-    // {
-    //     @extend %drag-placeholder;
-
-    //     z-index: 2345;
-    //     position: absolute;
     // }
 }

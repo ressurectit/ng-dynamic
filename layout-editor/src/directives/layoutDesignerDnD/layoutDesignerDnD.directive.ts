@@ -193,6 +193,12 @@ export class LayoutDesignerDnDDirective implements OnDestroy
             .pipe(filter(itm => itm.id === this.common.designer.metadataSafe.id))
             .subscribe(itm => this.common.designer.addDescendant(itm.data)));
 
+        //create placeholder in this component
+        this.initSubscriptions.add(this.bus
+            .newDropPlaceholderPreviewChange
+            .pipe(filter(itm => itm.parentId === this.common.designer.metadataSafe.id))
+            .subscribe(preview => this.showPlaceholderPreview(preview)));
+
         this.ɵplaceholderDrop = this.dnd.dropTarget(dropTypes,
                                                     {
                                                         canDrop: () => true,

@@ -1,7 +1,7 @@
-import {Directive, inject, NgZone, OnDestroy} from '@angular/core';
+import {Directive, effect, inject, NgZone, OnDestroy} from '@angular/core';
 import {isBlank, isPresent} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
-import {Subscription} from 'rxjs';
+import {filter, Subscription} from 'rxjs';
 
 import {DragActiveService, LayoutEditorMetadataManagerComponent} from '../../services';
 import {DndBusService} from '../../modules/layoutDndCore/services/dndBus/dndBus.service';
@@ -14,6 +14,22 @@ import {DropPlaceholderPreview} from '../../modules/layoutDndCore/services/dndBu
 
 const DEFAULT_DROP_TYPES = ['COMPONENT', 'METADATA'];
 const DEFAULT_DRAG_TYPE = 'COMPONENT';
+
+let emptyImage: HTMLImageElement;
+
+/**
+ * Returns a 0x0 empty GIF for use as a drag preview.
+ */
+function getEmptyImage() 
+{
+    if (!emptyImage) 
+    {
+        emptyImage = new Image();
+        emptyImage.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    }
+
+    return emptyImage;
+  }
 
 /**
  * Directive used for handling drag n drop
@@ -81,6 +97,22 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      * Instance of angular Zone
      */
     protected ngZone: NgZone = inject(NgZone);
+
+    //######################### constructor #########################
+    constructor()
+    {
+        effect(() =>
+        {
+            if(this.draggingSvc.dragging() && this.common.editorMetadata.canDrop)
+            {
+                this.common.element.nativeElement.classList.add('drag-active');
+            }
+            else
+            {
+                this.common.element.nativeElement.classList.remove('drag-active');
+            }
+        });
+    }
 
     //######################### protected properties #########################
 
@@ -153,7 +185,15 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      */
     public initalize(): void
     {
-        this.ɵplaceholderDrop = this.dnd.dropTarget(DEFAULT_DROP_TYPES,
+        const dropTypes = this.common.editorMetadata.metadata?.customDropTypes?.().layout ?? DEFAULT_DROP_TYPES;
+        const dragTypes = this.common.editorMetadata.metadata?.customDragType?.().layout ?? DEFAULT_DRAG_TYPE;
+
+        this.initSubscriptions.add(this.bus
+            .dropDataChange
+            .pipe(filter(itm => itm.id === this.common.designer.metadataSafe.id))
+            .subscribe(itm => this.common.designer.addDescendant(itm.data)));
+
+        this.ɵplaceholderDrop = this.dnd.dropTarget(dropTypes,
                                                     {
                                                         canDrop: () => true,
                                                         drop: monitor =>
@@ -177,7 +217,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                                         },
                                                     }, this.initSubscriptions);
 
-        this.ɵcontainerDrop = this.dnd.dropTarget(DEFAULT_DROP_TYPES,
+        this.ɵcontainerDrop = this.dnd.dropTarget(dropTypes,
                                                   {
                                                       canDrop: monitor => this.canDropAncestors(monitor)[0] && monitor.isOver({shallow: true}),
                                                       drop: monitor =>
@@ -209,7 +249,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                                       }
                                                   }, this.initSubscriptions);
 
-        this.ɵdrag = this.dnd.dragSource(DEFAULT_DRAG_TYPE,
+        this.ɵdrag = this.dnd.dragSource(dragTypes,
                                          {
                                              beginDrag: () =>
                                              {
@@ -260,7 +300,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                          },
                                          this.initSubscriptions);
 
-        this.ɵdropzone = this.dnd.dropTarget(DEFAULT_DROP_TYPES,
+        this.ɵdropzone = this.dnd.dropTarget(dropTypes,
                                              {
                                                  canDrop: monitor => (this.common.editorMetadata.canDrop || this.canDropAncestors(monitor)[0]) && monitor.isOver({shallow: true}) && this.selfIsAncestor(monitor),
                                                  drop: monitor =>
@@ -293,6 +333,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                              }, this.initSubscriptions);
 
         this.connectDragSource();
+        this.connectDropTarget();
     }
 
     //######################### protected methods #########################
@@ -305,6 +346,18 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         this.ngZone.runOutsideAngular(() =>
         {
             this.initSubscriptions.add(this.drag.connectDragSource(this.common.element.nativeElement));
+            this.initSubscriptions.add(this.drag.connectDragPreview(getEmptyImage()));
+        });
+    }
+
+    /**
+     * Connects dropzone element to drop target
+     */
+    protected connectDropTarget(): void
+    {
+        this.ngZone.runOutsideAngular(() =>
+        {
+            this.initSubscriptions.add(this.dropzone.connectDropTarget(this.common.element.nativeElement));
         });
     }
 
@@ -511,11 +564,13 @@ export class LayoutDesignerDnDDirective implements OnDestroy
             return [false, null, id];
         }
 
+        const customDropTypes = component.parent.component.editorMetadata.metadata?.customDropTypes?.().layout;
+
         const dragType = monitor.getItemType() as string;
-        const dropTypes = component.parent.component.dndCoreDesigner.customDropTypes
-            ? Array.isArray(component.parent.component.dndCoreDesigner.customDropTypes)
-                ? component.parent.component.dndCoreDesigner.customDropTypes
-                : [component.parent.component.dndCoreDesigner.customDropTypes]
+        const dropTypes = customDropTypes
+            ? Array.isArray(customDropTypes)
+                ? customDropTypes
+                : [customDropTypes]
             : DEFAULT_DROP_TYPES;
 
         if(component.parent.component.editorMetadata.canDrop &&

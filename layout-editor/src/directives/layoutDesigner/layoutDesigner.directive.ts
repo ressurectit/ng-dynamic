@@ -188,6 +188,8 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         return this.metadata;
     }
 
+    //TODO:remove this
+    
     /**
      * Instance of designer dnd core directive
      */

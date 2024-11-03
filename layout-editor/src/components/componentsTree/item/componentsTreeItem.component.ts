@@ -10,7 +10,6 @@ import {Subscription, skip, timer} from 'rxjs';
 import {DragActiveService, LayoutComponentsIteratorService, LayoutEditorMetadataManager} from '../../../services';
 import {LayoutDndCoreModule} from '../../../modules';
 import {LayoutComponentDragData} from '../../../interfaces';
-import {DesignerDropzoneSADirective} from '../../../directives';
 
 const DRAG_OVER_DELAY = 500;
 
@@ -29,7 +28,6 @@ const DRAG_OVER_DELAY = 500;
         MatButtonModule,
         DndModule,
         LayoutDndCoreModule,
-        DesignerDropzoneSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

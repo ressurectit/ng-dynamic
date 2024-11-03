@@ -2,6 +2,13 @@
 
 @mixin css
 {
+    .designer-element.drag-active
+    {
+        padding: 8px;
+        margin: 8px;
+        border: solid 1px var(--dynamic-layoutDesigner-designerDropzoneDragActive-border);
+    }
+
     .designer-overlay-remove
     {
         position: absolute;

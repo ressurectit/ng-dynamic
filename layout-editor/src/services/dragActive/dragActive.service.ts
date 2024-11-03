@@ -1,7 +1,4 @@
-import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
-
-//TODO: rework with signals
+import {Injectable, Signal, signal, WritableSignal} from '@angular/core';
 
 /**
  * Service that holds information whether is currently drag active
@@ -14,29 +11,16 @@ export class DragActiveService
     /**
      * Current dragging value
      */
-    protected ɵdragging: boolean = false;
-    
-    /**
-     * Used for emitting dragging changes
-     */
-    protected ɵdraggingChange: Subject<void> = new Subject<void>();
+    protected draggingSignal: WritableSignal<boolean> = signal(false);
     
     //######################### public properties #########################
     
     /**
      * Gets current dragging value
      */
-    public get dragging(): boolean
+    public get dragging(): Signal<boolean>
     {
-        return this.ɵdragging;
-    }
-    
-    /**
-     * Occurs when dragging changes
-     */
-    public get draggingChange(): Observable<void>
-    {
-        return this.ɵdraggingChange.asObservable();
+        return this.draggingSignal.asReadonly();
     }
     
     //######################### public methods #########################
@@ -47,12 +31,6 @@ export class DragActiveService
      */
     public setDragging(dragging: boolean): void
     {
-        if(this.ɵdragging == dragging)
-        {
-            return;
-        }
-    
-        this.ɵdragging = dragging;
-        this.ɵdraggingChange.next();
+        this.draggingSignal.set(dragging);
     }
 }

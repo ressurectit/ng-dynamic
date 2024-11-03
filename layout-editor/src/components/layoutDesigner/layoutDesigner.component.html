@@ -8,7 +8,6 @@
      [customDragType]="editorMetadata?.customDragType?.()?.layout"
      [customDropTypes]="editorMetadata?.customDropTypes?.()?.layout"
      [noHTML5Preview]="true"
-     [isDropZone]="canDrop"
      (dropMetadata)="addDescendant($event)"
      (mouseleave)="hideOverlay($event)"
      (mouseover)="showOverlay($event)"
@@ -16,8 +15,7 @@
      (dblclick)="unselectComponent($event)">
     <div class="designer-dropzone"
          #layoutDropzone
-         [dropTarget]="dndCore.dropzone"
-         [isDropZone]="canDrop">
+         [dropTarget]="dndCore.dropzone">
 
         <ng-container *layoutComponentRenderer="renderedType; callback: [dndCore.renderedComponentCallback] | combineRenderersCallbacks"/>
     </div>

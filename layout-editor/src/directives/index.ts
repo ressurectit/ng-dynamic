@@ -1,4 +1,3 @@
-export * from './designerDropzone/designerDropzone.directive';
 export * from './layoutDesigner/layoutDesigner.directive';
 export * from './layoutDesignerCommon/layoutDesignerCommon.directive';
 export * from './layoutDesignerDnD/layoutDesignerDnD.directive';

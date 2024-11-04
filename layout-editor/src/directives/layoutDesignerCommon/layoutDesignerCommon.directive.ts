@@ -3,7 +3,7 @@ import {LOGGER, Logger} from '@anglr/common';
 
 import {LayoutDesignerEditorMetadataDirective} from '../layoutDesignerEditorMetadata/layoutDesignerEditorMetadata.directive';
 import {LayoutDesignerDirective} from '../layoutDesigner/layoutDesigner.directive';
-import {LayoutEditorMetadataManager} from '../../services';
+import {DragActiveService, LayoutEditorMetadataManager} from '../../services';
 
 /**
  * Directive for shared properties among all layout designer directives
@@ -41,6 +41,11 @@ export class LayoutDesignerCommonDirective
      * Instance of angular injector
      */
     protected ɵinjector: Injector = inject(Injector);
+
+    /**
+     * Service used for obtaining information that 'drag' is active
+     */
+    protected ɵdraggingSvc: DragActiveService = inject(DragActiveService);
 
     /**
      * Instance of layout editor manager
@@ -87,6 +92,14 @@ export class LayoutDesignerCommonDirective
     public get injector(): Injector
     {
         return this.ɵinjector;
+    }
+
+    /**
+     * Gets service used for obtaining information that 'drag' is active
+     */
+    public get draggingSvc(): DragActiveService
+    {
+        return this.ɵdraggingSvc;
     }
 
     /**

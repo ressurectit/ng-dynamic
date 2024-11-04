@@ -200,7 +200,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     {
         this.selected = computed(() => this.common.layoutEditorManager.selectedComponent() === this.metadata?.id);
         this.highlighted = computed(() => this.common.layoutEditorManager.highlightedComponent() === this.metadata?.id);
-        this.overlayVisible = computed(() => this.selected() || this.highlighted());
+        this.overlayVisible = computed(() => (this.selected() || this.highlighted()) && !this.common.draggingSvc.dragging());
 
         effect(() =>
         {

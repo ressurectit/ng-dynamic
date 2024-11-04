@@ -3,7 +3,7 @@ import {isBlank, isPresent} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
 import {filter, Subscription} from 'rxjs';
 
-import {DragActiveService, LayoutEditorMetadataManagerComponent} from '../../services';
+import {LayoutEditorMetadataManagerComponent} from '../../services';
 import {DndBusService} from '../../modules/layoutDndCore/services/dndBus/dndBus.service';
 import {PlaceholderRenderer} from '../../modules/layoutDndCore/services/placeholderRenderer/placeholderRenderer.service';
 import {LayoutDragItem, LayoutDropResult} from '../../modules/layoutDndCore/directives/dndCoreDesigner/dndCoreDesigner.interface';
@@ -73,10 +73,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      */
     protected dnd: DndService = inject(DndService);
 
-    /**
-     * Service used for obtaining information that 'drag' is active
-     */
-    protected draggingSvc: DragActiveService = inject(DragActiveService);
+    
 
     /**
      * Service used for sharing data during drag n drop
@@ -113,7 +110,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
     {
         effect(() =>
         {
-            if(this.draggingSvc.dragging() && this.common.editorMetadata.canDrop)
+            if(this.common.draggingSvc.dragging() && this.common.editorMetadata.canDrop)
             {
                 this.common.element.nativeElement.classList.add('drag-active');
             }
@@ -224,7 +221,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                          {
                                              beginDrag: () =>
                                              {
-                                                 this.draggingSvc.setDragging(true);
+                                                 this.common.draggingSvc.setDragging(true);
                                                  this.common.element.nativeElement.classList.add('is-dragged');
 
                                                  return {
@@ -265,7 +262,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                                  }
 
                                                  this.bus.setDropPlaceholderPreview(null);
-                                                 this.draggingSvc.setDragging(false);
+                                                 this.common.draggingSvc.setDragging(false);
                                                  this.common.element.nativeElement.classList.remove('is-dragged');
                                              },
                                          },

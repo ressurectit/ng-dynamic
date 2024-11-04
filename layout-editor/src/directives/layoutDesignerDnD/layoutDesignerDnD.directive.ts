@@ -20,9 +20,9 @@ let emptyImage: HTMLImageElement;
 /**
  * Returns a 0x0 empty GIF for use as a drag preview.
  */
-function getEmptyImage() 
+function getEmptyImage()
 {
-    if (!emptyImage) 
+    if (!emptyImage)
     {
         emptyImage = new Image();
         emptyImage.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
@@ -62,17 +62,12 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      * Drop zone target for dropping over displayed placeholder, drops at exact location of placeholder
      */
     protected ɵplaceholderDrop: DropTarget<LayoutDragItem, LayoutDropResult>|undefined|null;
-
-    /**
-     * Drop zone target for dropping over itself
-     */
-    protected ɵcontainerDrop: DropTarget<LayoutDragItem, LayoutDropResult>|undefined|null;
-
+    
     /**
      * Instance of common designer directive storing common stuff
      */
     protected common: LayoutDesignerCommonDirective = inject(LayoutDesignerCommonDirective);
-    
+
     /**
      * Service used for communication with dnd
      */
@@ -97,6 +92,21 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      * Instance of angular Zone
      */
     protected ngZone: NgZone = inject(NgZone);
+
+    //######################### protected properties #########################
+
+    /**
+     * Gets element that represents container that contains children
+     */
+    protected get containerElement(): Element
+    {
+        if(!this.common.editorMetadata.metadata?.getChildrenContainer)
+        {
+            return this.common.element.nativeElement;
+        }
+
+        return this.common.editorMetadata.metadata?.getChildrenContainer(this.common.element.nativeElement) ?? this.common.element.nativeElement;
+    }
 
     //######################### constructor #########################
     constructor()
@@ -155,21 +165,8 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         return this.ɵplaceholderDrop;
     }
 
-    /**
-     * Drop zone target for dropping over itself
-     */
-    protected get containerDrop(): DropTarget<LayoutDragItem, LayoutDropResult>
-    {
-        if(!this.ɵcontainerDrop)
-        {
-            throw new Error('LayoutDesignerDnDDirective: missing container drop!');
-        }
-
-        return this.ɵcontainerDrop;
-    }
-
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * @inheritdoc
      */
@@ -222,38 +219,6 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                                             };
                                                         },
                                                     }, this.initSubscriptions);
-
-        this.ɵcontainerDrop = this.dnd.dropTarget(dropTypes,
-                                                  {
-                                                      canDrop: monitor => this.canDropAncestors(monitor)[0] && monitor.isOver({shallow: true}),
-                                                      drop: monitor =>
-                                                      {
-                                                          const [index, id] = this.getFixedDropCoordinates(monitor, false);
- 
-                                                          return <LayoutDropResult>{
-                                                              index,
-                                                              id,
-                                                          };
-                                                      },
-                                                      hover: monitor =>
-                                                      {
-                                                          if(monitor.isOver({shallow: true}))
-                                                          {
-                                                              const [index, parentId] = this.getDropCoordinates(monitor, false);
- 
-                                                              if(isBlank(index) || isBlank(parentId))
-                                                              {
-                                                                  return;
-                                                              }
- 
-                                                              this.bus.setDropPlaceholderPreview(
-                                                              {
-                                                                  index,
-                                                                  parentId,
-                                                              });
-                                                          }
-                                                      }
-                                                  }, this.initSubscriptions);
 
         this.ɵdrag = this.dnd.dragSource(dragTypes,
                                          {
@@ -398,7 +363,12 @@ export class LayoutDesignerDnDDirective implements OnDestroy
             //is over itself
             if(item.dragData.metadata?.id === this.common.designer.metadataSafe.id)
             {
-                return [item.dragData.index, item.dragData.parentId ?? ''];
+                if(!item.dragData.parentId)
+                {
+                    throw new Error('LayoutDesignerDnDDirective: missing parent!');
+                }
+
+                return [item.dragData.index, item.dragData.parentId];
             }
         }
 
@@ -418,7 +388,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
     {
         const getHalf = (element: Element) =>
         {
-            const rect = element.children[0].getBoundingClientRect();
+            const rect = element.getBoundingClientRect();
             const position = this.common.editorMetadata.horizontal ? rect.x : rect.y;
             const half = (this.common.editorMetadata.horizontal ? rect.width : rect.height) / 2;
 
@@ -435,9 +405,9 @@ export class LayoutDesignerDnDDirective implements OnDestroy
 
         const position = this.common.editorMetadata.horizontal ? offset.x : offset.y;
 
-        for(let x = 0; x < this.common.element.nativeElement.children.length; x++)
+        for(let x = 0; x < this.containerElement.children.length; x++)
         {
-            const child = this.common.element.nativeElement.children[x];
+            const child = this.containerElement.children[x];
 
             //return index if less than half
             if(position <= getHalf(child))
@@ -509,20 +479,8 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      */
     protected showPlaceholderPreview(preview: DropPlaceholderPreview): void
     {
-        this.placeholderRenderer.renderPlaceholder(this.common.element.nativeElement, preview.index, this.placeholderDrop, this.common.editorMetadata.horizontal);
+        this.placeholderRenderer.renderPlaceholder(this.containerElement, preview.index, this.placeholderDrop, this.common.editorMetadata.horizontal);
     }
-
-    // /**
-    //  * Connects container element to container drop
-    //  */
-    // protected connectDropToContainer(): void
-    // {
-    //     this.ngZone.runOutsideAngular(() =>
-    //     {
-    //         this.containerConnection?.unsubscribe();
-    //         this.containerConnection = this.containerDrop.connectDropTarget(this.designerElement.nativeElement);
-    //     });
-    // }
 
     /**
      * Tests whether dragged element is ancestor of drop target, prevents self inclusion
@@ -534,7 +492,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
 
         if(!metadata)
         {
-            throw new Error('DndCoreDesignerDirective: missing drag metadata!');
+            throw new Error('LayoutDesignerDnDDirective: missing drag metadata!');
         }
 
         let componentDef: LayoutEditorMetadataManagerComponent|undefined|null = this.common.layoutEditorManager.getComponentDef(this.common.designer.metadataSafe.id);
@@ -565,6 +523,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
 
         const component = this.common.layoutEditorManager.getComponentDef(id);
 
+        //no more parents
         if(!component?.parent)
         {
             return [false, null, id];
@@ -579,6 +538,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                 : [customDropTypes]
             : DEFAULT_DROP_TYPES;
 
+        //parent can accept drop and can accept same drop type
         if(component.parent.component.editorMetadata.canDrop &&
            dropTypes.indexOf(dragType) >= 0)
         {

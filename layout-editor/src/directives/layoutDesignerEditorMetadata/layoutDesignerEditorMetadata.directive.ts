@@ -36,11 +36,6 @@ export class LayoutDesignerEditorMetadataDirective
      */
     protected ɵcanDrop: boolean = false;
 
-    /**
-     * Indication whether drop list is horizontally oriented
-     */
-    protected ɵhorizontal: boolean = false;
-
     //######################### public properties #########################
 
     /**
@@ -64,7 +59,7 @@ export class LayoutDesignerEditorMetadataDirective
      */
     public get horizontal(): boolean
     {
-        return this.ɵhorizontal;
+        return this.metadata?.isHorizontalDrop?.(this.common.designer.metadataSafe.options) ?? false;
     }
 
     //######################### public methods #########################
@@ -86,6 +81,6 @@ export class LayoutDesignerEditorMetadataDirective
      */
     public updateCanDrop(): void
     {
-        this.ɵcanDrop =this.metadata?.canDropMetadata?.(this.common.designer.metadataSafe.options) ?? false;
+        this.ɵcanDrop = this.metadata?.canDropMetadata?.(this.common.designer.metadataSafe.options) ?? false;
     }
 }

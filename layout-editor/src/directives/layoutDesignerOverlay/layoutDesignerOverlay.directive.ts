@@ -6,11 +6,7 @@ import {Observable, Subject, Subscription} from 'rxjs';
 
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
 import {LayoutDesignerLayoutComponent} from '../../components/layoutDesignerLayout/layoutDesignerLayout.component';
-
-/**
- * Name of container for dynamic body elements
- */
-const DYNAMIC_BODY_CONTAINER = 'div.dynamic-body-container';
+import {DYNAMIC_BODY_CONTAINER} from '../../misc/constants';
 
 /**
  * Directive used for displaying layout designer overlay

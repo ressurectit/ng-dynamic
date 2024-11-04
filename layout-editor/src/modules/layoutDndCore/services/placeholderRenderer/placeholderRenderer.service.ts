@@ -8,6 +8,7 @@ import {Subscription} from 'rxjs';
 
 import {DndBusService} from '../dndBus/dndBus.service';
 import type {LayoutDragItem, LayoutDropResult} from '../../directives';
+import {DYNAMIC_BODY_CONTAINER} from '../../../../misc/constants';
 
 /**
  * Class that applies css style update to element
@@ -21,14 +22,20 @@ class CssStyleUpdates
      */
     protected marginSide: string;
 
+    /**
+     * Original margin value before update
+     */
+    protected originalMargin: string;
+
     //######################### constructor #########################
-    constructor(protected element: Element,
+    constructor(protected element: HTMLElement,
                 protected before: boolean,
                 protected requiredSpace: number,
                 protected renderer: Renderer2,
                 protected horizontal: boolean,)
     {
-        this.marginSide = this.horizontal ? (this.before ? 'Left' : 'Right') : (this.before ? 'Top' : 'Bottom');
+        this.marginSide = (this.horizontal ? (this.before ? 'Left' : 'Right') : (this.before ? 'Top' : 'Bottom'));
+        this.originalMargin = this.element.style[`margin${this.marginSide}` as keyof CSSStyleDeclaration] as string ?? '';
 
         this.apply();
     }
@@ -40,7 +47,7 @@ class CssStyleUpdates
      */
     public destroy(): void
     {
-        this.renderer.setStyle(this.element, `margin${this.marginSide}`, null);
+        this.renderer.setStyle(this.element, `margin${this.marginSide}`, this.originalMargin);
     }
 
     //######################### protected methods #########################
@@ -50,7 +57,7 @@ class CssStyleUpdates
      */
     protected apply(): void
     {
-        this.renderer.setStyle(this.element, `margin${this.marginSide}`, `${this.requiredSpace}px`);
+        this.renderer.setStyle(this.element, `margin${this.marginSide}`, `calc(${this.requiredSpace}px + ${this.originalMargin || '0px'})`);
     }
 }
 
@@ -161,7 +168,7 @@ export class PlaceholderRenderer implements OnDestroy
         {
             this.applyPosition(containerElement, -6, horizontal ? PositionPlacement.LeftStart : PositionPlacement.TopStart);
 
-            let firstItem = containerElement.children.item(0);
+            const firstItem = containerElement.children.item(0) as HTMLElement|null;
 
             //empty container
             if(!firstItem)
@@ -169,64 +176,25 @@ export class PlaceholderRenderer implements OnDestroy
                 return;
             }
 
-            //node name is display content so use its first child
-            if(firstItem?.nodeName == 'LAYOUT-DESIGNER-COMPONENT')
-            {
-                firstItem = firstItem.firstElementChild;
-            }
-
-            if(!firstItem)
-            {
-                throw new Error('PlaceholderRenderer: missing element!');
-            }
-            
             this.cssUpdateAfter = new CssStyleUpdates(firstItem, true, 6, this.renderer, horizontal);
         }
         //last place in container
         else if(!containerElement.children.item(index))
         {
-            let lastItem = containerElement.children.item(index - 1);
+            const lastItem = containerElement.children.item(index - 1) as HTMLElement;
 
-            //node name is display content so use its first child
-            if(lastItem?.nodeName == 'LAYOUT-DESIGNER-COMPONENT')
-            {
-                lastItem = lastItem.firstElementChild;
-            }
-
-            if(!lastItem)
-            {
-                throw new Error('PlaceholderRenderer: missing element!');
-            }
-            
             this.cssUpdateAfter = new CssStyleUpdates(lastItem, false, 6, this.renderer, horizontal);
-            this.applyPosition(lastItem, 0, horizontal ? PositionPlacement.RightStart : PositionPlacement.BottomStart);
+            this.applyPosition(lastItem, 0, horizontal ? PositionPlacement.RightStart : PositionPlacement.BottomStart, this.getCrossOffset(containerElement, lastItem, horizontal));
         }
         //any other place in container
         else
         {
-            let lastItem = containerElement.children.item(index);
-            let beforeLastItem = containerElement.children.item(index - 1);
+            const lastItem = containerElement.children.item(index) as HTMLElement;
+            const beforeLastItem = containerElement.children.item(index - 1) as HTMLElement;
 
-            //node name is display content so use its first child
-            if(lastItem?.nodeName == 'LAYOUT-DESIGNER-COMPONENT')
-            {
-                lastItem = lastItem.firstElementChild;
-            }
-
-            //node name is display content so use its first child
-            if(beforeLastItem?.nodeName == 'LAYOUT-DESIGNER-COMPONENT')
-            {
-                beforeLastItem = beforeLastItem.firstElementChild;
-            }
-
-            if(!lastItem || !beforeLastItem)
-            {
-                throw new Error('PlaceholderRenderer: missing element!');
-            }
-            
             this.cssUpdateAfter = new CssStyleUpdates(beforeLastItem, false, 3, this.renderer, horizontal);
             this.cssUpdateBefore = new CssStyleUpdates(lastItem, true, 3, this.renderer, horizontal);
-            this.applyPosition(lastItem, 0, horizontal ? PositionPlacement.LeftStart : PositionPlacement.TopStart);
+            this.applyPosition(lastItem, 0, horizontal ? PositionPlacement.LeftStart : PositionPlacement.TopStart, this.getCrossOffset(containerElement, lastItem, horizontal));
         }
     }
 
@@ -246,7 +214,7 @@ export class PlaceholderRenderer implements OnDestroy
         const rect = containerElement.getBoundingClientRect();
         this.renderer.setStyle(this.placeholderElementSafe, horizontal ? 'height' : 'width', `${horizontal ? rect.height : rect.width}px`);
 
-        renderToBody(this.document, this.placeholderElementSafe);
+        renderToBody(this.document, this.placeholderElementSafe, DYNAMIC_BODY_CONTAINER);
 
         this.ngZone.runOutsideAngular(() =>
         {
@@ -278,17 +246,32 @@ export class PlaceholderRenderer implements OnDestroy
     }
 
     /**
+     * Gets cross axis offset used for correct position of placeholder
+     * @param containerElement - Container element inside which is placeholder placed
+     * @param element - Element whose position is used for calculation of offset
+     * @param horizontal - Indication whether place placeholder horizontally
+     */
+    protected getCrossOffset(containerElement: Element, element: Element, horizontal: boolean): number
+    {
+        const containerRect = containerElement.getBoundingClientRect();
+        const elementRect = element.getBoundingClientRect();
+
+        return horizontal ? (containerRect.y - elementRect.y) : (containerRect.x - elementRect.x);
+    }
+
+    /**
      * Applies position to placeholder
      * @param element - Element to be positioned
      * @param offset - Offset that will be applied
      * @param placement - Placement to be used
+     * @param crossOffset - Cross axis offset
      */
-    protected async applyPosition(element: Element, offset: number, placement: PositionPlacement): Promise<void>
+    protected async applyPosition(element: Element, offset: number, placement: PositionPlacement, crossOffset?: number): Promise<void>
     {
         //original placeholder element when applying changes
         const placeholderElement = this.placeholderElement;
 
-        const result = await lastValueFrom(this.position.placeElement(this.placeholderElementSafe, element, {placement, offset: {mainAxis: offset}}));
+        const result = await lastValueFrom(this.position.placeElement(this.placeholderElementSafe, element, {placement, offset: {mainAxis: offset, crossAxis: crossOffset ?? 0}}));
 
         //element was already removed, or changed
         if(this.placeholderElement != placeholderElement || !result)

@@ -1,4 +1,4 @@
 /**
- * Suffix used for layout designer component id
+ * Selector of container for dynamic body elements
  */
-export const LAYOUT_DESIGNER_COMPONENT_ID_SUFFIX = '-designer';
+export const DYNAMIC_BODY_CONTAINER = 'div.dynamic-body-container';

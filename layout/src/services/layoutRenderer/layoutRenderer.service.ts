@@ -11,6 +11,7 @@ import {MissingTypeBehavior} from '../../misc/enums';
 import {NotFoundLayoutTypeSAComponent} from '../../components';
 import {LayoutComponentDef} from '../../misc/types';
 import {LayoutRendererOptions} from './layoutRenderer.options';
+import {applyDynamicHostDirective} from '../../misc/utils';
 
 /**
  * Service used for handling rendering of layout
@@ -212,14 +213,15 @@ export class LayoutRenderer
             ]
         });
 
-        this.updateTypeBeforeRender(layoutComponentType.data);
+        await this.preCreateComponent(layoutComponentType.data);
 
         const component = viewContainer.createComponent(layoutComponentType.data,
                                                         {
                                                             injector: usedInjector,
                                                         });
 
-        this.updateTypeAfterRender(layoutComponentType.data);
+        applyDynamicHostDirective(layoutComponentType.data);
+        await this.postCreateComponent(component, metadata);
 
         rendererItem.component = component;
         component.changeDetectorRef.detach();
@@ -259,7 +261,7 @@ export class LayoutRenderer
         this.logger.verbose('LayoutRenderer: after view initialized {{id}}', {id: metadata?.id});
 
         renderedCallback?.(rendererItem);
-        await this.postProcessCreatedComponent(component, metadata);
+        await this.postInitComponent(component);
 
         component.changeDetectorRef.reattach();
 
@@ -355,27 +357,27 @@ export class LayoutRenderer
     //######################### protected methods #########################
 
     /**
-     * Updates rendered type before its renders
-     * @param type - Type to be updated
+     * Method called before dynamic component is created
+     * @param type - Type that will be rendered
      */
-    protected updateTypeBeforeRender(_type: Type<LayoutComponent>): void
+    protected preCreateComponent(_type: Type<LayoutComponent>): PromiseOr<void>
     {
     }
 
     /**
-     * Updates rendered type after its renders
-     * @param type - Type to be updated
+     * Method called after dynamic component is created
+     * @param component - Component reference of created component
+     * @param metadata - Metadata for created component
      */
-    protected updateTypeAfterRender(_type: Type<LayoutComponent>): void
+    protected postCreateComponent(_component: ComponentRef<LayoutComponent>, _metadata: LayoutComponentMetadata): PromiseOr<void>
     {
     }
 
     /**
-     * Called after dynamic component has been rendered and there is postprocessing of data
+     * Method called after created component was initialized
      * @param component - Component reference to be processed
-     * @param metadata - Metadata of rendered component
      */
-    protected postProcessCreatedComponent(_component: ComponentRef<LayoutComponent>, _metadata: LayoutComponentMetadata): PromiseOr<void>
+    protected postInitComponent(_component: ComponentRef<LayoutComponent>): PromiseOr<void>
     {
     }
 }

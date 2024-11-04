@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {LayoutDesignerSAComponent} from '@anglr/dynamic/layout-editor';
+import {LayoutDesignerDirective} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
@@ -28,9 +28,9 @@ export class ListBlockDesignerSAComponent extends ListBlockSAComponent implement
     //######################### protected properties #########################
 
     /**
-     * Instance of designer component
+     * Instance of designer
      */
-    protected designer: LayoutDesignerSAComponent = inject(LayoutDesignerSAComponent);
+    protected designer: LayoutDesignerDirective = inject(LayoutDesignerDirective);
 
     //######################### protected methods - overrides #########################
 
@@ -39,11 +39,6 @@ export class ListBlockDesignerSAComponent extends ListBlockSAComponent implement
      */
     protected override onInit(): void
     {
-        if(!this.designer.options)
-        {
-            return;
-        }
-
-        this.designer.options.typeMetadata.scope ??= generateId(10);
+        this.designer.metadataSafe.scope ??= generateId(10);
     }
 }

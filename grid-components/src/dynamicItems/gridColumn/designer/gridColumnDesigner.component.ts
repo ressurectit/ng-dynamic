@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, inject, SimpleChanges} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {LayoutDesignerSAComponent, LayoutEditorMetadataManager, LayoutEditorRenderer} from '@anglr/dynamic/layout-editor';
+import {LayoutDesignerDirective, LayoutEditorMetadataManager, LayoutEditorRenderer} from '@anglr/dynamic/layout-editor';
 import {addSimpleChange} from '@anglr/dynamic';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
@@ -44,7 +44,7 @@ export class GridColumnDesignerSAComponent extends GridColumnSAComponent impleme
      */
     protected get gridColumns(): LayoutComponent
     {
-        const parent = this.metadataManager.getParent(this.injector.get(LayoutDesignerSAComponent).id);
+        const parent = this.metadataManager.getParent(this.injector.get(LayoutDesignerDirective).metadataSafe.id);
 
         if(!parent)
         {

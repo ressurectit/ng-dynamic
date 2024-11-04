@@ -139,7 +139,7 @@ export class PlaceholderRenderer implements OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * @inheritdoc
      */
@@ -161,12 +161,17 @@ export class PlaceholderRenderer implements OnDestroy
      */
     public async renderPlaceholder(containerElement: Element, index: number, placeholderDrop: DropTarget<LayoutDragItem, LayoutDropResult>, horizontal: boolean): Promise<void>
     {
-        this.createPlaceholder(placeholderDrop, containerElement, horizontal);
+        const computedStyles = getComputedStyle(containerElement);
+
+        this.createPlaceholder(placeholderDrop, containerElement, horizontal, computedStyles);
 
         //empty container or first place in container
         if(!containerElement.children.length || index == 0)
         {
-            this.applyPosition(containerElement, -6, horizontal ? PositionPlacement.LeftStart : PositionPlacement.TopStart);
+            const offset = horizontal ? (+computedStyles.paddingLeft.replace('px', '')) : (+computedStyles.paddingTop.replace('px', ''));
+            const crossOffset = horizontal ? (+computedStyles.paddingTop.replace('px', '')) : (+computedStyles.paddingLeft.replace('px', ''));
+
+            this.applyPosition(containerElement, -6 -offset, horizontal ? PositionPlacement.LeftStart : PositionPlacement.TopStart, crossOffset);
 
             const firstItem = containerElement.children.item(0) as HTMLElement|null;
 
@@ -181,10 +186,13 @@ export class PlaceholderRenderer implements OnDestroy
         //last place in container
         else if(!containerElement.children.item(index))
         {
-            const lastItem = containerElement.children.item(index - 1) as HTMLElement;
+            const offset = horizontal ? (+computedStyles.paddingRight.replace('px', '')) : (+computedStyles.paddingBottom.replace('px', ''));
+            const crossOffset = horizontal ? (+computedStyles.paddingTop.replace('px', '')) : (+computedStyles.paddingLeft.replace('px', ''));
 
+            this.applyPosition(containerElement, -6 -offset, horizontal ? PositionPlacement.RightStart : PositionPlacement.BottomStart, crossOffset);
+
+            const lastItem = containerElement.children.item(index - 1) as HTMLElement;
             this.cssUpdateAfter = new CssStyleUpdates(lastItem, false, 6, this.renderer, horizontal);
-            this.applyPosition(lastItem, 0, horizontal ? PositionPlacement.RightStart : PositionPlacement.BottomStart, this.getCrossOffset(containerElement, lastItem, horizontal));
         }
         //any other place in container
         else
@@ -192,9 +200,14 @@ export class PlaceholderRenderer implements OnDestroy
             const lastItem = containerElement.children.item(index) as HTMLElement;
             const beforeLastItem = containerElement.children.item(index - 1) as HTMLElement;
 
+            const lastComputedStyles = getComputedStyle(lastItem);
+            const margin = horizontal
+                ? +lastComputedStyles.marginLeft.replace('px', '')
+                : +lastComputedStyles.marginTop.replace('px', '');
+
             this.cssUpdateAfter = new CssStyleUpdates(beforeLastItem, false, 3, this.renderer, horizontal);
             this.cssUpdateBefore = new CssStyleUpdates(lastItem, true, 3, this.renderer, horizontal);
-            this.applyPosition(lastItem, 0, horizontal ? PositionPlacement.LeftStart : PositionPlacement.TopStart, this.getCrossOffset(containerElement, lastItem, horizontal));
+            this.applyPosition(lastItem, margin, horizontal ? PositionPlacement.LeftStart : PositionPlacement.TopStart, this.getCrossOffset(containerElement, lastItem, horizontal, computedStyles));
         }
     }
 
@@ -205,14 +218,19 @@ export class PlaceholderRenderer implements OnDestroy
      * @param placeholderDrop - Placeholder drop that should be connnected to placeholder element
      * @param containerElement - Container element that will display new placeholder
      * @param horizontal - Indication whether is container element horizontaly displaying children
+     * @param computedStyles - Computed styles for container element
      */
-    protected createPlaceholder(placeholderDrop: DropTarget<LayoutDragItem>, containerElement: Element, horizontal: boolean): void
+    protected createPlaceholder(placeholderDrop: DropTarget<LayoutDragItem>, containerElement: Element, horizontal: boolean, computedStyles: CSSStyleDeclaration): void
     {
         this.placeholderElement = this.renderer.createElement('div');
         this.renderer.addClass(this.placeholderElement, 'layout-placeholder');
 
+        const padding = horizontal
+            ? +computedStyles.paddingLeft.replace('px', '') + +computedStyles.paddingRight.replace('px', '')
+            : +computedStyles.paddingTop.replace('px', '') + +computedStyles.paddingBottom.replace('px', '');
+
         const rect = containerElement.getBoundingClientRect();
-        this.renderer.setStyle(this.placeholderElementSafe, horizontal ? 'height' : 'width', `${horizontal ? rect.height : rect.width}px`);
+        this.renderer.setStyle(this.placeholderElementSafe, horizontal ? 'height' : 'width', `${horizontal ? rect.height - padding : rect.width - padding}px`);
 
         renderToBody(this.document, this.placeholderElementSafe, DYNAMIC_BODY_CONTAINER);
 
@@ -250,13 +268,14 @@ export class PlaceholderRenderer implements OnDestroy
      * @param containerElement - Container element inside which is placeholder placed
      * @param element - Element whose position is used for calculation of offset
      * @param horizontal - Indication whether place placeholder horizontally
+     * @param computedStyles - Computed styles for container element
      */
-    protected getCrossOffset(containerElement: Element, element: Element, horizontal: boolean): number
+    protected getCrossOffset(containerElement: Element, element: Element, horizontal: boolean, computedStyles: CSSStyleDeclaration): number
     {
         const containerRect = containerElement.getBoundingClientRect();
         const elementRect = element.getBoundingClientRect();
 
-        return horizontal ? (containerRect.y - elementRect.y) : (containerRect.x - elementRect.x);
+        return horizontal ? (containerRect.y - elementRect.y + +computedStyles.paddingTop.replace('px', '')) : (containerRect.x - elementRect.x + +computedStyles.paddingLeft.replace('px', ''));
     }
 
     /**

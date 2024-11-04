@@ -25,7 +25,7 @@ export class LayoutEditorRenderer extends LayoutRenderer
     /**
      * @inheritdoc
      */
-    protected override updateTypeBeforeRender(type: Type<LayoutComponent>): void
+    protected override preCreateComponent(type: Type<LayoutComponent>): void
     {
         applyDynamicHostDirective(type, [LayoutDesignerDirective]);
     }
@@ -33,15 +33,7 @@ export class LayoutEditorRenderer extends LayoutRenderer
     /**
      * @inheritdoc
      */
-    protected override updateTypeAfterRender(type: Type<LayoutComponent>): void
-    {
-        applyDynamicHostDirective(type);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected override async postProcessCreatedComponent(component: ComponentRef<LayoutComponent>, metadata: LayoutComponentMetadata): Promise<void>
+    protected override postCreateComponent(component: ComponentRef<LayoutComponent>, metadata: LayoutComponentMetadata): void
     {
         const designer = component.injector.get(LayoutDesignerDirective, null, {optional: true});
 
@@ -50,6 +42,21 @@ export class LayoutEditorRenderer extends LayoutRenderer
             throw new Error('LayoutEditorRenderer: missing designer directive!');
         }
 
-        await designer.initializeDesigner(component, metadata);
+        designer.setDesigner(component, metadata);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected override async postInitComponent(component: ComponentRef<LayoutComponent>): Promise<void>
+    {
+        const designer = component.injector.get(LayoutDesignerDirective, null, {optional: true});
+
+        if(!designer)
+        {
+            throw new Error('LayoutEditorRenderer: missing designer directive!');
+        }
+
+        await designer.initializeDesigner();
     }
 }

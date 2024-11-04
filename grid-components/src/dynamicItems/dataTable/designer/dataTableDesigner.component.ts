@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {LayoutDesignerSAComponent} from '@anglr/dynamic/layout-editor';
+import {LayoutDesignerDirective} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
 
@@ -29,7 +29,7 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
     /**
      * Instance of designer component
      */
-    protected designer: LayoutDesignerSAComponent = inject(LayoutDesignerSAComponent);
+    protected designer: LayoutDesignerDirective = inject(LayoutDesignerDirective);
 
     //######################### protected methods - overrides #########################
 
@@ -38,12 +38,7 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
      */
     protected override onInit(): void
     {
-        if(!this.designer.options)
-        {
-            return;
-        }
-
-        this.designer.options.typeMetadata.scope ??= generateId(10);
+        this.designer.metadataSafe.scope ??= generateId(10);
 
         this.optionsSafe.columns ??=
         {
@@ -55,7 +50,7 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
             {
                 columns: [],
             },
-            scope: this.designer.options.typeMetadata.scope,
+            scope: this.designer.metadataSafe.scope,
         };
 
         this.optionsSafe.dataLoader ??=

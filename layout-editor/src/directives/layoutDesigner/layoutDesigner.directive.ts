@@ -262,16 +262,22 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
     //######################### public methods #########################
 
     /**
-     * Initialize designer for rendered component
+     * Sets designer data for rendered component
      * @param component - Component reference for which is this designer initialized
      * @param metadata - Metadata of rendered component
      */
-    public async initializeDesigner(component: ComponentRef<LayoutComponent>, metadata: LayoutComponentMetadata): Promise<void>
+    public setDesigner(component: ComponentRef<LayoutComponent>, metadata: LayoutComponentMetadata): void
     {
         this.component = component;
         this.metadata = metadata;
         this.displayNameSignal.set(metadata.displayName ?? metadata.id);
+    }
 
+    /**
+     * Initialize designer for rendered component
+     */
+    public async initializeDesigner(): Promise<void>
+    {
         this.common.element.nativeElement.addEventListener('mouseover', this.highlightComponent);
         this.common.element.nativeElement.addEventListener('mouseleave', this.cancelHighlightComponent);
         this.common.element.nativeElement.addEventListener('click', this.selectComponent);
@@ -280,7 +286,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         await this.updateIndex();
         await this.editorMetadata.initialize();
         this.dnd.initalize();
-        this.common.layoutEditorManager.registerLayoutDesignerComponent(this, metadata.id, this.ɵparent?.metadataSafe.id);
+        this.common.layoutEditorManager.registerLayoutDesignerComponent(this, this.metadataSafe.id, this.ɵparent?.metadataSafe.id);
     }
 
     /**

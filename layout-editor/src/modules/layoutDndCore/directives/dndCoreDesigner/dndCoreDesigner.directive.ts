@@ -553,7 +553,7 @@ export class DndCoreDesignerDirective implements OnInit, OnChanges, OnDestroy
             return;
         }
 
-        this.placeholderRenderer.renderPlaceholder(this.containerElement, preview.index, this.placeholderDrop, this.horizontal);
+        this.placeholderRenderer.renderPlaceholder(this.containerElement, preview.index, this.horizontal);
     }
 
     /**

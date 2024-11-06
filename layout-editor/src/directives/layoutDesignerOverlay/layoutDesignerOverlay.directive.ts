@@ -402,25 +402,20 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
 
         const element = this.common.element.nativeElement;
         this.overContainerDiv = this.document.createElement('div');
-        const computedStyles = getComputedStyle(element);
         const rect = element.getBoundingClientRect();
-        const marginLeft = +computedStyles.marginLeft.replace('px', '');
-        const marginBottom = +computedStyles.marginBottom.replace('px', '');
-        const marginTop = +computedStyles.marginTop.replace('px', '');
-        const marginRight = +computedStyles.marginRight.replace('px', '');
 
         const idDiv = this.document.createElement('div');
         idDiv.innerText = this.common.designer.metadataSafe.displayName || this.common.designer.metadataSafe.id;
         this.overContainerDiv.appendChild(idDiv);
 
-        this.overContainerDiv.style.width = `${rect.width + marginLeft + marginRight}px`;
-        this.overContainerDiv.style.height = `${rect.height + marginTop + marginBottom}px`;
+        this.overContainerDiv.style.width = `${rect.width}px`;
+        this.overContainerDiv.style.height = `${rect.height}px`;
         this.overContainerDiv.classList.add('designer-overlay-over-container');
 
         renderToBody(this.document, this.overContainerDiv, DYNAMIC_BODY_CONTAINER);
 
         this.overContainerPositionSubscriptions = this.position
-            .placeElement(this.overContainerDiv, element, {autoUpdate: true, offset: {crossAxis: -marginLeft, mainAxis: -rect.height - marginBottom}})
+            .placeElement(this.overContainerDiv, element, {autoUpdate: true, offset: {mainAxis: -rect.height}})
             .subscribe(applyPositionResult);
     }
 

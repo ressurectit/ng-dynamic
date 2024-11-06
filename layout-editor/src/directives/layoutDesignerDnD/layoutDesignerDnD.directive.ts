@@ -58,11 +58,6 @@ export class LayoutDesignerDnDDirective implements OnDestroy
     protected ɵdropzone: DropTarget<LayoutDragItem, LayoutDropResult>|undefined|null;
 
     /**
-     * Drop zone target for dropping over displayed placeholder, drops at exact location of placeholder
-     */
-    protected ɵplaceholderDrop: DropTarget<LayoutDragItem, LayoutDropResult>|undefined|null;
-    
-    /**
      * Instance of common designer directive storing common stuff
      */
     protected common: LayoutDesignerCommonDirective = inject(LayoutDesignerCommonDirective);
@@ -158,19 +153,6 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         return this.ɵdropzone;
     }
 
-    /**
-     * Drop zone target for dropping over displayed placeholder, drops at exact location of placeholder
-     */
-    protected get placeholderDrop(): DropTarget<LayoutDragItem, LayoutDropResult>
-    {
-        if(!this.ɵplaceholderDrop)
-        {
-            throw new Error('LayoutDesignerDnDDirective: missing placeholder drop!');
-        }
-
-        return this.ɵplaceholderDrop;
-    }
-
     //######################### public methods - implementation of OnDestroy #########################
 
     /**
@@ -201,30 +183,6 @@ export class LayoutDesignerDnDDirective implements OnDestroy
             .newDropPlaceholderPreviewChange
             .pipe(filter(itm => itm.parentId === this.common.designer.metadataSafe.id))
             .subscribe(preview => this.showPlaceholderPreview(preview)));
-
-        this.ɵplaceholderDrop = this.dnd.dropTarget(dropTypes,
-                                                    {
-                                                        canDrop: () => true,
-                                                        drop: monitor =>
-                                                        {
-                                                            const item = monitor.getItem();
-                                                            let index = this.common.dndBus.dropPlaceholderPreviewIndex;
-
-                                                            if(item && isPresent(item.dragData.index) && isPresent(index))
-                                                            {
-                                                                //same parent and higher index
-                                                                if(index > item.dragData.index)
-                                                                {
-                                                                    index--;
-                                                                }
-                                                            }
-
-                                                            return <LayoutDropResult>{
-                                                                index,
-                                                                id: this.common.designer.metadataSafe.id,
-                                                            };
-                                                        },
-                                                    }, this.initSubscriptions);
 
         this.ɵdrag = this.dnd.dragSource(dragTypes,
                                          {
@@ -504,7 +462,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      */
     protected showPlaceholderPreview(preview: DropPlaceholderPreview): void
     {
-        this.placeholderRenderer.renderPlaceholder(this.containerElement, preview.index, this.placeholderDrop, this.common.editorMetadata.horizontal);
+        this.placeholderRenderer.renderPlaceholder(this.containerElement, preview.index, this.common.editorMetadata.horizontal);
     }
 
     /**

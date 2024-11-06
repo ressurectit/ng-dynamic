@@ -1,13 +1,11 @@
-import {Injectable, NgZone, OnDestroy, Renderer2, inject} from '@angular/core';
+import {Injectable, OnDestroy, Renderer2, inject} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {POSITION, Position, PositionPlacement, applyPositionResult} from '@anglr/common';
 import {renderToBody} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
-import {DropTarget} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
 
 import {DndBusService} from '../dndBus/dndBus.service';
-import type {LayoutDragItem, LayoutDropResult} from '../../directives';
 import {DYNAMIC_BODY_CONTAINER} from '../../../../misc/constants';
 
 /**
@@ -80,11 +78,6 @@ export class PlaceholderRenderer implements OnDestroy
     protected dndBus: DndBusService = inject(DndBusService);
 
     /**
-     * NgZone instance
-     */
-    protected ngZone: NgZone = inject(NgZone);
-
-    /**
      * Instance of renderer used for DOM manipulation
      */
     protected renderer: Renderer2 = inject(Renderer2);
@@ -103,11 +96,6 @@ export class PlaceholderRenderer implements OnDestroy
      * Subscriptions created during initialization
      */
     protected initSubscriptions: Subscription = new Subscription();
-
-    /**
-     * Subscription for placeholder connection to DOM
-     */
-    protected placeholderConnection: Subscription|undefined|null;
 
     /**
      * Css update applied to before element
@@ -156,14 +144,13 @@ export class PlaceholderRenderer implements OnDestroy
      * Renders placeholder
      * @param containerElement - Container element that will display new placeholder
      * @param index - Index at which should be placeholder displayed
-     * @param placeholderDrop - Placeholder drop that should be connnected to placeholder element
      * @param horizontal - Indication whether is container element horizontaly displaying children
      */
-    public async renderPlaceholder(containerElement: Element, index: number, placeholderDrop: DropTarget<LayoutDragItem, LayoutDropResult>, horizontal: boolean): Promise<void>
+    public async renderPlaceholder(containerElement: Element, index: number, horizontal: boolean): Promise<void>
     {
         const computedStyles = getComputedStyle(containerElement);
 
-        this.createPlaceholder(placeholderDrop, containerElement, horizontal, computedStyles);
+        this.createPlaceholder(containerElement, horizontal, computedStyles);
 
         //empty container or first place in container
         if(!containerElement.children.length || index == 0)
@@ -215,12 +202,11 @@ export class PlaceholderRenderer implements OnDestroy
 
     /**
      * Creates placeholder element and connects it to placeholder drop
-     * @param placeholderDrop - Placeholder drop that should be connnected to placeholder element
      * @param containerElement - Container element that will display new placeholder
      * @param horizontal - Indication whether is container element horizontaly displaying children
      * @param computedStyles - Computed styles for container element
      */
-    protected createPlaceholder(placeholderDrop: DropTarget<LayoutDragItem>, containerElement: Element, horizontal: boolean, computedStyles: CSSStyleDeclaration): void
+    protected createPlaceholder(containerElement: Element, horizontal: boolean, computedStyles: CSSStyleDeclaration): void
     {
         this.placeholderElement = this.renderer.createElement('div');
         this.renderer.addClass(this.placeholderElement, 'layout-placeholder');
@@ -233,16 +219,6 @@ export class PlaceholderRenderer implements OnDestroy
         this.renderer.setStyle(this.placeholderElementSafe, horizontal ? 'height' : 'width', `${horizontal ? rect.height - padding : rect.width - padding}px`);
 
         renderToBody(this.document, this.placeholderElementSafe, DYNAMIC_BODY_CONTAINER);
-
-        this.ngZone.runOutsideAngular(() =>
-        {
-            this.placeholderConnection?.unsubscribe();
-
-            if(this.placeholderElement)
-            {
-                this.placeholderConnection = placeholderDrop.connectDropTarget(this.placeholderElement);
-            }
-        });
     }
 
     /**
@@ -252,9 +228,6 @@ export class PlaceholderRenderer implements OnDestroy
     {
         this.placeholderElement?.remove();
         this.placeholderElement = null;
-
-        this.placeholderConnection?.unsubscribe();
-        this.placeholderConnection = null;
 
         this.cssUpdateBefore?.destroy();
         this.cssUpdateBefore = null;

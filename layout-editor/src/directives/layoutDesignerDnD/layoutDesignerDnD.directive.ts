@@ -1,4 +1,4 @@
-import {Directive, effect, inject, NgZone, OnDestroy} from '@angular/core';
+import {Directive, effect, inject, NgZone, OnDestroy, Signal, signal, WritableSignal} from '@angular/core';
 import {isBlank, isPresent} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
 import {filter, Subscription} from 'rxjs';
@@ -42,6 +42,16 @@ function getEmptyImage()
 export class LayoutDesignerDnDDirective implements OnDestroy
 {
     //######################### protected fields #########################
+
+    /**
+     * Id of element over which is dragged
+     */
+    protected ɵoverElement: WritableSignal<string|undefined|null> = signal(null);
+
+    /**
+     * Id of container element over which is dragged
+     */
+    protected ɵoverContainer: WritableSignal<string|undefined|null> = signal(null);
 
     /**
      * Subscriptions created during initialization
@@ -111,9 +121,36 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         return this.common.editorMetadata.metadata?.getChildrenContainer(this.element) ?? this.element;
     }
 
+    //######################### public properties #########################
+
+    /**
+     * Gets id of element over which is dragged
+     */
+    public get overElement(): Signal<string|undefined|null>
+    {
+        return this.ɵoverElement;
+    }
+
+    /**
+     * Gets id of container element over which is dragged
+     */
+    public get overContainer(): WritableSignal<string|undefined|null>
+    {
+        return this.ɵoverContainer;
+    }
+
     //######################### constructor #########################
     constructor()
     {
+        effect(() =>
+        {
+            if(!this.common.draggingSvc.dragging())
+            {
+                this.ɵoverElement.set(null);
+                this.ɵoverContainer.set(null);
+            }
+        }, {allowSignalWrites: true});
+
         effect(() =>
         {
             if(this.common.draggingSvc.dragging() && this.common.editorMetadata.canDrop)
@@ -292,6 +329,8 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                                      {
                                                          const [index, parentId] = this.getDropCoordinates(monitor, this.common.editorMetadata.canDrop);
 
+                                                         this.ɵoverContainer.set(parentId);
+
                                                          if(isBlank(index) || isBlank(parentId))
                                                          {
                                                              return;
@@ -302,6 +341,11 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                                              index,
                                                              parentId,
                                                          });
+                                                     }
+                                                     else
+                                                     {
+                                                         this.ɵoverElement.set(null);
+                                                         this.ɵoverContainer.set(null);
                                                      }
                                                  }
                                              }, this.initSubscriptions);
@@ -345,6 +389,8 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         //can drop in itself// for now drop at index 0
         if(canDrop)
         {
+            this.ɵoverElement.set(null);
+
             return this.getDropCoordinatesForChildren(monitor);
         }
 
@@ -361,6 +407,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         const component = this.common.layoutEditorManager.getComponent(id);
         const componentIndex = component?.index ?? 0;
         const item = monitor.getItem();
+        this.ɵoverElement.set(id);
 
         if(item && isPresent(item.dragData.index))
         {

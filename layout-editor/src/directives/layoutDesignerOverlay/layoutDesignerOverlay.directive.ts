@@ -1,7 +1,7 @@
-import {ComponentRef, Directive, inject, OnDestroy, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, effect, inject, OnDestroy, ViewContainerRef} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {applyPositionResult, getHostElement, Position, POSITION, PositionPlacement} from '@anglr/common';
-import {BindThis, renderToBody} from '@jscrpt/common';
+import {BindThis, DebounceCall, renderToBody} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
@@ -116,6 +116,36 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     }
 
     //######################### public methods #########################
+
+    /**
+     * Initialize overlay
+     */
+    public initialize(): void
+    {
+        effect(() =>
+        {
+            if(this.common.designer.dnd.overElement())
+            {
+                this.showOverElement();
+            }
+            else
+            {
+                this.hideOverElement();
+            }
+        }, {injector: this.common.injector});
+
+        effect(() =>
+        {
+            if(this.common.designer.dnd.overContainer())
+            {
+                this.showOverContainer();
+            }
+            else
+            {
+                this.hideOverContainer();
+            }
+        }, {injector: this.common.injector});
+    }
 
     /**
      * Displays designer overlay
@@ -301,6 +331,42 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
         this.layoutComponent = null;
         this.layoutOverlayPositionSubscriptions?.unsubscribe();
         this.layoutOverlayPositionSubscriptions = null;
+    }
+
+    /**
+     * Shows over element overlay
+     */
+    @DebounceCall(10)
+    protected showOverElement(): void
+    {
+
+    }
+
+    /**
+     * Hides over element overlay
+     */
+    @DebounceCall(10)
+    protected hideOverElement(): void
+    {
+
+    }
+
+    /**
+     * Shows over container overlay
+     */
+    @DebounceCall(10)
+    protected showOverContainer(): void
+    {
+
+    }
+
+    /**
+     * Hides over container overlay
+     */
+    @DebounceCall(10)
+    protected hideOverContainer(): void
+    {
+
     }
 
     /**

@@ -286,6 +286,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         await this.updateIndex();
         await this.editorMetadata.initialize();
         this.dnd.initalize();
+        this.overlay.initialize();
         this.common.layoutEditorManager.registerLayoutDesignerComponent(this, this.metadataSafe.id, this.ɵparent?.metadataSafe.id);
     }
 

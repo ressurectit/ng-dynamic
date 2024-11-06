@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
 import {DropPlaceholderPreview, DropTargetData} from './dndBus.interface';
@@ -32,6 +32,16 @@ export class DndBusService
      * Used for emitting when old drop placeholder preview should be removed
      */
     protected oldDropPlaceholderPreviewSubject: Subject<DropPlaceholderPreview> = new Subject<DropPlaceholderPreview>();
+
+    /**
+     * Id of drag over component
+     */
+    protected ɵdragOverComponentId: WritableSignal<string|undefined|null> = signal(null);
+
+    /**
+     * Id of drag over container
+     */
+    protected ɵdragOverContainerId: WritableSignal<string|undefined|null> = signal(null);
     
     //######################### public properties #########################
     
@@ -68,6 +78,22 @@ export class DndBusService
     {
         return this.dropPlaceholderPreview?.index ?? null;
     }
+
+    /**
+     * Gets id of drag over component
+     */
+    public get dragOverComponentId(): Signal<string|undefined|null>
+    {
+        return this.ɵdragOverComponentId.asReadonly();
+    }
+
+    /**
+     * Gets id of drag over container
+     */
+    public get dragOverContainerId(): Signal<string|undefined|null>
+    {
+        return this.ɵdragOverContainerId.asReadonly();
+    }
     
     //######################### public methods #########################
     
@@ -103,5 +129,23 @@ export class DndBusService
         {
             this.newDropPlaceholderPreviewSubject.next(this.dropPlaceholderPreview);
         }
+    }
+
+    /**
+     * Sets drag over component id
+     * @param id - Id of drag over component
+     */
+    public setDragOverComponentId(id: string|undefined|null): void
+    {
+        this.ɵdragOverComponentId.set(id);
+    }
+
+    /**
+     * Sets drag over container id
+     * @param id - Id of drag over container
+     */
+    public setDragOverContainerId(id: string|undefined|null): void
+    {
+        this.ɵdragOverContainerId.set(id);
     }
 }

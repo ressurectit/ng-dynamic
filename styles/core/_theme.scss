@@ -77,9 +77,13 @@ $defaultTheme:
         (
             border: #009dd8,
         ),
-        designerDropzoneDragActive:
+        dropzoneDragActive:
         (
             border: #0000004d,
+        ),
+        overComponent:
+        (
+            background: #666,
         ),
     ),
     propertiesEditor:

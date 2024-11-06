@@ -1,10 +1,9 @@
-import {Directive, effect, inject, NgZone, OnDestroy, Signal, signal, WritableSignal} from '@angular/core';
+import {Directive, effect, inject, NgZone, OnDestroy} from '@angular/core';
 import {isBlank, isPresent} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
 import {filter, Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataManagerComponent} from '../../services';
-import {DndBusService} from '../../modules/layoutDndCore/services/dndBus/dndBus.service';
 import {PlaceholderRenderer} from '../../modules/layoutDndCore/services/placeholderRenderer/placeholderRenderer.service';
 import {LayoutDragItem, LayoutDropResult} from '../../modules/layoutDndCore/directives/dndCoreDesigner/dndCoreDesigner.interface';
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
@@ -44,16 +43,6 @@ export class LayoutDesignerDnDDirective implements OnDestroy
     //######################### protected fields #########################
 
     /**
-     * Id of element over which is dragged
-     */
-    protected ɵoverElement: WritableSignal<string|undefined|null> = signal(null);
-
-    /**
-     * Id of container element over which is dragged
-     */
-    protected ɵoverContainer: WritableSignal<string|undefined|null> = signal(null);
-
-    /**
      * Subscriptions created during initialization
      */
     protected initSubscriptions: Subscription = new Subscription();
@@ -82,11 +71,6 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      * Service used for communication with dnd
      */
     protected dnd: DndService = inject(DndService);
-
-    /**
-     * Service used for sharing data during drag n drop
-     */
-    protected bus: DndBusService = inject(DndBusService);
 
     /**
      * Service used for rendering placeholder
@@ -121,24 +105,6 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         return this.common.editorMetadata.metadata?.getChildrenContainer(this.element) ?? this.element;
     }
 
-    //######################### public properties #########################
-
-    /**
-     * Gets id of element over which is dragged
-     */
-    public get overElement(): Signal<string|undefined|null>
-    {
-        return this.ɵoverElement;
-    }
-
-    /**
-     * Gets id of container element over which is dragged
-     */
-    public get overContainer(): WritableSignal<string|undefined|null>
-    {
-        return this.ɵoverContainer;
-    }
-
     //######################### constructor #########################
     constructor()
     {
@@ -146,8 +112,8 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         {
             if(!this.common.draggingSvc.dragging())
             {
-                this.ɵoverElement.set(null);
-                this.ɵoverContainer.set(null);
+                this.common.dndBus.setDragOverComponentId(null);
+                this.common.dndBus.setDragOverContainerId(null);
             }
         }, {allowSignalWrites: true});
 
@@ -225,13 +191,13 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         const dropTypes = this.common.editorMetadata.metadata?.customDropTypes?.().layout ?? DEFAULT_DROP_TYPES;
         const dragTypes = this.common.editorMetadata.metadata?.customDragType?.().layout ?? DEFAULT_DRAG_TYPE;
 
-        this.initSubscriptions.add(this.bus
+        this.initSubscriptions.add(this.common.dndBus
             .dropDataChange
             .pipe(filter(itm => itm.id === this.common.designer.metadataSafe.id))
             .subscribe(itm => this.common.designer.addDescendant(itm.data)));
 
         //create placeholder in this component
-        this.initSubscriptions.add(this.bus
+        this.initSubscriptions.add(this.common.dndBus
             .newDropPlaceholderPreviewChange
             .pipe(filter(itm => itm.parentId === this.common.designer.metadataSafe.id))
             .subscribe(preview => this.showPlaceholderPreview(preview)));
@@ -242,7 +208,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                                         drop: monitor =>
                                                         {
                                                             const item = monitor.getItem();
-                                                            let index = this.bus.dropPlaceholderPreviewIndex;
+                                                            let index = this.common.dndBus.dropPlaceholderPreviewIndex;
 
                                                             if(item && isPresent(item.dragData.index) && isPresent(index))
                                                             {
@@ -297,14 +263,14 @@ export class LayoutDesignerDnDDirective implements OnDestroy
 
                                                      item.dragData.index = dropResult.index;
 
-                                                     this.bus.setDropData(
+                                                     this.common.dndBus.setDropData(
                                                      {
                                                          data: item.dragData,
                                                          id: dropResult.id,
                                                      });
                                                  }
 
-                                                 this.bus.setDropPlaceholderPreview(null);
+                                                 this.common.dndBus.setDropPlaceholderPreview(null);
                                                  this.common.draggingSvc.setDragging(false);
                                                  this.element.classList.remove('is-dragged');
                                              },
@@ -329,23 +295,18 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                                      {
                                                          const [index, parentId] = this.getDropCoordinates(monitor, this.common.editorMetadata.canDrop);
 
-                                                         this.ɵoverContainer.set(parentId);
+                                                         this.common.dndBus.setDragOverContainerId(parentId);
 
                                                          if(isBlank(index) || isBlank(parentId))
                                                          {
                                                              return;
                                                          }
 
-                                                         this.bus.setDropPlaceholderPreview(
+                                                         this.common.dndBus.setDropPlaceholderPreview(
                                                          {
                                                              index,
                                                              parentId,
                                                          });
-                                                     }
-                                                     else
-                                                     {
-                                                         this.ɵoverElement.set(null);
-                                                         this.ɵoverContainer.set(null);
                                                      }
                                                  }
                                              }, this.initSubscriptions);
@@ -389,7 +350,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         //can drop in itself// for now drop at index 0
         if(canDrop)
         {
-            this.ɵoverElement.set(null);
+            this.common.dndBus.setDragOverComponentId(null);
 
             return this.getDropCoordinatesForChildren(monitor);
         }
@@ -407,7 +368,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         const component = this.common.layoutEditorManager.getComponent(id);
         const componentIndex = component?.index ?? 0;
         const item = monitor.getItem();
-        this.ɵoverElement.set(id);
+        this.common.dndBus.setDragOverComponentId(id);
 
         if(item && isPresent(item.dragData.index))
         {

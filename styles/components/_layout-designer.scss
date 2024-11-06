@@ -38,7 +38,7 @@
         &.drag-active
         {
             padding: 8px;
-            border: solid 1px var(--dynamic-layoutDesigner-designerDropzoneDragActive-border);
+            border: solid 1px var(--dynamic-layoutDesigner-dropzoneDragActive-border);
         }
 
         &.is-dragged
@@ -77,6 +77,15 @@
 
                 z-index: 2345;
                 position: absolute;
+            }
+
+            .designer-overlay-over-element
+            {
+                position: absolute;
+                background-color: var(--dynamic-layoutDesigner-overComponent-background);
+                z-index: 32121;
+                pointer-events: none;
+                opacity: .05;
             }
 
             .designer-overlay-border
@@ -198,50 +207,4 @@
             }
         }
     }
-
-    // layout-designer-component
-    // {
-    //     display: contents;
-
-
-    
-    //     .designer-overlay
-    //     {
-    //         position: relative;
-    //         overflow: hidden;
-    //     }
-
-    //     .designer-dropzone
-    //     {
-    //         overflow: hidden;
-    //         width: 100%;
-    //         height: 100%;
-    //     }
-
-    //     .designer-overlay.drag-active
-    //     {
-    //         padding: 8px;
-    //     }
-
-    //     .designer-dropzone.drag-active
-    //     {
-    //         border: solid 1px var(--dynamic-layoutDesigner-designerDropzoneDragActive-border);
-    //     }
-
-    //     .designer-overlay-layout,
-    //     .designer-overlay-border
-    //     {
-    //         position: absolute;
-    //         top: 0;
-    //         left: 0;
-    //         width: 100%;
-    //         height: 100%;
-    //     }
-
-    //     .designer-overlay-border
-    //     {
-    //         pointer-events: none;
-    //         border: 1px solid var(--dynamic-layoutDesigner-overlay-border);
-    //     }
-    // }
 }

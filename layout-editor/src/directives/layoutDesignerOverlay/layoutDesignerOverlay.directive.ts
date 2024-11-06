@@ -1,7 +1,7 @@
 import {ComponentRef, Directive, effect, inject, OnDestroy, ViewContainerRef} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {applyPositionResult, getHostElement, Position, POSITION, PositionPlacement} from '@anglr/common';
-import {BindThis, DebounceCall, renderToBody} from '@jscrpt/common';
+import {BindThis, renderToBody} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
@@ -41,9 +41,29 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     protected removeBtnDiv: HTMLDivElement|undefined|null;
 
     /**
+     * Instance of over element div element
+     */
+    protected overElementDiv: HTMLDivElement|undefined|null;
+
+    /**
+     * Instance of over container div element
+     */
+    protected overContainerDiv: HTMLDivElement|undefined|null;
+
+    /**
      * Instance of layout component displaying layout overlay
      */
     protected layoutComponent: ComponentRef<LayoutDesignerLayoutComponent>|undefined|null;
+
+    /**
+     * Subscription for position changes for over element div
+     */
+    protected overElementPositionSubscriptions: Subscription|undefined|null;
+
+    /**
+     * Subscription for position changes for over container div
+     */
+    protected overContainerPositionSubscriptions: Subscription|undefined|null;
 
     /**
      * Subscription for position changes for overlay div
@@ -113,6 +133,8 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     public ngOnDestroy(): void
     {
         this.hideOverlay();
+        this.hideOverContainer();
+        this.hideOverElement();
     }
 
     //######################### public methods #########################
@@ -124,7 +146,7 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     {
         effect(() =>
         {
-            if(this.common.designer.dnd.overElement())
+            if(this.common.dndBus.dragOverComponentId() === this.common.designer.metadataSafe.id)
             {
                 this.showOverElement();
             }
@@ -136,7 +158,7 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
 
         effect(() =>
         {
-            if(this.common.designer.dnd.overContainer())
+            if(this.common.dndBus.dragOverContainerId() === this.common.designer.metadataSafe.id)
             {
                 this.showOverContainer();
             }
@@ -336,37 +358,57 @@ export class LayoutDesignerOverlayDirective implements OnDestroy
     /**
      * Shows over element overlay
      */
-    @DebounceCall(10)
     protected showOverElement(): void
     {
+        this.hideOverElement();
 
+        const element = this.common.element.nativeElement;
+        this.overElementDiv = this.document.createElement('div');
+        const computedStyles = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        const marginLeft = +computedStyles.marginLeft.replace('px', '');
+        const marginBottom = +computedStyles.marginBottom.replace('px', '');
+        const marginTop = +computedStyles.marginTop.replace('px', '');
+        const marginRight = +computedStyles.marginRight.replace('px', '');
+
+        this.overElementDiv.style.width = `${rect.width + marginLeft + marginRight}px`;
+        this.overElementDiv.style.height = `${rect.height + marginTop + marginBottom}px`;
+        this.overElementDiv.classList.add('designer-overlay-over-element');
+
+        renderToBody(this.document, this.overElementDiv, DYNAMIC_BODY_CONTAINER);
+
+        this.overElementPositionSubscriptions = this.position
+            .placeElement(this.overElementDiv, element, {autoUpdate: true, offset: {crossAxis: -marginLeft, mainAxis: -rect.height - marginBottom}})
+            .subscribe(applyPositionResult);
     }
 
     /**
      * Hides over element overlay
      */
-    @DebounceCall(10)
     protected hideOverElement(): void
     {
-
+        this.overElementPositionSubscriptions?.unsubscribe();
+        this.overElementPositionSubscriptions = null;
+        this.overElementDiv?.remove();
+        this.overElementDiv = null;
     }
 
     /**
      * Shows over container overlay
      */
-    @DebounceCall(10)
     protected showOverContainer(): void
     {
-
     }
 
     /**
      * Hides over container overlay
      */
-    @DebounceCall(10)
     protected hideOverContainer(): void
     {
-
+        this.overContainerPositionSubscriptions?.unsubscribe();
+        this.overContainerPositionSubscriptions = null;
+        this.overContainerDiv?.remove();
+        this.overContainerDiv = null;
     }
 
     /**

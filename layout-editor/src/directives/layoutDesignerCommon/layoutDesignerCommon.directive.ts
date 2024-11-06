@@ -4,6 +4,7 @@ import {LOGGER, Logger} from '@anglr/common';
 import {LayoutDesignerEditorMetadataDirective} from '../layoutDesignerEditorMetadata/layoutDesignerEditorMetadata.directive';
 import {LayoutDesignerDirective} from '../layoutDesigner/layoutDesigner.directive';
 import {DragActiveService, LayoutEditorMetadataManager} from '../../services';
+import {DndBusService} from '../../modules/layoutDndCore/services/dndBus/dndBus.service';
 
 /**
  * Directive for shared properties among all layout designer directives
@@ -46,6 +47,11 @@ export class LayoutDesignerCommonDirective
      * Service used for obtaining information that 'drag' is active
      */
     protected ɵdraggingSvc: DragActiveService = inject(DragActiveService);
+
+    /**
+     * Service used for sharing data during drag n drop
+     */
+    protected ɵdndBus: DndBusService = inject(DndBusService);
 
     /**
      * Instance of layout editor manager
@@ -100,6 +106,14 @@ export class LayoutDesignerCommonDirective
     public get draggingSvc(): DragActiveService
     {
         return this.ɵdraggingSvc;
+    }
+
+    /**
+     * Gets service used for sharing data during drag n drop
+     */
+    public get dndBus(): DndBusService
+    {
+        return this.ɵdndBus;
     }
 
     /**

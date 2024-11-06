@@ -3,18 +3,13 @@ import {extend, generateId, isBlank, nameof} from '@jscrpt/common';
 import {DndService, DragSource} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
 
-import {LayoutComponentDragData} from '../../../../interfaces';
-import {DragActiveService} from '../../../../services';
-import {DndBusService} from '../../services';
-import {LayoutDragItem, LayoutDropResult} from '../dndCoreDesigner/dndCoreDesigner.interface';
+import {LayoutComponentDragData, LayoutDragItem, LayoutDropResult} from '../../interfaces';
+import {DndBusService, DragActiveService} from '../../services';
 
-// import { getEmptyImage } from 'react-dnd-html5-backend';
-// we don't want to depend on the backend, so here that is, copied
-/** @ignore */
 let emptyImage: HTMLImageElement;
+
 /**
  * Returns a 0x0 empty GIF for use as a drag preview.
- * @ignore
  */
 function getEmptyImage()
 {

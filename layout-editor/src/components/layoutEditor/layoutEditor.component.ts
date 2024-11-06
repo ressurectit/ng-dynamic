@@ -12,8 +12,9 @@ import {ComponentsPaletteSAComponent} from '../componentsPalette/componentsPalet
 import {ComponentsTreeSAComponent} from '../componentsTree/componentsTree.component';
 import {PropertiesEditorComponent} from '../propertiesEditor/propertiesEditor.component';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
-import {LayoutDndCoreModule} from '../../modules';
 import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
+import {DndCorePreviewComponent} from '../dndCorePreview/dndCorePreview.component';
+import {DndCorePreviewTemplateDirective} from '../../directives';
 
 /**
  * Component that represents layout editor with palette, tree and properties
@@ -26,19 +27,20 @@ import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/lay
     standalone: true,
     imports:
     [
+        CommonModule,
+        MatTabsModule,
+        CastPipesModule,
+        CommonUtilsModule,
+        ReactiveFormsModule,
+        PackageManagerModule,
+        DndCorePreviewComponent,
         ComponentsTreeSAComponent,
-        ComponentsPaletteSAComponent,
         PropertiesEditorComponent,
-        LayoutDndCoreModule,
+        ComponentsPaletteSAComponent,
+        FirstUppercaseLocalizeSAPipe,
+        DndCorePreviewTemplateDirective,
         LayoutEditorDragPreviewSAComponent,
         LayoutComponentRendererSADirective,
-        PackageManagerModule,
-        MatTabsModule,
-        CommonModule,
-        CommonUtilsModule,
-        FirstUppercaseLocalizeSAPipe,
-        CastPipesModule,
-        ReactiveFormsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

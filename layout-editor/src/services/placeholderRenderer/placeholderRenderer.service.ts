@@ -6,7 +6,7 @@ import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {Subscription} from 'rxjs';
 
 import {DndBusService} from '../dndBus/dndBus.service';
-import {DYNAMIC_BODY_CONTAINER} from '../../../../misc/constants';
+import {DYNAMIC_BODY_CONTAINER} from '../../misc/constants';
 
 /**
  * Class that applies css style update to element

@@ -69,9 +69,6 @@ export class LayoutDesignerEditorMetadataDirective
      */
     public async initialize(): Promise<void>
     {
-        //TODO: SCOPE: use parent scope for settings this
-        // options.typeMetadata.scope = this.scopeId;
-
         this.ɵeditorMetadata = await this.metadataExtractor.extractMetadata(this.common.designer.metadataSafe);
         this.updateCanDrop();
     }

@@ -1,10 +1,9 @@
 import {ChangeDetectorRef, ComponentRef, computed, Directive, effect, inject, OnDestroy, Signal, signal, SimpleChanges, WritableSignal} from '@angular/core';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
+import {addSimpleChange, MetadataHistoryManager, SCOPE_ID} from '@anglr/dynamic';
 import {BindThis, Invalidatable, isDescendant} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import type {DndCoreDesignerDirective} from '../../modules/layoutDndCore/directives/dndCoreDesigner/dndCoreDesigner.directive';
 import {LayoutDesignerOverlayDirective} from '../layoutDesignerOverlay/layoutDesignerOverlay.directive';
 import {LayoutDesignerEditorMetadataDirective} from '../layoutDesignerEditorMetadata/layoutDesignerEditorMetadata.directive';
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
@@ -91,6 +90,11 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      * Instance of service used for iterating through children of component
      */
     protected iteratorSvc: LayoutComponentsIteratorService = inject(LayoutComponentsIteratorService);
+
+    /**
+     * Id of propagated scope
+     */
+    protected scopeId: string|undefined|null = inject(SCOPE_ID);
 
     /**
      * Component reference for which is this designer
@@ -188,13 +192,6 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         return this.metadata;
     }
 
-    //TODO:remove this
-    
-    /**
-     * Instance of designer dnd core directive
-     */
-    public dndCoreDesigner!: DndCoreDesignerDirective;
-
     //######################### constructor #########################
     constructor()
     {
@@ -282,6 +279,9 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         this.common.element.nativeElement.addEventListener('mouseleave', this.cancelHighlightComponent);
         this.common.element.nativeElement.addEventListener('click', this.selectComponent);
         this.common.element.nativeElement.addEventListener('dblclick', this.deselectComponent);
+
+        //TODO: SCOPE: use parent scope for settings this
+        this.metadataSafe.scope ??= this.scopeId;
 
         await this.updateIndex();
         await this.editorMetadata.initialize();

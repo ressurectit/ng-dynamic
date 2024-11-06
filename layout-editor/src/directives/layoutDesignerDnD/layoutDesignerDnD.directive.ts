@@ -3,13 +3,9 @@ import {isBlank, isPresent} from '@jscrpt/common';
 import {DndService, DragSource, DropTarget, DropTargetMonitor} from '@ng-dnd/core';
 import {filter, Subscription} from 'rxjs';
 
-import {LayoutEditorMetadataManagerComponent} from '../../services';
-import {PlaceholderRenderer} from '../../modules/layoutDndCore/services/placeholderRenderer/placeholderRenderer.service';
-import {LayoutDragItem, LayoutDropResult} from '../../modules/layoutDndCore/directives/dndCoreDesigner/dndCoreDesigner.interface';
+import {DropPlaceholderPreview, LayoutEditorMetadataManagerComponent, PlaceholderRenderer} from '../../services';
 import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesignerCommon.directive';
-import {DropPlaceholderPreview} from '../../modules/layoutDndCore/services/dndBus/dndBus.interface';
-
-//TODO: move services into services and break apart DnD module
+import {LayoutDragItem, LayoutDropResult} from '../../interfaces';
 
 const DEFAULT_DROP_TYPES = ['COMPONENT', 'METADATA'];
 const DEFAULT_DRAG_TYPE = 'COMPONENT';

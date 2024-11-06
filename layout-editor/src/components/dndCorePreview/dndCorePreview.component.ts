@@ -2,7 +2,8 @@ import {Component, ChangeDetectionStrategy, EmbeddedViewRef, ContentChild, Templ
 import {DndService} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
 
-import {DndCorePreviewTemplateContext, DndCorePreviewTemplateDirective, LayoutDragItem} from '../../directives';
+import {LayoutDragItem} from '../../interfaces';
+import {DndCorePreviewTemplateContext, DndCorePreviewTemplateDirective} from '../../directives';
 
 /**
  * Component used for displaying drag preview

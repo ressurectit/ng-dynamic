@@ -1,4 +1,4 @@
-import {LayoutDragItem} from '../dndCoreDesigner/dndCoreDesigner.interface';
+import {LayoutDragItem} from '../../interfaces';
 
 /**
  * Context passed to dnd core preview template

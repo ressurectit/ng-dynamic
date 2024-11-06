@@ -8,8 +8,8 @@ import {DndModule} from '@ng-dnd/core';
 import {Subscription, skip, timer} from 'rxjs';
 
 import {DragActiveService, LayoutComponentsIteratorService, LayoutEditorMetadataManager} from '../../../services';
-import {LayoutDndCoreModule} from '../../../modules';
 import {LayoutComponentDragData} from '../../../interfaces';
+import {DndCoreTreeItemDirective} from '../../../directives';
 
 const DRAG_OVER_DELAY = 500;
 
@@ -24,10 +24,10 @@ const DRAG_OVER_DELAY = 500;
     standalone: true,
     imports:
     [
+        DndModule,
         CommonModule,
         MatButtonModule,
-        DndModule,
-        LayoutDndCoreModule,
+        DndCoreTreeItemDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

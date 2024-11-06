@@ -1,3 +1,7 @@
+export * from './dndCorePaletteItem/dndCorePaletteItem.directive';
+export * from './dndCorePreviewTemplate/dndCorePreviewTemplate.context';
+export * from './dndCorePreviewTemplate/dndCorePreviewTemplate.directive';
+export * from './dndCoreTreeItem/dndCoreTreeItem.directive';
 export * from './layoutDesigner/layoutDesigner.directive';
 export * from './layoutDesignerCommon/layoutDesignerCommon.directive';
 export * from './layoutDesignerDnD/layoutDesignerDnD.directive';

@@ -6,9 +6,8 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
 import {Subscription, skip} from 'rxjs';
 
-import {DragActiveService, LayoutEditorMetadataManager} from '../../services';
+import {DndBusService, DragActiveService, LayoutEditorMetadataManager} from '../../services';
 import {ComponentsTreeItemSAComponent} from './item';
-import {DndBusService} from '../../modules';
 
 /**
  * Component displaying components tree

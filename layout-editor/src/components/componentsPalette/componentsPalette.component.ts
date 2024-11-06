@@ -10,9 +10,9 @@ import {LayoutEditorMetadataExtractor} from '../../services';
 import {ComponentsPaletteItem, LayoutModuleTypes} from './componentsPalette.interface';
 import {ToLayoutDragDataSAPipe} from '../../pipes';
 import {LAYOUT_MODULE_TYPES_LOADER, REFRESH_PALETTE_OBSERVABLES} from '../../misc/tokens';
-import {LayoutDndCoreModule} from '../../modules';
 import {ComponentGroupFilterSAPipe} from './pipes/componentGroupFilter.pipe';
 import {ComponentItemFilterSAPipe} from './pipes/componentItemFilter.pipe';
+import {DndCorePaletteItemDirective} from '../../directives';
 
 /**
  * Component displaying available components palette
@@ -25,11 +25,11 @@ import {ComponentItemFilterSAPipe} from './pipes/componentItemFilter.pipe';
     imports:
     [
         CommonModule,
-        LayoutDndCoreModule,
         ToLayoutDragDataSAPipe,
-        FirstUppercaseLocalizeSAPipe,
-        ComponentGroupFilterSAPipe,
         ComponentItemFilterSAPipe,
+        ComponentGroupFilterSAPipe,
+        DndCorePaletteItemDirective,
+        FirstUppercaseLocalizeSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

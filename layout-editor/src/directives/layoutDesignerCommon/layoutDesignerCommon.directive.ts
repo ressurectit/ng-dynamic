@@ -3,8 +3,7 @@ import {LOGGER, Logger} from '@anglr/common';
 
 import {LayoutDesignerEditorMetadataDirective} from '../layoutDesignerEditorMetadata/layoutDesignerEditorMetadata.directive';
 import {LayoutDesignerDirective} from '../layoutDesigner/layoutDesigner.directive';
-import {DragActiveService, LayoutEditorMetadataManager} from '../../services';
-import {DndBusService} from '../../modules/layoutDndCore/services/dndBus/dndBus.service';
+import {DndBusService, DragActiveService, LayoutEditorMetadataManager} from '../../services';
 
 /**
  * Directive for shared properties among all layout designer directives

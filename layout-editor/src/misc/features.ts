@@ -3,13 +3,11 @@ import {LOGGER} from '@anglr/common';
 import {CoreDynamicFeature, defaultExportExtractor, DefaultsOverride, DynamicFeature, DynamicFeatureType, DynamicItemLoader, DynamicModuleDataExtractor, EDITOR_METADATA_MANAGER, MetadataHistoryManager, PackageManager} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_DATA_EXTRACTORS, LayoutRenderer, withLayoutRuntime} from '@anglr/dynamic/layout';
 
-import {DragActiveService, LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor, LayoutEditorRenderer, LiveEventService} from '../services';
+import {DndBusService, DragActiveService, LayoutComponentsIteratorService, LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor, LayoutEditorRenderer, LiveEventService, PlaceholderRenderer} from '../services';
 import {layoutDesignerTypeExtractor} from './extractors';
 import {LAYOUT_DEFAULTS_OVERRIDE, LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_HISTORY_MANAGER, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
 import {LayoutPropertyMetadata} from './types';
 import {isLayoutModuleTypes} from './utils';
-import {DndBusService} from '../modules/layoutDndCore/services/dndBus/dndBus.service';
-import {PlaceholderRenderer} from '../modules/layoutDndCore/services/placeholderRenderer';
 
 /**
  * Provider for designer layout components extractor

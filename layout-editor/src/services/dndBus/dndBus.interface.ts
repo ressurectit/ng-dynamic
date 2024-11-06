@@ -1,4 +1,4 @@
-import {LayoutComponentDragData} from '../../../../interfaces';
+import {LayoutComponentDragData} from '../../interfaces';
 
 /**
  * Data that occured after drag ended

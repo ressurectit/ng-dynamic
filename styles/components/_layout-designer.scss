@@ -79,13 +79,34 @@
                 position: absolute;
             }
 
-            .designer-overlay-over-element
+            .designer-overlay-over-component
             {
                 position: absolute;
                 background-color: var(--dynamic-layoutDesigner-overComponent-background);
                 z-index: 32121;
                 pointer-events: none;
-                opacity: .05;
+                opacity: .1;
+            }
+
+            .designer-overlay-over-container
+            {
+                position: absolute;
+                background-color: var(--dynamic-layoutDesigner-overContainer-background);
+                z-index: 32120;
+                pointer-events: none;
+                border: 3px solid var(--dynamic-layoutDesigner-overContainer-border);
+                color: var(--dynamic-layoutDesigner-overContainer-foreground);
+                box-shadow: var(--mat-app-elevation-shadow-level-2);
+
+                &>div
+                {
+                    position: absolute;
+                    top: -1.3em;
+                    left: 0;
+                    font-weight: bold;
+                    opacity: 1;
+                    font-size: 1.3em;
+                }
             }
 
             .designer-overlay-border

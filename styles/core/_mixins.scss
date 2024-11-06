@@ -56,6 +56,9 @@
     --dynamic-layoutDesigner-overlay-border: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'overlay'), 'border')};
     --dynamic-layoutDesigner-dropzoneDragActive-border: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'dropzoneDragActive'), 'border')};
     --dynamic-layoutDesigner-overComponent-background: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'overComponent'), 'background')};
+    --dynamic-layoutDesigner-overContainer-background: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'overContainer'), 'background')};
+    --dynamic-layoutDesigner-overContainer-foreground: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'overContainer'), 'foreground')};
+    --dynamic-layoutDesigner-overContainer-border: #{map.get(map.get(map.get($theme, 'layoutDesigner'), 'overContainer'), 'border')};
     --dynamic-properties-editor-properties-form-control-foreground: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesFormControl'), 'foreground')};
     --dynamic-properties-editor-properties-form-control-border: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesFormControl'), 'border')};
     --dynamic-properties-editor-properties-form-control-background: #{map.get(map.get(map.get($theme, 'propertiesEditor'), 'propertiesFormControl'), 'background')};

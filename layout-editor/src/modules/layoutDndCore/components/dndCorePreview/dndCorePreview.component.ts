@@ -89,7 +89,7 @@ export class DndCorePreviewComponent implements OnInit, OnDestroy
                 {
                     this.dragPreviewElement.style.position = 'fixed';
                     this.dragPreviewElement.style.top = `${itm.coordinates?.y}px`;
-                    this.dragPreviewElement.style.left = `${itm.coordinates?.x}px`;
+                    this.dragPreviewElement.style.left = `${(itm.coordinates?.x ?? 0) + 3}px`;
                     this.dragPreviewElement.style.zIndex = '21312';
                 }
             }));

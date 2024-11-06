@@ -73,8 +73,6 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      */
     protected dnd: DndService = inject(DndService);
 
-    
-
     /**
      * Service used for sharing data during drag n drop
      */
@@ -93,16 +91,24 @@ export class LayoutDesignerDnDDirective implements OnDestroy
     //######################### protected properties #########################
 
     /**
+     * Gets instance of element that belongs to this designer
+     */
+    protected get element(): Element
+    {
+        return this.common.element.nativeElement;
+    }
+
+    /**
      * Gets element that represents container that contains children
      */
     protected get containerElement(): Element
     {
         if(!this.common.editorMetadata.metadata?.getChildrenContainer)
         {
-            return this.common.element.nativeElement;
+            return this.element;
         }
 
-        return this.common.editorMetadata.metadata?.getChildrenContainer(this.common.element.nativeElement) ?? this.common.element.nativeElement;
+        return this.common.editorMetadata.metadata?.getChildrenContainer(this.element) ?? this.element;
     }
 
     //######################### constructor #########################
@@ -112,11 +118,11 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         {
             if(this.common.draggingSvc.dragging() && this.common.editorMetadata.canDrop)
             {
-                this.common.element.nativeElement.classList.add('drag-active');
+                this.element.classList.add('drag-active');
             }
             else
             {
-                this.common.element.nativeElement.classList.remove('drag-active');
+                this.element.classList.remove('drag-active');
             }
         });
     }
@@ -222,7 +228,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                              beginDrag: () =>
                                              {
                                                  this.common.draggingSvc.setDragging(true);
-                                                 this.common.element.nativeElement.classList.add('is-dragged');
+                                                 this.element.classList.add('is-dragged');
 
                                                  return {
                                                      dragData:
@@ -239,7 +245,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                                                  //dropped outside of any dropzone
                                                  if(!monitor.didDrop())
                                                  {
-                                                     this.common.element.nativeElement.classList.remove('is-dragged');
+                                                     this.element.classList.remove('is-dragged');
                                                  }
                                                  //dropped into drop zone
                                                  else
@@ -263,7 +269,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
 
                                                  this.bus.setDropPlaceholderPreview(null);
                                                  this.common.draggingSvc.setDragging(false);
-                                                 this.common.element.nativeElement.classList.remove('is-dragged');
+                                                 this.element.classList.remove('is-dragged');
                                              },
                                          },
                                          this.initSubscriptions);
@@ -313,7 +319,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
     {
         this.ngZone.runOutsideAngular(() =>
         {
-            this.initSubscriptions.add(this.drag.connectDragSource(this.common.element.nativeElement));
+            this.initSubscriptions.add(this.drag.connectDragSource(this.element));
             this.initSubscriptions.add(this.drag.connectDragPreview(getEmptyImage()));
         });
     }
@@ -325,7 +331,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
     {
         this.ngZone.runOutsideAngular(() =>
         {
-            this.initSubscriptions.add(this.dropzone.connectDropTarget(this.common.element.nativeElement));
+            this.initSubscriptions.add(this.dropzone.connectDropTarget(this.element));
         });
     }
 
@@ -352,7 +358,8 @@ export class LayoutDesignerDnDDirective implements OnDestroy
         }
 
         const parentComponent = this.common.layoutEditorManager.getComponent(ancestorId);
-        const componentIndex = this.common.layoutEditorManager.getComponent(id)?.index ?? 0;
+        const component = this.common.layoutEditorManager.getComponent(id);
+        const componentIndex = component?.index ?? 0;
         const item = monitor.getItem();
 
         if(item && isPresent(item.dragData.index))
@@ -369,12 +376,17 @@ export class LayoutDesignerDnDDirective implements OnDestroy
             }
         }
 
+        if(!component)
+        {
+            throw new Error('LayoutDesignerDnDDirective: missing drag over component!');
+        }
+
         if(!parentComponent)
         {
             return [null, null];
         }
 
-        return [componentIndex + parentComponent.dnd.getIndexIncrement(monitor, parentComponent.editorMetadata.horizontal), ancestorId];
+        return [componentIndex + parentComponent.dnd.getIndexIncrement(monitor, parentComponent.editorMetadata.horizontal, component.dnd.element), ancestorId];
     }
 
     /**
@@ -385,9 +397,13 @@ export class LayoutDesignerDnDDirective implements OnDestroy
     {
         const getHalf = (element: Element) =>
         {
+            const horizontal = this.common.editorMetadata.horizontal;
             const rect = element.getBoundingClientRect();
-            const position = this.common.editorMetadata.horizontal ? rect.x : rect.y;
-            const half = (this.common.editorMetadata.horizontal ? rect.width : rect.height) / 2;
+            const computedStyles = getComputedStyle(element);
+            const marginOffset = horizontal ? (+computedStyles.marginLeft.replace('px', '')) : (+computedStyles.marginTop.replace('px', ''));
+            const margin = horizontal ? ((+computedStyles.marginLeft.replace('px', '')) + (+computedStyles.marginRight.replace('px', ''))) : ((+computedStyles.marginTop.replace('px', '')) + (+computedStyles.marginBottom.replace('px', '')));
+            const position = (horizontal ? rect.x : rect.y) - marginOffset;
+            const half = ((horizontal ? rect.width : rect.height) + margin) / 2;
 
             return position + half;
         };
@@ -446,19 +462,23 @@ export class LayoutDesignerDnDDirective implements OnDestroy
      * Gets index increment
      * @param monitor - Monitor to be used for obtaining information about index
      * @param horizontal - Indication whether are items horizontaly oriented
+     * @param element - Element whose index increment will be calculated
      */
-    protected getIndexIncrement(monitor: DropTargetMonitor<LayoutDragItem, LayoutDropResult>, horizontal: boolean): number
+    protected getIndexIncrement(monitor: DropTargetMonitor<LayoutDragItem, LayoutDropResult>, horizontal: boolean, element: Element): number
     {
-        const rect = this.common.element.nativeElement.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
         const offset = monitor.getClientOffset();
 
         if(!offset)
         {
             return 0;
         }
-
-        const position = horizontal ? offset.x - rect.x : offset.y - rect.y;
-        const half = horizontal ? rect.width / 2 : rect.height / 2;
+        
+        const computedStyles = getComputedStyle(element);
+        const marginOffset = horizontal ? (+computedStyles.marginLeft.replace('px', '')) : (+computedStyles.marginTop.replace('px', ''));
+        const margin = horizontal ? ((+computedStyles.marginLeft.replace('px', '')) + (+computedStyles.marginRight.replace('px', ''))) : ((+computedStyles.marginTop.replace('px', '')) + (+computedStyles.marginBottom.replace('px', '')));
+        const position = (horizontal ? offset.x - rect.x : offset.y - rect.y) + marginOffset;
+        const half = horizontal ? (rect.width + margin) / 2 : (rect.height + margin) / 2;
 
         if(position <= half)
         {

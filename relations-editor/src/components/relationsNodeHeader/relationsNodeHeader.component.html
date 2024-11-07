@@ -1,11 +1,17 @@
 <div class="header-content">{{parent?.metadata?.displayName || name || parent?.metadata?.id}}</div>
 
-<span *ngIf="parent?.metadata?.scope" [tooltip]="parent?.metadata?.scope" [style.color]="parent?.metadata?.scope | toColor" class="dynamic-margin-horizontal-extra-small dynamic-bold">&#123;&#125;</span>
+@if(parent?.metadata?.scope)
+{
+    <span [tooltip]="parent?.metadata?.scope" [style.color]="parent?.metadata?.scope | toColor" class="dynamic-margin-horizontal-extra-small dynamic-bold">&#123;&#125;</span>
+}
 
 <button type="button" class="dynamic-btn-icon edit-icon" (click)="editProperties()">
     <span class="fas fa-pen"></span>
 </button>
 
-<button type="button" *ngIf="destroySubject" class="dynamic-btn-icon destroy-icon" (click)="destroySubject.next()">
-    <span class="fas fa-times"></span>
-</button>
+@if(destroySubject)
+{
+    <button type="button" class="dynamic-btn-icon destroy-icon" (click)="destroySubject.next()">
+        <span class="fas fa-times"></span>
+    </button>
+}

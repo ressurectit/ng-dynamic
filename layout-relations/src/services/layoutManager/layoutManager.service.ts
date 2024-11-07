@@ -51,7 +51,7 @@ export class LayoutManager
         {
             return;
         }
-    
+
         this._layout = layout;
         this._layoutChange.next();
     }

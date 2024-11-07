@@ -38,7 +38,7 @@ export class LoadSaveNewComponent<TStoreMetadata = unknown, TMetadata = unknown>
     //######################### protected properties - template bindings #########################
 
     protected metadata: TStoreMetadata|null = null;
-    
+
     protected available: FormControl<string> = new FormControl<string>('', {nonNullable: true});
 
     protected component: FormControl<boolean> = new FormControl<boolean>(false, {nonNullable: true});
@@ -90,7 +90,7 @@ export class LoadSaveNewComponent<TStoreMetadata = unknown, TMetadata = unknown>
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -104,17 +104,17 @@ export class LoadSaveNewComponent<TStoreMetadata = unknown, TMetadata = unknown>
                 {
                     return;
                 }
-    
+
                 const components = await this.customComponentsRegister?.getRegisteredComponents();
 
                 if(isBlank(components))
                 {
                     throw new Error('LoadSaveNewSAComponent: missing components!');
                 }
-    
+
                 this.component.setValue(components.indexOf(value) >= 0, {emitEvent: false});
             });
-    
+
             this.component.valueChanges.subscribe(() => this.customComponentsRegister?.toggleRegisteredComponent(this.available.value));
         }
 
@@ -131,7 +131,7 @@ export class LoadSaveNewComponent<TStoreMetadata = unknown, TMetadata = unknown>
 
         this.availableNames = this.store.getStored();
 
-        this._route.params.subscribe(({id}) =>  
+        this._route.params.subscribe(({id}) =>
         {
             if(!id)
             {
@@ -152,7 +152,7 @@ export class LoadSaveNewComponent<TStoreMetadata = unknown, TMetadata = unknown>
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -197,7 +197,7 @@ export class LoadSaveNewComponent<TStoreMetadata = unknown, TMetadata = unknown>
 
         this.name.setValue('');
         this.available.setValue('');
-        
+
         this._router.navigate([this.routePath], {skipLocationChange: false, replaceUrl: true});
     }
 
@@ -205,7 +205,7 @@ export class LoadSaveNewComponent<TStoreMetadata = unknown, TMetadata = unknown>
     {
         const data = this.store.getData(this.name.value) ?? (this.isRelations ? [] : {});
         this.history?.save();
-        
+
         this.store.setData(this.name.value, extend(data, this.getMetadataCallback(metadata)));
 
         this.availableNames = this.store.getStored();

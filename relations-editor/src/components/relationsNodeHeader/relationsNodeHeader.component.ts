@@ -1,5 +1,4 @@
 import {Component, ChangeDetectionStrategy, Input, ChangeDetectorRef, Inject} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {MetadataHistoryManager} from '@anglr/dynamic';
 import {TooltipModule} from '@anglr/common';
@@ -8,7 +7,7 @@ import {lastValueFrom, Subject} from 'rxjs';
 import {RelationsNode, RelationsNodeMetadata} from '../../interfaces';
 import {RelationsNodePropertiesEditorSAComponent} from '../relationsNodePropertiesEditor/relationsNodePropertiesEditor.component';
 import {RelationsNodeProperties, RelationsNodePropertiesEditorData} from '../relationsNodePropertiesEditor/relationsNodePropertiesEditor.interface';
-import {ToColorSAPipe} from '../../pipes/toColor/toColor.pipe';
+import {ToColorPipe} from '../../pipes/toColor/toColor.pipe';
 import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
 import {ScopeRegister} from '../../services';
 
@@ -22,9 +21,8 @@ import {ScopeRegister} from '../../services';
     standalone: true,
     imports:
     [
-        CommonModule,
+        ToColorPipe,
         TooltipModule,
-        ToColorSAPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

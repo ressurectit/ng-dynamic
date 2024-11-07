@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, ComponentRef, computed, Directive, effect, inject, OnDestroy, Signal, signal, SimpleChanges, WritableSignal} from '@angular/core';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {addSimpleChange, MetadataHistoryManager, SCOPE_ID} from '@anglr/dynamic';
+import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {BindThis, Invalidatable, isDescendant} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
@@ -90,11 +90,6 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      * Instance of service used for iterating through children of component
      */
     protected iteratorSvc: LayoutComponentsIteratorService = inject(LayoutComponentsIteratorService);
-
-    /**
-     * Id of propagated scope
-     */
-    protected scopeId: string|undefined|null = inject(SCOPE_ID);
 
     /**
      * Component reference for which is this designer
@@ -280,8 +275,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         this.common.element.nativeElement.addEventListener('click', this.selectComponent);
         this.common.element.nativeElement.addEventListener('dblclick', this.deselectComponent);
 
-        //TODO: SCOPE: use parent scope for settings this
-        this.metadataSafe.scope ??= this.scopeId;
+        this.metadataSafe.scope ??= this.parent?.metadataSafe.scope;
 
         await this.updateIndex();
         await this.editorMetadata.initialize();

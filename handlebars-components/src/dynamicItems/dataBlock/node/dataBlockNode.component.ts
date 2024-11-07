@@ -9,7 +9,6 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
 {
     selector: 'data-block-node',
     templateUrl: 'dataBlockNode.component.html',
-    // styleUrls: ['dataBlockNode.component.css'],
     standalone: true,
     imports:
     [

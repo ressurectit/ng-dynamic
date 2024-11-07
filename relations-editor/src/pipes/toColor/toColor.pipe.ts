@@ -5,7 +5,7 @@ import {stringToColour} from '@jscrpt/common';
  * Converts string to color code
  */
 @Pipe({name: 'toColor', standalone: true})
-export class ToColorSAPipe implements PipeTransform
+export class ToColorPipe implements PipeTransform
 {
     /**
      * Converts string to color code

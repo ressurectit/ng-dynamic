@@ -1,6 +1,6 @@
 import {Type, ɵComponentDef, ɵComponentType, ɵɵHostDirectivesFeature} from '@angular/core';
 import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
-import {isBlank, isPresent, isType} from '@jscrpt/common';
+import {isBlank, isFunction, isPresent, isType} from '@jscrpt/common';
 
 import {LayoutComponentDef} from './types';
 
@@ -55,7 +55,17 @@ export function applyDynamicHostDirective(type: Type<unknown>, directives?: Type
         {
             for(const directive of directives)
             {
-                const index = componentDef.hostDirectives.findIndex(itm => itm.directive == directive);
+                const index = componentDef.hostDirectives.findIndex(itm => 
+                {
+                    if(isFunction(itm))
+                    {
+                        console.warn('Function was not expected!');
+
+                        return;
+                    }
+                    
+                    itm.directive == directive;
+                });
 
                 if(index < 0)
                 {

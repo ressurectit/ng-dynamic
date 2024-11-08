@@ -17,6 +17,7 @@ export class DataTableLayoutEditorMetadata implements LayoutEditorMetadataDescri
         name: 'Data table',
         description: 'Displays table with data',
         group: 'Grid',
+        scoped: true,
         optionsMetadata:
         {
             propertiesMetadata:

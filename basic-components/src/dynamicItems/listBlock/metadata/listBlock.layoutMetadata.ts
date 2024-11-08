@@ -19,6 +19,7 @@ export class ListBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
         name: 'List',
         description: 'List block - displays template in array',
         group: 'Layout',
+        scoped: true,
         optionsMetadata:
         {
             propertiesMetadata:

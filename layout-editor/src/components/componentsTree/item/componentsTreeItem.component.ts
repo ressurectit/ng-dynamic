@@ -222,13 +222,13 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      * Adds descentant component metadata to this component metadata
      * @param dragData - Data from drag n drop event
      */
-    public addDescendant(dragData: LayoutComponentDragData): void
+    public async addDescendant(dragData: LayoutComponentDragData): Promise<void>
     {
         const data = this.data();
 
         if (data)
         {
-            this.manager.getComponent(data.id)?.addDescendant(dragData);
+            await this.manager.getComponent(data.id)?.addDescendant(dragData);
         }
     }
     

@@ -266,16 +266,6 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
         this.ɵdraggedOverComponent.set(id ?? null);
     }
 
-    //TODO: removal candidate
-    /**
-     * Removes indication of component being dragged over
-     * @param id - Id of component that will be marked
-     */
-    public cancelDragOverComponent(): void
-    {
-        this.ɵdraggedOverComponent.set(null);
-    }
-
     /**
      * Registers layout designer and returns true if component was registered successfuly, otherwise false
      * @param component - Component layout designer instance that is being registered

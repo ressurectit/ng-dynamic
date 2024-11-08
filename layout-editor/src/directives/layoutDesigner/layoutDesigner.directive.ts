@@ -299,7 +299,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
      * Adds descentant component metadata to this component metadata
      * @param dragData - Data from drag n drop event
      */
-    public addDescendant(dragData: LayoutComponentDragData): void
+    public async addDescendant(dragData: LayoutComponentDragData): Promise<void>
     {
         const metadata = this.metadataSafe;
         let triggerLayoutChange = false;
@@ -327,6 +327,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
             }
             else
             {
+                this.common.layoutEditorManager.getComponent(dragData.metadata.id)?.resetChildrenScopes();
                 this.history.disable();
                 this.common.layoutEditorManager.getComponent(parentId)?.removeDescendant(dragData.metadata.id);
                 this.history.enable();
@@ -351,7 +352,7 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
         //update indexes of children
         for(const designer of layoutDesigners)
         {
-            designer?.updateIndex();
+            await designer?.updateIndex();
             designer?.invalidateVisuals();
         }
 
@@ -483,6 +484,26 @@ export class LayoutDesignerDirective<TOptions = unknown> implements OnDestroy, I
                     break;
                 }
             }
+        }
+    }
+
+    /**
+     * Resets scopes of children
+     */
+    protected resetChildrenScopes(): void
+    {
+        //creates scope, do not reset
+        if(this.editorMetadata.metadata?.metaInfo?.scoped)
+        {
+            return;
+        }
+
+        this.metadataSafe.scope = null;
+        const children = this.common.layoutEditorManager.getChildren(this.metadataSafe.id);
+
+        for(const child of children)
+        {
+            child.resetChildrenScopes();
         }
     }
 }

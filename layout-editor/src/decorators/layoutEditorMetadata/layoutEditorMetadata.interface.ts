@@ -75,6 +75,11 @@ export interface LayoutEditorMetadataInfo<TOptions = any>
     readonly dragDisabled?: boolean;
 
     /**
+     * Gets indication whether is component scoped
+     */
+    readonly scoped?: boolean;
+
+    /**
      * Metadata for options if there are any
      */
     readonly optionsMetadata?: LayoutEditorOptionsMetadata;

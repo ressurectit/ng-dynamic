@@ -64,7 +64,7 @@ export function applyDynamicHostDirective(type: Type<unknown>, directives?: Type
                         return;
                     }
                     
-                    itm.directive == directive;
+                    return itm.directive == directive;
                 });
 
                 if(index < 0)

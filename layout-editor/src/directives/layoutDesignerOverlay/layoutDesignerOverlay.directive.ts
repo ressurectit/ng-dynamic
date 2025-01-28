@@ -14,7 +14,6 @@ import {DYNAMIC_BODY_CONTAINER} from '../../misc/constants';
 @Directive(
 {
     selector: '[layoutDesignerOverlay]',
-    standalone: true,
 })
 export class LayoutDesignerOverlayDirective implements OnDestroy
 {

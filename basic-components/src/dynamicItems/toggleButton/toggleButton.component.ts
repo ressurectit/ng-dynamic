@@ -18,7 +18,6 @@ import {ToggleButtonLayoutMetadataLoader, ToggleButtonRelationsMetadataLoader} f
     selector: 'toggle-button',
     templateUrl: 'toggleButton.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -27,7 +26,7 @@ import {ToggleButtonLayoutMetadataLoader, ToggleButtonRelationsMetadataLoader} f
 })
 @DebugData(
 {
-    inputs: 
+    inputs:
     [
         nameof<ToggleButtonSAComponent>('disabled'),
     ],

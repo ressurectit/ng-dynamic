@@ -18,14 +18,12 @@ import {RadioComponentOptions} from './radio.options';
     selector: 'form-radio',
     templateUrl: 'radio.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         CommonModule,
         FormPipesModule,
         CastPipesModule,
-        FormComponentControlSAPipe,
         ReactiveFormsModule,
     ]
 })

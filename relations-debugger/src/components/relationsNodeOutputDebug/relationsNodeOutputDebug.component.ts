@@ -8,7 +8,6 @@ import {RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
 {
     selector: 'relation-node-output-debug',
     template: '',
-    standalone: true,
     providers:
     [
         <ExistingProvider>

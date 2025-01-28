@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {ComponentEndpointDef, ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
@@ -15,14 +15,13 @@ import {DeconstructRelationsOptions} from '../deconstruct.options';
 {
     selector: 'deconstruct-node',
     templateUrl: 'deconstructNode.component.html',
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
         CommonModule,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

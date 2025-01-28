@@ -5,7 +5,7 @@ import {PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-ed
 import {ButtonPreset} from '../../../interfaces';
 import {BUTTONS_PRESETS} from '../../tokens';
 
-const defaultPresets: ButtonPreset[] = 
+const defaultPresets: ButtonPreset[] =
 [
     {
         text: 'primary',
@@ -44,7 +44,6 @@ const defaultPresets: ButtonPreset[] =
 {
     selector: 'button-presets',
     templateUrl: 'buttonPresetsPropertiesControl.component.html',
-    standalone: true,
     imports:
     [
         NgClass,
@@ -64,7 +63,7 @@ export class ButtonPresetsPropertiesControlSAComponent extends PropertiesControl
 
     /**
      * Sets button preset
-     * @param cssClass 
+     * @param cssClass
      */
     protected _setPreset(cssClass: string)
     {

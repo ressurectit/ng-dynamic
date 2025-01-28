@@ -14,10 +14,9 @@ import {DataLoaderLayoutDesignerTypeLoader, DataLoaderLayoutMetadataLoader} from
     selector: 'data-loader',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@DescendantsGetter<DataLoaderComponentOptions>(options => 
+@DescendantsGetter<DataLoaderComponentOptions>(options =>
 {
     if(!options?.plugin)
     {

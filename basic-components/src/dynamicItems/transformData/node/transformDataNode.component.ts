@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from 
 import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, MonacoEditorApi, TypescriptLanguageModel} from '@anglr/dynamic';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import typings from '@anglr/dynamic/typings/transformData/monaco-type';
 import {generateId} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
@@ -17,13 +17,12 @@ import {TransformDataRelationsEditorOptions, TransformDataRelationsOptions} from
 {
     selector: 'transform-data-node',
     templateUrl: 'transformDataNode.component.html',
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
-        FirstUppercaseLocalizeSAPipe
+        FirstUppercaseLocalizePipe
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
@@ -9,12 +9,11 @@ import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent, Relati
 {
     selector: 'dialog-metadata-selector-node',
     templateUrl: 'dialogMetadataSelectorNode.component.html',
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,
         RelationNodeOutputSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

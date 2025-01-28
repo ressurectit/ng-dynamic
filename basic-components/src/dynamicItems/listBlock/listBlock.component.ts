@@ -19,7 +19,6 @@ import {ListBlockScopeRelationsSADirective} from './misc/directives';
     selector: 'list-block',
     templateUrl: 'listBlock.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -31,7 +30,7 @@ import {ListBlockScopeRelationsSADirective} from './misc/directives';
 })
 @DebugData(
 {
-    inputs: 
+    inputs:
     [
         nameof<ListBlockSAComponent>('data'),
     ],

@@ -5,7 +5,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {TitledDialogService, TITLED_DIALOG_DATA} from '@anglr/common/material';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, getJson, JsonLanguageModel} from '@anglr/dynamic';
-import {extend, isPresent} from '@jscrpt/common';
+import {isPresent} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {ConfigureRestParameterData} from './configureRestParameter.interface';
@@ -19,8 +20,6 @@ import {RestParamModel} from './configureRestParameter.model';
 {
     selector: 'configure-rest-parameter',
     templateUrl: 'configureRestParameter.component.html',
-    // styleUrls: ['configureRestParameter.component.css'],
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -47,7 +46,6 @@ export class ConfigureRestParameterSAComponent
                 protected dialog: TitledDialogService,
                 formModelBuilder: FormModelBuilder,)
     {
-
         this.form = formModelBuilder.build<RestParam>(new RestParamModel(data.parameter));
         this.form.valueChanges.subscribe(value => extend(data.parameter, value));
     }
@@ -66,7 +64,7 @@ export class ConfigureRestParameterSAComponent
             title: 'Code editor',
             width: '75vw',
             height: '75vh',
-            data: 
+            data:
             {
                 content,
                 languageModel: JsonLanguageModel,

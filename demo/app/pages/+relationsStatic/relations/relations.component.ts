@@ -14,7 +14,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
 {
     selector: 'relations-view',
     templateUrl: 'relations.component.html',
-    standalone: true,
     imports:
     [
         RelationsSampleClickSAComponent,

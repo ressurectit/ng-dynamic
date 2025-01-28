@@ -3,7 +3,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
-import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
+import {FirstUppercaseLocalizePipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, generateId, nameof, WithSync} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
@@ -23,7 +23,6 @@ import {NodeItemFilterSAPipe} from './pipes/nodeItemFilter.pipe';
 {
     selector: 'nodes-palette',
     templateUrl: 'nodesPalette.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -32,7 +31,7 @@ import {NodeItemFilterSAPipe} from './pipes/nodeItemFilter.pipe';
         // LayoutEditorDragPlaceholderSAComponent,
         ToRelationsDragDataSAPipe,
         NodesPaletteItemSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
         NodeGroupFilterSAPipe,
         NodeItemFilterSAPipe,
     ],

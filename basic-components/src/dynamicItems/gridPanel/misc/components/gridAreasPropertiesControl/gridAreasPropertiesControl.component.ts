@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {TitledDialogService} from '@anglr/common/material';
 import {PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {GridPanelComponentOptions} from '../../../gridPanel.options';
@@ -15,10 +15,9 @@ import {GridAreasDefinitionDialogComponent} from '../gridAreasDefinitionDialog/g
     selector: 'grid-areas-properties-control',
     templateUrl: 'gridAreasPropertiesControl.component.html',
     styleUrl: 'gridAreasPropertiesControl.component.css',
-    standalone: true,
     imports:
     [
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

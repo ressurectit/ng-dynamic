@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {TitledDialogService} from '@anglr/common/material';
 import {PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {RowsColumnsOptions} from '../../../interfaces';
@@ -15,10 +15,9 @@ import {RowsColumnsDefinitionDialogComponent} from '../rowsColumnsDefinitionDial
     selector: 'rows-columns-properties-control',
     templateUrl: 'rowsColumnsPropertiesControl.component.html',
     styleUrl: 'rowsColumnsPropertiesControl.component.css',
-    standalone: true,
     imports:
     [
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

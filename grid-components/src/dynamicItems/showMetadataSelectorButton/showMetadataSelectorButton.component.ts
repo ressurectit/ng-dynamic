@@ -4,7 +4,7 @@ import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {Grid, ShowMetadataSelectorForSADirective} from '@anglr/grid';
+import {Grid, ShowMetadataSelectorForDirective} from '@anglr/grid';
 
 import {ShowMetadataSelectorButtonComponentOptions, ShowMetadataSelectorButtonRelationsOptions} from './showMetadataSelectorButton.options';
 import {ShowMetadataSelectorButtonLayoutMetadataLoader, ShowMetadataSelectorButtonRelationsMetadataLoader} from './showMetadataSelectorButton.metadata';
@@ -17,10 +17,9 @@ import {ShowMetadataSelectorButtonLayoutMetadataLoader, ShowMetadataSelectorButt
     selector: 'show-metadata-selector-button',
     templateUrl: 'showMetadataSelectorButton.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
-        ShowMetadataSelectorForSADirective,
+        ShowMetadataSelectorForDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

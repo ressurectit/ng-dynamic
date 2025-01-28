@@ -6,11 +6,11 @@ import {toGridColumnsTemplate} from '../../utils';
 /**
  * Gets css columns template
  */
-@Pipe({name: 'toGridColumnsTemplate', standalone: true})
+@Pipe({name: 'toGridColumnsTemplate'})
 export class ToGridColumnsTemplatePipe implements PipeTransform
 {
     //######################### public methods - implementation of PipeTransform #########################
-    
+
     /**
      * Gets css columns template
      * @param columns - Array of columns definition

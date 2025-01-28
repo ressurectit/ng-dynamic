@@ -6,7 +6,7 @@ import {isBlank, stringToColour} from '@jscrpt/common';
 /**
  * Transforms string into hex color string
  */
-@Pipe({name: 'stringToColor', standalone: true})
+@Pipe({name: 'stringToColor'})
 export class StringToColorPipe implements PipeTransform
 {
     /**

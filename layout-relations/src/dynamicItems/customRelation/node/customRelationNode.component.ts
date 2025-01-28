@@ -15,7 +15,6 @@ import {getInputs, getOutputs} from '../customRelation.utils';
 {
     selector: 'custom-relation-node',
     templateUrl: 'customRelationNode.component.html',
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,

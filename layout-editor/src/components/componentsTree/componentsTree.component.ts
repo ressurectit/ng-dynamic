@@ -3,7 +3,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {Subscription, skip} from 'rxjs';
 
 import {DndBusService, DragActiveService, LayoutEditorMetadataManager} from '../../services';
@@ -16,13 +16,12 @@ import {ComponentsTreeItemSAComponent} from './item';
 {
     selector: 'components-tree',
     templateUrl: 'componentsTree.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
         MatButtonModule,
         ComponentsTreeItemSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     providers:
     [

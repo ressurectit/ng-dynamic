@@ -4,7 +4,7 @@ import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {SyncDataLoaderComponentOptions, SyncDataLoaderRelationsOptions} from '../syncDataLoader.options';
-import {SyncDataLoaderSAComponent} from '../syncDataLoader.component';
+import {SyncDataLoaderComponent} from '../syncDataLoader.component';
 
 /**
  * Component used for displaying sync data loader designer
@@ -14,9 +14,8 @@ import {SyncDataLoaderSAComponent} from '../syncDataLoader.component';
     selector: 'sync-data-loader-designer',
     templateUrl: 'syncDataLoaderDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SyncDataLoaderDesignerSAComponent extends SyncDataLoaderSAComponent implements LayoutComponent<SyncDataLoaderComponentOptions>, RelationsComponent<SyncDataLoaderRelationsOptions>
+export class SyncDataLoaderDesignerComponent extends SyncDataLoaderComponent implements LayoutComponent<SyncDataLoaderComponentOptions>, RelationsComponent<SyncDataLoaderRelationsOptions>
 {
 }

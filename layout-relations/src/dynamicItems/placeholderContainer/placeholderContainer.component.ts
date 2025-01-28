@@ -14,7 +14,6 @@ import {PlaceholderContainerLayoutMetadataLoader} from './placeholderContainer.m
     selector: 'placeholder-container',
     templateUrl: 'placeholderContainer.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

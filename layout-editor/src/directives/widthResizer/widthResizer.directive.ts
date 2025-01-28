@@ -8,7 +8,6 @@ import {BindThis, isBlank} from '@jscrpt/common';
 @Directive(
 {
     selector: '[widthResizer]',
-    standalone: true,
 })
 export class WidthResizerSADirective
 {

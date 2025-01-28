@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 
 import {LogicalAndRelationsOptions} from '../logicalAnd.options';
@@ -12,14 +12,13 @@ import {LogicalAndRelationsOptions} from '../logicalAnd.options';
 {
     selector: 'logical-and-node',
     templateUrl: 'logicalAndNode.component.html',
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
         CommonModule,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -37,7 +36,7 @@ export class LogicalAndNodeSAComponent extends RelationsNodeBase<LogicalAndRelat
             return [];
         }
 
-        this.metadata.relationsOptions ??= 
+        this.metadata.relationsOptions ??=
         {
             properties: []
         };

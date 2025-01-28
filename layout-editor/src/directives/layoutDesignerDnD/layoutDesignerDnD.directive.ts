@@ -32,7 +32,6 @@ function getEmptyImage()
 @Directive(
 {
     selector: '[layoutDesignerDnD]',
-    standalone: true,
 })
 export class LayoutDesignerDnDDirective implements OnDestroy
 {

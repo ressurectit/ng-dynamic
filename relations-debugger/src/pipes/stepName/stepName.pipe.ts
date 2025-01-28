@@ -4,25 +4,25 @@ import {RelationsStepDebugInfo} from '@anglr/dynamic/relations';
 /**
  * Transforms step into readable name
  */
-@Pipe({name: 'stepName', standalone: true,})
+@Pipe({name: 'stepName'})
 export class StepNameSAPipe implements PipeTransform
 {
     /**
      * Transforms step into readable name
      * @param value - Step data
      */
-    public transform(value: RelationsStepDebugInfo|undefined|null): string 
+    public transform(value: RelationsStepDebugInfo|undefined|null): string
     {
         if(!value)
         {
             return '---';
         }
-        
+
         if(value.componentRegistration)
         {
             return 'registration';
         }
-        
+
         if(value.componentUnregistration)
         {
             return 'unregistration';

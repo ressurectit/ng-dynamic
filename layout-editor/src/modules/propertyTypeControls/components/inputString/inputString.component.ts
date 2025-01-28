@@ -12,7 +12,6 @@ import {PropertyTypeControlBase} from '../propertyTypeControlBase';
     selector: 'input-string',
     templateUrl: 'inputString.component.html',
     styles: [HostDisplayBlockStyle],
-    // styleUrls: ['inputString.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputStringComponent extends PropertyTypeControlBase<string> implements PropertyTypeControl<string>

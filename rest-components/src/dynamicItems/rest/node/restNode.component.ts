@@ -3,9 +3,9 @@ import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
-import {extend} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {ConfigureRestParameterData, ConfigureRestParameterSAComponent} from '../misc/components';
@@ -20,8 +20,6 @@ import {RestRelationsOptionsModel} from './restNode.model';
 {
     selector: 'rest-node',
     templateUrl: 'restNode.component.html',
-    // styleUrls: ['negationNode.component.css'],
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -29,7 +27,7 @@ import {RestRelationsOptionsModel} from './restNode.model';
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
-        FirstUppercaseLocalizeSAPipe
+        FirstUppercaseLocalizePipe
     ],
     providers:
     [
@@ -51,7 +49,7 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
             return [];
         }
 
-        this.metadata.relationsOptions ??= 
+        this.metadata.relationsOptions ??=
         {
             params: [],
             url: null,
@@ -93,7 +91,7 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
      */
     protected async addParam(): Promise<void>
     {
-        const param: RestParam = 
+        const param: RestParam =
         {
             configurable: false,
             name: null,
@@ -130,7 +128,7 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
     protected async configureRestParameter(param: RestParam): Promise<boolean>
     {
         const original = JSON.parse(JSON.stringify(param));
-        
+
         const result = await lastValueFrom(this.dialog.open<ConfigureRestParameterSAComponent, ConfigureRestParameterData, true|undefined|null>(ConfigureRestParameterSAComponent,
         {
             title: 'configure rest parameter',

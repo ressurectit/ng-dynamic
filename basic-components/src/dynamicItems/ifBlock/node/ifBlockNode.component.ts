@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
@@ -9,13 +9,11 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
 {
     selector: 'if-block-node',
     templateUrl: 'ifBlockNode.component.html',
-    // styleUrls: ['ifBlockNode.component.css'],
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -5,7 +5,7 @@ import {DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {Grid, PluginDescription} from '@anglr/grid';
-import {DialogMetadataSelectorOptions, DialogMetadataSelectorSAComponent as GridDialogMetadataSelector} from '@anglr/grid/material';
+import {DialogMetadataSelectorOptions, DialogMetadataSelectorComponent as GridDialogMetadataSelector} from '@anglr/grid/material';
 import {RecursivePartial} from '@jscrpt/common';
 
 import {DialogMetadataSelectorComponentOptions, DialogMetadataSelectorRelationsOptions} from './dialogMetadataSelector.options';
@@ -20,13 +20,12 @@ import {GridPluginComponent} from '../../interfaces';
     selector: 'dialog-metadata-selector',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(DialogMetadataSelectorLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(DialogMetadataSelectorRelationsMetadataLoader)
 @LayoutEditorMetadata(DialogMetadataSelectorLayoutMetadataLoader)
-export class DialogMetadataSelectorSAComponent extends LayoutComponentBase<DialogMetadataSelectorComponentOptions> implements GridPluginComponent<GridDialogMetadataSelector, DialogMetadataSelectorComponentOptions, DialogMetadataSelectorOptions>, RelationsComponent<DialogMetadataSelectorRelationsOptions>
+export class DialogMetadataSelectorComponent extends LayoutComponentBase<DialogMetadataSelectorComponentOptions> implements GridPluginComponent<GridDialogMetadataSelector, DialogMetadataSelectorComponentOptions, DialogMetadataSelectorOptions>, RelationsComponent<DialogMetadataSelectorRelationsOptions>
 {
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -44,7 +43,7 @@ export class DialogMetadataSelectorSAComponent extends LayoutComponentBase<Dialo
     public grid: Grid|undefined|null;
 
     //######################### public properties - implementation of GridDataLoaderPlugin #########################
-    
+
     /**
      * @inheritdoc
      */
@@ -61,7 +60,7 @@ export class DialogMetadataSelectorSAComponent extends LayoutComponentBase<Dialo
     };
 
     //######################### public methods - implementation of GridDataLoaderPlugin #########################
-    
+
     /**
      * @inheritdoc
      */

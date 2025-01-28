@@ -3,7 +3,7 @@ import {toSignal} from '@angular/core/rxjs-interop';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
-import {FirstUppercaseLocalizeSAPipe, TooltipDirective} from '@anglr/common';
+import {FirstUppercaseLocalizePipe, TooltipDirective} from '@anglr/common';
 
 import {ColumnDefinition, RowDefinition, RowsColumnsOptions} from '../../../interfaces';
 import {ColumnDefinitionFormValueAccessorDirective, RowDefinitionFormValueAccessorDirective} from '../../directives';
@@ -33,12 +33,11 @@ interface FormType
     selector: 'columns-rows-definition-dialog',
     templateUrl: 'rowsColumnsDefinitionDialog.component.html',
     styleUrl: 'rowsColumnsDefinitionDialog.component.css',
-    standalone: true,
     imports:
     [
         ColumnDefinitionFormValueAccessorDirective,
         RowDefinitionFormValueAccessorDirective,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
         ToGridColumnsTemplatePipe,
         ToGridRowsTemplatePipe,
         ReactiveFormsModule,
@@ -69,7 +68,7 @@ export class RowsColumnsDefinitionDialogComponent
     constructor()
     {
         const rowsColumnsOptions = inject<RowsColumnsOptions>(TITLED_DIALOG_DATA);
-        
+
         for(const row of rowsColumnsOptions.rows)
         {
             this.form.controls.rows.push(new FormControl<RowDefinition>(
@@ -88,7 +87,7 @@ export class RowsColumnsDefinitionDialogComponent
 
         const form = toSignal(this.form.valueChanges, {initialValue: {columns: this.form.value.columns, rows: this.form.value.rows}});
 
-        this.cellsCount = computed(() => 
+        this.cellsCount = computed(() =>
         {
             const count = (form()?.columns?.length || 1) * (form()?.rows?.length || 1);
             const result = [];

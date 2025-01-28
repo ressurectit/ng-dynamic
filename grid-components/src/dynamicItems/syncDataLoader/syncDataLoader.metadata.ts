@@ -19,4 +19,4 @@ export const SyncDataLoaderRelationsMetadataLoader: DynamicMetadataLoader<Relati
 /**
  * Sync data loader layout designer type loader
  */
-export const SyncDataLoaderLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/syncDataLoaderDesigner.component')).SyncDataLoaderDesignerSAComponent;
+export const SyncDataLoaderLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/syncDataLoaderDesigner.component')).SyncDataLoaderDesignerComponent;

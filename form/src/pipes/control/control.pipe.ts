@@ -8,7 +8,7 @@ import {getControlForType, getFormControl} from '../../misc/utils';
 /**
  * Transforms control name to FormControl|FormArray|FormGroup
  */
-@Pipe({name: 'formComponentControl', standalone: true})
+@Pipe({name: 'formComponentControl'})
 export class FormComponentControlSAPipe implements PipeTransform
 {
     constructor(@Inject(LOGGER) protected _logger: Logger,)

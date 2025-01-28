@@ -10,7 +10,6 @@ import {ListBlockRelations} from '../../../listBlock.relations';
 @Directive(
 {
     selector: '[listBlockScope]',
-    standalone: true,
 })
 export class ListBlockScopeRelationsSADirective<TDatum = any> implements OnChanges, OnDestroy
 {

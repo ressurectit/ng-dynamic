@@ -13,7 +13,6 @@ import {applyGridCoordinates} from './gridPanelArea.utils';
 {
     selector: 'grid-panel-area',
     templateUrl: 'gridPanelArea.component.html',
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,
@@ -32,7 +31,7 @@ export class GridPanelAreaSAComponent extends LayoutComponentBase<GridPanelAreaC
     protected override onOptionsSet(): void
     {
         const style = this.componentElement.nativeElement.style;
-        
+
         applyGridCoordinates(this.options, style);
     }
 }

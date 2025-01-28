@@ -19,7 +19,6 @@ import {ContainerMetadataSAPipe} from './misc/pipes';
     selector: 'placeholder',
     templateUrl: 'placeholder.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

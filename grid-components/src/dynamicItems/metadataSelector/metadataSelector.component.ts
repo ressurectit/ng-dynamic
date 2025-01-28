@@ -14,10 +14,9 @@ import {MetadataSelectorLayoutDesignerTypeLoader, MetadataSelectorLayoutMetadata
     selector: 'metadata-selector',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@DescendantsGetter<MetadataSelectorComponentOptions>(options => 
+@DescendantsGetter<MetadataSelectorComponentOptions>(options =>
 {
     if(!options?.plugin)
     {

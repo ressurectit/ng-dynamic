@@ -17,12 +17,11 @@ import {HtmlBlockLayoutMetadataLoader, HtmlBlockRelationsMetadataLoader} from '.
     selector: 'html-block',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DebugData(
 {
-    inputs: 
+    inputs:
     [
         nameof<HtmlBlockSAComponent>('content'),
     ],
@@ -47,7 +46,7 @@ export class HtmlBlockSAComponent extends LayoutComponentBase<HtmlBlockComponent
     public content: string|undefined|null;
 
     //######################### public methods - implementation of OnChanges #########################
-    
+
     /**
      * @inheritdoc
      */

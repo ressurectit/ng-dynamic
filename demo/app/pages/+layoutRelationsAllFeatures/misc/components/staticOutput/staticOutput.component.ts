@@ -12,8 +12,6 @@ import {StaticOutputRelationsMetadataLoader} from './staticOutput.metadata';
 {
     selector: 'static-output',
     templateUrl: 'staticOutput.component.html',
-    // styleUrls: ['relationsSampleClick.component.scss'],
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,

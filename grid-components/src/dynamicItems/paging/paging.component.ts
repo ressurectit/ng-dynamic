@@ -14,10 +14,9 @@ import {PagingLayoutDesignerTypeLoader, PagingLayoutMetadataLoader} from './pagi
     selector: 'paging',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@DescendantsGetter<PagingComponentOptions>(options => 
+@DescendantsGetter<PagingComponentOptions>(options =>
 {
     if(!options?.plugin)
     {

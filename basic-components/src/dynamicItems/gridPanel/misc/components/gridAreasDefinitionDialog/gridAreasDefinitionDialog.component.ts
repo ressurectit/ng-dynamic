@@ -3,7 +3,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {FirstUppercaseLocalizeSAPipe, TooltipDirective} from '@anglr/common';
+import {FirstUppercaseLocalizePipe, TooltipDirective} from '@anglr/common';
 import {generateId, isBlank} from '@jscrpt/common';
 
 import {GridPanelComponentOptions} from '../../../gridPanel.options';
@@ -18,10 +18,9 @@ import {StringToColorPipe, ToGridColumnsTemplatePipe, ToGridRowsTemplatePipe} fr
     selector: 'grid-areas-definition-dialog',
     templateUrl: 'gridAreasDefinitionDialog.component.html',
     styleUrl: 'gridAreasDefinitionDialog.component.css',
-    standalone: true,
     imports:
     [
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
         ToGridColumnsTemplatePipe,
         ToGridRowsTemplatePipe,
         ReactiveFormsModule,

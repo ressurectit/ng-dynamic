@@ -18,7 +18,6 @@ import {IfBlockLayoutDesignerTypeLoader, IfBlockLayoutMetadataLoader, IfBlockRel
     selector: 'if-block',
     templateUrl: 'ifBlock.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -28,7 +27,7 @@ import {IfBlockLayoutDesignerTypeLoader, IfBlockLayoutMetadataLoader, IfBlockRel
 })
 @DebugData(
 {
-    inputs: 
+    inputs:
     [
         nameof<IfBlockSAComponent>('condition'),
     ],

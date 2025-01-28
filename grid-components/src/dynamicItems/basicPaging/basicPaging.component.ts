@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {Grid, PluginDescription, BasicPagingSAComponent as GridBasicPaging, BasicPagingOptions} from '@anglr/grid';
+import {Grid, PluginDescription, BasicPagingComponent as GridBasicPaging, BasicPagingOptions} from '@anglr/grid';
 import {RecursivePartial} from '@jscrpt/common';
 
 import {BasicPagingComponentOptions} from './basicPaging.options';
@@ -17,12 +17,11 @@ import {GridPluginComponent} from '../../interfaces';
     selector: 'basic-paging',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(BasicPagingLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(BasicPagingLayoutMetadataLoader)
-export class BasicPagingSAComponent extends LayoutComponentBase<BasicPagingComponentOptions> implements GridPluginComponent<GridBasicPaging, BasicPagingComponentOptions, BasicPagingOptions>
+export class BasicPagingComponent extends LayoutComponentBase<BasicPagingComponentOptions> implements GridPluginComponent<GridBasicPaging, BasicPagingComponentOptions, BasicPagingOptions>
 {
     //######################### protected fields #########################
 
@@ -32,7 +31,7 @@ export class BasicPagingSAComponent extends LayoutComponentBase<BasicPagingCompo
     protected grid: Grid|undefined|null;
 
     //######################### public properties - implementation of GridDataLoaderPlugin #########################
-    
+
     /**
      * @inheritdoc
      */
@@ -50,7 +49,7 @@ export class BasicPagingSAComponent extends LayoutComponentBase<BasicPagingCompo
     };
 
     //######################### public methods - implementation of GridDataLoaderPlugin #########################
-    
+
     /**
      * @inheritdoc
      */

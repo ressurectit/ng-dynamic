@@ -4,7 +4,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
-import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
+import {FormComponent, FormComponentBase} from '@anglr/dynamic/form';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
 import {MaterialRadioLayoutMetadataLoader, MaterialRadioRelationsMetadataLoader} from './radio.metadata';
@@ -18,13 +18,11 @@ import {MaterialRadioComponentOptions} from './radio.options';
     selector: 'material-radio',
     templateUrl: 'radio.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         FormPipesModule,
         CastPipesModule,
-        FormComponentControlSAPipe,
         ReactiveFormsModule,
         MatRadioModule,
     ]

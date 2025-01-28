@@ -8,7 +8,6 @@ import {StatusCodeService} from '@anglr/common';
 {
     selector: 'not-found-view',
     templateUrl: 'notFound.component.html',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotFoundComponent

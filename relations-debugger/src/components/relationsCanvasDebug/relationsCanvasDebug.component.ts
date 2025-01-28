@@ -12,7 +12,6 @@ import {NodeRelationPathDebug} from '../../misc/nodeRelationPathDebug';
 {
     selector: 'relations-canvas-debug',
     templateUrl: '../../../../relations-editor/src/components/relationsCanvas/relationsCanvas.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,

@@ -3,7 +3,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 /**
  * Transforms data into formatted json
  */
-@Pipe({name: 'jsonFormatted', standalone: true,})
+@Pipe({name: 'jsonFormatted'})
 export class JsonFormattedSAPipe<TValue = unknown> implements PipeTransform
 {
     /**

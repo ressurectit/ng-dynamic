@@ -10,7 +10,6 @@ import {ColumnDefinition} from '../../../interfaces';
 @Directive(
 {
     selector: 'input[formControl][columnDefinition]',
-    standalone: true,
     providers:
     [
         <ExistingProvider>

@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {Grid, PluginDescription, PreviousNextPagingSAComponent as GridPreviousNextPaging, PreviousNextPagingOptions} from '@anglr/grid';
+import {Grid, PluginDescription, PreviousNextPagingComponent as GridPreviousNextPaging, PreviousNextPagingOptions} from '@anglr/grid';
 import {RecursivePartial} from '@jscrpt/common';
 
 import {PreviousNextPagingComponentOptions} from './previousNextPaging.options';
@@ -17,12 +17,11 @@ import {GridPluginComponent} from '../../interfaces';
     selector: 'previous-next-paging',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(PreviousNextPagingLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(PreviousNextPagingLayoutMetadataLoader)
-export class PreviousNextPagingSAComponent extends LayoutComponentBase<PreviousNextPagingComponentOptions> implements GridPluginComponent<GridPreviousNextPaging, PreviousNextPagingComponentOptions, PreviousNextPagingOptions>
+export class PreviousNextPagingComponent extends LayoutComponentBase<PreviousNextPagingComponentOptions> implements GridPluginComponent<GridPreviousNextPaging, PreviousNextPagingComponentOptions, PreviousNextPagingOptions>
 {
     //######################### protected fields #########################
 
@@ -32,7 +31,7 @@ export class PreviousNextPagingSAComponent extends LayoutComponentBase<PreviousN
     protected grid: Grid|undefined|null;
 
     //######################### public properties - implementation of GridDataLoaderPlugin #########################
-    
+
     /**
      * @inheritdoc
      */
@@ -50,7 +49,7 @@ export class PreviousNextPagingSAComponent extends LayoutComponentBase<PreviousN
     };
 
     //######################### public methods - implementation of GridDataLoaderPlugin #########################
-    
+
     /**
      * @inheritdoc
      */

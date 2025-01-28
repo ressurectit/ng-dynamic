@@ -8,7 +8,6 @@ import {StatusCodeService} from '@anglr/common';
 {
     selector: 'access-denied-view',
     templateUrl: 'accessDenied.component.html',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccessDeniedComponent

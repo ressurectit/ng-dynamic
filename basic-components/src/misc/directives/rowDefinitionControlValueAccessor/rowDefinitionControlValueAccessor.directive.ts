@@ -10,7 +10,6 @@ import {RowDefinition} from '../../../interfaces';
 @Directive(
 {
     selector: 'input[formControl][rowDefinition]',
-    standalone: true,
     providers:
     [
         <ExistingProvider>

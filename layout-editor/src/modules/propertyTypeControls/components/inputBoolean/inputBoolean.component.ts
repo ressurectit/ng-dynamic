@@ -12,7 +12,6 @@ import {PropertyTypeControlBase} from '../propertyTypeControlBase';
     selector: 'input-boolean',
     templateUrl: 'inputBoolean.component.html',
     styles: [HostDisplayBlockStyle],
-    // styleUrls: ['inputBoolean.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputBooleanComponent extends PropertyTypeControlBase<boolean> implements PropertyTypeControl<boolean>

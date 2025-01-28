@@ -12,7 +12,6 @@ import {PropertyTypeControlBase} from '../propertyTypeControlBase';
     selector: 'input-number',
     templateUrl: 'inputNumber.component.html',
     styles: [HostDisplayBlockStyle],
-    // styleUrls: ['inputNumber.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputNumberComponent extends PropertyTypeControlBase<number> implements PropertyTypeControl<number>

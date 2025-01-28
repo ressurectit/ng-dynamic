@@ -4,7 +4,8 @@ import {CommonModule} from '@angular/common';
 import {FormModelBuilder} from '@anglr/common/forms';
 import {PropertiesControl, PropertiesControlBase, PropertiesControlsModule} from '@anglr/dynamic/layout-editor';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {Dictionary, extend} from '@jscrpt/common';
+import {Dictionary} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {CustomComponentComponentOptions} from '../../../customComponent.options';
 import {GetControlsSAPipe} from '../../pipes/getControls/getControls.pipe';
@@ -20,7 +21,6 @@ import {CustomComponentConfiguration, CustomComponentsRegister} from '../../../.
 {
     selector: 'content-options',
     templateUrl: 'contentOptionsPropertiesControl.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,

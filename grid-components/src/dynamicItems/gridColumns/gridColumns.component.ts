@@ -16,7 +16,6 @@ import {GridColumnsLayoutDesignerTypeLoader, GridColumnsLayoutMetadataLoader, Gr
     selector: 'grid-columns',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         MatrixGridModule,

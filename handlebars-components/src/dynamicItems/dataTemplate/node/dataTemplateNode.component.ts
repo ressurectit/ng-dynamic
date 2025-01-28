@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {HandlebarsLanguageModel, CodeEditorDialogData, CodeEditorDialogComponent, CodeEditorContent} from '@anglr/dynamic';
@@ -15,14 +15,12 @@ import {DataTemplateRelationsOptions} from '../dataTemplate.options';
 {
     selector: 'data-template-node',
     templateUrl: 'dataTemplateNode.component.html',
-    // styleUrls: ['dataTemplateNode.component.css'],
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -48,7 +46,7 @@ export class DataTemplateNodeSAComponent extends RelationsNodeBase<DataTemplateR
             title: 'Code editor',
             width: '75vw',
             height: '75vh',
-            data: 
+            data:
             {
                 content: this.metadata?.relationsOptions?.template ?? '',
                 languageModel: HandlebarsLanguageModel,

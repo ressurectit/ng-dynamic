@@ -13,7 +13,6 @@ import {GridColumnHeaderSAComponent} from '../gridColumnHeader.component';
     selector: 'grid-column-header-designer',
     templateUrl: 'gridColumnHeaderDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

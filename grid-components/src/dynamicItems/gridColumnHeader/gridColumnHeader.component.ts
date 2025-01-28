@@ -14,7 +14,6 @@ import {GridColumnHeaderLayoutDesignerTypeLoader, GridColumnHeaderLayoutMetadata
     selector: 'grid-column-header',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<GridColumnHeaderComponentOptions>(options => 

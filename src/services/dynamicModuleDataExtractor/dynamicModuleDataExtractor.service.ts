@@ -1,5 +1,6 @@
 import {Logger} from '@anglr/common';
-import {extend, isEmptyObject} from '@jscrpt/common';
+import {isEmptyObject} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {DynamicModule} from '../../interfaces';
 import {DynamicModuleDataExtractorFn} from './dynamicModuleDataExtractor.interface';

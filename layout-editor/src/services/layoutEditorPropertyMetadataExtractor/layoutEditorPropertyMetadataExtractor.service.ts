@@ -1,6 +1,7 @@
 import {Inject, Injectable, Type} from '@angular/core';
 import {Logger, LOGGER} from '@anglr/common';
-import {Dictionary, extend} from '@jscrpt/common';
+import {Dictionary} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {LayoutEditorPropertyMetadata} from '../../misc/types';
 import {LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES} from '../../misc/tokens';
@@ -18,7 +19,7 @@ export class LayoutEditorPropertyMetadataExtractor
     }
 
     //######################### public methods #########################
-    
+
     /**
      * Extracts properties metadata from type
      * @param type - Type to be examined

@@ -24,12 +24,10 @@ export const MATERIAL_TAB_GROUP: InjectionToken<string> = new InjectionToken<str
     selector: 'material-tab-group',
     templateUrl: 'tabGroup.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         CommonModule,
         MatTabsModule,
-        MaterialTabSAComponent,
         LayoutComponentRendererSADirective,
     ],
     providers:
@@ -45,7 +43,6 @@ export const MATERIAL_TAB_GROUP: InjectionToken<string> = new InjectionToken<str
 @LayoutEditorMetadata(MaterialTabGroupLayoutMetadataLoader)
 export class MaterialTabGroupSAComponent extends LayoutComponentBase<MaterialTabGroupComponentOptions> implements LayoutComponent<MaterialTabGroupComponentOptions>, RelationsComponent
 {
-    
     //######################### protected properties - view children #########################
 
     /**
@@ -83,7 +80,7 @@ export class MaterialTabGroupSAComponent extends LayoutComponentBase<MaterialTab
     {
         if (componentRef?.instance)
         {
-            componentRef.instance.tabGroupIndex = index; 
+            componentRef.instance.tabGroupIndex = index;
             componentRef.instance.invalidateVisuals();
         }
     }
@@ -92,8 +89,8 @@ export class MaterialTabGroupSAComponent extends LayoutComponentBase<MaterialTab
 
     /**
      * Handles tab visibility in group
-     * @param index 
-     * @returns 
+     * @param index
+     * @returns
      */
     public onHideTab(index: number|null|undefined)
     {

@@ -6,7 +6,7 @@ import {TextFieldModule} from '@angular/cdk/text-field';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
-import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
+import {FormComponent, FormComponentBase} from '@anglr/dynamic/form';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
 import {MaterialTextareaLayoutMetadataLoader, MaterialTextareaRelationsMetadataLoader} from './textarea.metadata';
@@ -20,13 +20,11 @@ import {MaterialTextareaComponentOptions} from './textarea.options';
     selector: 'material-textarea',
     templateUrl: 'textarea.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         FormPipesModule,
         CastPipesModule,
-        FormComponentControlSAPipe,
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,

@@ -16,7 +16,6 @@ import {MaterialExpansionPanelLayoutMetadataLoader} from './expansionPanel.metad
     selector: 'material-expansion-panel',
     templateUrl: 'expansionPanel.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         CommonModule,

@@ -39,7 +39,6 @@ const MOVEMENT_DELTA_MAX = 10;
 {
     selector: 'relations-canvas',
     templateUrl: 'relationsCanvas.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,

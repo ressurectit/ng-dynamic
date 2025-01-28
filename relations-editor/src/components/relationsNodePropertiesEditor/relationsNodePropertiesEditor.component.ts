@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 
@@ -16,13 +16,12 @@ import {RelationsNodePropertiesModel} from './relationsNodePropertiesEditor.mode
 {
     selector: 'relations-node-properties-editor',
     templateUrl: 'relationsNodePropertiesEditor.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
         MatDialogModule,
         ReactiveFormsModule,
-        FirstUppercaseLocalizeSAPipe
+        FirstUppercaseLocalizePipe
     ],
     providers:
     [

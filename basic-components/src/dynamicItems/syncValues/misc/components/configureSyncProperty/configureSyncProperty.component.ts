@@ -10,7 +10,6 @@ import {TITLED_DIALOG_DATA} from '@anglr/common/material';
 {
     selector: 'configure-sync-property',
     templateUrl: 'configureSyncProperty.component.html',
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,

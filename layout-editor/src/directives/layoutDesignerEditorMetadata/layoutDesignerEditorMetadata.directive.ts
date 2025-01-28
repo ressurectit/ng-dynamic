@@ -10,7 +10,6 @@ import {LayoutDesignerCommonDirective} from '../layoutDesignerCommon/layoutDesig
 @Directive(
 {
     selector: '[layoutDesignerEditorMetadata]',
-    standalone: true,
 })
 export class LayoutDesignerEditorMetadataDirective
 {

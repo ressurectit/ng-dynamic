@@ -1,5 +1,5 @@
 import {Injectable, KeyValueDiffers, Inject, KeyValueDiffer} from '@angular/core';
-import {extend} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Subject, Observable} from 'rxjs';
 
 import {SettingsStorage} from './settings.interface';
@@ -114,7 +114,7 @@ export class SettingsService
         this._storage.set(settings);
 
         const diff = this._settingsValueDiff.diff(settings);
-        
+
         if(diff)
         {
             diff.forEachChangedItem(itm =>
@@ -134,7 +134,7 @@ export class SettingsService
         this._storage.setDebugging(settings);
 
         const diff = this._settingsDebuggingValueDiff.diff(settings);
-        
+
         if(diff)
         {
             diff.forEachChangedItem(itm =>

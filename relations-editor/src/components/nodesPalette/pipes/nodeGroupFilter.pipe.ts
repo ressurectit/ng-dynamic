@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform, OnDestroy, Inject, ChangeDetectorRef} from '@angular/core';
 import {KeyValue} from '@angular/common';
-import {LocalizeSAPipe, STRING_LOCALIZATION, StringLocalization} from '@anglr/common';
+import {LocalizePipe, STRING_LOCALIZATION, StringLocalization} from '@anglr/common';
 import {Subscription} from 'rxjs';
 import {isArray} from 'lodash-es';
 
@@ -9,7 +9,6 @@ import {NodesPaletteItem} from '../nodesPalette.interface';
 @Pipe(
 {
     name: 'nodeGroupFilter',
-    standalone: true,
 })
 export class NodeGroupFilterSAPipe implements PipeTransform, OnDestroy
 {
@@ -18,7 +17,7 @@ export class NodeGroupFilterSAPipe implements PipeTransform, OnDestroy
     /**
      * Localize pipe used for localizing string
      */
-    protected localizePipe: LocalizeSAPipe;
+    protected localizePipe: LocalizePipe;
 
     /**
      * Subscription for changes of texts
@@ -29,7 +28,7 @@ export class NodeGroupFilterSAPipe implements PipeTransform, OnDestroy
     constructor(@Inject(STRING_LOCALIZATION) protected localizationSvc: StringLocalization,
                 protected changeDetector: ChangeDetectorRef,)
     {
-        this.localizePipe = new LocalizeSAPipe(localizationSvc, changeDetector);
+        this.localizePipe = new LocalizePipe(localizationSvc, changeDetector);
     }
 
     //######################### public methods - PipeTransform #########################

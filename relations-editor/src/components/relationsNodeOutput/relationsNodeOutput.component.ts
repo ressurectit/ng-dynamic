@@ -14,7 +14,6 @@ import {INVALIDATE_DROP} from '../../misc/constants';
 {
     selector: 'relation-node-output',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase implements RelationsOutput, OnDestroy
@@ -37,7 +36,7 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -116,7 +115,7 @@ export class RelationNodeOutputSAComponent extends RelationNodeEndpointBase impl
         event.preventDefault();
 
         this.isDragging = true;
-        this.canvasPositionChangeSubscription = this.canvas?.convasPositionChanged.subscribe(() => 
+        this.canvasPositionChangeSubscription = this.canvas?.convasPositionChanged.subscribe(() =>
         {
             if (this.relation)
             {

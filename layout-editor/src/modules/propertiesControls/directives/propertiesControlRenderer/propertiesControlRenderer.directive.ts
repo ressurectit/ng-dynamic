@@ -14,7 +14,6 @@ import {LayoutPropertyTypeData} from '../../../../decorators';
 @Directive(
 {
     selector: '[propertiesControl]',
-    standalone: true,
 })
 export class PropertiesControlRendererDirective<TOptions = unknown, TComponent extends PropertiesControl<TOptions> = PropertiesControl<TOptions>>
 {

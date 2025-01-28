@@ -3,7 +3,7 @@ import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
-import {FormComponent, FormComponentBase, FormComponentControlSAPipe} from '@anglr/dynamic/form';
+import {FormComponent, FormComponentBase} from '@anglr/dynamic/form';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {PromiseOr, isPresent} from '@jscrpt/common';
 
@@ -18,13 +18,11 @@ import {NumberFieldComponentOptions} from './numberField.options';
     selector: 'form-number-field',
     templateUrl: 'numberField.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         FormPipesModule,
         CastPipesModule,
-        FormComponentControlSAPipe,
         ReactiveFormsModule,
     ]
 })

@@ -12,7 +12,6 @@ import {PropertyTypeControlBase} from '../propertyTypeControlBase';
     selector: 'select-value',
     templateUrl: 'selectValue.component.html',
     styles: [HostDisplayBlockStyle],
-    // styleUrls: ['selectValue.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectValueComponent<TValue = any> extends PropertyTypeControlBase<TValue> implements PropertyTypeControl<TValue>

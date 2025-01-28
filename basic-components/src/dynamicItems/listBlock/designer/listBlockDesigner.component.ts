@@ -16,7 +16,6 @@ import {ListBlockSAComponent} from '../listBlock.component';
     selector: 'list-block-designer',
     templateUrl: 'listBlockDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

@@ -1,11 +1,12 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {FormModelBuilder, FormModelGroup, NumberInputModule} from '@anglr/common/forms';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
-import {extend, isPresent} from '@jscrpt/common';
+import {isPresent} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {SyncValuesRelationsOptions} from '../syncValues.options';
@@ -19,7 +20,6 @@ import {ConfigureSyncPropertySAComponent} from '../misc/components';
 {
     selector: 'sync-values-node',
     templateUrl: 'syncValuesNode.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -28,7 +28,7 @@ import {ConfigureSyncPropertySAComponent} from '../misc/components';
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     providers:
     [

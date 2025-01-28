@@ -13,7 +13,6 @@ import {MetadataSelectorSAComponent} from '../metadataSelector.component';
     selector: 'metadata-selector-designer',
     templateUrl: 'metadataSelectorDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

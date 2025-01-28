@@ -23,7 +23,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
 {
     selector: 'form-layout-editor-view',
     templateUrl: 'layout.component.html',
-    standalone: true,
     imports:
     [
         GoBackDirective,

@@ -15,10 +15,6 @@ import {RichTextBlockComponentOptions} from '../../../richTextBlock.options';
 {
     selector: 'rich-text-block-properties-control',
     templateUrl: 'richTextBlockPropertiesControl.component.html',
-    standalone: true,
-    imports:
-    [
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RichTextBlockPropertiesControlSAComponent extends PropertiesControlBase<RichTextBlockComponentOptions> implements PropertiesControl<RichTextBlockComponentOptions>

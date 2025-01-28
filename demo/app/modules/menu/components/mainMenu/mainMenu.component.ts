@@ -9,7 +9,6 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
     selector: 'main-menu',
     templateUrl: 'mainMenu.component.html',
     styleUrl: 'mainMenu.component.scss',
-    standalone: true,
     imports:
     [
         RouterLink,

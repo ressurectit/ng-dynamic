@@ -14,7 +14,6 @@ import {DataBlockSAComponent} from '../dataBlock.component';
     selector: 'data-block-designer',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataBlockDesignerSAComponent extends DataBlockSAComponent implements LayoutComponent<DataBlockComponentOptions>, RelationsComponent

@@ -1,5 +1,6 @@
 import {Directive, ElementRef, EventEmitter, Input, NgZone, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
-import {extend, generateId, isBlank, nameof} from '@jscrpt/common';
+import {generateId, isBlank, nameof} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {DndService, DragSource} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
 
@@ -13,7 +14,7 @@ let emptyImage: HTMLImageElement;
  */
 function getEmptyImage()
 {
-    if (!emptyImage)
+    if(!emptyImage)
     {
         emptyImage = new Image();
         emptyImage.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
@@ -28,7 +29,6 @@ function getEmptyImage()
 @Directive(
 {
     selector: '[dndCorePaletteItem]',
-    standalone: true,
 })
 export class DndCorePaletteItemDirective implements OnInit, OnChanges, OnDestroy
 {

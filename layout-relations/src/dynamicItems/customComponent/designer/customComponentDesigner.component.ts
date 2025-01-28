@@ -16,7 +16,6 @@ import {PlaceholderHandler} from '../../../services';
     selector: 'custom-component-designer',
     templateUrl: '../customComponent.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

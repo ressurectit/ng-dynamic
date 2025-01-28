@@ -14,7 +14,6 @@ import {TextBlockLayoutMetadataLoader} from './textBlock.metadata';
     selector: 'text-block',
     templateUrl: 'textBlock.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorMetadata(TextBlockLayoutMetadataLoader)

@@ -18,7 +18,6 @@ import {StyleBlockLayoutMetadataLoader} from './styleBlock.metadata';
     selector: 'style-block',
     templateUrl: 'styleBlock.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

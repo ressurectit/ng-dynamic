@@ -5,7 +5,8 @@ import {DescendantsGetter, LayoutComponentsIteratorService, LayoutEditorDesigner
 import {provideRelationsDebugger, RelationsChangeDetector, RelationsComponent, RelationsComponentManager, RelationsManager, RelationsProcessor, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {extend, PromiseOr} from '@jscrpt/common';
+import {PromiseOr} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {CustomComponentComponentOptions, CustomComponentRelationsOptions} from './customComponent.options';
 import {CustomComponentLayoutDesignerTypeLoader, CustomComponentLayoutMetadataLoader, CustomComponentRelationsMetadataLoader} from './customComponent.metadata';
@@ -23,7 +24,6 @@ import {PlaceholderHandler} from '../../services/placeholderHandler/placeholderH
     selector: 'custom-component',
     templateUrl: 'customComponent.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,
@@ -48,7 +48,7 @@ import {PlaceholderHandler} from '../../services/placeholderHandler/placeholderH
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@DescendantsGetter<CustomComponentComponentOptions>(options => 
+@DescendantsGetter<CustomComponentComponentOptions>(options =>
 {
     if(!options?.placeholderContainers)
     {

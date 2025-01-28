@@ -5,7 +5,6 @@ import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-edi
 
 import {GridPanelComponentOptions} from './gridPanel.options';
 import {GridPanelLayoutMetadataLoader} from './gridPanel.metadata';
-import {ToGridColumnsTemplatePipe, ToGridRowsTemplatePipe} from '../../misc/pipes';
 import {toGridColumnsTemplate, toGridRowsTemplate} from '../../misc/utils';
 
 /**
@@ -15,12 +14,9 @@ import {toGridColumnsTemplate, toGridRowsTemplate} from '../../misc/utils';
 {
     selector: 'grid-panel',
     templateUrl: 'gridPanel.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
-        ToGridRowsTemplatePipe,
-        ToGridColumnsTemplatePipe,
         LayoutComponentRendererSADirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

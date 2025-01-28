@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, Type} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {LanguageModel, CodeEditorDialogComponent, CodeEditorDialogData, CodeEditorContent} from '@anglr/dynamic';
 import {isBlank, isPresent} from '@jscrpt/common';
@@ -17,10 +17,9 @@ import {LayoutEditorMetadataExtractor} from '../../services';
 {
     selector: 'base-code-properties-control',
     templateUrl: 'codePropertiesControl.component.html',
-    standalone: true,
     imports:
     [
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -96,10 +95,9 @@ export function codePropertiesControlFor<TModel>(property: Extract<keyof TModel,
     {
         selector: 'code-properties-control',
         templateUrl: 'codePropertiesControl.component.html',
-        standalone: true,
         imports:
         [
-            FirstUppercaseLocalizeSAPipe,
+            FirstUppercaseLocalizePipe,
         ],
         changeDetection: ChangeDetectionStrategy.OnPush
     })

@@ -15,7 +15,6 @@ import {RelationsCanvasDebugSAComponent} from '../relationsCanvasDebug/relations
 {
     selector: 'relations-debugger-visualizer',
     templateUrl: 'relationsDebuggerVisualizer.component.html',
-    standalone: true,
     imports:
     [
         RelationsCanvasDebugSAComponent,

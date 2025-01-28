@@ -11,7 +11,6 @@ import {DndBusService, DragActiveService, LayoutEditorMetadataManager} from '../
 @Directive(
 {
     selector: '[layoutDesignerCommon]',
-    standalone: true,
 })
 export class LayoutDesignerCommonDirective
 {

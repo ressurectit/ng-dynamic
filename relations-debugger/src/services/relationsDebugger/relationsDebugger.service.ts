@@ -1,7 +1,8 @@
 import {inject, Injectable, Injector} from '@angular/core';
 import {LOGGER, Logger} from '@anglr/common';
 import {getDebugData, RelationsComponentEndpoints, RelationsComponentManager, RelationsComponentStateDebugInfo, RelationsDataTransferDebugInfo, RelationsDataTransferIdDebugInfo, RelationsDataTransferInstructionImpl, RelationsDebugger, RelationsOutputDebugInfo, RelationsProcessorComponent, RelationsProcessorComponentData, RelationsProcessorInputOutputData, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
-import {Dictionary, extend, generateId, nameof} from '@jscrpt/common';
+import {Dictionary, generateId, nameof} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Observable, Subject} from 'rxjs';
 
 const COMPONENT_DEBUGGER_PROPERTY = 'COMPONENT_DEBUGGER_PROPERTY';

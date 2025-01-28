@@ -15,7 +15,6 @@ import {DataTableSAComponent} from '../dataTable.component';
     selector: 'data-table-designer',
     templateUrl: 'dataTableDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,
@@ -46,7 +45,7 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
             name: 'gridColumns',
             package: 'grid-components',
             displayName: 'columns',
-            options: 
+            options:
             {
                 columns: [],
             },
@@ -59,7 +58,7 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
             name: 'dataLoader',
             package: 'grid-components',
             displayName: 'data loader',
-            options: 
+            options:
             {
                 plugin: null,
             },
@@ -71,7 +70,7 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
             name: 'paging',
             package: 'grid-components',
             displayName: 'paging',
-            options: 
+            options:
             {
                 plugin: null,
             },
@@ -83,7 +82,7 @@ export class DataTableDesignerSAComponent extends DataTableSAComponent implement
             name: 'metadataSelector',
             package: 'grid-components',
             displayName: 'metadata selector',
-            options: 
+            options:
             {
                 plugin: null,
             },

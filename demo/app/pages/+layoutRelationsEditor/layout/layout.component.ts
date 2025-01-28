@@ -30,7 +30,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
 {
     selector: 'layout-editor-view',
     templateUrl: 'layout.component.html',
-    standalone: true,
     imports:
     [
         GoBackDirective,

@@ -17,8 +17,6 @@ import {getInputs, getOutputs} from '../customComponent.utils';
 {
     selector: 'custom-component-node',
     templateUrl: 'customComponentNode.component.html',
-    // styleUrls: ['customComponentNode.component.css'],
-    standalone: true,
     imports:
     [
         CommonModule,

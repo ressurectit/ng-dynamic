@@ -1,11 +1,12 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Type, SimpleChanges, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {Logger, LOGGER, PermanentStorage, PERMANENT_STORAGE, FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {Logger, LOGGER, PermanentStorage, PERMANENT_STORAGE, FirstUppercaseLocalizePipe} from '@anglr/common';
 import {FormModelBuilder} from '@anglr/common/forms';
 import {addSimpleChange, MetadataHistoryManager} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {DebounceCall, Dictionary, extend, isPresent, WithSync} from '@jscrpt/common';
+import {DebounceCall, Dictionary, isPresent, WithSync} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Subscription, skip} from 'rxjs';
 import {isEqual} from 'lodash-es';
 
@@ -64,13 +65,12 @@ interface PropertiesEditorData
     selector: 'properties-editor',
     templateUrl: 'propertiesEditor.component.html',
     providers: [FormModelBuilder],
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,
         PropertiesControlsModule,
         WidthResizerSADirective,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -149,7 +149,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -182,7 +182,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -236,7 +236,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy
             {
                 return;
             }
-            
+
             this.lastComponent = component;
             this.lastComponentId = selectedComponent;
 
@@ -297,7 +297,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy
                 if(parent?.metadataSafe)
                 {
                     const parentMetadata = await this.metadataExtractor.extractMetadata(parent.metadataSafe);
-                    
+
                     //parent extensions properties metadata
                     if(parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata?.length)
                     {
@@ -374,7 +374,7 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy
                     this.history.getNewState();
                 }
             }));
-    
+
             this.propertiesData.push(
             {
                 form,

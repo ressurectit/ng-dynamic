@@ -16,7 +16,6 @@ import {ComponentWithId} from '../../../interfaces';
     selector: 'placeholder-designer',
     templateUrl: 'placeholderDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         CommonModule,

@@ -12,7 +12,6 @@ import {RelationsDebuggerVisualizerSAComponent} from '../../components';
 @Directive(
 {
     selector: '[showRelationsDebugger]',
-    standalone: true,
 })
 export class ShowRelationsDebuggerSADirective implements OnDestroy, OnChanges
 {

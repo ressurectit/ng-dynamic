@@ -13,7 +13,6 @@ import {PropertyTypeControlBase} from '../propertyTypeControlBase';
     selector: 'input-size',
     templateUrl: 'inputSize.component.html',
     styles: [HostDisplayFlexStyle],
-    // styleUrls: ['inputSize.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputSizeComponent extends PropertyTypeControlBase<string> implements PropertyTypeControl<string>

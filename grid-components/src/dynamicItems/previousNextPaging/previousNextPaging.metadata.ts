@@ -13,4 +13,4 @@ export const PreviousNextPagingLayoutMetadataLoader: DynamicMetadataLoader<Layou
 /**
  * Previou next paging layout designer type loader
  */
-export const PreviousNextPagingLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/previousNextPagingDesigner.component')).PreviousNextPagingDesignerSAComponent;
+export const PreviousNextPagingLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/previousNextPagingDesigner.component')).PreviousNextPagingDesignerComponent;

@@ -21,7 +21,6 @@ const DRAG_OVER_DELAY = 500;
     selector: 'components-tree-item',
     exportAs: 'componentsTreeItem',
     templateUrl: 'componentsTreeItem.component.html',
-    standalone: true,
     imports:
     [
         DndModule,

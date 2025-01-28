@@ -18,7 +18,6 @@ import {ScopeRegister} from '../../services';
 {
     selector: 'relations-node-header',
     templateUrl: 'relationsNodeHeader.component.html',
-    standalone: true,
     imports:
     [
         ToColorPipe,

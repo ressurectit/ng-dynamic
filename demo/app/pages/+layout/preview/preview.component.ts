@@ -22,7 +22,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
 {
     selector: 'layout-preview-view',
     templateUrl: 'preview.component.html',
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,

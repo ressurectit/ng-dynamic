@@ -14,10 +14,9 @@ import {GridColumnContentLayoutDesignerTypeLoader, GridColumnContentLayoutMetada
     selector: 'grid-column-content',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@DescendantsGetter<GridColumnContentComponentOptions>(options => 
+@DescendantsGetter<GridColumnContentComponentOptions>(options =>
 {
     if(!options?.content)
     {

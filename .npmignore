@@ -1,10 +1,12 @@
 /.vscode
 /.utils
-temp/
 demo/
-.eslintrc.json
+/tests
+temp/
 api-extractor.json
 appveyor.yml
+eslint.config.js
+lerna.json
 ngv.config.json
 tsconfig.json
 tsdoc-metadata.json

@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
-import {FormComponentControlSAPipe, FormComponent, FormComponentBase} from '@anglr/dynamic/form';
+import {FormComponent, FormComponentBase} from '@anglr/dynamic/form';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
@@ -20,13 +20,11 @@ import {MaterialTextFieldComponentOptions} from './textField.options';
     selector: 'material-text-field',
     templateUrl: 'textField.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         FormPipesModule,
         CastPipesModule,
-        FormComponentControlSAPipe,
         MatFormFieldModule,
         MatInputModule,
         ReactiveFormsModule,

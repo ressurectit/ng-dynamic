@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, O
 import {CommonModule} from '@angular/common';
 import {CdkDrag} from '@angular/cdk/drag-drop';
 import {PackageManager} from '@anglr/dynamic';
-import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
+import {FirstUppercaseLocalizePipe, Logger, LOGGER} from '@anglr/common';
 import {Subscription} from 'rxjs';
 
 import {RelationsNodeManager} from '../../../services';
@@ -15,11 +15,10 @@ import {NodesPaletteItem} from '../nodesPalette.interface';
 {
     selector: 'nodes-palette-item',
     templateUrl: 'nodesPaletteItem.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

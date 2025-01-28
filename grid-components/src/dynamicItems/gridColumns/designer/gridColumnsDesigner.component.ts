@@ -13,7 +13,6 @@ import {GridColumnsSAComponent} from '../gridColumns.component';
     selector: 'grid-columns-designer',
     templateUrl: 'gridColumnsDesigner.component.html',
     styles: [HostFlexRowStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

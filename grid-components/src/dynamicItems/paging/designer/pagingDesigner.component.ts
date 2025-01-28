@@ -13,7 +13,6 @@ import {PagingSAComponent} from '../paging.component';
     selector: 'paging-designer',
     templateUrl: 'pagingDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

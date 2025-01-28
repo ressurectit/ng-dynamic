@@ -8,7 +8,6 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
 {
     selector: 'relations-sample-click-node',
     templateUrl: 'relationsSampleClickNode.component.html',
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,

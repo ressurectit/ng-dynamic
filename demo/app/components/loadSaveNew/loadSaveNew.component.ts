@@ -7,7 +7,8 @@ import {NgSelectModule} from '@anglr/select';
 import {EditorHotkeys, MetadataHistoryManager, EditorMetadataManager, EDITOR_METADATA_MANAGER} from '@anglr/dynamic';
 import {CustomDynamicItemsRegister, ShowCustomComponentOptionsSADirective} from '@anglr/dynamic/layout-relations';
 import {LiveEventService} from '@anglr/dynamic/layout-editor';
-import {extend, Func, isBlank} from '@jscrpt/common';
+import {Func, isBlank} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Subscription} from 'rxjs';
 
 import {StoreDataService} from '../../services/storeData';
@@ -21,8 +22,7 @@ import {DemoCustomRelationsRegister} from '../../services/demoCustomRelationsReg
 {
     selector: 'load-save-new',
     templateUrl: 'loadSaveNew.component.html',
-    styleUrls: ['loadSaveNew.component.scss'],
-    standalone: true,
+    styleUrl: 'loadSaveNew.component.scss',
     imports:
     [
         ReactiveFormsModule,

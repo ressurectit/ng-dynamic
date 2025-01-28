@@ -4,7 +4,7 @@ import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/lay
 import {DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {Grid, PluginDescription, AsyncDataLoaderOptions, AsyncDataLoaderSAComponent as GridAsyncDataLoader, SimpleOrdering, DataResponse} from '@anglr/grid';
+import {Grid, PluginDescription, AsyncDataLoaderOptions, AsyncDataLoaderComponent as GridAsyncDataLoader, SimpleOrdering, DataResponse} from '@anglr/grid';
 import {Action1, BindThis, PagedData, PromiseOr, RecursivePartial, nameof, noop} from '@jscrpt/common';
 
 import {AsyncDataLoaderComponentOptions, AsyncDataLoaderRelationsOptions} from './asyncDataLoader.options';
@@ -19,13 +19,12 @@ import {GridPluginComponent} from '../../interfaces';
     selector: 'async-data-loader',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(AsyncDataLoaderLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(AsyncDataLoaderRelationsMetadataLoader)
 @LayoutEditorMetadata(AsyncDataLoaderLayoutMetadataLoader)
-export class AsyncDataLoaderSAComponent extends LayoutComponentBase<AsyncDataLoaderComponentOptions> implements GridPluginComponent<GridAsyncDataLoader, AsyncDataLoaderComponentOptions, AsyncDataLoaderOptions>, RelationsComponent<AsyncDataLoaderRelationsOptions>
+export class AsyncDataLoaderComponent extends LayoutComponentBase<AsyncDataLoaderComponentOptions> implements GridPluginComponent<GridAsyncDataLoader, AsyncDataLoaderComponentOptions, AsyncDataLoaderOptions>, RelationsComponent<AsyncDataLoaderRelationsOptions>
 {
     //######################### protected fields #########################
 
@@ -61,13 +60,13 @@ export class AsyncDataLoaderSAComponent extends LayoutComponentBase<AsyncDataLoa
      */
     @DynamicOutput()
     public page: number|undefined|null;
-    
+
     /**
      * Requested items per page used for obtaining data
      */
     @DynamicOutput()
     public itemsPerPage: number|undefined|null;
-    
+
     /**
      * Requested ordering used for obtaining data
      */
@@ -75,7 +74,7 @@ export class AsyncDataLoaderSAComponent extends LayoutComponentBase<AsyncDataLoa
     public ordering: SimpleOrdering|undefined|null;
 
     //######################### public properties - implementation of GridDataLoaderPlugin #########################
-    
+
     /**
      * @inheritdoc
      */
@@ -91,7 +90,7 @@ export class AsyncDataLoaderSAComponent extends LayoutComponentBase<AsyncDataLoa
     };
 
     //######################### public methods - implementation of GridDataLoaderPlugin #########################
-    
+
     /**
      * @inheritdoc
      */
@@ -107,7 +106,7 @@ export class AsyncDataLoaderSAComponent extends LayoutComponentBase<AsyncDataLoa
      */
     protected override onChanges(changes: SimpleChanges): PromiseOr<void>
     {
-        if(nameof<AsyncDataLoaderSAComponent>('result') in changes)
+        if(nameof<AsyncDataLoaderComponent>('result') in changes)
         {
             this.resolve(
             {

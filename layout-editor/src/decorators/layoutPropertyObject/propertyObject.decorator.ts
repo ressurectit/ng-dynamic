@@ -1,6 +1,6 @@
 import {Type} from '@angular/core';
 import {DynamicPropertyMetadata} from '@anglr/dynamic';
-import {extend} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {LayoutPropertyMetadata} from '../../misc/types';
 import {LayoutPropertyObjectData} from './propertyObject.interface';

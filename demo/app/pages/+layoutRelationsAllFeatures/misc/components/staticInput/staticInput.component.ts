@@ -12,8 +12,6 @@ import {StaticInputRelationsMetadataLoader} from './staticInput.metadata';
 {
     selector: 'static-input',
     templateUrl: 'staticInput.component.html',
-    // styleUrls: ['relationsSampleClick.component.scss'],
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,

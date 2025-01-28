@@ -1,4 +1,5 @@
-import {Dictionary, extend, globalDefine, isBlank, noop} from '@jscrpt/common';
+import {Dictionary, globalDefine, isBlank, noop} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 declare const ngDesignerMetadata: boolean;
 
@@ -21,11 +22,11 @@ export function DynamicPropertyMetadata<TValue = Dictionary>(value: TValue, prop
 {
     if(ngDesignerMetadata)
     {
-        return function (target: Object, propertyKey: string | symbol): void
+        return function (target: object, propertyKey: string | symbol): void
         {
             const metadata = Reflect.get(target, property) as Dictionary<Dictionary> ?? {};
             const propertyMetadata = metadata[propertyKey as string] ??= {};
-            
+
             extend(true, propertyMetadata, value);
 
             if(!Reflect.has(target, property))

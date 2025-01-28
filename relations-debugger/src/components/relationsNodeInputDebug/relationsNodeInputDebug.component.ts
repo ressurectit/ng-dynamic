@@ -11,7 +11,6 @@ import {NodeRelationPathDebug} from '../../misc/nodeRelationPathDebug';
 {
     selector: 'relation-node-input-debug',
     template: '',
-    standalone: true,
     providers:
     [
         <ExistingProvider>

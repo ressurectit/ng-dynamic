@@ -15,7 +15,6 @@ import {CustomComponentConfiguration, CustomComponentsRegister} from '../../serv
 @Directive(
 {
     selector: '[showCustomComponentOptions]',
-    standalone: true,
 })
 export class ShowCustomComponentOptionsSADirective<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration> implements OnInit, OnChanges
 {

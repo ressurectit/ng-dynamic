@@ -14,7 +14,6 @@ import {RelationsSampleClickRelationsMetadataLoader} from './relationsSampleClic
 {
     selector: 'relations-sample-click',
     templateUrl: 'relationsSampleClick.component.html',
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,

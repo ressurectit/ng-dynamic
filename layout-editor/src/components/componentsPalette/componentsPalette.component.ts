@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, O
 import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
-import {FirstUppercaseLocalizeSAPipe, Logger, LOGGER} from '@anglr/common';
+import {FirstUppercaseLocalizePipe, Logger, LOGGER} from '@anglr/common';
 import {DebounceCall, Dictionary, nameof, WithSync} from '@jscrpt/common';
 import {Observable, Subscription} from 'rxjs';
 
@@ -21,7 +21,6 @@ import {DndCorePaletteItemDirective} from '../../directives';
 {
     selector: 'components-palette',
     templateUrl: 'componentsPalette.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -29,7 +28,7 @@ import {DndCorePaletteItemDirective} from '../../directives';
         ComponentItemFilterSAPipe,
         ComponentGroupFilterSAPipe,
         DndCorePaletteItemDirective,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -135,7 +134,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
     }
 
     //######################### public methods - implementation of OnChanges #########################
-    
+
     /**
      * Called when input value changes
      */
@@ -210,7 +209,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
                 {
                     continue;
                 }
-                
+
                 const itemSource: DynamicItemSource = {package: packageName, name: type};
                 const metadata = await this.metadataExtractor.extractMetadata(itemSource);
 

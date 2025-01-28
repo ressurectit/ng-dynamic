@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, FactoryProvider, InjectionToken, Injector, OnDestroy, Provider, SimpleChanges, ValueProvider, inject} from '@angular/core';
-import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CssGridDefaultTemplatesSAComponent, CurrentViewContainer, DEFAULT_OPTIONS, GridPlugin, MatrixContentRenderer, MatrixContentRendererOptions, MatrixContentRendererSAComponent} from '@anglr/grid';
+import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CssGridDefaultTemplatesComponent, CurrentViewContainer, DEFAULT_OPTIONS, GridPlugin, MatrixContentRenderer, MatrixContentRendererOptions, MatrixContentRendererComponent} from '@anglr/grid';
 import {Destroyable, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {RelationsChangeDetector, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {LayoutRenderer} from '@anglr/dynamic/layout';
@@ -12,7 +12,7 @@ import {GridColumnsRelationsHelper} from '../../dynamicItems/gridColumns/misc/cl
  */
 const defaultOptions: MatrixContentRendererOptions =
 {
-    defaults: CssGridDefaultTemplatesSAComponent,
+    defaults: CssGridDefaultTemplatesComponent,
     cssClasses:
     {
         gridContainerClass: 'grid-container-css-grid',
@@ -37,7 +37,6 @@ const SCOPE_IDENTIFIER: InjectionToken<string> = new InjectionToken<string>('SCO
 {
     selector: 'div.matrix-content-renderer',
     templateUrl: 'scopedMatrixContentRenderer.component.html',
-    standalone: true,
     providers:
     [
         <ValueProvider>
@@ -58,12 +57,12 @@ const SCOPE_IDENTIFIER: InjectionToken<string> = new InjectionToken<string>('SCO
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScopedMatrixContentRendererSAComponent extends MatrixContentRendererSAComponent implements MatrixContentRenderer, GridPlugin<MatrixContentRendererOptions>, OnDestroy
+export class ScopedMatrixContentRendererComponent extends MatrixContentRendererComponent implements MatrixContentRenderer, GridPlugin<MatrixContentRendererOptions>, OnDestroy
 {
     //######################### protected fields #########################
 
     /**
-     * Function used for obtaining parent injector 
+     * Function used for obtaining parent injector
      */
     protected parentInjectorFn: Func1<Injector, Injector>|undefined|null;
 

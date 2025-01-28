@@ -19,7 +19,6 @@ import {MATERIAL_TAB_GROUP} from '../tabGroup/tabGroup.component';
     selector: 'material-tab',
     templateUrl: 'tab.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -39,7 +38,7 @@ export class MaterialTabSAComponent extends LayoutComponentBase<MaterialTabCompo
      * Indication whether tab is visible
      */
     protected visibleValue: boolean|null|undefined;
-    
+
     /**
      * Closes tab group
      */
@@ -102,7 +101,7 @@ export class MaterialTabSAComponent extends LayoutComponentBase<MaterialTabCompo
         {
             this.closestTab.disabled = true;
         }
-            
+
         this.closestTabGroup?.onHideTab(this.tabGroupIndex);
     }
 

@@ -18,7 +18,6 @@ import {DataBlockLayoutDesignerTypeLoader, DataBlockLayoutMetadataLoader, DataBl
     selector: 'data-block',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(DataBlockLayoutDesignerTypeLoader)

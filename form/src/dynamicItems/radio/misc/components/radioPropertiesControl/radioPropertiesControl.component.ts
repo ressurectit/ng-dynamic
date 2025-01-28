@@ -2,13 +2,12 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/co
 import {CommonModule} from '@angular/common';
 import {FormArray, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {FormModelBuilder} from '@anglr/common/forms';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {LayoutEditorMetadataExtractor, PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
 
 import {RadioComponentOptions} from '../../../radio.options';
 import {RadioOptionModel} from '../../../metadata/radio.model';
-
 
 /**
  * Component used for displaying material tab group properties control
@@ -17,12 +16,11 @@ import {RadioOptionModel} from '../../../metadata/radio.model';
 {
     selector: 'radio-properties-control',
     templateUrl: 'radioPropertiesControl.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
         ReactiveFormsModule,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

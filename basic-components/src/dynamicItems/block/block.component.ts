@@ -14,7 +14,6 @@ import {BlockLayoutMetadataLoader} from './block.metadata';
     selector: 'block',
     templateUrl: 'block.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

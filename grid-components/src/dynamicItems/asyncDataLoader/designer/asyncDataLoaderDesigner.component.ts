@@ -4,7 +4,7 @@ import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {AsyncDataLoaderComponentOptions, AsyncDataLoaderRelationsOptions} from '../asyncDataLoader.options';
-import {AsyncDataLoaderSAComponent} from '../asyncDataLoader.component';
+import {AsyncDataLoaderComponent} from '../asyncDataLoader.component';
 
 /**
  * Component used for displaying async data loader designer
@@ -14,9 +14,8 @@ import {AsyncDataLoaderSAComponent} from '../asyncDataLoader.component';
     selector: 'async-data-loader-designer',
     templateUrl: 'asyncDataLoaderDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AsyncDataLoaderDesignerSAComponent extends AsyncDataLoaderSAComponent implements LayoutComponent<AsyncDataLoaderComponentOptions>, RelationsComponent<AsyncDataLoaderRelationsOptions>
+export class AsyncDataLoaderDesignerComponent extends AsyncDataLoaderComponent implements LayoutComponent<AsyncDataLoaderComponentOptions>, RelationsComponent<AsyncDataLoaderRelationsOptions>
 {
 }

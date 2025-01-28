@@ -9,7 +9,6 @@ import {FormGroupComponentOptions} from './formGroup.options';
 import {FORM_COMPONENT_CONTROL} from '../../misc/tokens';
 import {FormComponentBase} from '../../components';
 
-
 /**
  * Component used for displaying stack panel layout
  */
@@ -17,7 +16,6 @@ import {FormComponentBase} from '../../components';
 {
     selector: 'form-group',
     templateUrl: 'formGroup.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,

@@ -5,7 +5,7 @@ import {Dictionary} from '@jscrpt/common';
 /**
  * Gets properties metadata for for model type
  */
-@Pipe({name: 'propertiesMetadata', standalone: true,})
+@Pipe({name: 'propertiesMetadata'})
 export class PropertiesMetadataSAPipe implements PipeTransform
 {
     //######################### constructor #########################

@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {NumberInputModule} from '@anglr/common/forms';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {isNumber} from '@jscrpt/common';
@@ -14,7 +14,6 @@ import {DebounceValueRelationsOptions} from '../debounceValue.options';
 {
     selector: 'debounce-value-node',
     templateUrl: 'debounceValueNode.component.html',
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,
@@ -22,7 +21,7 @@ import {DebounceValueRelationsOptions} from '../debounceValue.options';
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
         RelationNodeOutputSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/co
 import {CommonModule} from '@angular/common';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {LayoutEditorMetadataExtractor, PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
 import {generateId} from '@jscrpt/common';
@@ -16,12 +16,11 @@ import {MaterialTabGroupComponentOptions} from '../../../tabGroup.options';
 {
     selector: 'material-tab-group-properties-control',
     templateUrl: 'tabGroupPropertiesControl.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
         ReactiveFormsModule,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
         CdkDrag,
         CdkDragHandle,
         CdkDropList

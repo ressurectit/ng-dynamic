@@ -13,7 +13,6 @@ import {GridColumnContentSAComponent} from '../gridColumnContent.component';
     selector: 'grid-column-content-designer',
     templateUrl: 'gridColumnContentDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

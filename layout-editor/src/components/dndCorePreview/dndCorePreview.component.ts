@@ -12,7 +12,6 @@ import {DndCorePreviewTemplateContext, DndCorePreviewTemplateDirective} from '..
 {
     selector: 'dnd-core-drag-preview',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DndCorePreviewComponent implements OnInit, OnDestroy

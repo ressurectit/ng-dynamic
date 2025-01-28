@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform, inject} from '@angular/core';
 import {DefaultsOverride} from '@anglr/dynamic';
-import {extend} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import type {NodesPaletteItem} from '../../components';
 import {RelationsNodeDragData} from '../../interfaces';
@@ -9,11 +9,11 @@ import {RELATIONS_DEFAULTS_OVERRIDE} from '../../misc/tokens';
 /**
  * Transforms NodesPaletteItem item to RelationsNodeDragData
  */
-@Pipe({name: 'toRelationsDragData', standalone: true})
+@Pipe({name: 'toRelationsDragData'})
 export class ToRelationsDragDataSAPipe implements PipeTransform
 {
     //######################### protected properties #########################
-    
+
     /**
      * Default options override service
      */

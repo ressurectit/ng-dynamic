@@ -14,7 +14,6 @@ import {RichTextBlockLayoutMetadataLoader} from './richTextBlock.metadata';
     selector: 'rich-text-block',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorMetadata(RichTextBlockLayoutMetadataLoader)

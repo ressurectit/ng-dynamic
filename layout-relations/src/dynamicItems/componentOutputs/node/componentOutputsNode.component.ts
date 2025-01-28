@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
-import {extend} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {ComponentOutputsRelationsOptions} from '../componentOutputs.options';
@@ -18,13 +18,12 @@ import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '../..
 {
     selector: 'component-outputs-node',
     templateUrl: 'componentOutputsNode.component.html',
-    standalone: true,
     imports:
     [
         CommonModule,
         RelationsNodeHeaderSAComponent,
         RelationNodeInputSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -42,7 +41,7 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
             return [];
         }
 
-        this.metadata.relationsOptions ??= 
+        this.metadata.relationsOptions ??=
         {
             outputs: []
         };
@@ -65,7 +64,7 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
      */
     protected async addEndpoint(): Promise<void>
     {
-        const param: ConfigureNodeEndpointData = 
+        const param: ConfigureNodeEndpointData =
         {
             name: '',
             defaultValue: null,
@@ -102,7 +101,7 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
     protected async configureEndpoint(endpoint: ConfigureNodeEndpointData): Promise<boolean>
     {
         const original = JSON.parse(JSON.stringify(endpoint));
-        
+
         const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
         {
             title: 'configure component output',

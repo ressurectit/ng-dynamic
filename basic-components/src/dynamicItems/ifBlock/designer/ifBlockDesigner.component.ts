@@ -14,7 +14,6 @@ import {IfBlockSAComponent} from '../ifBlock.component';
     selector: 'if-block-designer',
     templateUrl: 'ifBlockDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

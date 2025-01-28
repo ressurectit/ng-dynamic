@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {isPresent} from '@jscrpt/common';
@@ -15,13 +15,11 @@ import {RichTextBlockEditorDialogSAComponent} from '../../richTextBlock/misc/com
 {
     selector: 'rich-text-source-node',
     templateUrl: 'richTextSourceNode.component.html',
-    // styleUrls: ['richTextSourceNode.component.css'],
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,
         RelationNodeOutputSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -47,7 +45,7 @@ export class RichTextSourceNodeSAComponent extends RelationsNodeBase<RichTextSou
             title: 'Rich text editor',
             width: '75vw',
             height: '75vh',
-            data: this.metadata?.relationsOptions?.content ?? ''
+            data: this.metadata?.relationsOptions?.content ?? '',
         }).afterClosed());
 
         if(isPresent(result))

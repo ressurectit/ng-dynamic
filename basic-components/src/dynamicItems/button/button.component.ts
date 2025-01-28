@@ -18,7 +18,6 @@ import {ButtonLayoutMetadataLoader, ButtonRelationsMetadataLoader} from './butto
     selector: 'button-component',
     templateUrl: 'button.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         NgClass,

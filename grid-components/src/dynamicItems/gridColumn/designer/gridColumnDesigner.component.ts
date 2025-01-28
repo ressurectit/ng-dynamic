@@ -16,7 +16,6 @@ import {GridColumnSAComponent} from '../gridColumn.component';
     selector: 'grid-column-designer',
     templateUrl: 'gridColumnDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,
@@ -31,7 +30,7 @@ export class GridColumnDesignerSAComponent extends GridColumnSAComponent impleme
      * Instance of manager for layout editor metadata
      */
     protected metadataManager: LayoutEditorMetadataManager = inject(LayoutEditorMetadataManager);
-    
+
     /**
      * Instance of layout renderer
      */
@@ -74,7 +73,7 @@ export class GridColumnDesignerSAComponent extends GridColumnSAComponent impleme
             name: 'gridColumnHeader',
             package: 'grid-components',
             displayName: 'header',
-            options: 
+            options:
             {
                 content: null,
             },
@@ -86,7 +85,7 @@ export class GridColumnDesignerSAComponent extends GridColumnSAComponent impleme
             name: 'gridColumnContent',
             package: 'grid-components',
             displayName: 'content',
-            options: 
+            options:
             {
                 content: null,
             },

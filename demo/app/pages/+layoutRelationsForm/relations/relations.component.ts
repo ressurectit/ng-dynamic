@@ -23,7 +23,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
 {
     selector: 'form-relations-editor-view',
     templateUrl: 'relations.component.html',
-    standalone: true,
     imports:
     [
         GoBackDirective,

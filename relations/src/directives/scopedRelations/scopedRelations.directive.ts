@@ -10,7 +10,6 @@ import {RelationsChangeDetector, RelationsComponentManager, RelationsProcessor} 
 @Directive(
 {
     selector: '[scopedRelations]',
-    standalone: true,
     providers:
     [
         <FactoryProvider>
@@ -36,7 +35,7 @@ export class ScopedRelationsSADirective implements OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */

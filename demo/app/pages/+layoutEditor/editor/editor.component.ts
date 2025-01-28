@@ -25,7 +25,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
 {
     selector: 'layout-editor-view',
     templateUrl: 'editor.component.html',
-    standalone: true,
     imports:
     [
         LoadSaveNewComponent,

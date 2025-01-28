@@ -21,13 +21,12 @@ globalDefine(global =>
 {
     selector: 'rich-text-block-editor-dialog',
     templateUrl: 'richTextBlockEditorDialog.component.html',
-    standalone: true,
     imports:
     [
         MatDialogModule,
         EditorModule,
     ],
-    providers: 
+    providers:
     [
         <ValueProvider>
         {

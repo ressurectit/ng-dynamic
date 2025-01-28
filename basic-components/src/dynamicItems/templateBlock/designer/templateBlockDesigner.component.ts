@@ -13,7 +13,6 @@ import {TemplateBlockSAComponent} from '../templateBlock.component';
     selector: 'template-block-designer',
     templateUrl: '../templateBlock.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

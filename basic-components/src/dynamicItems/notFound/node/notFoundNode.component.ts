@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
 
 /**
@@ -9,11 +9,10 @@ import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent} from '
 {
     selector: 'not-found-node',
     templateUrl: 'notFoundNode.component.html',
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

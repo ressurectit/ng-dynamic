@@ -1,11 +1,11 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {FirstUppercaseLocalizeSAPipe} from '@anglr/common';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
 import {FormModelGroup, FormModelBuilder} from '@anglr/common/forms';
 import {TitledDialogService} from '@anglr/common/material';
-import {extend} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {MathRoundRelationsOptions} from '../round.options';
 import {MathRoundRelationsOptionsModel} from './round.model';
@@ -17,7 +17,6 @@ import {MathRoundRelationsOptionsModel} from './round.model';
 {
     selector: 'math-round-node',
     templateUrl: 'round.component.html',
-    standalone: true,
     imports:
     [
         RelationsNodeHeaderSAComponent,
@@ -25,7 +24,7 @@ import {MathRoundRelationsOptionsModel} from './round.model';
         RelationNodeOutputSAComponent,
         CommonModule,
         ReactiveFormsModule,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
     ],
     providers:
     [

@@ -9,7 +9,6 @@ import {LayoutDesignerCommonDirective} from '../../directives/layoutDesignerComm
 {
     selector: 'div.designer-overlay-layout',
     templateUrl: 'layoutDesignerLayout.component.html',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutDesignerLayoutComponent implements OnDestroy
@@ -31,7 +30,7 @@ export class LayoutDesignerLayoutComponent implements OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */

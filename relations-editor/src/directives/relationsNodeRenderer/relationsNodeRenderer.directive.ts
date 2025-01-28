@@ -17,7 +17,6 @@ import {MissingNodeBehavior} from './relationsNodeRenderer.types';
 @Directive(
 {
     selector: '[relationsNodeRenderer]',
-    standalone: true,
     exportAs: 'relationsNodeRenderer'
 })
 export class RelationsNodeRendererSADirective<TComponent extends RelationsNode = any, TOptions = any, TEditorOptions = any> implements OnChanges, OnDestroy

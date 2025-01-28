@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
-import {CastPipesModule, CommonUtilsModule, FirstUppercaseLocalizeSAPipe, HostDisplayFlexStyle} from '@anglr/common';
+import {CastPipesModule, CommonUtilsModule, FirstUppercaseLocalizePipe, HostDisplayFlexStyle} from '@anglr/common';
 import {EditorHotkeys, MetadataHistoryManager, PackageManagerModule, DynamicItemSource} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
@@ -24,7 +24,6 @@ import {DndCorePreviewTemplateDirective} from '../../directives';
     selector: 'layout-editor',
     templateUrl: 'layoutEditor.component.html',
     styles: [HostDisplayFlexStyle],
-    standalone: true,
     imports:
     [
         CommonModule,
@@ -37,7 +36,7 @@ import {DndCorePreviewTemplateDirective} from '../../directives';
         ComponentsTreeSAComponent,
         PropertiesEditorComponent,
         ComponentsPaletteSAComponent,
-        FirstUppercaseLocalizeSAPipe,
+        FirstUppercaseLocalizePipe,
         DndCorePreviewTemplateDirective,
         LayoutEditorDragPreviewSAComponent,
         LayoutComponentRendererSADirective,
@@ -93,7 +92,7 @@ export class LayoutEditorComponent implements OnDestroy, OnChanges, OnInit
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -113,7 +112,7 @@ export class LayoutEditorComponent implements OnDestroy, OnChanges, OnInit
     }
 
     //######################### public methods - implementation of OnChanges #########################
-    
+
     /**
      * Called when input value changes
      */
@@ -122,7 +121,7 @@ export class LayoutEditorComponent implements OnDestroy, OnChanges, OnInit
         if(nameof<LayoutEditorComponent>('metadata') in changes)
         {
             this.history.clean();
-            
+
             if(this.metadata)
             {
                 this.history.setInitialState(this.metadata);
@@ -131,7 +130,7 @@ export class LayoutEditorComponent implements OnDestroy, OnChanges, OnInit
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */

@@ -2,7 +2,8 @@ import {Inject, Injectable, OnDestroy, Optional, Signal, WritableSignal, signal}
 import {Logger, LOGGER} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {EditorHotkeys, EditorMetadataManager} from '@anglr/dynamic';
-import {Dictionary, extend, generateId, isBlank} from '@jscrpt/common';
+import {Dictionary, generateId, isBlank} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 import {Observable, Subject, Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataManagerComponent} from './layoutEditorMetadataManager.interface';
@@ -112,69 +113,69 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
             this.initSubscriptions.add(this.editorHotkeys.delete.subscribe(() =>
             {
                 const selectedComponent = this.selectedComponent();
-    
+
                 if(!selectedComponent)
                 {
                     return;
                 }
-    
+
                 const component = this.components[selectedComponent];
-    
+
                 if(!component?.parent)
                 {
                     return;
                 }
-    
+
                 component.parent.component.removeDescendant(selectedComponent);
                 component.parent.component.invalidateVisuals();
             }));
-    
+
             this.initSubscriptions.add(this.editorHotkeys.copy.subscribe(() =>
             {
                 const selectedComponent = this.selectedComponent();
-    
+
                 if(!selectedComponent)
                 {
                     return;
                 }
-    
+
                 const component = this.components[selectedComponent];
                 this.metadataClipboard = component.component.metadataSafe;
             }));
-    
+
             this.initSubscriptions.add(this.editorHotkeys.cut.subscribe(() =>
             {
                 const selectedComponent = this.selectedComponent();
-    
+
                 if(!selectedComponent)
                 {
                     return;
                 }
-    
+
                 const component = this.components[selectedComponent];
-    
+
                 if(!component?.parent)
                 {
                     return;
                 }
-    
+
                 this.metadataClipboard = component.component.metadataSafe;
                 component.parent.component.removeDescendant(selectedComponent);
                 component.parent.component.invalidateVisuals();
             }));
-    
+
             this.initSubscriptions.add(this.editorHotkeys.paste.subscribe(() =>
             {
                 const selectedComponent = this.selectedComponent();
-    
+
                 if(!selectedComponent || !this.metadataClipboard)
                 {
                     return;
                 }
-    
+
                 const component = this.components[selectedComponent];
                 const newId = `${this.metadataClipboard.name}-${generateId(12)}`;
-    
+
                 if(component.component.editorMetadata.canDrop)
                 {
                     component.component.addDescendant(
@@ -250,7 +251,6 @@ export class LayoutEditorMetadataManager implements EditorMetadataManager<Layout
     {
         this.ɵhighlightedComponent.set(null);
     }
-
 
     /**
      * Mark component as being dragged over

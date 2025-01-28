@@ -6,11 +6,11 @@ import {toGridRowsTemplate} from '../../utils';
 /**
  * Gets css rows template
  */
-@Pipe({name: 'toGridRowsTemplate', standalone: true})
+@Pipe({name: 'toGridRowsTemplate'})
 export class ToGridRowsTemplatePipe implements PipeTransform
 {
     //######################### public methods - implementation of PipeTransform #########################
-    
+
     /**
      * Gets css rows template
      * @param rows - Array of rows definition
@@ -19,4 +19,4 @@ export class ToGridRowsTemplatePipe implements PipeTransform
     {
         return toGridRowsTemplate(rows);
     }
-}   
+}

@@ -8,7 +8,6 @@ import {DndCorePreviewTemplateContext} from './dndCorePreviewTemplate.context';
 @Directive(
 {
     selector: '[dndCorePreviewTemplate]',
-    standalone: true,
 })
 export class DndCorePreviewTemplateDirective
 {
@@ -26,7 +25,7 @@ export class DndCorePreviewTemplateDirective
     }
 
     //######################### ng language server #########################
-    
+
     /**
      * Allows typechecking for template
      */

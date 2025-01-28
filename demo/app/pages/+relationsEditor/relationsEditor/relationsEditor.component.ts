@@ -25,7 +25,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
 {
     selector: 'relations-editor-view',
     templateUrl: 'relationsEditor.component.html',
-    standalone: true,
     imports:
     [
         LoadSaveNewComponent,

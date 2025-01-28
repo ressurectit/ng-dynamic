@@ -4,7 +4,7 @@ import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/lay
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {Grid, PluginDescription, SyncDataLoaderOptions, SyncDataLoaderSAComponent as GridSyncDataLoader} from '@anglr/grid';
+import {Grid, PluginDescription, SyncDataLoaderOptions, SyncDataLoaderComponent as GridSyncDataLoader} from '@anglr/grid';
 import {setSyncData} from '@anglr/grid/extensions';
 import {PromiseOr, RecursivePartial, nameof} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
@@ -22,13 +22,12 @@ import {GridPluginComponent} from '../../interfaces';
     selector: 'sync-data-loader',
     template: '',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(SyncDataLoaderLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(SyncDataLoaderRelationsMetadataLoader)
 @LayoutEditorMetadata(SyncDataLoaderLayoutMetadataLoader)
-export class SyncDataLoaderSAComponent extends LayoutComponentBase<SyncDataLoaderComponentOptions> implements GridPluginComponent<GridSyncDataLoader, SyncDataLoaderComponentOptions, SyncDataLoaderOptions>, RelationsComponent<SyncDataLoaderRelationsOptions>
+export class SyncDataLoaderComponent extends LayoutComponentBase<SyncDataLoaderComponentOptions> implements GridPluginComponent<GridSyncDataLoader, SyncDataLoaderComponentOptions, SyncDataLoaderOptions>, RelationsComponent<SyncDataLoaderRelationsOptions>
 {
     //######################### protected fields #########################
 
@@ -87,7 +86,7 @@ export class SyncDataLoaderSAComponent extends LayoutComponentBase<SyncDataLoade
      */
     protected override onChanges(changes: SimpleChanges): PromiseOr<void>
     {
-        if(nameof<SyncDataLoaderSAComponent>('data') in changes)
+        if(nameof<SyncDataLoaderComponent>('data') in changes)
         {
             this.setData();
         }

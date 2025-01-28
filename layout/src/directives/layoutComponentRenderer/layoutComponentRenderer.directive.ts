@@ -13,16 +13,15 @@ import {LayoutRenderer} from '../../services';
 @Directive(
 {
     selector: '[layoutComponentRenderer]',
-    providers: 
+    providers:
     [
         <ValueProvider>
         {
             provide: LAYOUT_COMPONENT_CHILD_EXTENSIONS,
             useValue: null,
         },
-        
+
     ],
-    standalone: true
 })
 export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
 {
@@ -98,7 +97,7 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
             if(isPresent(change.currentValue) && isBlank(change.previousValue))
             {
                 const metadata = change.currentValue as LayoutComponentMetadata;
-                
+
                 this.logger.debug('LayoutComponentRendererSADirective: registering component for rendering "{{id}}" inside renderer "{{rendererId}}" with parent renderer "{{parentRenderer}}" and parent component "{{parentComponent}}"',
                 {
                     id: metadata.id,
@@ -106,7 +105,7 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
                     parentRenderer: this.parentRendererDirective?.id,
                     parentComponent: this.parentRendererDirective?.componentMetadata?.id,
                 });
-    
+
                 //registers renderer and component
                 this.renderer.registerRenderer(this.id,
                                                this.parentRendererDirective?.id,
@@ -134,7 +133,7 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
                     parentRenderer: this.parentRendererDirective?.id,
                     parentComponent: this.parentRendererDirective?.componentMetadata?.id,
                 });
-    
+
                 //registers renderer and component
                 this.renderer.registerRenderer(this.id,
                                                this.parentRendererDirective?.id,

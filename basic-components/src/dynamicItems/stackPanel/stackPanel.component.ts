@@ -15,7 +15,6 @@ import {StackPanelLayoutMetadataLoader} from './stackPanel.metadata';
     selector: 'stack-panel',
     templateUrl: 'stackPanel.component.html',
     styles: [HostDisplayFlexStyle],
-    standalone: true,
     imports:
     [
         CommonModule,

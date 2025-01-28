@@ -13,7 +13,6 @@ import {INVALIDATE_DROP} from '../../misc/constants';
 {
     selector: 'relation-node-input',
     template: '',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationNodeInputSAComponent extends RelationNodeEndpointBase implements RelationsInput, OnDestroy
@@ -26,7 +25,7 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
     private _tempRelation: NodeRelationPath|null|undefined;
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -61,7 +60,7 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
         }
 
         this.relation = relation;
-        
+
         return true;
     }
 
@@ -139,7 +138,7 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
         this.relation = null;
         this.isDragging = true;
 
-        this.canvasPositionChangeSubscription = this.canvas?.convasPositionChanged.subscribe(() => 
+        this.canvasPositionChangeSubscription = this.canvas?.convasPositionChanged.subscribe(() =>
         {
             if (this._tempRelation)
             {
@@ -171,7 +170,7 @@ export class RelationNodeInputSAComponent extends RelationNodeEndpointBase imple
             if (this._tempRelation)
             {
                 this._tempRelation.end = this.canvas.getPositionInCanvas({x: this.lastMouseMovePosition.x, y: this.lastMouseMovePosition.y});
-    
+
                 this._tempRelation.invalidateVisuals();
             }
         }

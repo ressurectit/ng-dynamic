@@ -13,7 +13,6 @@ import {DataLoaderSAComponent} from '../dataLoader.component';
     selector: 'data-loader-designer',
     templateUrl: 'dataLoaderDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         LayoutComponentRendererSADirective,

@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ViewChild} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LayoutRendererItem} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
-import {DataLoader, DataLoaderOptions, Grid, GridOptions, MatrixGridModule, MetadataSelector, MetadataSelectorOptions, NoMetadataSelectorSAComponent, NoPagingOptions, NoPagingSAComponent, Paging, PagingOptions, SyncDataLoaderOptions, SyncDataLoaderSAComponent} from '@anglr/grid';
+import {DataLoader, DataLoaderOptions, Grid, GridOptions, MatrixGridModule, MetadataSelector, MetadataSelectorOptions, NoMetadataSelectorComponent, NoPagingOptions, NoPagingComponent, Paging, PagingOptions, SyncDataLoaderOptions, SyncDataLoaderComponent} from '@anglr/grid';
 import {patchOptions, reinitializeOptions} from '@anglr/grid/extensions';
 import {BindThis, PromiseOr, RecursivePartial} from '@jscrpt/common';
 
@@ -58,7 +58,6 @@ interface ColDef
     selector: 'data-table',
     templateUrl: 'dataTable.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     imports:
     [
         MatrixGridModule,
@@ -66,7 +65,7 @@ interface ColDef
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@DescendantsGetter<DataTableComponentOptions>(options => 
+@DescendantsGetter<DataTableComponentOptions>(options =>
 {
     if(!options)
     {
@@ -148,7 +147,7 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
         const itm: LayoutRendererItem = item as LayoutRendererItem;
         const dataLoaderComponent = itm.component?.instance as GridPluginComponent<DataLoader, DataLoaderComponentOptions, DataLoaderOptions>;
         dataLoaderComponent.setGridInstance(this.gridSafe);
-        
+
         this.gridSafe.execute(patchOptions(
         {
             plugins:
@@ -172,7 +171,7 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
         const itm: LayoutRendererItem = item as LayoutRendererItem;
         const pagingComponent = itm.component?.instance as GridPluginComponent<Paging, PagingComponentOptions, PagingOptions>;
         pagingComponent.setGridInstance(this.gridSafe);
-        
+
         this.gridSafe.execute(patchOptions(
         {
             plugins:
@@ -196,7 +195,7 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
         const itm: LayoutRendererItem = item as LayoutRendererItem;
         const metadataSelectorComponent = itm.component?.instance as GridPluginComponent<MetadataSelector, MetadataSelectorComponentOptions, MetadataSelectorOptions>;
         metadataSelectorComponent.setGridInstance(this.gridSafe);
-        
+
         this.gridSafe.execute(patchOptions(
         {
             plugins:
@@ -260,12 +259,12 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
                         {
                             data: [],
                         },
-                        type: SyncDataLoaderSAComponent,
+                        type: SyncDataLoaderComponent,
                     }
                 }
             }));
 
-            this.initializationStatus.dataLoader = true; 
+            this.initializationStatus.dataLoader = true;
         }
 
         //no paging plugin provided
@@ -281,12 +280,12 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
                         {
                             initialItemsPerPage: NaN,
                         },
-                        type: NoPagingSAComponent,
+                        type: NoPagingComponent,
                     }
                 }
             }));
 
-            this.initializationStatus.paging = true; 
+            this.initializationStatus.paging = true;
         }
 
         //no metadata selector plugin provided
@@ -298,12 +297,12 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
                 {
                     metadataSelector:
                     {
-                        type: NoMetadataSelectorSAComponent,
+                        type: NoMetadataSelectorComponent,
                     }
                 }
             }));
 
-            this.initializationStatus.metadataSelector = true; 
+            this.initializationStatus.metadataSelector = true;
         }
 
         if(this.initializationStatus.dataLoader &&

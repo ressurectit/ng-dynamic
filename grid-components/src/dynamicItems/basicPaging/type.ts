@@ -1,3 +1,3 @@
-import {BasicPagingSAComponent} from './basicPaging.component';
+import {BasicPagingComponent} from './basicPaging.component';
 
-export default BasicPagingSAComponent;
+export default BasicPagingComponent;

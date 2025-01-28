@@ -13,7 +13,6 @@ import {RelationsResultRelationsMetadataLoader} from './relationsResult.metadata
 {
     selector: 'relations-result',
     templateUrl: 'relationsResult.component.html',
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(RelationsResultRelationsMetadataLoader)

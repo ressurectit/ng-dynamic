@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform, inject} from '@angular/core';
 import {DefaultsOverride} from '@anglr/dynamic';
-import {extend} from '@jscrpt/common';
+import {extend} from '@jscrpt/common/extend';
 
 import {ComponentsPaletteItem} from '../../components';
 import {LayoutComponentDragData} from '../../interfaces';
@@ -9,7 +9,7 @@ import {LAYOUT_DEFAULTS_OVERRIDE} from '../../misc/tokens';
 /**
  * Transforms ComponentsPaletteItem item to LayoutComponentDragData
  */
-@Pipe({name: 'toLayoutDragData', standalone: true})
+@Pipe({name: 'toLayoutDragData'})
 export class ToLayoutDragDataSAPipe implements PipeTransform
 {
     //######################### protected properties #########################

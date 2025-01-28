@@ -1,7 +1,7 @@
 import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, Inject, WritableSignal, signal} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
+import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
 import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
 import {InternalServerErrorSAComponent} from '@anglr/error-handling';
 import {fadeInOutTrigger} from '@anglr/animations';
@@ -25,7 +25,6 @@ import {MenuModule} from '../modules';
     selector: 'app',
     templateUrl: 'app.component.html',
     styleUrl: 'app.component.scss',
-    standalone: true,
     imports:
     [
         RouterOutlet,
@@ -33,7 +32,7 @@ import {MenuModule} from '../modules';
         ProgressIndicatorModule,
         NotificationsGlobalModule,
         MenuModule,
-        ConsoleSAComponent,
+        ConsoleComponent,
         HotkeysCheatsheetComponent,
     ],
     animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger, loaderTrigger],
@@ -43,7 +42,7 @@ import {MenuModule} from '../modules';
 export class AppComponent implements AfterViewInit, OnDestroy
 {
     //######################### private fields #########################
-    
+
     /**
      * Subscription for router outlet activation changes
      */
@@ -107,7 +106,7 @@ export class AppComponent implements AfterViewInit, OnDestroy
         this._theme = settings.settings.theme;
 
         this._settingsChangeSubscription = settings.settingsChange
-            .subscribe(itm => 
+            .subscribe(itm =>
             {
                 if(itm == nameof<SettingsGeneral>('theme'))
                 {
@@ -123,7 +122,7 @@ export class AppComponent implements AfterViewInit, OnDestroy
             });
 
         this._settingsDebuggingChangeSubscription = settings.settingsDebuggingChange
-            .subscribe(itm => 
+            .subscribe(itm =>
             {
                 if(itm == nameof<SettingsDebug>('consoleEnabled'))
                 {
@@ -141,7 +140,7 @@ export class AppComponent implements AfterViewInit, OnDestroy
     }
 
     //######################### public methods - implementation of AfterViewInit #########################
-    
+
     /**
      * Called when view was initialized
      */
@@ -156,7 +155,7 @@ export class AppComponent implements AfterViewInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */

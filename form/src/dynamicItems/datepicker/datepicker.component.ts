@@ -17,7 +17,6 @@ import {DatepickerComponentOptions} from './datepicker.options';
     selector: 'form-datepicker',
     templateUrl: 'datepicker.component.html',
     styles: [HostDisplayBlockStyle],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [

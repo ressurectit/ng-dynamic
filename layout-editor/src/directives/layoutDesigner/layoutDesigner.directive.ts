@@ -18,7 +18,6 @@ import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 @Directive(
 {
     selector: '[layoutDesigner]',
-    standalone: true,
     hostDirectives:
     [
         LayoutDesignerEditorMetadataDirective,

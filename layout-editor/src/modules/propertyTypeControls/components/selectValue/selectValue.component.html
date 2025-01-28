@@ -1,3 +1,6 @@
 <select class="properties-form-control" [formControl]="_control | asRequired">
-    <option *ngFor="let val of values" [value]="val" [text]="val"></option>
+    @for(val of values; track val)
+    {
+        <option [value]="val" [text]="val"></option>
+    }
 </select>

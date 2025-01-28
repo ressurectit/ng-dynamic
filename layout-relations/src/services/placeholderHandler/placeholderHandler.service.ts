@@ -4,7 +4,7 @@ import {LayoutEditorRenderer} from '@anglr/dynamic/layout-editor';
 import {RelationsChangeDetector, RelationsComponentManager, RelationsDebugger, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {LOGGER, Logger} from '@anglr/common';
 
-import type {CustomComponentSAComponent} from '../../dynamicItems/customComponent/customComponent.component';
+import type {CustomComponentComponent} from '../../dynamicItems/customComponent/customComponent.component';
 import {ComponentWithId} from '../../interfaces';
 
 /**
@@ -200,7 +200,7 @@ export class PlaceholderHandler<TOptions = unknown>
 
     //######################### constructor #########################
     constructor(protected componentWithIdType: Type<ComponentWithId>,
-                protected customComponent?: CustomComponentSAComponent,)
+                protected customComponent?: CustomComponentComponent,)
     {
         this.ɵisPlaceholder = !this.customComponent;
     }

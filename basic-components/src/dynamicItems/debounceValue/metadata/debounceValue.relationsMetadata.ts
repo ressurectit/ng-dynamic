@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {DebounceValueNodeSAComponent} from '../node/debounceValueNode.component';
+import {DebounceValueNodeComponent} from '../node/debounceValueNode.component';
 
 /**
  * Debounce value relations metadata
@@ -23,7 +23,7 @@ export class DebounceValueRelationsEditorMetadata implements RelationsEditorMeta
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = DebounceValueNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = DebounceValueNodeComponent;
 
     //######################### constructor #########################
     constructor()

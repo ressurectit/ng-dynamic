@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {HandlebarsLanguageModel, CodeEditorDialogData, CodeEditorDialogComponent, CodeEditorContent} from '@anglr/dynamic';
 import {isPresent} from '@jscrpt/common';
@@ -17,14 +17,14 @@ import {DataTemplateRelationsOptions} from '../dataTemplate.options';
     templateUrl: 'dataTemplateNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DataTemplateNodeSAComponent extends RelationsNodeBase<DataTemplateRelationsOptions> implements RelationsNode<DataTemplateRelationsOptions>
+export class DataTemplateNodeComponent extends RelationsNodeBase<DataTemplateRelationsOptions> implements RelationsNode<DataTemplateRelationsOptions>
 {
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,

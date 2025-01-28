@@ -1,3 +1,3 @@
-import {PagingSAComponent} from './paging.component';
+import {PagingComponent} from './paging.component';
 
-export default PagingSAComponent;
+export default PagingComponent;

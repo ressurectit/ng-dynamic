@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {HtmlBlockNodeSAComponent} from '../node/htmlBlockNode.component';
+import {HtmlBlockNodeComponent} from '../node/htmlBlockNode.component';
 
 /**
  * Html block relations metadata
@@ -23,7 +23,7 @@ export class HtmlBlockRelationsEditorMetadata implements RelationsEditorMetadata
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = HtmlBlockNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = HtmlBlockNodeComponent;
 
     //######################### constructor #########################
     constructor()

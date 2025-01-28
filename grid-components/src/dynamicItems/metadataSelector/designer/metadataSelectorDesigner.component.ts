@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {MetadataSelectorComponentOptions} from '../metadataSelector.options';
-import {MetadataSelectorSAComponent} from '../metadataSelector.component';
+import {MetadataSelectorComponent} from '../metadataSelector.component';
 
 /**
  * Component used for displaying metadata selector designer
@@ -15,10 +15,10 @@ import {MetadataSelectorSAComponent} from '../metadataSelector.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MetadataSelectorDesignerSAComponent extends MetadataSelectorSAComponent implements LayoutComponent<MetadataSelectorComponentOptions>
+export class MetadataSelectorDesignerComponent extends MetadataSelectorComponent implements LayoutComponent<MetadataSelectorComponentOptions>
 {
 }

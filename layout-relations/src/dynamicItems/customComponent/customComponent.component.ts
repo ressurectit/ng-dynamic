@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, inject, SimpleChanges, FactoryProvider} from '@angular/core';
 import {MetadataStorage} from '@anglr/dynamic';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE, LayoutRenderer} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererDirective, LAYOUT_METADATA_STORAGE, LayoutRenderer} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutComponentsIteratorService, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {provideRelationsDebugger, RelationsChangeDetector, RelationsComponent, RelationsComponentManager, RelationsManager, RelationsProcessor, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
@@ -26,7 +26,7 @@ import {PlaceholderHandler} from '../../services/placeholderHandler/placeholderH
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     providers:
     [
@@ -42,7 +42,7 @@ import {PlaceholderHandler} from '../../services/placeholderHandler/placeholderH
             provide: PlaceholderHandler,
             useFactory: () =>
             {
-                return new PlaceholderHandler(CustomComponentSAComponent, inject(CustomComponentSAComponent));
+                return new PlaceholderHandler(CustomComponentComponent, inject(CustomComponentComponent));
             }
         },
     ],
@@ -70,7 +70,7 @@ import {PlaceholderHandler} from '../../services/placeholderHandler/placeholderH
 @LayoutEditorDesignerType(CustomComponentLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(CustomComponentRelationsMetadataLoader)
 @LayoutEditorMetadata(CustomComponentLayoutMetadataLoader)
-export class CustomComponentSAComponent extends LayoutComponentBase<CustomComponentComponentOptions> implements LayoutComponent<CustomComponentComponentOptions>, RelationsComponent<CustomComponentRelationsOptions>, ComponentWithId
+export class CustomComponentComponent extends LayoutComponentBase<CustomComponentComponentOptions> implements LayoutComponent<CustomComponentComponentOptions>, RelationsComponent<CustomComponentRelationsOptions>, ComponentWithId
 {
     //######################### protected properties #########################
 

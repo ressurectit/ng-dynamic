@@ -4,7 +4,7 @@ import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {DataBlockComponentOptions} from '../dataBlock.options';
-import {DataBlockSAComponent} from '../dataBlock.component';
+import {DataBlockComponent} from '../dataBlock.component';
 
 /**
  * Designer component used for displaying data block
@@ -16,7 +16,7 @@ import {DataBlockSAComponent} from '../dataBlock.component';
     styles: [HostDisplayBlockStyle],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DataBlockDesignerSAComponent extends DataBlockSAComponent implements LayoutComponent<DataBlockComponentOptions>, RelationsComponent
+export class DataBlockDesignerComponent extends DataBlockComponent implements LayoutComponent<DataBlockComponentOptions>, RelationsComponent
 {
     //######################### protected methods - overrides #########################
 

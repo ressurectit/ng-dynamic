@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 
 import {MathAddRelationsOptions} from '../add.options';
 
@@ -14,13 +14,13 @@ import {MathAddRelationsOptions} from '../add.options';
     templateUrl: 'addNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MathAddNodeSAComponent extends RelationsNodeBase<MathAddRelationsOptions> implements RelationsNode<MathAddRelationsOptions>
+export class MathAddNodeComponent extends RelationsNodeBase<MathAddRelationsOptions> implements RelationsNode<MathAddRelationsOptions>
 {}

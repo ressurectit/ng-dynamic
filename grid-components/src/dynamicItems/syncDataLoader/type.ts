@@ -1,7 +1,7 @@
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {SyncDataLoaderSAComponent} from './syncDataLoader.component';
+import {SyncDataLoaderComponent} from './syncDataLoader.component';
 
-export default SyncDataLoaderSAComponent;
+export default SyncDataLoaderComponent;
 
 export const extensions = [RelationsRegistrationExtension];

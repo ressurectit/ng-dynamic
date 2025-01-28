@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationsNodeHeaderComponent, RelationNodeOutputComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for async data loader
@@ -11,13 +11,13 @@ import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, Relation
     templateUrl: 'asyncDataLoaderNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AsyncDataLoaderNodeSAComponent extends RelationsNodeBase implements RelationsNode
+export class AsyncDataLoaderNodeComponent extends RelationsNodeBase implements RelationsNode
 {
 }

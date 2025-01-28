@@ -19,7 +19,7 @@ import {MissingNodeBehavior} from './relationsNodeRenderer.types';
     selector: '[relationsNodeRenderer]',
     exportAs: 'relationsNodeRenderer'
 })
-export class RelationsNodeRendererSADirective<TComponent extends RelationsNode = any, TOptions = any, TEditorOptions = any> implements OnChanges, OnDestroy
+export class RelationsNodeRendererDirective<TComponent extends RelationsNode = any, TOptions = any, TEditorOptions = any> implements OnChanges, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -97,15 +97,15 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
         //only zoom level changed
-        if(nameof<RelationsNodeRendererSADirective<TComponent, TOptions, TEditorOptions>>('zoomLevel') in changes && isPresent(this.zoomLevel) &&
-           !(nameof<RelationsNodeRendererSADirective<TComponent, TOptions, TEditorOptions>>('componentMetadata') in changes))
+        if(nameof<RelationsNodeRendererDirective<TComponent, TOptions, TEditorOptions>>('zoomLevel') in changes && isPresent(this.zoomLevel) &&
+           !(nameof<RelationsNodeRendererDirective<TComponent, TOptions, TEditorOptions>>('componentMetadata') in changes))
         {
             const component = this.component;
 
             //component is created
             if(component)
             {
-                const zoomChanges = changes[nameof<RelationsNodeRendererSADirective<TComponent, TOptions, TEditorOptions>>('zoomLevel')];
+                const zoomChanges = changes[nameof<RelationsNodeRendererDirective<TComponent, TOptions, TEditorOptions>>('zoomLevel')];
                 component.zoomLevel = this.zoomLevel;
 
                 const chngs: SimpleChanges = {};
@@ -118,19 +118,19 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
             return;
         }
 
-        this.logger?.debug('RelationsNodeRendererSADirective: rendering node {{@id}}', {id: this.componentMetadata?.id});
+        this.logger?.debug('RelationsNodeRendererDirective: rendering node {{@id}}', {id: this.componentMetadata?.id});
 
         this.ngOnDestroy();
         this.viewContainerRef.clear();
 
         // component metadata is present
-        if(nameof<RelationsNodeRendererSADirective<TComponent, TOptions, TEditorOptions>>('componentMetadata') in changes && this.componentMetadata)
+        if(nameof<RelationsNodeRendererDirective<TComponent, TOptions, TEditorOptions>>('componentMetadata') in changes && this.componentMetadata)
         {
             let layoutComponentType = await this.loader.loadItem(this.componentMetadata);
 
             if(!layoutComponentType)
             {
-                this.logger?.warn('RelationsNodeRendererSADirective: Unable to find relations node type {{@type}}', {type: {name: this.componentMetadata.name, package: this.componentMetadata.package}});
+                this.logger?.warn('RelationsNodeRendererDirective: Unable to find relations node type {{@type}}', {type: {name: this.componentMetadata.name, package: this.componentMetadata.package}});
 
                 switch(this.options?.missingNodeBehavior)
                 {
@@ -145,7 +145,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
 
                         if(!layoutComponentType)
                         {
-                            this.logger?.error('RelationsNodeRendererSADirective: Unable to find not found node!');
+                            this.logger?.error('RelationsNodeRendererDirective: Unable to find not found node!');
 
                             return;
                         }
@@ -159,7 +159,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
                     }
                     case MissingNodeBehavior.ThrowError:
                     {
-                        throw new Error(`RelationsNodeRendererSADirective: Unable to find relations node type Name: ${this.componentMetadata.name} Package: ${this.componentMetadata.package}`);
+                        throw new Error(`RelationsNodeRendererDirective: Unable to find relations node type Name: ${this.componentMetadata.name} Package: ${this.componentMetadata.package}`);
                     }
                 }
             }
@@ -169,7 +169,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
                                                                           injector: this.viewContainerRef.injector,
                                                                       }) as ComponentRef<TComponent>;
 
-            this.logger?.debug('RelationsNodeRendererSADirective: node rendered {{@id}}', {id: this.componentMetadata?.id});
+            this.logger?.debug('RelationsNodeRendererDirective: node rendered {{@id}}', {id: this.componentMetadata?.id});
 
             if(this.component)
             {
@@ -177,7 +177,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
 
                 this.destroySubscription = node.destroy.subscribe(() => this.ngOnDestroy());
 
-                this.logger?.debug('RelationsNodeRendererSADirective: initializing node with metadata {{@id}}', {id: this.componentMetadata?.id});
+                this.logger?.debug('RelationsNodeRendererDirective: initializing node with metadata {{@id}}', {id: this.componentMetadata?.id});
                 node.metadata = this.componentMetadata;
                 node.zoomLevel = this.zoomLevel;
 
@@ -189,7 +189,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
                 node.ngOnChanges(chngs);
                 await node.initialize();
 
-                this.logger?.debug('RelationsNodeRendererSADirective: invalidating node visuals {{@id}}', {id: this.componentMetadata?.id});
+                this.logger?.debug('RelationsNodeRendererDirective: invalidating node visuals {{@id}}', {id: this.componentMetadata?.id});
                 node.invalidateVisuals();
                 this.componentRef.changeDetectorRef.markForCheck();
 
@@ -211,7 +211,7 @@ export class RelationsNodeRendererSADirective<TComponent extends RelationsNode =
 
         if(this.componentRef)
         {
-            this.logger?.debug('RelationsNodeRendererSADirective: destroying node {{@id}}', {id: this.componentMetadata?.id});
+            this.logger?.debug('RelationsNodeRendererDirective: destroying node {{@id}}', {id: this.componentMetadata?.id});
     
             if(this.component)
             {                

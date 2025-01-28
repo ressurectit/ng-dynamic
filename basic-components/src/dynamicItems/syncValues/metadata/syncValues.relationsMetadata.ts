@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {SyncValuesNodeSAComponent} from '../node/syncValuesNode.component';
+import {SyncValuesNodeComponent} from '../node/syncValuesNode.component';
 
 /**
  * Sync values relations metadata
@@ -23,7 +23,7 @@ export class SyncValuesRelationsEditorMetadata implements RelationsEditorMetadat
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = SyncValuesNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = SyncValuesNodeComponent;
 
     //######################### constructor #########################
     constructor()

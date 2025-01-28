@@ -19,4 +19,4 @@ export const ListBlockRelationsMetadataLoader: DynamicMetadataLoader<RelationsEd
 /**
  * List block layout designer type loader
  */
-export const ListBlockLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/listBlockDesigner.component')).ListBlockDesignerSAComponent;
+export const ListBlockLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/listBlockDesigner.component')).ListBlockDesignerComponent;

@@ -1,15 +1,15 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
-import {DebugData, RelationsComponent, ScopedRelationsSADirective} from '@anglr/dynamic/relations';
+import {DebugData, RelationsComponent, ScopedRelationsDirective} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {nameof} from '@jscrpt/common';
 
 import {ListBlockComponentOptions, ListBlockRelationsOptions} from './listBlock.options';
 import {ListBlockLayoutDesignerTypeLoader, ListBlockLayoutMetadataLoader, ListBlockRelationsMetadataLoader} from './listBlock.metadata';
-import {ListBlockScopeRelationsSADirective} from './misc/directives';
+import {ListBlockScopeRelationsDirective} from './misc/directives';
 
 /**
  * Component used for displaying list block
@@ -22,9 +22,9 @@ import {ListBlockScopeRelationsSADirective} from './misc/directives';
     imports:
     [
         CommonModule,
-        LayoutComponentRendererSADirective,
-        ScopedRelationsSADirective,
-        ListBlockScopeRelationsSADirective,
+        LayoutComponentRendererDirective,
+        ScopedRelationsDirective,
+        ListBlockScopeRelationsDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -32,14 +32,14 @@ import {ListBlockScopeRelationsSADirective} from './misc/directives';
 {
     inputs:
     [
-        nameof<ListBlockSAComponent>('data'),
+        nameof<ListBlockComponent>('data'),
     ],
 })
 @DescendantsGetter<ListBlockComponentOptions>(options => options?.template ? [options?.template] : [])
 @LayoutEditorDesignerType(ListBlockLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(ListBlockRelationsMetadataLoader)
 @LayoutEditorMetadata(ListBlockLayoutMetadataLoader)
-export class ListBlockSAComponent<TDatum = any> extends LayoutComponentBase<ListBlockComponentOptions> implements LayoutComponent<ListBlockComponentOptions>, RelationsComponent<ListBlockRelationsOptions>
+export class ListBlockComponent<TDatum = any> extends LayoutComponentBase<ListBlockComponentOptions> implements LayoutComponent<ListBlockComponentOptions>, RelationsComponent<ListBlockRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 

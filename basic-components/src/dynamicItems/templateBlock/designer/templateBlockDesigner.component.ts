@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective, LayoutRenderer} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective, LayoutRenderer} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {TemplateBlockComponentOptions} from '../templateBlock.options';
-import {TemplateBlockSAComponent} from '../templateBlock.component';
+import {TemplateBlockComponent} from '../templateBlock.component';
 
 /**
  * Component used for displaying template block designer
@@ -15,7 +15,7 @@ import {TemplateBlockSAComponent} from '../templateBlock.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     providers:
     [
@@ -23,6 +23,6 @@ import {TemplateBlockSAComponent} from '../templateBlock.component';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TemplateBlockDesignerSAComponent extends TemplateBlockSAComponent implements LayoutComponent<TemplateBlockComponentOptions>
+export class TemplateBlockDesignerComponent extends TemplateBlockComponent implements LayoutComponent<TemplateBlockComponentOptions>
 {
 }

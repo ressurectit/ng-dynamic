@@ -1,9 +1,9 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {MaterialSelectSAComponent} from './select.component';
+import {MaterialSelectComponent} from './select.component';
 
 
-export default MaterialSelectSAComponent;
+export default MaterialSelectComponent;
 
 export const extensions = [ComponentStylingExtension, RelationsRegistrationExtension];

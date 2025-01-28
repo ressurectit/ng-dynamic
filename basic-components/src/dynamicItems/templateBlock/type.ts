@@ -1,7 +1,7 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 
-import {TemplateBlockSAComponent} from './templateBlock.component';
+import {TemplateBlockComponent} from './templateBlock.component';
 
-export default TemplateBlockSAComponent;
+export default TemplateBlockComponent;
 
 export const extensions = [ComponentStylingExtension];

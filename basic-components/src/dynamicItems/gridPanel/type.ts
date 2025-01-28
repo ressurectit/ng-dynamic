@@ -1,7 +1,7 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 
-import {GridPanelSAComponent} from './gridPanel.component';
+import {GridPanelComponent} from './gridPanel.component';
 
-export default GridPanelSAComponent;
+export default GridPanelComponent;
 
 export const extensions = [ComponentStylingExtension];

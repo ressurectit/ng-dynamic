@@ -17,7 +17,7 @@ import {TITLED_DIALOG_DATA} from '@anglr/common/material';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfigureSyncPropertySAComponent
+export class ConfigureSyncPropertyComponent
 {
     //######################### protected properties - template bindings #########################
 

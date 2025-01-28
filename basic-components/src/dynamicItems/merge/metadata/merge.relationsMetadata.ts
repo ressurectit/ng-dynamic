@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MergeNodeSAComponent} from '../node/mergeNode.component';
+import {MergeNodeComponent} from '../node/mergeNode.component';
 
 /**
  * Merge relations metadata
@@ -23,7 +23,7 @@ export class MergeRelationsEditorMetadata implements RelationsEditorMetadataDesc
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = MergeNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = MergeNodeComponent;
 
     //######################### constructor #########################
     constructor()

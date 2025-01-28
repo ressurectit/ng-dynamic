@@ -1,13 +1,13 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {extend} from '@jscrpt/common/extend';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {ComponentOutputsRelationsOptions} from '../componentOutputs.options';
-import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '../../../components';
+import {ConfigureNodeEndpointData, ConfigureNodeEndpointComponent} from '../../../components';
 
 //TODO: create mixin
 
@@ -21,13 +21,13 @@ import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '../..
     imports:
     [
         CommonModule,
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<ComponentOutputsRelationsOptions> implements RelationsNode<ComponentOutputsRelationsOptions>
+export class ComponentOutputsNodeComponent extends RelationsNodeBase<ComponentOutputsRelationsOptions> implements RelationsNode<ComponentOutputsRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 
@@ -102,7 +102,7 @@ export class ComponentOutputsNodeSAComponent extends RelationsNodeBase<Component
     {
         const original = JSON.parse(JSON.stringify(endpoint));
 
-        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
+        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointComponent,
         {
             title: 'configure component output',
             width: '60vw',

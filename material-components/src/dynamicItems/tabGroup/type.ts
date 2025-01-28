@@ -1,7 +1,7 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 
-import {MaterialTabGroupSAComponent} from './tabGroup.component';
+import {MaterialTabGroupComponent} from './tabGroup.component';
 
-export default MaterialTabGroupSAComponent;
+export default MaterialTabGroupComponent;
 
 export const extensions = [ComponentStylingExtension];

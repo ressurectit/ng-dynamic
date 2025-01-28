@@ -1,12 +1,12 @@
 import {Component, ChangeDetectionStrategy, inject, SimpleChanges} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {LayoutDesignerDirective, LayoutEditorMetadataManager, LayoutEditorRenderer} from '@anglr/dynamic/layout-editor';
 import {addSimpleChange} from '@anglr/dynamic';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
 
 import {GridColumnComponentOptions} from '../gridColumn.options';
-import {GridColumnSAComponent} from '../gridColumn.component';
+import {GridColumnComponent} from '../gridColumn.component';
 
 /**
  * Component used for displaying grid column designer
@@ -18,11 +18,11 @@ import {GridColumnSAComponent} from '../gridColumn.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridColumnDesignerSAComponent extends GridColumnSAComponent implements LayoutComponent<GridColumnComponentOptions>
+export class GridColumnDesignerComponent extends GridColumnComponent implements LayoutComponent<GridColumnComponentOptions>
 {
     //######################### protected fields #########################
 
@@ -47,14 +47,14 @@ export class GridColumnDesignerSAComponent extends GridColumnSAComponent impleme
 
         if(!parent)
         {
-            throw new Error('GridColumnDesignerSAComponent: component without parent!');
+            throw new Error('GridColumnDesignerComponent: component without parent!');
         }
 
         const parentComponent = this.layoutRenderer.get(parent.metadataSafe.id)?.component?.instance;
 
         if(!parentComponent)
         {
-            throw new Error('GridColumnDesignerSAComponent: missing parent component instance!');
+            throw new Error('GridColumnDesignerComponent: missing parent component instance!');
         }
 
         return parentComponent;

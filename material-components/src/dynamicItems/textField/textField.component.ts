@@ -33,6 +33,6 @@ import {MaterialTextFieldComponentOptions} from './textField.options';
 })
 @RelationsEditorMetadata(MaterialTextFieldRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialTextFieldLayoutMetadataLoader)
-export class MaterialTextFieldSAComponent extends FormComponentBase<MaterialTextFieldComponentOptions> implements FormComponent<MaterialTextFieldComponentOptions>
+export class MaterialTextFieldComponent extends FormComponentBase<MaterialTextFieldComponentOptions> implements FormComponent<MaterialTextFieldComponentOptions>
 {
 }

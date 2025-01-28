@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {NumberInputModule} from '@anglr/common/forms';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 import {isNumber} from '@jscrpt/common';
 
 import {DebounceValueRelationsOptions} from '../debounceValue.options';
@@ -18,14 +18,14 @@ import {DebounceValueRelationsOptions} from '../debounceValue.options';
     [
         ReactiveFormsModule,
         NumberInputModule,
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DebounceValueNodeSAComponent extends RelationsNodeBase<DebounceValueRelationsOptions> implements RelationsNode<DebounceValueRelationsOptions>
+export class DebounceValueNodeComponent extends RelationsNodeBase<DebounceValueRelationsOptions> implements RelationsNode<DebounceValueRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 

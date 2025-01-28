@@ -1,7 +1,7 @@
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {DataBlockSAComponent} from './dataBlock.component';
+import {DataBlockComponent} from './dataBlock.component';
 
-export default DataBlockSAComponent;
+export default DataBlockComponent;
 
 export const extensions = [RelationsRegistrationExtension];

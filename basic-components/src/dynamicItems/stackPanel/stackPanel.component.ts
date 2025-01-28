@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HostDisplayFlexStyle} from '@anglr/common';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
 import {StackPanelComponentOptions} from './stackPanel.options';
@@ -18,13 +18,13 @@ import {StackPanelLayoutMetadataLoader} from './stackPanel.metadata';
     imports:
     [
         CommonModule,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<StackPanelComponentOptions>(options => options?.children ?? [])
 @LayoutEditorMetadata(StackPanelLayoutMetadataLoader)
-export class StackPanelSAComponent extends LayoutComponentBase<StackPanelComponentOptions> implements LayoutComponent<StackPanelComponentOptions>
+export class StackPanelComponent extends LayoutComponentBase<StackPanelComponentOptions> implements LayoutComponent<StackPanelComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

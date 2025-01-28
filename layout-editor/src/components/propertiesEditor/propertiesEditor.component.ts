@@ -16,7 +16,7 @@ import {PropertiesControlsModule} from '../../modules';
 import {LayoutEditorPropertyMetadata} from '../../misc/types';
 import {PropertiesControl} from '../../interfaces';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
-import {LayoutDesignerDirective, WidthResizerSADirective} from '../../directives';
+import {LayoutDesignerDirective, WidthResizerDirective} from '../../directives';
 
 const PROPERTIES_EDITOR_STATE = 'PROPERTIES_EDITOR_STATE';
 
@@ -69,7 +69,7 @@ interface PropertiesEditorData
     [
         ReactiveFormsModule,
         PropertiesControlsModule,
-        WidthResizerSADirective,
+        WidthResizerDirective,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

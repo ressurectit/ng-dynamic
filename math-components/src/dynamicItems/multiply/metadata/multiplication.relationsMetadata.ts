@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MathMultiplyNodeSAComponent} from '../node/multiplyNode.component';
+import {MathMultiplyNodeComponent} from '../node/multiplyNode.component';
 
 /**
  * Math multiply relations metadata
@@ -23,7 +23,7 @@ export class MathMultiplyRelationsEditorMetadata implements RelationsEditorMetad
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = MathMultiplyNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = MathMultiplyNodeComponent;
 
     //######################### constructor #########################
     constructor()

@@ -9,7 +9,7 @@ import {BindThis, isBlank} from '@jscrpt/common';
 {
     selector: '[widthResizer]',
 })
-export class WidthResizerSADirective
+export class WidthResizerDirective
 {
     /**
      * Value of last recorded x coordinate of mouse

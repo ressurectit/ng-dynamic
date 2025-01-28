@@ -1,12 +1,12 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {LayoutDesignerDirective} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
 
 import {ListBlockComponentOptions, ListBlockRelationsOptions} from '../listBlock.options';
-import {ListBlockSAComponent} from '../listBlock.component';
+import {ListBlockComponent} from '../listBlock.component';
 
 /**
  * Component used for displaying list block designer
@@ -18,11 +18,11 @@ import {ListBlockSAComponent} from '../listBlock.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListBlockDesignerSAComponent extends ListBlockSAComponent implements LayoutComponent<ListBlockComponentOptions>, RelationsComponent<ListBlockRelationsOptions>
+export class ListBlockDesignerComponent extends ListBlockComponent implements LayoutComponent<ListBlockComponentOptions>, RelationsComponent<ListBlockRelationsOptions>
 {
     //######################### protected properties #########################
 

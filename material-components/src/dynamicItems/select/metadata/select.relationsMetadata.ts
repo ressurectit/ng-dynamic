@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MaterialSelectNodeSAComponent} from '../node/selectNode.component';
+import {MaterialSelectNodeComponent} from '../node/selectNode.component';
 
 /**
  * Material select relations metadata
@@ -23,7 +23,7 @@ export class MaterialSelectRelationsEditorMetadata implements RelationsEditorMet
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = MaterialSelectNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = MaterialSelectNodeComponent;
 
     //######################### constructor #########################
     constructor()

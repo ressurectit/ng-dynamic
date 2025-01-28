@@ -33,5 +33,5 @@ import {MaterialTextareaComponentOptions} from './textarea.options';
 })
 @RelationsEditorMetadata(MaterialTextareaRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialTextareaLayoutMetadataLoader)
-export class MaterialTextareaSAComponent extends FormComponentBase<MaterialTextareaComponentOptions> implements FormComponent<MaterialTextareaComponentOptions>
+export class MaterialTextareaComponent extends FormComponentBase<MaterialTextareaComponentOptions> implements FormComponent<MaterialTextareaComponentOptions>
 {}

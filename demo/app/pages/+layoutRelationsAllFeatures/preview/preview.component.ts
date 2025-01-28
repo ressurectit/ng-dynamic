@@ -6,7 +6,7 @@ import {DebugDataCopyClickModule} from '@anglr/common/material';
 import {NgSelectModule} from '@anglr/select';
 import {provideDynamic} from '@anglr/dynamic';
 import {withCustomComponents, withCustomRelations, withLayoutRelationsRuntime} from '@anglr/dynamic/layout-relations';
-import {LayoutComponentMetadata, LayoutComponentRendererSADirective, withLayoutMetadataStorage} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata, LayoutComponentRendererDirective, withLayoutMetadataStorage} from '@anglr/dynamic/layout';
 import {RelationsManager, withRelationsMetadataStorage} from '@anglr/dynamic/relations';
 import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
@@ -21,7 +21,7 @@ import {withFormComponents} from '@anglr/dynamic/form';
 
 import {StoreDataService} from '../../../services/storeData';
 import {LayoutRelationsMetadata} from '../../../misc/interfaces';
-import {StaticInputSAComponent, StaticOutputSAComponent} from '../misc';
+import {StaticInputComponent, StaticOutputComponent} from '../misc';
 import {DemoCustomComponentsRegister} from '../../../services/demoCustomComponentsRegister';
 import {MetadataStorageLayoutComplex} from '../../../services/metadataStorageLayoutComplex';
 import {MetadataStorageRelationsComplex} from '../../../services/metadataStorageRelationsComplex';
@@ -37,14 +37,14 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
     templateUrl: 'preview.component.html',
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
         RouterLink,
         ReactiveFormsModule,
         NgSelectModule,
         DebugDataCopyClickModule,
-        StaticInputSAComponent,
-        StaticOutputSAComponent,
-// ShowRelationsDebuggerSADirective,
+        StaticInputComponent,
+        StaticOutputComponent,
+// ShowRelationsDebuggerDirective,
     ],
     providers:
     [

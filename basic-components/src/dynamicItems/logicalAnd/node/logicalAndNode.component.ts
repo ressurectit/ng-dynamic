@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 
 import {LogicalAndRelationsOptions} from '../logicalAnd.options';
 
@@ -14,15 +14,15 @@ import {LogicalAndRelationsOptions} from '../logicalAnd.options';
     templateUrl: 'logicalAndNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LogicalAndNodeSAComponent extends RelationsNodeBase<LogicalAndRelationsOptions> implements RelationsNode<LogicalAndRelationsOptions>
+export class LogicalAndNodeComponent extends RelationsNodeBase<LogicalAndRelationsOptions> implements RelationsNode<LogicalAndRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 

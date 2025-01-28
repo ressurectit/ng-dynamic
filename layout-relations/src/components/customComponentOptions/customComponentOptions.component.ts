@@ -9,7 +9,7 @@ import {FirstUppercaseLocalizePipe, TooltipModule} from '@anglr/common';
 import {Dictionary} from '@jscrpt/common';
 
 import {CustomComponentOptionsData} from './customComponentOptions.interface';
-import {GetModelSAPipe, PropertySelectedSAPipe, PropertiesMetadataSAPipe} from '../../pipes';
+import {GetModelPipe, PropertySelectedPipe, PropertiesMetadataPipe} from '../../pipes';
 import {CustomComponentConfiguration} from '../../services';
 
 /**
@@ -24,16 +24,16 @@ import {CustomComponentConfiguration} from '../../services';
         CommonModule,
         MatDialogModule,
         ReactiveFormsModule,
-        PropertySelectedSAPipe,
-        GetModelSAPipe,
-        PropertiesMetadataSAPipe,
+        PropertySelectedPipe,
+        GetModelPipe,
+        PropertiesMetadataPipe,
         TooltipModule,
         FirstUppercaseLocalizePipe,
     ],
     providers: [FormModelBuilder],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomComponentOptionsSAComponent<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration>
+export class CustomComponentOptionsComponent<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration>
 {
     //######################### protected properties - template bindings #########################
 
@@ -64,7 +64,7 @@ export class CustomComponentOptionsSAComponent<TConfig extends CustomComponentCo
 
     //######################### constructor #########################
     constructor(@Inject(TITLED_DIALOG_DATA) protected data: CustomComponentOptionsData,
-                protected dialog: DialogRef<CustomComponentOptionsSAComponent<TConfig>, TConfig>,
+                protected dialog: DialogRef<CustomComponentOptionsComponent<TConfig>, TConfig>,
                 formModelBuilder: FormModelBuilder,)
     {
         this.contentComponents = Object.keys(data.customComponentContentMetadata);

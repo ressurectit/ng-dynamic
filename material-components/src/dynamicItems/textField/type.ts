@@ -1,9 +1,9 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {MaterialTextFieldSAComponent} from './textField.component';
+import {MaterialTextFieldComponent} from './textField.component';
 
 
-export default MaterialTextFieldSAComponent;
+export default MaterialTextFieldComponent;
 
 export const extensions = [ComponentStylingExtension, RelationsRegistrationExtension];

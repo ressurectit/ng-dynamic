@@ -1,8 +1,8 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, MonacoEditorApi, TypescriptLanguageModel} from '@anglr/dynamic';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
-import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
+import {ConfigureNodeEndpointData, ConfigureNodeEndpointComponent} from '@anglr/dynamic/layout-relations';
 import {TitledDialogService} from '@anglr/common/material';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import typings from '@anglr/dynamic/typings/state/monaco-type';
@@ -21,15 +21,15 @@ import {StateRelationsEditorOptions, StateRelationsInputFunctionData, StateRelat
     templateUrl: 'stateNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOptions, StateRelationsEditorOptions> implements RelationsNode<StateRelationsOptions, StateRelationsEditorOptions>
+export class StateNodeComponent extends RelationsNodeBase<StateRelationsOptions, StateRelationsEditorOptions> implements RelationsNode<StateRelationsOptions, StateRelationsEditorOptions>
 {
     //######################### protected fields #########################
 
@@ -173,7 +173,7 @@ export class StateNodeSAComponent extends RelationsNodeBase<StateRelationsOption
     {
         const copy = JSON.parse(JSON.stringify(endpoint));
 
-        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
+        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointComponent,
         {
             title: 'configure input function',
             width: '60vw',

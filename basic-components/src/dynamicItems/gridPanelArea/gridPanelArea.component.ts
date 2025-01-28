@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
 import {GridPanelAreaComponentOptions} from './gridPanelArea.options';
@@ -15,13 +15,13 @@ import {applyGridCoordinates} from './gridPanelArea.utils';
     templateUrl: 'gridPanelArea.component.html',
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<GridPanelAreaComponentOptions>(options => options?.component ? [options.component] : [])
 @LayoutEditorMetadata(GridPanelAreaLayoutMetadataLoader)
-export class GridPanelAreaSAComponent extends LayoutComponentBase<GridPanelAreaComponentOptions> implements LayoutComponent<GridPanelAreaComponentOptions>
+export class GridPanelAreaComponent extends LayoutComponentBase<GridPanelAreaComponentOptions> implements LayoutComponent<GridPanelAreaComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

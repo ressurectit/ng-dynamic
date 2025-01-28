@@ -1,9 +1,9 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {MaterialNumberFieldSAComponent} from './numberField.component';
+import {MaterialNumberFieldComponent} from './numberField.component';
 
 
-export default MaterialNumberFieldSAComponent;
+export default MaterialNumberFieldComponent;
 
 export const extensions = [ComponentStylingExtension, RelationsRegistrationExtension];

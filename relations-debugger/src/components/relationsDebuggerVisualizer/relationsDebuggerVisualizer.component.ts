@@ -5,8 +5,8 @@ import {RelationsNodeManager} from '@anglr/dynamic/relations-editor';
 import {isPresent, nameof} from '@jscrpt/common';
 
 import {MetadataHistoryManagerDebug} from '../../services';
-import {StepNameSAPipe} from '../../pipes';
-import {RelationsCanvasDebugSAComponent} from '../relationsCanvasDebug/relationsCanvasDebug.component';
+import {StepNamePipe} from '../../pipes';
+import {RelationsCanvasDebugComponent} from '../relationsCanvasDebug/relationsCanvasDebug.component';
 
 /**
  * Component used for visualization of relations debugger data
@@ -17,8 +17,8 @@ import {RelationsCanvasDebugSAComponent} from '../relationsCanvasDebug/relations
     templateUrl: 'relationsDebuggerVisualizer.component.html',
     imports:
     [
-        RelationsCanvasDebugSAComponent,
-        StepNameSAPipe,
+        RelationsCanvasDebugComponent,
+        StepNamePipe,
     ],
     providers:
     [
@@ -31,7 +31,7 @@ import {RelationsCanvasDebugSAComponent} from '../relationsCanvasDebug/relations
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationsDebuggerVisualizerSAComponent implements OnInit, OnChanges
+export class RelationsDebuggerVisualizerComponent implements OnInit, OnChanges
 {
     //######################### protected properties #########################
 
@@ -104,7 +104,7 @@ export class RelationsDebuggerVisualizerSAComponent implements OnInit, OnChanges
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<RelationsDebuggerVisualizerSAComponent>('relationsDefinition') in changes)
+        if(nameof<RelationsDebuggerVisualizerComponent>('relationsDefinition') in changes)
         {
             this.renderStep(this.currentStep);
         }

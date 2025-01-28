@@ -29,6 +29,6 @@ import {GridColumnsLayoutDesignerTypeLoader, GridColumnsLayoutMetadataLoader, Gr
 @LayoutEditorDesignerType(GridColumnsLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(GridColumnsRelationsMetadataLoader)
 @LayoutEditorMetadata(GridColumnsLayoutMetadataLoader)
-export class GridColumnsSAComponent extends LayoutComponentBase<GridColumnsComponentOptions> implements LayoutComponent<GridColumnsComponentOptions>
+export class GridColumnsComponent extends LayoutComponentBase<GridColumnsComponentOptions> implements LayoutComponent<GridColumnsComponentOptions>
 {
 }

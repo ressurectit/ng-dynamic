@@ -1,8 +1,8 @@
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 
-import {HtmlBlockSAComponent} from './htmlBlock.component';
+import {HtmlBlockComponent} from './htmlBlock.component';
 
-export default HtmlBlockSAComponent;
+export default HtmlBlockComponent;
 
 export const extensions = [RelationsRegistrationExtension, ComponentStylingExtension];

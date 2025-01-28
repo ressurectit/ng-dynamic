@@ -1,9 +1,9 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {DatepickerSAComponent} from './datepicker.component';
+import {DatepickerComponent} from './datepicker.component';
 
 
-export default DatepickerSAComponent;
+export default DatepickerComponent;
 
 export const extensions = [ComponentStylingExtension, RelationsRegistrationExtension];

@@ -29,7 +29,7 @@ import {RelationsNodePropertiesModel} from './relationsNodePropertiesEditor.mode
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationsNodePropertiesEditorSAComponent
+export class RelationsNodePropertiesEditorComponent
 {
     //######################### protected properties - template bindings #########################
 

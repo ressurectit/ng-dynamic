@@ -27,6 +27,6 @@ import {DataLoaderLayoutDesignerTypeLoader, DataLoaderLayoutMetadataLoader} from
 })
 @LayoutEditorDesignerType(DataLoaderLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(DataLoaderLayoutMetadataLoader)
-export class DataLoaderSAComponent extends LayoutComponentBase<DataLoaderComponentOptions> implements LayoutComponent<DataLoaderComponentOptions>
+export class DataLoaderComponent extends LayoutComponentBase<DataLoaderComponentOptions> implements LayoutComponent<DataLoaderComponentOptions>
 {
 }

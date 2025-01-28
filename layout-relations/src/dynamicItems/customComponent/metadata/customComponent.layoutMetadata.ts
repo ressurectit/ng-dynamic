@@ -1,7 +1,7 @@
 import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {CustomComponentComponentOptions} from '../customComponent.options';
-import {ContentOptionsPropertiesControlSAComponent} from '../misc';
+import {ContentOptionsPropertiesControlComponent} from '../misc';
 import {CustomComponentModel} from './customComponent.model';
 
 /**
@@ -32,7 +32,7 @@ export class CustomComponentLayoutEditorMetadata implements LayoutEditorMetadata
                     modelType: CustomComponentModel,
                     propertiesControls: 
                     [
-                        ContentOptionsPropertiesControlSAComponent,
+                        ContentOptionsPropertiesControlComponent,
                     ],
                 },
             ]

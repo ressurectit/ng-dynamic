@@ -1,3 +1,3 @@
-import {GridColumnsSAComponent} from './gridColumns.component';
+import {GridColumnsComponent} from './gridColumns.component';
 
-export default GridColumnsSAComponent;
+export default GridColumnsComponent;

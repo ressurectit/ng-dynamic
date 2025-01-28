@@ -1,10 +1,10 @@
 import {Component, ChangeDetectionStrategy, ExistingProvider, FactoryProvider, inject} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective, LayoutRenderer} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective, LayoutRenderer} from '@anglr/dynamic/layout';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {PromiseOr} from '@jscrpt/common';
 
-import {CustomComponentSAComponent} from '../customComponent.component';
+import {CustomComponentComponent} from '../customComponent.component';
 import {CustomComponentComponentOptions} from '../customComponent.options';
 import {PlaceholderHandler} from '../../../services';
 
@@ -18,15 +18,15 @@ import {PlaceholderHandler} from '../../../services';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     providers:
     [
         LayoutRenderer,
         <ExistingProvider>
         {
-            provide: CustomComponentSAComponent,
-            useExisting: CustomComponentDesignerSAComponent,
+            provide: CustomComponentComponent,
+            useExisting: CustomComponentDesignerComponent,
         },
         <FactoryProvider>
         {
@@ -34,13 +34,13 @@ import {PlaceholderHandler} from '../../../services';
             useFactory: () =>
             {
 
-                return new PlaceholderHandler(CustomComponentSAComponent, inject(CustomComponentSAComponent));
+                return new PlaceholderHandler(CustomComponentComponent, inject(CustomComponentComponent));
             }
         },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomComponentDesignerSAComponent extends CustomComponentSAComponent implements LayoutComponent<CustomComponentComponentOptions>, RelationsComponent
+export class CustomComponentDesignerComponent extends CustomComponentComponent implements LayoutComponent<CustomComponentComponentOptions>, RelationsComponent
 {
     //######################### public - overrides #########################
 

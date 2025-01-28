@@ -19,7 +19,7 @@ import {StaticOutputRelationsMetadataLoader} from './staticOutput.metadata';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(StaticOutputRelationsMetadataLoader)
-export class StaticOutputSAComponent implements RelationsComponent, OnInit, OnDestroy
+export class StaticOutputComponent implements RelationsComponent, OnInit, OnDestroy
 {
     //######################### public static properties #########################
 
@@ -66,9 +66,9 @@ export class StaticOutputSAComponent implements RelationsComponent, OnInit, OnDe
      */
     public async ngOnInit(): Promise<void>
     {
-        this._componentManager.registerComponent(StaticOutputSAComponent.relationsId, this);
+        this._componentManager.registerComponent(StaticOutputComponent.relationsId, this);
         await this._relationsProcessor.initialized;
-        this._relationsProcessor.updateRelations(StaticOutputSAComponent.relationsId);
+        this._relationsProcessor.updateRelations(StaticOutputComponent.relationsId);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -78,8 +78,8 @@ export class StaticOutputSAComponent implements RelationsComponent, OnInit, OnDe
      */
     public ngOnDestroy(): void
     {
-        this._relationsProcessor.destroyComponent(StaticOutputSAComponent.relationsId);
-        this._componentManager.unregisterComponent(StaticOutputSAComponent.relationsId);
+        this._relationsProcessor.destroyComponent(StaticOutputComponent.relationsId);
+        this._componentManager.unregisterComponent(StaticOutputComponent.relationsId);
     }
 
     /**

@@ -5,7 +5,7 @@ import {Action1} from '@jscrpt/common';
  * Combines multipl renderers callbacks into one that calls them all
  */
 @Pipe({name: 'combineRenderersCallbacks'})
-export class CombineRenderersCallbacksSAPipe implements PipeTransform
+export class CombineRenderersCallbacksPipe implements PipeTransform
 {
     /**
      * Combines multipl renderers callbacks into one that calls them all

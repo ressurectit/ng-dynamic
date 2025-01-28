@@ -10,7 +10,7 @@ import {RELATIONS_DEFAULTS_OVERRIDE} from '../../misc/tokens';
  * Transforms NodesPaletteItem item to RelationsNodeDragData
  */
 @Pipe({name: 'toRelationsDragData'})
-export class ToRelationsDragDataSAPipe implements PipeTransform
+export class ToRelationsDragDataPipe implements PipeTransform
 {
     //######################### protected properties #########################
 

@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from 
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 import {FormModelGroup, FormModelBuilder} from '@anglr/common/forms';
 import {TitledDialogService} from '@anglr/common/material';
 import {extend} from '@jscrpt/common/extend';
@@ -19,9 +19,9 @@ import {MathPowerRelationsOptionsModel} from './power.model';
     templateUrl: 'power.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         CommonModule,
         ReactiveFormsModule,
         FirstUppercaseLocalizePipe,
@@ -32,7 +32,7 @@ import {MathPowerRelationsOptionsModel} from './power.model';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MathPowerNodeSAComponent extends RelationsNodeBase<MathPowerRelationsOptions> implements RelationsNode<MathPowerRelationsOptions>
+export class MathPowerNodeComponent extends RelationsNodeBase<MathPowerRelationsOptions> implements RelationsNode<MathPowerRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 

@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {RichTextSourceNodeSAComponent} from '../node/richTextSourceNode.component';
+import {RichTextSourceNodeComponent} from '../node/richTextSourceNode.component';
 
 /**
  * Rich text source relations metadata
@@ -23,7 +23,7 @@ export class RichTextSourceRelationsEditorMetadata implements RelationsEditorMet
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = RichTextSourceNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = RichTextSourceNodeComponent;
 
     //######################### constructor #########################
     constructor()

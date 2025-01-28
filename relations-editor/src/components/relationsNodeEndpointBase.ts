@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 import {Coordinates, RelationsEndpoint, RelationsNode} from '../interfaces';
 import {NodeRelationPath} from '../misc/nodeRelationPath';
 import {RelationsNodeManager} from '../services';
-import {RelationsCanvasSAComponent} from './relationsCanvas/relationsCanvas.component';
+import {RelationsCanvasComponent} from './relationsCanvas/relationsCanvas.component';
 
 /**
  * Base class for relations node endpoints (inputs/outputs)
@@ -87,7 +87,7 @@ export abstract class RelationNodeEndpointBase implements RelationsEndpoint, OnI
     //######################### constructor #########################
     constructor(protected element: ElementRef<HTMLElement>,
                 protected relationManager: RelationsNodeManager,
-                protected canvas: RelationsCanvasSAComponent,)
+                protected canvas: RelationsCanvasComponent,)
     {
     }
 

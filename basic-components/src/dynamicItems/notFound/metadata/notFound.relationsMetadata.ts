@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {NotFoundNodeSAComponent} from '../node/notFoundNode.component';
+import {NotFoundNodeComponent} from '../node/notFoundNode.component';
 
 /**
  * Not found relations metadata
@@ -13,7 +13,7 @@ export class NotFoundRelationsEditorMetadata implements RelationsEditorMetadataD
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = NotFoundNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = NotFoundNodeComponent;
 
     //######################### constructor #########################
     constructor()

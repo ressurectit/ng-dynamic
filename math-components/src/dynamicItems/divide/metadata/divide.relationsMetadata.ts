@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MathDivideNodeSAComponent} from '../node/divideNode..component';
+import {MathDivideNodeComponent} from '../node/divideNode..component';
 
 /**
  * Math divide relations metadata
@@ -23,7 +23,7 @@ export class MathDivideRelationsEditorMetadata implements RelationsEditorMetadat
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = MathDivideNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = MathDivideNodeComponent;
 
     //######################### constructor #########################
     constructor()

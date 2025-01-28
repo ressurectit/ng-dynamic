@@ -13,4 +13,4 @@ export const MetadataSelectorLayoutMetadataLoader: DynamicMetadataLoader<LayoutE
 /**
  * Metadata selector layout designer type loader
  */
-export const MetadataSelectorLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/metadataSelectorDesigner.component')).MetadataSelectorDesignerSAComponent;
+export const MetadataSelectorLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/metadataSelectorDesigner.component')).MetadataSelectorDesignerComponent;

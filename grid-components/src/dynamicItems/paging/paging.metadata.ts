@@ -13,4 +13,4 @@ export const PagingLayoutMetadataLoader: DynamicMetadataLoader<LayoutEditorMetad
 /**
  * Paging layout designer type loader
  */
-export const PagingLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/pagingDesigner.component')).PagingDesignerSAComponent;
+export const PagingLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/pagingDesigner.component')).PagingDesignerComponent;

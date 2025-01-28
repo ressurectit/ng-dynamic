@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {SyncDataLoaderNodeSAComponent} from '../node/syncDataLoaderNode.component';
+import {SyncDataLoaderNodeComponent} from '../node/syncDataLoaderNode.component';
 
 /**
  * Sync data loader relations metadata
@@ -23,7 +23,7 @@ export class SyncDataLoaderRelationsEditorMetadata implements RelationsEditorMet
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = SyncDataLoaderNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = SyncDataLoaderNodeComponent;
 
     //######################### constructor #########################
     constructor()

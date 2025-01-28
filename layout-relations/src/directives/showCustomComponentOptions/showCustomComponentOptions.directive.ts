@@ -5,7 +5,7 @@ import {LayoutEditorPropertyMetadataExtractor} from '@anglr/dynamic/layout-edito
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {Dictionary} from '@jscrpt/common';
 
-import {ContentComponentData, CustomComponentOptionsData, CustomComponentOptionsSAComponent} from '../../components';
+import {ContentComponentData, CustomComponentOptionsData, CustomComponentOptionsComponent} from '../../components';
 import {getCustomComponentMeta} from '../../misc/utils';
 import {CustomComponentConfiguration, CustomComponentsRegister} from '../../services';
 
@@ -16,7 +16,7 @@ import {CustomComponentConfiguration, CustomComponentsRegister} from '../../serv
 {
     selector: '[showCustomComponentOptions]',
 })
-export class ShowCustomComponentOptionsSADirective<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration> implements OnInit, OnChanges
+export class ShowCustomComponentOptionsDirective<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration> implements OnInit, OnChanges
 {
     //######################### protected properties #########################
 
@@ -95,7 +95,7 @@ export class ShowCustomComponentOptionsSADirective<TConfig extends CustomCompone
         event.preventDefault();
         event.stopPropagation();
         
-        const result = await lastValueFrom(this.dialogSvc.open<CustomComponentOptionsSAComponent, CustomComponentOptionsData, TConfig|undefined|null>(CustomComponentOptionsSAComponent,
+        const result = await lastValueFrom(this.dialogSvc.open<CustomComponentOptionsComponent, CustomComponentOptionsData, TConfig|undefined|null>(CustomComponentOptionsComponent,
         {
             title: 'custom component options',
             width: '75vw',

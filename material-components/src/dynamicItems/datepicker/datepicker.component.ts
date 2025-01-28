@@ -35,5 +35,5 @@ import {MaterialDatepickerComponentOptions} from './datepicker.options';
 })
 @RelationsEditorMetadata(MaterialDatepickerRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialDatepickerLayoutMetadataLoader)
-export class MaterialDatepickerSAComponent extends FormComponentBase<MaterialDatepickerComponentOptions> implements FormComponent<MaterialDatepickerComponentOptions>
+export class MaterialDatepickerComponent extends FormComponentBase<MaterialDatepickerComponentOptions> implements FormComponent<MaterialDatepickerComponentOptions>
 {}

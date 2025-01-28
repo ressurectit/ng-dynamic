@@ -29,5 +29,5 @@ import {MaterialRadioComponentOptions} from './radio.options';
 })
 @RelationsEditorMetadata(MaterialRadioRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialRadioLayoutMetadataLoader)
-export class MaterialRadioSAComponent extends FormComponentBase<MaterialRadioComponentOptions> implements FormComponent<MaterialRadioComponentOptions>
+export class MaterialRadioComponent extends FormComponentBase<MaterialRadioComponentOptions> implements FormComponent<MaterialRadioComponentOptions>
 {}

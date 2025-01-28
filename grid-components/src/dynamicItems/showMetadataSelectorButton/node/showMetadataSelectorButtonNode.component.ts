@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for show metadata selector button
@@ -11,12 +11,12 @@ import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent, Relati
     templateUrl: 'showMetadataSelectorButtonNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ShowMetadataSelectorButtonNodeSAComponent extends RelationsNodeBase implements RelationsNode
+export class ShowMetadataSelectorButtonNodeComponent extends RelationsNodeBase implements RelationsNode
 {
 }

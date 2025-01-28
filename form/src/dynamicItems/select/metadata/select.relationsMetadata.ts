@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {SelectNodeSAComponent} from '../node/selectNode.component';
+import {SelectNodeComponent} from '../node/selectNode.component';
 
 /**
  * Select relations metadata
@@ -23,7 +23,7 @@ export class SelectRelationsEditorMetadata implements RelationsEditorMetadataDes
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = SelectNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = SelectNodeComponent;
 
     //######################### constructor #########################
     constructor()

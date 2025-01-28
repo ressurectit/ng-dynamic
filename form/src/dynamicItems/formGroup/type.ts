@@ -1,7 +1,7 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 
-import {FormGroupSAComponent} from './formGroup.component';
+import {FormGroupComponent} from './formGroup.component';
 
-export default FormGroupSAComponent;
+export default FormGroupComponent;
 
 export const extensions = [ComponentStylingExtension];

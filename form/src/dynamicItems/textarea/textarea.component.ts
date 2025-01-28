@@ -29,5 +29,5 @@ import {TextareaComponentOptions} from './textarea.options';
 })
 @RelationsEditorMetadata(TextareaRelationsMetadataLoader)
 @LayoutEditorMetadata(TextareaLayoutMetadataLoader)
-export class TextareaSAComponent extends FormComponentBase<TextareaComponentOptions> implements FormComponent<TextareaComponentOptions>
+export class TextareaComponent extends FormComponentBase<TextareaComponentOptions> implements FormComponent<TextareaComponentOptions>
 {}

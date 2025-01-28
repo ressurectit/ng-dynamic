@@ -15,7 +15,7 @@ import {INVALIDATE_DROP} from '../../misc/constants';
     template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationNodeInputSAComponent extends RelationNodeEndpointBase implements RelationsInput, OnDestroy
+export class RelationNodeInputComponent extends RelationNodeEndpointBase implements RelationsInput, OnDestroy
 {
     //######################### private properties #########################
 

@@ -30,7 +30,7 @@ const DRAG_OVER_DELAY = 500;
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
+export class ComponentsTreeItemComponent implements OnInit, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -78,8 +78,8 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
     /**
      * Child tree node components
      */
-    @ViewChildren(ComponentsTreeItemSAComponent)
-    protected childrenNodes!: QueryList<ComponentsTreeItemSAComponent>;
+    @ViewChildren(ComponentsTreeItemComponent)
+    protected childrenNodes!: QueryList<ComponentsTreeItemComponent>;
 
     /**
      * Display name to be displayed
@@ -236,7 +236,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public expandAll(): void
     {
-        this.childrenNodes?.forEach((child: ComponentsTreeItemSAComponent) => child.expandAll());
+        this.childrenNodes?.forEach((child: ComponentsTreeItemComponent) => child.expandAll());
         this.expand();
         this.changeDetector.detectChanges();
     }
@@ -254,7 +254,7 @@ export class ComponentsTreeItemSAComponent implements OnInit, OnDestroy
      */
     public collapseAll(): void
     {
-        this.childrenNodes?.forEach((child: ComponentsTreeItemSAComponent) => child.collapseAll());
+        this.childrenNodes?.forEach((child: ComponentsTreeItemComponent) => child.collapseAll());
         this.collapse();
         this.changeDetector.detectChanges();
     }

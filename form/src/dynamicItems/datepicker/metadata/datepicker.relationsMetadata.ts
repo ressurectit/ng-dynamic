@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {DatepickerNodeSAComponent} from '../node/datepickerNode.component';
+import {DatepickerNodeComponent} from '../node/datepickerNode.component';
 
 /**
  *  datepicker relations metadata
@@ -23,7 +23,7 @@ export class DatepickerRelationsEditorMetadata implements RelationsEditorMetadat
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = DatepickerNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = DatepickerNodeComponent;
 
     //######################### constructor #########################
     constructor()

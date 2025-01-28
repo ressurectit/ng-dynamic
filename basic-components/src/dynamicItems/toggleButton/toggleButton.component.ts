@@ -28,16 +28,16 @@ import {ToggleButtonLayoutMetadataLoader, ToggleButtonRelationsMetadataLoader} f
 {
     inputs:
     [
-        nameof<ToggleButtonSAComponent>('disabled'),
+        nameof<ToggleButtonComponent>('disabled'),
     ],
     outputs:
     [
-        nameof<ToggleButtonSAComponent>('toggle'),
+        nameof<ToggleButtonComponent>('toggle'),
     ],
 })
 @RelationsEditorMetadata(ToggleButtonRelationsMetadataLoader)
 @LayoutEditorMetadata(ToggleButtonLayoutMetadataLoader)
-export class ToggleButtonSAComponent extends LayoutComponentBase<ToggleButtonComponentOptions> implements LayoutComponent<ToggleButtonComponentOptions>, RelationsComponent
+export class ToggleButtonComponent extends LayoutComponentBase<ToggleButtonComponentOptions> implements LayoutComponent<ToggleButtonComponentOptions>, RelationsComponent
 {
     //######################### public properties - implementation of RelationsComponent #########################
 

@@ -1,3 +1,3 @@
-import {MetadataSelectorSAComponent} from './metadataSelector.component';
+import {MetadataSelectorComponent} from './metadataSelector.component';
 
-export default MetadataSelectorSAComponent;
+export default MetadataSelectorComponent;

@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, MonacoEditorApi, TypescriptLanguageModel} from '@anglr/dynamic';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import typings from '@anglr/dynamic/typings/transformData/monaco-type';
@@ -19,14 +19,14 @@ import {TransformDataRelationsEditorOptions, TransformDataRelationsOptions} from
     templateUrl: 'transformDataNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TransformDataNodeSAComponent extends RelationsNodeBase<TransformDataRelationsOptions, TransformDataRelationsEditorOptions> implements RelationsNode<TransformDataRelationsOptions, TransformDataRelationsEditorOptions>
+export class TransformDataNodeComponent extends RelationsNodeBase<TransformDataRelationsOptions, TransformDataRelationsEditorOptions> implements RelationsNode<TransformDataRelationsOptions, TransformDataRelationsEditorOptions>
 {
     //######################### protected fields #########################
 

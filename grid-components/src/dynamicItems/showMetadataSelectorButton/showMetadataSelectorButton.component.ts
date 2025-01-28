@@ -25,7 +25,7 @@ import {ShowMetadataSelectorButtonLayoutMetadataLoader, ShowMetadataSelectorButt
 })
 @RelationsEditorMetadata(ShowMetadataSelectorButtonRelationsMetadataLoader)
 @LayoutEditorMetadata(ShowMetadataSelectorButtonLayoutMetadataLoader)
-export class ShowMetadataSelectorButtonSAComponent extends LayoutComponentBase<ShowMetadataSelectorButtonComponentOptions> implements RelationsComponent<ShowMetadataSelectorButtonRelationsOptions>
+export class ShowMetadataSelectorButtonComponent extends LayoutComponentBase<ShowMetadataSelectorButtonComponentOptions> implements RelationsComponent<ShowMetadataSelectorButtonRelationsOptions>
 {
     //######################### public properties - implementation of RelationsComponent #########################
 

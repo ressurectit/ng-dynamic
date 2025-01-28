@@ -7,7 +7,7 @@ import {ContentComponentData} from '../../../../../components';
  * Gets properties controls that are used for setting model value
  */
 @Pipe({name: 'getControls'})
-export class GetControlsSAPipe implements PipeTransform
+export class GetControlsPipe implements PipeTransform
 {
     /**
      * Gets properties controls that are used for setting model value

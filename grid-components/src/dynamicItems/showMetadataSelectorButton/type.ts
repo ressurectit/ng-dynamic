@@ -1,7 +1,7 @@
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {ShowMetadataSelectorButtonSAComponent} from './showMetadataSelectorButton.component';
+import {ShowMetadataSelectorButtonComponent} from './showMetadataSelectorButton.component';
 
-export default ShowMetadataSelectorButtonSAComponent;
+export default ShowMetadataSelectorButtonComponent;
 
 export const extensions = [RelationsRegistrationExtension];

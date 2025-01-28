@@ -7,7 +7,7 @@ import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {Subscription, skip} from 'rxjs';
 
 import {DndBusService, DragActiveService, LayoutEditorMetadataManager} from '../../services';
-import {ComponentsTreeItemSAComponent} from './item';
+import {ComponentsTreeItemComponent} from './item';
 
 /**
  * Component displaying components tree
@@ -20,7 +20,7 @@ import {ComponentsTreeItemSAComponent} from './item';
     [
         CommonModule,
         MatButtonModule,
-        ComponentsTreeItemSAComponent,
+        ComponentsTreeItemComponent,
         FirstUppercaseLocalizePipe,
     ],
     providers:
@@ -30,7 +30,7 @@ import {ComponentsTreeItemSAComponent} from './item';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ComponentsTreeSAComponent implements OnInit, OnDestroy
+export class ComponentsTreeComponent implements OnInit, OnDestroy
 {
     //######################### protected fields #########################
 
@@ -54,8 +54,8 @@ export class ComponentsTreeSAComponent implements OnInit, OnDestroy
     /**
      * Root component tree item
      */
-    @ViewChild(ComponentsTreeItemSAComponent)
-    protected rootTreeItem: ComponentsTreeItemSAComponent|undefined|null;
+    @ViewChild(ComponentsTreeItemComponent)
+    protected rootTreeItem: ComponentsTreeItemComponent|undefined|null;
 
     //######################### constructor #########################
     constructor(protected manager: LayoutEditorMetadataManager,

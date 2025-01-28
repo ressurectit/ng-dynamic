@@ -1,11 +1,11 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {LayoutDesignerDirective} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
 
 import {DataTableComponentOptions} from '../dataTable.options';
-import {DataTableSAComponent} from '../dataTable.component';
+import {DataTableComponent} from '../dataTable.component';
 
 /**
  * Component used for displaying data table designer
@@ -17,11 +17,11 @@ import {DataTableSAComponent} from '../dataTable.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DataTableDesignerSAComponent extends DataTableSAComponent implements LayoutComponent<DataTableComponentOptions>
+export class DataTableDesignerComponent extends DataTableComponent implements LayoutComponent<DataTableComponentOptions>
 {
     //######################### protected properties #########################
 

@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from 
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, getJson, JsonLanguageModel} from '@anglr/dynamic';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 import {isPresent} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
@@ -17,13 +17,13 @@ import {ValueRelationsOptions} from '../value.options';
     templateUrl: 'valueNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ValueNodeSAComponent extends RelationsNodeBase<ValueRelationsOptions> implements RelationsNode<ValueRelationsOptions>
+export class ValueNodeComponent extends RelationsNodeBase<ValueRelationsOptions> implements RelationsNode<ValueRelationsOptions>
 {
 //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,

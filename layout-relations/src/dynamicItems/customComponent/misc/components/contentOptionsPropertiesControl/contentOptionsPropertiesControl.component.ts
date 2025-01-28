@@ -8,9 +8,9 @@ import {Dictionary} from '@jscrpt/common';
 import {extend} from '@jscrpt/common/extend';
 
 import {CustomComponentComponentOptions} from '../../../customComponent.options';
-import {GetControlsSAPipe} from '../../pipes/getControls/getControls.pipe';
+import {GetControlsPipe} from '../../pipes/getControls/getControls.pipe';
 import {ContentComponentData} from '../../../../../components';
-import {GetModelSAPipe, PropertiesMetadataSAPipe} from '../../../../../pipes';
+import {GetModelPipe, PropertiesMetadataPipe} from '../../../../../pipes';
 import {getCustomComponentMeta} from '../../../../../misc/utils';
 import {CustomComponentConfiguration, CustomComponentsRegister} from '../../../../../services';
 
@@ -25,9 +25,9 @@ import {CustomComponentConfiguration, CustomComponentsRegister} from '../../../.
     [
         CommonModule,
         PropertiesControlsModule,
-        GetControlsSAPipe,
-        GetModelSAPipe,
-        PropertiesMetadataSAPipe,
+        GetControlsPipe,
+        GetModelPipe,
+        PropertiesMetadataPipe,
     ],
     providers:
     [
@@ -35,7 +35,7 @@ import {CustomComponentConfiguration, CustomComponentsRegister} from '../../../.
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ContentOptionsPropertiesControlSAComponent<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration> extends PropertiesControlBase<CustomComponentComponentOptions> implements PropertiesControl<CustomComponentComponentOptions>
+export class ContentOptionsPropertiesControlComponent<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration> extends PropertiesControlBase<CustomComponentComponentOptions> implements PropertiesControl<CustomComponentComponentOptions>
 {
     //######################### protected properties #########################
 

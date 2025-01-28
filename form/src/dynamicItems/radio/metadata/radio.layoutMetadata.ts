@@ -2,7 +2,7 @@ import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, gener
 
 import {RadioComponentOptions} from '../radio.options';
 import {RadioModel} from './radio.model';
-import {RadioPropertiesControlSAComponent} from '../misc/components';
+import {RadioPropertiesControlComponent} from '../misc/components';
 
 
 /**
@@ -41,7 +41,7 @@ export class RadioLayoutEditorMetadata implements LayoutEditorMetadataDescriptor
                     modelType: RadioModel,
                     propertiesControls: 
                     [
-                        RadioPropertiesControlSAComponent,
+                        RadioPropertiesControlComponent,
                     ],
                 },
             ],

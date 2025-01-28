@@ -13,4 +13,4 @@ export const BasicPagingLayoutMetadataLoader: DynamicMetadataLoader<LayoutEditor
 /**
  * Basic paging layout designer type loader
  */
-export const BasicPagingLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/basicPagingDesigner.component')).BasicPagingDesignerSAComponent;
+export const BasicPagingLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/basicPagingDesigner.component')).BasicPagingDesignerComponent;

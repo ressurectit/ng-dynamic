@@ -5,7 +5,7 @@ import {RelationsStepDebugInfo} from '@anglr/dynamic/relations';
  * Transforms step into readable name
  */
 @Pipe({name: 'stepName'})
-export class StepNameSAPipe implements PipeTransform
+export class StepNamePipe implements PipeTransform
 {
     /**
      * Transforms step into readable name

@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MathRoundNodeSAComponent} from '../node/round.component';
+import {MathRoundNodeComponent} from '../node/round.component';
 
 /**
  * Math round relations metadata
@@ -23,7 +23,7 @@ export class MathRoundRelationsEditorMetadata implements RelationsEditorMetadata
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = MathRoundNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = MathRoundNodeComponent;
 
     //######################### constructor #########################
     constructor()

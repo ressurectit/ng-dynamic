@@ -17,7 +17,7 @@ import {RichTextBlockLayoutMetadataLoader} from './richTextBlock.metadata';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorMetadata(RichTextBlockLayoutMetadataLoader)
-export class RichTextBlockSAComponent extends LayoutComponentBase<RichTextBlockComponentOptions> implements LayoutComponent<RichTextBlockComponentOptions>
+export class RichTextBlockComponent extends LayoutComponentBase<RichTextBlockComponentOptions> implements LayoutComponent<RichTextBlockComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

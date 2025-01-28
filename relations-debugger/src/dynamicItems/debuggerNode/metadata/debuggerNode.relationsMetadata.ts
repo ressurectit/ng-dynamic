@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {DebuggerNodeSAComponent} from '../node/debuggerNode.component';
+import {DebuggerNodeComponent} from '../node/debuggerNode.component';
 
 /**
  * Debugger node relations metadata
@@ -23,7 +23,7 @@ export class DebuggerNodeRelationsEditorMetadata implements RelationsEditorMetad
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = DebuggerNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = DebuggerNodeComponent;
 
     //######################### constructor #########################
     constructor()

@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ExistingProvider, forwardRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {NodeRelationPath, RelationsCanvasSAComponent, RelationsNodeRendererSADirective} from '@anglr/dynamic/relations-editor';
+import {NodeRelationPath, RelationsCanvasComponent, RelationsNodeRendererDirective} from '@anglr/dynamic/relations-editor';
 import {select} from 'd3';
 
 import {NodeRelationPathDebug} from '../../misc/nodeRelationPathDebug';
@@ -15,19 +15,19 @@ import {NodeRelationPathDebug} from '../../misc/nodeRelationPathDebug';
     imports:
     [
         CommonModule,
-        RelationsNodeRendererSADirective,
+        RelationsNodeRendererDirective,
     ],
     providers:
     [
         <ExistingProvider>
         {
-            provide: RelationsCanvasSAComponent,
-            useExisting: forwardRef(() => RelationsCanvasDebugSAComponent),
+            provide: RelationsCanvasComponent,
+            useExisting: forwardRef(() => RelationsCanvasDebugComponent),
         }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationsCanvasDebugSAComponent extends RelationsCanvasSAComponent
+export class RelationsCanvasDebugComponent extends RelationsCanvasComponent
 {
     //######################### public methods - overrides #########################
 

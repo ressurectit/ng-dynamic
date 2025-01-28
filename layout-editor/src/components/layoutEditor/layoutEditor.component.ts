@@ -2,17 +2,17 @@ import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnChanges, SimpleC
 import {CommonModule} from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {CastPipesModule, CommonUtilsModule, FirstUppercaseLocalizePipe, HostDisplayFlexStyle} from '@anglr/common';
 import {EditorHotkeys, MetadataHistoryManager, PackageManagerModule, DynamicItemSource} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import {ComponentsPaletteSAComponent} from '../componentsPalette/componentsPalette.component';
-import {ComponentsTreeSAComponent} from '../componentsTree/componentsTree.component';
+import {ComponentsPaletteComponent} from '../componentsPalette/componentsPalette.component';
+import {ComponentsTreeComponent} from '../componentsTree/componentsTree.component';
 import {PropertiesEditorComponent} from '../propertiesEditor/propertiesEditor.component';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
-import {LayoutEditorDragPreviewSAComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
+import {LayoutEditorDragPreviewComponent} from '../layoutEditorDragPreview/layoutEditorDragPreview.component';
 import {DndCorePreviewComponent} from '../dndCorePreview/dndCorePreview.component';
 import {DndCorePreviewTemplateDirective} from '../../directives';
 
@@ -33,13 +33,13 @@ import {DndCorePreviewTemplateDirective} from '../../directives';
         ReactiveFormsModule,
         PackageManagerModule,
         DndCorePreviewComponent,
-        ComponentsTreeSAComponent,
+        ComponentsTreeComponent,
         PropertiesEditorComponent,
-        ComponentsPaletteSAComponent,
+        ComponentsPaletteComponent,
         FirstUppercaseLocalizePipe,
         DndCorePreviewTemplateDirective,
-        LayoutEditorDragPreviewSAComponent,
-        LayoutComponentRendererSADirective,
+        LayoutEditorDragPreviewComponent,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

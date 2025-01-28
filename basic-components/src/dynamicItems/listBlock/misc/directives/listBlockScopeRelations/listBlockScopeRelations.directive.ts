@@ -11,7 +11,7 @@ import {ListBlockRelations} from '../../../listBlock.relations';
 {
     selector: '[listBlockScope]',
 })
-export class ListBlockScopeRelationsSADirective<TDatum = any> implements OnChanges, OnDestroy
+export class ListBlockScopeRelationsDirective<TDatum = any> implements OnChanges, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -74,7 +74,7 @@ export class ListBlockScopeRelationsSADirective<TDatum = any> implements OnChang
      */
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
-        if(nameof<ListBlockScopeRelationsSADirective>('componentId') in changes && !this.initialized && this.componentId)
+        if(nameof<ListBlockScopeRelationsDirective>('componentId') in changes && !this.initialized && this.componentId)
         {
             this.initialized = true;
 
@@ -83,22 +83,22 @@ export class ListBlockScopeRelationsSADirective<TDatum = any> implements OnChang
             this.relationsProcessor.updateRelations(this.componentId);
         }
 
-        if(nameof<ListBlockScopeRelationsSADirective>('datum') in changes)
+        if(nameof<ListBlockScopeRelationsDirective>('datum') in changes)
         {
             this.relations.datum = this.datum;
         }
         
-        if(nameof<ListBlockScopeRelationsSADirective>('index') in changes)
+        if(nameof<ListBlockScopeRelationsDirective>('index') in changes)
         {
             this.relations.index = this.index;
         }
 
-        if(nameof<ListBlockScopeRelationsSADirective>('first') in changes)
+        if(nameof<ListBlockScopeRelationsDirective>('first') in changes)
         {
             this.relations.first = this.first;
         }
 
-        if(nameof<ListBlockScopeRelationsSADirective>('last') in changes)
+        if(nameof<ListBlockScopeRelationsDirective>('last') in changes)
         {
             this.relations.last = this.last;
         }

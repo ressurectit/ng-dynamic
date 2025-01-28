@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 
 import {MathDivideRelationsOptions} from '../divide.options';
 
@@ -14,13 +14,13 @@ import {MathDivideRelationsOptions} from '../divide.options';
     templateUrl: 'divideNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MathDivideNodeSAComponent extends RelationsNodeBase<MathDivideRelationsOptions> implements RelationsNode<MathDivideRelationsOptions>
+export class MathDivideNodeComponent extends RelationsNodeBase<MathDivideRelationsOptions> implements RelationsNode<MathDivideRelationsOptions>
 {}

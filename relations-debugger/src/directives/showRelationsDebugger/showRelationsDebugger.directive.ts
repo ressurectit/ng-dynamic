@@ -4,7 +4,7 @@ import {Position, POSITION} from '@anglr/common';
 import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 import {nameof} from '@jscrpt/common';
 
-import {RelationsDebuggerVisualizerSAComponent} from '../../components';
+import {RelationsDebuggerVisualizerComponent} from '../../components';
 
 /**
  * Directive that shows relations debugger
@@ -13,14 +13,14 @@ import {RelationsDebuggerVisualizerSAComponent} from '../../components';
 {
     selector: '[showRelationsDebugger]',
 })
-export class ShowRelationsDebuggerSADirective implements OnDestroy, OnChanges
+export class ShowRelationsDebuggerDirective implements OnDestroy, OnChanges
 {
     //######################### protected properties #########################
 
     /**
      * Instance of reference to created visualizer
      */
-    protected visualizer: ComponentRef<RelationsDebuggerVisualizerSAComponent>|undefined|null;
+    protected visualizer: ComponentRef<RelationsDebuggerVisualizerComponent>|undefined|null;
 
     //######################### public properties - inputs #########################
 
@@ -59,19 +59,19 @@ export class ShowRelationsDebuggerSADirective implements OnDestroy, OnChanges
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<ShowRelationsDebuggerSADirective>('playDelay') in changes)
+        if(nameof<ShowRelationsDebuggerDirective>('playDelay') in changes)
         {
             if(this.visualizer)
             {
-                this.visualizer.setInput(nameof<RelationsDebuggerVisualizerSAComponent>('playDelay'), this.playDelay);
+                this.visualizer.setInput(nameof<RelationsDebuggerVisualizerComponent>('playDelay'), this.playDelay);
             }
         }
 
-        if(nameof<ShowRelationsDebuggerSADirective>('relationsDefinition') in changes)
+        if(nameof<ShowRelationsDebuggerDirective>('relationsDefinition') in changes)
         {
             if(this.visualizer)
             {
-                this.visualizer.setInput(nameof<RelationsDebuggerVisualizerSAComponent>('relationsDefinition'), this.relationsDefinition);
+                this.visualizer.setInput(nameof<RelationsDebuggerVisualizerComponent>('relationsDefinition'), this.relationsDefinition);
             }
         }
 
@@ -106,7 +106,7 @@ export class ShowRelationsDebuggerSADirective implements OnDestroy, OnChanges
 
         if(ngRelationsDebugger)
         {
-            this.visualizer = this.viewContainer.createComponent(RelationsDebuggerVisualizerSAComponent);
+            this.visualizer = this.viewContainer.createComponent(RelationsDebuggerVisualizerComponent);
             const visualizerElement = (this.visualizer.hostView as EmbeddedViewRef<unknown>).rootNodes[0] as HTMLElement;
 
             //render to specified target element
@@ -141,8 +141,8 @@ export class ShowRelationsDebuggerSADirective implements OnDestroy, OnChanges
             }
 
             this.visualizer.instance.close.subscribe(() => this.ngOnDestroy());
-            this.visualizer.setInput(nameof<RelationsDebuggerVisualizerSAComponent>('playDelay'), this.playDelay);
-            this.visualizer.setInput(nameof<RelationsDebuggerVisualizerSAComponent>('relationsDefinition'), this.relationsDefinition);
+            this.visualizer.setInput(nameof<RelationsDebuggerVisualizerComponent>('playDelay'), this.playDelay);
+            this.visualizer.setInput(nameof<RelationsDebuggerVisualizerComponent>('relationsDefinition'), this.relationsDefinition);
 
             this.visualizer.changeDetectorRef.markForCheck();
         }

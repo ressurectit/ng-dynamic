@@ -29,7 +29,7 @@ import {SelectComponentOptions} from './select.options';
 })
 @RelationsEditorMetadata(SelectRelationsMetadataLoader)
 @LayoutEditorMetadata(SelectLayoutMetadataLoader)
-export class SelectSAComponent extends FormComponentBase<SelectComponentOptions> implements FormComponent<SelectComponentOptions>
+export class SelectComponent extends FormComponentBase<SelectComponentOptions> implements FormComponent<SelectComponentOptions>
 {
     //######################### public properties #########################
 

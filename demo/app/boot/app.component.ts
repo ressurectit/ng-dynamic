@@ -3,7 +3,7 @@ import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
 import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
 import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
-import {InternalServerErrorSAComponent} from '@anglr/error-handling';
+import {InternalServerErrorComponent} from '@anglr/error-handling';
 import {fadeInOutTrigger} from '@anglr/animations';
 import {NotificationsGlobalModule} from '@anglr/notifications';
 import {nameof} from '@jscrpt/common';
@@ -28,7 +28,7 @@ import {MenuModule} from '../modules';
     imports:
     [
         RouterOutlet,
-        InternalServerErrorSAComponent,
+        InternalServerErrorComponent,
         ProgressIndicatorModule,
         NotificationsGlobalModule,
         MenuModule,

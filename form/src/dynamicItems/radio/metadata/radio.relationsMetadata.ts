@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {RadioNodeSAComponent} from '../node/radioNode.component';
+import {RadioNodeComponent} from '../node/radioNode.component';
 
 /**
  *  Radio relations metadata
@@ -23,7 +23,7 @@ export class RadioRelationsEditorMetadata implements RelationsEditorMetadataDesc
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = RadioNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = RadioNodeComponent;
 
     //######################### constructor #########################
     constructor()

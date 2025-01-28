@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {ListBlockNodeSAComponent} from '../node/listBlockNode.component';
+import {ListBlockNodeComponent} from '../node/listBlockNode.component';
 
 /**
  * List block relations metadata
@@ -23,7 +23,7 @@ export class ListBlockRelationsEditorMetadata implements RelationsEditorMetadata
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = ListBlockNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = ListBlockNodeComponent;
 
     //######################### constructor #########################
     constructor()

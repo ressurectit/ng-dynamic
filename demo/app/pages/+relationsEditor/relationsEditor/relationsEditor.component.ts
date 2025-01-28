@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
-import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent, withRelationsEditor, withStaticComponents} from '@anglr/dynamic/relations-editor';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorComponent, withRelationsEditor, withStaticComponents} from '@anglr/dynamic/relations-editor';
 import {MetadataHistoryManager, EditorMetadataManager, EDITOR_METADATA_MANAGER, provideDynamic, withPackageManager} from '@anglr/dynamic';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
 import {withMathComponents} from '@anglr/dynamic/math-components';
@@ -28,7 +28,7 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
     imports:
     [
         LoadSaveNewComponent,
-        RelationsEditorSAComponent,
+        RelationsEditorComponent,
         DebugDataCopyClickModule,
     ],
     providers:

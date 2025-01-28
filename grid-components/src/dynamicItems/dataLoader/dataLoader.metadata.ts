@@ -13,4 +13,4 @@ export const DataLoaderLayoutMetadataLoader: DynamicMetadataLoader<LayoutEditorM
 /**
  * Data loader layout designer type loader
  */
-export const DataLoaderLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/dataLoaderDesigner.component')).DataLoaderDesignerSAComponent;
+export const DataLoaderLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/dataLoaderDesigner.component')).DataLoaderDesignerComponent;

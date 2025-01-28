@@ -1,3 +1,3 @@
-import {DataLoaderSAComponent} from './dataLoader.component';
+import {DataLoaderComponent} from './dataLoader.component';
 
-export default DataLoaderSAComponent;
+export default DataLoaderComponent;

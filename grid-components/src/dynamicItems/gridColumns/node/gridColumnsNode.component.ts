@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderComponent, RelationNodeOutputComponent} from '@anglr/dynamic/relations-editor';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 
 import {GridColumnsRelationsOptions} from '../gridColumns.options';
@@ -13,12 +13,12 @@ import {GridColumnsRelationsOptions} from '../gridColumns.options';
     templateUrl: 'gridColumnsNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridColumnsNodeSAComponent extends RelationsNodeBase<GridColumnsRelationsOptions> implements RelationsNode<GridColumnsRelationsOptions>
+export class GridColumnsNodeComponent extends RelationsNodeBase<GridColumnsRelationsOptions> implements RelationsNode<GridColumnsRelationsOptions>
 {
 }

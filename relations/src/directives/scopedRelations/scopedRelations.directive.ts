@@ -26,7 +26,7 @@ import {RelationsChangeDetector, RelationsComponentManager, RelationsProcessor} 
         LayoutRenderer,
     ],
 })
-export class ScopedRelationsSADirective implements OnDestroy
+export class ScopedRelationsDirective implements OnDestroy
 {
     //######################### constructor #########################
     constructor(protected componentManager: RelationsComponentManager,

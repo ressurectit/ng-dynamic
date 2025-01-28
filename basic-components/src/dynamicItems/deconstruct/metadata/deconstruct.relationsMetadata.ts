@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {DeconstructNodeSAComponent} from '../node/deconstructNode.component';
+import {DeconstructNodeComponent} from '../node/deconstructNode.component';
 
 /**
  * Deconstruct relations metadata
@@ -23,7 +23,7 @@ export class DeconstructRelationsEditorMetadata implements RelationsEditorMetada
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = DeconstructNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = DeconstructNodeComponent;
 
     //######################### constructor #########################
     constructor()

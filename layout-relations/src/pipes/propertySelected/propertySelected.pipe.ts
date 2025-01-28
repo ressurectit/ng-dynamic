@@ -5,7 +5,7 @@ import {Dictionary} from '@jscrpt/common';
  * Gets indication whether is property selected
  */
 @Pipe({name: 'propertySelected'})
-export class PropertySelectedSAPipe implements PipeTransform
+export class PropertySelectedPipe implements PipeTransform
 {
     /**
      * Gets indication whether is property selected

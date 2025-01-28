@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ExistingProvider, forwardRef, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {NodeRelationPath, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {NodeRelationPath, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 import {nameof} from '@jscrpt/common';
 
 import {NodeRelationPathDebug} from '../../misc/nodeRelationPathDebug';
@@ -15,13 +15,13 @@ import {NodeRelationPathDebug} from '../../misc/nodeRelationPathDebug';
     [
         <ExistingProvider>
         {
-            provide: RelationNodeInputSAComponent,
-            useExisting: forwardRef(() => RelationNodeInputDebugSAComponent),
+            provide: RelationNodeInputComponent,
+            useExisting: forwardRef(() => RelationNodeInputDebugComponent),
         },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationNodeInputDebugSAComponent extends RelationNodeInputSAComponent implements OnChanges
+export class RelationNodeInputDebugComponent extends RelationNodeInputComponent implements OnChanges
 {
     //######################### protected properties #########################
 
@@ -58,7 +58,7 @@ export class RelationNodeInputDebugSAComponent extends RelationNodeInputSACompon
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<RelationNodeInputDebugSAComponent>('transferHighlight') in changes)
+        if(nameof<RelationNodeInputDebugComponent>('transferHighlight') in changes)
         {
             if(this.transferHighlight)
             {

@@ -1,7 +1,7 @@
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {DialogMetadataSelectorSAComponent} from './dialogMetadataSelector.component';
+import {DialogMetadataSelectorComponent} from './dialogMetadataSelector.component';
 
-export default DialogMetadataSelectorSAComponent;
+export default DialogMetadataSelectorComponent;
 
 export const extensions = [RelationsRegistrationExtension];

@@ -50,7 +50,7 @@ const defaultPresets: ButtonPreset[] =
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ButtonPresetsPropertiesControlSAComponent extends PropertiesControlBase implements PropertiesControl
+export class ButtonPresetsPropertiesControlComponent extends PropertiesControlBase implements PropertiesControl
 {
     //######################### private properties #########################
 

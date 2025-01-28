@@ -2,7 +2,7 @@ import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, gener
 
 import {ToggleButtonComponentOptions} from '../toggleButton.options';
 import {ToggleButtonModel} from './toggleButton.model';
-import {ButtonPresetsPropertiesControlSAComponent} from '../../../misc/components';
+import {ButtonPresetsPropertiesControlComponent} from '../../../misc/components';
 
 /**
  * Toggle button layout metadata
@@ -34,7 +34,7 @@ export class ToggleButtonLayoutEditorMetadata implements LayoutEditorMetadataDes
                     modelType: ToggleButtonModel,
                     propertiesControls: 
                     [
-                        ButtonPresetsPropertiesControlSAComponent,
+                        ButtonPresetsPropertiesControlComponent,
                         genericPropertiesControlFor<ToggleButtonModel>(['buttonCssClass', 'onText', 'offText', 'state', 'disabled']),
                     ],
                 },

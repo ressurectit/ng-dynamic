@@ -4,7 +4,7 @@ import {provideDynamic} from '@anglr/dynamic';
 import {RelationsManager, withRelationsRuntime} from '@anglr/dynamic/relations';
 
 import {DemoData} from '../../../services/demoData';
-import {RelationsResultSAComponent, RelationsSampleClickSAComponent} from '../../../components';
+import {RelationsResultComponent, RelationsSampleClickComponent} from '../../../components';
 import {WithFullscreenContentCssClass} from '../../../decorators';
 
 /**
@@ -16,8 +16,8 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
     templateUrl: 'relations.component.html',
     imports:
     [
-        RelationsSampleClickSAComponent,
-        RelationsResultSAComponent,
+        RelationsSampleClickComponent,
+        RelationsResultComponent,
     ],
     providers:
     [

@@ -36,7 +36,7 @@ globalDefine(global =>
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RichTextBlockEditorDialogSAComponent
+export class RichTextBlockEditorDialogComponent
 {
     //######################### protected properties - template bindings #########################
 
@@ -52,7 +52,7 @@ export class RichTextBlockEditorDialogSAComponent
 
     //######################### constructor #########################
     constructor(@Inject(TITLED_DIALOG_DATA) protected data: string,
-                protected dialog: MatDialogRef<RichTextBlockEditorDialogSAComponent, string|null>,)
+                protected dialog: MatDialogRef<RichTextBlockEditorDialogComponent, string|null>,)
     {
         this.content = data;
     }

@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
-import {RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationNodeOutputComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Component used to display relation node output for debugging
@@ -12,13 +12,13 @@ import {RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
     [
         <ExistingProvider>
         {
-            provide: RelationNodeOutputSAComponent,
-            useExisting: RelationNodeOutputDebugSAComponent,
+            provide: RelationNodeOutputComponent,
+            useExisting: RelationNodeOutputDebugComponent,
         }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationNodeOutputDebugSAComponent extends RelationNodeOutputSAComponent
+export class RelationNodeOutputDebugComponent extends RelationNodeOutputComponent
 {
     //######################### public properties #########################
 

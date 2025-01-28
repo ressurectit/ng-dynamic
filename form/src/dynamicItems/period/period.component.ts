@@ -27,5 +27,5 @@ import {PeriodComponentOptions} from './period.options';
 })
 @RelationsEditorMetadata(PeriodRelationsMetadataLoader)
 @LayoutEditorMetadata(PeriodLayoutMetadataLoader)
-export class PeriodSAComponent extends FormComponentBase<PeriodComponentOptions> implements FormComponent<PeriodComponentOptions>
+export class PeriodComponent extends FormComponentBase<PeriodComponentOptions> implements FormComponent<PeriodComponentOptions>
 {}

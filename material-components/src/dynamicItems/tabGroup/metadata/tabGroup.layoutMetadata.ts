@@ -3,7 +3,7 @@ import {Func} from '@jscrpt/common';
 
 import {MaterialTabGroupComponentOptions} from '../tabGroup.options';
 import {MaterialTabGroupModel} from './tabGroup.model';
-import {MaterialTabGroupPropertiesControlSAComponent} from '../misc/components';
+import {MaterialTabGroupPropertiesControlComponent} from '../misc/components';
 
 
 /**
@@ -36,7 +36,7 @@ export class MaterialTabGroupLayoutEditorMetadata implements LayoutEditorMetadat
                     modelType: MaterialTabGroupModel,
                     propertiesControls: 
                     [
-                        MaterialTabGroupPropertiesControlSAComponent,
+                        MaterialTabGroupPropertiesControlComponent,
                     ],
                 },
             ]

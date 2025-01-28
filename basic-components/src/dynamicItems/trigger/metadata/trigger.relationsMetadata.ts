@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {TriggerNodeSAComponent} from '../node/triggerNode.component';
+import {TriggerNodeComponent} from '../node/triggerNode.component';
 
 /**
  * Trigger relations metadata
@@ -23,7 +23,7 @@ export class TriggerRelationsEditorMetadata implements RelationsEditorMetadataDe
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = TriggerNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = TriggerNodeComponent;
 
     //######################### constructor #########################
     constructor()

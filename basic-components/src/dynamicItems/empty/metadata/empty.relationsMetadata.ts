@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {EmptyNodeSAComponent} from '../node/emptyNode.component';
+import {EmptyNodeComponent} from '../node/emptyNode.component';
 
 /**
  * Empty relations metadata
@@ -23,7 +23,7 @@ export class EmptyRelationsEditorMetadata implements RelationsEditorMetadataDesc
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = EmptyNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = EmptyNodeComponent;
 
     //######################### constructor #########################
     constructor()

@@ -1,9 +1,9 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {PeriodSAComponent} from './period.component';
+import {PeriodComponent} from './period.component';
 
 
-export default PeriodSAComponent;
+export default PeriodComponent;
 
 export const extensions = [ComponentStylingExtension, RelationsRegistrationExtension];

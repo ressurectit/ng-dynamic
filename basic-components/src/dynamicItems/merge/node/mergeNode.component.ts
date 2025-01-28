@@ -1,8 +1,8 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
-import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
+import {ConfigureNodeEndpointData, ConfigureNodeEndpointComponent} from '@anglr/dynamic/layout-relations';
 import {TitledDialogService} from '@anglr/common/material';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
@@ -17,15 +17,15 @@ import {MergeRelationsOptions} from '../merge.options';
     templateUrl: 'mergeNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MergeNodeSAComponent extends RelationsNodeBase<MergeRelationsOptions> implements RelationsNode<MergeRelationsOptions>
+export class MergeNodeComponent extends RelationsNodeBase<MergeRelationsOptions> implements RelationsNode<MergeRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 
@@ -108,7 +108,7 @@ export class MergeNodeSAComponent extends RelationsNodeBase<MergeRelationsOption
             skipInit: false,
         };
 
-        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
+        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointComponent,
         {
             title: 'configure property',
             width: '60vw',

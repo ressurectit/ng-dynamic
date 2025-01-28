@@ -27,6 +27,6 @@ import {PagingLayoutDesignerTypeLoader, PagingLayoutMetadataLoader} from './pagi
 })
 @LayoutEditorDesignerType(PagingLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(PagingLayoutMetadataLoader)
-export class PagingSAComponent extends LayoutComponentBase<PagingComponentOptions> implements LayoutComponent<PagingComponentOptions>
+export class PagingComponent extends LayoutComponentBase<PagingComponentOptions> implements LayoutComponent<PagingComponentOptions>
 {
 }

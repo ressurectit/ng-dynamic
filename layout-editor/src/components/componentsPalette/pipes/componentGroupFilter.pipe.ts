@@ -10,7 +10,7 @@ import {ComponentsPaletteItem} from '../componentsPalette.interface';
 {
     name: 'componentGroupFilter',
 })
-export class ComponentGroupFilterSAPipe implements PipeTransform, OnDestroy
+export class ComponentGroupFilterPipe implements PipeTransform, OnDestroy
 {
     //######################### protected fields #########################
 

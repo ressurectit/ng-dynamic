@@ -16,6 +16,6 @@ import {DialogMetadataSelectorComponent} from '../dialogMetadataSelector.compone
     styles: [HostDisplayBlockStyle],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogMetadataSelectorDesignerSAComponent extends DialogMetadataSelectorComponent implements LayoutComponent<DialogMetadataSelectorComponentOptions>, RelationsComponent<DialogMetadataSelectorRelationsOptions>
+export class DialogMetadataSelectorDesignerComponent extends DialogMetadataSelectorComponent implements LayoutComponent<DialogMetadataSelectorComponentOptions>, RelationsComponent<DialogMetadataSelectorRelationsOptions>
 {
 }

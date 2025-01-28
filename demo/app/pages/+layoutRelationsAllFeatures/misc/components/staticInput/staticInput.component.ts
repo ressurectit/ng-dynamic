@@ -19,7 +19,7 @@ import {StaticInputRelationsMetadataLoader} from './staticInput.metadata';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(StaticInputRelationsMetadataLoader)
-export class StaticInputSAComponent implements RelationsComponent, OnInit, OnDestroy
+export class StaticInputComponent implements RelationsComponent, OnInit, OnDestroy
 {
     //######################### public static properties #########################
 
@@ -80,9 +80,9 @@ export class StaticInputSAComponent implements RelationsComponent, OnInit, OnDes
      */
     public async ngOnInit(): Promise<void>
     {
-        this._componentManager.registerComponent(StaticInputSAComponent.relationsId, this);
+        this._componentManager.registerComponent(StaticInputComponent.relationsId, this);
         await this._relationsProcessor.initialized;
-        this._relationsProcessor.updateRelations(StaticInputSAComponent.relationsId);
+        this._relationsProcessor.updateRelations(StaticInputComponent.relationsId);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -92,8 +92,8 @@ export class StaticInputSAComponent implements RelationsComponent, OnInit, OnDes
      */
     public ngOnDestroy(): void
     {
-        this._relationsProcessor.destroyComponent(StaticInputSAComponent.relationsId);
-        this._componentManager.unregisterComponent(StaticInputSAComponent.relationsId);
+        this._relationsProcessor.destroyComponent(StaticInputComponent.relationsId);
+        this._componentManager.unregisterComponent(StaticInputComponent.relationsId);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################

@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MaterialTextFieldNodeSAComponent} from '../node/textFieldNode.component';
+import {MaterialTextFieldNodeComponent} from '../node/textFieldNode.component';
 
 /**
  * Material text field relations metadata
@@ -23,7 +23,7 @@ export class MaterialTextFieldRelationsEditorMetadata implements RelationsEditor
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = MaterialTextFieldNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = MaterialTextFieldNodeComponent;
 
     //######################### constructor #########################
     constructor()

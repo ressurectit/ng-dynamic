@@ -2,9 +2,9 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 
 import {IdSetterExtension} from '../../misc/extensions';
-import {CustomComponentSAComponent} from './customComponent.component';
+import {CustomComponentComponent} from './customComponent.component';
 import {CustomComponentDataExtension} from './extensions';
 
-export default CustomComponentSAComponent;
+export default CustomComponentComponent;
 
 export const extensions = [ComponentStylingExtension, CustomComponentDataExtension, IdSetterExtension];

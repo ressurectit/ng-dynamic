@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {DataLoaderComponentOptions} from '../dataLoader.options';
-import {DataLoaderSAComponent} from '../dataLoader.component';
+import {DataLoaderComponent} from '../dataLoader.component';
 
 /**
  * Component used for displaying data loader designer
@@ -15,10 +15,10 @@ import {DataLoaderSAComponent} from '../dataLoader.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DataLoaderDesignerSAComponent extends DataLoaderSAComponent implements LayoutComponent<DataLoaderComponentOptions>
+export class DataLoaderDesignerComponent extends DataLoaderComponent implements LayoutComponent<DataLoaderComponentOptions>
 {
 }

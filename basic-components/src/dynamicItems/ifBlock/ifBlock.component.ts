@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {DebugData, RelationsComponent} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
@@ -21,7 +21,7 @@ import {IfBlockLayoutDesignerTypeLoader, IfBlockLayoutMetadataLoader, IfBlockRel
     imports:
     [
         CommonModule,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -29,14 +29,14 @@ import {IfBlockLayoutDesignerTypeLoader, IfBlockLayoutMetadataLoader, IfBlockRel
 {
     inputs:
     [
-        nameof<IfBlockSAComponent>('condition'),
+        nameof<IfBlockComponent>('condition'),
     ],
 })
 @DescendantsGetter<IfBlockComponentOptions>(options => options?.content ? [options?.content] : [])
 @LayoutEditorDesignerType(IfBlockLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(IfBlockRelationsMetadataLoader)
 @LayoutEditorMetadata(IfBlockLayoutMetadataLoader)
-export class IfBlockSAComponent extends LayoutComponentBase<IfBlockComponentOptions> implements LayoutComponent<IfBlockComponentOptions>, RelationsComponent
+export class IfBlockComponent extends LayoutComponentBase<IfBlockComponentOptions> implements LayoutComponent<IfBlockComponentOptions>, RelationsComponent
 {
     //######################### public properties - implementation of RelationsComponent #########################
 

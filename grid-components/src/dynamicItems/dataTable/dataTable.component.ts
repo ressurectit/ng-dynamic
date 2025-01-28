@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, ViewChild} from '@angular/core';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LayoutRendererItem} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererDirective, LayoutRendererItem} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {DataLoader, DataLoaderOptions, Grid, GridOptions, MatrixGridModule, MetadataSelector, MetadataSelectorOptions, NoMetadataSelectorComponent, NoPagingOptions, NoPagingComponent, Paging, PagingOptions, SyncDataLoaderOptions, SyncDataLoaderComponent} from '@anglr/grid';
@@ -9,7 +9,7 @@ import {BindThis, PromiseOr, RecursivePartial} from '@jscrpt/common';
 import {DataTableComponentOptions} from './dataTable.options';
 import {DataTableLayoutDesignerTypeLoader, DataTableLayoutMetadataLoader} from './dataTable.metadata';
 import {GridPluginComponent} from '../../interfaces';
-import {ScopedMatrixContentRendererSAComponent} from '../../misc/classes/scopedMatrixContentRenderer.component';
+import {ScopedMatrixContentRendererComponent} from '../../misc/classes/scopedMatrixContentRenderer.component';
 import {DataLoaderComponentOptions} from '../dataLoader';
 import {PagingComponentOptions} from '../paging';
 import {MetadataSelectorComponentOptions} from '../metadataSelector';
@@ -61,7 +61,7 @@ interface ColDef
     imports:
     [
         MatrixGridModule,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -76,7 +76,7 @@ interface ColDef
 })
 @LayoutEditorDesignerType(DataTableLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(DataTableLayoutMetadataLoader)
-export class DataTableSAComponent extends LayoutComponentBase<DataTableComponentOptions> implements LayoutComponent<DataTableComponentOptions>
+export class DataTableComponent extends LayoutComponentBase<DataTableComponentOptions> implements LayoutComponent<DataTableComponentOptions>
 {
     //######################### protected fields #########################
 
@@ -99,7 +99,7 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
     {
         if(!this.grid)
         {
-            throw new Error('DataTableSAComponent: missing grid instance!');
+            throw new Error('DataTableComponent: missing grid instance!');
         }
 
         return this.grid;
@@ -122,7 +122,7 @@ export class DataTableSAComponent extends LayoutComponentBase<DataTableComponent
         {
             contentRenderer:
             {
-                type: ScopedMatrixContentRendererSAComponent,
+                type: ScopedMatrixContentRendererComponent,
             }
         }
     };

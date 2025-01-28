@@ -16,7 +16,7 @@ import {RelationsResultRelationsMetadataLoader} from './relationsResult.metadata
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(RelationsResultRelationsMetadataLoader)
-export class RelationsResultSAComponent implements RelationsComponent, OnInit, OnDestroy, DynamicOnChanges
+export class RelationsResultComponent implements RelationsComponent, OnInit, OnDestroy, DynamicOnChanges
 {
     //######################### public static properties #########################
 
@@ -57,9 +57,9 @@ export class RelationsResultSAComponent implements RelationsComponent, OnInit, O
      */
     public async ngOnInit(): Promise<void>
     {
-        this._componentManager.registerComponent(RelationsResultSAComponent.relationsId, this);
+        this._componentManager.registerComponent(RelationsResultComponent.relationsId, this);
         await this._relationsProcessor.initialized;
-        this._relationsProcessor.updateRelations(RelationsResultSAComponent.relationsId);
+        this._relationsProcessor.updateRelations(RelationsResultComponent.relationsId);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -69,8 +69,8 @@ export class RelationsResultSAComponent implements RelationsComponent, OnInit, O
      */
     public ngOnDestroy(): void
     {
-        this._relationsProcessor.destroyComponent(RelationsResultSAComponent.relationsId);
-        this._componentManager.unregisterComponent(RelationsResultSAComponent.relationsId);
+        this._relationsProcessor.destroyComponent(RelationsResultComponent.relationsId);
+        this._componentManager.unregisterComponent(RelationsResultComponent.relationsId);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################
@@ -80,7 +80,7 @@ export class RelationsResultSAComponent implements RelationsComponent, OnInit, O
      */
     public dynamicOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<RelationsResultSAComponent>('vstup') in changes && this.vstup)
+        if(nameof<RelationsResultComponent>('vstup') in changes && this.vstup)
         {
             console.log('vstup sa zmenil v result', this.vstup);
         }

@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
 import {MetadataStorage} from '@anglr/dynamic';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeOutputSAComponent, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationsNodeHeaderComponent, RelationNodeOutputComponent, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
 
 import {CustomRelationRelationsOptions} from '../customRelation.options';
 import {ComponentInputsRelationsOptions} from '../../componentInputs';
@@ -17,13 +17,13 @@ import {getInputs, getOutputs} from '../customRelation.utils';
     templateUrl: 'customRelationNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomRelationNodeSAComponent extends RelationsNodeBase<CustomRelationRelationsOptions> implements RelationsNode<CustomRelationRelationsOptions>
+export class CustomRelationNodeComponent extends RelationsNodeBase<CustomRelationRelationsOptions> implements RelationsNode<CustomRelationRelationsOptions>
 {
     //######################### protected properties #########################
 

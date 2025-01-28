@@ -1,3 +1,3 @@
-import {GridColumnHeaderSAComponent} from './gridColumnHeader.component';
+import {GridColumnHeaderComponent} from './gridColumnHeader.component';
 
-export default GridColumnHeaderSAComponent;
+export default GridColumnHeaderComponent;

@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for static input
@@ -10,11 +10,11 @@ import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, Relatio
     templateUrl: 'staticInputNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeOutputComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StaticInputNodeSAComponent extends RelationsNodeBase implements RelationsNode
+export class StaticInputNodeComponent extends RelationsNodeBase implements RelationsNode
 {
 }

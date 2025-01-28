@@ -19,4 +19,4 @@ export const IfBlockRelationsMetadataLoader: DynamicMetadataLoader<RelationsEdit
 /**
  * If block layout designer type loader
  */
-export const IfBlockLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/ifBlockDesigner.component')).IfBlockDesignerSAComponent;
+export const IfBlockLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/ifBlockDesigner.component')).IfBlockDesignerComponent;

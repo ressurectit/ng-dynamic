@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {TransformDataNodeSAComponent} from '../node/transformDataNode.component';
+import {TransformDataNodeComponent} from '../node/transformDataNode.component';
 
 /**
  * Transform data relations metadata
@@ -23,7 +23,7 @@ export class TransformDataRelationsEditorMetadata implements RelationsEditorMeta
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = TransformDataNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = TransformDataNodeComponent;
 
     //######################### constructor #########################
     constructor()

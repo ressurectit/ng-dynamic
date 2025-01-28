@@ -27,7 +27,7 @@ import {MaterialTabGroupComponentOptions} from '../../../tabGroup.options';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MaterialTabGroupPropertiesControlSAComponent extends PropertiesControlBase<MaterialTabGroupComponentOptions> implements PropertiesControl<MaterialTabGroupComponentOptions>
+export class MaterialTabGroupPropertiesControlComponent extends PropertiesControlBase<MaterialTabGroupComponentOptions> implements PropertiesControl<MaterialTabGroupComponentOptions>
 {
     //######################### protected properties #########################
 

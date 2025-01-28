@@ -1,9 +1,9 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {MaterialRadioSAComponent} from './radio.component';
+import {MaterialRadioComponent} from './radio.component';
 
 
-export default MaterialRadioSAComponent;
+export default MaterialRadioComponent;
 
 export const extensions = [ComponentStylingExtension, RelationsRegistrationExtension];

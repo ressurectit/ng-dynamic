@@ -27,6 +27,6 @@ import {MetadataSelectorLayoutDesignerTypeLoader, MetadataSelectorLayoutMetadata
 })
 @LayoutEditorDesignerType(MetadataSelectorLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(MetadataSelectorLayoutMetadataLoader)
-export class MetadataSelectorSAComponent extends LayoutComponentBase<MetadataSelectorComponentOptions> implements LayoutComponent<MetadataSelectorComponentOptions>
+export class MetadataSelectorComponent extends LayoutComponentBase<MetadataSelectorComponentOptions> implements LayoutComponent<MetadataSelectorComponentOptions>
 {
 }

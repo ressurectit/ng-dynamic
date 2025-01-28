@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {ShowMetadataSelectorButtonNodeSAComponent} from '../node/showMetadataSelectorButtonNode.component';
+import {ShowMetadataSelectorButtonNodeComponent} from '../node/showMetadataSelectorButtonNode.component';
 
 /**
  * Show metadata selector button relations metadata
@@ -23,7 +23,7 @@ export class ShowMetadataSelectorButtonRelationsEditorMetadata implements Relati
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = ShowMetadataSelectorButtonNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = ShowMetadataSelectorButtonNodeComponent;
 
     //######################### constructor #########################
     constructor()

@@ -1,7 +1,7 @@
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {IfBlockSAComponent} from './ifBlock.component';
+import {IfBlockComponent} from './ifBlock.component';
 
-export default IfBlockSAComponent;
+export default IfBlockComponent;
 
 export const extensions = [RelationsRegistrationExtension];

@@ -5,7 +5,7 @@ import {TooltipModule} from '@anglr/common';
 import {lastValueFrom, Subject} from 'rxjs';
 
 import {RelationsNode, RelationsNodeMetadata} from '../../interfaces';
-import {RelationsNodePropertiesEditorSAComponent} from '../relationsNodePropertiesEditor/relationsNodePropertiesEditor.component';
+import {RelationsNodePropertiesEditorComponent} from '../relationsNodePropertiesEditor/relationsNodePropertiesEditor.component';
 import {RelationsNodeProperties, RelationsNodePropertiesEditorData} from '../relationsNodePropertiesEditor/relationsNodePropertiesEditor.interface';
 import {ToColorPipe} from '../../pipes/toColor/toColor.pipe';
 import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
@@ -25,7 +25,7 @@ import {ScopeRegister} from '../../services';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationsNodeHeaderSAComponent
+export class RelationsNodeHeaderComponent
 {
     //######################### public properties - inputs #########################
 
@@ -62,7 +62,7 @@ export class RelationsNodeHeaderSAComponent
      */
     protected async editProperties(): Promise<void>
     {
-        const result = await lastValueFrom(this.dialog.open<RelationsNodePropertiesEditorSAComponent, RelationsNodePropertiesEditorData, RelationsNodeProperties|undefined|null>(RelationsNodePropertiesEditorSAComponent,
+        const result = await lastValueFrom(this.dialog.open<RelationsNodePropertiesEditorComponent, RelationsNodePropertiesEditorData, RelationsNodeProperties|undefined|null>(RelationsNodePropertiesEditorComponent,
         {
             title: 'edit properties',
             width: '30vw',

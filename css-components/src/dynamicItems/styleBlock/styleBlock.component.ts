@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, inject, Renderer2} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
@@ -20,13 +20,13 @@ import {StyleBlockLayoutMetadataLoader} from './styleBlock.metadata';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<StyleBlockComponentOptions>(options => options?.content ? [options?.content] : [])
 @LayoutEditorMetadata(StyleBlockLayoutMetadataLoader)
-export class StyleBlockSAComponent extends LayoutComponentBase<StyleBlockComponentOptions> implements LayoutComponent<StyleBlockComponentOptions>
+export class StyleBlockComponent extends LayoutComponentBase<StyleBlockComponentOptions> implements LayoutComponent<StyleBlockComponentOptions>
 {
     //######################### protected properties #########################
 

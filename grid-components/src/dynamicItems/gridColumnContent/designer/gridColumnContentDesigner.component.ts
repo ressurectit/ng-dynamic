@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {GridColumnContentComponentOptions} from '../gridColumnContent.options';
-import {GridColumnContentSAComponent} from '../gridColumnContent.component';
+import {GridColumnContentComponent} from '../gridColumnContent.component';
 
 /**
  * Component used for displaying grid column content designer
@@ -15,10 +15,10 @@ import {GridColumnContentSAComponent} from '../gridColumnContent.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridColumnContentDesignerSAComponent extends GridColumnContentSAComponent implements LayoutComponent<GridColumnContentComponentOptions>
+export class GridColumnContentDesignerComponent extends GridColumnContentComponent implements LayoutComponent<GridColumnContentComponentOptions>
 {
 }

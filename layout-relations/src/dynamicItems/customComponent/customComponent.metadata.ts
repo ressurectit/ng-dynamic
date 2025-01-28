@@ -19,4 +19,4 @@ export const CustomComponentRelationsMetadataLoader: DynamicMetadataLoader<Relat
 /**
  * Custom component layout designer type loader
  */
-export const CustomComponentLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/customComponentDesigner.component')).CustomComponentDesignerSAComponent;
+export const CustomComponentLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/customComponentDesigner.component')).CustomComponentDesignerComponent;

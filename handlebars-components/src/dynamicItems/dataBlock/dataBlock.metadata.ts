@@ -19,5 +19,5 @@ export const DataBlockRelationsMetadataLoader: DynamicMetadataLoader<RelationsEd
 /**
  * Data block layout designer type loader
  */
-export const DataBlockLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/dataBlockDesigner.component')).DataBlockDesignerSAComponent;
+export const DataBlockLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/dataBlockDesigner.component')).DataBlockDesignerComponent;
 

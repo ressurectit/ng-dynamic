@@ -4,10 +4,10 @@ import {Dictionary, nameof} from '@jscrpt/common';
 import {Observable, Subject, Subscription} from 'rxjs';
 
 import {Coordinates, RelationsInput, RelationsNode, RelationsNodeMetadata, RelationsOutput} from '../interfaces';
-import {RelationNodeOutputSAComponent} from './relationsNodeOutput/relationsNodeOutput.component';
-import {RelationNodeInputSAComponent} from './relationsNodeInput/relationsNodeInput.component';
+import {RelationNodeOutputComponent} from './relationsNodeOutput/relationsNodeOutput.component';
+import {RelationNodeInputComponent} from './relationsNodeInput/relationsNodeInput.component';
 import {RELATIONS_HISTORY_MANAGER} from '../misc/tokens';
-import {RelationsCanvasSAComponent} from './relationsCanvas/relationsCanvas.component';
+import {RelationsCanvasComponent} from './relationsCanvas/relationsCanvas.component';
 
 /**
  * Base class for relations node components
@@ -17,7 +17,7 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
 {
     //######################### protected properties #########################
 
-    protected canvas: RelationsCanvasSAComponent = inject(RelationsCanvasSAComponent);
+    protected canvas: RelationsCanvasComponent = inject(RelationsCanvasComponent);
 
     /**
      * Canvas position change subscription
@@ -101,13 +101,13 @@ export abstract class RelationsNodeBase<TOptions = any, TEditorOptions = any> im
     /**
      * Relations node inputs
      */
-    @ViewChildren(RelationNodeInputSAComponent)
+    @ViewChildren(RelationNodeInputComponent)
     protected inputsChildren!: QueryList<RelationsInput>;
 
     /**
      * Relations node outputs
      */
-    @ViewChildren(RelationNodeOutputSAComponent)
+    @ViewChildren(RelationNodeOutputComponent)
     protected outputsChildren!: QueryList<RelationsOutput>;
 
     //######################### public properties - implementation of RelationsNode #########################

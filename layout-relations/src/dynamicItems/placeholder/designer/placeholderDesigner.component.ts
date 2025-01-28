@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy, FactoryProvider, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentRendererSADirective, LayoutRenderer} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective, LayoutRenderer} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
-import {PlaceholderSAComponent} from '../placeholder.component';
+import {PlaceholderComponent} from '../placeholder.component';
 import {PlaceholderComponentOptions} from '../placeholder.options';
 import {PlaceholderHandler} from '../../../services';
 import {ComponentWithId} from '../../../interfaces';
@@ -19,7 +19,7 @@ import {ComponentWithId} from '../../../interfaces';
     imports:
     [
         CommonModule,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     providers:
     [
@@ -33,13 +33,13 @@ import {ComponentWithId} from '../../../interfaces';
             provide: PlaceholderHandler,
             useFactory: () =>
             {
-                return new PlaceholderHandler(PlaceholderDesignerSAComponent);
+                return new PlaceholderHandler(PlaceholderDesignerComponent);
             }
         },
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlaceholderDesignerSAComponent extends PlaceholderSAComponent implements LayoutComponent<PlaceholderComponentOptions>, ComponentWithId
+export class PlaceholderDesignerComponent extends PlaceholderComponent implements LayoutComponent<PlaceholderComponentOptions>, ComponentWithId
 {
     //######################### protected methods - overrides #########################
 

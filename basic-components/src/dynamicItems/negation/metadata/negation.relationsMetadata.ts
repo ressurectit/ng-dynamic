@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {NegationNodeSAComponent} from '../node/negationNode.component';
+import {NegationNodeComponent} from '../node/negationNode.component';
 
 /**
  * Negation relations metadata
@@ -23,7 +23,7 @@ export class NegationRelationsEditorMetadata implements RelationsEditorMetadataD
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = NegationNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = NegationNodeComponent;
 
     //######################### constructor #########################
     constructor()

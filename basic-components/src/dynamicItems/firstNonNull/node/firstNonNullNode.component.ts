@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 
 import {FirstNonNullRelationsOptions} from '../firstNonNull.options';
 
@@ -14,15 +14,15 @@ import {FirstNonNullRelationsOptions} from '../firstNonNull.options';
     templateUrl: 'firstNonNullNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FirstNonNullNodeSAComponent extends RelationsNodeBase<FirstNonNullRelationsOptions> implements RelationsNode<FirstNonNullRelationsOptions>
+export class FirstNonNullNodeComponent extends RelationsNodeBase<FirstNonNullRelationsOptions> implements RelationsNode<FirstNonNullRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 

@@ -29,6 +29,6 @@ import {TextFieldComponentOptions} from './textField.options';
 })
 @RelationsEditorMetadata(TextFieldRelationsMetadataLoader)
 @LayoutEditorMetadata(TextFieldLayoutMetadataLoader)
-export class TextFieldSAComponent extends FormComponentBase<TextFieldComponentOptions> implements FormComponent<TextFieldComponentOptions>
+export class TextFieldComponent extends FormComponentBase<TextFieldComponentOptions> implements FormComponent<TextFieldComponentOptions>
 {
 }

@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MaterialCheckboxNodeSAComponent} from '../node/checkboxNode.component';
+import {MaterialCheckboxNodeComponent} from '../node/checkboxNode.component';
 
 /**
  * Material checkbox relations metadata
@@ -23,7 +23,7 @@ export class MaterialCheckboxRelationsEditorMetadata implements RelationsEditorM
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = MaterialCheckboxNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = MaterialCheckboxNodeComponent;
 
     //######################### constructor #########################
     constructor()

@@ -11,10 +11,10 @@ import {NodesPaletteItem} from './nodesPalette.interface';
 import {REFRESH_PALETTE_OBSERVABLES, RELATIONS_MODULE_TYPES_LOADER, RELATIONS_NODES_LOADER} from '../../misc/tokens';
 import {RelationsModuleTypes, RelationsNodeDef} from '../../misc/types';
 import {RelationsNodeManager} from '../../services';
-import {ToRelationsDragDataSAPipe} from '../../pipes';
-import {NodesPaletteItemSAComponent} from './item/nodesPaletteItem.component';
-import {NodeGroupFilterSAPipe} from './pipes/nodeGroupFilter.pipe';
-import {NodeItemFilterSAPipe} from './pipes/nodeItemFilter.pipe';
+import {ToRelationsDragDataPipe} from '../../pipes';
+import {NodesPaletteItemComponent} from './item/nodesPaletteItem.component';
+import {NodeGroupFilterPipe} from './pipes/nodeGroupFilter.pipe';
+import {NodeItemFilterPipe} from './pipes/nodeItemFilter.pipe';
 
 /**
  * Component displaying available nodes palette
@@ -27,17 +27,17 @@ import {NodeItemFilterSAPipe} from './pipes/nodeItemFilter.pipe';
     [
         CommonModule,
         DragDropModule,
-        // LayoutEditorDragPreviewSAComponent,
-        // LayoutEditorDragPlaceholderSAComponent,
-        ToRelationsDragDataSAPipe,
-        NodesPaletteItemSAComponent,
+        // LayoutEditorDragPreviewComponent,
+        // LayoutEditorDragPlaceholderComponent,
+        ToRelationsDragDataPipe,
+        NodesPaletteItemComponent,
         FirstUppercaseLocalizePipe,
-        NodeGroupFilterSAPipe,
-        NodeItemFilterSAPipe,
+        NodeGroupFilterPipe,
+        NodeItemFilterPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NodesPaletteSAComponent implements OnInit, OnDestroy
+export class NodesPaletteComponent implements OnInit, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -155,7 +155,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
      */
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
-        if(nameof<NodesPaletteSAComponent>('whiteList') in changes)
+        if(nameof<NodesPaletteComponent>('whiteList') in changes)
         {
             this.whiteListedPackages = [];
 
@@ -174,9 +174,9 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
             }
         }
 
-        if(nameof<NodesPaletteSAComponent>('whiteList') in changes ||
-           nameof<NodesPaletteSAComponent>('blackList') in changes ||
-           nameof<NodesPaletteSAComponent>('packages') in changes)
+        if(nameof<NodesPaletteComponent>('whiteList') in changes ||
+           nameof<NodesPaletteComponent>('blackList') in changes ||
+           nameof<NodesPaletteComponent>('packages') in changes)
         {
             await this.loadNodes();
         }
@@ -228,7 +228,7 @@ export class NodesPaletteSAComponent implements OnInit, OnDestroy
     
                 if(!metadata)
                 {
-                    this.logger.warn('NodesPaletteSAComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
+                    this.logger.warn('NodesPaletteComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
                 }
                 else
                 {

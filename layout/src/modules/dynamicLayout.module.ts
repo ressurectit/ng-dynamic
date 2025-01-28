@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 
-import {LayoutComponentRendererSADirective} from '../directives';
+import {LayoutComponentRendererDirective} from '../directives';
 
 /**
  * Module contains components, directives, pipes for dynamic layout rendering
@@ -9,11 +9,11 @@ import {LayoutComponentRendererSADirective} from '../directives';
 {
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     exports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ]
 })
 export class DynamicLayoutModule

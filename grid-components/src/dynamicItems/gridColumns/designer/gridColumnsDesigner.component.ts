@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {HostFlexRowStyle} from '@anglr/common';
 
 import {GridColumnsComponentOptions} from '../gridColumns.options';
-import {GridColumnsSAComponent} from '../gridColumns.component';
+import {GridColumnsComponent} from '../gridColumns.component';
 
 /**
  * Component used for displaying grid columns designer
@@ -15,11 +15,11 @@ import {GridColumnsSAComponent} from '../gridColumns.component';
     styles: [HostFlexRowStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridColumnsDesignerSAComponent extends GridColumnsSAComponent implements LayoutComponent<GridColumnsComponentOptions>
+export class GridColumnsDesignerComponent extends GridColumnsComponent implements LayoutComponent<GridColumnsComponentOptions>
 {
     //######################### protected methods - overrides #########################
 

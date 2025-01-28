@@ -1,7 +1,7 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 
-import {MaterialExpansionPanelSAComponent} from './expansionPanel.component';
+import {MaterialExpansionPanelComponent} from './expansionPanel.component';
 
-export default MaterialExpansionPanelSAComponent;
+export default MaterialExpansionPanelComponent;
 
 export const extensions = [ComponentStylingExtension];

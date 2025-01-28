@@ -13,4 +13,4 @@ export const DataTableLayoutMetadataLoader: DynamicMetadataLoader<LayoutEditorMe
 /**
  * Data table layout designer type loader
  */
-export const DataTableLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/dataTableDesigner.component')).DataTableDesignerSAComponent;
+export const DataTableLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/dataTableDesigner.component')).DataTableDesignerComponent;

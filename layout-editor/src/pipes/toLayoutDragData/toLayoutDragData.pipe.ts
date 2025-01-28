@@ -10,7 +10,7 @@ import {LAYOUT_DEFAULTS_OVERRIDE} from '../../misc/tokens';
  * Transforms ComponentsPaletteItem item to LayoutComponentDragData
  */
 @Pipe({name: 'toLayoutDragData'})
-export class ToLayoutDragDataSAPipe implements PipeTransform
+export class ToLayoutDragDataPipe implements PipeTransform
 {
     //######################### protected properties #########################
 

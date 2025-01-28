@@ -4,7 +4,7 @@ import {Destroyable, DynamicOnChanges} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 
 import {GridColumnsRelations} from '../../../gridColumns.relations';
-import {DataTableSAComponent} from '../../../../dataTable/dataTable.component';
+import {DataTableComponent} from '../../../../dataTable/dataTable.component';
 
 /**
  * Helper class for creating grid columns relations
@@ -46,7 +46,7 @@ export class GridColumnsRelationsHelper<TRow = unknown> implements DynamicOnChan
         this.componentManager = injector.get(RelationsComponentManager);
         this.relationsProcessor = injector.get(RelationsProcessor);
 
-        const id = injector.get(DataTableSAComponent).options?.columns.id;
+        const id = injector.get(DataTableComponent).options?.columns.id;
 
         if(!id)
         {

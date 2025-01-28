@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {NumberFieldNodeSAComponent} from '../node/numberFieldNode.component';
+import {NumberFieldNodeComponent} from '../node/numberFieldNode.component';
 
 /**
  *  number field relations metadata
@@ -23,7 +23,7 @@ export class NumberFieldRelationsEditorMetadata implements RelationsEditorMetada
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = NumberFieldNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = NumberFieldNodeComponent;
 
     //######################### constructor #########################
     constructor()

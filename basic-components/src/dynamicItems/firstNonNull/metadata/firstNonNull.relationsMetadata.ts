@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {FirstNonNullNodeSAComponent} from '../node/firstNonNullNode.component';
+import {FirstNonNullNodeComponent} from '../node/firstNonNullNode.component';
 
 /**
  * First non null relations metadata
@@ -23,7 +23,7 @@ export class FirstNonNullRelationsEditorMetadata implements RelationsEditorMetad
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = FirstNonNullNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = FirstNonNullNodeComponent;
 
     //######################### constructor #########################
     constructor()

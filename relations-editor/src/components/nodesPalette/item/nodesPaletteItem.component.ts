@@ -22,7 +22,7 @@ import {NodesPaletteItem} from '../nodesPalette.interface';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NodesPaletteItemSAComponent implements OnInit, OnDestroy
+export class NodesPaletteItemComponent implements OnInit, OnDestroy
 {
     //######################### protected properties #########################
 

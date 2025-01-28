@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {ToggleButtonNodeSAComponent} from '../node/toggleButtonNode.component';
+import {ToggleButtonNodeComponent} from '../node/toggleButtonNode.component';
 
 /**
  * Toggle button relations metadata
@@ -23,7 +23,7 @@ export class ToggleButtonRelationsEditorMetadata implements RelationsEditorMetad
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = ToggleButtonNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = ToggleButtonNodeComponent;
 
     //######################### constructor #########################
     constructor()

@@ -7,14 +7,14 @@ import {PlaceholderHandler} from '../../../../../services';
  * Gets container metadata that are displayed in placeholder
  */
 @Pipe({name: 'containerMetadata'})
-export class ContainerMetadataSAPipe<TOptions = unknown> implements PipeTransform
+export class ContainerMetadataPipe<TOptions = unknown> implements PipeTransform
 {
     //######################### constructor #########################
     constructor(protected placeholderHandler: PlaceholderHandler<TOptions>,)
     {
     }
 
-    //######################### public methods - implementation of ContainerMetadataSAPipe #########################
+    //######################### public methods - implementation of ContainerMetadataPipe #########################
 
     /**
      * Gets container metadata that are displayed in placeholder

@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationsNodeHeaderComponent, RelationNodeOutputComponent} from '@anglr/dynamic/relations-editor';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 
 import {ListBlockRelationsOptions} from '../listBlock.options';
@@ -13,13 +13,13 @@ import {ListBlockRelationsOptions} from '../listBlock.options';
     templateUrl: 'listBlockNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListBlockNodeSAComponent extends RelationsNodeBase<ListBlockRelationsOptions> implements RelationsNode<ListBlockRelationsOptions>
+export class ListBlockNodeComponent extends RelationsNodeBase<ListBlockRelationsOptions> implements RelationsNode<ListBlockRelationsOptions>
 {
 }

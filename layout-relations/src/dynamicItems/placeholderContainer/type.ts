@@ -1,3 +1,3 @@
-import {PlaceholderContainerSAComponent} from './placeholderContainer.component';
+import {PlaceholderContainerComponent} from './placeholderContainer.component';
 
-export default PlaceholderContainerSAComponent;
+export default PlaceholderContainerComponent;

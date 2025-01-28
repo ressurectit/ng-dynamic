@@ -19,4 +19,4 @@ export const DialogMetadataSelectorRelationsMetadataLoader: DynamicMetadataLoade
 /**
  * Dialog metadata selector layout designer type loader
  */
-export const DialogMetadataSelectorLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/dialogMetadataSelectorDesigner.component')).DialogMetadataSelectorDesignerSAComponent;
+export const DialogMetadataSelectorLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/dialogMetadataSelectorDesigner.component')).DialogMetadataSelectorDesignerComponent;

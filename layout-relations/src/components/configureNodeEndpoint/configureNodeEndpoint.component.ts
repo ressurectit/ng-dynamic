@@ -34,7 +34,7 @@ import {ConfigureNodeEndpointData} from './configureNodeEndpoint.interface';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfigureNodeEndpointSAComponent
+export class ConfigureNodeEndpointComponent
 {
     //######################### protected properties - template bindings #########################
 

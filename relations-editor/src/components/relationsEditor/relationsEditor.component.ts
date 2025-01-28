@@ -6,8 +6,8 @@ import {DynamicItemSource, EditorHotkeys, MetadataHistoryManager, PackageManager
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
 
-import {NodesPaletteSAComponent} from '../nodesPalette/nodesPalette.component';
-import {RelationsCanvasSAComponent} from '../relationsCanvas/relationsCanvas.component';
+import {NodesPaletteComponent} from '../nodesPalette/nodesPalette.component';
+import {RelationsCanvasComponent} from '../relationsCanvas/relationsCanvas.component';
 import {RelationsNodeDragData, RelationsNodeMetadata} from '../../interfaces';
 import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
 
@@ -21,8 +21,8 @@ import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
     styles: [HostDisplayFlexStyle],
     imports:
     [
-        NodesPaletteSAComponent,
-        RelationsCanvasSAComponent,
+        NodesPaletteComponent,
+        RelationsCanvasComponent,
         DragDropModule,
         PackageManagerModule,
         ReactiveFormsModule,
@@ -30,7 +30,7 @@ import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
+export class RelationsEditorComponent implements OnInit, OnChanges, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -49,8 +49,8 @@ export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
     /**
      * Relation canvas
      */
-    @ViewChild(RelationsCanvasSAComponent)
-    protected relationCanvas: RelationsCanvasSAComponent|undefined|null;
+    @ViewChild(RelationsCanvasComponent)
+    protected relationCanvas: RelationsCanvasComponent|undefined|null;
 
     //######################### public properties - inputs #########################
 
@@ -113,7 +113,7 @@ export class RelationsEditorSAComponent implements OnInit, OnChanges, OnDestroy
      */
     public ngOnChanges(changes: SimpleChanges): void
     {
-        if(nameof<RelationsEditorSAComponent>('metadata') in changes)
+        if(nameof<RelationsEditorComponent>('metadata') in changes)
         {
             this.history.clean();
             

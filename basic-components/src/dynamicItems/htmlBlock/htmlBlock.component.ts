@@ -23,12 +23,12 @@ import {HtmlBlockLayoutMetadataLoader, HtmlBlockRelationsMetadataLoader} from '.
 {
     inputs:
     [
-        nameof<HtmlBlockSAComponent>('content'),
+        nameof<HtmlBlockComponent>('content'),
     ],
 })
 @RelationsEditorMetadata(HtmlBlockRelationsMetadataLoader)
 @LayoutEditorMetadata(HtmlBlockLayoutMetadataLoader)
-export class HtmlBlockSAComponent extends LayoutComponentBase<HtmlBlockComponentOptions> implements LayoutComponent<HtmlBlockComponentOptions>, RelationsComponent
+export class HtmlBlockComponent extends LayoutComponentBase<HtmlBlockComponentOptions> implements LayoutComponent<HtmlBlockComponentOptions>, RelationsComponent
 {
     //######################### public properties - implementation of RelationsComponent #########################
 
@@ -54,7 +54,7 @@ export class HtmlBlockSAComponent extends LayoutComponentBase<HtmlBlockComponent
     {
         await super.dynamicOnChanges(changes);
 
-        if(nameof<HtmlBlockSAComponent>('content') in changes)
+        if(nameof<HtmlBlockComponent>('content') in changes)
         {
             this.componentElement.nativeElement.innerHTML = this.content ?? '';
         }

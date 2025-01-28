@@ -1,3 +1,3 @@
-import {PreviousNextPagingSAComponent} from './previousNextPaging.component';
+import {PreviousNextPagingComponent} from './previousNextPaging.component';
 
-export default PreviousNextPagingSAComponent;
+export default PreviousNextPagingComponent;

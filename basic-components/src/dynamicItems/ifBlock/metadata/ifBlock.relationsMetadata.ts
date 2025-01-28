@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {IfBlockNodeSAComponent} from '../node/ifBlockNode.component';
+import {IfBlockNodeComponent} from '../node/ifBlockNode.component';
 
 /**
  * If block relations metadata
@@ -23,7 +23,7 @@ export class IfBlockRelationsEditorMetadata implements RelationsEditorMetadataDe
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = IfBlockNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = IfBlockNodeComponent;
 
     //######################### constructor #########################
     constructor()

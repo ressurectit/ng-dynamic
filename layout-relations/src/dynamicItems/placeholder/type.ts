@@ -1,6 +1,6 @@
 import {IdSetterExtension} from '../../misc/extensions';
-import {PlaceholderSAComponent} from './placeholder.component';
+import {PlaceholderComponent} from './placeholder.component';
 
-export default PlaceholderSAComponent;
+export default PlaceholderComponent;
 
 export const extensions = [IdSetterExtension];

@@ -31,5 +31,5 @@ import {MaterialNumberFieldComponentOptions} from './numberField.options';
 })
 @RelationsEditorMetadata(MaterialNumberFieldRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialNumberFieldLayoutMetadataLoader)
-export class MaterialNumberFieldSAComponent extends FormComponentBase<MaterialNumberFieldComponentOptions> implements FormComponent<MaterialNumberFieldComponentOptions>
+export class MaterialNumberFieldComponent extends FormComponentBase<MaterialNumberFieldComponentOptions> implements FormComponent<MaterialNumberFieldComponentOptions>
 {}

@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MaterialPeriodNodeSAComponent} from '../node/periodNode.component';
+import {MaterialPeriodNodeComponent} from '../node/periodNode.component';
 
 /**
  * Material period relations metadata
@@ -23,7 +23,7 @@ export class MaterialPeriodRelationsEditorMetadata implements RelationsEditorMet
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = MaterialPeriodNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = MaterialPeriodNodeComponent;
 
     //######################### constructor #########################
     constructor()

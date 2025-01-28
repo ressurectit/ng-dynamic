@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {StaticOutputNodeSAComponent} from '../node/staticOutputNode.component';
+import {StaticOutputNodeComponent} from '../node/staticOutputNode.component';
 
 /**
  * Static ouptut relations metadata
@@ -23,7 +23,7 @@ export class StaticOutputRelationsEditorMetadata implements RelationsEditorMetad
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = StaticOutputNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = StaticOutputNodeComponent;
 
     //######################### constructor #########################
     constructor()

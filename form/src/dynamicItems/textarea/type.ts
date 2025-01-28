@@ -1,9 +1,9 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {TextareaSAComponent} from './textarea.component';
+import {TextareaComponent} from './textarea.component';
 
 
-export default TextareaSAComponent;
+export default TextareaComponent;
 
 export const extensions = [ComponentStylingExtension, RelationsRegistrationExtension];

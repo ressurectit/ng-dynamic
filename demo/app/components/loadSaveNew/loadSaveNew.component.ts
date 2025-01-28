@@ -5,7 +5,7 @@ import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgSelectModule} from '@anglr/select';
 import {EditorHotkeys, MetadataHistoryManager, EditorMetadataManager, EDITOR_METADATA_MANAGER} from '@anglr/dynamic';
-import {CustomDynamicItemsRegister, ShowCustomComponentOptionsSADirective} from '@anglr/dynamic/layout-relations';
+import {CustomDynamicItemsRegister, ShowCustomComponentOptionsDirective} from '@anglr/dynamic/layout-relations';
 import {LiveEventService} from '@anglr/dynamic/layout-editor';
 import {Func, isBlank} from '@jscrpt/common';
 import {extend} from '@jscrpt/common/extend';
@@ -28,7 +28,7 @@ import {DemoCustomRelationsRegister} from '../../services/demoCustomRelationsReg
         ReactiveFormsModule,
         NgSelectModule,
         CommonModule,
-        ShowCustomComponentOptionsSADirective,
+        ShowCustomComponentOptionsDirective,
         MatSlideToggleModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -109,7 +109,7 @@ export class LoadSaveNewComponent<TStoreMetadata = unknown, TMetadata = unknown>
 
                 if(isBlank(components))
                 {
-                    throw new Error('LoadSaveNewSAComponent: missing components!');
+                    throw new Error('LoadSaveNewComponent: missing components!');
                 }
 
                 this.component.setValue(components.indexOf(value) >= 0, {emitEvent: false});

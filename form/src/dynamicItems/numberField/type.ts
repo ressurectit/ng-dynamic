@@ -1,9 +1,9 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {NumberFieldSAComponent} from './numberField.component';
+import {NumberFieldComponent} from './numberField.component';
 
 
-export default NumberFieldSAComponent;
+export default NumberFieldComponent;
 
 export const extensions = [ComponentStylingExtension, RelationsRegistrationExtension];

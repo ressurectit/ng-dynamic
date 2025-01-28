@@ -4,14 +4,14 @@ import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {FormModelBuilder, FormModelGroup, NumberInputModule} from '@anglr/common/forms';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 import {isPresent} from '@jscrpt/common';
 import {extend} from '@jscrpt/common/extend';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {SyncValuesRelationsOptions} from '../syncValues.options';
 import {SyncValuesRelationsOptionsModel} from './syncValuesNode.model';
-import {ConfigureSyncPropertySAComponent} from '../misc/components';
+import {ConfigureSyncPropertyComponent} from '../misc/components';
 
 /**
  * Sync values node component for negation
@@ -25,9 +25,9 @@ import {ConfigureSyncPropertySAComponent} from '../misc/components';
         CommonModule,
         ReactiveFormsModule,
         NumberInputModule,
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
     providers:
@@ -36,7 +36,7 @@ import {ConfigureSyncPropertySAComponent} from '../misc/components';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SyncValuesNodeSAComponent extends RelationsNodeBase<SyncValuesRelationsOptions> implements RelationsNode<SyncValuesRelationsOptions>
+export class SyncValuesNodeComponent extends RelationsNodeBase<SyncValuesRelationsOptions> implements RelationsNode<SyncValuesRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 
@@ -97,7 +97,7 @@ export class SyncValuesNodeSAComponent extends RelationsNodeBase<SyncValuesRelat
      */
     protected async configureSyncProperty(index: number): Promise<void>
     {
-        const result = await lastValueFrom(this.dialog.open<ConfigureSyncPropertySAComponent, string, string|undefined|null>(ConfigureSyncPropertySAComponent,
+        const result = await lastValueFrom(this.dialog.open<ConfigureSyncPropertyComponent, string, string|undefined|null>(ConfigureSyncPropertyComponent,
         {
             title: 'configure sync property',
             width: '60vw',

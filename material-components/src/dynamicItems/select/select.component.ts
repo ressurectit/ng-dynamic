@@ -33,7 +33,7 @@ import {MaterialSelectComponentOptions} from './select.options';
 })
 @RelationsEditorMetadata(MaterialSelectRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialSelectLayoutMetadataLoader)
-export class MaterialSelectSAComponent extends FormComponentBase<MaterialSelectComponentOptions> implements FormComponent<MaterialSelectComponentOptions>
+export class MaterialSelectComponent extends FormComponentBase<MaterialSelectComponentOptions> implements FormComponent<MaterialSelectComponentOptions>
 {
     //######################### public properties #########################
 

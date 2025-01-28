@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {GridColumnHeaderComponentOptions} from '../gridColumnHeader.options';
-import {GridColumnHeaderSAComponent} from '../gridColumnHeader.component';
+import {GridColumnHeaderComponent} from '../gridColumnHeader.component';
 
 /**
  * Component used for displaying grid column header designer
@@ -15,10 +15,10 @@ import {GridColumnHeaderSAComponent} from '../gridColumnHeader.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GridColumnHeaderDesignerSAComponent extends GridColumnHeaderSAComponent implements LayoutComponent<GridColumnHeaderComponentOptions>
+export class GridColumnHeaderDesignerComponent extends GridColumnHeaderComponent implements LayoutComponent<GridColumnHeaderComponentOptions>
 {
 }

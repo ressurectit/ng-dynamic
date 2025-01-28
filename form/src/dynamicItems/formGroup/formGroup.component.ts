@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy, ValueProvider, Provider} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {PromiseOr} from '@jscrpt/common';
 
@@ -19,13 +19,13 @@ import {FormComponentBase} from '../../components';
     imports:
     [
         CommonModule,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<FormGroupComponentOptions>(options => options?.children ?? [])
 @LayoutEditorMetadata(FormGroupLayoutMetadataLoader)
-export class FormGroupSAComponent extends FormComponentBase<FormGroupComponentOptions> implements LayoutComponent<FormGroupComponentOptions>
+export class FormGroupComponent extends FormComponentBase<FormGroupComponentOptions> implements LayoutComponent<FormGroupComponentOptions>
 {
     //######################### protected properties #########################
 

@@ -1,14 +1,14 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 import {extend} from '@jscrpt/common/extend';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
-import {ConfigureRestParameterData, ConfigureRestParameterSAComponent} from '../misc/components';
+import {ConfigureRestParameterData, ConfigureRestParameterComponent} from '../misc/components';
 import {RestRelationsOptions} from '../rest.options';
 import {RestParam} from '../misc/interfaces';
 import {RestRelationsOptionsModel} from './restNode.model';
@@ -24,9 +24,9 @@ import {RestRelationsOptionsModel} from './restNode.model';
     [
         CommonModule,
         ReactiveFormsModule,
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe
     ],
     providers:
@@ -35,7 +35,7 @@ import {RestRelationsOptionsModel} from './restNode.model';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions> implements RelationsNode<RestRelationsOptions>
+export class RestNodeComponent extends RelationsNodeBase<RestRelationsOptions> implements RelationsNode<RestRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 
@@ -129,7 +129,7 @@ export class RestNodeSAComponent extends RelationsNodeBase<RestRelationsOptions>
     {
         const original = JSON.parse(JSON.stringify(param));
 
-        const result = await lastValueFrom(this.dialog.open<ConfigureRestParameterSAComponent, ConfigureRestParameterData, true|undefined|null>(ConfigureRestParameterSAComponent,
+        const result = await lastValueFrom(this.dialog.open<ConfigureRestParameterComponent, ConfigureRestParameterData, true|undefined|null>(ConfigureRestParameterComponent,
         {
             title: 'configure rest parameter',
             width: '60vw',

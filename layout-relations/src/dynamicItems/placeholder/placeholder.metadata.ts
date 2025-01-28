@@ -13,4 +13,4 @@ export const PlaceholderLayoutMetadataLoader: DynamicMetadataLoader<LayoutEditor
 /**
  * Placeholder layout designer type loader
  */
-export const PlaceholderLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/placeholderDesigner.component')).PlaceholderDesignerSAComponent;
+export const PlaceholderLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/placeholderDesigner.component')).PlaceholderDesignerComponent;

@@ -9,7 +9,7 @@ import {RelationsNodeManager} from '../../services';
 import {NodeRelationPath} from '../../misc/nodeRelationPath';
 import {MouseButton} from '../../misc/enums';
 import {clamp} from '../../misc/utils';
-import {RelationsNodeRendererSADirective} from '../../directives';
+import {RelationsNodeRendererDirective} from '../../directives';
 import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
 
 /**
@@ -42,11 +42,11 @@ const MOVEMENT_DELTA_MAX = 10;
     imports:
     [
         CommonModule,
-        RelationsNodeRendererSADirective,
+        RelationsNodeRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelationsCanvasSAComponent implements OnInit, OnDestroy
+export class RelationsCanvasComponent implements OnInit, OnDestroy
 {
     //######################### private properties #########################
 

@@ -15,6 +15,6 @@ import {HostDisplayBlockStyle, LocalizePipe} from '@anglr/common';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotFoundLayoutTypeSAComponent
+export class NotFoundLayoutTypeComponent
 {
 }

@@ -9,7 +9,7 @@ import {NodesPaletteItem} from '../nodesPalette.interface';
 {
     name: 'nodeItemFilter',
 })
-export class NodeItemFilterSAPipe implements PipeTransform, OnDestroy
+export class NodeItemFilterPipe implements PipeTransform, OnDestroy
 {
     //######################### protected fields #########################
 

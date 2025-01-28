@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {TextareaNodeSAComponent} from '../node/textareaNode.component';
+import {TextareaNodeComponent} from '../node/textareaNode.component';
 
 /**
  *  textarea relations metadata
@@ -23,7 +23,7 @@ export class TextareaRelationsEditorMetadata implements RelationsEditorMetadataD
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = TextareaNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = TextareaNodeComponent;
 
     //######################### constructor #########################
     constructor()

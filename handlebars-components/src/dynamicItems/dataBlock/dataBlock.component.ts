@@ -23,7 +23,7 @@ import {DataBlockLayoutDesignerTypeLoader, DataBlockLayoutMetadataLoader, DataBl
 @LayoutEditorDesignerType(DataBlockLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(DataBlockRelationsMetadataLoader)
 @LayoutEditorMetadata(DataBlockLayoutMetadataLoader)
-export class DataBlockSAComponent extends LayoutComponentBase<DataBlockComponentOptions> implements LayoutComponent<DataBlockComponentOptions>, RelationsComponent
+export class DataBlockComponent extends LayoutComponentBase<DataBlockComponentOptions> implements LayoutComponent<DataBlockComponentOptions>, RelationsComponent
 {
     //######################### protected properties #########################
 
@@ -56,7 +56,7 @@ export class DataBlockSAComponent extends LayoutComponentBase<DataBlockComponent
     {
         await super.dynamicOnChanges(changes);
 
-        if(nameof<DataBlockSAComponent>('data') in changes)
+        if(nameof<DataBlockComponent>('data') in changes)
         {
             this.componentElement.nativeElement.innerHTML = this.compiledTemplate?.(this.data) ?? '';
         }

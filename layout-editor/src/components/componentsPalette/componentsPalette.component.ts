@@ -8,10 +8,10 @@ import {Observable, Subscription} from 'rxjs';
 
 import {LayoutEditorMetadataExtractor} from '../../services';
 import {ComponentsPaletteItem, LayoutModuleTypes} from './componentsPalette.interface';
-import {ToLayoutDragDataSAPipe} from '../../pipes';
+import {ToLayoutDragDataPipe} from '../../pipes';
 import {LAYOUT_MODULE_TYPES_LOADER, REFRESH_PALETTE_OBSERVABLES} from '../../misc/tokens';
-import {ComponentGroupFilterSAPipe} from './pipes/componentGroupFilter.pipe';
-import {ComponentItemFilterSAPipe} from './pipes/componentItemFilter.pipe';
+import {ComponentGroupFilterPipe} from './pipes/componentGroupFilter.pipe';
+import {ComponentItemFilterPipe} from './pipes/componentItemFilter.pipe';
 import {DndCorePaletteItemDirective} from '../../directives';
 
 /**
@@ -24,15 +24,15 @@ import {DndCorePaletteItemDirective} from '../../directives';
     imports:
     [
         CommonModule,
-        ToLayoutDragDataSAPipe,
-        ComponentItemFilterSAPipe,
-        ComponentGroupFilterSAPipe,
+        ToLayoutDragDataPipe,
+        ComponentItemFilterPipe,
+        ComponentGroupFilterPipe,
         DndCorePaletteItemDirective,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestroy
+export class ComponentsPaletteComponent implements OnInit, OnChanges, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -140,7 +140,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
      */
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
-        if(nameof<ComponentsPaletteSAComponent>('whiteList') in changes)
+        if(nameof<ComponentsPaletteComponent>('whiteList') in changes)
         {
             this.whiteListedPackages = [];
 
@@ -159,9 +159,9 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
             }
         }
 
-        if(nameof<ComponentsPaletteSAComponent>('whiteList') in changes ||
-           nameof<ComponentsPaletteSAComponent>('blackList') in changes ||
-           nameof<ComponentsPaletteSAComponent>('packages') in changes)
+        if(nameof<ComponentsPaletteComponent>('whiteList') in changes ||
+           nameof<ComponentsPaletteComponent>('blackList') in changes ||
+           nameof<ComponentsPaletteComponent>('packages') in changes)
         {
             await this.initItems();
         }
@@ -215,7 +215,7 @@ export class ComponentsPaletteSAComponent implements OnInit, OnChanges, OnDestro
 
                 if(!metadata)
                 {
-                    this.logger.warn('ComponentsPaletteSAComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
+                    this.logger.warn('ComponentsPaletteComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
                 }
                 else
                 {

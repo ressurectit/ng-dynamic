@@ -6,7 +6,7 @@ import {Dictionary} from '@jscrpt/common';
  * Gets properties metadata for for model type
  */
 @Pipe({name: 'propertiesMetadata'})
-export class PropertiesMetadataSAPipe implements PipeTransform
+export class PropertiesMetadataPipe implements PipeTransform
 {
     //######################### constructor #########################
     constructor(@Optional() protected propertyExtractor?: LayoutEditorPropertyMetadataExtractor,)

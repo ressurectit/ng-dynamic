@@ -5,7 +5,7 @@ import {LayoutEditorMetadataExtractor, PropertiesControl, PropertiesControlBase}
 import {isPresent} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
-import {RichTextBlockEditorDialogSAComponent} from '../richTextBlockEditorDialog/richTextBlockEditorDialog.component';
+import {RichTextBlockEditorDialogComponent} from '../richTextBlockEditorDialog/richTextBlockEditorDialog.component';
 import {RichTextBlockComponentOptions} from '../../../richTextBlock.options';
 
 /**
@@ -17,7 +17,7 @@ import {RichTextBlockComponentOptions} from '../../../richTextBlock.options';
     templateUrl: 'richTextBlockPropertiesControl.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RichTextBlockPropertiesControlSAComponent extends PropertiesControlBase<RichTextBlockComponentOptions> implements PropertiesControl<RichTextBlockComponentOptions>
+export class RichTextBlockPropertiesControlComponent extends PropertiesControlBase<RichTextBlockComponentOptions> implements PropertiesControl<RichTextBlockComponentOptions>
 {
     //######################### constructor #########################
     constructor(changeDetector: ChangeDetectorRef,
@@ -34,7 +34,7 @@ export class RichTextBlockPropertiesControlSAComponent extends PropertiesControl
      */
     protected async showCodeEditor(): Promise<void>
     {
-        const result = await lastValueFrom(this.dialog.open<RichTextBlockEditorDialogSAComponent, string, string|null>(RichTextBlockEditorDialogSAComponent,
+        const result = await lastValueFrom(this.dialog.open<RichTextBlockEditorDialogComponent, string, string|null>(RichTextBlockEditorDialogComponent,
         {
             title: 'Rich text block editor',
             width: '75vw',

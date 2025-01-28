@@ -9,7 +9,7 @@ import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideAnglrExceptionExtenders, errorWithUrlExtender, provideInternalServerErrorRenderer, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorMessages, provideHttpClientErrorHandlers, handleHttp404Error} from '@anglr/error-handling';
 import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
 import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideGridInitializerType, provideMetadataSelectorType, provideNoDataRendererOptions, providePagingOptions, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
-import {DialogMetadataSelectorOptions, DialogMetadataSelectorSAComponent} from '@anglr/grid/material';
+import {DialogMetadataSelectorOptions, DialogMetadataSelectorComponent} from '@anglr/grid/material';
 import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRendererFactoryOptions, VALIDATION_ERROR_MESSAGES, VALIDATION_ERROR_RENDERER_FACTORY_OPTIONS} from '@anglr/common/forms';
 import {MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService, provideConfirmationDialogOptions} from '@anglr/common/material';
 import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
@@ -118,7 +118,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
 
     //######################### GRID GLOBAL OPTIONS #########################
     provideGridInitializerType(QueryGridInitializerComponent),
-    provideMetadataSelectorType(DialogMetadataSelectorSAComponent),
+    provideMetadataSelectorType(DialogMetadataSelectorComponent),
     provideNoDataRendererOptions(
     {
         texts:
@@ -200,7 +200,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         //Layout logger
         .writeTo(cfg => cfg.writeTo(DeveloperConsoleSink)
             .minimumLevel(LogLevel.Off)
-            .filter((_, log) => !!log.message.match(/^(?:)LayoutComponentRendererSADirective|LayoutRenderer|LayoutEditorRenderer|LayoutDesignerSAComponent/)))
+            .filter((_, log) => !!log.message.match(/^(?:)LayoutComponentRendererDirective|LayoutRenderer|LayoutEditorRenderer|LayoutDesignerComponent/)))
         //Dynamic logger
         .writeTo(cfg => cfg.writeTo(DeveloperConsoleSink)
             .minimumLevel(LogLevel.Off)

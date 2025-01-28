@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 
 import {MathSubtractRelationsOptions} from '../subtract.options';
 
@@ -14,13 +14,13 @@ import {MathSubtractRelationsOptions} from '../subtract.options';
     templateUrl: 'subtractNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         CommonModule,
         FirstUppercaseLocalizePipe
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MathSubtractNodeSAComponent extends RelationsNodeBase<MathSubtractRelationsOptions> implements RelationsNode<MathSubtractRelationsOptions>
+export class MathSubtractNodeComponent extends RelationsNodeBase<MathSubtractRelationsOptions> implements RelationsNode<MathSubtractRelationsOptions>
 {}

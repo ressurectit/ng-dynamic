@@ -1,7 +1,7 @@
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {AsyncDataLoaderSAComponent} from './asyncDataLoader.component';
+import {AsyncDataLoaderComponent} from './asyncDataLoader.component';
 
-export default AsyncDataLoaderSAComponent;
+export default AsyncDataLoaderComponent;
 
 export const extensions = [RelationsRegistrationExtension];

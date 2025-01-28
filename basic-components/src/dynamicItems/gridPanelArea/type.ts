@@ -1,3 +1,3 @@
-import {GridPanelAreaSAComponent} from './gridPanelArea.component';
+import {GridPanelAreaComponent} from './gridPanelArea.component';
 
-export default GridPanelAreaSAComponent;
+export default GridPanelAreaComponent;

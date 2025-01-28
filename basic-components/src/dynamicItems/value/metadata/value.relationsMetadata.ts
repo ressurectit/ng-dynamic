@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {ValueNodeSAComponent} from '../node/valueNode.component';
+import {ValueNodeComponent} from '../node/valueNode.component';
 
 /**
  * Value relations metadata
@@ -23,7 +23,7 @@ export class ValueRelationsEditorMetadata implements RelationsEditorMetadataDesc
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = ValueNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = ValueNodeComponent;
 
     //######################### constructor #########################
     constructor()

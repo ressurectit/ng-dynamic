@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {AsyncDataLoaderNodeSAComponent} from '../node/asyncDataLoaderNode.component';
+import {AsyncDataLoaderNodeComponent} from '../node/asyncDataLoaderNode.component';
 
 /**
  * Async data loader relations metadata
@@ -23,7 +23,7 @@ export class AsyncDataLoaderRelationsEditorMetadata implements RelationsEditorMe
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = AsyncDataLoaderNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = AsyncDataLoaderNodeComponent;
 
     //######################### constructor #########################
     constructor()

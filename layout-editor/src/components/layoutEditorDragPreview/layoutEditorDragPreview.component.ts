@@ -10,7 +10,7 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
     templateUrl: 'layoutEditorDragPreview.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LayoutEditorDragPreviewSAComponent
+export class LayoutEditorDragPreviewComponent
 {
     //######################### public properties - inputs #########################
 

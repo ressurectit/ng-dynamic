@@ -1,9 +1,9 @@
 import {ComponentStylingExtension} from '@anglr/dynamic/layout';
 import {RelationsRegistrationExtension} from '@anglr/dynamic/relations';
 
-import {MaterialCheckboxSAComponent} from './checkbox.component';
+import {MaterialCheckboxComponent} from './checkbox.component';
 
 
-export default MaterialCheckboxSAComponent;
+export default MaterialCheckboxComponent;
 
 export const extensions = [ComponentStylingExtension, RelationsRegistrationExtension];

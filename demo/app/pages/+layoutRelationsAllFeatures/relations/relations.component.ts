@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Inject, inject, ExistingProvider} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {GoBackDirective} from '@anglr/common';
-import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent, withStaticComponents, withRelationsDefaultsOverride} from '@anglr/dynamic/relations-editor';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorComponent, withStaticComponents, withRelationsDefaultsOverride} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, CustomDynamicItemsRegister, withLayoutRelationsEditor, withCustomComponents, withCustomRelations, CustomRelationsRegister} from '@anglr/dynamic/layout-relations';
 import {MetadataHistoryManager, provideDynamic, withEditorHotkeys, withPackageManager} from '@anglr/dynamic';
 import {withRelationsMetadataStorage} from '@anglr/dynamic/relations';
@@ -39,7 +39,7 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
     [
         GoBackDirective,
         LoadSaveNewComponent,
-        RelationsEditorSAComponent,
+        RelationsEditorComponent,
     ],
     providers:
     [

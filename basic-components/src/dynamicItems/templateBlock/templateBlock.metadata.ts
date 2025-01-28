@@ -13,4 +13,4 @@ export const TemplateBlockLayoutMetadataLoader: DynamicMetadataLoader<LayoutEdit
 /**
  * Template block layout designer type loader
  */
-export const TemplateBlockLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/templateBlockDesigner.component')).TemplateBlockDesignerSAComponent;
+export const TemplateBlockLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/templateBlockDesigner.component')).TemplateBlockDesignerComponent;

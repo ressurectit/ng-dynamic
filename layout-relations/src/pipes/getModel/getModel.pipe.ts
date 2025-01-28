@@ -7,7 +7,7 @@ import {ContentComponentData} from '../../components';
  * Gets properties model using its name
  */
 @Pipe({name: 'getModel'})
-export class GetModelSAPipe implements PipeTransform
+export class GetModelPipe implements PipeTransform
 {
     /**
      * Gets properties model using its name

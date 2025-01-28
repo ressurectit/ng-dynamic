@@ -2,8 +2,8 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from 
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
-import {ComponentEndpointDef, ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
+import {ComponentEndpointDef, ConfigureNodeEndpointData, ConfigureNodeEndpointComponent} from '@anglr/dynamic/layout-relations';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {DeconstructRelationsOptions} from '../deconstruct.options';
@@ -17,15 +17,15 @@ import {DeconstructRelationsOptions} from '../deconstruct.options';
     templateUrl: 'deconstructNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeconstructNodeSAComponent extends RelationsNodeBase<DeconstructRelationsOptions> implements RelationsNode<DeconstructRelationsOptions>
+export class DeconstructNodeComponent extends RelationsNodeBase<DeconstructRelationsOptions> implements RelationsNode<DeconstructRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 
@@ -98,7 +98,7 @@ export class DeconstructNodeSAComponent extends RelationsNodeBase<DeconstructRel
     {
         const newEndpoint = JSON.parse(JSON.stringify(endpoint));
         
-        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
+        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointComponent,
         {
             title: 'configure property',
             width: '60vw',

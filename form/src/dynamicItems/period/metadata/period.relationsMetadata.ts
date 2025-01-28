@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {PeriodNodeSAComponent} from '../node/periodNode.component';
+import {PeriodNodeComponent} from '../node/periodNode.component';
 
 /**
  * Period relations metadata
@@ -23,7 +23,7 @@ export class PeriodRelationsEditorMetadata implements RelationsEditorMetadataDes
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = PeriodNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = PeriodNodeComponent;
 
     //######################### constructor #########################
     constructor()

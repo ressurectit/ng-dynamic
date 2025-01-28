@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererSADirective, LAYOUT_METADATA_STORAGE, LayoutRenderer} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererDirective, LAYOUT_METADATA_STORAGE, LayoutRenderer} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsChangeDetector, RelationsComponentManager, RelationsManager, RelationsProcessor, RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
@@ -19,7 +19,7 @@ import {TemplateBlockLayoutDesignerTypeLoader, TemplateBlockLayoutMetadataLoader
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     providers:
     [
@@ -33,7 +33,7 @@ import {TemplateBlockLayoutDesignerTypeLoader, TemplateBlockLayoutMetadataLoader
 })
 @LayoutEditorDesignerType(TemplateBlockLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(TemplateBlockLayoutMetadataLoader)
-export class TemplateBlockSAComponent extends LayoutComponentBase<TemplateBlockComponentOptions> implements LayoutComponent<TemplateBlockComponentOptions>
+export class TemplateBlockComponent extends LayoutComponentBase<TemplateBlockComponentOptions> implements LayoutComponent<TemplateBlockComponentOptions>
 {
     //######################### protected properties #########################
 

@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent, RelationNodeOutputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderComponent, RelationNodeOutputComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for dialog metadata selector
@@ -11,12 +11,12 @@ import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent, Relati
     templateUrl: 'dialogMetadataSelectorNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DialogMetadataSelectorNodeSAComponent extends RelationsNodeBase implements RelationsNode
+export class DialogMetadataSelectorNodeComponent extends RelationsNodeBase implements RelationsNode
 {
 }

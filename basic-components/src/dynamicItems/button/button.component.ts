@@ -29,16 +29,16 @@ import {ButtonLayoutMetadataLoader, ButtonRelationsMetadataLoader} from './butto
 {
     inputs:
     [
-        nameof<ButtonSAComponent>('disabled'),
+        nameof<ButtonComponent>('disabled'),
     ],
     outputs:
     [
-        nameof<ButtonSAComponent>('click'),
+        nameof<ButtonComponent>('click'),
     ],
 })
 @RelationsEditorMetadata(ButtonRelationsMetadataLoader)
 @LayoutEditorMetadata(ButtonLayoutMetadataLoader)
-export class ButtonSAComponent extends LayoutComponentBase<ButtonComponentOptions> implements LayoutComponent<ButtonComponentOptions>, RelationsComponent<ButtonComponentRelationsOptions>
+export class ButtonComponent extends LayoutComponentBase<ButtonComponentOptions> implements LayoutComponent<ButtonComponentOptions>, RelationsComponent<ButtonComponentRelationsOptions>
 {
     //######################### public properties - implementation of RelationsComponent #########################
 

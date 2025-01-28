@@ -31,5 +31,5 @@ import {MaterialPeriodComponentOptions} from './period.options';
 })
 @RelationsEditorMetadata(MaterialPeriodRelationsMetadataLoader)
 @LayoutEditorMetadata(MaterialPeriodLayoutMetadataLoader)
-export class MaterialPeriodSAComponent extends FormComponentBase<MaterialPeriodComponentOptions> implements FormComponent<MaterialPeriodComponentOptions>
+export class MaterialPeriodComponent extends FormComponentBase<MaterialPeriodComponentOptions> implements FormComponent<MaterialPeriodComponentOptions>
 {}

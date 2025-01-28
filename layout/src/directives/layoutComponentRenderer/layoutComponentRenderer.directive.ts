@@ -23,7 +23,7 @@ import {LayoutRenderer} from '../../services';
 
     ],
 })
-export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
+export class LayoutComponentRendererDirective implements OnChanges, OnDestroy
 {
     //######################### protected properties #########################
 
@@ -45,7 +45,7 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
     /**
      * Instance of parent directive or null if this is root directive
      */
-    protected parentRendererDirective = inject(LayoutComponentRendererSADirective, {optional: true, skipSelf: true});
+    protected parentRendererDirective = inject(LayoutComponentRendererDirective, {optional: true, skipSelf: true});
 
     /**
      * Instance of logger used for creating logs
@@ -89,16 +89,16 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
      */
     public async ngOnChanges(changes: SimpleChanges): Promise<void>
     {
-        if(nameof<LayoutComponentRendererSADirective>('componentMetadata') in changes)
+        if(nameof<LayoutComponentRendererDirective>('componentMetadata') in changes)
         {
-            const change = changes[nameof<LayoutComponentRendererSADirective>('componentMetadata')];
+            const change = changes[nameof<LayoutComponentRendererDirective>('componentMetadata')];
 
             //component added to renderer
             if(isPresent(change.currentValue) && isBlank(change.previousValue))
             {
                 const metadata = change.currentValue as LayoutComponentMetadata;
 
-                this.logger.debug('LayoutComponentRendererSADirective: registering component for rendering "{{id}}" inside renderer "{{rendererId}}" with parent renderer "{{parentRenderer}}" and parent component "{{parentComponent}}"',
+                this.logger.debug('LayoutComponentRendererDirective: registering component for rendering "{{id}}" inside renderer "{{rendererId}}" with parent renderer "{{parentRenderer}}" and parent component "{{parentComponent}}"',
                 {
                     id: metadata.id,
                     rendererId: this.id,
@@ -120,13 +120,13 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
             //component changed
             else if(isPresent(change.currentValue) && isPresent(change.previousValue))
             {
-                this.logger.debug('LayoutComponentRendererSADirective: unregistering component from rendering "{{id}}"', {id: this.id});
+                this.logger.debug('LayoutComponentRendererDirective: unregistering component from rendering "{{id}}"', {id: this.id});
 
                 await this.renderer.unregisterRenderer(this.id);
 
                 const metadata = change.currentValue as LayoutComponentMetadata;
 
-                this.logger.debug('LayoutComponentRendererSADirective: registering component for rendering "{{id}}" inside renderer "{{rendererId}}" with parent renderer "{{parentRenderer}}" and parent component "{{parentComponent}}"',
+                this.logger.debug('LayoutComponentRendererDirective: registering component for rendering "{{id}}" inside renderer "{{rendererId}}" with parent renderer "{{parentRenderer}}" and parent component "{{parentComponent}}"',
                 {
                     id: metadata.id,
                     rendererId: this.id,
@@ -148,7 +148,7 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
             //component removed from renderer, unregister renderer
             else if(isBlank(change.currentValue) && isPresent(change.previousValue))
             {
-                this.logger.debug('LayoutComponentRendererSADirective: unregistering component from rendering "{{id}}"', {id: this.id});
+                this.logger.debug('LayoutComponentRendererDirective: unregistering component from rendering "{{id}}"', {id: this.id});
 
                 await this.renderer.unregisterRenderer(this.id);
             }
@@ -162,7 +162,7 @@ export class LayoutComponentRendererSADirective implements OnChanges, OnDestroy
      */
     public async ngOnDestroy(): Promise<void>
     {
-        this.logger.debug('LayoutComponentRendererSADirective: destroying renderer "{{id}}" with component "{{componentId}}"',
+        this.logger.debug('LayoutComponentRendererDirective: destroying renderer "{{id}}" with component "{{componentId}}"',
         {
             id: this.id,
             componentId: this.componentMetadata?.id,

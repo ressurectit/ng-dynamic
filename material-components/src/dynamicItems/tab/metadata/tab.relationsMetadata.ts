@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MaterialTabNodeSAComponent} from '../node/tabNode.component';
+import {MaterialTabNodeComponent} from '../node/tabNode.component';
 
 /**
  * Material tab relations metadata
@@ -23,7 +23,7 @@ export class MaterialTabRelationsEditorMetadata implements RelationsEditorMetada
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = MaterialTabNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = MaterialTabNodeComponent;
 
     //######################### constructor #########################
     constructor()

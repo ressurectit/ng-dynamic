@@ -20,7 +20,7 @@ export async function getCustomComponentMeta(name: string, injector: Injector): 
 
     if(!customComponentMetadata)
     {
-        logger.warn('ContentOptionsPropertiesControlSAComponent: missing layout metadata for custom component!');
+        logger.warn('ContentOptionsPropertiesControlComponent: missing layout metadata for custom component!');
 
         return null;
     }
@@ -36,7 +36,7 @@ export async function getCustomComponentMeta(name: string, injector: Injector): 
 
         if(!metadata)
         {
-            logger.warn('ContentOptionsPropertiesControlSAComponent: missing metadata for component!');
+            logger.warn('ContentOptionsPropertiesControlComponent: missing metadata for component!');
 
             continue;
         }

@@ -6,7 +6,7 @@ import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
 import {provideDynamic} from '@anglr/dynamic';
 import {FormComponentControlBuilder, FORM_COMPONENT_CONTROL, withFormComponents, withFormControlBuilder} from '@anglr/dynamic/form';
-import {LayoutComponentMetadata, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {withLayoutRelationsRuntime} from '@anglr/dynamic/layout-relations';
 import {RelationsManager} from '@anglr/dynamic/relations';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
@@ -29,7 +29,7 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
         NgSelectModule,
         RouterLink,
         DebugDataCopyClickModule,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     providers:
     [

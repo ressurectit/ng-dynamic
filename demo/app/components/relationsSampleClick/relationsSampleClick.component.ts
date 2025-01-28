@@ -21,7 +21,7 @@ import {RelationsSampleClickRelationsMetadataLoader} from './relationsSampleClic
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(RelationsSampleClickRelationsMetadataLoader)
-export class RelationsSampleClickSAComponent implements RelationsComponent, OnInit, OnDestroy, DynamicOnChanges
+export class RelationsSampleClickComponent implements RelationsComponent, OnInit, OnDestroy, DynamicOnChanges
 {
     //######################### public static properties #########################
 
@@ -78,9 +78,9 @@ export class RelationsSampleClickSAComponent implements RelationsComponent, OnIn
      */
     public async ngOnInit(): Promise<void>
     {
-        this._componentManager.registerComponent(RelationsSampleClickSAComponent.relationsId, this);
+        this._componentManager.registerComponent(RelationsSampleClickComponent.relationsId, this);
         await this._relationsProcessor.initialized;
-        this._relationsProcessor.updateRelations(RelationsSampleClickSAComponent.relationsId);
+        this._relationsProcessor.updateRelations(RelationsSampleClickComponent.relationsId);
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -90,8 +90,8 @@ export class RelationsSampleClickSAComponent implements RelationsComponent, OnIn
      */
     public ngOnDestroy(): void
     {
-        this._relationsProcessor.destroyComponent(RelationsSampleClickSAComponent.relationsId);
-        this._componentManager.unregisterComponent(RelationsSampleClickSAComponent.relationsId);
+        this._relationsProcessor.destroyComponent(RelationsSampleClickComponent.relationsId);
+        this._componentManager.unregisterComponent(RelationsSampleClickComponent.relationsId);
     }
 
     //######################### public methods - implementation of RelationsComponent #########################
@@ -101,7 +101,7 @@ export class RelationsSampleClickSAComponent implements RelationsComponent, OnIn
      */
     public dynamicOnChanges?(changes: SimpleChanges): void
     {
-        if(nameof<RelationsSampleClickSAComponent>('vstup') in changes && this.vstup)
+        if(nameof<RelationsSampleClickComponent>('vstup') in changes && this.vstup)
         {
             console.log('vstup sa zmenil', this.vstup);
         }

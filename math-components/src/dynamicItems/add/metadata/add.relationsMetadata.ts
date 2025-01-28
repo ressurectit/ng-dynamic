@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {MathAddNodeSAComponent} from '../node/addNode.component';
+import {MathAddNodeComponent} from '../node/addNode.component';
 
 /**
  * Math add relations metadata
@@ -23,7 +23,7 @@ export class MathAddRelationsEditorMetadata implements RelationsEditorMetadataDe
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = MathAddNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = MathAddNodeComponent;
 
     //######################### constructor #########################
     constructor()

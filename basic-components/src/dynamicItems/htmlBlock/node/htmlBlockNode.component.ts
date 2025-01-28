@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 
 /**
@@ -11,12 +11,12 @@ import {FirstUppercaseLocalizePipe} from '@anglr/common';
     templateUrl: 'htmlBlockNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HtmlBlockNodeSAComponent extends RelationsNodeBase implements RelationsNode
+export class HtmlBlockNodeComponent extends RelationsNodeBase implements RelationsNode
 {
 }

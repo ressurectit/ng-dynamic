@@ -24,7 +24,7 @@ import {RadioOptionModel} from '../../../metadata/radio.model';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RadioPropertiesControlSAComponent extends PropertiesControlBase<RadioComponentOptions> implements PropertiesControl<RadioComponentOptions>
+export class RadioPropertiesControlComponent extends PropertiesControlBase<RadioComponentOptions> implements PropertiesControl<RadioComponentOptions>
 {
     //######################### protected properties #########################
 

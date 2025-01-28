@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent, RelationNodeInputSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 
 import {MathMultiplyRelationsOptions} from '../multiply.options';
 
@@ -14,13 +14,13 @@ import {MathMultiplyRelationsOptions} from '../multiply.options';
     templateUrl: 'multiplyNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MathMultiplyNodeSAComponent extends RelationsNodeBase<MathMultiplyRelationsOptions> implements RelationsNode<MathMultiplyRelationsOptions>
+export class MathMultiplyNodeComponent extends RelationsNodeBase<MathMultiplyRelationsOptions> implements RelationsNode<MathMultiplyRelationsOptions>
 {}

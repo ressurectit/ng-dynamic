@@ -8,7 +8,7 @@ import {LayoutComponent, LayoutComponentMetadata} from '../../interfaces';
 import {LayoutRendererItem} from './layoutRenderer.interface';
 import {LAYOUT_COMPONENT_CHILD_EXTENSIONS, LAYOUT_COMPONENTS_LOADER} from '../../misc/tokens';
 import {MissingTypeBehavior} from '../../misc/enums';
-import {NotFoundLayoutTypeSAComponent} from '../../components';
+import {NotFoundLayoutTypeComponent} from '../../components';
 import {LayoutComponentDef} from '../../misc/types';
 import {LayoutRendererOptions} from './layoutRenderer.options';
 import {applyDynamicHostDirective} from '../../misc/utils';
@@ -175,7 +175,7 @@ export class LayoutRenderer
                 default:
                 //case MissingTypeBehavior.ShowNotFound:
                 {
-                    viewContainer.createComponent(NotFoundLayoutTypeSAComponent);
+                    viewContainer.createComponent(NotFoundLayoutTypeComponent);
 
                     break;
                 }

@@ -1,10 +1,10 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {IfBlockComponentOptions} from '../ifBlock.options';
-import {IfBlockSAComponent} from '../ifBlock.component';
+import {IfBlockComponent} from '../ifBlock.component';
 
 /**
  * Component used for displaying if block designer
@@ -16,11 +16,11 @@ import {IfBlockSAComponent} from '../ifBlock.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IfBlockDesignerSAComponent extends IfBlockSAComponent implements LayoutComponent<IfBlockComponentOptions>, RelationsComponent
+export class IfBlockDesignerComponent extends IfBlockComponent implements LayoutComponent<IfBlockComponentOptions>, RelationsComponent
 {
     //######################### protected - overrides #########################
 

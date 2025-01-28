@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, inject, FactoryProvider} from '@angular/core';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsChangeDetector, RelationsComponentManager, RelationsDebugger, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -9,7 +9,7 @@ import {PlaceholderLayoutDesignerTypeLoader, PlaceholderLayoutMetadataLoader} fr
 import {ComponentWithId} from '../../interfaces';
 import {PlaceholderHandler} from '../../services';
 import {PlaceholderContainerComponentOptions} from '../placeholderContainer';
-import {ContainerMetadataSAPipe} from './misc/pipes';
+import {ContainerMetadataPipe} from './misc/pipes';
 
 /**
  * Component used for displaying placeholder
@@ -21,8 +21,8 @@ import {ContainerMetadataSAPipe} from './misc/pipes';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
-        ContainerMetadataSAPipe,
+        LayoutComponentRendererDirective,
+        ContainerMetadataPipe,
     ],
     providers:
     [
@@ -56,7 +56,7 @@ import {ContainerMetadataSAPipe} from './misc/pipes';
             provide: PlaceholderHandler,
             useFactory: () =>
             {
-                return new PlaceholderHandler(PlaceholderSAComponent);
+                return new PlaceholderHandler(PlaceholderComponent);
             }
         },
     ],
@@ -64,7 +64,7 @@ import {ContainerMetadataSAPipe} from './misc/pipes';
 })
 @LayoutEditorDesignerType(PlaceholderLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(PlaceholderLayoutMetadataLoader)
-export class PlaceholderSAComponent extends LayoutComponentBase<PlaceholderComponentOptions> implements LayoutComponent<PlaceholderComponentOptions>, ComponentWithId
+export class PlaceholderComponent extends LayoutComponentBase<PlaceholderComponentOptions> implements LayoutComponent<PlaceholderComponentOptions>, ComponentWithId
 {
     //######################### protected properties #########################
 

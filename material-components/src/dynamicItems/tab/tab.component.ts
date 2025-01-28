@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input, inject} from '@angular/core';
 import {MAT_TAB, MatTab, MatTabsModule} from '@angular/material/tabs';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
@@ -23,14 +23,14 @@ import {MATERIAL_TAB_GROUP} from '../tabGroup/tabGroup.component';
     [
         CommonModule,
         MatTabsModule,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<MaterialTabComponentOptions>(options => options?.children ?? [])
 @LayoutEditorMetadata(MaterialTabLayoutMetadataLoader)
 @RelationsEditorMetadata(MaterialTabRelationsMetadataLoader)
-export class MaterialTabSAComponent extends LayoutComponentBase<MaterialTabComponentOptions> implements LayoutComponent<MaterialTabComponentOptions>, RelationsComponent
+export class MaterialTabComponent extends LayoutComponentBase<MaterialTabComponentOptions> implements LayoutComponent<MaterialTabComponentOptions>, RelationsComponent
 {
     //######################### protected properties #########################
 

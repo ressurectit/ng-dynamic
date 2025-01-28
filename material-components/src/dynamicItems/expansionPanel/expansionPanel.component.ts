@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {CommonModule} from '@angular/common';
-import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
@@ -20,13 +20,13 @@ import {MaterialExpansionPanelLayoutMetadataLoader} from './expansionPanel.metad
     [
         CommonModule,
         MatExpansionModule,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<MaterialExpansionPanelComponentOptions>(options => options?.children ?? [])
 @LayoutEditorMetadata(MaterialExpansionPanelLayoutMetadataLoader)
-export class MaterialExpansionPanelSAComponent extends LayoutComponentBase<MaterialExpansionPanelComponentOptions> implements LayoutComponent<MaterialExpansionPanelComponentOptions>
+export class MaterialExpansionPanelComponent extends LayoutComponentBase<MaterialExpansionPanelComponentOptions> implements LayoutComponent<MaterialExpansionPanelComponentOptions>
 {
     //######################### public properties - inputs #########################
 

@@ -13,4 +13,4 @@ export const GridColumnLayoutMetadataLoader: DynamicMetadataLoader<LayoutEditorM
 /**
  * Grid column layout designer type loader
  */
-export const GridColumnLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/gridColumnDesigner.component')).GridColumnDesignerSAComponent;
+export const GridColumnLayoutDesignerTypeLoader: DynamicMetadataLoader<Type<LayoutComponent>> = async () => (await import('./designer/gridColumnDesigner.component')).GridColumnDesignerComponent;

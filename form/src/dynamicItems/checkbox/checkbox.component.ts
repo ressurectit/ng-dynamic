@@ -27,5 +27,5 @@ import {CheckboxComponentOptions} from './checkbox.options';
 })
 @RelationsEditorMetadata(CheckboxRelationsMetadataLoader)
 @LayoutEditorMetadata(CheckboxLayoutMetadataLoader)
-export class CheckboxSAComponent extends FormComponentBase<CheckboxComponentOptions, boolean> implements FormComponent<CheckboxComponentOptions>
+export class CheckboxComponent extends FormComponentBase<CheckboxComponentOptions, boolean> implements FormComponent<CheckboxComponentOptions>
 {}

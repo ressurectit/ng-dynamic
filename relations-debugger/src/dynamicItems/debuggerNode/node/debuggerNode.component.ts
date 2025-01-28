@@ -5,8 +5,8 @@ import {RelationsComponentEndpoints, RelationsComponentStateDebugInfo, Relations
 import {RelationsNode, RelationsNodeBase} from '@anglr/dynamic/relations-editor';
 import {Subscription} from 'rxjs';
 
-import {JsonFormattedSAPipe} from '../../../pipes';
-import {RelationNodeInputDebugSAComponent, RelationNodeOutputDebugSAComponent} from '../../../components';
+import {JsonFormattedPipe} from '../../../pipes';
+import {RelationNodeInputDebugComponent, RelationNodeOutputDebugComponent} from '../../../components';
 
 /**
  * Relations node component for debugger node
@@ -19,15 +19,15 @@ import {RelationNodeInputDebugSAComponent, RelationNodeOutputDebugSAComponent} f
     [
         CommonModule,
         TooltipModule,
-        RelationNodeInputDebugSAComponent,
-        RelationNodeOutputDebugSAComponent,
-        JsonFormattedSAPipe,
+        RelationNodeInputDebugComponent,
+        RelationNodeOutputDebugComponent,
+        JsonFormattedPipe,
         PositionToDirective,
         BodyRenderDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DebuggerNodeSAComponent extends RelationsNodeBase implements RelationsNode, OnDestroy
+export class DebuggerNodeComponent extends RelationsNodeBase implements RelationsNode, OnDestroy
 {
     //######################### protected properties #########################
 

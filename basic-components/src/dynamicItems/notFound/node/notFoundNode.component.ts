@@ -1,6 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
-import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 
 /**
  * Relations node component for not found
@@ -11,11 +11,11 @@ import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderSAComponent} from '
     templateUrl: 'notFoundNode.component.html',
     imports:
     [
-        RelationsNodeHeaderSAComponent,
+        RelationsNodeHeaderComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotFoundNodeSAComponent extends RelationsNodeBase implements RelationsNode
+export class NotFoundNodeComponent extends RelationsNodeBase implements RelationsNode
 {
 }

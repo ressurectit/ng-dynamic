@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {LogicalAndNodeSAComponent} from '../node/logicalAndNode.component';
+import {LogicalAndNodeComponent} from '../node/logicalAndNode.component';
 
 /**
  * Logical and relations metadata
@@ -23,7 +23,7 @@ export class LogicalAndRelationsEditorMetadata implements RelationsEditorMetadat
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = LogicalAndNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = LogicalAndNodeComponent;
 
     //######################### constructor #########################
     constructor()

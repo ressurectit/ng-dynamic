@@ -15,6 +15,6 @@ import {BasicPagingComponent} from '../basicPaging.component';
     styles: [HostDisplayBlockStyle],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicPagingDesignerSAComponent extends BasicPagingComponent implements LayoutComponent<BasicPagingComponentOptions>
+export class BasicPagingDesignerComponent extends BasicPagingComponent implements LayoutComponent<BasicPagingComponentOptions>
 {
 }

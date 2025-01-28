@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {DialogMetadataSelectorNodeSAComponent} from '../node/dialogMetadataSelectorNode.component';
+import {DialogMetadataSelectorNodeComponent} from '../node/dialogMetadataSelectorNode.component';
 
 /**
  * Dialog metadata selector relations metadata
@@ -23,7 +23,7 @@ export class DialogMetadataSelectorRelationsEditorMetadata implements RelationsE
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = DialogMetadataSelectorNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = DialogMetadataSelectorNodeComponent;
 
     //######################### constructor #########################
     constructor()

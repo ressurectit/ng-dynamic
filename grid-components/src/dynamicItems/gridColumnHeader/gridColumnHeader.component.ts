@@ -27,6 +27,6 @@ import {GridColumnHeaderLayoutDesignerTypeLoader, GridColumnHeaderLayoutMetadata
 })
 @LayoutEditorDesignerType(GridColumnHeaderLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(GridColumnHeaderLayoutMetadataLoader)
-export class GridColumnHeaderSAComponent extends LayoutComponentBase<GridColumnHeaderComponentOptions> implements LayoutComponent<GridColumnHeaderComponentOptions>
+export class GridColumnHeaderComponent extends LayoutComponentBase<GridColumnHeaderComponentOptions> implements LayoutComponent<GridColumnHeaderComponentOptions>
 {
 }

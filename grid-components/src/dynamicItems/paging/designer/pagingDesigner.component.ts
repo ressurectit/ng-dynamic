@@ -1,9 +1,9 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {LayoutComponent, LayoutComponentRendererSADirective} from '@anglr/dynamic/layout';
+import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
 import {PagingComponentOptions} from '../paging.options';
-import {PagingSAComponent} from '../paging.component';
+import {PagingComponent} from '../paging.component';
 
 /**
  * Component used for displaying paging designer
@@ -15,10 +15,10 @@ import {PagingSAComponent} from '../paging.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PagingDesignerSAComponent extends PagingSAComponent implements LayoutComponent<PagingComponentOptions>
+export class PagingDesignerComponent extends PagingComponent implements LayoutComponent<PagingComponentOptions>
 {
 }

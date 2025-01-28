@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {GoBackDirective} from '@anglr/common';
-import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorSAComponent} from '@anglr/dynamic/relations-editor';
+import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorComponent} from '@anglr/dynamic/relations-editor';
 import {LayoutManager, withLayoutRelationsEditor} from '@anglr/dynamic/layout-relations';
 import {MetadataHistoryManager, provideDynamic, withPackageManager} from '@anglr/dynamic';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
@@ -32,7 +32,7 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
     imports:
     [
         GoBackDirective,
-        RelationsEditorSAComponent,
+        RelationsEditorComponent,
         LoadSaveNewComponent,
     ],
     providers:

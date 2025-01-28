@@ -32,7 +32,7 @@ import {RestParamModel} from './configureRestParameter.model';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConfigureRestParameterSAComponent
+export class ConfigureRestParameterComponent
 {
     //######################### protected properties - template bindings #########################
 

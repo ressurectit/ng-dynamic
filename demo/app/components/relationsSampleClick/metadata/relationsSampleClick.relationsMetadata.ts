@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {RelationsSampleClickNodeSAComponent} from '../node/relationsSampleClickNode.component';
+import {RelationsSampleClickNodeComponent} from '../node/relationsSampleClickNode.component';
 
 /**
  * Relations sample click relations metadata
@@ -23,7 +23,7 @@ export class RelationsSampleClickRelationsEditorMetadata implements RelationsEdi
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = RelationsSampleClickNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = RelationsSampleClickNodeComponent;
 
     //######################### constructor #########################
     constructor()

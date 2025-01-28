@@ -4,7 +4,7 @@ import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {NgSelectModule} from '@anglr/select';
 import {provideDynamic} from '@anglr/dynamic';
-import {LayoutComponentMetadata, LayoutComponentRendererSADirective, withLayoutRuntime} from '@anglr/dynamic/layout';
+import {LayoutComponentMetadata, LayoutComponentRendererDirective, withLayoutRuntime} from '@anglr/dynamic/layout';
 import {withBasicComponents} from '@anglr/dynamic/basic-components';
 import {withMaterialComponents} from '@anglr/dynamic/material-components';
 import {withCssComponents} from '@anglr/dynamic/css-components';
@@ -26,7 +26,7 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
     [
         ReactiveFormsModule,
         NgSelectModule,
-        LayoutComponentRendererSADirective,
+        LayoutComponentRendererDirective,
     ],
     providers:
     [

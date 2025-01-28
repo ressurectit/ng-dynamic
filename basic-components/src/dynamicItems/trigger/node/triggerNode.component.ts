@@ -2,8 +2,8 @@ import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from 
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
-import {ConfigureNodeEndpointData, ConfigureNodeEndpointSAComponent} from '@anglr/dynamic/layout-relations';
-import {RelationsNode, RelationsNodeBase, RelationNodeInputSAComponent, RelationNodeOutputSAComponent, RelationsNodeHeaderSAComponent} from '@anglr/dynamic/relations-editor';
+import {ConfigureNodeEndpointData, ConfigureNodeEndpointComponent} from '@anglr/dynamic/layout-relations';
+import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 import {extend} from '@jscrpt/common/extend';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
@@ -19,14 +19,14 @@ import {TriggerRelationsOptions} from '../trigger.options';
     imports:
     [
         CommonModule,
-        RelationsNodeHeaderSAComponent,
-        RelationNodeInputSAComponent,
-        RelationNodeOutputSAComponent,
+        RelationsNodeHeaderComponent,
+        RelationNodeInputComponent,
+        RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TriggerNodeSAComponent extends RelationsNodeBase<TriggerRelationsOptions> implements RelationsNode<TriggerRelationsOptions>
+export class TriggerNodeComponent extends RelationsNodeBase<TriggerRelationsOptions> implements RelationsNode<TriggerRelationsOptions>
 {
     //######################### protected properties - template bindings #########################
 
@@ -101,7 +101,7 @@ export class TriggerNodeSAComponent extends RelationsNodeBase<TriggerRelationsOp
     {
         const original = JSON.parse(JSON.stringify(endpoint));
 
-        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointSAComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointSAComponent,
+        const result = await lastValueFrom(this.dialog.open<ConfigureNodeEndpointComponent, ConfigureNodeEndpointData, true|undefined|null>(ConfigureNodeEndpointComponent,
         {
             title: 'configure endpoint',
             width: '60vw',

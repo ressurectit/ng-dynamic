@@ -1,3 +1,3 @@
-import {RichTextBlockSAComponent} from './richTextBlock.component';
+import {RichTextBlockComponent} from './richTextBlock.component';
 
-export default RichTextBlockSAComponent;
+export default RichTextBlockComponent;

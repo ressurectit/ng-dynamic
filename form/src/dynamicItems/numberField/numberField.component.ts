@@ -28,7 +28,7 @@ import {NumberFieldComponentOptions} from './numberField.options';
 })
 @RelationsEditorMetadata(NumberFieldRelationsMetadataLoader)
 @LayoutEditorMetadata(NumberFieldLayoutMetadataLoader)
-export class NumberFieldSAComponent extends FormComponentBase<NumberFieldComponentOptions> implements FormComponent<NumberFieldComponentOptions>
+export class NumberFieldComponent extends FormComponentBase<NumberFieldComponentOptions> implements FormComponent<NumberFieldComponentOptions>
 {
     //######################### protected properties - template bindings #########################
 

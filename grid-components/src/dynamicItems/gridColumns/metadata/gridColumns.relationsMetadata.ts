@@ -1,7 +1,7 @@
 import {Type} from '@angular/core';
 import {RelationsEditorMetadataDescriptor, RelationsEditorMetadataInfo, RelationsNode} from '@anglr/dynamic/relations-editor';
 
-import {GridColumnsNodeSAComponent} from '../node/gridColumnsNode.component';
+import {GridColumnsNodeComponent} from '../node/gridColumnsNode.component';
 
 /**
  * Grid columns relations metadata
@@ -23,7 +23,7 @@ export class GridColumnsRelationsEditorMetadata implements RelationsEditorMetada
     /**
      * @inheritdoc
      */
-    public nodeDefinition: Type<RelationsNode> = GridColumnsNodeSAComponent;
+    public nodeDefinition: Type<RelationsNode> = GridColumnsNodeComponent;
 
     //######################### constructor #########################
     constructor()

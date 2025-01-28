@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {HostDisplayBlockStyle} from '@anglr/common';
+import {ReactiveFormsModule} from '@angular/forms';
+import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 
 import {PropertyTypeControl} from '../../../../interfaces';
 import {PropertyTypeControlBase} from '../propertyTypeControlBase';
@@ -12,6 +13,11 @@ import {PropertyTypeControlBase} from '../propertyTypeControlBase';
     selector: 'input-number',
     templateUrl: 'inputNumber.component.html',
     styles: [HostDisplayBlockStyle],
+    imports:
+    [
+        ReactiveFormsModule,
+        CastPipesModule,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputNumberComponent extends PropertyTypeControlBase<number> implements PropertyTypeControl<number>

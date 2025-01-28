@@ -1,10 +1,6 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {CastPipesModule, FirstUppercaseLocalizePipe, TooltipModule} from '@anglr/common';
-import {FormPipesModule} from '@anglr/common/forms';
 
 import {ComponentStylingPropertiesControlComponent, DefaultGenericPropertiesControlComponent, MarginControlComponent, PaddingControlComponent} from '../components';
-import {PropertyTypeControlsModule} from '../../propertyTypeControls';
 import {PropertiesControlRendererDirective} from '../directives';
 
 /**
@@ -14,21 +10,11 @@ import {PropertiesControlRendererDirective} from '../directives';
 {
     imports:
     [
-        CommonModule,
-        TooltipModule,
-        FormPipesModule,
-        CastPipesModule,
-        PropertyTypeControlsModule,
-        FirstUppercaseLocalizePipe,
-        PropertiesControlRendererDirective,
-    ],
-    declarations:
-    [
         MarginControlComponent,
         PaddingControlComponent,
+        PropertiesControlRendererDirective,
         DefaultGenericPropertiesControlComponent,
         ComponentStylingPropertiesControlComponent,
-        
     ],
     exports:
     [
@@ -37,7 +23,7 @@ import {PropertiesControlRendererDirective} from '../directives';
         PropertiesControlRendererDirective,
         DefaultGenericPropertiesControlComponent,
         ComponentStylingPropertiesControlComponent,
-    ]
+    ],
 })
 export class PropertiesControlsModule
 {

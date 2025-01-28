@@ -1,9 +1,11 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {HostDisplayFlexStyle} from '@anglr/common';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {CastPipesModule, HostDisplayFlexStyle} from '@anglr/common';
 
 import {PropertyTypeControl} from '../../../../interfaces';
 import {PropertyTypeControlBase} from '../propertyTypeControlBase';
+import {SelectValueComponent} from '../selectValue/selectValue.component';
+import {InputNumberComponent} from '../inputNumber/inputNumber.component';
 
 /**
  * Component used for displaying input of type size string
@@ -13,6 +15,13 @@ import {PropertyTypeControlBase} from '../propertyTypeControlBase';
     selector: 'input-size',
     templateUrl: 'inputSize.component.html',
     styles: [HostDisplayFlexStyle],
+    imports:
+    [
+        CastPipesModule,
+        ReactiveFormsModule,
+        InputNumberComponent,
+        SelectValueComponent,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputSizeComponent extends PropertyTypeControlBase<string> implements PropertyTypeControl<string>

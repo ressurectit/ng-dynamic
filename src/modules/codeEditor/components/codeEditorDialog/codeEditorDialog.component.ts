@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
-import {MatDialogRef} from '@angular/material/dialog';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
 
 import {CodeEditorDialogData} from './codeEditorDialog.interface';
@@ -13,6 +14,12 @@ import {CodeEditorComponent} from '../codeEditor/codeEditor.component';
 {
     selector: 'code-editor-dialog',
     templateUrl: 'codeEditorDialog.component.html',
+    imports:
+    [
+        MatDialogModule,
+        CodeEditorComponent,
+        FirstUppercaseLocalizePipe,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CodeEditorDialogComponent

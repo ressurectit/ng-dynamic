@@ -3,7 +3,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
-import {FormComponent, FormComponentBase, FormComponentControlPipe} from '@anglr/dynamic/form';
+import {FormComponent, FormComponentBase} from '@anglr/dynamic/form';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
 import {DatepickerLayoutMetadataLoader, DatepickerRelationsMetadataLoader} from './datepicker.metadata';
@@ -23,10 +23,10 @@ import {DatepickerComponentOptions} from './datepicker.options';
         ReactiveFormsModule,
         FormPipesModule,
         CastPipesModule,
-        FormComponentControlPipe,
-    ]
+    ],
 })
 @RelationsEditorMetadata(DatepickerRelationsMetadataLoader)
 @LayoutEditorMetadata(DatepickerLayoutMetadataLoader)
 export class DatepickerComponent extends FormComponentBase<DatepickerComponentOptions> implements FormComponent<DatepickerComponentOptions>
-{}
+{
+}

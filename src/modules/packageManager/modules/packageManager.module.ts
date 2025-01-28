@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
 
 import {PackageManagerComponent} from '../components';
 
@@ -10,16 +9,12 @@ import {PackageManagerComponent} from '../components';
 {
     imports:
     [
-        ReactiveFormsModule,
-    ],
-    declarations:
-    [
         PackageManagerComponent,
     ],
     exports:
     [
         PackageManagerComponent,
-    ]
+    ],
 })
 export class PackageManagerModule
 {

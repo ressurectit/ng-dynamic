@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, Component, Input, Type} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FirstUppercaseLocalizePipe, TooltipModule} from '@anglr/common';
+import {FirstUppercaseLocalizePipe, TooltipDirective} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 
 import {PropertiesControl} from '../../../../interfaces';
 import {PropertiesControlBase} from '../propertiesControlBase';
-import {PropertyTypeControlsModule} from '../../../propertyTypeControls';
+import {PropertyTypeControlRendererDirective} from '../../../propertyTypeControls';
 
 /**
  * Component used for displaying default generic properties control, displaying specified properties
@@ -14,6 +13,13 @@ import {PropertyTypeControlsModule} from '../../../propertyTypeControls';
 {
     selector: 'default-generic-properties-control',
     templateUrl: 'genericPropertiesControl.component.html',
+    imports:
+    [
+        FormPipesModule,
+        TooltipDirective,
+        FirstUppercaseLocalizePipe,
+        PropertyTypeControlRendererDirective,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DefaultGenericPropertiesControlComponent<TOptions = any> extends PropertiesControlBase<TOptions> implements PropertiesControl<TOptions>
@@ -39,11 +45,10 @@ export function genericPropertiesControlFor<TModel>(properties: (Extract<keyof T
         templateUrl: 'genericPropertiesControl.component.html',
         imports:
         [
-            CommonModule,
-            TooltipModule,
-            PropertyTypeControlsModule,
             FormPipesModule,
+            TooltipDirective,
             FirstUppercaseLocalizePipe,
+            PropertyTypeControlRendererDirective,
         ],
         changeDetection: ChangeDetectionStrategy.OnPush
     })

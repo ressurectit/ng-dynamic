@@ -4,7 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
-import {FormComponent, FormComponentBase, FormComponentControlPipe} from '@anglr/dynamic/form';
+import {FormComponent, FormComponentBase} from '@anglr/dynamic/form';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 
 import {RadioLayoutMetadataLoader, RadioRelationsMetadataLoader} from './radio.metadata';

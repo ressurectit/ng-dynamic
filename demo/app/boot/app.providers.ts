@@ -174,12 +174,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     },
 
     //######################### STRING LOCALIZATION #########################
-    //TODO
-    <ClassProvider>
-    {
-        provide: STRING_LOCALIZATION,
-        useClass: NgxTranslateStringLocalizationService
-    },
+    provideStringLocalization(NgxTranslateStringLocalizationService),
 
     //######################### PERMANENT STORAGE #########################
     providePermanentStorage(LocalPermanentStorage),

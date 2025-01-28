@@ -1,10 +1,12 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {AsFormGroup, FormModelGroup} from '@anglr/common/forms';
+import {FirstUppercaseLocalizePipe} from '@anglr/common';
+import {AsFormGroup, FormModelGroup, FormPipesModule} from '@anglr/common/forms';
 import {ComponentStylingOptions, Padding} from '@anglr/dynamic/layout';
 
 import {PropertiesControl} from '../../../../interfaces';
 import {PropertiesControlBase} from '../propertiesControlBase';
+import {InputSizeComponent} from '../../../propertyTypeControls';
 
 /**
  * Component used for displaying editation of padding
@@ -13,6 +15,12 @@ import {PropertiesControlBase} from '../propertiesControlBase';
 {
     selector: 'padding-control',
     templateUrl: 'paddingControl.component.html',
+    imports:
+    [
+        FormPipesModule,
+        InputSizeComponent,
+        FirstUppercaseLocalizePipe,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaddingControlComponent extends PropertiesControlBase<ComponentStylingOptions> implements PropertiesControl<ComponentStylingOptions>

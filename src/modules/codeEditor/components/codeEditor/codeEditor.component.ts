@@ -70,7 +70,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
     }
 
     //######################### public methods - implementation of OnChanges #########################
-    
+
     /**
      * Called when input value changes
      */
@@ -89,7 +89,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
     }
 
     //######################### public methods - implementation of AfterViewInit #########################
-    
+
     /**
      * Called when view was initialized
      */
@@ -116,7 +116,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -147,7 +147,7 @@ export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
             {
                 enabled: (await this.monacoEditorApi.editor).ShowLightbulbIconMode.OnCode,
             },
-            bracketPairColorization: 
+            bracketPairColorization:
             {
                 enabled: true,
             },

@@ -1,7 +1,7 @@
 <div class="properties-form-group">
-    <label class="properties-control-label">{{propertiesMetadata?.cssClass?.name ?? 'cssClass'|firstUppercaseLocalize}} <span *ngIf="propertiesMetadata?.cssClass?.description" class="fas fa-info-circle" [tooltip]="propertiesMetadata?.cssClass?.description|firstUppercaseLocalize"></span></label>
-    <input-string [control]="form?.controls?.cssClass | asRequired"></input-string>
+    <label class="properties-control-label">{{propertiesMetadata?.cssClass?.name ?? 'cssClass'|firstUppercaseLocalize}} @if(propertiesMetadata?.cssClass?.description){<span class="fas fa-info-circle" [tooltip]="propertiesMetadata?.cssClass?.description|firstUppercaseLocalize"></span>}</label>
+    <input-string [control]="form?.controls?.cssClass | asRequired"/>
 </div>
 
-<margin-control class="properties-form-group" [form]="form" [propertiesMetadata]="propertiesMetadata"></margin-control>
-<padding-control class="properties-form-group" [form]="form" [propertiesMetadata]="propertiesMetadata"></padding-control>
+<margin-control class="properties-form-group" [form]="form" [propertiesMetadata]="propertiesMetadata"/>
+<padding-control class="properties-form-group" [form]="form" [propertiesMetadata]="propertiesMetadata"/>

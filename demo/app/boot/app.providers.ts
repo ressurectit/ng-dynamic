@@ -4,7 +4,7 @@ import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding, withHashLocation} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
 import {LocalPermanentStorage} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, providePermanentStorage} from '@anglr/common';
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, providePermanentStorage, provideStringLocalization} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideAnglrExceptionExtenders, errorWithUrlExtender, provideInternalServerErrorRenderer, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorMessages, provideHttpClientErrorHandlers, handleHttp404Error} from '@anglr/error-handling';
 import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
@@ -64,17 +64,17 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     {
         loader: <ClassProvider>
         {
-            provide: TranslateLoader, 
+            provide: TranslateLoader,
             useClass: WebpackTranslateLoaderService
         },
-        ...config.configuration.debugTranslations ? 
+        ...config.configuration.debugTranslations ?
             {
                 missingTranslationHandler:
             {
                 provide: MissingTranslationHandler,
                 useClass: ReportMissingTranslationService
             }
-            } : 
+            } :
             {
             },
         useDefaultLang: !config.configuration.debugTranslations
@@ -159,7 +159,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             }
         }
     },
-    
+
     //############################ SELECT GLOBAL OPTIONS ############################
     <ValueProvider>
     {
@@ -294,7 +294,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         provide: TitledDialogServiceOptions,
         useValue: new TitledDialogServiceOptions(MovableTitledDialogComponent)
     },
-    
+
     //######################### CONFIRMATION DIALOG #########################
     provideConfirmationDialogOptions(
     {

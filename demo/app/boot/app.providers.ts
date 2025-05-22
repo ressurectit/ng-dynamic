@@ -1,4 +1,4 @@
-import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideExperimentalZonelessChangeDetection} from '@angular/core';
+import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideZonelessChangeDetection} from '@angular/core';
 import {provideClientHydration} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding, withHashLocation} from '@angular/router';
@@ -6,7 +6,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {LocalPermanentStorage} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, providePermanentStorage, provideStringLocalization} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
-import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideAnglrExceptionExtenders, errorWithUrlExtender, provideInternalServerErrorRenderer, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorMessages, provideHttpClientErrorHandlers, handleHttp404Error} from '@anglr/error-handling';
+import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideAnglrExceptionExtenders, errorWithUrlExtender, provideInternalServerErrorRenderer, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorHandlers, handleHttp404Error, provideHttpClientErrorConfigs} from '@anglr/error-handling';
 import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
 import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideGridInitializerType, provideMetadataSelectorType, provideNoDataRendererOptions, providePagingOptions, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
 import {DialogMetadataSelectorOptions, DialogMetadataSelectorComponent} from '@anglr/grid/material';
@@ -57,7 +57,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideHttpClient(withInterceptorsFromDi(),),
 
     //######################### ZONELESS #########################
-    provideExperimentalZonelessChangeDetection(),
+    provideZonelessChangeDetection(),
 
     //######################### TRANSLATIONS #########################
     importProvidersFrom(TranslateModule.forRoot(
@@ -65,14 +65,14 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         loader: <ClassProvider>
         {
             provide: TranslateLoader,
-            useClass: WebpackTranslateLoaderService
+            useClass: WebpackTranslateLoaderService,
         },
         ...config.configuration.debugTranslations ?
             {
                 missingTranslationHandler:
             {
                 provide: MissingTranslationHandler,
-                useClass: ReportMissingTranslationService
+                useClass: ReportMissingTranslationService,
             }
             } :
             {
@@ -166,11 +166,15 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         provide: NORMAL_STATE_OPTIONS,
         useValue: <NormalStateOptions>
         {
+            cssClasses:
+            {
+                normalStateElement: 'form-control-select',
+            },
             texts:
             {
-                nothingSelected: NOTHING_SELECTED
-            }
-        }
+                nothingSelected: NOTHING_SELECTED,
+            },
+        },
     },
 
     //######################### STRING LOCALIZATION #########################
@@ -292,7 +296,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ValueProvider>
     {
         provide: TitledDialogServiceOptions,
-        useValue: new TitledDialogServiceOptions(MovableTitledDialogComponent)
+        useValue: new TitledDialogServiceOptions(MovableTitledDialogComponent),
     },
 
     //######################### CONFIRMATION DIALOG #########################
@@ -353,10 +357,16 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
 
         return null;
     }),
-    provideHttpClientErrorMessages(
+    provideHttpClientErrorConfigs(
     {
-        400: 'Chyba spracovania dát!',
-        404: 'Záznam pre požadované ID sa nenašiel!',
+        400:
+        {
+            message: 'Chyba spracovania dát!',
+        },
+        404:
+        {
+            message: 'Záznam pre požadované ID sa nenašiel!',
+        },
     }),
     provideHttpClientErrorHandlers(
     {

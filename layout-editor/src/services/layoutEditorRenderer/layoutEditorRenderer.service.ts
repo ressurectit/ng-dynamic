@@ -1,5 +1,5 @@
-import {ComponentRef, Injectable, Type} from '@angular/core';
-import {applyDynamicHostDirective, LayoutComponent, LayoutComponentMetadata, LayoutRenderer, LayoutRendererItem} from '@anglr/dynamic/layout';
+import {ComponentRef, Injectable, Injector, Type, ViewContainerRef} from '@angular/core';
+import {LayoutComponent, LayoutComponentMetadata, LayoutRenderer, LayoutRendererItem} from '@anglr/dynamic/layout';
 
 import {LayoutDesignerDirective} from '../../directives';
 
@@ -21,14 +21,6 @@ export class LayoutEditorRenderer extends LayoutRenderer
     }
 
     //######################### protected overrides #########################
-
-    /**
-     * @inheritdoc
-     */
-    protected override preCreateComponent(type: Type<LayoutComponent>): void
-    {
-        applyDynamicHostDirective(type, [LayoutDesignerDirective]);
-    }
 
     /**
      * @inheritdoc
@@ -58,5 +50,20 @@ export class LayoutEditorRenderer extends LayoutRenderer
         }
 
         await designer.initializeDesigner();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected override createComponent(viewContainer: ViewContainerRef, type: Type<LayoutComponent<any>>, injector: Injector): ComponentRef<LayoutComponent<any>>
+    {
+        return viewContainer.createComponent(type,
+                                             {
+                                                 injector,
+                                                 directives:
+                                                 [
+                                                     LayoutDesignerDirective,
+                                                 ],
+                                             });
     }
 }

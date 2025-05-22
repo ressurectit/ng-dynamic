@@ -1,6 +1,5 @@
-import {Type, ɵComponentDef, ɵComponentType, ɵɵHostDirectivesFeature} from '@angular/core';
 import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
-import {isBlank, isFunction, isPresent, isType} from '@jscrpt/common';
+import {isBlank, isPresent, isType} from '@jscrpt/common';
 
 import {LayoutComponentDef} from './types';
 
@@ -28,74 +27,3 @@ export const isLayoutComponentDef: DynamicItemLoaderValidatorFn<LayoutComponentD
 
     return true;
 };
-
-//TODO: move into common
-
-/**
- * Symbol used for obtaining dynamic host directives
- */
-const dynamicHostDirectivesSymbol = Symbol('dynamicHostDirectives');
-
-/**
- * Applies dynamic host directive to type and removes all other dynamicaly applied directives
- * @param type - Type to be updated
- * @param directives - Array of directives that should be added, if empty, or unspecified only removes dynamically applied directives
- */
-export function applyDynamicHostDirective(type: Type<unknown>, directives?: Type<unknown>[]|undefined|null): void
-{
-    const componentDef = ((type as unknown as ɵComponentType<unknown>).ɵcmp as ɵComponentDef<unknown>);
-    const dynamicHostDirectives: Type<unknown>[] = [];
-
-    // dynamic host directives already exists
-    if(Reflect.has(type, dynamicHostDirectivesSymbol))
-    {
-        const directives = Reflect.get(type, dynamicHostDirectivesSymbol) as Type<unknown>[];
-
-        if(componentDef.hostDirectives)
-        {
-            for(const directive of directives)
-            {
-                const index = componentDef.hostDirectives.findIndex(itm => 
-                {
-                    if(isFunction(itm))
-                    {
-                        console.warn('Function was not expected!');
-
-                        return;
-                    }
-                    
-                    return itm.directive == directive;
-                });
-
-                if(index < 0)
-                {
-                    continue;
-                }
-
-                componentDef.hostDirectives.splice(index, 1);
-            }
-        }
-    }
-
-    Reflect.set(type, dynamicHostDirectivesSymbol, dynamicHostDirectives);
-
-    //enable host directives to work
-    if(!componentDef.findHostDirectiveDefs)
-    {
-        const feature = ɵɵHostDirectivesFeature([]);
-
-        componentDef.features?.unshift(feature);
-        feature(componentDef);
-    }
-
-    if(directives?.length)
-    {
-        componentDef.hostDirectives ??= [];
-    
-        for(const directive of directives)
-        {
-            componentDef.hostDirectives.push({directive: directive, inputs: {}, outputs: {}});
-            dynamicHostDirectives.push(directive);
-        }
-    }
-}

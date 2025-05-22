@@ -9,7 +9,6 @@ export * from './layoutEditorMetadataExtractor/layoutEditorMetadataExtractor.ser
 export * from './layoutEditorMetadataManager/layoutEditorMetadataManager.service';
 export * from './layoutEditorMetadataManager/layoutEditorMetadataManager.interface';
 export * from './layoutEditorPropertyMetadataExtractor/layoutEditorPropertyMetadataExtractor.service';
-export * from './layoutEditorRenderer/layoutEditorRenderer.interface';
 export * from './layoutEditorRenderer/layoutEditorRenderer.service';
 export * from './liveEvents/liveEvents.service';
 export * from './placeholderRenderer/placeholderRenderer.service';

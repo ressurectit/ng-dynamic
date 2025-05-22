@@ -11,7 +11,6 @@ import {MissingTypeBehavior} from '../../misc/enums';
 import {NotFoundLayoutTypeComponent} from '../../components';
 import {LayoutComponentDef} from '../../misc/types';
 import {LayoutRendererOptions} from './layoutRenderer.options';
-import {applyDynamicHostDirective} from '../../misc/utils';
 
 /**
  * Service used for handling rendering of layout
@@ -72,7 +71,7 @@ export class LayoutRenderer
                 return this.renderers[renderer.parentId];
             }
         }
-        
+
         return null;
     }
 
@@ -139,7 +138,7 @@ export class LayoutRenderer
         await syncPromise;
 
         this.logger.debug('LayoutRenderer: registering renderer {{@(4)renderer}}', {renderer: {id, parentId, metadata, parentMetadata, scopeId}});
-        
+
         //tests whether component already exists
         if(this.components[metadata.id])
         {
@@ -213,14 +212,7 @@ export class LayoutRenderer
             ]
         });
 
-        await this.preCreateComponent(layoutComponentType.data);
-
-        const component = viewContainer.createComponent(layoutComponentType.data,
-                                                        {
-                                                            injector: usedInjector,
-                                                        });
-
-        applyDynamicHostDirective(layoutComponentType.data);
+        const component = this.createComponent(viewContainer, layoutComponentType.data, usedInjector);
         await this.postCreateComponent(component, metadata);
 
         rendererItem.component = component;
@@ -308,7 +300,7 @@ export class LayoutRenderer
         this.logger.debug('LayoutRenderer: destroying renderer "{{id}}"', {id});
 
         const renderer = this.renderers[id];
-        
+
         //if renderer exists remove it from register
         if(renderer)
         {
@@ -321,7 +313,7 @@ export class LayoutRenderer
         //sync call finished
         syncResolve?.();
     }
-    
+
     /**
      * Unregisters renderer, removes it from register, destroys component, this is called when renderer is emptied
      * @param id - Id of renderer that will be removed
@@ -357,14 +349,6 @@ export class LayoutRenderer
     //######################### protected methods #########################
 
     /**
-     * Method called before dynamic component is created
-     * @param type - Type that will be rendered
-     */
-    protected preCreateComponent(_type: Type<LayoutComponent>): PromiseOr<void>
-    {
-    }
-
-    /**
      * Method called after dynamic component is created
      * @param component - Component reference of created component
      * @param metadata - Metadata for created component
@@ -379,5 +363,19 @@ export class LayoutRenderer
      */
     protected postInitComponent(_component: ComponentRef<LayoutComponent>): PromiseOr<void>
     {
+    }
+
+    /**
+     * Creates component dynamically
+     * @param viewContainer - View container used for rendering component
+     * @param type - Type to be rendered
+     * @param injector - Injector to be used
+     */
+    protected createComponent(viewContainer: ViewContainerRef, type: Type<LayoutComponent<any>>, injector: Injector): ComponentRef<LayoutComponent<any>>
+    {
+        return viewContainer.createComponent(type,
+                                             {
+                                                 injector,
+                                             });
     }
 }

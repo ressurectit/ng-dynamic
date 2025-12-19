@@ -22,7 +22,7 @@
         "skipLibCheck": false,
         "forceConsistentCasingInFileNames": true,
         "newLine": "lf",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "outDir": "wwwroot/app-tsc",
         "paths":
         {
@@ -81,6 +81,7 @@
         "strictInputAccessModifiers": true,
         "strictTemplates": true,
         "strictStandalone": true,
+        "typeCheckHostBindings": false,
         "extendedDiagnostics":
         {
             "checks":

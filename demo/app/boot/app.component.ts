@@ -1,17 +1,15 @@
 import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, Inject, WritableSignal, signal} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule, consoleAnimationTrigger} from '@anglr/common';
+import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule} from '@anglr/common';
 import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
 import {InternalServerErrorComponent} from '@anglr/error-handling';
-import {fadeInOutTrigger} from '@anglr/animations';
 import {NotificationsGlobalModule} from '@anglr/notifications';
 import {nameof} from '@jscrpt/common';
 import {TranslateService} from '@ngx-translate/core';
 import {Subscription} from 'rxjs';
 import {Hotkey} from 'angular2-hotkeys';
 
-import {loaderTrigger, routeAnimationTrigger} from './app.component.animations';
 import {SettingsService} from '../services/settings';
 import {SettingsGeneral, SettingsDebug} from '../config';
 import version from '../../config/version.json';
@@ -35,7 +33,6 @@ import {MenuModule} from '../modules';
         ConsoleComponent,
         HotkeysCheatsheetComponent,
     ],
-    animations: [routeAnimationTrigger, fadeInOutTrigger, consoleAnimationTrigger, loaderTrigger],
     providers: [AppHotkeysService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

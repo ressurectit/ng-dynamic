@@ -130,7 +130,7 @@ export class NodesPaletteComponent implements OnInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -149,7 +149,7 @@ export class NodesPaletteComponent implements OnInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnChanges #########################
-    
+
     /**
      * Called when input value changes
      */
@@ -183,7 +183,7 @@ export class NodesPaletteComponent implements OnInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */
@@ -225,7 +225,7 @@ export class NodesPaletteComponent implements OnInit, OnDestroy
 
                 const itemSource: DynamicItemSource = {package: packageName, name: type};
                 const metadata = await this.nodesLoader.loadItem(itemSource);
-    
+
                 if(!metadata)
                 {
                     this.logger.warn('NodesPaletteComponent: Failed to obtain layout editor metadata {{@source}}', {source: itemSource});
@@ -239,7 +239,7 @@ export class NodesPaletteComponent implements OnInit, OnDestroy
                     });
                 }
             }
-        }        
+        }
 
         this.groupedItems[''] = [];
 

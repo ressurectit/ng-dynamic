@@ -13,7 +13,7 @@ import {PACKAGE_SOURCES} from '../../misc/tokens';
 export class PackageManager
 {
     //######################### protected properties #########################
-    
+
     /**
      * Subscriptions created during initialization
      */
@@ -66,7 +66,7 @@ export class PackageManager
     {
         return this.usedPackagesValue.asReadonly();
     }
-    
+
     //######################### constructor #########################
     constructor(protected storageName?: string,)
     {
@@ -87,9 +87,9 @@ export class PackageManager
         this.setPackages();
         this.destroyRef.onDestroy(() => this.destroy());
     }
-    
+
     //######################### public methods #########################
-    
+
     /**
      * Sets usedPackages new value
      * @param usedPackages - Value of usedPackages that changed
@@ -100,7 +100,7 @@ export class PackageManager
         {
             return;
         }
-    
+
         this.usedPackagesValue.set(usedPackages);
 
         if(this.storageName)
@@ -142,6 +142,6 @@ export class PackageManager
             packages.push(...source.packages);
         }
 
-        this.packagesValue.set(packages);
+        this.packagesValue.set([...packages]);
     }
-} 
+}

@@ -121,7 +121,7 @@ export function withLayoutRelationsEditor(): CoreDynamicFeature
     return new CoreDynamicFeature(DynamicFeatureType.None,
                                   {
                                       prependProviders: [],
-                                      providers: 
+                                      providers:
                                       [
                                           LAYOUT_COMPONENTS_RELATIONS_NODES_PROVIDER,
                                           LAYOUT_COMPONENTS_RELATIONS_MODULE_TYPES_PROVIDER,
@@ -144,7 +144,7 @@ export function withLayoutRelationsEditor(): CoreDynamicFeature
  * Enables use of custom components
  * @param customComponentRegister - Type that represents implementation of custom components register
  * @param layoutRefreshPaletteObservable - Array of factory functions for layout refresh palette observables
- * 
+ *
  * Works with:
  * - **layout runtime**
  * - **layout editor**
@@ -158,7 +158,7 @@ export function withCustomComponents(customComponentRegister: Type<CustomCompone
         layoutRuntime:
         {
             prependProviders: [],
-            providers: 
+            providers:
             [
                 CUSTOM_COMPONENTS_LAYOUT_COMPONENTS_PROVIDER,
                 LayoutComponentsIteratorService,
@@ -208,7 +208,7 @@ export function withCustomComponents(customComponentRegister: Type<CustomCompone
  * Enables use of custom relations
  * @param customRelationsRegister - Type that represents implementation of custom relations register
  * @param relationsRefreshPaletteObservable - Array of factory functions for relations refresh palette observables
- * 
+ *
  * Works with:
  * - **relations runtime**
  * - **relations editor**

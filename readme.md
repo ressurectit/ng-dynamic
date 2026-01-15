@@ -5,7 +5,7 @@
 
 Angular module that allow creating of dynamic content with logic implemented as relations among used components.
 
-## Dev instructions
+## Dev instructions 
 
 - `npm install` in *root* directory
 - run `npm start` in *root* directory

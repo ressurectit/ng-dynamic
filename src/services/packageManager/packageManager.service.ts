@@ -142,6 +142,6 @@ export class PackageManager
             packages.push(...source.packages);
         }
 
-        this.packagesValue.set([...packages]);
+        this.packagesValue.set(packages);
     }
 }

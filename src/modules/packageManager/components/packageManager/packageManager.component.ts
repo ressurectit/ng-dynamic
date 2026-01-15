@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
+import {Component, ChangeDetectionStrategy, effect} from '@angular/core';
 
 import {PackageManager} from '../../../../services';
 
@@ -13,7 +13,7 @@ import {PackageManager} from '../../../../services';
     templateUrl: 'packageManager.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PackageManagerComponent implements OnInit
+export class PackageManagerComponent
 {
     //######################### protected properties - template bindings #########################
 
@@ -35,17 +35,9 @@ export class PackageManagerComponent implements OnInit
     //######################### constructor #########################
     constructor(protected packageManager: PackageManager,)
     {
-    }
-
-    //######################### public methods - implementation of OnInit #########################
-    
-    /**
-     * Initialize component
-     */
-    public ngOnInit(): void
-    {
         this.usedPackages = this.packageManager.usedPackages();
-        this.updatedAvailablePackages();
+
+        effect(() => this.updatedAvailablePackages());
     }
 
     //######################### protected methods - template bindings #########################

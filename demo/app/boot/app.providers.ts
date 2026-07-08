@@ -14,7 +14,6 @@ import {ReservedSpaceValidationErrorsContainerComponent, ValidationErrorRenderer
 import {MovableTitledDialogComponent, TitledDialogServiceOptions, TitledDialogService, provideConfirmationDialogOptions} from '@anglr/common/material';
 import {FloatingUiDomPosition} from '@anglr/common/floating-ui';
 import {CatchHttpClientErrorMiddleware, HttpClientErrorProcessingMiddleware, REST_ERROR_HANDLING_MIDDLEWARE_ORDER} from '@anglr/error-handling/rest';
-import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import {provideGlobalNotifications} from '@anglr/notifications';
 import {baseUrlExtension} from '@anglr/md-help/baseurl';
 import {assetsPathPrefixExtension, GfmHeadingIdExtension, IncludeMarkdownExtension, provideMarkdownRendererExtensions} from '@anglr/md-help';
@@ -24,7 +23,6 @@ import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, MockLoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, provideRestMethodMiddlewares} from '@anglr/rest';
 import {provideRestDateTime} from '@anglr/rest/datetime';
-import {provideRelationsDebuggerImplementation} from '@anglr/dynamic/relations-debugger';
 import {isString} from '@jscrpt/common';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {DndModule} from '@ng-dnd/core';
@@ -34,7 +32,6 @@ import {sk} from 'date-fns/locale';
 import {routes} from './app.component.routes';
 import {config} from '../config';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
-import {NOTHING_SELECTED} from '../misc/constants';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
@@ -158,23 +155,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
                 thDefault: 'header-default fixed-header'
             }
         }
-    },
-
-    //############################ SELECT GLOBAL OPTIONS ############################
-    <ValueProvider>
-    {
-        provide: NORMAL_STATE_OPTIONS,
-        useValue: <NormalStateOptions>
-        {
-            cssClasses:
-            {
-                normalStateElement: 'form-control-select',
-            },
-            texts:
-            {
-                nothingSelected: NOTHING_SELECTED,
-            },
-        },
     },
 
     //######################### STRING LOCALIZATION #########################
@@ -372,9 +352,8 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     {
         404: handleHttp404Error,
     }),
-    provideRelationsDebuggerImplementation(),
     importProvidersFrom(DndModule.forRoot(
     {
-        backend: HTML5Backend
+        backend: HTML5Backend,
     })),
 ];

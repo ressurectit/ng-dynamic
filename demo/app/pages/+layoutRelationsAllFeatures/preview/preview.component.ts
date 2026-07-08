@@ -3,7 +3,7 @@ import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
-import {NgSelectModule} from '@anglr/select';
+import {SelectControlValueAccessor, SelectModule} from '@anglr/select';
 import {provideDynamic} from '@anglr/dynamic';
 import {withCustomComponents, withCustomRelations, withLayoutRelationsRuntime} from '@anglr/dynamic/layout-relations';
 import {LayoutComponentMetadata, LayoutComponentRendererDirective, withLayoutMetadataStorage} from '@anglr/dynamic/layout';
@@ -40,7 +40,8 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
         LayoutComponentRendererDirective,
         RouterLink,
         ReactiveFormsModule,
-        NgSelectModule,
+        SelectModule,
+        SelectControlValueAccessor,
         DebugDataCopyClickModule,
         StaticInputComponent,
         StaticOutputComponent,

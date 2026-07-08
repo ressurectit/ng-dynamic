@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {NgSelectModule} from '@anglr/select';
+import {SelectControlValueAccessor, SelectModule} from '@anglr/select';
 import {EditorHotkeys, MetadataHistoryManager, EditorMetadataManager, EDITOR_METADATA_MANAGER} from '@anglr/dynamic';
 import {CustomDynamicItemsRegister, ShowCustomComponentOptionsDirective} from '@anglr/dynamic/layout-relations';
 import {LiveEventService} from '@anglr/dynamic/layout-editor';
@@ -26,9 +26,10 @@ import {DemoCustomRelationsRegister} from '../../services/demoCustomRelationsReg
     imports:
     [
         ReactiveFormsModule,
-        NgSelectModule,
+        SelectModule,
         CommonModule,
         ShowCustomComponentOptionsDirective,
+        SelectControlValueAccessor,
         MatSlideToggleModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

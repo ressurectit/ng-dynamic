@@ -1,5 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import type {Emitter, MarkerTag, MarkerSeverity, CancellationTokenSource, Uri, KeyCode, KeyMod, Position, Range, Selection, SelectionDirection, Token, editor, languages} from 'monaco-editor';
+import {typescript, css, html, json} from 'monaco-editor';
 
 import {AmdMonacoEditorLoader} from '../amdMonacoEditorLoader/amdMonacoEditorLoader.service';
 import {MonacoEditorType} from '../amdMonacoEditorLoader/amdMonacoEditorLoader.interface';
@@ -181,44 +182,44 @@ export class MonacoEditorApi
     /**
      * Gets type that represents 'languages.typescript'
      */
-    public get languagesTypescript(): Promise<typeof languages.typescript>
+    public get languagesTypescript(): Promise<typeof typescript>
     {
         return (async () =>
         {
-            return (this.monaco ??= (await this.monacoEditorLoader.loadMonacoEditor())).languages.typescript;
+            return typescript;
         })();
     }
 
     /**
      * Gets type that represents 'languages.css'
      */
-    public get languagesCss(): Promise<typeof languages.css>
+    public get languagesCss(): Promise<typeof css>
     {
         return (async () =>
         {
-            return (this.monaco ??= (await this.monacoEditorLoader.loadMonacoEditor())).languages.css;
+            return css;
         })();
     }
 
     /**
      * Gets type that represents 'languages.html'
      */
-    public get languagesHtml(): Promise<typeof languages.html>
+    public get languagesHtml(): Promise<typeof html>
     {
         return (async () =>
         {
-            return (this.monaco ??= (await this.monacoEditorLoader.loadMonacoEditor())).languages.html;
+            return html;
         })();
     }
 
     /**
      * Gets type that represents 'languages.json'
      */
-    public get languagesJson(): Promise<typeof languages.json>
+    public get languagesJson(): Promise<typeof json>
     {
         return (async () =>
         {
-            return (this.monaco ??= (await this.monacoEditorLoader.loadMonacoEditor())).languages.json;
+            return json;
         })();
     }
 }

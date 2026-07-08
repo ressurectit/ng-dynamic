@@ -105,7 +105,7 @@ export class LayoutDesignerDnDDirective implements OnDestroy
                 this.common.dndBus.setDragOverComponentId(null);
                 this.common.dndBus.setDragOverContainerId(null);
             }
-        }, {allowSignalWrites: true});
+        });
 
         effect(() =>
         {

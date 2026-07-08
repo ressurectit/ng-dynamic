@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, Injector, ValueProvider, ChangeDetectorRef} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {NgSelectModule} from '@anglr/select';
+import {SelectControlValueAccessor, SelectModule} from '@anglr/select';
 import {ComponentRoute, ComponentRedirectRoute} from '@anglr/common/router';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
 import {provideDynamic} from '@anglr/dynamic';
@@ -26,7 +26,8 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
     imports:
     [
         ReactiveFormsModule,
-        NgSelectModule,
+        SelectModule,
+        SelectControlValueAccessor,
         RouterLink,
         DebugDataCopyClickModule,
         LayoutComponentRendererDirective,
@@ -118,7 +119,10 @@ export class FormPreviewComponent implements OnInit, OnDestroy
 
             this.available.valueChanges.subscribe(val =>
             {
-                this._router.navigate(['/layoutRelationsForm', 'form-preview', val], {skipLocationChange: false, replaceUrl: true});
+                if(val)
+                {
+                    this._router.navigate(['/layoutRelationsForm', 'form-preview', val], {skipLocationChange: false, replaceUrl: true});
+                }
             });
         });
     }

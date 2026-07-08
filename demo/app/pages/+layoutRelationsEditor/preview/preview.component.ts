@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {NgSelectModule} from '@anglr/select';
+import {SelectControlValueAccessor, SelectModule} from '@anglr/select';
 import {ComponentRoute} from '@anglr/common/router';
 import {provideDynamic} from '@anglr/dynamic';
 import {LayoutComponentMetadata, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
@@ -32,7 +32,8 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
     imports:
     [
         RouterLink,
-        NgSelectModule,
+        SelectModule,
+        SelectControlValueAccessor,
         ReactiveFormsModule,
         LayoutComponentRendererDirective,
         DebugDataCopyClickModule,
@@ -76,7 +77,7 @@ export class PreviewComponent implements OnInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */
@@ -101,13 +102,16 @@ export class PreviewComponent implements OnInit, OnDestroy
 
             this.available.valueChanges.subscribe(val =>
             {
-                this._router.navigate(['/layoutRelationsEditor/preview', val], {skipLocationChange: false, replaceUrl: true});
+                if(val)
+                {
+                    this._router.navigate(['/layoutRelationsEditor/preview', val], {skipLocationChange: false, replaceUrl: true});
+                }
             });
         });
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */

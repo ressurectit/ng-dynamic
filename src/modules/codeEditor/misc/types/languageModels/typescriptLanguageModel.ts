@@ -1,4 +1,4 @@
-import type {languages} from 'monaco-editor';
+import type {typescript} from 'monaco-editor';
 
 import {LanguageModel} from './languageModel';
 
@@ -11,22 +11,22 @@ export const TypescriptLanguageModel = (initialValue: string): LanguageModel => 
                                                                                                   async (editor, monaco) =>
                                                                                                   {
                                                                                                       const uri = editor.getModel()?.uri;
-                                                                                                  
+
                                                                                                       if(!uri)
                                                                                                       {
                                                                                                           return '';
                                                                                                       }
-                                                                                                  
+
                                                                                                       const worker = await (await monaco.languagesTypescript).getTypeScriptWorker();
                                                                                                       const client = await worker(uri);
                                                                                                       const result = await client.getEmitOutput(uri.toString());
-                                                                                                  
+
                                                                                                       return result.outputFiles[0]?.text;
                                                                                                   },
                                                                                                   initialValue,
                                                                                                 async monaco =>
                                                                                                 {
-                                                                                                    const options: languages.typescript.CompilerOptions =
+                                                                                                    const options: typescript.CompilerOptions =
                                                                                                     {
                                                                                                         target: (await monaco.languagesTypescript).ScriptTarget.ES2020,
                                                                                                         module: (await monaco.languagesTypescript).ModuleKind.CommonJS,

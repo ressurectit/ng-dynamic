@@ -1,7 +1,7 @@
 import {Provider, SimpleChange, SimpleChanges, ValueProvider} from '@angular/core';
 import {NEVER} from 'rxjs';
 
-import {Destroyable, PackageSource} from '../interfaces';
+import {Destroyable, DynamicModule, PackageSource} from '../interfaces';
 import {PACKAGE_SOURCES} from './tokens';
 
 /**
@@ -68,4 +68,48 @@ export function getJson<TResult = any>(jsonString: string): TResult|null
 export function isDestroyable(value: unknown): value is Destroyable
 {
     return typeof (value as Destroyable)?.destroy === 'function';
+}
+
+/**
+ * Loader function returning a promise of a dynamically imported `DynamicModule`
+ */
+export type DynamicModuleLoader = () => Promise<DynamicModule>;
+
+/**
+ * Imports a dynamic item `type` module trying provided loaders in order until one succeeds
+ *
+ * This exists to bridge two different runtimes that the same source has to support:
+ * - **deployed, compiled package** where dynamic items are emitted as `.js` files, so the
+ *   glob dynamic import must reference `type.js`
+ * - **local demo / debugging** where the packages are consumed as raw `.ts` sources through
+ *   `tsconfig` path mappings, so esbuild only resolves the glob when it references `type.ts`
+ *
+ * Because bundlers (esbuild) build the lazy chunk map from the *literal* extension in the
+ * `import()` template, the extension cannot be a runtime variable - each supported extension
+ * has to appear as its own literal `import()` call. Only the extension matching the files that
+ * are actually present resolves; the other one produces a harmless build-time `empty-glob`
+ * warning and rejects at runtime, which is why every loader is attempted in order.
+ *
+ * Pass the production/deployed loader (`type.js`) first so that the shipped package resolves on
+ * the first attempt without relying on a thrown/caught rejection.
+ * @param loaders - Loaders attempted in order, first successful result is returned
+ * @throws The rejection reason of the last loader when every loader fails
+ */
+export async function importDynamicItemType(...loaders: DynamicModuleLoader[]): Promise<DynamicModule>
+{
+    let lastError: unknown;
+
+    for(const loader of loaders)
+    {
+        try
+        {
+            return await loader();
+        }
+        catch(e)
+        {
+            lastError = e;
+        }
+    }
+
+    throw lastError;
 }

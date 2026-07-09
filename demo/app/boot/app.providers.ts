@@ -1,12 +1,13 @@
-import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideZonelessChangeDetection} from '@angular/core';
+import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom} from '@angular/core';
 import {provideClientHydration} from '@angular/platform-browser';
-import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {OVERLAY_DEFAULT_CONFIG, OverlayDefaultConfig} from '@angular/cdk/overlay';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding, withHashLocation} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
 import {LocalPermanentStorage} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, providePermanentStorage, provideStringLocalization} from '@anglr/common';
+import {GlobalizationService, DebugDataEnabledService, DEFAULT_NOTIFICATIONS, NOTIFICATIONS, providePosition, provideLoggerConfig, DeveloperConsoleSink, LogLevelEnricher, TimestampEnricher, LogLevel, ConsoleComponentSink, providePermanentStorage, provideStringLocalization, progressInterceptor} from '@anglr/common';
 import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
-import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER, ANGLR_EXCEPTION_HANDLER_PROVIDER, HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideAnglrExceptionExtenders, errorWithUrlExtender, provideInternalServerErrorRenderer, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorHandlers, handleHttp404Error, provideHttpClientErrorConfigs} from '@anglr/error-handling';
+import {ERROR_HANDLING_NOTIFICATIONS, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, ANGLR_EXCEPTION_HANDLER_PROVIDER, CLIENT_ERROR_NOTIFICATIONS, provideAnglrExceptionExtenders, errorWithUrlExtender, provideInternalServerErrorRenderer, provideHttpClientErrorResponseMapper, provideHttpClientValidationErrorResponseMapper, provideHttpClientErrorHandlers, handleHttp404Error, provideHttpClientErrorConfigs, httpGatewayTimeoutInterceptor, serviceUnavailableInterceptor, httpServerErrorInterceptor, noConnectionInterceptor} from '@anglr/error-handling';
 import {DialogInternalServerErrorRenderer} from '@anglr/error-handling/material';
 import {BasicPagingOptions, TableContentRendererOptions, HEADER_CONTENT_RENDERER_OPTIONS, TableHeaderContentRendererOptions, QueryPermanentStorageGridInitializerOptions, QueryGridInitializerComponent, provideGridInitializerType, provideMetadataSelectorType, provideNoDataRendererOptions, providePagingOptions, provideMetadataSelectorOptions, provideGridInitializerOptions, provideContentRendererOptions} from '@anglr/grid';
 import {DialogMetadataSelectorOptions, DialogMetadataSelectorComponent} from '@anglr/grid/material';
@@ -21,7 +22,7 @@ import {HighlightJsExtension} from '@anglr/md-help/highlightjs';
 import {MermaidExtension} from '@anglr/md-help/mermaid';
 import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
-import {LoggerMiddleware, MockLoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, provideRestMethodMiddlewares} from '@anglr/rest';
+import {LoggerMiddleware, MockLoggerMiddleware, ReportProgressMiddleware, ResponseTypeMiddleware, RestMiddlewareType, provideRestMethodMiddlewares} from '@anglr/rest';
 import {provideRestDateTime} from '@anglr/rest/datetime';
 import {isString} from '@jscrpt/common';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -34,8 +35,8 @@ import {config} from '../config';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
 import {SETTINGS_STORAGE} from '../misc/tokens';
-import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 import {ReportMissingTranslationService} from '../services/missingTranslation';
+import {StaticBuildTranslateLoaderService} from '../services/staticBuildTranslateLoader';
 
 /**
  * Array of providers that are used in app module
@@ -51,10 +52,14 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideClientHydration(),
 
     //######################### HTTP CLIENT #########################
-    provideHttpClient(withInterceptorsFromDi(),),
-
-    //######################### ZONELESS #########################
-    provideZonelessChangeDetection(),
+    provideHttpClient(withInterceptors(
+                      [
+                          httpGatewayTimeoutInterceptor,
+                          serviceUnavailableInterceptor,
+                          httpServerErrorInterceptor,
+                          noConnectionInterceptor,
+                          progressInterceptor,
+                      ])),
 
     //######################### TRANSLATIONS #########################
     importProvidersFrom(TranslateModule.forRoot(
@@ -62,47 +67,40 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         loader: <ClassProvider>
         {
             provide: TranslateLoader,
-            useClass: WebpackTranslateLoaderService,
+            useClass: StaticBuildTranslateLoaderService,
         },
         ...config.configuration.debugTranslations ?
             {
                 missingTranslationHandler:
-            {
-                provide: MissingTranslationHandler,
-                useClass: ReportMissingTranslationService,
-            }
+                {
+                    provide: MissingTranslationHandler,
+                    useClass: ReportMissingTranslationService,
+                },
             } :
             {
             },
         useDefaultLang: !config.configuration.debugTranslations
     })),
 
-    //######################### HTTP INTERCEPTORS #########################
-    HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER,
-    SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER,
-    HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER,
-    NO_CONNECTION_INTERCEPTOR_PROVIDER,
-    PROGRESS_INTERCEPTOR_PROVIDER,
-
     //######################### NO CONNECTION INTERCEPTOR OPTIONS #########################
     <FactoryProvider>
     {
         useFactory: () => new NoConnectionInterceptorOptions('Server je mimo prevádzky.'),
-        provide: NoConnectionInterceptorOptions
+        provide: NoConnectionInterceptorOptions,
     },
 
     //######################### HTTP GATEWAY TIMEOUT INTERCEPTOR OPTIONS #########################
     <FactoryProvider>
     {
         useFactory: () => new HttpGatewayTimeoutInterceptorOptions('Server neodpovedal v stanovenom čase.'),
-        provide: HttpGatewayTimeoutInterceptorOptions
+        provide: HttpGatewayTimeoutInterceptorOptions,
     },
 
     //######################### GLOBALIZATION SERVICE #########################
     <ClassProvider>
     {
         provide: GlobalizationService,
-        useClass: GlobalizationServiceImpl
+        useClass: GlobalizationServiceImpl,
     },
 
     //######################### ERROR HANDLING #########################
@@ -122,28 +120,28 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         {
             loading: 'Nahrávam dáta ...',
             noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
-            notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
+            notLoaded: 'Neboli načítané žiadne dáta zatiaľ',
         }
     }),
     providePagingOptions<BasicPagingOptions>(
     {
         itemsPerPageValues: [15, 30, 60],
-        initialItemsPerPage: 15
+        initialItemsPerPage: 15,
     }),
     provideMetadataSelectorOptions<DialogMetadataSelectorOptions>(
     {
-        showButtonVisible: false
+        showButtonVisible: false,
     }),
     provideGridInitializerOptions<QueryPermanentStorageGridInitializerOptions>(
     {
-        storageIppName: 'all-grid-ipp'
+        storageIppName: 'all-grid-ipp',
     }),
     provideContentRendererOptions<TableContentRendererOptions>(
     {
         cssClasses:
         {
-            containerDiv: 'table-container thin-scrollbar'
-        }
+            containerDiv: 'table-container thin-scrollbar',
+        },
     }),
     <ValueProvider>
     {
@@ -152,9 +150,9 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         {
             cssClasses:
             {
-                thDefault: 'header-default fixed-header'
-            }
-        }
+                thDefault: 'header-default fixed-header',
+            },
+        },
     },
 
     //######################### STRING LOCALIZATION #########################
@@ -194,7 +192,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ClassProvider>
     {
         provide: SETTINGS_STORAGE,
-        useClass: LocalSettingsStorage
+        useClass: LocalSettingsStorage,
     },
 
     //######################### DEBUG DATA #########################
@@ -216,7 +214,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ClassProvider>
     {
         provide: DATE_API,
-        useClass: DateFnsDateApi
+        useClass: DateFnsDateApi,
     },
     DATE_FNS_FORMAT_PROVIDER,
     DATE_FNS_DATE_API_OBJECT_TYPE,
@@ -225,8 +223,8 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         provide: DATE_FNS_LOCALE,
         useValue: <DateFnsLocale>
         {
-            locale: sk
-        }
+            locale: sk,
+        },
     },
 
     //######################### VALIDATION ERRORS #########################
@@ -245,7 +243,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             birthNumber: 'Nesprávny formát rodného čísla.',
             email: 'Položka musí byť email.',
             availableUsername: 'Prihlasovacie meno je použité',
-        }
+        },
     },
     <ValueProvider>
     {
@@ -253,7 +251,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         useValue: <ValidationErrorRendererFactoryOptions>
         {
             container: ReservedSpaceValidationErrorsContainerComponent
-        }
+        },
     },
 
     //######################### NOTIFICATIONS #########################
@@ -262,12 +260,12 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ExistingProvider>
     {
         provide: ERROR_HANDLING_NOTIFICATIONS,
-        useExisting: NOTIFICATIONS
+        useExisting: NOTIFICATIONS,
     },
     <ExistingProvider>
     {
         provide: CLIENT_ERROR_NOTIFICATIONS,
-        useExisting: NOTIFICATIONS
+        useExisting: NOTIFICATIONS,
     },
 
     //######################### TITLED DIALOG #########################
@@ -307,12 +305,12 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     REST_ERROR_HANDLING_MIDDLEWARE_ORDER,
     provideRestMethodMiddlewares(
     [
-        LoggerMiddleware,
-        ResponseTypeMiddleware,
-        ReportProgressMiddleware,
-        HttpClientErrorProcessingMiddleware,
-        CatchHttpClientErrorMiddleware,
-        ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware]] : [],
+        LoggerMiddleware as RestMiddlewareType,
+        ResponseTypeMiddleware as RestMiddlewareType,
+        ReportProgressMiddleware as RestMiddlewareType,
+        HttpClientErrorProcessingMiddleware as RestMiddlewareType,
+        CatchHttpClientErrorMiddleware as RestMiddlewareType,
+        ...jsDevMode ? [...config.configuration.disableMockLogger ? [] : [MockLoggerMiddleware as RestMiddlewareType]] : [],
     ]),
     provideHttpClientErrorResponseMapper(err =>
     {
@@ -356,4 +354,13 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     {
         backend: HTML5Backend,
     })),
+    //######################### CDK OVERLAY #########################
+    <ValueProvider>
+    {
+        provide: OVERLAY_DEFAULT_CONFIG,
+        useValue: <OverlayDefaultConfig>
+        {
+            usePopover: false,
+        },
+    },
 ];

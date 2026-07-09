@@ -1,5 +1,5 @@
 import {Inject, Injectable, Optional} from '@angular/core';
-import {DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
+import {DynamicItemSource, DynamicModule, DynamicModuleProvider, importDynamicItemType} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
 
 /**
@@ -28,7 +28,12 @@ export class MaterialDynamicModuleItemsProvider implements DynamicModuleProvider
                 {
                     this._logger?.debug('MaterialDynamicModuleItemsProvider: trying to get item {{@item}}', {item: {name: source.name, package: source.package}});
 
-                    const dynamicItemModule = await import(`../../dynamicItems/${source.name}/type.js`);
+                    const dynamicItemModule = await importDynamicItemType(
+                        //deployed, compiled package resolves the emitted .js file
+                        () => import(`../../dynamicItems/${source.name}/type.js`),
+                        //local demo consumes raw .ts sources through tsconfig path mappings
+                        () => import(`../../dynamicItems/${source.name}/type.ts`),
+                    );
 
                     return dynamicItemModule;
                 }

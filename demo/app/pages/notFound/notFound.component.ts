@@ -1,6 +1,8 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {StatusCodeService} from '@anglr/common';
 
+import {AnimateRouteDirective} from '../../directives';
+
 /**
  * Page displayed when url was not found
  */
@@ -8,9 +10,13 @@ import {StatusCodeService} from '@anglr/common';
 {
     selector: 'not-found-view',
     templateUrl: 'notFound.component.html',
+    hostDirectives:
+    [
+        AnimateRouteDirective,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NotFoundComponent
+export default class NotFoundComponent
 {
     //######################### constructor #########################
     constructor(statusCodeService: StatusCodeService)

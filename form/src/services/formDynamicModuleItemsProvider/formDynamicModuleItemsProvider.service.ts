@@ -1,6 +1,17 @@
 import {Inject, Injectable, Optional} from '@angular/core';
-import {DynamicItemSource, DynamicModule, DynamicModuleProvider, importDynamicItemType} from '@anglr/dynamic';
+import {DynamicItemSource, DynamicModule, DynamicModuleProvider} from '@anglr/dynamic';
 import {Logger, LOGGER} from '@anglr/common';
+import {globalDefine, isBlank} from '@jscrpt/common';
+
+declare const ngDemoEnvironment: false;
+
+globalDefine(global =>
+{
+    if(isBlank(global.ngDemoEnvironment))
+    {
+        global.ngDemoEnvironment = false;
+    }
+});
 
 /**
  * Dynamic module items provider for form module items
@@ -28,12 +39,7 @@ export class FormDynamicModuleItemsProvider implements DynamicModuleProvider
                 {
                     this._logger?.debug('FormDynamicModuleItemsProvider: trying to get item {{@item}}', {item: {name: source.name, package: source.package}});
 
-                    const dynamicItemModule = await importDynamicItemType(
-                        //deployed, compiled package resolves the emitted .js file
-                        () => import(`../../dynamicItems/${source.name}/type.js`),
-                        //local demo consumes raw .ts sources through tsconfig path mappings
-                        () => import(`../../dynamicItems/${source.name}/type.ts`),
-                    );
+                    const dynamicItemModule = ngDemoEnvironment ? await import(`../../dynamicItems/${source.name}/type.ts`) : await import(`../../dynamicItems/${source.name}/type.js`);
 
                     return dynamicItemModule;
                 }

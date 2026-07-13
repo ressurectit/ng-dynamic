@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, OnChanges, SimpleChanges, Injector, inject} from '@angular/core';
+import {Component, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, OnChanges, SimpleChanges, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {DynamicItemLoader, DynamicItemSource, PackageManager} from '@anglr/dynamic';
@@ -30,7 +30,6 @@ import {DndCorePaletteItemDirective} from '../../directives';
         DndCorePaletteItemDirective,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComponentsPaletteComponent implements OnInit, OnChanges, OnDestroy
 {

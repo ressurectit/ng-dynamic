@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderComponent, RelationNodeOutputComponent} from '@anglr/dynamic/relations-editor';
 
@@ -15,7 +15,6 @@ import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderComponent, Relation
         RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogMetadataSelectorNodeComponent extends RelationsNodeBase implements RelationsNode
 {

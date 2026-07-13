@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, SimpleChanges, ChangeDetectorRef, Input, OnInit, OnDestroy} from '@angular/core';
+import {Component, SimpleChanges, ChangeDetectorRef, Input, OnInit, OnDestroy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {DynamicOutput, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
@@ -18,7 +18,6 @@ import {RelationsSampleClickRelationsMetadataLoader} from './relationsSampleClic
     [
         ReactiveFormsModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(RelationsSampleClickRelationsMetadataLoader)
 export class RelationsSampleClickComponent implements RelationsComponent, OnInit, OnDestroy, DynamicOnChanges

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -18,7 +18,6 @@ import {MaterialRadioComponentOptions} from './radio.options';
     selector: 'material-radio',
     templateUrl: 'radio.component.html',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         FormPipesModule,

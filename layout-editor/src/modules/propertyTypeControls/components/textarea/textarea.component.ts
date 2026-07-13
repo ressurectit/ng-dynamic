@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 
@@ -18,7 +18,6 @@ import {PropertyTypeControlBase} from '../propertyTypeControlBase';
         ReactiveFormsModule,
         CastPipesModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TextareaComponent extends PropertyTypeControlBase<string> implements PropertyTypeControl<string>
 {

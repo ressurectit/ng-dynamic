@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
@@ -25,7 +25,6 @@ import {ConfigureNodeEndpointData, ConfigureNodeEndpointComponent} from '../../.
         RelationNodeInputComponent,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComponentOutputsNodeComponent extends RelationsNodeBase<ComponentOutputsRelationsOptions> implements RelationsNode<ComponentOutputsRelationsOptions>
 {

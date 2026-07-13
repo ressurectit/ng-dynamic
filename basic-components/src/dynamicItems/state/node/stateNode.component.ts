@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, MonacoEditorApi, TypescriptLanguageModel} from '@anglr/dynamic';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
@@ -27,7 +27,6 @@ import {StateRelationsEditorOptions, StateRelationsInputFunctionData, StateRelat
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StateNodeComponent extends RelationsNodeBase<StateRelationsOptions, StateRelationsEditorOptions> implements RelationsNode<StateRelationsOptions, StateRelationsEditorOptions>
 {

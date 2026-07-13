@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
@@ -30,7 +30,6 @@ import {MathPowerRelationsOptionsModel} from './power.model';
     [
         FormModelBuilder
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MathPowerNodeComponent extends RelationsNodeBase<MathPowerRelationsOptions> implements RelationsNode<MathPowerRelationsOptions>
 {

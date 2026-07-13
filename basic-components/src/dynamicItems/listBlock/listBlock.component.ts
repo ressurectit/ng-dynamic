@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -26,7 +26,6 @@ import {ListBlockScopeRelationsDirective} from './misc/directives';
         ScopedRelationsDirective,
         ListBlockScopeRelationsDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DebugData(
 {

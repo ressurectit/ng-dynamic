@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, FactoryProvider, inject} from '@angular/core';
+import {Component, FactoryProvider, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentRendererDirective, LayoutRenderer} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -37,7 +37,6 @@ import {ComponentWithId} from '../../../interfaces';
             }
         },
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlaceholderDesignerComponent extends PlaceholderComponent implements LayoutComponent<PlaceholderComponentOptions>, ComponentWithId
 {

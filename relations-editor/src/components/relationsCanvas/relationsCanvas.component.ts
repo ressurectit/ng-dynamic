@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, HostBinding, HostListener, ViewChild, ElementRef, Input, Inject, OnInit, ChangeDetectorRef, OnDestroy, EventEmitter, Output} from '@angular/core';
+import {Component, HostBinding, HostListener, ViewChild, ElementRef, Input, Inject, OnInit, ChangeDetectorRef, OnDestroy, EventEmitter, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MetadataHistoryManager} from '@anglr/dynamic';
 import {select} from 'd3';
@@ -44,7 +44,6 @@ const MOVEMENT_DELTA_MAX = 10;
         CommonModule,
         RelationsNodeRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationsCanvasComponent implements OnInit, OnDestroy
 {

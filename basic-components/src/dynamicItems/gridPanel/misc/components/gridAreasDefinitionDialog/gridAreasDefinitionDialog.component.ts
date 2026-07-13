@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject, WritableSignal, signal} from '@angular/core';
+import {Component, inject, WritableSignal, signal} from '@angular/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
@@ -28,7 +28,6 @@ import {StringToColorPipe, ToGridColumnsTemplatePipe, ToGridRowsTemplatePipe} fr
         TooltipDirective,
         MatDialogModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridAreasDefinitionDialogComponent
 {

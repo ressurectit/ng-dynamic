@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef, Inject, Type, SimpleChanges, Injector, inject} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef, Inject, Type, SimpleChanges, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Logger, LOGGER, PermanentStorage, PERMANENT_STORAGE, FirstUppercaseLocalizePipe} from '@anglr/common';
@@ -72,7 +72,6 @@ interface PropertiesEditorData
         WidthResizerDirective,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PropertiesEditorComponent implements OnInit, OnDestroy
 {

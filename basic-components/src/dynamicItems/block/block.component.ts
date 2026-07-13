@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -18,7 +18,6 @@ import {BlockLayoutMetadataLoader} from './block.metadata';
     [
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<BlockComponentOptions>(options => options?.content ? [options?.content] : [])
 @LayoutEditorMetadata(BlockLayoutMetadataLoader)

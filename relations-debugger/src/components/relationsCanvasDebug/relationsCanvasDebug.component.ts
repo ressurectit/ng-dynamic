@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider, forwardRef} from '@angular/core';
+import {Component, ExistingProvider, forwardRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NodeRelationPath, RelationsCanvasComponent, RelationsNodeRendererDirective} from '@anglr/dynamic/relations-editor';
 import {select} from 'd3';
@@ -25,7 +25,6 @@ import {NodeRelationPathDebug} from '../../misc/nodeRelationPathDebug';
             useExisting: forwardRef(() => RelationsCanvasDebugComponent),
         }
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationsCanvasDebugComponent extends RelationsCanvasComponent
 {

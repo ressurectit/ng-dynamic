@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -20,7 +20,6 @@ import {MaterialSelectComponentOptions} from './select.options';
     selector: 'material-select',
     templateUrl: 'select.component.html',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         FormPipesModule,

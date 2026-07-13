@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
@@ -33,7 +33,6 @@ import {RestRelationsOptionsModel} from './restNode.model';
     [
         FormModelBuilder,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RestNodeComponent extends RelationsNodeBase<RestRelationsOptions> implements RelationsNode<RestRelationsOptions>
 {

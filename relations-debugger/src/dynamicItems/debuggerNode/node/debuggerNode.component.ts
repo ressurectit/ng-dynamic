@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject, OnDestroy} from '@angular/core';
+import {Component, inject, OnDestroy} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BodyRenderDirective, PositionPlacement, PositionToDirective, TooltipModule, TooltipOptions} from '@anglr/common';
 import {RelationsComponentEndpoints, RelationsComponentStateDebugInfo, RelationsDebugger, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
@@ -25,7 +25,6 @@ import {RelationNodeInputDebugComponent, RelationNodeOutputDebugComponent} from 
         PositionToDirective,
         BodyRenderDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DebuggerNodeComponent extends RelationsNodeBase implements RelationsNode, OnDestroy
 {

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, Inject, WritableSignal, signal} from '@angular/core';
+import {Component, OnDestroy, AfterViewInit, ViewChild, Inject, WritableSignal, signal} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
 import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule} from '@anglr/common';
@@ -34,7 +34,6 @@ import {MenuModule} from '../modules';
         HotkeysCheatsheetComponent,
     ],
     providers: [AppHotkeysService],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements AfterViewInit, OnDestroy
 {

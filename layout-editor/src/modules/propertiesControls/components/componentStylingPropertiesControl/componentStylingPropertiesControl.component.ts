@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {ComponentStylingOptions} from '@anglr/dynamic/layout';
 import {CastPipesModule, FirstUppercaseLocalizePipe, TooltipDirective} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
@@ -26,7 +26,6 @@ import {PaddingControlComponent} from '../paddingControl/paddingControl.componen
         PaddingControlComponent,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComponentStylingPropertiesControlComponent extends PropertiesControlBase<ComponentStylingOptions> implements PropertiesControl<ComponentStylingOptions>
 {

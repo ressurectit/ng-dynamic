@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererDirective, LayoutRenderer} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
@@ -21,7 +21,6 @@ import {TemplateBlockComponent} from '../templateBlock.component';
     [
         LayoutRenderer,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplateBlockDesignerComponent extends TemplateBlockComponent implements LayoutComponent<TemplateBlockComponentOptions>
 {

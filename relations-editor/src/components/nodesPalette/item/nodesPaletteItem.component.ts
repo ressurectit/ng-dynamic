@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, HostBinding, HostListener} from '@angular/core';
+import {Component, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, HostBinding, HostListener} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CdkDrag} from '@angular/cdk/drag-drop';
 import {PackageManager} from '@anglr/dynamic';
@@ -20,7 +20,6 @@ import {NodesPaletteItem} from '../nodesPalette.interface';
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NodesPaletteItemComponent implements OnInit, OnDestroy
 {

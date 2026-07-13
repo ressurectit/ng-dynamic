@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {TitledDialogService} from '@anglr/common/material';
 import {PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
@@ -19,7 +19,6 @@ import {RowsColumnsDefinitionDialogComponent} from '../rowsColumnsDefinitionDial
     [
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RowsColumnsPropertiesControlComponent extends PropertiesControlBase<RowsColumnsOptions> implements PropertiesControl<RowsColumnsOptions>
 {

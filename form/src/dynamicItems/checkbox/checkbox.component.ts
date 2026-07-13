@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
@@ -17,7 +17,6 @@ import {CheckboxComponentOptions} from './checkbox.options';
     selector: 'form-checkbox',
     templateUrl: 'checkbox.component.html',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         FormPipesModule,

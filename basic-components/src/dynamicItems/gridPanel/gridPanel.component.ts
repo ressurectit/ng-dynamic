@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -19,7 +19,6 @@ import {toGridColumnsTemplate, toGridRowsTemplate} from '../../misc/utils';
         CommonModule,
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<GridPanelComponentOptions>(options => options?.areas ?? [])
 @LayoutEditorMetadata(GridPanelLayoutMetadataLoader)

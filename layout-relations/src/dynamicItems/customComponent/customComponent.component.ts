@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject, SimpleChanges, FactoryProvider} from '@angular/core';
+import {Component, inject, SimpleChanges, FactoryProvider} from '@angular/core';
 import {MetadataStorage} from '@anglr/dynamic';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererDirective, LAYOUT_METADATA_STORAGE, LayoutRenderer} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutComponentsIteratorService, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -46,7 +46,6 @@ import {PlaceholderHandler} from '../../services/placeholderHandler/placeholderH
             }
         },
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<CustomComponentComponentOptions>(options =>
 {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {TitledDialogService} from '@anglr/common/material';
 import {LayoutEditorMetadataExtractor, PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
@@ -15,7 +15,6 @@ import {RichTextBlockComponentOptions} from '../../../richTextBlock.options';
 {
     selector: 'rich-text-block-properties-control',
     templateUrl: 'richTextBlockPropertiesControl.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RichTextBlockPropertiesControlComponent extends PropertiesControlBase<RichTextBlockComponentOptions> implements PropertiesControl<RichTextBlockComponentOptions>
 {

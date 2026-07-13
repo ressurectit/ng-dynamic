@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -14,7 +14,6 @@ import {GridColumnHeaderLayoutDesignerTypeLoader, GridColumnHeaderLayoutMetadata
     selector: 'grid-column-header',
     template: '',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<GridColumnHeaderComponentOptions>(options => 
 {

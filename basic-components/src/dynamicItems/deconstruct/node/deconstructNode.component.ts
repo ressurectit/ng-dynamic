@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
@@ -23,7 +23,6 @@ import {DeconstructRelationsOptions} from '../deconstruct.options';
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeconstructNodeComponent extends RelationsNodeBase<DeconstructRelationsOptions> implements RelationsNode<DeconstructRelationsOptions>
 {

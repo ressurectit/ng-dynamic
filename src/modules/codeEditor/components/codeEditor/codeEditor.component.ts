@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ElementRef, OnDestroy, AfterViewInit, Input, OnChanges, SimpleChanges, EventEmitter, Output} from '@angular/core';
+import {Component, ElementRef, OnDestroy, AfterViewInit, Input, OnChanges, SimpleChanges, EventEmitter, Output} from '@angular/core';
 import {isBlank, isPresent, nameof} from '@jscrpt/common';
 import type {editor, IDisposable} from 'monaco-editor';
 
@@ -13,7 +13,6 @@ import {MonacoEditorApi} from '../../../../services';
 {
     selector: 'code-editor',
     template: '',
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CodeEditorComponent implements OnDestroy, AfterViewInit, OnChanges
 {

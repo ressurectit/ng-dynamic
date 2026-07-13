@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {GoBackDirective} from '@anglr/common';
 import {ComponentRoute} from '@anglr/common/router';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER, RelationsEditorComponent} from '@anglr/dynamic/relations-editor';
@@ -38,7 +38,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
                        withFormComponents(),
                        withMaterialComponents(),),
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'relations'})
 @ComponentRoute({path: 'relations/:id'})

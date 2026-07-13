@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 
 /**
@@ -14,7 +14,6 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
         RouterLink,
         RouterLinkActive,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainMenuComponent
 {

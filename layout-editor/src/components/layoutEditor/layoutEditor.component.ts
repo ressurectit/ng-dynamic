@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnChanges, SimpleChanges, Inject, OnInit, ChangeDetectorRef, Optional} from '@angular/core';
+import {Component, Input, OnDestroy, OnChanges, SimpleChanges, Inject, OnInit, ChangeDetectorRef, Optional} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
@@ -41,7 +41,6 @@ import {DndCorePreviewTemplateDirective} from '../../directives';
         LayoutEditorDragPreviewComponent,
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutEditorComponent implements OnDestroy, OnChanges, OnInit
 {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {AsFormGroup, FormModelGroup, FormPipesModule} from '@anglr/common/forms';
@@ -21,7 +21,6 @@ import {InputSizeComponent} from '../../../propertyTypeControls';
         InputSizeComponent,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaddingControlComponent extends PropertiesControlBase<ComponentStylingOptions> implements PropertiesControl<ComponentStylingOptions>
 {

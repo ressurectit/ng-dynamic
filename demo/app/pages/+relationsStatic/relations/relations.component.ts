@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {provideDynamic} from '@anglr/dynamic';
 import {RelationsManager, withRelationsRuntime} from '@anglr/dynamic/relations';
@@ -23,7 +23,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
     [
         provideDynamic(withRelationsRuntime()),
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: ''})
 @WithFullscreenContentCssClass()

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {GoBackDirective} from '@anglr/common';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
@@ -50,7 +50,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
                        withRestComponents(),
                        withTinyMceComponents(),),
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'layout'})
 @ComponentRoute({path: 'layout/:id'})

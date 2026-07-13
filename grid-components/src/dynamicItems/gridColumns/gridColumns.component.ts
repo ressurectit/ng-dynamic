@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -20,7 +20,6 @@ import {GridColumnsLayoutDesignerTypeLoader, GridColumnsLayoutMetadataLoader, Gr
     [
         MatrixGridModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<GridColumnsComponentOptions>(options => 
 {

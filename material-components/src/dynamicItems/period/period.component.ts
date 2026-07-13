@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -19,7 +19,6 @@ import {MaterialPeriodComponentOptions} from './period.options';
     selector: 'material-period',
     templateUrl: 'period.component.html',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         FormPipesModule,

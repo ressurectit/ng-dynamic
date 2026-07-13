@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, InjectionToken, ComponentRef, ViewChild} from '@angular/core';
+import {Component, InjectionToken, ComponentRef, ViewChild} from '@angular/core';
 import {MatTabGroup, MatTabsModule} from '@angular/material/tabs';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
@@ -37,7 +37,6 @@ export const MATERIAL_TAB_GROUP: InjectionToken<string> = new InjectionToken<str
             useExisting: MaterialTabGroupComponent,
         }
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<MaterialTabGroupComponentOptions>(options => options?.tabs ? options?.tabs.map(datum => <LayoutComponentMetadata>datum.content) : [])
 @LayoutEditorMetadata(MaterialTabGroupLayoutMetadataLoader)

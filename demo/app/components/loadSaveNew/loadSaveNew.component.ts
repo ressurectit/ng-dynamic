@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, OnInit, EventEmitter, Output, OnDestroy, Inject, Optional, ChangeDetectorRef, booleanAttribute} from '@angular/core';
+import {Component, Input, OnInit, EventEmitter, Output, OnDestroy, Inject, Optional, ChangeDetectorRef, booleanAttribute} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
@@ -32,7 +32,6 @@ import {DemoCustomRelationsRegister} from '../../services/demoCustomRelationsReg
         SelectControlValueAccessor,
         MatSlideToggleModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoadSaveNewComponent<TStoreMetadata = unknown, TMetadata = unknown> implements OnInit, OnDestroy
 {

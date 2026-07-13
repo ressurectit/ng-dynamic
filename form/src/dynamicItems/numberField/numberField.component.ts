@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {ReactiveFormsModule, Validators} from '@angular/forms';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
@@ -18,7 +18,6 @@ import {NumberFieldComponentOptions} from './numberField.options';
     selector: 'form-number-field',
     templateUrl: 'numberField.component.html',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         FormPipesModule,

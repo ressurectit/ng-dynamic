@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
@@ -17,7 +17,6 @@ import {DataLoaderComponent} from '../dataLoader.component';
     [
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataLoaderDesignerComponent extends DataLoaderComponent implements LayoutComponent<DataLoaderComponentOptions>
 {

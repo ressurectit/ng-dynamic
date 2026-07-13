@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
@@ -30,7 +30,6 @@ import {MathRoundRelationsOptionsModel} from './round.model';
     [
         FormModelBuilder
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MathRoundNodeComponent extends RelationsNodeBase<MathRoundRelationsOptions> implements RelationsNode<MathRoundRelationsOptions>
 {

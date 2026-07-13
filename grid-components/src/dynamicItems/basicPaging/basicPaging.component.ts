@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -17,7 +17,6 @@ import {GridPluginComponent} from '../../interfaces';
     selector: 'basic-paging',
     template: '',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(BasicPagingLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(BasicPagingLayoutMetadataLoader)

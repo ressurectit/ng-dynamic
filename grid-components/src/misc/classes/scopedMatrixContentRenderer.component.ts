@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, FactoryProvider, InjectionToken, Injector, OnDestroy, Provider, SimpleChanges, ValueProvider, inject} from '@angular/core';
+import {Component, FactoryProvider, InjectionToken, Injector, OnDestroy, Provider, SimpleChanges, ValueProvider, inject} from '@angular/core';
 import {CONTENT_RENDERER_CURRENT_VIEW_CONTAINER, CssGridDefaultTemplatesComponent, CurrentViewContainer, DEFAULT_OPTIONS, GridPlugin, MatrixContentRenderer, MatrixContentRendererOptions, MatrixContentRendererComponent} from '@anglr/grid';
 import {Destroyable, SCOPE_ID, addSimpleChange} from '@anglr/dynamic';
 import {RelationsChangeDetector, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
@@ -55,7 +55,6 @@ const SCOPE_IDENTIFIER: InjectionToken<string> = new InjectionToken<string>('SCO
             }
         }
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScopedMatrixContentRendererComponent extends MatrixContentRendererComponent implements MatrixContentRenderer, GridPlugin<MatrixContentRendererOptions>, OnDestroy
 {

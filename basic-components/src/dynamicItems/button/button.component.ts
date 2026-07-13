@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -23,7 +23,6 @@ import {ButtonLayoutMetadataLoader, ButtonRelationsMetadataLoader} from './butto
         NgClass,
         TooltipDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DebugData(
 {

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, SimpleChanges} from '@angular/core';
+import {Component, Input, SimpleChanges} from '@angular/core';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
@@ -22,7 +22,6 @@ import {GridPluginComponent} from '../../interfaces';
     selector: 'sync-data-loader',
     template: '',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(SyncDataLoaderLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(SyncDataLoaderRelationsMetadataLoader)

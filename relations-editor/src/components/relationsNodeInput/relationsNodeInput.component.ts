@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, HostListener, OnDestroy} from '@angular/core';
+import {Component, HostListener, OnDestroy} from '@angular/core';
 
 import {RelationNodeEndpointBase} from '../relationsNodeEndpointBase';
 import {RelationsInput} from '../../interfaces';
@@ -13,7 +13,6 @@ import {INVALIDATE_DROP} from '../../misc/constants';
 {
     selector: 'relation-node-input',
     template: '',
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationNodeInputComponent extends RelationNodeEndpointBase implements RelationsInput, OnDestroy
 {

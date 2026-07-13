@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -14,7 +14,6 @@ import {RichTextBlockLayoutMetadataLoader} from './richTextBlock.metadata';
     selector: 'rich-text-block',
     template: '',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorMetadata(RichTextBlockLayoutMetadataLoader)
 export class RichTextBlockComponent extends LayoutComponentBase<RichTextBlockComponentOptions> implements LayoutComponent<RichTextBlockComponentOptions>

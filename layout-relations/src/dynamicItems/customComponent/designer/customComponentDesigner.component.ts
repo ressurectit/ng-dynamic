@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider, FactoryProvider, inject} from '@angular/core';
+import {Component, ExistingProvider, FactoryProvider, inject} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererDirective, LayoutRenderer} from '@anglr/dynamic/layout';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -38,7 +38,6 @@ import {PlaceholderHandler} from '../../../services';
             }
         },
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomComponentDesignerComponent extends CustomComponentComponent implements LayoutComponent<CustomComponentComponentOptions>, RelationsComponent
 {

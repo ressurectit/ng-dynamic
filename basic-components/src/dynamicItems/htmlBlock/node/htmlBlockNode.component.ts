@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 
@@ -15,7 +15,6 @@ import {FirstUppercaseLocalizePipe} from '@anglr/common';
         RelationNodeInputComponent,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HtmlBlockNodeComponent extends RelationsNodeBase implements RelationsNode
 {

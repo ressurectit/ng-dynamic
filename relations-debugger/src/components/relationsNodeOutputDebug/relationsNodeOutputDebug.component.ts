@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider} from '@angular/core';
+import {Component, ExistingProvider} from '@angular/core';
 import {RelationNodeOutputComponent} from '@anglr/dynamic/relations-editor';
 
 /**
@@ -16,7 +16,6 @@ import {RelationNodeOutputComponent} from '@anglr/dynamic/relations-editor';
             useExisting: RelationNodeOutputDebugComponent,
         }
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationNodeOutputDebugComponent extends RelationNodeOutputComponent
 {

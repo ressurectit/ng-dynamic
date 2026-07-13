@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, SimpleChanges} from '@angular/core';
+import {Component, Input, SimpleChanges} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {DebugData, RelationsComponent} from '@anglr/dynamic/relations';
@@ -17,7 +17,6 @@ import {HtmlBlockLayoutMetadataLoader, HtmlBlockRelationsMetadataLoader} from '.
     selector: 'html-block',
     template: '',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DebugData(
 {

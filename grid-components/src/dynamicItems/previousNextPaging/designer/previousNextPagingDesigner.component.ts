@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
@@ -13,7 +13,6 @@ import {PreviousNextPagingComponent} from '../previousNextPaging.component';
     selector: 'next-previous-paging',
     templateUrl: 'previousNextPagingDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviousNextPagingDesignerComponent extends PreviousNextPagingComponent implements LayoutComponent<PreviousNextPagingComponentOptions>
 {

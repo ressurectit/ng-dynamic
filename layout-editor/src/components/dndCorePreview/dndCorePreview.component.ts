@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, EmbeddedViewRef, ContentChild, TemplateRef, ViewContainerRef, OnInit, OnDestroy} from '@angular/core';
+import {Component, EmbeddedViewRef, ContentChild, TemplateRef, ViewContainerRef, OnInit, OnDestroy} from '@angular/core';
 import {DndService} from '@ng-dnd/core';
 import {Subscription} from 'rxjs';
 
@@ -12,7 +12,6 @@ import {DndCorePreviewTemplateContext, DndCorePreviewTemplateDirective} from '..
 {
     selector: 'dnd-core-drag-preview',
     template: '',
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DndCorePreviewComponent implements OnInit, OnDestroy
 {

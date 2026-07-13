@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {NumberInputModule} from '@anglr/common/forms';
@@ -23,7 +23,6 @@ import {DebounceValueRelationsOptions} from '../debounceValue.options';
         RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DebounceValueNodeComponent extends RelationsNodeBase<DebounceValueRelationsOptions> implements RelationsNode<DebounceValueRelationsOptions>
 {

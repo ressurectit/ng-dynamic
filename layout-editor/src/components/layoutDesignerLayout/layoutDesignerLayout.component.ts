@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ElementRef, OnDestroy, ChangeDetectorRef} from '@angular/core';
+import {Component, ElementRef, OnDestroy, ChangeDetectorRef} from '@angular/core';
 
 import {LayoutDesignerCommonDirective} from '../../directives/layoutDesignerCommon/layoutDesignerCommon.directive';
 
@@ -9,7 +9,6 @@ import {LayoutDesignerCommonDirective} from '../../directives/layoutDesignerComm
 {
     selector: 'div.designer-overlay-layout',
     templateUrl: 'layoutDesignerLayout.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutDesignerLayoutComponent implements OnDestroy
 {

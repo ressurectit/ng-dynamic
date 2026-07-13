@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent} from '@anglr/dynamic/layout';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -14,7 +14,6 @@ import {DialogMetadataSelectorComponent} from '../dialogMetadataSelector.compone
     selector: 'dialog-metadata-selector-designer',
     templateUrl: 'dialogMetadataSelectorDesigner.component.html',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogMetadataSelectorDesignerComponent extends DialogMetadataSelectorComponent implements LayoutComponent<DialogMetadataSelectorComponentOptions>, RelationsComponent<DialogMetadataSelectorRelationsOptions>
 {

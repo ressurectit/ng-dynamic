@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject, FactoryProvider} from '@angular/core';
+import {Component, inject, FactoryProvider} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsChangeDetector, RelationsComponentManager, RelationsDebugger, RelationsManager, RelationsProcessor} from '@anglr/dynamic/relations';
@@ -60,7 +60,6 @@ import {ContainerMetadataPipe} from './misc/pipes';
             }
         },
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(PlaceholderLayoutDesignerTypeLoader)
 @LayoutEditorMetadata(PlaceholderLayoutMetadataLoader)

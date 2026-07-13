@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {HostDisplayBlockStyle} from '@anglr/common';
 
@@ -17,7 +17,6 @@ import {MetadataSelectorComponent} from '../metadataSelector.component';
     [
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MetadataSelectorDesignerComponent extends MetadataSelectorComponent implements LayoutComponent<MetadataSelectorComponentOptions>
 {

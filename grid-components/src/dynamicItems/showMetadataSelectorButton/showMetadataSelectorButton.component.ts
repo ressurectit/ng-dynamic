@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
@@ -21,7 +21,6 @@ import {ShowMetadataSelectorButtonLayoutMetadataLoader, ShowMetadataSelectorButt
     [
         ShowMetadataSelectorForDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(ShowMetadataSelectorButtonRelationsMetadataLoader)
 @LayoutEditorMetadata(ShowMetadataSelectorButtonLayoutMetadataLoader)

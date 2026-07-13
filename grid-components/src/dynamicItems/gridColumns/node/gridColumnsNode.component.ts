@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderComponent, RelationNodeOutputComponent} from '@anglr/dynamic/relations-editor';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 
@@ -17,7 +17,6 @@ import {GridColumnsRelationsOptions} from '../gridColumns.options';
         RelationNodeOutputComponent,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridColumnsNodeComponent extends RelationsNodeBase<GridColumnsRelationsOptions> implements RelationsNode<GridColumnsRelationsOptions>
 {

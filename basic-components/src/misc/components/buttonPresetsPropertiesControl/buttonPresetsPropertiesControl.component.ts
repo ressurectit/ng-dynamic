@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
 
@@ -48,7 +48,6 @@ const defaultPresets: ButtonPreset[] =
     [
         NgClass,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonPresetsPropertiesControlComponent extends PropertiesControlBase implements PropertiesControl
 {

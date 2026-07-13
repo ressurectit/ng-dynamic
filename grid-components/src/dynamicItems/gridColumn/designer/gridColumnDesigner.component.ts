@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject, SimpleChanges} from '@angular/core';
+import {Component, inject, SimpleChanges} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {LayoutDesignerDirective, LayoutEditorMetadataManager, LayoutEditorRenderer} from '@anglr/dynamic/layout-editor';
 import {addSimpleChange} from '@anglr/dynamic';
@@ -20,7 +20,6 @@ import {GridColumnComponent} from '../gridColumn.component';
     [
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridColumnDesignerComponent extends GridColumnComponent implements LayoutComponent<GridColumnComponentOptions>
 {

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, SimpleChanges, Injector, inject} from '@angular/core';
+import {Component, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, SimpleChanges, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {CdkDropList, DragDropModule} from '@angular/cdk/drag-drop';
@@ -35,7 +35,6 @@ import {NodeItemFilterPipe} from './pipes/nodeItemFilter.pipe';
         NodeGroupFilterPipe,
         NodeItemFilterPipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NodesPaletteComponent implements OnInit, OnDestroy
 {

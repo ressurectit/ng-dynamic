@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {RelationsComponent} from '@anglr/dynamic/relations';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -18,7 +18,6 @@ import {IfBlockComponent} from '../ifBlock.component';
     [
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IfBlockDesignerComponent extends IfBlockComponent implements LayoutComponent<IfBlockComponentOptions>, RelationsComponent
 {

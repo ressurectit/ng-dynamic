@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
 /**
@@ -8,7 +8,6 @@ import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 {
     selector: 'layout-editor-drag-preview',
     templateUrl: 'layoutEditorDragPreview.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutEditorDragPreviewComponent
 {

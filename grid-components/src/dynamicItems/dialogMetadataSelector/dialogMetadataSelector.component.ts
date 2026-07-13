@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {DynamicOutput, RelationsComponent} from '@anglr/dynamic/relations';
@@ -20,7 +20,6 @@ import {GridPluginComponent} from '../../interfaces';
     selector: 'dialog-metadata-selector',
     template: '',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(DialogMetadataSelectorLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(DialogMetadataSelectorRelationsMetadataLoader)

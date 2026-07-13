@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {HostFlexRowStyle} from '@anglr/common';
 
@@ -17,7 +17,6 @@ import {GridColumnsComponent} from '../gridColumns.component';
     [
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GridColumnsDesignerComponent extends GridColumnsComponent implements LayoutComponent<GridColumnsComponentOptions>
 {

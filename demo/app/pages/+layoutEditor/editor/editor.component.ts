@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {StackPanelComponentOptions} from '@anglr/dynamic/basic-components';
@@ -42,7 +42,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
                        withMaterialComponents(),
                        withTinyMceComponents(),),
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'editor'})
 @ComponentRoute({path: 'editor/:id'})

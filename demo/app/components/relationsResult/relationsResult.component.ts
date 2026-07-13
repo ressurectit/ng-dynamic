@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, Input, ChangeDetectorRef, SimpleChanges} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, ChangeDetectorRef, SimpleChanges} from '@angular/core';
 import {RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
 import {DynamicOnChanges} from '@anglr/dynamic';
@@ -13,7 +13,6 @@ import {RelationsResultRelationsMetadataLoader} from './relationsResult.metadata
 {
     selector: 'relations-result',
     templateUrl: 'relationsResult.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(RelationsResultRelationsMetadataLoader)
 export class RelationsResultComponent implements RelationsComponent, OnInit, OnDestroy, DynamicOnChanges

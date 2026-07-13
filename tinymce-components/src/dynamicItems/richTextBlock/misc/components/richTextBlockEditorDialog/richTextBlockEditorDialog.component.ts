@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject, ValueProvider} from '@angular/core';
+import {Component, Inject, ValueProvider} from '@angular/core';
 import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
 import {globalDefine, isBlank} from '@jscrpt/common';
@@ -34,7 +34,6 @@ globalDefine(global =>
             useValue: ngDynamicTinymcePath + '/tinymce.min.js'
         },
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RichTextBlockEditorDialogComponent
 {

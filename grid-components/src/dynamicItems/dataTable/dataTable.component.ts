@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererDirective, LayoutRendererItem} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -63,7 +63,6 @@ interface ColDef
         MatrixGridModule,
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<DataTableComponentOptions>(options =>
 {

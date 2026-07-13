@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ValueProvider, Provider} from '@angular/core';
+import {Component, ValueProvider, Provider} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -21,7 +21,6 @@ import {FormComponentBase} from '../../components';
         CommonModule,
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<FormGroupComponentOptions>(options => options?.children ?? [])
 @LayoutEditorMetadata(FormGroupLayoutMetadataLoader)

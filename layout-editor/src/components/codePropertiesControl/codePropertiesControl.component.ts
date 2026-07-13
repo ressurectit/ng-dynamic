@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, Type} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, Type} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
@@ -21,7 +21,6 @@ import {LayoutEditorMetadataExtractor} from '../../services';
     [
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BaseCodePropertiesControlComponent<TOptions = any> extends PropertiesControlBase<TOptions> implements PropertiesControl<TOptions>
 {
@@ -99,7 +98,6 @@ export function codePropertiesControlFor<TModel>(property: Extract<keyof TModel,
         [
             FirstUppercaseLocalizePipe,
         ],
-        changeDetection: ChangeDetectionStrategy.OnPush
     })
     class CodePropertiesControl<TOptions = any> extends BaseCodePropertiesControlComponent implements PropertiesControl<TOptions>
     {

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy, ViewChild, Injector, inject} from '@angular/core';
+import {Component, ChangeDetectorRef, OnInit, OnDestroy, ViewChild, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
@@ -28,7 +28,6 @@ import {ComponentsTreeItemComponent} from './item';
         DragActiveService,
         DndBusService,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ComponentsTreeComponent implements OnInit, OnDestroy
 {

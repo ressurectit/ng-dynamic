@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, inject} from '@angular/core';
+import {Component, Input, inject} from '@angular/core';
 import {MAT_TAB, MatTab, MatTabsModule} from '@angular/material/tabs';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
@@ -25,7 +25,6 @@ import {MATERIAL_TAB_GROUP} from '../tabGroup/tabGroup.component';
         MatTabsModule,
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<MaterialTabComponentOptions>(options => options?.children ?? [])
 @LayoutEditorMetadata(MaterialTabLayoutMetadataLoader)

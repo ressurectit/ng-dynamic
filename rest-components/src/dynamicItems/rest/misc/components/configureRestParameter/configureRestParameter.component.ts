@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -30,7 +30,6 @@ import {RestParamModel} from './configureRestParameter.model';
     [
         FormModelBuilder,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfigureRestParameterComponent
 {

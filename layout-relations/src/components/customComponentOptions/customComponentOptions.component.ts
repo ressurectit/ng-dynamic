@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {DialogRef} from '@angular/cdk/dialog';
 import {CommonModule} from '@angular/common';
@@ -31,7 +31,6 @@ import {CustomComponentConfiguration} from '../../services';
         FirstUppercaseLocalizePipe,
     ],
     providers: [FormModelBuilder],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomComponentOptionsComponent<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration>
 {

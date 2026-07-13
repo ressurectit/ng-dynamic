@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy, Injector, ValueProvider, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, Injector, ValueProvider, ChangeDetectorRef} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {SelectControlValueAccessor, SelectModule} from '@anglr/select';
@@ -40,7 +40,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
                        withMaterialComponents(),
                        withFormControlBuilder()),
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRedirectRoute('', 'form-preview')
 @ComponentRoute({path: 'form-preview'})

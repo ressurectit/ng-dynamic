@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
@@ -25,7 +25,6 @@ import {MaterialTabGroupComponentOptions} from '../../../tabGroup.options';
         CdkDragHandle,
         CdkDropList
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MaterialTabGroupPropertiesControlComponent extends PropertiesControlBase<MaterialTabGroupComponentOptions> implements PropertiesControl<MaterialTabGroupComponentOptions>
 {

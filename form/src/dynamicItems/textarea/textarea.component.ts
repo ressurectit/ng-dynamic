@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -18,7 +18,6 @@ import {TextareaComponentOptions} from './textarea.options';
     selector: 'form-textarea',
     templateUrl: 'textarea.component.html',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports:
     [
         FormPipesModule,

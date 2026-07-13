@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormArray, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {FormModelBuilder} from '@anglr/common/forms';
@@ -22,7 +22,6 @@ import {RadioOptionModel} from '../../../metadata/radio.model';
         ReactiveFormsModule,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RadioPropertiesControlComponent extends PropertiesControlBase<RadioComponentOptions> implements PropertiesControl<RadioComponentOptions>
 {

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MetadataStorage} from '@anglr/dynamic';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationsNodeHeaderComponent, RelationNodeOutputComponent, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
@@ -21,7 +21,6 @@ import {getInputs, getOutputs} from '../customRelation.utils';
         RelationNodeInputComponent,
         RelationNodeOutputComponent,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomRelationNodeComponent extends RelationsNodeBase<CustomRelationRelationsOptions> implements RelationsNode<CustomRelationRelationsOptions>
 {

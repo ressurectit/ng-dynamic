@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
@@ -20,7 +20,6 @@ import {LogicalAndRelationsOptions} from '../logicalAnd.options';
         CommonModule,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LogicalAndNodeComponent extends RelationsNodeBase<LogicalAndRelationsOptions> implements RelationsNode<LogicalAndRelationsOptions>
 {

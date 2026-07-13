@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject, ExistingProvider, inject} from '@angular/core';
+import {Component, Inject, ExistingProvider, inject} from '@angular/core';
 import {ComponentRoute} from '@anglr/common/router';
 import {GoBackDirective} from '@anglr/common';
 import {DebugDataCopyClickModule} from '@anglr/common/material';
@@ -65,7 +65,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
             useExisting: CustomComponentsRegister,
         },
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'layout'})
 @ComponentRoute({path: 'layout/:id'})

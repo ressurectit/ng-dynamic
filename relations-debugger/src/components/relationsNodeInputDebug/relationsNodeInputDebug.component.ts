@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ExistingProvider, forwardRef, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, ExistingProvider, forwardRef, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NodeRelationPath, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 import {nameof} from '@jscrpt/common';
 
@@ -19,7 +19,6 @@ import {NodeRelationPathDebug} from '../../misc/nodeRelationPathDebug';
             useExisting: forwardRef(() => RelationNodeInputDebugComponent),
         },
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationNodeInputDebugComponent extends RelationNodeInputComponent implements OnChanges
 {

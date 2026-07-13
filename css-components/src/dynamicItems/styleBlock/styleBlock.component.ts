@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, inject, Renderer2} from '@angular/core';
+import {Component, inject, Renderer2} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
@@ -22,7 +22,6 @@ import {StyleBlockLayoutMetadataLoader} from './styleBlock.metadata';
     [
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<StyleBlockComponentOptions>(options => options?.content ? [options?.content] : [])
 @LayoutEditorMetadata(StyleBlockLayoutMetadataLoader)

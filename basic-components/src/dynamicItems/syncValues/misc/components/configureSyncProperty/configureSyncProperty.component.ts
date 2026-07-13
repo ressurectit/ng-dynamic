@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
@@ -15,7 +15,6 @@ import {TITLED_DIALOG_DATA} from '@anglr/common/material';
         ReactiveFormsModule,
         MatDialogModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfigureSyncPropertyComponent
 {

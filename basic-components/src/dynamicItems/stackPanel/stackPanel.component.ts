@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HostDisplayFlexStyle} from '@anglr/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
@@ -20,7 +20,6 @@ import {StackPanelLayoutMetadataLoader} from './stackPanel.metadata';
         CommonModule,
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<StackPanelComponentOptions>(options => options?.children ?? [])
 @LayoutEditorMetadata(StackPanelLayoutMetadataLoader)

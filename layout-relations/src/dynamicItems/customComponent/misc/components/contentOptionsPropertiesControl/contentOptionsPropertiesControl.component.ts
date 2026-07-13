@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, Injector} from '@angular/core';
+import {Component, inject, Injector} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {FormModelBuilder} from '@anglr/common/forms';
@@ -33,7 +33,6 @@ import {CustomComponentConfiguration, CustomComponentsRegister} from '../../../.
     [
         FormModelBuilder,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ContentOptionsPropertiesControlComponent<TConfig extends CustomComponentConfiguration = CustomComponentConfiguration> extends PropertiesControlBase<CustomComponentComponentOptions> implements PropertiesControl<CustomComponentComponentOptions>
 {

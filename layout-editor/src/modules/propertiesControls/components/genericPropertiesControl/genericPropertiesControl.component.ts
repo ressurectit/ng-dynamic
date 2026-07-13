@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, Type} from '@angular/core';
+import {Component, Input, Type} from '@angular/core';
 import {FirstUppercaseLocalizePipe, TooltipDirective} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 
@@ -20,7 +20,6 @@ import {PropertyTypeControlRendererDirective} from '../../../propertyTypeControl
         FirstUppercaseLocalizePipe,
         PropertyTypeControlRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DefaultGenericPropertiesControlComponent<TOptions = any> extends PropertiesControlBase<TOptions> implements PropertiesControl<TOptions>
 {
@@ -50,7 +49,6 @@ export function genericPropertiesControlFor<TModel>(properties: (Extract<keyof T
             FirstUppercaseLocalizePipe,
             PropertyTypeControlRendererDirective,
         ],
-        changeDetection: ChangeDetectionStrategy.OnPush
     })
     class GenericPropertiesControl<TOptions = any> extends DefaultGenericPropertiesControlComponent implements PropertiesControl<TOptions>
     {

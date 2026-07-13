@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 
 /**
@@ -13,7 +13,6 @@ import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, Relations
         RelationsNodeHeaderComponent,
         RelationNodeOutputComponent,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StaticInputNodeComponent extends RelationsNodeBase implements RelationsNode
 {

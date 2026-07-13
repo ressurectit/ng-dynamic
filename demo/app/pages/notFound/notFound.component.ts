@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {StatusCodeService} from '@anglr/common';
 
 import {AnimateRouteDirective} from '../../directives';
@@ -14,7 +14,6 @@ import {AnimateRouteDirective} from '../../directives';
     [
         AnimateRouteDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class NotFoundComponent
 {

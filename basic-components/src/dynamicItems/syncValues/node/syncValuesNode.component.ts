@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef} from '@angular/core';
+import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
@@ -34,7 +34,6 @@ import {ConfigureSyncPropertyComponent} from '../misc/components';
     [
         FormModelBuilder,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SyncValuesNodeComponent extends RelationsNodeBase<SyncValuesRelationsOptions> implements RelationsNode<SyncValuesRelationsOptions>
 {

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, OnDestroy, OnInit, Inject, ChangeDetectorRef, OnChanges, SimpleChanges, ViewChild, Optional} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Inject, ChangeDetectorRef, OnChanges, SimpleChanges, ViewChild, Optional} from '@angular/core';
 import {CdkDragDrop, DragDropModule} from '@angular/cdk/drag-drop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {FirstUppercaseLocalizePipe, HostDisplayFlexStyle} from '@anglr/common';
@@ -28,7 +28,6 @@ import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
         ReactiveFormsModule,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationsEditorComponent implements OnInit, OnChanges, OnDestroy
 {

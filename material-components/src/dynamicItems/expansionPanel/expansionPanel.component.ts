@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
@@ -22,7 +22,6 @@ import {MaterialExpansionPanelLayoutMetadataLoader} from './expansionPanel.metad
         MatExpansionModule,
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<MaterialExpansionPanelComponentOptions>(options => options?.children ?? [])
 @LayoutEditorMetadata(MaterialExpansionPanelLayoutMetadataLoader)

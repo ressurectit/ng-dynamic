@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {HostDisplayBlockStyle, LocalizePipe} from '@anglr/common';
 
 /**
@@ -13,7 +13,6 @@ import {HostDisplayBlockStyle, LocalizePipe} from '@anglr/common';
     [
         LocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotFoundLayoutTypeComponent
 {

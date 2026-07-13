@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
 
@@ -18,7 +18,6 @@ import {PropertyTypeControlBase} from '../propertyTypeControlBase';
         CastPipesModule,
         ReactiveFormsModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SelectValueComponent<TValue = any> extends PropertyTypeControlBase<TValue> implements PropertyTypeControl<TValue>
 {

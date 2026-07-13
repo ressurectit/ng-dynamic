@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {CastPipesModule, HostDisplayFlexStyle} from '@anglr/common';
 
@@ -22,7 +22,6 @@ import {InputNumberComponent} from '../inputNumber/inputNumber.component';
         InputNumberComponent,
         SelectValueComponent,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputSizeComponent extends PropertyTypeControlBase<string> implements PropertyTypeControl<string>
 {

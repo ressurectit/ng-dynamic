@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -18,7 +18,6 @@ import {PlaceholderContainerLayoutMetadataLoader} from './placeholderContainer.m
     [
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<PlaceholderContainerComponentOptions>(options => options?.content ? [options?.content] : [])
 @LayoutEditorMetadata(PlaceholderContainerLayoutMetadataLoader)

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
@@ -20,7 +20,6 @@ import {CodeEditorComponent} from '../codeEditor/codeEditor.component';
         CodeEditorComponent,
         FirstUppercaseLocalizePipe,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CodeEditorDialogComponent
 {

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, HostListener, OnDestroy} from '@angular/core';
+import {Component, HostListener, OnDestroy} from '@angular/core';
 
 import {RelationNodeEndpointBase} from '../relationsNodeEndpointBase';
 import {RelationsOutput} from '../../interfaces';
@@ -14,7 +14,6 @@ import {INVALIDATE_DROP} from '../../misc/constants';
 {
     selector: 'relation-node-output',
     template: '',
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationNodeOutputComponent extends RelationNodeEndpointBase implements RelationsOutput, OnDestroy
 {

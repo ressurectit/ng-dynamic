@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 
@@ -17,7 +17,6 @@ import {applyGridCoordinates} from './gridPanelArea.utils';
     [
         LayoutComponentRendererDirective,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @DescendantsGetter<GridPanelAreaComponentOptions>(options => options?.component ? [options.component] : [])
 @LayoutEditorMetadata(GridPanelAreaLayoutMetadataLoader)

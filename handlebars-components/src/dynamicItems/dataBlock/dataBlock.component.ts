@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, SimpleChanges, Input} from '@angular/core';
+import {Component, SimpleChanges, Input} from '@angular/core';
 import {LayoutComponent, LayoutComponentBase} from '@anglr/dynamic/layout';
 import {LayoutEditorDesignerType, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
@@ -18,7 +18,6 @@ import {DataBlockLayoutDesignerTypeLoader, DataBlockLayoutMetadataLoader, DataBl
     selector: 'data-block',
     template: '',
     styles: [HostDisplayBlockStyle],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @LayoutEditorDesignerType(DataBlockLayoutDesignerTypeLoader)
 @RelationsEditorMetadata(DataBlockRelationsMetadataLoader)

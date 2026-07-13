@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, EventEmitter, Output, ClassProvider, Input, OnChanges, SimpleChanges, ChangeDetectorRef, OnInit} from '@angular/core';
+import {Component, EventEmitter, Output, ClassProvider, Input, OnChanges, SimpleChanges, ChangeDetectorRef, OnInit} from '@angular/core';
 import {RelationsNodeMetadata, RELATIONS_HISTORY_MANAGER} from '@anglr/dynamic/relations-editor';
 import {RelationsDebugger, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
 import {RelationsNodeManager} from '@anglr/dynamic/relations-editor';
@@ -29,7 +29,6 @@ import {RelationsCanvasDebugComponent} from '../relationsCanvasDebug/relationsCa
             useClass: MetadataHistoryManagerDebug,
         },
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationsDebuggerVisualizerComponent implements OnInit, OnChanges
 {

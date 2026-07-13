@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ComponentRoute} from '@anglr/common/router';
@@ -64,7 +64,6 @@ import {WithFullscreenContentCssClass} from '../../../decorators';
                        withRestComponents(),
                        withTinyMceComponents(),),
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: 'preview'})
 @ComponentRoute({path: 'preview/:id'})
@@ -118,7 +117,10 @@ export class PreviewComponent implements OnInit, OnDestroy
 
             this.available.valueChanges.subscribe(val =>
             {
-                this.router.navigate(['/layoutRelationsAllFeatures/preview', val], {skipLocationChange: false, replaceUrl: true});
+                if(val)
+                {
+                    this.router.navigate(['/layoutRelationsAllFeatures/preview', val], {skipLocationChange: false, replaceUrl: true});
+                }
             });
         });
     }

@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy} from '@angular/core';
+import {Component, ChangeDetectorRef, OnInit, OnDestroy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {DynamicOutput, RelationsComponent, RelationsComponentManager, RelationsProcessor} from '@anglr/dynamic/relations';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
@@ -16,7 +16,6 @@ import {StaticInputRelationsMetadataLoader} from './staticInput.metadata';
     [
         ReactiveFormsModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @RelationsEditorMetadata(StaticInputRelationsMetadataLoader)
 export class StaticInputComponent implements RelationsComponent, OnInit, OnDestroy

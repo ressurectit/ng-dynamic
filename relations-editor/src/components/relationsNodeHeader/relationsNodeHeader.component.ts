@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input, ChangeDetectorRef, Inject} from '@angular/core';
+import {Component, Input, ChangeDetectorRef, Inject} from '@angular/core';
 import {TitledDialogService} from '@anglr/common/material';
 import {MetadataHistoryManager} from '@anglr/dynamic';
 import {TooltipModule} from '@anglr/common';
@@ -23,7 +23,6 @@ import {ScopeRegister} from '../../services';
         ToColorPipe,
         TooltipModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RelationsNodeHeaderComponent
 {

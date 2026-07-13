@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, effect} from '@angular/core';
+import {Component, effect} from '@angular/core';
 
 import {PackageManager} from '../../../../services';
 
@@ -11,7 +11,6 @@ import {PackageManager} from '../../../../services';
 {
     selector: 'package-manager',
     templateUrl: 'packageManager.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PackageManagerComponent
 {

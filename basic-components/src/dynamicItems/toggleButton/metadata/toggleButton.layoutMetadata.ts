@@ -1,4 +1,4 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {ToggleButtonComponentOptions} from '../toggleButton.options';
 import {ToggleButtonModel} from './toggleButton.model';
@@ -25,16 +25,16 @@ export class ToggleButtonLayoutEditorMetadata implements LayoutEditorMetadataDes
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: ToggleButtonModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ButtonPresetsPropertiesControlComponent,
+                        getPropertiesControl(ButtonPresetsPropertiesControlComponent),
                         genericPropertiesControlFor<ToggleButtonModel>(['buttonCssClass', 'onText', 'offText', 'state', 'disabled']),
                     ],
                 },
@@ -47,7 +47,7 @@ export class ToggleButtonLayoutEditorMetadata implements LayoutEditorMetadataDes
             state: true,
             disabled: false,
             buttonCssClass: 'btn btn-primary',
-        }
+        },
     };
 
     //######################### constructor #########################

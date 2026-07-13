@@ -1,4 +1,4 @@
-import {LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {GridPanelComponentOptions} from '../gridPanel.options';
 import {RowsColumnsModel} from '../../../misc/model';
@@ -29,17 +29,17 @@ export class GridPanelLayoutEditorMetadata implements LayoutEditorMetadataDescri
                     modelType: RowsColumnsModel,
                     propertiesControls:
                     [
-                        RowsColumnsPropertiesControlComponent,
+                        getPropertiesControl(RowsColumnsPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: GridPanelModel,
                     propertiesControls:
                     [
-                        GridAreasPropertiesControlComponent,
+                        getPropertiesControl(GridAreasPropertiesControlComponent),
                     ],
                 },
-            ]
+            ],
         },
     };
 

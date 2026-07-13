@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {TextFieldComponentOptions} from '../textField.options';
 import {TextFieldModel} from './textField.model';
-
 
 /**
  * Text field layout metadata
@@ -24,14 +23,14 @@ export class TextFieldLayoutEditorMetadata implements LayoutEditorMetadataDescri
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: TextFieldModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<TextFieldModel>(['label', 'placeholder', 'controlName']),
                     ],
@@ -43,7 +42,7 @@ export class TextFieldLayoutEditorMetadata implements LayoutEditorMetadataDescri
             label: 'Input label',
             placeholder: 'Placeholder',
         },
-        group: 'Form fields'
+        group: 'Form fields',
     };
 
     //######################### constructor #########################

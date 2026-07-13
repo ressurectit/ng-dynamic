@@ -1,4 +1,4 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {Action, Func} from '@jscrpt/common';
 
@@ -28,7 +28,7 @@ export class ListBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
                     modelType: ComponentStylingModel,
                     propertiesControls: 
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
             ],

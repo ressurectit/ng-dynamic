@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {MaterialDatepickerComponentOptions} from '../datepicker.options';
 import {MaterialDatepickerModel} from './datepicker.model';
-
 
 /**
  * Material datepicker layout metadata
@@ -24,14 +23,14 @@ export class MaterialDatepickerLayoutEditorMetadata implements LayoutEditorMetad
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: MaterialDatepickerModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<MaterialDatepickerModel>(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
                     ],
@@ -44,7 +43,7 @@ export class MaterialDatepickerLayoutEditorMetadata implements LayoutEditorMetad
             placeholder: 'Placeholder',
             hint: 'Hint',
         },
-        group: 'Material form fields'
+        group: 'Material form fields',
     };
 
     //######################### constructor #########################

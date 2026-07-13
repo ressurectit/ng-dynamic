@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {MaterialNumberFieldComponentOptions} from '../numberField.options';
 import {MaterialNumberFieldModel} from './numberField.model';
-
 
 /**
  * Material number field layout metadata
@@ -24,14 +23,14 @@ export class MaterialNumberFieldLayoutEditorMetadata implements LayoutEditorMeta
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: MaterialNumberFieldModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<MaterialNumberFieldModel>(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
                     ],
@@ -44,7 +43,7 @@ export class MaterialNumberFieldLayoutEditorMetadata implements LayoutEditorMeta
             placeholder: 'Placeholder',
             hint: 'Hint',
         },
-        group: 'Material form fields'
+        group: 'Material form fields',
     };
 
     //######################### constructor #########################

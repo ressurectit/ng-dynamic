@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, ChangeDetectorRef, Inject, Type, SimpleChanges, Injector, inject} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef, Inject, SimpleChanges, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {Logger, LOGGER, PermanentStorage, PERMANENT_STORAGE, FirstUppercaseLocalizePipe} from '@anglr/common';
@@ -11,10 +11,9 @@ import {Subscription, skip} from 'rxjs';
 import {isEqual} from 'lodash-es';
 
 import {LayoutEditorMetadataExtractor, LayoutEditorMetadataManager, LayoutEditorPropertyMetadataExtractor, LayoutEditorRenderer} from '../../services';
-import {LayoutEditorMetadataDescriptor, LayoutEditorPropertiesDefinitionMetadata, LayoutPropertyTypeData} from '../../decorators';
+import {LayoutEditorMetadataDescriptor, LayoutEditorPropertiesDefinitionMetadata, LayoutPropertyTypeData, PropertiesControlGetter} from '../../decorators';
 import {PropertiesControlsModule} from '../../modules';
 import {LayoutEditorPropertyMetadata} from '../../misc/types';
-import {PropertiesControl} from '../../interfaces';
 import {LAYOUT_HISTORY_MANAGER} from '../../misc/tokens';
 import {LayoutDesignerDirective, WidthResizerDirective} from '../../directives';
 
@@ -54,7 +53,7 @@ interface PropertiesEditorData
     /**
      * Array of properties controls used for editation of properties/options
      */
-    controls: Type<PropertiesControl>[];
+    controls: PropertiesControlGetter[];
 }
 
 /**

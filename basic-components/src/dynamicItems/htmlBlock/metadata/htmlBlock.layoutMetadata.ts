@@ -1,4 +1,4 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {codePropertiesControlFor} from '@anglr/dynamic/layout-editor';
 import {HtmlLanguageModel} from '@anglr/dynamic';
 
@@ -28,7 +28,7 @@ export class HtmlBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
                     modelType: ComponentStylingModel,
                     propertiesControls: 
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
@@ -38,12 +38,12 @@ export class HtmlBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
                         codePropertiesControlFor<HtmlBlockModel>('content', HtmlLanguageModel),
                     ],
                 },
-            ]
+            ],
         },
         defaultOptions:
         {
             content: '<div>This is your <strong>HTML</strong> block</div>'
-        }
+        },
     };
 
     //######################### constructor #########################

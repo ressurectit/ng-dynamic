@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {NumberFieldComponentOptions} from '../numberField.options';
 import {NumberFieldModel} from './numberField.model';
-
 
 /**
  *  Number field layout metadata
@@ -24,14 +23,14 @@ export class NumberFieldLayoutEditorMetadata implements LayoutEditorMetadataDesc
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: NumberFieldModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<NumberFieldModel>(['label', 'placeholder', 'controlName', 'min', 'max', 'decimalPlaces']),
                     ],
@@ -43,7 +42,7 @@ export class NumberFieldLayoutEditorMetadata implements LayoutEditorMetadataDesc
             label: 'Input label',
             placeholder: 'Placeholder',
         },
-        group: 'Form fields'
+        group: 'Form fields',
     };
 
     //######################### constructor #########################

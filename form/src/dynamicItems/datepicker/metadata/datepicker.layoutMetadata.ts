@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {DatepickerComponentOptions} from '../datepicker.options';
 import {DatepickerModel} from './datepicker.model';
-
 
 /**
  *  datepicker layout metadata
@@ -24,14 +23,14 @@ export class DatepickerLayoutEditorMetadata implements LayoutEditorMetadataDescr
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: DatepickerModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<DatepickerModel>(['label', 'placeholder', 'controlName']),
                     ],
@@ -43,7 +42,7 @@ export class DatepickerLayoutEditorMetadata implements LayoutEditorMetadataDescr
             label: 'Input label',
             placeholder: 'Placeholder',
         },
-        group: 'Form fields'
+        group: 'Form fields',
     };
 
     //######################### constructor #########################

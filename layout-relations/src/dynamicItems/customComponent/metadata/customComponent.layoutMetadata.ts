@@ -1,4 +1,4 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {CustomComponentComponentOptions} from '../customComponent.options';
 import {ContentOptionsPropertiesControlComponent} from '../misc';
@@ -23,23 +23,23 @@ export class CustomComponentLayoutEditorMetadata implements LayoutEditorMetadata
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: CustomComponentModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ContentOptionsPropertiesControlComponent,
+                        getPropertiesControl(ContentOptionsPropertiesControlComponent),
                     ],
                 },
             ]
         },
         defaultOptions:
         {
-        }
+        },
     };
 
     //######################### constructor #########################

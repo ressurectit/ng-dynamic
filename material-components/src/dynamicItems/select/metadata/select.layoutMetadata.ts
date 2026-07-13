@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {MaterialSelectComponentOptions} from '../select.options';
 import {MaterialSelectModel} from './select.model';
-
 
 /**
  * Material select layout metadata
@@ -24,14 +23,14 @@ export class MaterialSelectLayoutEditorMetadata implements LayoutEditorMetadataD
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: MaterialSelectModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<MaterialSelectModel>(['label', 'placeholder', 'hint', 'appearance', 'multiple', 'controlName']),
                     ],
@@ -45,7 +44,7 @@ export class MaterialSelectLayoutEditorMetadata implements LayoutEditorMetadataD
             hint: 'Hint',
             multiple: false,
         },
-        group: 'Material form fields'
+        group: 'Material form fields',
     };
 
     //######################### constructor #########################

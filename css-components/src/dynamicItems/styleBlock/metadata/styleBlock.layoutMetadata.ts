@@ -1,4 +1,4 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {codePropertiesControlFor} from '@anglr/dynamic/layout-editor';
 import {CssLanguageModel} from '@anglr/dynamic';
@@ -24,18 +24,18 @@ export class StyleBlockLayoutEditorMetadata implements LayoutEditorMetadataDescr
         group: 'Layout',
         optionsMetadata:
         {
-            propertiesMetadata: 
+            propertiesMetadata:
             [
                 {
                     modelType: ComponentStylingModel,
                     propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: StyleBlockModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         codePropertiesControlFor<StyleBlockModel>('style', CssLanguageModel),
                     ],
@@ -63,7 +63,7 @@ export class StyleBlockLayoutEditorMetadata implements LayoutEditorMetadataDescr
     public removeDescendant?: Action<[string, StyleBlockComponentOptions]> = (_, options) =>
     {
         options.content = null;
-    }
+    };
 
     //######################### constructor #########################
     constructor()

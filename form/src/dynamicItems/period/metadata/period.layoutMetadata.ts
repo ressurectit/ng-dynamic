@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {PeriodComponentOptions} from '../period.options';
 import {PeriodModel} from './period.model';
-
 
 /**
  * Period layout metadata
@@ -24,14 +23,14 @@ export class PeriodLayoutEditorMetadata implements LayoutEditorMetadataDescripto
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: PeriodModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<PeriodModel>(['label', 'placeholder', 'controlName']),
                     ],
@@ -43,7 +42,7 @@ export class PeriodLayoutEditorMetadata implements LayoutEditorMetadataDescripto
             label: 'Input label',
             placeholder: 'Placeholder',
         },
-        group: 'Form fields'
+        group: 'Form fields',
     };
 
     //######################### constructor #########################

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, Type} from '@angular/core';
+import {ChangeDetectorRef, Component, Input} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
@@ -9,6 +9,7 @@ import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {PropertiesControl} from '../../interfaces';
 import {PropertiesControlBase} from '../../modules';
 import {LayoutEditorMetadataExtractor} from '../../services';
+import {PropertiesControlGetter} from '../../decorators/layoutEditorMetadata/layoutEditorMetadata.interface';
 
 /**
  * Base component used for displaying code properties control
@@ -63,12 +64,12 @@ export class BaseCodePropertiesControlComponent<TOptions = any> extends Properti
             title: 'Code editor',
             width: '75vw',
             height: '75vh',
-            data: 
+            data:
             {
                 content: this.form?.get(this.property)?.value ?? '',
                 languageModel: this.languageModel
 
-            }
+            },
         }).afterClosed());
 
         if(isPresent(result))
@@ -88,31 +89,11 @@ export class BaseCodePropertiesControlComponent<TOptions = any> extends Properti
  * @param property - Name of property that will be set by this component
  * @param languageModel - Language model to be used in code editor
  */
-export function codePropertiesControlFor<TModel>(property: Extract<keyof TModel, string>, languageModel: LanguageModel): Type<PropertiesControl>
+export function codePropertiesControlFor<TModel>(property: Extract<keyof TModel, string>, languageModel: LanguageModel): PropertiesControlGetter
 {
-    @Component(
-    {
-        selector: 'code-properties-control',
-        templateUrl: 'codePropertiesControl.component.html',
-        imports:
-        [
-            FirstUppercaseLocalizePipe,
-        ],
-    })
-    class CodePropertiesControl<TOptions = any> extends BaseCodePropertiesControlComponent implements PropertiesControl<TOptions>
-    {
-        /**
-         * @inheritdoc
-         */
-        @Input()
-        public override property: string|undefined|null = property;
+    const propertiesControlGetter = () => BaseCodePropertiesControlComponent;
 
-        /**
-         * @inheritdoc
-         */
-        @Input()
-        public override languageModel: LanguageModel|undefined|null = languageModel;
-    }
+    propertiesControlGetter.inputs = {property, languageModel};
 
-    return CodePropertiesControl;
+    return propertiesControlGetter;
 }

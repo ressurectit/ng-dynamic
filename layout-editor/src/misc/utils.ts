@@ -1,7 +1,10 @@
+import {Type} from '@angular/core';
 import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
 import {isBlank} from '@jscrpt/common';
 
-import {LayoutModuleTypes} from '../components';
+import {PropertiesControl} from '../interfaces';
+import {PropertiesControlGetter} from '../decorators/layoutEditorMetadata/layoutEditorMetadata.interface';
+import {LayoutModuleTypes} from '../components/componentsPalette/componentsPalette.interface';
 
 /**
  * Checks whether data is layout module types
@@ -16,3 +19,12 @@ export const isLayoutModuleTypes: DynamicItemLoaderValidatorFn<LayoutModuleTypes
 
     return true;
 };
+
+/**
+ * Gets properties control getter for specific type
+ * @param type - Type to be returned as properties control getter
+ */
+export function getPropertiesControl<TOptions>(type: Type<PropertiesControl<TOptions>>): PropertiesControlGetter<unknown>
+{
+    return () => type as Type<PropertiesControl<unknown>>;
+}

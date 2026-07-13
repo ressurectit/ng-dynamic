@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {MaterialTextareaComponentOptions} from '../textarea.options';
 import {MaterialTextareaModel} from './textarea.model';
-
 
 /**
  * Material textarea layout metadata
@@ -24,14 +23,14 @@ export class MaterialTextareaLayoutEditorMetadata implements LayoutEditorMetadat
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: MaterialTextareaModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<MaterialTextareaModel>(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
                     ],
@@ -44,7 +43,7 @@ export class MaterialTextareaLayoutEditorMetadata implements LayoutEditorMetadat
             placeholder: 'Placeholder',
             hint: 'Hint',
         },
-        group: 'Material form fields'
+        group: 'Material form fields',
     };
 
     //######################### constructor #########################

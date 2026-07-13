@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {SelectComponentOptions} from '../select.options';
 import {SelectModel} from './select.model';
-
 
 /**
  *  select layout metadata
@@ -24,14 +23,14 @@ export class SelectLayoutEditorMetadata implements LayoutEditorMetadataDescripto
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: SelectModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<SelectModel>(['label', 'placeholder', 'multiple', 'controlName']),
                     ],
@@ -44,7 +43,7 @@ export class SelectLayoutEditorMetadata implements LayoutEditorMetadataDescripto
             placeholder: 'Placeholder',
             multiple: false,
         },
-        group: 'Form fields'
+        group: 'Form fields',
     };
 
     //######################### constructor #########################

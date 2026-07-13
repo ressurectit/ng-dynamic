@@ -1,5 +1,5 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {Action, Func} from '@jscrpt/common';
 
 import {StackPanelComponentOptions} from '../stackPanel.options';
@@ -26,16 +26,16 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: StackPanelModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        genericPropertiesControlFor<StackPanelModel>(['horizontal', 'wrap'])
+                        genericPropertiesControlFor<StackPanelModel>(['horizontal', 'wrap']),
                     ],
                 },
             ],
@@ -43,13 +43,13 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
             [
                 {
                     modelType: StackPanelFlexExtensionModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        genericPropertiesControlFor<StackPanelFlexExtensionModel>(['flex'])
+                        genericPropertiesControlFor<StackPanelFlexExtensionModel>(['flex']),
                     ],
                 },
-            ]
-        }
+            ],
+        },
     };
 
     /**
@@ -79,7 +79,7 @@ export class StackPanelLayoutEditorMetadata implements LayoutEditorMetadataDescr
         options.children ??= [];
         const index = options.children.findIndex(itm => itm.id === id);
         options.children.splice(index, 1);
-    }
+    };
 
     //######################### constructor #########################
     constructor()

@@ -1,10 +1,9 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {Func} from '@jscrpt/common';
 
 import {MaterialTabGroupComponentOptions} from '../tabGroup.options';
 import {MaterialTabGroupModel} from './tabGroup.model';
 import {MaterialTabGroupPropertiesControlComponent} from '../misc/components';
-
 
 /**
  * Material expansion panel layout metadata
@@ -27,20 +26,20 @@ export class MaterialTabGroupLayoutEditorMetadata implements LayoutEditorMetadat
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: MaterialTabGroupModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        MaterialTabGroupPropertiesControlComponent,
+                        getPropertiesControl(MaterialTabGroupPropertiesControlComponent),
                     ],
                 },
-            ]
-        }
+            ],
+        },
     };
 
     /**

@@ -1,9 +1,8 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {RadioComponentOptions} from '../radio.options';
 import {RadioModel} from './radio.model';
 import {RadioPropertiesControlComponent} from '../misc/components';
-
 
 /**
  * Radio layout metadata
@@ -25,37 +24,38 @@ export class RadioLayoutEditorMetadata implements LayoutEditorMetadataDescriptor
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: RadioModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<RadioModel>(['controlName']),
                     ],
                 },
                 {
                     modelType: RadioModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        RadioPropertiesControlComponent,
+                        getPropertiesControl(RadioPropertiesControlComponent),
                     ],
                 },
             ],
         },
         defaultOptions:
         {
-            options: [
+            options:
+            [
                 {
                     code: '1',
-                    text: 'Text'
-                }
-            ]
+                    text: 'Text',
+                },
+            ],
         },
-        group: 'Form fields'
+        group: 'Form fields',
     };
 
     //######################### constructor #########################

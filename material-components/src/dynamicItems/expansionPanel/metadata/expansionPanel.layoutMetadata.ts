@@ -1,5 +1,5 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {Action, Func} from '@jscrpt/common';
 
 import {MaterialExpansionPanelComponentOptions} from '../expansionPanel.options';
@@ -26,25 +26,25 @@ export class MaterialExpansionPanelLayoutEditorMetadata implements LayoutEditorM
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: MaterialExpansionPanelModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<MaterialExpansionPanelModel>(['title', 'description', 'expanded'])
                     ],
                 },
-            ]
+            ],
         },
         defaultOptions:
         {
             expanded: true,
-            title: 'Panel title'   
-        }
+            title: 'Panel title',
+        },
     };
 
     /**

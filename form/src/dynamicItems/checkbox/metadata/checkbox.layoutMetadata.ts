@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {CheckboxComponentOptions} from '../checkbox.options';
 import {CheckboxModel} from './checkbox.model';
-
 
 /**
  * Checkbox layout metadata
@@ -24,14 +23,14 @@ export class CheckboxLayoutEditorMetadata implements LayoutEditorMetadataDescrip
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: CheckboxModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<CheckboxModel>(['label', 'controlName']),
                     ],
@@ -42,7 +41,7 @@ export class CheckboxLayoutEditorMetadata implements LayoutEditorMetadataDescrip
         {
             label: 'Input label',
         },
-        group: 'Form fields'
+        group: 'Form fields',
     };
 
     //######################### constructor #########################

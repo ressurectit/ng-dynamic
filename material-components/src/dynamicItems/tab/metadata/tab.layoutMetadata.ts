@@ -1,10 +1,9 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {Action, Func} from '@jscrpt/common';
 
 import {MaterialTabComponentOptions} from '../tab.options';
 import {MaterialTabModel} from './tab.model';
-
 
 /**
  * Material expansion panel layout metadata
@@ -27,20 +26,20 @@ export class MaterialTabLayoutEditorMetadata implements LayoutEditorMetadataDesc
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: MaterialTabModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         // genericPropertiesControlFor<MaterialExpansionPanelModel>(['title', 'description', 'expanded'])
                     ],
                 },
-            ]
-        }
+            ],
+        },
     };
 
     /**
@@ -70,7 +69,7 @@ export class MaterialTabLayoutEditorMetadata implements LayoutEditorMetadataDesc
         options.children ??= [];
         const index = options.children.findIndex(itm => itm.id === id);
         options.children.splice(index, 1);
-    }
+    };
 
     //######################### constructor #########################
     constructor()

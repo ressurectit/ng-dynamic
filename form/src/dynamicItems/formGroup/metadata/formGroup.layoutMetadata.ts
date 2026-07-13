@@ -1,5 +1,5 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 import {Action, Func} from '@jscrpt/common';
 
 import {FormComponentControlType} from '../../../misc/enums';
@@ -27,24 +27,24 @@ export class FormGroupLayoutEditorMetadata implements LayoutEditorMetadataDescri
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: FormGroupModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor(['controlName'])
                     ],
                 },
-            ]
+            ],
         },
         defaultOptions:
         {
             controlType: FormComponentControlType.FormGroup
-        }
+        },
     };
 
     /**

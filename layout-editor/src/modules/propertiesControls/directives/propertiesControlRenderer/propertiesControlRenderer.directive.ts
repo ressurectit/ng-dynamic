@@ -1,4 +1,4 @@
-import {ComponentRef, Directive, effect, Inject, input, InputSignal, Optional, Type, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, effect, Inject, input, InputSignal, Optional, ViewContainerRef} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
 import {FormModelGroup} from '@anglr/common/forms';
@@ -6,7 +6,7 @@ import {Dictionary} from '@jscrpt/common';
 
 import {PropertiesControl} from '../../../../interfaces';
 import {LayoutEditorPropertyMetadata} from '../../../../misc/types';
-import {LayoutPropertyTypeData} from '../../../../decorators';
+import {LayoutPropertyTypeData, PropertiesControlGetter} from '../../../../decorators';
 
 /**
  * Directive used for rendering properties control
@@ -39,7 +39,7 @@ export class PropertiesControlRendererDirective<TOptions = unknown, TComponent e
     /**
      * Type that will be rendered
      */
-    public type: InputSignal<Type<PropertiesControl>|undefined|null> = input.required({alias: 'propertiesControl'});
+    public type: InputSignal<PropertiesControlGetter|undefined|null> = input.required({alias: 'propertiesControl'});
 
     /**
      * Instance of all options available for component (not only edited one)
@@ -52,7 +52,8 @@ export class PropertiesControlRendererDirective<TOptions = unknown, TComponent e
     {
         effect(async () =>
         {
-            const type = this.type();
+            const typeGetter = this.type();
+            const type = typeGetter?.();
             this.logger?.debug('PropertiesControlRendererDirective: rendering properties control {{@type}}', {type: type?.name});
 
             if(this.componentRef?.componentType !== type)
@@ -60,21 +61,29 @@ export class PropertiesControlRendererDirective<TOptions = unknown, TComponent e
                 this.ngOnDestroy();
                 this.viewContainerRef.clear();
             }
-    
+
             // metadata are present
             if(type)
             {
                 if(this.componentRef?.componentType !== type)
                 {
                     const injector = this.viewContainerRef.injector;
-        
+
                     this.componentRef = this.viewContainerRef.createComponent(type,
                                                                               {
                                                                                   injector,
                                                                               }) as ComponentRef<TComponent>;
                 }
-    
+
                 const component = this.componentRef.instance;
+
+                for(const prop in typeGetter?.inputs)
+                {
+                    const value = typeGetter.inputs[prop];
+
+                    this.componentRef.setInput(prop, value);
+                }
+
                 component.propertiesMetadata = this.propertiesMetadata();
                 component.form = this.form();
                 component.options = this.options();
@@ -95,7 +104,7 @@ export class PropertiesControlRendererDirective<TOptions = unknown, TComponent e
         if(this.componentRef)
         {
             this.logger?.debug('PropertiesControlRendererDirective: destroying properties control {{@type}}', {type: this.type()?.name});
-    
+
             this.componentRef?.destroy();
             this.componentRef = null;
         }

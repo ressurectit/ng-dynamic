@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {MaterialPeriodComponentOptions} from '../period.options';
 import {MaterialPeriodModel} from './period.model';
-
 
 /**
  * Material period layout metadata
@@ -24,14 +23,14 @@ export class MaterialPeriodLayoutEditorMetadata implements LayoutEditorMetadataD
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: MaterialPeriodModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<MaterialPeriodModel>(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
                     ],
@@ -44,7 +43,7 @@ export class MaterialPeriodLayoutEditorMetadata implements LayoutEditorMetadataD
             placeholder: 'Placeholder',
             hint: 'Hint',
         },
-        group: 'Material form fields'
+        group: 'Material form fields',
     };
 
     //######################### constructor #########################

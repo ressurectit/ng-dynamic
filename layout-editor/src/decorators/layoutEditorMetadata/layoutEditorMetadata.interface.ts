@@ -13,6 +13,22 @@ export interface LayoutPropertiesModelType<TType = any>
 }
 
 /**
+ * Defintion of properties control getter, that is used for getting properties control component type and optionally inputs values for it
+ */
+export interface PropertiesControlGetter<TOptions = unknown>
+{
+    /**
+     * Gets properties control component type for specified properties
+     */
+    (): Type<PropertiesControl<TOptions>>;
+
+    /**
+     * Additional inputs that should be set on properties control component, when it is created
+     */
+    inputs?: Record<string, unknown>;
+}
+
+/**
  * Metadata for layout editor properties definition
  */
 export interface LayoutEditorPropertiesDefinitionMetadata
@@ -25,7 +41,7 @@ export interface LayoutEditorPropertiesDefinitionMetadata
     /**
      * Array of properties controls used for editation of properties/options
      */
-    propertiesControls: Type<PropertiesControl>[];
+    propertiesControls: PropertiesControlGetter[];
 }
 
 /**

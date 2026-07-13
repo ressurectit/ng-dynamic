@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {MaterialRadioComponentOptions} from '../radio.options';
 import {MaterialRadioModel} from './radio.model';
-
 
 /**
  * Material text field layout metadata
@@ -24,14 +23,14 @@ export class MaterialRadioLayoutEditorMetadata implements LayoutEditorMetadataDe
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: MaterialRadioModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<MaterialRadioModel>(['options', 'controlName']),
                     ],
@@ -42,7 +41,7 @@ export class MaterialRadioLayoutEditorMetadata implements LayoutEditorMetadataDe
         {
             options: 'Radio'
         },
-        group: 'Material form fields'
+        group: 'Material form fields',
     };
 
     //######################### constructor #########################

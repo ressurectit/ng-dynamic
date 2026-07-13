@@ -1,8 +1,7 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {MaterialTextFieldComponentOptions} from '../textField.options';
 import {MaterialTextFieldModel} from './textField.model';
-
 
 /**
  * Material text field layout metadata
@@ -24,14 +23,14 @@ export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetada
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: MaterialTextFieldModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<MaterialTextFieldModel>(['label', 'placeholder', 'hint', 'appearance', 'controlName']),
                     ],
@@ -44,7 +43,7 @@ export class MaterialTextFieldLayoutEditorMetadata implements LayoutEditorMetada
             placeholder: 'Placeholder',
             hint: 'Hint',
         },
-        group: 'Material form fields'
+        group: 'Material form fields',
     };
 
     //######################### constructor #########################

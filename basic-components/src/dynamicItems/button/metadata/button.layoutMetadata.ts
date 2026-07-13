@@ -1,4 +1,4 @@
-import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
+import {ComponentStylingModel, ComponentStylingPropertiesControlComponent, genericPropertiesControlFor, getPropertiesControl, LayoutEditorMetadataDescriptor, LayoutEditorMetadataInfo} from '@anglr/dynamic/layout-editor';
 
 import {ButtonComponentOptions} from '../button.options';
 import {ButtonModel} from './button.model';
@@ -25,16 +25,16 @@ export class ButtonLayoutEditorMetadata implements LayoutEditorMetadataDescripto
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ComponentStylingPropertiesControlComponent,
+                        getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],
                 },
                 {
                     modelType: ButtonModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
-                        ButtonPresetsPropertiesControlComponent,
+                        getPropertiesControl(ButtonPresetsPropertiesControlComponent),
                         genericPropertiesControlFor<ButtonModel>(['buttonCssClass', 'type', 'text', 'icon', 'tooltip', 'disabled']),
                     ],
                 },
@@ -46,7 +46,7 @@ export class ButtonLayoutEditorMetadata implements LayoutEditorMetadataDescripto
             disabled: false,
             buttonCssClass: 'btn btn-primary',
             type: 'button',
-        }
+        },
     };
 
     //######################### constructor #########################

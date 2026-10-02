@@ -121,7 +121,7 @@ export class MetadataHistoryManager<TMetadata = any>
     }
 
     //######################### public methods #########################
-    
+
     /**
      * Undo last change in metadata
      */

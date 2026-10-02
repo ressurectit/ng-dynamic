@@ -1,5 +1,4 @@
 import {Component, Input, OnDestroy, OnChanges, SimpleChanges, Inject, OnInit, ChangeDetectorRef, Optional} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {MatTabsModule} from '@angular/material/tabs';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {LayoutComponentMetadata, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
@@ -26,7 +25,6 @@ import {DndCorePreviewTemplateDirective} from '../../directives';
     styles: [HostDisplayFlexStyle],
     imports:
     [
-        CommonModule,
         MatTabsModule,
         CastPipesModule,
         CommonUtilsModule,

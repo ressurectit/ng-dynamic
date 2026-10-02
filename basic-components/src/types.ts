@@ -1,4 +1,4 @@
-const components = 
+const components =
 [
     'block',
     'button',

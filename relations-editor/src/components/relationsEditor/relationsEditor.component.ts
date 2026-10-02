@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit, Inject, ChangeDetectorRef, OnChanges, SimpleChanges, ViewChild, Optional} from '@angular/core';
 import {CdkDragDrop, DragDropModule} from '@angular/cdk/drag-drop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {FirstUppercaseLocalizePipe, HostDisplayFlexStyle} from '@anglr/common';
+import {CommonUtilsModule, FirstUppercaseLocalizePipe, HostDisplayFlexStyle} from '@anglr/common';
 import {DynamicItemSource, EditorHotkeys, MetadataHistoryManager, PackageManagerModule} from '@anglr/dynamic';
 import {nameof} from '@jscrpt/common';
 import {Subscription} from 'rxjs';
@@ -21,11 +21,12 @@ import {RELATIONS_HISTORY_MANAGER} from '../../misc/tokens';
     styles: [HostDisplayFlexStyle],
     imports:
     [
+        DragDropModule,
+        CommonUtilsModule,
+        ReactiveFormsModule,
+        PackageManagerModule,
         NodesPaletteComponent,
         RelationsCanvasComponent,
-        DragDropModule,
-        PackageManagerModule,
-        ReactiveFormsModule,
         FirstUppercaseLocalizePipe,
     ],
 })

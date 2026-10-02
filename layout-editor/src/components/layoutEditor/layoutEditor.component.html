@@ -9,7 +9,11 @@
                 <input type="text" [placeholder]="'search component' | firstUppercaseLocalize" class="dynamic-form-control" [formControl]="searchBar">
 
                 <div class="dynamic-flex-1 dynamic-thin-scrollbar overflow-vertical-auto">
-                    <package-manager *ngIf="!(packages | isPresent)"/>
+                    @if(!(packages | isPresent))
+                    {
+                        <package-manager/>
+                    }
+
                     <components-palette [packages]="packages" [whiteList]="whiteList" [blackList]="blackList" [search]="searchBar.value"/>
                 </div>
             </div>

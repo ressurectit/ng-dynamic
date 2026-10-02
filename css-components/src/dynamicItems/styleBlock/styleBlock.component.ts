@@ -4,8 +4,8 @@ import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} 
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
 import {generateId} from '@jscrpt/common';
-import prefixer  from 'postcss-prefix-selector';
-import postcss, {Processor, Root} from 'postcss';
+import prefixer from 'postcss-prefix-selector';
+import postcss, {Processor} from 'postcss';
 
 import {StyleBlockComponentOptions} from './styleBlock.options';
 import {StyleBlockLayoutMetadataLoader} from './styleBlock.metadata';
@@ -63,16 +63,11 @@ export class StyleBlockComponent extends LayoutComponentBase<StyleBlockComponent
     {
         this.renderer.setAttribute(this.element.nativeElement, 'id', this.id);
 
-        //TODO: check
         this.cssProcessor = postcss()
-            .use((root: Root) =>
+            .use(prefixer(
             {
-                prefixer(
-                {
-                    prefix: `style-block#${this.id}`,
-                })(root as any);
-                //TODO check postcss and remove any
-            });
+                prefix: `style-block#${this.id}`,
+            }));
     }
 
     /**

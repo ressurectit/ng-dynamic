@@ -83,7 +83,8 @@ export class AsyncDataLoaderComponent extends LayoutComponentBase<AsyncDataLoade
         instanceCallback: null,
         options:
         {
-            dataCallback: this.getData,
+            //TODO: tmp hack
+            dataCallback: this.getData as any,
         },
         type: GridAsyncDataLoader,
     };

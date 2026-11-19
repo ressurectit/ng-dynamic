@@ -28,7 +28,7 @@ export class LayoutComponentsIteratorService
     {
         return new LayoutComponentsIterator(layoutMetadata, this.loader, this.logger);
     }
-    
+
     /**
      * Gets children iterator for specified layout metadata
      * @param layoutMetadata - Metadata for which will be children iterator created

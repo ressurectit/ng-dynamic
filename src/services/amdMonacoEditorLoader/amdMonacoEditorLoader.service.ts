@@ -78,13 +78,13 @@ export class AmdMonacoEditorLoader implements OnDestroy
             {
                 throw new Error(`AmdMonacoEditorLoader: monaco-editor scripts load was canceled. '${event}'`);
             };
-    
+
             this.document.head.append(this.loaderScript);
         });
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * @inheritdoc
      */

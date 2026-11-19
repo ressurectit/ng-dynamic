@@ -48,7 +48,7 @@ export abstract class PropertiesControlBase<TOptions = any> implements Propertie
     }
 
     //######################### public methods - implementation of OnInit #########################
-    
+
     /**
      * Initialize component
      */

@@ -39,21 +39,21 @@ export class LayoutComponentsChildrenIterator<TOptions = any>
         const items = this.items;
 
         return {
-            async next() 
+            async next()
             {
                 await initPromise;
-                
-                if (x < items.length) 
+
+                if (x < items.length)
                 {
                     return {
                         value: items[x++],
                         done: false
                     };
                 }
-        
+
                 return {
                     value: items[x - 1],
-                    done: true 
+                    done: true
                 };
             }
         };

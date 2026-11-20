@@ -3,7 +3,7 @@
     "version": "0.0.0-placeholder",
     "description": "Contains code for generating dynamic content from metadata",
     "type": "module",
-    "sideEffects": false,
+    "sideEffects": ["**/init.debugger.js"],
     "workspaces": [
         "demo",
         "."

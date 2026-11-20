@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.0.1 (2026-11-20)
+
+### Bug Fixes
+
+- subpackage `@anglr/dynamic/relations`
+   - fixed initialization of `ngRelationsDebugger` global variable being removed by *tree shaking*, `init.debugger` is now marked as *side effect* in `package.json`
+
 ## Version 1.0.0 (2026-11-19)
 
 ### Features

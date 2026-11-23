@@ -87,6 +87,7 @@ Angular library for building **dynamic content from JSON metadata**. Pages are d
   - [Layout editor](#layout-editor-1)
   - [Relations editor](#relations-editor-1)
   - [Custom property editor](#custom-property-editor)
+  - [Overriding properties controls](#overriding-properties-controls)
   - [Dynamic forms](#dynamic-forms)
   - [Loading metadata from storage](#loading-metadata-from-storage)
   - [Overriding defaults](#overriding-defaults)
@@ -163,14 +164,14 @@ Some built-in packages wrap third-party libraries. Install the optional dependen
 | `providePosition(FloatingUiDomPosition)` (`@anglr/common`, `@anglr/common/floating-ui`) | Layout editor (drop placeholders, overlays), relations debugger |
 | `TitledDialogService` + `importProvidersFrom(MatDialogModule)` (`@anglr/common/material`) | Relations editor node properties, code editor dialogs |
 | `HotkeyModule.forRoot()` (`angular2-hotkeys`) + `AppHotkeysService` (`@anglr/common/hotkeys`) | `withEditorHotkeys()` |
-| `importProvidersFrom(DndModule.forRoot({backend: HTML5Backend}))` (`@ng-dnd/core`, `react-dnd-html5-backend`) | Layout editor drag & drop |
+| `importProvidersFrom(DndModule.forRoot({backend: HTML5Backend}))` + `DndService` (`@ng-dnd/core`, `react-dnd-html5-backend`) | Layout editor drag & drop |
 
-The drag & drop provider can live on the route that contains the editors:
+The drag & drop providers can live on the route that contains the editors. `DndService` is `providedIn: 'root'`, so when `DndModule.forRoot()` isn't in the root injector, `DndService` must be provided next to it:
 
 ```ts
 import {importProvidersFrom} from '@angular/core';
 import {Route} from '@angular/router';
-import {DndModule} from '@ng-dnd/core';
+import {DndModule, DndService} from '@ng-dnd/core';
 import {HTML5Backend} from 'react-dnd-html5-backend';
 ```
 
@@ -179,7 +180,15 @@ import {HTML5Backend} from 'react-dnd-html5-backend';
     [
         //drag and drop used by layout editor, required only for editors
         importProvidersFrom(DndModule.forRoot({backend: HTML5Backend})),
+        //DndService is providedIn root, it must be provided here too, otherwise it is created in root injector without DragDropManager
+        DndService,
     ],
+```
+
+**Development server.** The item loaders of the built-in packages use relative dynamic imports (``import(`../../dynamicItems/${name}/type.js`)``). Vite dependency prebundling of `ng serve` moves the code into its cache folder, the relative paths stop resolving, and every item renders as *not found*. Turn prebundling off in `angular.json` → `architect.serve.options`:
+
+```json
+"prebundle": false
 ```
 
 **Styles.** The editors and the built-in components need the library CSS, see [Styling](#styling).
@@ -189,7 +198,7 @@ import {HTML5Backend} from 'react-dnd-html5-backend';
 | Global | Default | Description |
 | --- | --- | --- |
 | `ngDesignerMetadata` | `true` | When `false`, the editor metadata decorators (`@LayoutEditorMetadata`, `@RelationsEditorMetadata`, `@LayoutProperty*`) become no-ops, so editor metadata isn't loaded in runtime-only builds |
-| `ngRelationsDebugger` | `true` | When `false`, the debugger hooks of the relations runtime are skipped |
+| `ngRelationsDebugger` | `false` | When `true`, the debugger hooks of the relations runtime are active; required by the [relations debugger](#relations-debugger) |
 | `ngDynamicTinymcePath` | `'tinymce'` | Path to TinyMCE assets |
 
 ## Quick Start
@@ -657,6 +666,18 @@ A *properties control* is one block of the properties editor. It's referenced by
 | `getPropertiesControl(type)` | Uses any component implementing `PropertiesControl` (built-in `ComponentStylingPropertiesControlComponent` edits CSS class, margin and padding) |
 | `codePropertiesControlFor<TModel>(property, languageModel)` | Edits one property in a Monaco code editor dialog (language models `CssLanguageModel`, `HtmlLanguageModel`, `JsonLanguageModel`, `HandlebarsLanguageModel`, `TypescriptLanguageModel`) |
 
+The getters resolve the component **through DI**, in the injection context of the properties editor. The component type is the token, and the provided value is the component type to render. `genericPropertiesControlFor()` resolves `DefaultGenericPropertiesControlComponent`, `codePropertiesControlFor()` resolves `BaseCodePropertiesControlComponent`, and `getPropertiesControl(type)` resolves `type`. When `type` isn't provided, `getPropertiesControl(type)` falls back to `type` itself. This makes every properties control **overridable** without touching the metadata of items:
+
+```ts
+<ValueProvider>
+{
+    provide: ComponentStylingPropertiesControlComponent,
+    useValue: StylingPropertiesControlComponent,
+},
+```
+
+`withLayoutEditor()` provides `ComponentStylingPropertiesControlComponent`, `DefaultGenericPropertiesControlComponent` and `BaseCodePropertiesControlComponent` as overridable tokens. The built-in package features (`withBasicComponents()`, `withFormComponents()`, `withMaterialComponents()`, `withTinyMceComponents()`, `withCustomComponents()`) do the same for their item specific properties controls; the publicly exported ones are `ButtonPresetsPropertiesControlComponent` and `RowsColumnsPropertiesControlComponent` (`@anglr/dynamic/basic-components`). Place the override after `provideDynamic()` in the same `providers` array, or in the `layoutEditor` providers of your own `DynamicFeature`. Your own properties controls registered with `getPropertiesControl(MyControlComponent)` can be overridden in the same way. See [Overriding properties controls](#overriding-properties-controls).
+
 ### Default options
 
 - **Layout**: `metaInfo.defaultOptions` of `LayoutEditorMetadataInfo` – options of a component dropped from the palette.
@@ -812,6 +833,8 @@ Read the result with `EDITOR_METADATA_MANAGER.getMetadata()`, history is availab
 
 `@anglr/dynamic/relations-debugger` is **experimental**. It records registrations and data transfers of the relations runtime and replays them step by step on a canvas (`ShowRelationsDebuggerDirective` – `[showRelationsDebugger]` with `relationsDefinition`). It's enabled by `provideRelationsDebugger()` (`@anglr/dynamic/relations`) together with `provideRelationsDebuggerImplementation()` (`@anglr/dynamic/relations-debugger`). `@DebugData({inputs, outputs})` describes endpoints of a node for the debugger.
 
+The debugger hooks run only when the build-time global `ngRelationsDebugger` is explicitly defined as `true` (`define` option of the Angular build, see [Project setup](#project-setup)). Without it, the relations runtime skips all debugger hooks and the debugger has nothing to show.
+
 ## Extensibility
 
 | Extension point | What you can do | How to register |
@@ -829,6 +852,7 @@ Read the result with `EDITOR_METADATA_MANAGER.getMetadata()`, history is availab
 | `LayoutRenderer` | Override `createComponent`, `postCreateComponent`, `postInitComponent` | Provide your subclass as `LayoutRenderer` |
 | `LayoutRendererOptions` | Behavior for missing components | Provide an instance |
 | `PropertiesControlBase` | Custom block of the properties editor | `getPropertiesControl(type)` in `propertiesControls` |
+| Properties control tokens | Replace any properties control (built-in or own) everywhere it's used | `{provide: ExistingControlComponent, useValue: MyControlComponent}` next to `provideDynamic()` |
 | `PropertyTypeControlBase` | Custom property type | `LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS` |
 | `@LayoutEditorDesignerType(loader)` | Render a different component for an item inside the layout editor | Decorator on the component class |
 | `StaticComponentsRegister` | Template components as relations editor nodes | `withStaticComponents()` |
@@ -3094,6 +3118,151 @@ export class CustomPropertyEditorComponent
 
 ```html
 <layout-editor class="flex-1" [metadata]="metadata" [packages]="['basic-components', 'my-components']"/>
+```
+
+### Overriding properties controls
+
+Every properties control is resolved through DI, with its component type as the token, so it can be replaced without changing the metadata of any item. This page replaces the built-in `ComponentStylingPropertiesControlComponent` (the styling block shown for every built-in layout component) with a control that offers only predefined CSS classes, and reuses the built-in `MarginControlComponent` and `PaddingControlComponent`. The override is a `ValueProvider` placed after `provideDynamic()`. The same works for the item specific controls of the built-in packages and for your own controls registered with `getPropertiesControl()`.
+
+`stylingPropertiesControl.component.ts` and `stylingPropertiesControl.component.html`:
+
+```ts
+import {Component} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {ComponentStylingOptions} from '@anglr/dynamic/layout';
+import {MarginControlComponent, PaddingControlComponent, PropertiesControl, PropertiesControlBase} from '@anglr/dynamic/layout-editor';
+
+/**
+ * Styling properties control offering only predefined css classes, replaces built-in styling properties control
+ */
+@Component(
+{
+    selector: 'styling-properties-control',
+    templateUrl: 'stylingPropertiesControl.component.html',
+    imports:
+    [
+        ReactiveFormsModule,
+        MarginControlComponent,
+        PaddingControlComponent,
+    ],
+})
+export class StylingPropertiesControlComponent extends PropertiesControlBase<ComponentStylingOptions> implements PropertiesControl<ComponentStylingOptions>
+{
+    //######################### protected properties - template bindings #########################
+
+    /**
+     * Css classes that can be applied to component
+     */
+    protected cssClasses: string[] = ['', 'text-primary', 'text-success', 'text-danger', 'font-bold'];
+}
+```
+
+```html
+@if(form)
+{
+    <div class="properties-form-group" [formGroup]="form">
+        <label class="properties-control-label">Css class</label>
+
+        <select class="form-control" formControlName="cssClass">
+            @for(cssClass of cssClasses; track cssClass)
+            {
+                <option [value]="cssClass">{{cssClass || '(none)'}}</option>
+            }
+        </select>
+    </div>
+}
+
+<margin-control class="properties-form-group" [form]="form" [propertiesMetadata]="propertiesMetadata"/>
+<padding-control class="properties-form-group" [form]="form" [propertiesMetadata]="propertiesMetadata"/>
+```
+
+The page with the layout editor and the override:
+
+```ts
+import {Component, ChangeDetectionStrategy, ValueProvider} from '@angular/core';
+import {provideDynamic} from '@anglr/dynamic';
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+import {ComponentStylingPropertiesControlComponent, LayoutEditorComponent, withLayoutEditor} from '@anglr/dynamic/layout-editor';
+import {withBasicComponents} from '@anglr/dynamic/basic-components';
+
+import {StylingPropertiesControlComponent} from './stylingPropertiesControl.component';
+import {overridePropertiesControlLayout} from './overridePropertiesControl.data';
+
+/**
+ * Layout editor using own styling properties control instead of built-in one
+ */
+@Component(
+{
+    selector: 'override-properties-control-sample',
+    templateUrl: 'overridePropertiesControl.component.html',
+    host:
+    {
+        class: 'flex-column',
+        style: 'height: 80vh',
+    },
+    imports:
+    [
+        LayoutEditorComponent,
+    ],
+    providers:
+    [
+        provideDynamic(withLayoutEditor(),
+                       withBasicComponents()),
+        //component type of built-in properties control is token, value is component type used instead
+        <ValueProvider>
+        {
+            provide: ComponentStylingPropertiesControlComponent,
+            useValue: StylingPropertiesControlComponent,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OverridePropertiesControlSampleComponent
+{
+    //######################### protected properties - template bindings #########################
+
+    /**
+     * Layout metadata to be edited
+     */
+    protected metadata: LayoutComponentMetadata = overridePropertiesControlLayout;
+}
+```
+
+```html
+<layout-editor class="flex-1" [metadata]="metadata" [packages]="['basic-components']"/>
+```
+
+The edited layout contains a text block with a CSS class:
+
+```ts
+import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
+
+/**
+ * Layout metadata with text block, whose styling is edited by own styling properties control
+ */
+export const overridePropertiesControlLayout: LayoutComponentMetadata =
+{
+    id: 'stackPanel-root',
+    displayName: 'root',
+    package: 'basic-components',
+    name: 'stackPanel',
+    options:
+    {
+        children:
+        [
+            {
+                id: 'textBlock-title',
+                package: 'basic-components',
+                name: 'textBlock',
+                options:
+                {
+                    text: 'Select me and change my css class',
+                    cssClass: 'text-primary',
+                },
+            },
+        ],
+    },
+};
 ```
 
 ### Dynamic forms

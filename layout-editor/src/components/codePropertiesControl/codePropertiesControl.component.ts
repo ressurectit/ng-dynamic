@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input} from '@angular/core';
+import {ChangeDetectorRef, Component, inject, Input, ProviderToken, Type} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
@@ -91,7 +91,7 @@ export class BaseCodePropertiesControlComponent<TOptions = any> extends Properti
  */
 export function codePropertiesControlFor<TModel>(property: Extract<keyof TModel, string>, languageModel: LanguageModel): PropertiesControlGetter
 {
-    const propertiesControlGetter = () => BaseCodePropertiesControlComponent;
+    const propertiesControlGetter = () => inject(BaseCodePropertiesControlComponent as unknown as ProviderToken<Type<PropertiesControl<unknown>>>);
 
     propertiesControlGetter.inputs = {property, languageModel};
 

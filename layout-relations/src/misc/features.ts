@@ -1,4 +1,4 @@
-import {ClassProvider, FactoryProvider, Type} from '@angular/core';
+import {ClassProvider, FactoryProvider, Type, ValueProvider} from '@angular/core';
 import {CoreDynamicFeature, DynamicFeature, DynamicFeatureType, provideStaticPackageSource} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_PROVIDERS, withLayoutRuntime} from '@anglr/dynamic/layout';
 import {RELATIONS_COMPONENTS_MODULE_PROVIDERS, withRelationsRuntime} from '@anglr/dynamic/relations';
@@ -8,6 +8,7 @@ import {Func0} from '@jscrpt/common';
 import {Observable} from 'rxjs';
 
 import {CustomComponentsDynamicModuleItemsProvider, CustomComponentsDynamicModuleRelationsProvider, CustomComponentsDynamicModuleTypesProvider, CustomComponentsRegister, CustomRelationsDynamicModuleItemsProvider, CustomRelationsDynamicModuleRelationsProvider, CustomRelationsRegister, LayoutComponentsRegister, LayoutComponentsRelationsNodesProvider, LayoutComponentsRelationsTypesProvider, LayoutManager, ScopeRegister} from '../services';
+import {ContentOptionsPropertiesControlComponent} from '../dynamicItems/customComponent/misc/components/contentOptionsPropertiesControl/contentOptionsPropertiesControl.component';
 
 /**
  * Provider for layout components relations nodes provider
@@ -171,6 +172,11 @@ export function withCustomComponents(customComponentRegister: Type<CustomCompone
             [
                 CUSTOM_COMPONENTS_LAYOUT_MODULE_TYPES_PROVIDER,
                 provideStaticPackageSource('custom-components'),
+                <ValueProvider>
+                {
+                    provide: ContentOptionsPropertiesControlComponent,
+                    useValue: ContentOptionsPropertiesControlComponent,
+                },
                 <ClassProvider>
                 {
                     provide: CustomComponentsRegister,

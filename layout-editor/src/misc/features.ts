@@ -8,6 +8,9 @@ import {layoutDesignerTypeExtractor} from './extractors';
 import {LAYOUT_DEFAULTS_OVERRIDE, LAYOUT_EDITOR_PROPERTY_METADATA_PROPERTIES, LAYOUT_HISTORY_MANAGER, LAYOUT_MODULE_TYPES_DATA_EXTRACTORS, LAYOUT_MODULE_TYPES_LOADER, LAYOUT_MODULE_TYPES_PROVIDERS} from './tokens';
 import {LayoutPropertyMetadata} from './types';
 import {isLayoutModuleTypes} from './utils';
+import {BaseCodePropertiesControlComponent} from '../components/codePropertiesControl/codePropertiesControl.component';
+import {ComponentStylingPropertiesControlComponent} from '../modules/propertiesControls/components/componentStylingPropertiesControl/componentStylingPropertiesControl.component';
+import {DefaultGenericPropertiesControlComponent} from '../modules/propertiesControls/components/genericPropertiesControl/genericPropertiesControl.component';
 
 /**
  * Provider for designer layout components extractor
@@ -121,6 +124,21 @@ export function withLayoutEditor(): CoreDynamicFeature
                                           },
                                           LAYOUT_HISTORY_MANAGER_PROVIDER,
                                           LAYOUT_EDITOR_METADATA_MANAGER,
+                                          <ValueProvider>
+                                          {
+                                              provide: ComponentStylingPropertiesControlComponent,
+                                              useValue: ComponentStylingPropertiesControlComponent,
+                                          },
+                                          <ValueProvider>
+                                          {
+                                              provide: DefaultGenericPropertiesControlComponent,
+                                              useValue: DefaultGenericPropertiesControlComponent,
+                                          },
+                                          <ValueProvider>
+                                          {
+                                              provide: BaseCodePropertiesControlComponent,
+                                              useValue: BaseCodePropertiesControlComponent,
+                                          },
                                       ],
                                   },
                                   withLayoutRuntime());

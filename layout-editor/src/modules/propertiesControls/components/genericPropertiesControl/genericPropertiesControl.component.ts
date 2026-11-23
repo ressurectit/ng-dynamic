@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input, ProviderToken, Type} from '@angular/core';
 import {FirstUppercaseLocalizePipe, TooltipDirective} from '@anglr/common';
 import {FormPipesModule} from '@anglr/common/forms';
 
@@ -39,7 +39,7 @@ export class DefaultGenericPropertiesControlComponent<TOptions = any> extends Pr
  */
 export function genericPropertiesControlFor<TModel>(properties: (Extract<keyof TModel, string>)[]): PropertiesControlGetter
 {
-    const propertiesControlGetter = () => DefaultGenericPropertiesControlComponent;
+    const propertiesControlGetter = () => inject(DefaultGenericPropertiesControlComponent as unknown as ProviderToken<Type<PropertiesControl<unknown>>>);
 
     propertiesControlGetter.inputs = {properties};
 

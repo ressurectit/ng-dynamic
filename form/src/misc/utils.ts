@@ -12,8 +12,6 @@ export function getFormControl<TValue = string>(controlName: string|undefined|nu
 
     const control = parentControl.get(controlName);
 
-
-
     return control ?? getControlForType(defaultControlType, defaultValue);
 }
 

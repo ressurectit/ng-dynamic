@@ -7,6 +7,25 @@
 - subpackage `@anglr/dynamic/relations`
    - fixed default value of `ngRelationsDebugger` global variable, now defaults to `false`, *relations debugger* hooks are enabled only when `ngRelationsDebugger` is explicitly defined as `true`
 
+### Features
+
+- subpackage `@anglr/dynamic/layout-editor`
+   - updated `getPropertiesControl` function, now resolves *properties control* component using DI (component type is used as token), falls back to passed type if not provided, allows overriding of *properties controls*
+   - updated `genericPropertiesControlFor` function, now resolves `DefaultGenericPropertiesControlComponent` using DI, allows overriding of *generic properties control*
+   - updated `codePropertiesControlFor` function, now resolves `BaseCodePropertiesControlComponent` using DI, allows overriding of *code properties control*
+   - updated `PropertiesControlRendererDirective` directive, `PropertiesControlGetter` is now called in *injection context*
+   - updated `withLayoutEditor` core feature, now provides `ComponentStylingPropertiesControlComponent`, `DefaultGenericPropertiesControlComponent`, `BaseCodePropertiesControlComponent` *properties controls* as overridable tokens
+- subpackage `@anglr/dynamic/layout-relations`
+   - updated `withCustomComponents` feature, now provides its *properties controls* as overridable tokens
+- subpackage `@anglr/dynamic/form`
+   - updated `withFormComponents` feature, now provides its *properties controls* as overridable tokens
+- subpackage `@anglr/dynamic/basic-components`
+   - updated `withBasicComponents` feature, now provides its *properties controls* as overridable tokens
+- subpackage `@anglr/dynamic/material-components`
+   - updated `withMaterialComponents` feature, now provides its *properties controls* as overridable tokens
+- subpackage `@anglr/dynamic/tinymce-components`
+   - updated `withTinyMceComponents` feature, now provides its *properties controls* as overridable tokens
+
 ## Version 1.0.1 (2026-11-20)
 
 ### Bug Fixes

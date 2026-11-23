@@ -1,4 +1,4 @@
-import {ClassProvider} from '@angular/core';
+import {ClassProvider, ValueProvider} from '@angular/core';
 import {DynamicFeature, provideStaticPackageSource} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/layout';
 import {LAYOUT_MODULE_TYPES_PROVIDERS, LayoutComponentsIteratorService} from '@anglr/dynamic/layout-editor';
@@ -6,6 +6,7 @@ import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS} from '@angl
 import {RELATIONS_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/relations';
 
 import {FormComponentControlBuilder, FormDynamicModuleItemsProvider, FormDynamicModuleRelationsProvider, FormDynamicModuleTypesProvider} from '../services';
+import {RadioPropertiesControlComponent} from '../dynamicItems/radio/misc/components/radioPropertiesControl/radioPropertiesControl.component';
 
 /**
  * Provider for form components providers
@@ -79,6 +80,11 @@ export function withFormComponents(): DynamicFeature
             [
                 FORM_MODULE_TYPES_PROVIDER,
                 provideStaticPackageSource('form-components'),
+                <ValueProvider>
+                {
+                    provide: RadioPropertiesControlComponent,
+                    useValue: RadioPropertiesControlComponent,
+                },
             ],
         },
         relationsRuntime:

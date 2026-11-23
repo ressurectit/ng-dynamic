@@ -1,4 +1,4 @@
-import {ClassProvider} from '@angular/core';
+import {ClassProvider, ValueProvider} from '@angular/core';
 import {DynamicFeature, provideStaticPackageSource} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/layout';
 import {LAYOUT_MODULE_TYPES_PROVIDERS} from '@anglr/dynamic/layout-editor';
@@ -6,6 +6,7 @@ import {RELATIONS_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/relations';
 import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS} from '@anglr/dynamic/relations-editor';
 
 import {TinyMceDynamicModuleItemsProvider, TinyMceDynamicModuleRelationsProvider, TinyMceDynamicModuleTypesProvider} from '../services';
+import {RichTextBlockPropertiesControlComponent} from '../dynamicItems/richTextBlock/misc/components/richTextBlockPropertiesControl/richTextBlockPropertiesControl.component';
 
 /**
  * Provider for tiny MCE package layout components provider
@@ -79,6 +80,11 @@ export function withTinyMceComponents(): DynamicFeature
             [
                 TINY_MCE_LAYOUT_MODULE_TYPES_PROVIDER,
                 provideStaticPackageSource('tinymce-components'),
+                <ValueProvider>
+                {
+                    provide: RichTextBlockPropertiesControlComponent,
+                    useValue: RichTextBlockPropertiesControlComponent,
+                },
             ],
         },
         relationsRuntime:

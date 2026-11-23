@@ -1,4 +1,4 @@
-import {ComponentRef, Directive, effect, Inject, input, InputSignal, Optional, ViewContainerRef} from '@angular/core';
+import {ComponentRef, Directive, effect, Inject, Injector, input, InputSignal, Optional, runInInjectionContext, ViewContainerRef} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {Logger, LOGGER} from '@anglr/common';
 import {FormModelGroup} from '@anglr/common/forms';
@@ -48,12 +48,13 @@ export class PropertiesControlRendererDirective<TOptions = unknown, TComponent e
 
     //######################### constructor #########################
     constructor(protected viewContainerRef: ViewContainerRef,
+                injector: Injector,
                 @Inject(LOGGER) @Optional() protected logger?: Logger,)
     {
         effect(async () =>
         {
             const typeGetter = this.type();
-            const type = typeGetter?.();
+            const type = runInInjectionContext(injector, () => typeGetter?.());
             this.logger?.debug('PropertiesControlRendererDirective: rendering properties control {{@type}}', {type: type?.name});
 
             if(this.componentRef?.componentType !== type)

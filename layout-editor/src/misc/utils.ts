@@ -1,4 +1,4 @@
-import {Type} from '@angular/core';
+import {inject, ProviderToken, Type} from '@angular/core';
 import {DynamicItemLoaderValidatorFn} from '@anglr/dynamic';
 import {isBlank} from '@jscrpt/common';
 
@@ -26,5 +26,7 @@ export const isLayoutModuleTypes: DynamicItemLoaderValidatorFn<LayoutModuleTypes
  */
 export function getPropertiesControl<TOptions>(type: Type<PropertiesControl<TOptions>>): PropertiesControlGetter<unknown>
 {
-    return () => type as Type<PropertiesControl<unknown>>;
+    //TODO: to not introduce breaking change fallback to type itself
+    // component type is used as token, provided value is the component type itself (not an instance)
+    return () => (inject(type as unknown as ProviderToken<Type<PropertiesControl<unknown>>>, {optional: true}) ?? type as Type<PropertiesControl<unknown>>);
 }

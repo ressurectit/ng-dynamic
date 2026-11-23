@@ -1,4 +1,4 @@
-import {ClassProvider} from '@angular/core';
+import {ClassProvider, ValueProvider} from '@angular/core';
 import {DynamicFeature, provideStaticPackageSource} from '@anglr/dynamic';
 import {LAYOUT_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/layout';
 import {LAYOUT_MODULE_TYPES_PROVIDERS} from '@anglr/dynamic/layout-editor';
@@ -6,6 +6,9 @@ import {RELATIONS_COMPONENTS_MODULE_PROVIDERS} from '@anglr/dynamic/relations';
 import {RELATIONS_MODULE_TYPES_PROVIDERS, RELATIONS_NODES_PROVIDERS} from '@anglr/dynamic/relations-editor';
 
 import {BasicDynamicModuleItemsProvider, BasicDynamicModuleRelationsProvider, BasicDynamicModuleTypesProvider} from '../services';
+import {ButtonPresetsPropertiesControlComponent} from './components/buttonPresetsPropertiesControl/buttonPresetsPropertiesControl.component';
+import {RowsColumnsPropertiesControlComponent} from './components/rowsColumnsPropertiesControl/rowsColumnsPropertiesControl.component';
+import {GridAreasPropertiesControlComponent} from '../dynamicItems/gridPanel/misc/components/gridAreasPropertiesControl/gridAreasPropertiesControl.component';
 
 /**
  * Provider for basic package layout components provider
@@ -79,6 +82,21 @@ export function withBasicComponents(): DynamicFeature
             [
                 BASIC_LAYOUT_MODULE_TYPES_PROVIDER,
                 provideStaticPackageSource('basic-components'),
+                <ValueProvider>
+                {
+                    provide: ButtonPresetsPropertiesControlComponent,
+                    useValue: ButtonPresetsPropertiesControlComponent,
+                },
+                <ValueProvider>
+                {
+                    provide: RowsColumnsPropertiesControlComponent,
+                    useValue: RowsColumnsPropertiesControlComponent,
+                },
+                <ValueProvider>
+                {
+                    provide: GridAreasPropertiesControlComponent,
+                    useValue: GridAreasPropertiesControlComponent,
+                },
             ],
         },
         relationsRuntime:

@@ -279,9 +279,11 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy
             }
 
             //properties metadata
-            if(this.metadata?.metaInfo?.optionsMetadata?.propertiesMetadata?.length)
+            const propertiesMetadata = this.metadata?.metaInfo?.optionsMetadata?.propertiesMetadata;
+
+            if(propertiesMetadata?.length)
             {
-                for(const props of this.metadata?.metaInfo?.optionsMetadata?.propertiesMetadata)
+                for(const props of propertiesMetadata)
                 {
                     this.initDynamicProperty(props);
                 }
@@ -296,10 +298,12 @@ export class PropertiesEditorComponent implements OnInit, OnDestroy
                 {
                     const parentMetadata = await this.metadataExtractor.extractMetadata(parent.metadataSafe);
 
+                    const childPropertiesMetadata = parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata;
+
                     //parent extensions properties metadata
-                    if(parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata?.length)
+                    if(childPropertiesMetadata?.length)
                     {
-                        for(const props of parentMetadata?.metaInfo?.optionsMetadata?.childPropertiesMetadata)
+                        for(const props of childPropertiesMetadata)
                         {
                             this.initDynamicProperty(props);
                         }

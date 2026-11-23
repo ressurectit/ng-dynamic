@@ -1,5 +1,8 @@
 <mat-tab-group [mat-stretch-tabs]="false">
-    <mat-tab #tabComponent="matTab" [label]="tab.title" *ngFor="let tab of options?.tabs; let i = index;" [labelClass]="tabComponent.disabled ? 'hidden': ''" [bodyClass]="tabComponent.disabled ? 'hidden': ''">
-        <ng-container *layoutComponentRenderer="tab.content" (layoutComponentRendererComponentChange)="onTabComponentChange($any($event), i)"/>
-    </mat-tab>
+    @for (tab of options?.tabs; track tab; let i = $index)
+    {
+        <mat-tab #tabComponent="matTab" [label]="tab.title"  [labelClass]="tabComponent.disabled ? 'hidden': ''" [bodyClass]="tabComponent.disabled ? 'hidden': ''">
+            <ng-container *layoutComponentRenderer="tab.content" (layoutComponentRendererComponentChange)="onTabComponentChange($any($event), i)"/>
+        </mat-tab>
+    }
 </mat-tab-group>

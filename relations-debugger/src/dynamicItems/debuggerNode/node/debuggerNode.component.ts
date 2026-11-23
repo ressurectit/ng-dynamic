@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {KeyValuePipe} from '@angular/common';
 import {BodyRenderDirective, PositionPlacement, PositionToDirective, TooltipModule, TooltipOptions} from '@anglr/common';
 import {RelationsComponentEndpoints, RelationsComponentStateDebugInfo, RelationsDebugger, RelationsStepDebugInfo} from '@anglr/dynamic/relations';
 import {RelationsNode, RelationsNodeBase} from '@anglr/dynamic/relations-editor';
@@ -17,7 +17,7 @@ import {RelationNodeInputDebugComponent, RelationNodeOutputDebugComponent} from 
     templateUrl: 'debuggerNode.component.html',
     imports:
     [
-        CommonModule,
+        KeyValuePipe,
         TooltipModule,
         RelationNodeInputDebugComponent,
         RelationNodeOutputDebugComponent,

@@ -1,6 +1,5 @@
 import {Component, Input, inject} from '@angular/core';
 import {MAT_TAB, MatTab, MatTabsModule} from '@angular/material/tabs';
-import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsEditorMetadata} from '@anglr/dynamic/relations-editor';
@@ -21,7 +20,6 @@ import {MATERIAL_TAB_GROUP} from '../tabGroup/tabGroup.component';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        CommonModule,
         MatTabsModule,
         LayoutComponentRendererDirective,
     ],

@@ -25,7 +25,7 @@ export class DialogMetadataSelectorLayoutEditorMetadata implements LayoutEditorM
             [
                 {
                     modelType: DialogMetadataSelectorModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<DialogMetadataSelectorModel>(['storageName', 'showButtonVisible']),
                     ],

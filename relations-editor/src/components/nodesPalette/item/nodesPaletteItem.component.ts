@@ -1,5 +1,4 @@
 import {Component, ChangeDetectorRef, OnInit, Inject, Optional, OnDestroy, Input, HostBinding, HostListener} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {CdkDrag} from '@angular/cdk/drag-drop';
 import {PackageManager} from '@anglr/dynamic';
 import {FirstUppercaseLocalizePipe, Logger, LOGGER} from '@anglr/common';
@@ -17,7 +16,6 @@ import {NodesPaletteItem} from '../nodesPalette.interface';
     templateUrl: 'nodesPaletteItem.component.html',
     imports:
     [
-        CommonModule,
         FirstUppercaseLocalizePipe,
     ],
 })

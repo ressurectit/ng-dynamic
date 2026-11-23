@@ -1,5 +1,4 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {FormArray, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {FormModelBuilder} from '@anglr/common/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
@@ -18,7 +17,6 @@ import {RadioOptionModel} from '../../../metadata/radio.model';
     templateUrl: 'radioPropertiesControl.component.html',
     imports:
     [
-        CommonModule,
         ReactiveFormsModule,
         FirstUppercaseLocalizePipe,
     ],

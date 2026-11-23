@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 1.1.0 (2026-11-23)
+
+### Bug Fixes
+
+- subpackage `@anglr/dynamic/relations`
+   - fixed default value of `ngRelationsDebugger` global variable, now defaults to `false`, *relations debugger* hooks are enabled only when `ngRelationsDebugger` is explicitly defined as `true`
+
 ## Version 1.0.1 (2026-11-20)
 
 ### Bug Fixes

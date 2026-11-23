@@ -90,11 +90,11 @@ export function withLayoutEditor(): CoreDynamicFeature
 {
     return new CoreDynamicFeature(DynamicFeatureType.LayoutEditor,
                                   {
-                                      prependProviders: 
+                                      prependProviders:
                                       [
                                           DESIGNER_LAYOUT_COMPONENTS_EXTRACTOR,
                                       ],
-                                      providers: 
+                                      providers:
                                       [
                                           LAYOUT_MODULE_TYPES_LOADER_PROVIDER,
                                           DEFAULT_LAYOUT_MODULE_TYPES_EXTRACTOR,
@@ -121,15 +121,15 @@ export function withLayoutEditor(): CoreDynamicFeature
                                           },
                                           LAYOUT_HISTORY_MANAGER_PROVIDER,
                                           LAYOUT_EDITOR_METADATA_MANAGER,
-                                      ]
+                                      ],
                                   },
                                   withLayoutRuntime());
 }
 
 /**
- * Enables use of defaults options overrides for layout components 
+ * Enables use of defaults options overrides for layout components
  * @param defaultsOverride - Defaults override implementation
- * 
+ *
  * Works with:
  * - **layout editor**
  */
@@ -145,8 +145,8 @@ export function withLayoutDefaultsOverride(defaultsOverride: Type<DefaultsOverri
                 <ClassProvider>
                 {
                     provide: LAYOUT_DEFAULTS_OVERRIDE,
-                    useClass: defaultsOverride
-                }
+                    useClass: defaultsOverride,
+                },
             ],
         },
     });

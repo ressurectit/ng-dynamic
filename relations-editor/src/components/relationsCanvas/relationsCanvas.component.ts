@@ -1,5 +1,4 @@
 import {Component, HostBinding, HostListener, ViewChild, ElementRef, Input, Inject, OnInit, ChangeDetectorRef, OnDestroy, EventEmitter, Output} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {MetadataHistoryManager} from '@anglr/dynamic';
 import {select} from 'd3';
 import {Subscription} from 'rxjs';
@@ -41,7 +40,6 @@ const MOVEMENT_DELTA_MAX = 10;
     templateUrl: 'relationsCanvas.component.html',
     imports:
     [
-        CommonModule,
         RelationsNodeRendererDirective,
     ],
 })

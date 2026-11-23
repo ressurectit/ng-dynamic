@@ -25,7 +25,7 @@ export class GridColumnLayoutEditorMetadata implements LayoutEditorMetadataDescr
             [
                 {
                     modelType: GridColumnModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<GridColumnModel>(['width', 'orderable', 'orderingName']),
                     ],

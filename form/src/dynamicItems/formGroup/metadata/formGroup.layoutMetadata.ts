@@ -36,7 +36,7 @@ export class FormGroupLayoutEditorMetadata implements LayoutEditorMetadataDescri
                     modelType: FormGroupModel,
                     propertiesControls:
                     [
-                        genericPropertiesControlFor(['controlName'])
+                        genericPropertiesControlFor(['controlName']),
                     ],
                 },
             ],

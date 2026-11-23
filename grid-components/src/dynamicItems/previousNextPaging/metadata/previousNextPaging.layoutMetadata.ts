@@ -25,7 +25,7 @@ export class PreviousNextPagingLayoutEditorMetadata implements LayoutEditorMetad
             [
                 {
                     modelType: PreviousNextPagingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<PreviousNextPagingModel>(['initialItemsPerPage']),
                     ],

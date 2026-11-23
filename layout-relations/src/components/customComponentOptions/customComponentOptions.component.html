@@ -3,7 +3,10 @@
         <label class="dynamic-control-label">{{'available content components'|firstUppercaseLocalize}}</label>
 
         <select class="dynamic-form-control" [formControl]="component">
-            <option *ngFor="let component of contentComponents" [value]="component">{{data.customComponentContentMetadata[component]?.metadata?.displayName}}</option>
+            @for (component of contentComponents; track component)
+            {
+                <option [value]="component">{{data.customComponentContentMetadata[component]?.metadata?.displayName}}</option>
+            }
         </select>
     </div>
 
@@ -13,25 +16,35 @@
 </div>
 
 <div>
-    <div *ngFor="let component of usedProperties | keyvalue" class="dynamic-margin-bottom-small">
-        <div class="dynamic-bold dynamic-flex-row ">
-            <span class="dynamic-margin-right-small">{{data.customComponentContentMetadata[component.key]?.metadata?.displayName}}</span>
-            
-            <a class="dynamic-btn-icon" (click)="removeComponent(component.key)">
-                <span class="fas fa-times"></span>
-            </a>
-        </div>
-        
-        <ng-container *ngFor="let modelProps of availableProperties[component.key] | keyvalue">
-            <div *ngFor="let prop of modelProps.value">
-                <label>
-                    <input type="checkbox" (change)="toggleSelected(component.key, modelProps.key, prop)" [checked]="usedProperties | propertySelected: component.key: modelProps.key: prop">
-                    <span>{{(modelProps.key | getModel: data.customComponentContentMetadata[component.key] | propertiesMetadata: data.propsMetadataExtractor)?.[prop]?.name ?? prop}}</span>
-                    <span class="fas fa-info-circle dynamic-margin-left-extra-small" *ngIf="(modelProps.key | getModel: data.customComponentContentMetadata[component.key] | propertiesMetadata: data.propsMetadataExtractor)?.[prop]?.description as description" [tooltip]="description" ></span>
-                </label>
+    @for (component of usedProperties | keyvalue; track component)
+    {
+        <div class="dynamic-margin-bottom-small">
+            <div class="dynamic-bold dynamic-flex-row ">
+                <span class="dynamic-margin-right-small">{{data.customComponentContentMetadata[component.key]?.metadata?.displayName}}</span>
+
+                <a class="dynamic-btn-icon" (click)="removeComponent(component.key)">
+                    <span class="fas fa-times"></span>
+                </a>
             </div>
-        </ng-container>
-    </div>
+
+            @for (modelProps of availableProperties[component.key] | keyvalue; track modelProps)
+            {
+                @for (prop of modelProps.value; track prop)
+                {
+                    <div>
+                        <label>
+                            <input type="checkbox" (change)="toggleSelected(component.key, modelProps.key, prop)" [checked]="usedProperties | propertySelected: component.key: modelProps.key: prop">
+                            <span>{{(modelProps.key | getModel: data.customComponentContentMetadata[component.key] | propertiesMetadata: data.propsMetadataExtractor)?.[prop]?.name ?? prop}}</span>
+                            @if ((modelProps.key | getModel: data.customComponentContentMetadata[component.key] | propertiesMetadata: data.propsMetadataExtractor)?.[prop]?.description; as description)
+                            {
+                                <span class="fas fa-info-circle dynamic-margin-left-extra-small"  [tooltip]="description"></span>
+                            }
+                        </label>
+                    </div>
+                }
+            }
+        </div>
+    }
 </div>
 
 <div class="dynamic-flex-row dynamic-flex-end dynamic-action-buttons">

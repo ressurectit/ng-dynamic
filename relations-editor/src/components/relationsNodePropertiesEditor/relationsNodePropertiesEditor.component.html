@@ -3,12 +3,21 @@
     <input class="dynamic-form-control" type="text" formControlName="displayName">
 
     <label class="dynamic-control-label">{{'scope'|firstUppercaseLocalize}}</label>
-    <input class="dynamic-form-control" type="text" formControlName="scope" [readonly]="true" *ngIf="!data.scopeConfigurable">
+    @if (!data.scopeConfigurable)
+    {
+        <input class="dynamic-form-control" type="text" formControlName="scope" [readonly]="true">
+    }
 
-    <select class="dynamic-form-control" formControlName="scope" *ngIf="data.scopeConfigurable">
-        <option value="">---</option>
-        <option *ngFor="let scope of scopes" [value]="scope">{{scope}}</option>
-    </select>
+    @if (data.scopeConfigurable)
+    {
+        <select class="dynamic-form-control" formControlName="scope">
+            <option value="">---</option>
+            @for (scope of scopes; track scope)
+            {
+                <option [value]="scope">{{scope}}</option>
+            }
+        </select>
+    }
 </div>
 
 <div class="dynamic-flex-row dynamic-flex-end dynamic-action-buttons">

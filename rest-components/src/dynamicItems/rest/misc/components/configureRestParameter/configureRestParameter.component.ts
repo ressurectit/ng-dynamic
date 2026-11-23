@@ -1,5 +1,4 @@
 import {Component, Inject} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TitledDialogService, TITLED_DIALOG_DATA} from '@anglr/common/material';
@@ -22,7 +21,6 @@ import {RestParamModel} from './configureRestParameter.model';
     templateUrl: 'configureRestParameter.component.html',
     imports:
     [
-        CommonModule,
         ReactiveFormsModule,
         MatDialogModule,
     ],

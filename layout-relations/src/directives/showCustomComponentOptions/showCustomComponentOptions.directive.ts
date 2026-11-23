@@ -48,7 +48,7 @@ export class ShowCustomComponentOptionsDirective<TConfig extends CustomComponent
     }
 
     //######################### public methods - implementation of OnChanges #########################
-    
+
     /**
      * Called when input value changes
      */
@@ -82,7 +82,7 @@ export class ShowCustomComponentOptionsDirective<TConfig extends CustomComponent
             throw new Error('Please provide name of custom component for its options');
         }
     }
-    
+
     //######################### protected methods - host #########################
 
     /**
@@ -94,7 +94,7 @@ export class ShowCustomComponentOptionsDirective<TConfig extends CustomComponent
     {
         event.preventDefault();
         event.stopPropagation();
-        
+
         const result = await lastValueFrom(this.dialogSvc.open<CustomComponentOptionsComponent, CustomComponentOptionsData, TConfig|undefined|null>(CustomComponentOptionsComponent,
         {
             title: 'custom component options',
@@ -104,7 +104,7 @@ export class ShowCustomComponentOptionsDirective<TConfig extends CustomComponent
                 customComponentContentMetadata: this.customComponentContentMetadata,
                 configuration: await this.customComponentsRegister.getConfigurationForComponent(this.name ?? '') ?? {},
                 propsMetadataExtractor: this.propsMetadataExtractor,
-            }
+            },
         }).afterClosed());
 
         if(result)

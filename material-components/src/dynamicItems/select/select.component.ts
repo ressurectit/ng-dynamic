@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
@@ -25,7 +24,6 @@ import {MaterialSelectComponentOptions} from './select.options';
         FormPipesModule,
         CastPipesModule,
         ReactiveFormsModule,
-        CommonModule,
         MatFormFieldModule,
         MatSelectModule,
     ]

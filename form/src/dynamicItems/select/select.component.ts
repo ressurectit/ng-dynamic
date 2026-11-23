@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
@@ -23,7 +22,6 @@ import {SelectComponentOptions} from './select.options';
         FormPipesModule,
         CastPipesModule,
         ReactiveFormsModule,
-        CommonModule,
     ]
 })
 @RelationsEditorMetadata(SelectRelationsMetadataLoader)

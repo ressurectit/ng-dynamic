@@ -8,6 +8,6 @@ globalDefine(global =>
 {
     if(isBlank(global.ngRelationsDebugger))
     {
-        global.ngRelationsDebugger = true;
+        global.ngRelationsDebugger = false;
     }
 });

@@ -1,5 +1,4 @@
 import {Component, Input, OnInit, EventEmitter, Output, OnDestroy, Inject, Optional, ChangeDetectorRef, booleanAttribute} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -27,7 +26,6 @@ import {DemoCustomRelationsRegister} from '../../services/demoCustomRelationsReg
     [
         ReactiveFormsModule,
         SelectModule,
-        CommonModule,
         ShowCustomComponentOptionsDirective,
         SelectControlValueAccessor,
         MatSlideToggleModule,

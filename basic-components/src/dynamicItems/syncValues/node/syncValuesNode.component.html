@@ -3,17 +3,20 @@
 <div class="node-content" [formGroup]="form">
     <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
         <label class="dynamic-control-label dynamic-text-uppercase">{{'sync on'|firstUppercaseLocalize}}</label>
-        
+
         <select class="dynamic-form-control" formControlName="triggerSync">
             <option [ngValue]="false">{{'idle'|firstUppercaseLocalize}}</option>
             <option [ngValue]="true">{{'trigger'|firstUppercaseLocalize}}</option>
         </select>
     </div>
 
-    <div class="dynamic-form-group dynamic-margin-bottom-extra-small" *ngIf="!metadata?.relationsOptions?.triggerSync">
-        <label class="dynamic-control-label dynamic-text-uppercase">{{'idle timeout'|firstUppercaseLocalize}}</label>
-        <input type="text" class="dynamic-form-control" formControlName="idleTimeout" number required>
-    </div>
+    @if (!metadata?.relationsOptions?.triggerSync)
+    {
+        <div class="dynamic-form-group dynamic-margin-bottom-extra-small">
+            <label class="dynamic-control-label dynamic-text-uppercase">{{'idle timeout'|firstUppercaseLocalize}}</label>
+            <input type="text" class="dynamic-form-control" formControlName="idleTimeout" number required>
+        </div>
+    }
 
     <button type="button" class="dynamic-btn-icon" (click)="$event.preventDefault(); $event.stopPropagation(); addProperty()">
         <span class="fas fa-plus"></span>
@@ -21,7 +24,8 @@
 
     <div class="inputs-outputs">
         <div class="inputs">
-            <ng-container *ngFor="let property of metadata?.relationsOptions?.syncProperties; let index=index">
+            @for (property of metadata?.relationsOptions?.syncProperties; track property; let index = $index)
+            {
                 <div class="input">
                     <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="property" [parent]="this"></relation-node-input>
                     <div>{{property}}</div>
@@ -34,21 +38,25 @@
                         <span class="fas fa-times"></span>
                     </button>
                 </div>
-            </ng-container>
+            }
 
-            <div class="input" *ngIf="metadata?.relationsOptions?.triggerSync">
-                <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="trigger" [parent]="this"></relation-node-input>
-                <div>{{'trigger'|firstUppercaseLocalize}}</div>
-            </div>
+            @if (metadata?.relationsOptions?.triggerSync) 
+            {
+                <div class="input">
+                    <relation-node-input [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" name="trigger" [parent]="this"></relation-node-input>
+                    <div>{{'trigger'|firstUppercaseLocalize}}</div>
+                </div>
+            }
         </div>
 
         <div class="outputs">
-            <ng-container *ngFor="let property of metadata?.relationsOptions?.syncProperties">
+            @for (property of metadata?.relationsOptions?.syncProperties; track property) 
+            {
                 <div class="output">
                     <div>{{property}}</div>
                     <relation-node-output [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="property" [parent]="this"></relation-node-output>
                 </div>
-            </ng-container>
+            }
         </div>
     </div>
 </div>

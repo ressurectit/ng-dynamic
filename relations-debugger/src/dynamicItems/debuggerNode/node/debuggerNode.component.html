@@ -3,70 +3,89 @@
 </div>
 
 <div class="node-content">
-    <div class="inputs-outputs" *ngIf="registered">
-        <div class="inputs">
-            <div class="input" [class.transfer-endpoint]="transferInput == input" *ngFor="let input of componentDef?.inputs">
-                <relation-node-input-debug [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="input" [parent]="this" [transferHighlight]="transferInput == input"/>
-                <div>{{input}}</div>
-            </div>
-        </div>
-
-        <div class="outputs">
-            <div class="output" [class.transfer-endpoint]="transferOutput == output" *ngFor="let output of componentDef?.outputs">
-                <ng-container *ngIf="transferOutput == output">
-                    <div *bodyRender class="endpoint-transfer-detail" [positionTo]="outNode.htmlElement" [autoUpdate]="true" placement="Right">
-                        <div class="dynamic-bold dynamic-margin-bottom-small">{{output}}</div>
-
-                        <div><span class="dynamic-semi-bold">scope:</span> {{step?.dataTransfer?.scope}}</div>
-                        <div><span class="dynamic-semi-bold">initial:</span> {{step?.dataTransfer?.change?.firstChange}}</div>
-                        <div class="dynamic-semi-bold">previous value:</div>
-                        <div class="formatted-json">{{step?.dataTransfer?.change?.previousValue | jsonFormatted}}</div>
-                        <div class="dynamic-semi-bold">current value:</div>
-                        <div class="formatted-json">{{step?.dataTransfer?.change?.currentValue | jsonFormatted}}</div>
+    @if (registered)
+    {
+        <div class="inputs-outputs">
+            <div class="inputs">
+                @for (input of componentDef?.inputs; track input)
+                {
+                    <div class="input" [class.transfer-endpoint]="transferInput == input">
+                        <relation-node-input-debug [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="input" [parent]="this" [transferHighlight]="transferInput == input"/>
+                        <div>{{input}}</div>
                     </div>
-                </ng-container>
+                }
+            </div>
 
-                <div>{{output}}</div>
-                <relation-node-output-debug #outNode [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="output" [parent]="this"/>
+            <div class="outputs">
+                @for (output of componentDef?.outputs; track output)
+                {
+                    <div class="output" [class.transfer-endpoint]="transferOutput == output">
+                        @if (transferOutput == output)
+                        {
+                            <div *bodyRender class="endpoint-transfer-detail" [positionTo]="outNode.htmlElement" [autoUpdate]="true" placement="Right">
+                                <div class="dynamic-bold dynamic-margin-bottom-small">{{output}}</div>
+
+                                <div><span class="dynamic-semi-bold">scope:</span> {{step?.dataTransfer?.scope}}</div>
+                                <div><span class="dynamic-semi-bold">initial:</span> {{step?.dataTransfer?.change?.firstChange}}</div>
+                                <div class="dynamic-semi-bold">previous value:</div>
+                                <div class="formatted-json">{{step?.dataTransfer?.change?.previousValue | jsonFormatted}}</div>
+                                <div class="dynamic-semi-bold">current value:</div>
+                                <div class="formatted-json">{{step?.dataTransfer?.change?.currentValue | jsonFormatted}}</div>
+                            </div>
+                        }
+
+                        <div>{{output}}</div>
+                        <relation-node-output-debug #outNode [parentCoordiantes]="nodePosition" [zoomLevel]="zoomLevel" [name]="output" [parent]="this"/>
+                    </div>
+                }
             </div>
         </div>
-    </div>
+    }
 </div>
 
 <div class="debugger-node-overlay" tooltip [tooltipOptions]="tooltipOptions">
     <div *tooltipTemplate class="relations-debugger-node-detail dynamic-thin-scrollbar">
         <div class="dynamic-bold">{{this.metadata?.id}}</div>
 
-        <div *ngFor="let stat of state">
-            <div class="dynamic-semi-bold">#{{stat.componentInternalId}}</div>
+        @for (stat of state; track stat)
+        {
+            <div>
+                <div class="dynamic-semi-bold">#{{stat.componentInternalId}}</div>
 
-            <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-top-small dynamic-margin-bottom-extra-small">relations options</div>
+                <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-top-small dynamic-margin-bottom-extra-small">relations options</div>
 
-            <div class="formatted-json">{{metadata?.relationsOptions | jsonFormatted}}</div>
+                <div class="formatted-json">{{metadata?.relationsOptions | jsonFormatted}}</div>
 
-            <div class="inputs-outputs-grid">
-                <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-bottom-extra-small">inputs</div>
-                <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-bottom-extra-small">outputs</div>
+                <div class="inputs-outputs-grid">
+                    <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-bottom-extra-small">inputs</div>
+                    <div class="dynamic-text-uppercase dynamic-bold dynamic-margin-bottom-extra-small">outputs</div>
 
-                <div>
-                    <div *ngFor="let input of stat.inputs | keyvalue" class="dynamic-margin-bottom-extra-small">
-                        <div class="dynamic-semi-bold">{{input.key}}:</div>
-                        <div class="formatted-json">{{input.value | jsonFormatted}}</div>
+                    <div>
+                        @for (input of stat.inputs | keyvalue; track input)
+                        {
+                            <div class="dynamic-margin-bottom-extra-small">
+                                <div class="dynamic-semi-bold">{{input.key}}:</div>
+                                <div class="formatted-json">{{input.value | jsonFormatted}}</div>
+                            </div>
+                        }
                     </div>
-                </div>
 
-                <div>
-                    <div *ngFor="let output of stat.outputs | keyvalue" class="dynamic-margin-bottom-extra-small">
-                        <div class="dynamic-semi-bold dynamic-flex-row dynamic-align-items-center">
-                            <div>{{output.key}}:</div>
-                            <div tooltip="skip init" class="dynamic-margin-left-extra-small fas fa-forward" [class.inactive-flag]="!output.value.skipInit"></div>
-                            <div tooltip="assigned" class="dynamic-margin-left-extra-small fas fa-check-to-slot" [class.inactive-flag]="!output.value.assigned"></div>
-                        </div>
+                    <div>
+                        @for (output of stat.outputs | keyvalue; track output)
+                        {
+                            <div class="dynamic-margin-bottom-extra-small">
+                                <div class="dynamic-semi-bold dynamic-flex-row dynamic-align-items-center">
+                                    <div>{{output.key}}:</div>
+                                    <div tooltip="skip init" class="dynamic-margin-left-extra-small fas fa-forward" [class.inactive-flag]="!output.value.skipInit"></div>
+                                    <div tooltip="assigned" class="dynamic-margin-left-extra-small fas fa-check-to-slot" [class.inactive-flag]="!output.value.assigned"></div>
+                                </div>
 
-                        <div class="formatted-json">{{output.value.value | jsonFormatted}}</div>
+                                <div class="formatted-json">{{output.value.value | jsonFormatted}}</div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 </div>

@@ -3,7 +3,10 @@
         <label class="dynamic-control-label dynamic-text-uppercase">type</label>
 
         <select class="dynamic-form-control" formControlName="type">
-            <option value="BODY" *ngIf="!data.hasBody">BODY</option>
+            @if (!data.hasBody)
+            {
+                <option value="BODY">BODY</option>
+            }
             <option value="PATH">PATH</option>
             <option value="QUERY">QUERY</option>
             <option value="QUERY OBJECT">QUERY OBJECT</option>

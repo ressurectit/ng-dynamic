@@ -1,6 +1,5 @@
 import {Component, ChangeDetectorRef, OnInit, OnDestroy, ViewChild, Injector, inject} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
@@ -18,7 +17,6 @@ import {ComponentsTreeItemComponent} from './item';
     templateUrl: 'componentsTree.component.html',
     imports:
     [
-        CommonModule,
         MatButtonModule,
         ComponentsTreeItemComponent,
         FirstUppercaseLocalizePipe,

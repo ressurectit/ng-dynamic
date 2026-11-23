@@ -1,5 +1,4 @@
 import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {CodeEditorContent, CodeEditorDialogComponent, CodeEditorDialogData, MonacoEditorApi, TypescriptLanguageModel} from '@anglr/dynamic';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointComponent} from '@anglr/dynamic/layout-relations';
@@ -24,7 +23,6 @@ import {StateRelationsEditorOptions, StateRelationsInputFunctionData, StateRelat
         RelationsNodeHeaderComponent,
         RelationNodeInputComponent,
         RelationNodeOutputComponent,
-        CommonModule,
         FirstUppercaseLocalizePipe,
     ],
 })

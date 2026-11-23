@@ -86,7 +86,7 @@ export class ContentOptionsPropertiesControlComponent<TConfig extends CustomComp
         }
 
         const options: Partial<CustomComponentComponentOptions> = this.form.value;
-        
+
         const name = options.name ?? '';
         const result = (await getCustomComponentMeta(name, this.injector));
 

@@ -1,5 +1,4 @@
 import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
@@ -22,7 +21,6 @@ import {ConfigureSyncPropertyComponent} from '../misc/components';
     templateUrl: 'syncValuesNode.component.html',
     imports:
     [
-        CommonModule,
         ReactiveFormsModule,
         NumberInputModule,
         RelationsNodeHeaderComponent,

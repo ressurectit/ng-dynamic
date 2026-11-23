@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {DialogRef} from '@angular/cdk/dialog';
-import {CommonModule} from '@angular/common';
+import {KeyValuePipe} from '@angular/common';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormModelBuilder, FormModelGroup} from '@anglr/common/forms';
 import {TITLED_DIALOG_DATA} from '@anglr/common/material';
@@ -21,7 +21,7 @@ import {CustomComponentConfiguration} from '../../services';
     templateUrl: 'customComponentOptions.component.html',
     imports:
     [
-        CommonModule,
+        KeyValuePipe,
         MatDialogModule,
         ReactiveFormsModule,
         PropertySelectedPipe,

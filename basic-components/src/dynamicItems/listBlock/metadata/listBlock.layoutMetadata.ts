@@ -26,7 +26,7 @@ export class ListBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],

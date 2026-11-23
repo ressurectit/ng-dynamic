@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {CastPipesModule, HostDisplayBlockStyle} from '@anglr/common';
@@ -20,7 +19,6 @@ import {RadioComponentOptions} from './radio.options';
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        CommonModule,
         FormPipesModule,
         CastPipesModule,
         ReactiveFormsModule,

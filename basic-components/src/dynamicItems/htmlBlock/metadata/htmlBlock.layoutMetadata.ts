@@ -26,7 +26,7 @@ export class HtmlBlockLayoutEditorMetadata implements LayoutEditorMetadataDescri
             [
                 {
                     modelType: ComponentStylingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         getPropertiesControl(ComponentStylingPropertiesControlComponent),
                     ],

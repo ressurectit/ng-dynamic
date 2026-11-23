@@ -1,6 +1,6 @@
 import {Component, ChangeDetectorRef, HostListener, Input, OnInit, OnDestroy, ViewChildren, QueryList, Injector, inject, Signal, computed, InputSignal, input} from '@angular/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {CommonModule} from '@angular/common';
+import {NgClass} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 import {DebounceCall, WithSync} from '@jscrpt/common';
@@ -24,7 +24,7 @@ const DRAG_OVER_DELAY = 500;
     imports:
     [
         DndModule,
-        CommonModule,
+        NgClass,
         MatButtonModule,
         DndCoreTreeItemDirective,
     ],

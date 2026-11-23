@@ -1,5 +1,4 @@
 import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
@@ -20,7 +19,6 @@ import {ConfigureNodeEndpointData, ConfigureNodeEndpointComponent} from '../../.
     templateUrl: 'componentOutputsNode.component.html',
     imports:
     [
-        CommonModule,
         RelationsNodeHeaderComponent,
         RelationNodeInputComponent,
         FirstUppercaseLocalizePipe,

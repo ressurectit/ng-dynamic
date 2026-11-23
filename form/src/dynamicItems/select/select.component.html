@@ -1,9 +1,19 @@
 <label>{{options?.label}}</label>
-<select *ngIf="!options?.multiple; else multipleSelect" [formControl]="control|asFormControl|asRequired">
-    <option *ngFor="let value of values" [value]="value?.code">{{value?.value}}</option>
-</select>
-<ng-template #multipleSelect>
-    <select multiple [formControl]="control|asFormControl|asRequired">
-        <option *ngFor="let value of values" [value]="value?.code">{{value?.value}}</option>
+@if (!options?.multiple)
+{
+    <select [formControl]="control|asFormControl|asRequired">
+        @for (value of values; track value)
+        {
+            <option [value]="value?.code">{{value?.value}}</option>
+        }
     </select>
-</ng-template>
+}
+@else
+{
+    <select multiple [formControl]="control|asFormControl|asRequired">
+        @for (value of values; track value)
+        {
+            <option [value]="value?.code">{{value?.value}}</option>
+        }
+    </select>
+}

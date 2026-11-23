@@ -1,5 +1,4 @@
 import {Component, ValueProvider, Provider} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {PromiseOr} from '@jscrpt/common';
@@ -18,7 +17,6 @@ import {FormComponentBase} from '../../components';
     templateUrl: 'formGroup.component.html',
     imports:
     [
-        CommonModule,
         LayoutComponentRendererDirective,
     ],
 })

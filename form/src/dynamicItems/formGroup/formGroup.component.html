@@ -1,3 +1,4 @@
-<ng-container *ngFor="let type of options?.children">
+@for (type of options?.children; track type)
+{
     <ng-container *layoutComponentRenderer="type; providers: formProviders"/>
-</ng-container>
+}

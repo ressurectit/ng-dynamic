@@ -46,7 +46,7 @@ export function withLayoutRuntime(): CoreDynamicFeature
     return new CoreDynamicFeature(DynamicFeatureType.LayoutRuntime,
                                   {
                                       prependProviders: [],
-                                      providers: 
+                                      providers:
                                       [
                                           LAYOUT_COMPONENTS_LOADER_PROVIDER,
                                           DEFAULT_LAYOUT_COMPONENTS_EXTRACTOR,
@@ -64,7 +64,7 @@ export function withLayoutRuntime(): CoreDynamicFeature
 /**
  * Enables use of custom layout metadata storage, used for custom components and custom templates and other components that needs to read metadata of other components
  * @param metadataStorageType - Type that will be used as layout metadata storage
- * 
+ *
  * Works with:
  * - **layout runtime**
  */

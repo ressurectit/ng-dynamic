@@ -1,7 +1,7 @@
 import {Component, OnDestroy, AfterViewInit, ViewChild, Inject, WritableSignal, signal} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule} from '@anglr/common';
+import {Console, LOGGER, Logger, ProgressIndicatorModule} from '@anglr/common';
 import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
 import {InternalServerErrorComponent} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
@@ -30,7 +30,7 @@ import {MenuModule} from '../modules';
         ProgressIndicatorModule,
         NotificationsGlobalModule,
         MenuModule,
-        ConsoleComponent,
+        Console,
         HotkeysCheatsheetComponent,
     ],
     providers: [AppHotkeysService],

@@ -1,5 +1,4 @@
 import {Component, Inject} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
@@ -18,7 +17,6 @@ import {RelationsNodePropertiesModel} from './relationsNodePropertiesEditor.mode
     templateUrl: 'relationsNodePropertiesEditor.component.html',
     imports:
     [
-        CommonModule,
         MatDialogModule,
         ReactiveFormsModule,
         FirstUppercaseLocalizePipe

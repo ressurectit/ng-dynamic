@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {HostDisplayBlockStyle} from '@anglr/common';
@@ -18,7 +17,6 @@ import {MaterialExpansionPanelLayoutMetadataLoader} from './expansionPanel.metad
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        CommonModule,
         MatExpansionModule,
         LayoutComponentRendererDirective,
     ],

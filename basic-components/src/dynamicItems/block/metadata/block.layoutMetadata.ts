@@ -53,7 +53,7 @@ export class BlockLayoutEditorMetadata implements LayoutEditorMetadataDescriptor
     public removeDescendant?: Action<[string, BlockComponentOptions]> = (_, options) =>
     {
         options.content = null;
-    }
+    };
 
     //######################### constructor #########################
     constructor()

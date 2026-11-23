@@ -1,1 +1,4 @@
-<label *ngFor="let option of options?.options; index as index"><input type="radio" [formControl]="control|asFormControl|asRequired" [value]="option.code"/> {{option.text}}</label>
+@for (option of options?.options; track option; let index = $index)
+{
+    <label><input type="radio" [formControl]="control|asFormControl|asRequired" [value]="option.code"/> {{option.text}}</label>
+}

@@ -1,5 +1,4 @@
 import {Component, inject} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {MetadataStorage} from '@anglr/dynamic';
 import {RELATIONS_METADATA_STORAGE} from '@anglr/dynamic/relations';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationsNodeHeaderComponent, RelationNodeOutputComponent, RelationsNodeMetadata} from '@anglr/dynamic/relations-editor';
@@ -19,7 +18,6 @@ import {getInputs, getOutputs} from '../customComponent.utils';
     templateUrl: 'customComponentNode.component.html',
     imports:
     [
-        CommonModule,
         RelationsNodeHeaderComponent,
         RelationNodeInputComponent,
         RelationNodeOutputComponent,

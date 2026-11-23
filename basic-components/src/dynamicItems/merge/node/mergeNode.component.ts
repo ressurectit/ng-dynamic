@@ -1,5 +1,4 @@
 import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {RelationsNode, RelationsNodeBase, RelationNodeOutputComponent, RelationsNodeHeaderComponent, RelationNodeInputComponent} from '@anglr/dynamic/relations-editor';
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointComponent} from '@anglr/dynamic/layout-relations';
@@ -20,7 +19,6 @@ import {MergeRelationsOptions} from '../merge.options';
         RelationsNodeHeaderComponent,
         RelationNodeInputComponent,
         RelationNodeOutputComponent,
-        CommonModule,
         FirstUppercaseLocalizePipe,
     ],
 })

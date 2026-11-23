@@ -4,7 +4,8 @@
         <mat-panel-description>{{description}}</mat-panel-description>
     </mat-expansion-panel-header>
 
-    <ng-container *ngFor="let type of options?.children">
+    @for (type of options?.children; track type)
+    {
         <ng-container *layoutComponentRenderer="type"/>
-    </ng-container>
+    }
 </mat-expansion-panel>

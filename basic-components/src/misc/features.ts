@@ -67,7 +67,7 @@ export function withBasicComponents(): DynamicFeature
         layoutRuntime:
         {
             prependProviders: [],
-            providers: 
+            providers:
             [
                 BASIC_LAYOUT_COMPONENTS_PROVIDER,
             ],
@@ -75,7 +75,7 @@ export function withBasicComponents(): DynamicFeature
         layoutEditor:
         {
             prependProviders: [],
-            providers: 
+            providers:
             [
                 BASIC_LAYOUT_MODULE_TYPES_PROVIDER,
                 provideStaticPackageSource('basic-components'),
@@ -84,7 +84,7 @@ export function withBasicComponents(): DynamicFeature
         relationsRuntime:
         {
             prependProviders: [],
-            providers: 
+            providers:
             [
                 BASIC_RELATIONS_COMPONENTS_PROVIDER,
             ],
@@ -92,7 +92,7 @@ export function withBasicComponents(): DynamicFeature
         relationsEditor:
         {
             prependProviders: [],
-            providers: 
+            providers:
             [
                 BASIC_RELATIONS_MODULE_TYPES_PROVIDER,
                 BASIC_RELATIONS_NODES_PROVIDER,

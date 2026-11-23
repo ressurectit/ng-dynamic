@@ -25,7 +25,7 @@ export class BasicPagingLayoutEditorMetadata implements LayoutEditorMetadataDesc
             [
                 {
                     modelType: BasicPagingModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<BasicPagingModel>(['initialItemsPerPage']),
                     ],

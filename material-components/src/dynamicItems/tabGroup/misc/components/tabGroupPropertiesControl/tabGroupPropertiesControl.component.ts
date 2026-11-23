@@ -1,5 +1,4 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
@@ -18,7 +17,6 @@ import {MaterialTabGroupComponentOptions} from '../../../tabGroup.options';
     templateUrl: 'tabGroupPropertiesControl.component.html',
     imports:
     [
-        CommonModule,
         ReactiveFormsModule,
         FirstUppercaseLocalizePipe,
         CdkDrag,

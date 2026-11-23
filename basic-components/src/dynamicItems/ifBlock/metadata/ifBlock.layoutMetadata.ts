@@ -27,7 +27,7 @@ export class IfBlockLayoutEditorMetadata implements LayoutEditorMetadataDescript
             [
                 {
                     modelType: IfBlockModel,
-                    propertiesControls: 
+                    propertiesControls:
                     [
                         genericPropertiesControlFor<IfBlockModel>(['condition']),
                     ],
@@ -59,7 +59,7 @@ export class IfBlockLayoutEditorMetadata implements LayoutEditorMetadataDescript
     public removeDescendant?: Action<[string, IfBlockComponentOptions]> = (_, options) =>
     {
         options.content = null;
-    }
+    };
 
     //######################### constructor #########################
     constructor()

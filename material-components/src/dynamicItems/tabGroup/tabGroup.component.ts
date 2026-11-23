@@ -1,6 +1,5 @@
 import {Component, InjectionToken, ComponentRef, ViewChild} from '@angular/core';
 import {MatTabGroup, MatTabsModule} from '@angular/material/tabs';
-import {CommonModule} from '@angular/common';
 import {LayoutComponent, LayoutComponentBase, LayoutComponentMetadata, LayoutComponentRendererDirective} from '@anglr/dynamic/layout';
 import {DescendantsGetter, LayoutEditorMetadata} from '@anglr/dynamic/layout-editor';
 import {RelationsComponent} from '@anglr/dynamic/relations';
@@ -26,7 +25,6 @@ export const MATERIAL_TAB_GROUP: InjectionToken<string> = new InjectionToken<str
     styles: [HostDisplayBlockStyle],
     imports:
     [
-        CommonModule,
         MatTabsModule,
         LayoutComponentRendererDirective,
     ],

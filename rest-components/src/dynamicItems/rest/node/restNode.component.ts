@@ -1,5 +1,5 @@
 import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {NgSwitch, NgSwitchCase} from '@angular/common';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {RelationsNode, RelationsNodeBase, RelationNodeInputComponent, RelationNodeOutputComponent, RelationsNodeHeaderComponent} from '@anglr/dynamic/relations-editor';
 import {TitledDialogService} from '@anglr/common/material';
@@ -22,7 +22,8 @@ import {RestRelationsOptionsModel} from './restNode.model';
     templateUrl: 'restNode.component.html',
     imports:
     [
-        CommonModule,
+        NgSwitch,
+        NgSwitchCase,
         ReactiveFormsModule,
         RelationsNodeHeaderComponent,
         RelationNodeInputComponent,

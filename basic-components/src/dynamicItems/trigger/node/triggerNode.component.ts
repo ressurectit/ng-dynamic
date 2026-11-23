@@ -1,5 +1,4 @@
 import {Component, ChangeDetectorRef, ElementRef} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {FirstUppercaseLocalizePipe} from '@anglr/common';
 import {TitledDialogService} from '@anglr/common/material';
 import {ConfigureNodeEndpointData, ConfigureNodeEndpointComponent} from '@anglr/dynamic/layout-relations';
@@ -18,7 +17,6 @@ import {TriggerRelationsOptions} from '../trigger.options';
     templateUrl: 'triggerNode.component.html',
     imports:
     [
-        CommonModule,
         RelationsNodeHeaderComponent,
         RelationNodeInputComponent,
         RelationNodeOutputComponent,

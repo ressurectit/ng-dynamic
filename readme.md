@@ -441,6 +441,13 @@ Several layout components are also relations components with their own inputs an
 | `basic-components/listBlock` | `data` | `datum`, `index`, `first`, `last` (provided per rendered item by the scoped `ListBlockRelations`) |
 | form fields (`form-components`, `material-components`) | `value`, `disabled`, `required` (`select` also `values`) | `valueOutput` |
 
+Options interfaces of the built-in items are exported from their entry points together with the types of their structured values, for example:
+
+| Options | Entry point | Structured values |
+| --- | --- | --- |
+| `RadioComponentOptions` | `@anglr/dynamic/form` | `options: RadioOption[]` – `RadioOption` has `code` (value of the option) and `text` (displayed label) |
+| `RestRelationsOptions` | `@anglr/dynamic/rest-components` | `url`, `method: MethodType` (`'GET' \| 'POST' \| 'PUT' \| 'PATCH' \| 'DELETE'`), `runImmediately`, `params: RestParam[]` – `RestParam` has `name`, `type: ParamType` (`'BODY' \| 'PATH' \| 'QUERY' \| 'QUERY OBJECT' \| 'HEADER'`), `value` and `configurable` (the parameter becomes a relations input of the node) |
+
 Some packages are created by the features themselves: `layout-components` (layout components used as relations nodes), `static-components` (template components used as relations nodes), `custom-components` and `custom-relations`.
 
 ## Providers and setup
@@ -676,7 +683,7 @@ The getters resolve the component **through DI**, in the injection context of th
 },
 ```
 
-`withLayoutEditor()` provides `ComponentStylingPropertiesControlComponent`, `DefaultGenericPropertiesControlComponent` and `BaseCodePropertiesControlComponent` as overridable tokens. The built-in package features (`withBasicComponents()`, `withFormComponents()`, `withMaterialComponents()`, `withTinyMceComponents()`, `withCustomComponents()`) do the same for their item specific properties controls; the publicly exported ones are `ButtonPresetsPropertiesControlComponent` and `RowsColumnsPropertiesControlComponent` (`@anglr/dynamic/basic-components`). Place the override after `provideDynamic()` in the same `providers` array, or in the `layoutEditor` providers of your own `DynamicFeature`. Your own properties controls registered with `getPropertiesControl(MyControlComponent)` can be overridden in the same way. See [Overriding properties controls](#overriding-properties-controls).
+`withLayoutEditor()` provides `ComponentStylingPropertiesControlComponent`, `DefaultGenericPropertiesControlComponent` and `BaseCodePropertiesControlComponent` as overridable tokens. The built-in package features (`withBasicComponents()`, `withFormComponents()`, `withMaterialComponents()`, `withTinyMceComponents()`, `withCustomComponents()`) do the same for their item specific properties controls; the publicly exported ones are `ButtonPresetsPropertiesControlComponent`, `RowsColumnsPropertiesControlComponent` and `GridAreasPropertiesControlComponent` (`@anglr/dynamic/basic-components`, the grid areas control edits areas of `gridPanel` in `GridAreasDefinitionDialogComponent`), `RadioPropertiesControlComponent` (`@anglr/dynamic/form`, edits radio options) and `ContentOptionsPropertiesControlComponent` (`@anglr/dynamic/layout-relations`, edits content options of custom components). Place the override after `provideDynamic()` in the same `providers` array, or in the `layoutEditor` providers of your own `DynamicFeature`. Your own properties controls registered with `getPropertiesControl(MyControlComponent)` can be overridden in the same way. See [Overriding properties controls](#overriding-properties-controls).
 
 ### Default options
 
@@ -758,7 +765,7 @@ When a layout component can't be loaded, `LayoutRendererOptions.missingTypeBehav
 
 ### Layout editor
 
-`<layout-editor>` (`LayoutEditorComponent`, needs `withLayoutEditor()`) contains the component tree, the palette (with search and package manager), the canvas and the properties editor.
+`<layout-editor>` (`LayoutEditorComponent`, needs `withLayoutEditor()`) contains the component tree, the palette (with search and package manager), the canvas and the properties editor. The component tree (`ComponentsTreeComponent`) renders one `ComponentsTreeItemComponent` per component; an item can be expanded or collapsed alone (`expand()`, `collapse()`, `toggle()`) or with all its descendants (`expandAll()`, `collapseAll()`).
 
 | Input | Type | Description |
 | --- | --- | --- |
@@ -829,6 +836,8 @@ Optional members of `RelationsComponent`: `dynamicOnChanges(changes)` and `relat
 
 Read the result with `EDITOR_METADATA_MANAGER.getMetadata()`, history is available under `RELATIONS_HISTORY_MANAGER`. With `withLayoutRelationsEditor()`, pass the layout to `LayoutManager.setLayout(layout)` so its relations-capable components appear as nodes. See the [Relations editor](#relations-editor-1) sample.
 
+When a node of the edited metadata can't be loaded, `RelationsNodeRendererDirectiveOptions.missingNodeBehavior` decides what happens: `MissingNodeBehavior.ShowNotFound` (default, renders a *not found* node as a placeholder), `MissingNodeBehavior.Ignore` or `MissingNodeBehavior.ThrowError`. Provide an instance of `RelationsNodeRendererDirectiveOptions` (constructor argument `missingNodeBehavior`) to change it.
+
 ### Relations debugger
 
 `@anglr/dynamic/relations-debugger` is **experimental**. It records registrations and data transfers of the relations runtime and replays them step by step on a canvas (`ShowRelationsDebuggerDirective` – `[showRelationsDebugger]` with `relationsDefinition`). It's enabled by `provideRelationsDebugger()` (`@anglr/dynamic/relations`) together with `provideRelationsDebuggerImplementation()` (`@anglr/dynamic/relations-debugger`). `@DebugData({inputs, outputs})` describes endpoints of a node for the debugger.
@@ -851,6 +860,7 @@ The debugger hooks run only when the build-time global `ngRelationsDebugger` is 
 | `MetadataHistoryManager` | Undo/redo history of editors | Tokens `LAYOUT_HISTORY_MANAGER`, `RELATIONS_HISTORY_MANAGER` |
 | `LayoutRenderer` | Override `createComponent`, `postCreateComponent`, `postInitComponent` | Provide your subclass as `LayoutRenderer` |
 | `LayoutRendererOptions` | Behavior for missing components | Provide an instance |
+| `RelationsNodeRendererDirectiveOptions` | Behavior for missing nodes in the relations editor | Provide an instance |
 | `PropertiesControlBase` | Custom block of the properties editor | `getPropertiesControl(type)` in `propertiesControls` |
 | Properties control tokens | Replace any properties control (built-in or own) everywhere it's used | `{provide: ExistingControlComponent, useValue: MyControlComponent}` next to `provideDynamic()` |
 | `PropertyTypeControlBase` | Custom property type | `LAYOUT_EDITOR_PROPERTY_TYPE_CONTROLS` |

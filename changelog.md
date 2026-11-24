@@ -1,5 +1,69 @@
 # Changelog
 
+## Version 1.1.1 (2026-11-24)
+
+### Bug Fixes
+
+- all following are fixed missing exports
+- subpackage `@anglr/dynamic/layout-editor`
+   - new `ComponentsTreeItemComponent` component, that displays components tree item
+      - **implements**
+         - `OnInit`
+         - `OnDestroy`
+      - **properties**
+         - `data` instance of component tree item
+         - `index` tree item index
+         - `parentId` parent identifier
+         - `open` indication whether node is open
+      - **methods**
+         - `toggle` toggle children visibility
+         - `expand` expands tree node
+         - `addDescendant` adds descendant component metadata to this component metadata
+         - `expandAll` expands node and all its children
+         - `collapse` collapse tree node
+         - `collapseAll` collapse node and all its children
+- subpackage `@anglr/dynamic/layout-relations`
+   - new `ContentOptionsPropertiesControlComponent` component, used for displaying editation of content options
+      - **extends**
+         - `PropertiesControlBase`
+      - **implements**
+         - `PropertiesControl`
+- subpackage `@anglr/dynamic/relations-editor`
+   - new `RelationsNodeRendererDirectiveOptions` class, options for `RelationsNodeRendererDirective`
+      - **properties**
+         - `missingNodeBehavior` describes what should happen if relations node type described in metadata was not found
+   - new `MissingNodeBehavior` enum, that defines behavior what should happen if rendered node type was not found
+      - **values**
+         - `ShowNotFound` shows special not found node as *placeholder*
+         - `Ignore` ignores missing node, silently continues
+         - `ThrowError` throws javascript error with missing node error
+- subpackage `@anglr/dynamic/form`
+   - new `RadioOption` interface, that represents radio option
+      - **properties**
+         - `code` radio option code
+         - `text` visual representation for radio option
+   - new `RadioPropertiesControlComponent` component, used for displaying editation of radio options
+      - **extends**
+         - `PropertiesControlBase`
+      - **implements**
+         - `PropertiesControl`
+- subpackage `@anglr/dynamic/basic-components`
+   - new `GridAreasDefinitionDialogComponent` component, used for defining grid areas
+   - new `GridAreasPropertiesControlComponent` component, used for displaying editation of grid areas
+      - **extends**
+         - `PropertiesControlBase`
+      - **implements**
+         - `PropertiesControl`
+- subpackage `@anglr/dynamic/rest-components`
+   - new `MethodType` type, type of http method
+   - new `ParamType` type, type of http rest parameter
+   - new `RestParam` interface, definition of rest parameter
+      - **properties**
+         - `type` type of parameter
+         - `configurable` indication whether this rest parameter can be configured using relations
+         - `value` value of parameter
+         - `name` name of parameter
+
 ## Version 1.1.0 (2026-11-23)
 
 ### Bug Fixes

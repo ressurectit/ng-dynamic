@@ -20,6 +20,6 @@ export class RelationsNodeRendererDirectiveOptions
         if(isPresent(missingNodeBehavior))
         {
             this.missingNodeBehavior = missingNodeBehavior;
-        } 
+        }
     }
 }

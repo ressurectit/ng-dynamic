@@ -11,7 +11,7 @@ import {DYNAMIC_BODY_CONTAINER} from '../../misc/constants';
 /**
  * Class that applies css style update to element
  */
-class CssStyleUpdates
+export class CssStyleUpdates
 {
     //######################### protected fields #########################
 

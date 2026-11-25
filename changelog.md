@@ -1,5 +1,156 @@
 # Changelog
 
+## Version 1.1.2 (2026-11-25)
+
+### Bug Fixes
+
+- all following are fixed missing exports
+- new *editor* entry points, containing editor-only code, so runtime entry points do not reference editor code and lazy loaded dynamic items
+   - `@anglr/dynamic/basic-components/editor`
+   - `@anglr/dynamic/css-components/editor`
+   - `@anglr/dynamic/form/editor`
+   - `@anglr/dynamic/grid-components/editor`
+   - `@anglr/dynamic/handlebars-components/editor`
+   - `@anglr/dynamic/material-components/editor`
+   - `@anglr/dynamic/math-components/editor`
+   - `@anglr/dynamic/rest-components/editor`
+   - `@anglr/dynamic/tinymce-components/editor`
+- subpackage `@anglr/dynamic/layout-editor`
+   - new `ComponentGroupFilterPipe` pipe, used for filtering component groups by filter value
+      - **implements**
+         - `PipeTransform`
+   - new `ComponentItemFilterPipe` pipe, used for filtering component items by filter value
+      - **implements**
+         - `PipeTransform`
+   - new `PropertiesEditorState` interface, state of properties editor
+      - **properties**
+         - `opened` indication whether is properties editor opened
+         - `width` current width of properties editor
+   - new `PropertiesEditorData` interface, properties editor data
+      - **properties**
+         - `form` properties form
+         - `metadata` properties metadata
+         - `controls` array of properties controls used for editation of properties/options
+   - new `CssStyleUpdates` class, that applies css style update to element
+      - **methods**
+         - `destroy` destroyes css update and removes changes applied to element
+- subpackage `@anglr/dynamic/layout-relations`
+   - new `ContainerMetadataPipe` pipe, that gets container metadata that are displayed in placeholder
+      - **implements**
+         - `PipeTransform`
+   - new `GetControlsPipe` pipe, that gets properties controls that are used for setting model value
+      - **implements**
+         - `PipeTransform`
+   - new `CustomComponentComponent` component (type only export), used for displaying custom component
+      - **extends**
+         - `LayoutComponentBase`
+      - **implements**
+         - `LayoutComponent`
+         - `RelationsComponent`
+         - `ComponentWithId`
+      - **methods**
+         - `processCustomComponentData` method that allows processing of custom component data
+   - new `ComponentInputsRelations` class (type only export), relations used for connecting relations inputs with external relations
+      - **implements**
+         - `RelationsComponent`
+      - **methods**
+         - `initInputs` initialize inputs for component
+   - new `ComponentOutputsRelations` class (type only export), relations used for connecting relations outputs with external relations
+      - **implements**
+         - `RelationsComponent`
+      - **methods**
+         - `initOutputs` initialize outputs for component
+- subpackage `@anglr/dynamic/relations-editor`
+   - new `NodesPaletteItemComponent` component, displaying nodes palette item
+      - **implements**
+         - `OnInit`
+         - `OnDestroy`
+      - **properties**
+         - `data` nodes palette item
+   - new `NodeGroupFilterPipe` pipe, used for filtering node groups by filter value
+      - **implements**
+         - `PipeTransform`
+   - new `NodeItemFilterPipe` pipe, used for filtering node items by filter value
+      - **implements**
+         - `PipeTransform`
+   - new `ToColorPipe` pipe, that converts string to color code
+      - **implements**
+         - `PipeTransform`
+- subpackage `@anglr/dynamic/form/editor`
+   - fixed `RadioPropertiesControlComponent` component export, moved from `@anglr/dynamic/form`
+- subpackage `@anglr/dynamic/basic-components/editor`
+   - fixed `GridAreasDefinitionDialogComponent` component export, moved from `@anglr/dynamic/basic-components`
+   - fixed `GridAreasPropertiesControlComponent` component export, moved from `@anglr/dynamic/basic-components`
+   - new `StringToColorPipe` pipe, that transforms string into hex color string
+      - **implements**
+         - `PipeTransform`
+   - new `ToGridColumnsTemplatePipe` pipe, that gets css columns template
+      - **implements**
+         - `PipeTransform`
+   - new `ToGridRowsTemplatePipe` pipe, that gets css rows template
+      - **implements**
+         - `PipeTransform`
+   - new `ColumnDefinitionFormValueAccessorDirective` directive, column definition control value accessor
+      - **implements**
+         - `ControlValueAccessor`
+   - new `RowDefinitionFormValueAccessorDirective` directive, row definition control value accessor
+      - **implements**
+         - `ControlValueAccessor`
+   - new `RowsColumnsDefinitionDialogComponent` component, used for defining columns and rows
+   - new `FormType` interface, type defining form type
+      - **properties**
+         - `columns` form array for columns definition
+         - `rows` form array for rows definition
+   - new `ConfigureSyncPropertyComponent` component, used for displaying configuration of sync property
+   - new `ListBlockScopeRelationsDirective` directive, that creates list block scoped relations component
+      - **implements**
+         - `OnChanges`
+         - `OnDestroy`
+      - **properties**
+         - `datum` instance of datum assigned to this item in list
+         - `index` index of assigned datum to this item in list
+         - `first` indication whether is this first item in list
+         - `last` indication whether is this last item in list
+         - `componentId` id of component that is being created
+- subpackage `@anglr/dynamic/material-components`
+   - new `MaterialTabComponentOptions` interface, options for material tab component
+      - **properties**
+         - `children` array of children that are going to be rendered
+- subpackage `@anglr/dynamic/material-components/editor`
+   - new `MaterialTabGroupPropertiesControlComponent` component, used for displaying material tab group properties control
+      - **extends**
+         - `PropertiesControlBase`
+      - **implements**
+         - `PropertiesControl`
+- subpackage `@anglr/dynamic/grid-components`
+   - new `GridColumnsRelationsHelper` class, helper class for creating grid columns relations
+      - **implements**
+         - `DynamicOnChanges`
+         - `Destroyable`
+      - **properties**
+         - `row` instance of datum assigned to this item in list
+   - new `GridColumnsRelations` class (type only export), grid columns relations for table row
+      - **implements**
+         - `RelationsComponent`
+      - **properties**
+         - `row` instance of row data in table
+- subpackage `@anglr/dynamic/rest-components/editor`
+   - new `ConfigureRestParameterComponent` component, used for displaying configuration of rest parameters
+   - new `ConfigureRestParameterData` interface, data for configure rest parameter dialog
+      - **properties**
+         - `parameter` parameter that being configured
+         - `hasBody` indication whether body parameter is already present
+   - new `RestParamModel` class, rest param model
+      - **implements**
+         - `RestParam`
+- subpackage `@anglr/dynamic/tinymce-components/editor`
+   - new `RichTextBlockEditorDialogComponent` component, used as dialog displaying rich text block editor
+   - new `RichTextBlockPropertiesControlComponent` component, used for displaying rich text block properties control
+      - **extends**
+         - `PropertiesControlBase`
+      - **implements**
+         - `PropertiesControl`
+
 ## Version 1.1.1 (2026-11-24)
 
 ### Bug Fixes

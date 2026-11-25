@@ -176,6 +176,13 @@
             "node": "./es2022/form/src/index.js",
             "default": "./es2022/form/src/index.js"
         },
+        "./form/editor": {
+            "types": "./form/src/indexEditor.d.ts",
+            "esm2022": "./es2022/form/src/indexEditor.js",
+            "es2022": "./es2022/form/src/indexEditor.js",
+            "node": "./es2022/form/src/indexEditor.js",
+            "default": "./es2022/form/src/indexEditor.js"
+        },
         "./relations": {
             "types": "./relations/src/index.d.ts",
             "esm2022": "./es2022/relations/src/index.js",
@@ -218,12 +225,26 @@
             "node": "./es2022/basic-components/src/index.js",
             "default": "./es2022/basic-components/src/index.js"
         },
+        "./basic-components/editor": {
+            "types": "./basic-components/src/indexEditor.d.ts",
+            "esm2022": "./es2022/basic-components/src/indexEditor.js",
+            "es2022": "./es2022/basic-components/src/indexEditor.js",
+            "node": "./es2022/basic-components/src/indexEditor.js",
+            "default": "./es2022/basic-components/src/indexEditor.js"
+        },
         "./material-components": {
             "types": "./material-components/src/index.d.ts",
             "esm2022": "./es2022/material-components/src/index.js",
             "es2022": "./es2022/material-components/src/index.js",
             "node": "./es2022/material-components/src/index.js",
             "default": "./es2022/material-components/src/index.js"
+        },
+        "./material-components/editor": {
+            "types": "./material-components/src/indexEditor.d.ts",
+            "esm2022": "./es2022/material-components/src/indexEditor.js",
+            "es2022": "./es2022/material-components/src/indexEditor.js",
+            "node": "./es2022/material-components/src/indexEditor.js",
+            "default": "./es2022/material-components/src/indexEditor.js"
         },
         "./css-components": {
             "types": "./css-components/src/index.d.ts",
@@ -232,12 +253,26 @@
             "node": "./es2022/css-components/src/index.js",
             "default": "./es2022/css-components/src/index.js"
         },
+        "./css-components/editor": {
+            "types": "./css-components/src/indexEditor.d.ts",
+            "esm2022": "./es2022/css-components/src/indexEditor.js",
+            "es2022": "./es2022/css-components/src/indexEditor.js",
+            "node": "./es2022/css-components/src/indexEditor.js",
+            "default": "./es2022/css-components/src/indexEditor.js"
+        },
         "./handlebars-components": {
             "types": "./handlebars-components/src/index.d.ts",
             "esm2022": "./es2022/handlebars-components/src/index.js",
             "es2022": "./es2022/handlebars-components/src/index.js",
             "node": "./es2022/handlebars-components/src/index.js",
             "default": "./es2022/handlebars-components/src/index.js"
+        },
+        "./handlebars-components/editor": {
+            "types": "./handlebars-components/src/indexEditor.d.ts",
+            "esm2022": "./es2022/handlebars-components/src/indexEditor.js",
+            "es2022": "./es2022/handlebars-components/src/indexEditor.js",
+            "node": "./es2022/handlebars-components/src/indexEditor.js",
+            "default": "./es2022/handlebars-components/src/indexEditor.js"
         },
         "./rest-components": {
             "types": "./rest-components/src/index.d.ts",
@@ -246,12 +281,26 @@
             "node": "./es2022/rest-components/src/index.js",
             "default": "./es2022/rest-components/src/index.js"
         },
+        "./rest-components/editor": {
+            "types": "./rest-components/src/indexEditor.d.ts",
+            "esm2022": "./es2022/rest-components/src/indexEditor.js",
+            "es2022": "./es2022/rest-components/src/indexEditor.js",
+            "node": "./es2022/rest-components/src/indexEditor.js",
+            "default": "./es2022/rest-components/src/indexEditor.js"
+        },
         "./tinymce-components": {
             "types": "./tinymce-components/src/index.d.ts",
             "esm2022": "./es2022/tinymce-components/src/index.js",
             "es2022": "./es2022/tinymce-components/src/index.js",
             "node": "./es2022/tinymce-components/src/index.js",
             "default": "./es2022/tinymce-components/src/index.js"
+        },
+        "./tinymce-components/editor": {
+            "types": "./tinymce-components/src/indexEditor.d.ts",
+            "esm2022": "./es2022/tinymce-components/src/indexEditor.js",
+            "es2022": "./es2022/tinymce-components/src/indexEditor.js",
+            "node": "./es2022/tinymce-components/src/indexEditor.js",
+            "default": "./es2022/tinymce-components/src/indexEditor.js"
         },
         "./math-components": {
             "types": "./math-components/src/index.d.ts",
@@ -260,12 +309,26 @@
             "node": "./es2022/math-components/src/index.js",
             "default": "./es2022/math-components/src/index.js"
         },
+        "./math-components/editor": {
+            "types": "./math-components/src/indexEditor.d.ts",
+            "esm2022": "./es2022/math-components/src/indexEditor.js",
+            "es2022": "./es2022/math-components/src/indexEditor.js",
+            "node": "./es2022/math-components/src/indexEditor.js",
+            "default": "./es2022/math-components/src/indexEditor.js"
+        },
         "./grid-components": {
             "types": "./grid-components/src/index.d.ts",
             "esm2022": "./es2022/grid-components/src/index.js",
             "es2022": "./es2022/grid-components/src/index.js",
             "node": "./es2022/grid-components/src/index.js",
             "default": "./es2022/grid-components/src/index.js"
+        },
+        "./grid-components/editor": {
+            "types": "./grid-components/src/indexEditor.d.ts",
+            "esm2022": "./es2022/grid-components/src/indexEditor.js",
+            "es2022": "./es2022/grid-components/src/indexEditor.js",
+            "node": "./es2022/grid-components/src/indexEditor.js",
+            "default": "./es2022/grid-components/src/indexEditor.js"
         },
         "./typings/transformData/monaco-type": {
             "default": "./basic-components/src/dynamicItems/transformData/transformData.interface.monaco-type"

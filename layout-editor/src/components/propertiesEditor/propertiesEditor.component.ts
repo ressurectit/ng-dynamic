@@ -22,7 +22,7 @@ const PROPERTIES_EDITOR_STATE = 'PROPERTIES_EDITOR_STATE';
 /**
  * State of properties editor
  */
-interface PropertiesEditorState
+export interface PropertiesEditorState
 {
     /**
      * Indication whether is properties editor opened
@@ -38,7 +38,7 @@ interface PropertiesEditorState
 /**
  * Properties editor data
  */
-interface PropertiesEditorData
+export interface PropertiesEditorData
 {
     /**
      * Properties form

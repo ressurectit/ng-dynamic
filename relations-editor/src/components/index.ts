@@ -1,5 +1,7 @@
 export * from './nodesPalette/nodesPalette.component';
 export * from './nodesPalette/nodesPalette.interface';
+export * from './nodesPalette/item';
+export * from './nodesPalette/pipes';
 export * from './relationsCanvas/relationsCanvas.component';
 export * from './relationsEditor/relationsEditor.component';
 export * from './relationsNodeBase';

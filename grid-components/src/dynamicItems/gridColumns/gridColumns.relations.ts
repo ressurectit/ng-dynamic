@@ -8,7 +8,7 @@ import {GridColumnsRelationsOptions} from './gridColumns.options';
  */
 @DebugData(
 {
-    outputs: 
+    outputs:
     [
         nameof<GridColumnsRelations>('row'),
     ],

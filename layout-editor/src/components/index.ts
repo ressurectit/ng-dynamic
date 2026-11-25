@@ -1,6 +1,7 @@
 export * from './codePropertiesControl/codePropertiesControl.component';
 export * from './componentsPalette/componentsPalette.component';
 export * from './componentsPalette/componentsPalette.interface';
+export * from './componentsPalette/pipes';
 export * from './componentsTree/componentsTree.component';
 export * from './componentsTree/item';
 export * from './dndCorePreview/dndCorePreview.component';

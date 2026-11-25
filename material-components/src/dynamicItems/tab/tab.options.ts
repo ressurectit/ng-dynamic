@@ -1,7 +1,7 @@
 import {LayoutComponentMetadata} from '@anglr/dynamic/layout';
 
 /**
- * Options for material expansion panel component
+ * Options for material tab component
  */
 export interface MaterialTabComponentOptions
 {

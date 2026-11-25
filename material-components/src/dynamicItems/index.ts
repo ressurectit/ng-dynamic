@@ -8,3 +8,4 @@ export * from './textarea';
 export * from './textField';
 export * from './expansionPanel';
 export * from './tabGroup';
+export * from './tab';

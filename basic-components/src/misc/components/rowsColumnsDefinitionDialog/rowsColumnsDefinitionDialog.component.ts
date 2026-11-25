@@ -12,7 +12,7 @@ import {ToGridColumnsTemplatePipe, ToGridRowsTemplatePipe} from '../../pipes';
 /**
  * Type defining form type
  */
-interface FormType
+export interface FormType
 {
     /**
      * Form array for columns definition
